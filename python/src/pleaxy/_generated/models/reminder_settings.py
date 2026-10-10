@@ -1,0 +1,67 @@
+from typing import Any, Dict, List, Type, TypeVar, Union
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="ReminderSettings")
+
+
+@_attrs_define
+class ReminderSettings:
+    """
+    Attributes:
+        enabled (Union[Unset, bool]):
+        idle_days (Union[Unset, float]):
+    """
+
+    enabled: Union[Unset, bool] = UNSET
+    idle_days: Union[Unset, float] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+    def to_dict(self) -> Dict[str, Any]:
+        enabled = self.enabled
+
+        idle_days = self.idle_days
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update({})
+        if enabled is not UNSET:
+            field_dict["enabled"] = enabled
+        if idle_days is not UNSET:
+            field_dict["idleDays"] = idle_days
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        enabled = d.pop("enabled", UNSET)
+
+        idle_days = d.pop("idleDays", UNSET)
+
+        reminder_settings = cls(
+            enabled=enabled,
+            idle_days=idle_days,
+        )
+
+        reminder_settings.additional_properties = d
+        return reminder_settings
+
+    @property
+    def additional_keys(self) -> List[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

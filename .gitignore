@@ -1,0 +1,20 @@
+# TypeScript
+node_modules/
+typescript/dist/
+# Python
+__pycache__/
+*.egg-info/
+.venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+python/dist/
+# Java
+java/target/
+# Ruby
+ruby/vendor/
+ruby/.bundle/
+ruby/*.gem
+ruby/Gemfile.lock
+# openapi-generator bookkeeping
+.openapi-generator/

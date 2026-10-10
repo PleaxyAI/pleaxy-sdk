@@ -1,0 +1,132 @@
+name: Release
+
+# Push a tag matching VERSION (scripts/set-version.sh) to publish every SDK:
+#   git tag v0.2.0 && git push origin v0.2.0
+#
+# Secrets (Settings → Secrets and variables → Actions):
+#   NPM_TOKEN               npm automation token with publish rights on the @pleaxy scope
+#   RUBYGEMS_API_KEY        RubyGems API key with push rights on the pleaxy gem
+#   CENTRAL_USERNAME        Maven Central (central.sonatype.com) user token name, namespace ai.pleaxy verified
+#   CENTRAL_TOKEN           Maven Central user token password
+#   MAVEN_GPG_PRIVATE_KEY   ASCII-armored GPG key the artifacts are signed with (public key on a keyserver)
+#   MAVEN_GPG_PASSPHRASE    its passphrase
+# PyPI uses trusted publishing: add this repository and workflow (release.yml, environment "pypi")
+# as a trusted publisher of the pleaxy project on pypi.org - no token.
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: version
+        run: |
+          version="$(cat VERSION)"
+          [ "v$version" = "$GITHUB_REF_NAME" ] || { echo "::error::Tag $GITHUB_REF_NAME doesn't match VERSION ($version)"; exit 1; }
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+  npm:
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: typescript
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  pypi:
+    needs: check
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install build==1.2.2 && python -m build python
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: python/dist
+
+  rubygems:
+    needs: check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ruby
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+          working-directory: ruby
+      - run: bundle exec rake
+      - run: gem build pleaxy.gemspec
+      - run: gem push "pleaxy-${{ needs.check.outputs.version }}.gem"
+        env:
+          GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
+
+  maven-central:
+    needs: check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: java
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+          server-id: central
+          server-username: CENTRAL_USERNAME
+          server-password: CENTRAL_TOKEN
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+      - run: mvn -B -P release deploy
+        env:
+          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+          CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+
+  # A Go module in a subdirectory is versioned by tags named after it: go/v0.2.0.
+  go:
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - run: cd go && go test ./...
+      - run: |
+          git tag "go/v${{ needs.check.outputs.version }}" "$GITHUB_SHA"
+          git push origin "go/v${{ needs.check.outputs.version }}"

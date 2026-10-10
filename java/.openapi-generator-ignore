@@ -1,0 +1,20 @@
+# Hand-written - keep across regenerations.
+# pom.xml was generated once and is maintained here (javadoc, Maven Central publishing).
+pom.xml
+README.md
+src/main/java/ai/pleaxy/*.java
+src/test/**
+src/main/java/ai/pleaxy/examples/**
+# Generator scaffolding this repo doesn't use.
+.travis.yml
+git_push.sh
+.github/**
+build.gradle
+build.sbt
+gradle/**
+gradlew
+gradlew.bat
+settings.gradle
+gradle.properties
+api/**
+docs/**

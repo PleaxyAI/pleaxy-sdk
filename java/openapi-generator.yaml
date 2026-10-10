@@ -1,0 +1,38 @@
+# openapi-generator settings for the Java SDK (scripts/generate.sh).
+# Generated: pom.xml, src/main/java/ai/pleaxy/{api,model,client}. Hand-written files
+# are listed in .openapi-generator-ignore so a regeneration keeps them.
+generatorName: java
+inputSpec: ../openapi/pleaxy.json
+outputDir: .
+library: native
+groupId: ai.pleaxy
+artifactId: pleaxy-java
+artifactVersion: 0.1.0
+artifactDescription: Official Java client for the Pleaxy API
+artifactUrl: https://pleaxy.ai/sdks
+scmUrl: https://github.com/pleaxyai/pleaxy-sdk
+scmConnection: scm:git:https://github.com/pleaxyai/pleaxy-sdk.git
+scmDeveloperConnection: scm:git:https://github.com/pleaxyai/pleaxy-sdk.git
+developerName: Pleaxy
+developerEmail: support@pleaxy.ai
+developerOrganization: Pleaxy
+developerOrganizationUrl: https://pleaxy.ai
+licenseName: MIT
+licenseUrl: https://opensource.org/licenses/MIT
+apiPackage: ai.pleaxy.api
+modelPackage: ai.pleaxy.model
+invokerPackage: ai.pleaxy.client
+additionalProperties:
+  hideGenerationTimestamp: true
+  openApiNullable: false
+  useBeanValidation: false
+  annotationLibrary: none
+  dateLibrary: java8
+  serializationLibrary: jackson
+  disallowAdditionalPropertiesIfNotPresent: false
+  sourceFolder: src/main/java
+globalProperties:
+  apiTests: "false"
+  modelTests: "false"
+  apiDocs: "false"
+  modelDocs: "false"

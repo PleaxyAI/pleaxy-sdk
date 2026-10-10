@@ -1,0 +1,163 @@
+from typing import Any, Dict, List, Type, TypeVar, Union
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
+from ..models.api_key_summary_procurement_role import (
+    ApiKeySummaryProcurementRole,
+    check_api_key_summary_procurement_role,
+)
+from ..models.api_key_summary_role import ApiKeySummaryRole, check_api_key_summary_role
+from ..models.api_key_summary_scopes_item import (
+    ApiKeySummaryScopesItem,
+    check_api_key_summary_scopes_item,
+)
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="ApiKeySummary")
+
+
+@_attrs_define
+class ApiKeySummary:
+    """
+    Attributes:
+        key_id (Union[Unset, str]):
+        region_id (Union[Unset, str]):
+        role (Union[Unset, ApiKeySummaryRole]):
+        procurement_role (Union[Unset, ApiKeySummaryProcurementRole]):
+        scopes (Union[Unset, List[ApiKeySummaryScopesItem]]):
+        label (Union[Unset, str]):
+        created_at (Union[Unset, str]):
+        created_by (Union[Unset, str]):
+        revoked (Union[Unset, bool]):
+    """
+
+    key_id: Union[Unset, str] = UNSET
+    region_id: Union[Unset, str] = UNSET
+    role: Union[Unset, ApiKeySummaryRole] = UNSET
+    procurement_role: Union[Unset, ApiKeySummaryProcurementRole] = UNSET
+    scopes: Union[Unset, List[ApiKeySummaryScopesItem]] = UNSET
+    label: Union[Unset, str] = UNSET
+    created_at: Union[Unset, str] = UNSET
+    created_by: Union[Unset, str] = UNSET
+    revoked: Union[Unset, bool] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+    def to_dict(self) -> Dict[str, Any]:
+        key_id = self.key_id
+
+        region_id = self.region_id
+
+        role: Union[Unset, str] = UNSET
+        if not isinstance(self.role, Unset):
+            role = self.role
+
+        procurement_role: Union[Unset, str] = UNSET
+        if not isinstance(self.procurement_role, Unset):
+            procurement_role = self.procurement_role
+
+        scopes: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.scopes, Unset):
+            scopes = []
+            for scopes_item_data in self.scopes:
+                scopes_item: str = scopes_item_data
+                scopes.append(scopes_item)
+
+        label = self.label
+
+        created_at = self.created_at
+
+        created_by = self.created_by
+
+        revoked = self.revoked
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update({})
+        if key_id is not UNSET:
+            field_dict["keyId"] = key_id
+        if region_id is not UNSET:
+            field_dict["regionId"] = region_id
+        if role is not UNSET:
+            field_dict["role"] = role
+        if procurement_role is not UNSET:
+            field_dict["procurementRole"] = procurement_role
+        if scopes is not UNSET:
+            field_dict["scopes"] = scopes
+        if label is not UNSET:
+            field_dict["label"] = label
+        if created_at is not UNSET:
+            field_dict["createdAt"] = created_at
+        if created_by is not UNSET:
+            field_dict["createdBy"] = created_by
+        if revoked is not UNSET:
+            field_dict["revoked"] = revoked
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        key_id = d.pop("keyId", UNSET)
+
+        region_id = d.pop("regionId", UNSET)
+
+        _role = d.pop("role", UNSET)
+        role: Union[Unset, ApiKeySummaryRole]
+        if isinstance(_role, Unset):
+            role = UNSET
+        else:
+            role = check_api_key_summary_role(_role)
+
+        _procurement_role = d.pop("procurementRole", UNSET)
+        procurement_role: Union[Unset, ApiKeySummaryProcurementRole]
+        if isinstance(_procurement_role, Unset):
+            procurement_role = UNSET
+        else:
+            procurement_role = check_api_key_summary_procurement_role(_procurement_role)
+
+        scopes = []
+        _scopes = d.pop("scopes", UNSET)
+        for scopes_item_data in _scopes or []:
+            scopes_item = check_api_key_summary_scopes_item(scopes_item_data)
+
+            scopes.append(scopes_item)
+
+        label = d.pop("label", UNSET)
+
+        created_at = d.pop("createdAt", UNSET)
+
+        created_by = d.pop("createdBy", UNSET)
+
+        revoked = d.pop("revoked", UNSET)
+
+        api_key_summary = cls(
+            key_id=key_id,
+            region_id=region_id,
+            role=role,
+            procurement_role=procurement_role,
+            scopes=scopes,
+            label=label,
+            created_at=created_at,
+            created_by=created_by,
+            revoked=revoked,
+        )
+
+        api_key_summary.additional_properties = d
+        return api_key_summary
+
+    @property
+    def additional_keys(self) -> List[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

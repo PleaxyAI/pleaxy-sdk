@@ -1,0 +1,28 @@
+# openapi-generator settings for the Ruby SDK (scripts/generate.sh).
+# Generated: pleaxy.gemspec, lib/pleaxy.rb, lib/pleaxy/{api,models,...}. Hand-written
+# files are listed in .openapi-generator-ignore so a regeneration keeps them.
+generatorName: ruby
+inputSpec: ../openapi/pleaxy.json
+outputDir: .
+library: faraday
+additionalProperties:
+  gemName: pleaxy
+  moduleName: Pleaxy
+  gemVersion: 0.1.0
+  gemLicense: MIT
+  gemHomepage: https://pleaxy.ai/sdks
+  gemSummary: Official Ruby client for the Pleaxy API
+  gemDescription: "Purchase orders, invoices and settlement for cloud spend: the official Ruby client for the Pleaxy API."
+  gemAuthor: Pleaxy
+  gemAuthorEmail: support@pleaxy.ai
+  gemRequiredRubyVersion: ">= 3.0"
+  hideGenerationTimestamp: true
+globalProperties:
+  apiTests: "false"
+  modelTests: "false"
+  apiDocs: "false"
+  modelDocs: "false"
+# The API's error body is ApiError, which would collide with the generator's own
+# Pleaxy::ApiError exception class.
+modelNameMappings:
+  ApiError: ErrorResponse

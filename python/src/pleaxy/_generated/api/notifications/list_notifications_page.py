@@ -1,0 +1,192 @@
+from http import HTTPStatus
+from typing import Any, Dict, Optional, Union
+
+import httpx
+
+from ... import errors
+from ...client import AuthenticatedClient, Client
+from ...models.list_notifications_page_audience import (
+    ListNotificationsPageAudience,
+)
+from ...models.notification_page import NotificationPage
+from ...types import UNSET, Response, Unset
+
+
+def _get_kwargs(
+    *,
+    audience: ListNotificationsPageAudience,
+    cursor: Union[Unset, str] = UNSET,
+    limit: Union[Unset, float] = 20.0,
+) -> Dict[str, Any]:
+    params: Dict[str, Any] = {}
+
+    json_audience: str = audience
+    params["audience"] = json_audience
+
+    params["cursor"] = cursor
+
+    params["limit"] = limit
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
+    _kwargs: Dict[str, Any] = {
+        "method": "get",
+        "url": "/notifications/inbox",
+        "params": params,
+    }
+
+    return _kwargs
+
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[NotificationPage]:
+    if response.status_code == 200:
+        response_200 = NotificationPage.from_dict(response.json())
+
+        return response_200
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
+
+
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[NotificationPage]:
+    return Response(
+        status_code=HTTPStatus(response.status_code),
+        content=response.content,
+        headers=response.headers,
+        parsed=_parse_response(client=client, response=response),
+    )
+
+
+def sync_detailed(
+    *,
+    client: Union[AuthenticatedClient, Client],
+    audience: ListNotificationsPageAudience,
+    cursor: Union[Unset, str] = UNSET,
+    limit: Union[Unset, float] = 20.0,
+) -> Response[NotificationPage]:
+    """[Both] List notifications a page at a time, newest first
+
+    Args:
+        audience (ListNotificationsPageAudience):
+        cursor (Union[Unset, str]):
+        limit (Union[Unset, float]):  Default: 20.0.
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[NotificationPage]
+    """
+
+    kwargs = _get_kwargs(
+        audience=audience,
+        cursor=cursor,
+        limit=limit,
+    )
+
+    response = client.get_httpx_client().request(
+        **kwargs,
+    )
+
+    return _build_response(client=client, response=response)
+
+
+def sync(
+    *,
+    client: Union[AuthenticatedClient, Client],
+    audience: ListNotificationsPageAudience,
+    cursor: Union[Unset, str] = UNSET,
+    limit: Union[Unset, float] = 20.0,
+) -> Optional[NotificationPage]:
+    """[Both] List notifications a page at a time, newest first
+
+    Args:
+        audience (ListNotificationsPageAudience):
+        cursor (Union[Unset, str]):
+        limit (Union[Unset, float]):  Default: 20.0.
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        NotificationPage
+    """
+
+    return sync_detailed(
+        client=client,
+        audience=audience,
+        cursor=cursor,
+        limit=limit,
+    ).parsed
+
+
+async def asyncio_detailed(
+    *,
+    client: Union[AuthenticatedClient, Client],
+    audience: ListNotificationsPageAudience,
+    cursor: Union[Unset, str] = UNSET,
+    limit: Union[Unset, float] = 20.0,
+) -> Response[NotificationPage]:
+    """[Both] List notifications a page at a time, newest first
+
+    Args:
+        audience (ListNotificationsPageAudience):
+        cursor (Union[Unset, str]):
+        limit (Union[Unset, float]):  Default: 20.0.
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[NotificationPage]
+    """
+
+    kwargs = _get_kwargs(
+        audience=audience,
+        cursor=cursor,
+        limit=limit,
+    )
+
+    response = await client.get_async_httpx_client().request(**kwargs)
+
+    return _build_response(client=client, response=response)
+
+
+async def asyncio(
+    *,
+    client: Union[AuthenticatedClient, Client],
+    audience: ListNotificationsPageAudience,
+    cursor: Union[Unset, str] = UNSET,
+    limit: Union[Unset, float] = 20.0,
+) -> Optional[NotificationPage]:
+    """[Both] List notifications a page at a time, newest first
+
+    Args:
+        audience (ListNotificationsPageAudience):
+        cursor (Union[Unset, str]):
+        limit (Union[Unset, float]):  Default: 20.0.
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        NotificationPage
+    """
+
+    return (
+        await asyncio_detailed(
+            client=client,
+            audience=audience,
+            cursor=cursor,
+            limit=limit,
+        )
+    ).parsed

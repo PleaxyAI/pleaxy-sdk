@@ -1,0 +1,10 @@
+# oapi-codegen settings (go generate ./...). Writes pleaxy.gen.go: the models and
+# the low-level ClientWithResponses; client.go and operations.gen.go wrap it.
+package: pleaxy
+output: pleaxy.gen.go
+generate:
+  models: true
+  client: true
+output-options:
+  skip-prune: false
+  client-type-name: RawClient
