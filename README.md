@@ -41,7 +41,7 @@ CI fails a pull request whose generated code doesn't match `openapi/`.
 
 ```bash
 scripts/set-version.sh 0.2.0 && scripts/generate-all.sh
-git commit -am "Release 0.2.0" && git tag v0.2.0 && git push origin main v0.2.0
+git commit -am "Release 0.2.0" && git tag v0.2.0 && git push origin master v0.2.0
 ```
 
 The tag runs [`.github/workflows/release.yml`](.github/workflows/release.yml), which publishes to npm, PyPI, RubyGems and Maven Central and tags the Go module (`go/v0.2.0`). The secrets it needs are listed at the top of that file.
