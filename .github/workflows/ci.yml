@@ -27,6 +27,9 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
       - run: ./scripts/generate-all.sh
       - name: Generated code is up to date
         run: |
@@ -118,3 +121,21 @@ jobs:
           bundler-cache: true
           working-directory: ruby
       - run: bundle exec rake
+
+  rust:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        rust: ["1.88", stable]
+    defaults:
+      run:
+        working-directory: rust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+          components: rustfmt
+      - run: cargo fmt --check
+      - run: cargo test
+      - run: cargo build --examples

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Regenerates every SDK from openapi/openapi.sdk.json (the backend's export).
-# Needs Node 18+, Python 3.9+, Go 1.21+, Java 11+. Run from anywhere.
+# Needs Node 18+, Python 3.9+, Go 1.21+, Java 11+, Rust (cargo). Run from anywhere.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 node scripts/prepare-spec.mjs
@@ -23,3 +23,6 @@ echo "== java"
 
 echo "== ruby"
 (cd ruby && ./scripts/generate.sh)
+
+echo "== rust"
+(cd rust && ./scripts/generate.sh)

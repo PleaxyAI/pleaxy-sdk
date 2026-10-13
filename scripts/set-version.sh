@@ -15,5 +15,7 @@ sed -i.bak -E "s/^artifactVersion: .*/artifactVersion: $version/" java/openapi-g
 # The pom's first <version> is the project's own (it has no parent).
 sed -i.bak -E "0,/<version>[^<]*<\/version>/s||<version>$version</version>|" java/pom.xml
 sed -i.bak -E "s/^  gemVersion: .*/  gemVersion: $version/" ruby/openapi-generator.yaml
+sed -i.bak -E "s/^  packageVersion: .*/  packageVersion: $version/" rust/openapi-generator.yaml
+sed -i.bak -E "0,/^version = \".*\"/s//version = \"$version\"/" rust/Cargo.toml
 find . -name '*.bak' -not -path '*/node_modules/*' -delete
 echo "version $version - now run scripts/generate-all.sh"

@@ -10,6 +10,7 @@ name: Release
 #   CENTRAL_TOKEN           Maven Central user token password
 #   MAVEN_GPG_PRIVATE_KEY   ASCII-armored GPG key the artifacts are signed with (public key on a keyserver)
 #   MAVEN_GPG_PASSPHRASE    its passphrase
+#   CARGO_REGISTRY_TOKEN    crates.io API token with publish rights on the pleaxy crate
 # PyPI uses trusted publishing: add this repository and workflow (release.yml, environment "pypi")
 # as a trusted publisher of the pleaxy project on pypi.org - no token.
 
@@ -114,6 +115,20 @@ jobs:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+
+  crates-io:
+    needs: check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo test
+      - run: cargo publish
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 
   # A Go module in a subdirectory is versioned by tags named after it: go/v0.2.0.
   go:

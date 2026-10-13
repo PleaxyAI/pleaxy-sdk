@@ -1,0 +1,19 @@
+# openapi-generator settings for the Rust SDK (scripts/generate.sh).
+# Generated: src/apis, src/models. Hand-written files are listed in
+# .openapi-generator-ignore so a regeneration keeps them.
+generatorName: rust
+inputSpec: ../openapi/pleaxy.json
+outputDir: .
+library: reqwest
+additionalProperties:
+  packageName: pleaxy
+  packageVersion: 0.1.0
+  supportAsync: true
+  useSingleRequestParameter: false
+  avoidBoxedModels: true
+  preferUnsignedInt: false
+  topLevelApiClient: false
+  hideGenerationTimestamp: true
+globalProperties:
+  apiDocs: "false"
+  modelDocs: "false"

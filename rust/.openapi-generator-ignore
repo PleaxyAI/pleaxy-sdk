@@ -1,0 +1,12 @@
+# Hand-written - keep across regenerations.
+Cargo.toml
+README.md
+src/lib.rs
+src/client.rs
+tests/**
+examples/**
+# Generator scaffolding this repo doesn't use.
+.travis.yml
+git_push.sh
+.gitignore
+docs/**

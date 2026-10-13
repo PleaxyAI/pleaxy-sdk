@@ -1,0 +1,24 @@
+[package]
+name = "pleaxy"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.88"
+description = "Official Rust client for the Pleaxy API: purchase orders, invoices and settlement for cloud spend."
+license = "MIT"
+homepage = "https://pleaxy.ai/sdks"
+repository = "https://github.com/pleaxyai/pleaxy-sdk"
+documentation = "https://docs.rs/pleaxy"
+readme = "README.md"
+keywords = ["pleaxy", "procurement", "invoices", "api", "sdk"]
+categories = ["api-bindings", "web-programming::http-client"]
+include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_with = { version = "3", default-features = false, features = ["base64", "std", "macros"] }
+url = "2"
+reqwest = { version = "0.12", default-features = false, features = ["json", "multipart", "rustls-tls"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }

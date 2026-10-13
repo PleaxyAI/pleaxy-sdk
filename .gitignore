@@ -16,5 +16,8 @@ ruby/vendor/
 ruby/.bundle/
 ruby/*.gem
 ruby/Gemfile.lock
+# Rust
+rust/target/
+rust/Cargo.lock
 # openapi-generator bookkeeping
 .openapi-generator/

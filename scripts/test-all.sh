@@ -17,3 +17,6 @@ echo "== java"
 
 echo "== ruby"
 (cd ruby && bundle install --quiet && bundle exec rake)
+
+echo "== rust"
+(cd rust && cargo fmt --check && cargo test && cargo build --examples)
