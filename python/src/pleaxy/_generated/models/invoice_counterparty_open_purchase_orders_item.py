@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from ..models.invoice_counterparty_open_purchase_orders_item_lines_item import (
         InvoiceCounterpartyOpenPurchaseOrdersItemLinesItem,
     )
+    from ..models.open_purchase_order_deposit import OpenPurchaseOrderDeposit
 
 
 T = TypeVar("T", bound="InvoiceCounterpartyOpenPurchaseOrdersItem")
@@ -25,6 +26,9 @@ class InvoiceCounterpartyOpenPurchaseOrdersItem:
         currency (Union[Unset, str]):
         invoiced_amount (Union[Unset, float]):
         lines (Union[Unset, List['InvoiceCounterpartyOpenPurchaseOrdersItemLinesItem']]):
+        default_due_in_days (Union[Unset, float]):
+        bill_to_company_name (Union[Unset, str]):
+        paid_deposits (Union[Unset, List['OpenPurchaseOrderDeposit']]):
     """
 
     id: str
@@ -36,6 +40,9 @@ class InvoiceCounterpartyOpenPurchaseOrdersItem:
     lines: Union[Unset, List["InvoiceCounterpartyOpenPurchaseOrdersItemLinesItem"]] = (
         UNSET
     )
+    default_due_in_days: Union[Unset, float] = UNSET
+    bill_to_company_name: Union[Unset, str] = UNSET
+    paid_deposits: Union[Unset, List["OpenPurchaseOrderDeposit"]] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -58,6 +65,17 @@ class InvoiceCounterpartyOpenPurchaseOrdersItem:
                 lines_item = lines_item_data.to_dict()
                 lines.append(lines_item)
 
+        default_due_in_days = self.default_due_in_days
+
+        bill_to_company_name = self.bill_to_company_name
+
+        paid_deposits: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.paid_deposits, Unset):
+            paid_deposits = []
+            for paid_deposits_item_data in self.paid_deposits:
+                paid_deposits_item = paid_deposits_item_data.to_dict()
+                paid_deposits.append(paid_deposits_item)
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -77,6 +95,12 @@ class InvoiceCounterpartyOpenPurchaseOrdersItem:
             field_dict["invoicedAmount"] = invoiced_amount
         if lines is not UNSET:
             field_dict["lines"] = lines
+        if default_due_in_days is not UNSET:
+            field_dict["defaultDueInDays"] = default_due_in_days
+        if bill_to_company_name is not UNSET:
+            field_dict["billToCompanyName"] = bill_to_company_name
+        if paid_deposits is not UNSET:
+            field_dict["paidDeposits"] = paid_deposits
 
         return field_dict
 
@@ -85,6 +109,7 @@ class InvoiceCounterpartyOpenPurchaseOrdersItem:
         from ..models.invoice_counterparty_open_purchase_orders_item_lines_item import (
             InvoiceCounterpartyOpenPurchaseOrdersItemLinesItem,
         )
+        from ..models.open_purchase_order_deposit import OpenPurchaseOrderDeposit
 
         d = src_dict.copy()
         id = d.pop("id")
@@ -108,6 +133,19 @@ class InvoiceCounterpartyOpenPurchaseOrdersItem:
 
             lines.append(lines_item)
 
+        default_due_in_days = d.pop("defaultDueInDays", UNSET)
+
+        bill_to_company_name = d.pop("billToCompanyName", UNSET)
+
+        paid_deposits = []
+        _paid_deposits = d.pop("paidDeposits", UNSET)
+        for paid_deposits_item_data in _paid_deposits or []:
+            paid_deposits_item = OpenPurchaseOrderDeposit.from_dict(
+                paid_deposits_item_data
+            )
+
+            paid_deposits.append(paid_deposits_item)
+
         invoice_counterparty_open_purchase_orders_item = cls(
             id=id,
             amount=amount,
@@ -116,6 +154,9 @@ class InvoiceCounterpartyOpenPurchaseOrdersItem:
             currency=currency,
             invoiced_amount=invoiced_amount,
             lines=lines,
+            default_due_in_days=default_due_in_days,
+            bill_to_company_name=bill_to_company_name,
+            paid_deposits=paid_deposits,
         )
 
         invoice_counterparty_open_purchase_orders_item.additional_properties = d

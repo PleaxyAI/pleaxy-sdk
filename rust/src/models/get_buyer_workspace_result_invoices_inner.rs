@@ -50,6 +50,10 @@ pub struct GetBuyerWorkspaceResultInvoicesInner {
     pub line_items: Option<Vec<models::InvoiceLineItem>>,
     #[serde(rename = "po", skip_serializing_if = "Option::is_none")]
     pub po: Option<String>,
+    #[serde(rename = "poLineNo", skip_serializing_if = "Option::is_none")]
+    pub po_line_no: Option<f64>,
+    #[serde(rename = "billsNoPoLine", skip_serializing_if = "Option::is_none")]
+    pub bills_no_po_line: Option<bool>,
     #[serde(rename = "partyDetails", skip_serializing_if = "Option::is_none")]
     pub party_details: Option<models::InvoiceBuyerViewPartyDetails>,
     #[serde(rename = "usageAmount", skip_serializing_if = "Option::is_none")]
@@ -90,6 +94,8 @@ pub struct GetBuyerWorkspaceResultInvoicesInner {
     pub paid_at: Option<String>,
     #[serde(rename = "payment", skip_serializing_if = "Option::is_none")]
     pub payment: Option<models::InvoiceSupplierViewPayment>,
+    #[serde(rename = "remittances", skip_serializing_if = "Option::is_none")]
+    pub remittances: Option<Vec<models::SupplierRemittanceView>>,
     #[serde(rename = "paymentHistory", skip_serializing_if = "Option::is_none")]
     pub payment_history: Option<Vec<models::PaymentHistoryEntry>>,
     #[serde(
@@ -107,6 +113,13 @@ pub struct GetBuyerWorkspaceResultInvoicesInner {
     pub rejection: Option<models::InvoiceRejection>,
     #[serde(rename = "replacesInvoiceId", skip_serializing_if = "Option::is_none")]
     pub replaces_invoice_id: Option<String>,
+    #[serde(rename = "replacesInvoiceIds", skip_serializing_if = "Option::is_none")]
+    pub replaces_invoice_ids: Option<Vec<String>>,
+    #[serde(
+        rename = "replacedByInvoiceIds",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub replaced_by_invoice_ids: Option<Vec<String>>,
     #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
     pub source: Option<Source>,
     #[serde(rename = "enteredBy", skip_serializing_if = "Option::is_none")]
@@ -134,6 +147,27 @@ pub struct GetBuyerWorkspaceResultInvoicesInner {
     pub tax_breakdown: Option<Vec<models::InvoiceBreakdownEntry>>,
     #[serde(rename = "withholdings", skip_serializing_if = "Option::is_none")]
     pub withholdings: Option<Vec<models::InvoiceBreakdownEntry>>,
+    #[serde(rename = "documentType", skip_serializing_if = "Option::is_none")]
+    pub document_type: Option<DocumentType>,
+    #[serde(rename = "amendsInvoiceId", skip_serializing_if = "Option::is_none")]
+    pub amends_invoice_id: Option<String>,
+    #[serde(
+        rename = "amendsExternalInvoiceNumber",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub amends_external_invoice_number: Option<String>,
+    #[serde(rename = "debitNoteIds", skip_serializing_if = "Option::is_none")]
+    pub debit_note_ids: Option<Vec<String>>,
+    #[serde(rename = "invoiceKind", skip_serializing_if = "Option::is_none")]
+    pub invoice_kind: Option<InvoiceKind>,
+    #[serde(rename = "deductions", skip_serializing_if = "Option::is_none")]
+    pub deductions: Option<Vec<models::InvoiceDeduction>>,
+    #[serde(rename = "creditApplications", skip_serializing_if = "Option::is_none")]
+    pub credit_applications: Option<Vec<models::InvoiceCreditApplication>>,
+    #[serde(rename = "creditNoteIds", skip_serializing_if = "Option::is_none")]
+    pub credit_note_ids: Option<Vec<String>>,
+    #[serde(rename = "creditVersion", skip_serializing_if = "Option::is_none")]
+    pub credit_version: Option<f64>,
     #[serde(
         rename = "paymentCurrencyAmount",
         skip_serializing_if = "Option::is_none"
@@ -161,6 +195,13 @@ pub struct GetBuyerWorkspaceResultInvoicesInner {
         skip_serializing_if = "Option::is_none"
     )]
     pub viewer_is_supplier_member: Option<bool>,
+    #[serde(rename = "replacement", skip_serializing_if = "Option::is_none")]
+    pub replacement: Option<models::InvoiceReplacementCheck>,
+    #[serde(
+        rename = "uncreditedOriginals",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub uncredited_originals: Option<Vec<models::UncreditedOriginal>>,
     #[serde(rename = "withdrawnPayment", skip_serializing_if = "Option::is_none")]
     pub withdrawn_payment: Option<models::InvoiceSupplierViewPayment>,
     #[serde(rename = "buyerWorkspaceId", skip_serializing_if = "Option::is_none")]
@@ -189,6 +230,8 @@ impl GetBuyerWorkspaceResultInvoicesInner {
             contract_id: None,
             line_items: None,
             po: None,
+            po_line_no: None,
+            bills_no_po_line: None,
             party_details: None,
             usage_amount: None,
             usage_amount_simulated: None,
@@ -206,6 +249,7 @@ impl GetBuyerWorkspaceResultInvoicesInner {
             due_date: None,
             paid_at: None,
             payment: None,
+            remittances: None,
             payment_history: None,
             export_available_from: None,
             previous_exported_at: None,
@@ -213,6 +257,8 @@ impl GetBuyerWorkspaceResultInvoicesInner {
             last_reminded_at: None,
             rejection: None,
             replaces_invoice_id: None,
+            replaces_invoice_ids: None,
+            replaced_by_invoice_ids: None,
             source: None,
             entered_by: None,
             invoice_date: None,
@@ -225,6 +271,15 @@ impl GetBuyerWorkspaceResultInvoicesInner {
             tax_amount: None,
             tax_breakdown: None,
             withholdings: None,
+            document_type: None,
+            amends_invoice_id: None,
+            amends_external_invoice_number: None,
+            debit_note_ids: None,
+            invoice_kind: None,
+            deductions: None,
+            credit_applications: None,
+            credit_note_ids: None,
+            credit_version: None,
             payment_currency_amount: None,
             tax_currency_amount: None,
             rate_warnings: None,
@@ -234,6 +289,8 @@ impl GetBuyerWorkspaceResultInvoicesInner {
             has_original_pdf: None,
             base_currency_amount: None,
             viewer_is_supplier_member: None,
+            replacement: None,
+            uncredited_originals: None,
             withdrawn_payment: None,
             buyer_workspace_id: None,
             next_reminder_at: None,
@@ -284,14 +341,16 @@ impl Default for MatchStatus {
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum UnverifiedReason {
     #[serde(rename = "no_purchase_order")]
-    PurchaseOrder,
+    NoPurchaseOrder,
     #[serde(rename = "no_billing_connection")]
-    BillingConnection,
+    NoBillingConnection,
+    #[serde(rename = "debit_note")]
+    DebitNote,
 }
 
 impl Default for UnverifiedReason {
     fn default() -> UnverifiedReason {
-        Self::PurchaseOrder
+        Self::NoPurchaseOrder
     }
 }
 ///
@@ -382,5 +441,29 @@ pub enum SubmittedFormat {
 impl Default for SubmittedFormat {
     fn default() -> SubmittedFormat {
         Self::Json
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum DocumentType {
+    #[serde(rename = "debit_note")]
+    DebitNote,
+}
+
+impl Default for DocumentType {
+    fn default() -> DocumentType {
+        Self::DebitNote
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum InvoiceKind {
+    #[serde(rename = "prepayment")]
+    Prepayment,
+}
+
+impl Default for InvoiceKind {
+    fn default() -> InvoiceKind {
+        Self::Prepayment
     }
 }

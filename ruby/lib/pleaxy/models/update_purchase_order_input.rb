@@ -21,9 +21,16 @@ module Pleaxy
     # Replaces the PO's whole line-item set and recalculates its amount. The approval chain is rebuilt from scratch, discarding any sign-offs already collected.
     attr_accessor :line_items
 
+    # Who the supplier invoices, entered on the order; `null` copies the buyer's company profile billing details as they are now. Bookkeeping: never re-triggers approval.
+    attr_accessor :bill_to_party
+
+    # Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; an empty string copies the company profile's. Ignored when `billToParty` is sent.
     attr_accessor :bill_to
 
     attr_accessor :cost_center
+
+    # Drafts only: the workspace delivery address an online store order ships to, copied onto the order at submit. An empty string goes back to the workspace default.
+    attr_accessor :delivery_address_id
 
     attr_accessor :budget_owner
 
@@ -42,8 +49,10 @@ module Pleaxy
       {
         :'currency' => :'currency',
         :'line_items' => :'lineItems',
+        :'bill_to_party' => :'billToParty',
         :'bill_to' => :'billTo',
         :'cost_center' => :'costCenter',
+        :'delivery_address_id' => :'deliveryAddressId',
         :'budget_owner' => :'budgetOwner',
         :'buyer_name' => :'buyerName',
         :'notes' => :'notes',
@@ -62,8 +71,10 @@ module Pleaxy
       {
         :'currency' => :'String',
         :'line_items' => :'Array<LineItemInput>',
+        :'bill_to_party' => :'BillToPartyInput',
         :'bill_to' => :'String',
         :'cost_center' => :'String',
+        :'delivery_address_id' => :'String',
         :'budget_owner' => :'String',
         :'buyer_name' => :'String',
         :'notes' => :'String',
@@ -75,6 +86,7 @@ module Pleaxy
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'bill_to_party',
         :'contract_id',
         :'quote_import_id'
       ])
@@ -105,12 +117,20 @@ module Pleaxy
         end
       end
 
+      if attributes.key?(:'bill_to_party')
+        self.bill_to_party = attributes[:'bill_to_party']
+      end
+
       if attributes.key?(:'bill_to')
         self.bill_to = attributes[:'bill_to']
       end
 
       if attributes.key?(:'cost_center')
         self.cost_center = attributes[:'cost_center']
+      end
+
+      if attributes.key?(:'delivery_address_id')
+        self.delivery_address_id = attributes[:'delivery_address_id']
       end
 
       if attributes.key?(:'budget_owner')
@@ -139,6 +159,14 @@ module Pleaxy
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
+      if !@bill_to.nil? && @bill_to.to_s.length > 500
+        invalid_properties.push('invalid value for "bill_to", the character length must be smaller than or equal to 500.')
+      end
+
+      if !@delivery_address_id.nil? && @delivery_address_id.to_s.length > 64
+        invalid_properties.push('invalid value for "delivery_address_id", the character length must be smaller than or equal to 64.')
+      end
+
       if !@contract_id.nil? && @contract_id.to_s.length > 60
         invalid_properties.push('invalid value for "contract_id", the character length must be smaller than or equal to 60.')
       end
@@ -154,9 +182,39 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
+      return false if !@bill_to.nil? && @bill_to.to_s.length > 500
+      return false if !@delivery_address_id.nil? && @delivery_address_id.to_s.length > 64
       return false if !@contract_id.nil? && @contract_id.to_s.length > 60
       return false if !@quote_import_id.nil? && @quote_import_id.to_s.length > 20
       true
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] bill_to Value to be assigned
+    def bill_to=(bill_to)
+      if bill_to.nil?
+        fail ArgumentError, 'bill_to cannot be nil'
+      end
+
+      if bill_to.to_s.length > 500
+        fail ArgumentError, 'invalid value for "bill_to", the character length must be smaller than or equal to 500.'
+      end
+
+      @bill_to = bill_to
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] delivery_address_id Value to be assigned
+    def delivery_address_id=(delivery_address_id)
+      if delivery_address_id.nil?
+        fail ArgumentError, 'delivery_address_id cannot be nil'
+      end
+
+      if delivery_address_id.to_s.length > 64
+        fail ArgumentError, 'invalid value for "delivery_address_id", the character length must be smaller than or equal to 64.'
+      end
+
+      @delivery_address_id = delivery_address_id
     end
 
     # Custom attribute writer method with validation
@@ -186,8 +244,10 @@ module Pleaxy
       self.class == o.class &&
           currency == o.currency &&
           line_items == o.line_items &&
+          bill_to_party == o.bill_to_party &&
           bill_to == o.bill_to &&
           cost_center == o.cost_center &&
+          delivery_address_id == o.delivery_address_id &&
           budget_owner == o.budget_owner &&
           buyer_name == o.buyer_name &&
           notes == o.notes &&
@@ -204,7 +264,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [currency, line_items, bill_to, cost_center, budget_owner, buyer_name, notes, contract_id, quote_import_id].hash
+      [currency, line_items, bill_to_party, bill_to, cost_center, delivery_address_id, budget_owner, buyer_name, notes, contract_id, quote_import_id].hash
     end
 
     # Builds the object from hash

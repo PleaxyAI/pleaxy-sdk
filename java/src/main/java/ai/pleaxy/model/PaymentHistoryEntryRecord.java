@@ -63,7 +63,9 @@ public class PaymentHistoryEntryRecord {
     
     CHECK(String.valueOf("check")),
     
-    OTHER(String.valueOf("other"));
+    OTHER(String.valueOf("other")),
+    
+    CREDIT(String.valueOf("credit"));
 
     private String value;
 

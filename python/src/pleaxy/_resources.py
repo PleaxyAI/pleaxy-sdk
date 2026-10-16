@@ -209,6 +209,16 @@ class InvoicesResource:
     def __init__(self, transport: Transport) -> None:
         self._transport = transport
 
+    def add_invoice_replacement_links(
+        self, invoice_id: str, *, body: AddReplacementLinksInput
+    ) -> AddInvoiceReplacementLinksResult:
+        """[Buyer] Name the invoices this invoice replaces (credit and rebill, credit notes spec §20), when that wasn't known as it was entered: { invoiceIds }, 1–20 invoices or debit notes from the same supplier. Each original then lists it in replacedByInvoiceIds; links already there are kept. 404 REPLACES_NOT_FOUND, 400 REPLACES_INVALID, 409 REPLACEMENT_CHANGED."""
+        return self._transport.call(
+            "pleaxy._generated.api.invoices.add_invoice_replacement_links",
+            invoice_id=invoice_id,
+            body=body,
+        )
+
     def approve_invoice(self, invoice_id: str) -> InvoiceBuyerView:
         """[Buyer] Approve an invoice - only the current stage's assigned approver may call this"""
         return self._transport.call(
@@ -217,22 +227,34 @@ class InvoicesResource:
 
     def create_invoice(
         self, *, body: CreateManualInvoiceInput
-    ) -> Union["InvoiceBuyerView", "InvoiceSupplierView"]:
-        """[Both] Record an invoice. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED."""
+    ) -> Union[
+        "CreateInvoiceResultBuyerCreditNote",
+        "CreateInvoiceResultBuyerInvoice",
+        "CreateInvoiceResultSupplierCreditNote",
+        "CreateInvoiceResultSupplierInvoice",
+    ]:
+        """[Both] Record an invoice - or, with "documentType": "credit_note" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED."""
         return self._transport.call(
             "pleaxy._generated.api.invoices.create_invoice", body=body
         )
 
-    def export_invoices_for_payment(self) -> bytes:
-        """[Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only."""
+    def export_invoices_for_payment(self, *, body: PaymentExportInput) -> bytes:
+        """[Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row's Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only."""
         return self._transport.call(
-            "pleaxy._generated.api.invoices.export_invoices_for_payment", binary=True
+            "pleaxy._generated.api.invoices.export_invoices_for_payment",
+            binary=True,
+            body=body,
         )
 
     def get_invoice(
         self, invoice_id: str, *, buyer: Union[Unset, str] = UNSET
-    ) -> Union["InvoiceBuyerView", "InvoiceSupplierView"]:
-        """[Both] Get a single invoice. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>."""
+    ) -> Union[
+        "GetInvoiceResultBuyerCreditNote",
+        "GetInvoiceResultBuyerInvoice",
+        "GetInvoiceResultSupplierCreditNote",
+        "GetInvoiceResultSupplierInvoice",
+    ]:
+        """[Both] Get a single invoice, or with a credit note's id (CN-…) that credit note; documentType says which. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>. A Buyer caller also gets, on a replaced invoice, replacement (whether its credit notes cover it in full), and on a replacement, uncreditedOriginals (credit and rebill)."""
         return self._transport.call(
             "pleaxy._generated.api.invoices.get_invoice",
             invoice_id=invoice_id,
@@ -274,11 +296,25 @@ class InvoicesResource:
         )
 
     def list_invoices(
-        self, *, from_: Union[Unset, str] = UNSET, to: Union[Unset, str] = UNSET
-    ) -> List[Union["InvoiceBuyerView", "InvoiceSupplierView"]]:
-        """[Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice)."""
+        self,
+        *,
+        from_: Union[Unset, str] = UNSET,
+        to: Union[Unset, str] = UNSET,
+        document_type: Union[Unset, str] = UNSET,
+    ) -> List[
+        Union[
+            "ListInvoicesItemBuyerCreditNote",
+            "ListInvoicesItemBuyerInvoice",
+            "ListInvoicesItemSupplierCreditNote",
+            "ListInvoicesItemSupplierInvoice",
+        ]
+    ]:
+        """[Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. ?documentType=credit_note lists credit notes instead, ?documentType=all both, newest first; every item carries documentType (default invoice). A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice)."""
         return self._transport.call(
-            "pleaxy._generated.api.invoices.list_invoices", from_=from_, to=to
+            "pleaxy._generated.api.invoices.list_invoices",
+            from_=from_,
+            to=to,
+            document_type=document_type,
         )
 
     def reassign_invoice_approval_stage(
@@ -294,7 +330,7 @@ class InvoicesResource:
     def record_payment(
         self, invoice_id: str, *, body: RecordPaymentInput
     ) -> RecordPaymentResult:
-        """[Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }. Pleaxy moves no money and doesn't check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can't be later than today in the workspace's time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED."""
+        """[Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }, optionally with a remittance for the supplier: { remittance: { note?, file?: { fileId, fileName } } } (see SendRemittance). Pleaxy moves no money and doesn't check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can't be later than today in the workspace's time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. A replaced invoice its credit notes don't cover in full is 409 REPLACED_UNCREDITED until you send confirmReplaced: true: paying it as well as its replacement pays twice. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED."""
         return self._transport.call(
             "pleaxy._generated.api.invoices.record_payment",
             invoice_id=invoice_id,
@@ -321,6 +357,16 @@ class InvoicesResource:
             buyer=buyer,
         )
 
+    def remove_invoice_replacement_link(
+        self, invoice_id: str, original_id: str
+    ) -> RemoveInvoiceReplacementLinkResult:
+        """[Buyer] Undo a replacement link entered wrongly (credit notes spec §20), on both invoices. The rejected invoice an invoice corrects on its purchase order stays linked."""
+        return self._transport.call(
+            "pleaxy._generated.api.invoices.remove_invoice_replacement_link",
+            invoice_id=invoice_id,
+            original_id=original_id,
+        )
+
     def resolve_invoice_discrepancy(self, invoice_id: str) -> InvoiceBuyerView:
         """[Buyer] Resolve a matching discrepancy - an unverified invoice needs a signed-in person, not an API key"""
         return self._transport.call(
@@ -334,16 +380,20 @@ class InvoicesResource:
             "pleaxy._generated.api.invoices.run_invoice_match", invoice_id=invoice_id
         )
 
-    def start_stripe_payment(self, invoice_id: str) -> StartStripePaymentResult:
-        """[Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only."""
+    def start_stripe_payment(
+        self, invoice_id: str, *, confirm_replaced: Union[Unset, str] = UNSET
+    ) -> StartStripePaymentResult:
+        """[Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don't cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only."""
         return self._transport.call(
-            "pleaxy._generated.api.invoices.start_stripe_payment", invoice_id=invoice_id
+            "pleaxy._generated.api.invoices.start_stripe_payment",
+            invoice_id=invoice_id,
+            confirm_replaced=confirm_replaced,
         )
 
     def submit_feed_invoice(
         self, connection_id: str, *, body: CreateFeedInvoiceInput
-    ) -> InvoiceSupplierView:
-        """[Supplier] Submit an invoice to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection."""
+    ) -> Union["InvoiceSupplierView", "SupplierCreditNoteView"]:
+        """[Supplier] Submit an invoice - or a credit note: UBL <CreditNote>, a cXML credit memo, or JSON with documentType "credit_note" - to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection."""
         return self._transport.call(
             "pleaxy._generated.api.invoices.submit_feed_invoice",
             connection_id=connection_id,
@@ -352,7 +402,7 @@ class InvoicesResource:
 
     def validate_feed_invoice(
         self, connection_id: str, *, body: CreateFeedInvoiceInput
-    ) -> FeedValidationResult:
+    ) -> Union["FeedValidationResult", "ValidateFeedInvoiceResultCreditNote"]:
         """[Supplier] Check an invoice document against one connected buyer exactly as SubmitFeedInvoice would, writing nothing: no invoice, no number reservation, no notification. Same key, scope, formats and refusals; the buyer's switch is reported (feedEnabled) instead of enforced; 200 test calls per connection per day."""
         return self._transport.call(
             "pleaxy._generated.api.invoices.validate_feed_invoice",

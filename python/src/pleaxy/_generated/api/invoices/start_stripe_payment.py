@@ -6,17 +6,26 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.start_stripe_payment_result import StartStripePaymentResult
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     invoice_id: str,
+    *,
+    confirm_replaced: Union[Unset, str] = UNSET,
 ) -> Dict[str, Any]:
+    params: Dict[str, Any] = {}
+
+    params["confirmReplaced"] = confirm_replaced
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
     _kwargs: Dict[str, Any] = {
         "method": "post",
         "url": "/invoices/{invoice_id}/stripe-payment".format(
             invoice_id=invoice_id,
         ),
+        "params": params,
     }
 
     return _kwargs
@@ -50,17 +59,20 @@ def sync_detailed(
     invoice_id: str,
     *,
     client: Union[AuthenticatedClient, Client],
+    confirm_replaced: Union[Unset, str] = UNSET,
 ) -> Response[StartStripePaymentResult]:
     """[Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout
     page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus
     Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never
     holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when
-    Stripe confirms it. Resumes an open Checkout; answers { state } with no url when a payment is
+    Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don't cover is 409
+    REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is
     already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session
     only.
 
     Args:
         invoice_id (str):
+        confirm_replaced (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -72,6 +84,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         invoice_id=invoice_id,
+        confirm_replaced=confirm_replaced,
     )
 
     response = client.get_httpx_client().request(
@@ -85,17 +98,20 @@ def sync(
     invoice_id: str,
     *,
     client: Union[AuthenticatedClient, Client],
+    confirm_replaced: Union[Unset, str] = UNSET,
 ) -> Optional[StartStripePaymentResult]:
     """[Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout
     page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus
     Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never
     holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when
-    Stripe confirms it. Resumes an open Checkout; answers { state } with no url when a payment is
+    Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don't cover is 409
+    REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is
     already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session
     only.
 
     Args:
         invoice_id (str):
+        confirm_replaced (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -108,6 +124,7 @@ def sync(
     return sync_detailed(
         invoice_id=invoice_id,
         client=client,
+        confirm_replaced=confirm_replaced,
     ).parsed
 
 
@@ -115,17 +132,20 @@ async def asyncio_detailed(
     invoice_id: str,
     *,
     client: Union[AuthenticatedClient, Client],
+    confirm_replaced: Union[Unset, str] = UNSET,
 ) -> Response[StartStripePaymentResult]:
     """[Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout
     page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus
     Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never
     holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when
-    Stripe confirms it. Resumes an open Checkout; answers { state } with no url when a payment is
+    Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don't cover is 409
+    REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is
     already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session
     only.
 
     Args:
         invoice_id (str):
+        confirm_replaced (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -137,6 +157,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         invoice_id=invoice_id,
+        confirm_replaced=confirm_replaced,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -148,17 +169,20 @@ async def asyncio(
     invoice_id: str,
     *,
     client: Union[AuthenticatedClient, Client],
+    confirm_replaced: Union[Unset, str] = UNSET,
 ) -> Optional[StartStripePaymentResult]:
     """[Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout
     page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus
     Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never
     holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when
-    Stripe confirms it. Resumes an open Checkout; answers { state } with no url when a payment is
+    Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don't cover is 409
+    REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is
     already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session
     only.
 
     Args:
         invoice_id (str):
+        confirm_replaced (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -172,5 +196,6 @@ async def asyncio(
         await asyncio_detailed(
             invoice_id=invoice_id,
             client=client,
+            confirm_replaced=confirm_replaced,
         )
     ).parsed

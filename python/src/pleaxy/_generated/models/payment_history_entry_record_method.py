@@ -1,11 +1,14 @@
 from typing import Literal, Set, cast
 
-PaymentHistoryEntryRecordMethod = Literal["ach", "card", "check", "other", "wire"]
+PaymentHistoryEntryRecordMethod = Literal[
+    "ach", "card", "check", "credit", "other", "wire"
+]
 
 PAYMENT_HISTORY_ENTRY_RECORD_METHOD_VALUES: Set[PaymentHistoryEntryRecordMethod] = {
     "ach",
     "card",
     "check",
+    "credit",
     "other",
     "wire",
 }

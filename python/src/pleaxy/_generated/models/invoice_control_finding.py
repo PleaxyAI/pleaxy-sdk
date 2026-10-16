@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -9,6 +9,10 @@ from ..models.invoice_control_finding_code import (
 )
 from ..types import UNSET, Unset
 
+if TYPE_CHECKING:
+    from ..models.server_message_params import ServerMessageParams
+
+
 T = TypeVar("T", bound="InvoiceControlFinding")
 
 
@@ -18,6 +22,8 @@ class InvoiceControlFinding:
     Attributes:
         code (Union[Unset, InvoiceControlFindingCode]):
         message (Union[Unset, str]):
+        message_id (Union[Unset, str]):
+        params (Union[Unset, ServerMessageParams]):
         invoice_line (Union[Unset, float]):
         po_line_no (Union[Unset, float]):
         contract_id (Union[Unset, str]):
@@ -28,6 +34,8 @@ class InvoiceControlFinding:
 
     code: Union[Unset, InvoiceControlFindingCode] = UNSET
     message: Union[Unset, str] = UNSET
+    message_id: Union[Unset, str] = UNSET
+    params: Union[Unset, "ServerMessageParams"] = UNSET
     invoice_line: Union[Unset, float] = UNSET
     po_line_no: Union[Unset, float] = UNSET
     contract_id: Union[Unset, str] = UNSET
@@ -42,6 +50,12 @@ class InvoiceControlFinding:
             code = self.code
 
         message = self.message
+
+        message_id = self.message_id
+
+        params: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.params, Unset):
+            params = self.params.to_dict()
 
         invoice_line = self.invoice_line
 
@@ -62,6 +76,10 @@ class InvoiceControlFinding:
             field_dict["code"] = code
         if message is not UNSET:
             field_dict["message"] = message
+        if message_id is not UNSET:
+            field_dict["messageId"] = message_id
+        if params is not UNSET:
+            field_dict["params"] = params
         if invoice_line is not UNSET:
             field_dict["invoiceLine"] = invoice_line
         if po_line_no is not UNSET:
@@ -79,6 +97,8 @@ class InvoiceControlFinding:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.server_message_params import ServerMessageParams
+
         d = src_dict.copy()
         _code = d.pop("code", UNSET)
         code: Union[Unset, InvoiceControlFindingCode]
@@ -88,6 +108,15 @@ class InvoiceControlFinding:
             code = check_invoice_control_finding_code(_code)
 
         message = d.pop("message", UNSET)
+
+        message_id = d.pop("messageId", UNSET)
+
+        _params = d.pop("params", UNSET)
+        params: Union[Unset, ServerMessageParams]
+        if isinstance(_params, Unset):
+            params = UNSET
+        else:
+            params = ServerMessageParams.from_dict(_params)
 
         invoice_line = d.pop("invoiceLine", UNSET)
 
@@ -104,6 +133,8 @@ class InvoiceControlFinding:
         invoice_control_finding = cls(
             code=code,
             message=message,
+            message_id=message_id,
+            params=params,
             invoice_line=invoice_line,
             po_line_no=po_line_no,
             contract_id=contract_id,

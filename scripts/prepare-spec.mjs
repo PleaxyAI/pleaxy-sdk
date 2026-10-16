@@ -16,6 +16,10 @@
 // - An inline response body (a union like buyer-or-supplier view, or an
 //   object literal) becomes a named model, <OperationId>Result (or
 //   <OperationId>Item for a list's entries), so every language can name it.
+// - A statement union's inline members (an invoice or a credit note, each as the
+//   buyer or the supplier sees it) become named models too:
+//   GetInvoiceResultBuyerInvoice, ListInvoicesItemSupplierCreditNote. Left
+//   inline, openapi-python-client names their nested objects twice and drops them.
 // - Numbers are doubles: without a format, Go would read amounts as float32.
 // - A `/` in a pattern is escaped (`\/`, the same regex in every language):
 //   the Ruby generator writes patterns as /.../ literals.
@@ -92,6 +96,7 @@ for (const item of Object.values(spec.paths)) {
       const hoist = (schema, name) => {
         if (spec.components.schemas[name]) throw new Error(`${name} already exists`);
         spec.components.schemas[name] = schema;
+        if (schema.anyOf) schema.anyOf = schema.anyOf.map((member) => (member.$ref || !member.properties?.documentType ? member : hoist(member, name + statementKind(member))));
         return { $ref: `#/components/schemas/${name}` };
       };
       const schema = media.schema;
@@ -103,6 +108,15 @@ for (const item of Object.values(spec.paths)) {
     }
   }
 }
+/** Which statement an inline union member is, as its fields tell: the supplier's views carry buyerWorkspaceId, the buyer's invoice viewerIsSupplierMember. */
+function statementKind(member) {
+  const has = (field) => Boolean(member.properties?.[field]);
+  if (has("externalCreditNoteNumber")) return has("buyerWorkspaceId") ? "SupplierCreditNote" : "BuyerCreditNote";
+  if (has("approval")) return has("viewerIsSupplierMember") ? "BuyerInvoice" : "SupplierInvoice";
+  if (has("creditNote")) return "CreditNote";
+  throw new Error(`Can't name a statement union member with fields ${Object.keys(member.properties ?? {}).join(", ")}`);
+}
+
 const doubles = (node) => {
   if (Array.isArray(node)) return node.forEach(doubles);
   if (!node || typeof node !== "object") return;

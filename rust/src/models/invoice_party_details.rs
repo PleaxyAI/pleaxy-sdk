@@ -13,6 +13,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct InvoicePartyDetails {
+    #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
+    pub name: Option<String>,
     #[serde(rename = "addressLines", skip_serializing_if = "Option::is_none")]
     pub address_lines: Option<Vec<String>>,
     #[serde(rename = "taxId", skip_serializing_if = "Option::is_none")]
@@ -24,6 +26,7 @@ pub struct InvoicePartyDetails {
 impl InvoicePartyDetails {
     pub fn new() -> InvoicePartyDetails {
         InvoicePartyDetails {
+            name: None,
             address_lines: None,
             tax_id: None,
             tax_id_label: None,

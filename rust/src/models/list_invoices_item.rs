@@ -50,6 +50,10 @@ pub struct ListInvoicesItem {
     pub line_items: Option<Vec<models::InvoiceLineItem>>,
     #[serde(rename = "po", skip_serializing_if = "Option::is_none")]
     pub po: Option<String>,
+    #[serde(rename = "poLineNo", skip_serializing_if = "Option::is_none")]
+    pub po_line_no: Option<f64>,
+    #[serde(rename = "billsNoPoLine", skip_serializing_if = "Option::is_none")]
+    pub bills_no_po_line: Option<bool>,
     #[serde(rename = "partyDetails", skip_serializing_if = "Option::is_none")]
     pub party_details: Option<models::InvoiceBuyerViewPartyDetails>,
     #[serde(rename = "usageAmount", skip_serializing_if = "Option::is_none")]
@@ -90,6 +94,8 @@ pub struct ListInvoicesItem {
     pub paid_at: Option<String>,
     #[serde(rename = "payment", skip_serializing_if = "Option::is_none")]
     pub payment: Option<models::InvoiceSupplierViewPayment>,
+    #[serde(rename = "remittances", skip_serializing_if = "Option::is_none")]
+    pub remittances: Option<Vec<models::SupplierRemittanceView>>,
     #[serde(rename = "paymentHistory", skip_serializing_if = "Option::is_none")]
     pub payment_history: Option<Vec<models::PaymentHistoryEntry>>,
     #[serde(
@@ -104,9 +110,16 @@ pub struct ListInvoicesItem {
     #[serde(rename = "lastRemindedAt", skip_serializing_if = "Option::is_none")]
     pub last_reminded_at: Option<String>,
     #[serde(rename = "rejection", skip_serializing_if = "Option::is_none")]
-    pub rejection: Option<models::InvoiceRejection>,
+    pub rejection: Option<models::ListInvoicesItemBuyerCreditNoteRejection>,
     #[serde(rename = "replacesInvoiceId", skip_serializing_if = "Option::is_none")]
     pub replaces_invoice_id: Option<String>,
+    #[serde(rename = "replacesInvoiceIds", skip_serializing_if = "Option::is_none")]
+    pub replaces_invoice_ids: Option<Vec<String>>,
+    #[serde(
+        rename = "replacedByInvoiceIds",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub replaced_by_invoice_ids: Option<Vec<String>>,
     #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
     pub source: Option<Source>,
     #[serde(rename = "enteredBy", skip_serializing_if = "Option::is_none")]
@@ -134,6 +147,27 @@ pub struct ListInvoicesItem {
     pub tax_breakdown: Option<Vec<models::InvoiceBreakdownEntry>>,
     #[serde(rename = "withholdings", skip_serializing_if = "Option::is_none")]
     pub withholdings: Option<Vec<models::InvoiceBreakdownEntry>>,
+    #[serde(rename = "documentType", skip_serializing_if = "Option::is_none")]
+    pub document_type: Option<DocumentType>,
+    #[serde(rename = "amendsInvoiceId", skip_serializing_if = "Option::is_none")]
+    pub amends_invoice_id: Option<String>,
+    #[serde(
+        rename = "amendsExternalInvoiceNumber",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub amends_external_invoice_number: Option<String>,
+    #[serde(rename = "debitNoteIds", skip_serializing_if = "Option::is_none")]
+    pub debit_note_ids: Option<Vec<String>>,
+    #[serde(rename = "invoiceKind", skip_serializing_if = "Option::is_none")]
+    pub invoice_kind: Option<InvoiceKind>,
+    #[serde(rename = "deductions", skip_serializing_if = "Option::is_none")]
+    pub deductions: Option<Vec<models::InvoiceDeduction>>,
+    #[serde(rename = "creditApplications", skip_serializing_if = "Option::is_none")]
+    pub credit_applications: Option<Vec<models::InvoiceCreditApplication>>,
+    #[serde(rename = "creditNoteIds", skip_serializing_if = "Option::is_none")]
+    pub credit_note_ids: Option<Vec<String>>,
+    #[serde(rename = "creditVersion", skip_serializing_if = "Option::is_none")]
+    pub credit_version: Option<f64>,
     #[serde(
         rename = "paymentCurrencyAmount",
         skip_serializing_if = "Option::is_none"
@@ -161,12 +195,60 @@ pub struct ListInvoicesItem {
         skip_serializing_if = "Option::is_none"
     )]
     pub viewer_is_supplier_member: Option<bool>,
+    #[serde(rename = "replacement", skip_serializing_if = "Option::is_none")]
+    pub replacement: Option<models::InvoiceReplacementCheck>,
+    #[serde(
+        rename = "uncreditedOriginals",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub uncredited_originals: Option<Vec<models::UncreditedOriginal>>,
     #[serde(rename = "withdrawnPayment", skip_serializing_if = "Option::is_none")]
     pub withdrawn_payment: Option<models::InvoiceSupplierViewPayment>,
     #[serde(rename = "buyerWorkspaceId", skip_serializing_if = "Option::is_none")]
     pub buyer_workspace_id: Option<String>,
     #[serde(rename = "nextReminderAt", skip_serializing_if = "Option::is_none")]
     pub next_reminder_at: Option<String>,
+    #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
+    pub status: Option<Status>,
+    #[serde(rename = "cloudProvider", skip_serializing_if = "Option::is_none")]
+    pub cloud_provider: Option<CloudProvider>,
+    #[serde(rename = "invoiceId", skip_serializing_if = "Option::is_none")]
+    pub invoice_id: Option<String>,
+    #[serde(rename = "version", skip_serializing_if = "Option::is_none")]
+    pub version: Option<f64>,
+    #[serde(rename = "note", skip_serializing_if = "Option::is_none")]
+    pub note: Option<String>,
+    #[serde(
+        rename = "externalCreditNoteNumber",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub external_credit_note_number: Option<String>,
+    #[serde(rename = "issueDate", skip_serializing_if = "Option::is_none")]
+    pub issue_date: Option<String>,
+    #[serde(rename = "reason", skip_serializing_if = "Option::is_none")]
+    pub reason: Option<Reason>,
+    #[serde(rename = "correctsBilling", skip_serializing_if = "Option::is_none")]
+    pub corrects_billing: Option<bool>,
+    #[serde(rename = "refunded", skip_serializing_if = "Option::is_none")]
+    pub refunded: Option<f64>,
+    #[serde(rename = "acceptedAt", skip_serializing_if = "Option::is_none")]
+    pub accepted_at: Option<String>,
+    #[serde(rename = "autoAccepted", skip_serializing_if = "Option::is_none")]
+    pub auto_accepted: Option<bool>,
+    #[serde(rename = "poEffect", skip_serializing_if = "Option::is_none")]
+    pub po_effect: Option<models::SupplierCreditNoteViewPoEffect>,
+    #[serde(rename = "applications", skip_serializing_if = "Option::is_none")]
+    pub applications: Option<Vec<models::CreditNoteApplication>>,
+    #[serde(rename = "exports", skip_serializing_if = "Option::is_none")]
+    pub exports: Option<Vec<models::SupplierCreditNoteViewExportsInner>>,
+    #[serde(rename = "remaining", skip_serializing_if = "Option::is_none")]
+    pub remaining: Option<f64>,
+    #[serde(rename = "hasPdf", skip_serializing_if = "Option::is_none")]
+    pub has_pdf: Option<bool>,
+    #[serde(rename = "history", skip_serializing_if = "Option::is_none")]
+    pub history: Option<Vec<models::CreditNoteHistoryEntry>>,
+    #[serde(rename = "acceptedByName", skip_serializing_if = "Option::is_none")]
+    pub accepted_by_name: Option<String>,
 }
 
 impl ListInvoicesItem {
@@ -189,6 +271,8 @@ impl ListInvoicesItem {
             contract_id: None,
             line_items: None,
             po: None,
+            po_line_no: None,
+            bills_no_po_line: None,
             party_details: None,
             usage_amount: None,
             usage_amount_simulated: None,
@@ -206,6 +290,7 @@ impl ListInvoicesItem {
             due_date: None,
             paid_at: None,
             payment: None,
+            remittances: None,
             payment_history: None,
             export_available_from: None,
             previous_exported_at: None,
@@ -213,6 +298,8 @@ impl ListInvoicesItem {
             last_reminded_at: None,
             rejection: None,
             replaces_invoice_id: None,
+            replaces_invoice_ids: None,
+            replaced_by_invoice_ids: None,
             source: None,
             entered_by: None,
             invoice_date: None,
@@ -225,6 +312,15 @@ impl ListInvoicesItem {
             tax_amount: None,
             tax_breakdown: None,
             withholdings: None,
+            document_type: None,
+            amends_invoice_id: None,
+            amends_external_invoice_number: None,
+            debit_note_ids: None,
+            invoice_kind: None,
+            deductions: None,
+            credit_applications: None,
+            credit_note_ids: None,
+            credit_version: None,
             payment_currency_amount: None,
             tax_currency_amount: None,
             rate_warnings: None,
@@ -234,9 +330,30 @@ impl ListInvoicesItem {
             has_original_pdf: None,
             base_currency_amount: None,
             viewer_is_supplier_member: None,
+            replacement: None,
+            uncredited_originals: None,
             withdrawn_payment: None,
             buyer_workspace_id: None,
             next_reminder_at: None,
+            status: None,
+            cloud_provider: None,
+            invoice_id: None,
+            version: None,
+            note: None,
+            external_credit_note_number: None,
+            issue_date: None,
+            reason: None,
+            corrects_billing: None,
+            refunded: None,
+            accepted_at: None,
+            auto_accepted: None,
+            po_effect: None,
+            applications: None,
+            exports: None,
+            remaining: None,
+            has_pdf: None,
+            history: None,
+            accepted_by_name: None,
         }
     }
 }
@@ -284,14 +401,16 @@ impl Default for MatchStatus {
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum UnverifiedReason {
     #[serde(rename = "no_purchase_order")]
-    PurchaseOrder,
+    NoPurchaseOrder,
     #[serde(rename = "no_billing_connection")]
-    BillingConnection,
+    NoBillingConnection,
+    #[serde(rename = "debit_note")]
+    DebitNote,
 }
 
 impl Default for UnverifiedReason {
     fn default() -> UnverifiedReason {
-        Self::PurchaseOrder
+        Self::NoPurchaseOrder
     }
 }
 ///
@@ -339,19 +458,15 @@ impl Default for DueDateSource {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Source {
-    #[serde(rename = "manual")]
-    Manual,
-    #[serde(rename = "po-flip")]
-    PoFlip,
-    #[serde(rename = "direct")]
-    Direct,
     #[serde(rename = "feed")]
     Feed,
+    #[serde(rename = "cloud_sync")]
+    CloudSync,
 }
 
 impl Default for Source {
     fn default() -> Source {
-        Self::Manual
+        Self::Feed
     }
 }
 ///
@@ -382,5 +497,89 @@ pub enum SubmittedFormat {
 impl Default for SubmittedFormat {
     fn default() -> SubmittedFormat {
         Self::Json
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum DocumentType {
+    #[serde(rename = "debit_note")]
+    DebitNote,
+    #[serde(rename = "invoice")]
+    Invoice,
+    #[serde(rename = "credit_note")]
+    CreditNote,
+}
+
+impl Default for DocumentType {
+    fn default() -> DocumentType {
+        Self::DebitNote
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum InvoiceKind {
+    #[serde(rename = "prepayment")]
+    Prepayment,
+}
+
+impl Default for InvoiceKind {
+    fn default() -> InvoiceKind {
+        Self::Prepayment
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Status {
+    #[serde(rename = "rejected")]
+    Rejected,
+    #[serde(rename = "accepted")]
+    Accepted,
+    #[serde(rename = "pending_acceptance")]
+    PendingAcceptance,
+    #[serde(rename = "void")]
+    Void,
+}
+
+impl Default for Status {
+    fn default() -> Status {
+        Self::Rejected
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum CloudProvider {
+    #[serde(rename = "aws")]
+    Aws,
+    #[serde(rename = "gcp")]
+    Gcp,
+    #[serde(rename = "azure")]
+    Azure,
+    #[serde(rename = "oci")]
+    Oci,
+}
+
+impl Default for CloudProvider {
+    fn default() -> CloudProvider {
+        Self::Aws
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Reason {
+    #[serde(rename = "other")]
+    Other,
+    #[serde(rename = "returned_goods")]
+    ReturnedGoods,
+    #[serde(rename = "price_adjustment")]
+    PriceAdjustment,
+    #[serde(rename = "service_credit")]
+    ServiceCredit,
+    #[serde(rename = "rebate")]
+    Rebate,
+}
+
+impl Default for Reason {
+    fn default() -> Reason {
+        Self::Other
     }
 }

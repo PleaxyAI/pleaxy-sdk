@@ -7,6 +7,44 @@ from .add_cloud_provider_as_supplier_result_cloud_provider import (
 from .add_cloud_provider_as_supplier_result_status import (
     AddCloudProviderAsSupplierResultStatus,
 )
+from .add_invoice_replacement_links_result import AddInvoiceReplacementLinksResult
+from .add_invoice_replacement_links_result_discrepancy_reason import (
+    AddInvoiceReplacementLinksResultDiscrepancyReason,
+)
+from .add_invoice_replacement_links_result_document_type import (
+    AddInvoiceReplacementLinksResultDocumentType,
+)
+from .add_invoice_replacement_links_result_due_date_source import (
+    AddInvoiceReplacementLinksResultDueDateSource,
+)
+from .add_invoice_replacement_links_result_entered_by import (
+    AddInvoiceReplacementLinksResultEnteredBy,
+)
+from .add_invoice_replacement_links_result_invoice_kind import (
+    AddInvoiceReplacementLinksResultInvoiceKind,
+)
+from .add_invoice_replacement_links_result_match_basis import (
+    AddInvoiceReplacementLinksResultMatchBasis,
+)
+from .add_invoice_replacement_links_result_match_status import (
+    AddInvoiceReplacementLinksResultMatchStatus,
+)
+from .add_invoice_replacement_links_result_party_details import (
+    AddInvoiceReplacementLinksResultPartyDetails,
+)
+from .add_invoice_replacement_links_result_source import (
+    AddInvoiceReplacementLinksResultSource,
+)
+from .add_invoice_replacement_links_result_submitted_format import (
+    AddInvoiceReplacementLinksResultSubmittedFormat,
+)
+from .add_invoice_replacement_links_result_unverified_reason import (
+    AddInvoiceReplacementLinksResultUnverifiedReason,
+)
+from .add_invoice_replacement_links_result_usage_source import (
+    AddInvoiceReplacementLinksResultUsageSource,
+)
+from .add_replacement_links_input import AddReplacementLinksInput
 from .amount_breakdown_input import AmountBreakdownInput
 from .api_error import ApiError
 from .api_key_summary import ApiKeySummary
@@ -63,6 +101,7 @@ from .automation_rule_set_view import AutomationRuleSetView
 from .automation_rule_set_view_process import AutomationRuleSetViewProcess
 from .autonomy_settings import AutonomySettings
 from .aws_cloud_connection_init import AwsCloudConnectionInit
+from .bill_to_party_input import BillToPartyInput
 from .billing_summary import BillingSummary
 from .billing_summary_available_plans_item import BillingSummaryAvailablePlansItem
 from .billing_summary_available_plans_item_plan import (
@@ -128,10 +167,225 @@ from .create_cloud_connection_input_oci_home_region import (
 )
 from .create_cloud_connection_input_provider import CreateCloudConnectionInputProvider
 from .create_feed_invoice_input import CreateFeedInvoiceInput
+from .create_feed_invoice_input_document_type import CreateFeedInvoiceInputDocumentType
+from .create_feed_invoice_input_invoice_kind import CreateFeedInvoiceInputInvoiceKind
+from .create_invoice_result_buyer_credit_note import CreateInvoiceResultBuyerCreditNote
+from .create_invoice_result_buyer_credit_note_cloud_provider import (
+    CreateInvoiceResultBuyerCreditNoteCloudProvider,
+)
+from .create_invoice_result_buyer_credit_note_document_type import (
+    CreateInvoiceResultBuyerCreditNoteDocumentType,
+)
+from .create_invoice_result_buyer_credit_note_entered_by import (
+    CreateInvoiceResultBuyerCreditNoteEnteredBy,
+)
+from .create_invoice_result_buyer_credit_note_exports_item import (
+    CreateInvoiceResultBuyerCreditNoteExportsItem,
+)
+from .create_invoice_result_buyer_credit_note_po_effect_type_0 import (
+    CreateInvoiceResultBuyerCreditNotePoEffectType0,
+)
+from .create_invoice_result_buyer_credit_note_po_effect_type_0_kind import (
+    CreateInvoiceResultBuyerCreditNotePoEffectType0Kind,
+)
+from .create_invoice_result_buyer_credit_note_po_effect_type_1 import (
+    CreateInvoiceResultBuyerCreditNotePoEffectType1,
+)
+from .create_invoice_result_buyer_credit_note_po_effect_type_1_kind import (
+    CreateInvoiceResultBuyerCreditNotePoEffectType1Kind,
+)
+from .create_invoice_result_buyer_credit_note_po_effect_type_1_why import (
+    CreateInvoiceResultBuyerCreditNotePoEffectType1Why,
+)
+from .create_invoice_result_buyer_credit_note_reason import (
+    CreateInvoiceResultBuyerCreditNoteReason,
+)
+from .create_invoice_result_buyer_credit_note_rejection import (
+    CreateInvoiceResultBuyerCreditNoteRejection,
+)
+from .create_invoice_result_buyer_credit_note_source import (
+    CreateInvoiceResultBuyerCreditNoteSource,
+)
+from .create_invoice_result_buyer_credit_note_status import (
+    CreateInvoiceResultBuyerCreditNoteStatus,
+)
+from .create_invoice_result_buyer_credit_note_submitted_format import (
+    CreateInvoiceResultBuyerCreditNoteSubmittedFormat,
+)
+from .create_invoice_result_buyer_invoice import CreateInvoiceResultBuyerInvoice
+from .create_invoice_result_buyer_invoice_discrepancy_reason import (
+    CreateInvoiceResultBuyerInvoiceDiscrepancyReason,
+)
+from .create_invoice_result_buyer_invoice_document_type import (
+    CreateInvoiceResultBuyerInvoiceDocumentType,
+)
+from .create_invoice_result_buyer_invoice_due_date_source import (
+    CreateInvoiceResultBuyerInvoiceDueDateSource,
+)
+from .create_invoice_result_buyer_invoice_entered_by import (
+    CreateInvoiceResultBuyerInvoiceEnteredBy,
+)
+from .create_invoice_result_buyer_invoice_invoice_kind import (
+    CreateInvoiceResultBuyerInvoiceInvoiceKind,
+)
+from .create_invoice_result_buyer_invoice_match_basis import (
+    CreateInvoiceResultBuyerInvoiceMatchBasis,
+)
+from .create_invoice_result_buyer_invoice_match_status import (
+    CreateInvoiceResultBuyerInvoiceMatchStatus,
+)
+from .create_invoice_result_buyer_invoice_party_details import (
+    CreateInvoiceResultBuyerInvoicePartyDetails,
+)
+from .create_invoice_result_buyer_invoice_source import (
+    CreateInvoiceResultBuyerInvoiceSource,
+)
+from .create_invoice_result_buyer_invoice_submitted_format import (
+    CreateInvoiceResultBuyerInvoiceSubmittedFormat,
+)
+from .create_invoice_result_buyer_invoice_unverified_reason import (
+    CreateInvoiceResultBuyerInvoiceUnverifiedReason,
+)
+from .create_invoice_result_buyer_invoice_usage_source import (
+    CreateInvoiceResultBuyerInvoiceUsageSource,
+)
+from .create_invoice_result_supplier_credit_note import (
+    CreateInvoiceResultSupplierCreditNote,
+)
+from .create_invoice_result_supplier_credit_note_cloud_provider import (
+    CreateInvoiceResultSupplierCreditNoteCloudProvider,
+)
+from .create_invoice_result_supplier_credit_note_document_type import (
+    CreateInvoiceResultSupplierCreditNoteDocumentType,
+)
+from .create_invoice_result_supplier_credit_note_entered_by import (
+    CreateInvoiceResultSupplierCreditNoteEnteredBy,
+)
+from .create_invoice_result_supplier_credit_note_exports_item import (
+    CreateInvoiceResultSupplierCreditNoteExportsItem,
+)
+from .create_invoice_result_supplier_credit_note_history_item import (
+    CreateInvoiceResultSupplierCreditNoteHistoryItem,
+)
+from .create_invoice_result_supplier_credit_note_history_item_action import (
+    CreateInvoiceResultSupplierCreditNoteHistoryItemAction,
+)
+from .create_invoice_result_supplier_credit_note_po_effect_type_0 import (
+    CreateInvoiceResultSupplierCreditNotePoEffectType0,
+)
+from .create_invoice_result_supplier_credit_note_po_effect_type_0_kind import (
+    CreateInvoiceResultSupplierCreditNotePoEffectType0Kind,
+)
+from .create_invoice_result_supplier_credit_note_po_effect_type_1 import (
+    CreateInvoiceResultSupplierCreditNotePoEffectType1,
+)
+from .create_invoice_result_supplier_credit_note_po_effect_type_1_kind import (
+    CreateInvoiceResultSupplierCreditNotePoEffectType1Kind,
+)
+from .create_invoice_result_supplier_credit_note_po_effect_type_1_why import (
+    CreateInvoiceResultSupplierCreditNotePoEffectType1Why,
+)
+from .create_invoice_result_supplier_credit_note_reason import (
+    CreateInvoiceResultSupplierCreditNoteReason,
+)
+from .create_invoice_result_supplier_credit_note_rejection import (
+    CreateInvoiceResultSupplierCreditNoteRejection,
+)
+from .create_invoice_result_supplier_credit_note_source import (
+    CreateInvoiceResultSupplierCreditNoteSource,
+)
+from .create_invoice_result_supplier_credit_note_status import (
+    CreateInvoiceResultSupplierCreditNoteStatus,
+)
+from .create_invoice_result_supplier_credit_note_submitted_format import (
+    CreateInvoiceResultSupplierCreditNoteSubmittedFormat,
+)
+from .create_invoice_result_supplier_invoice import CreateInvoiceResultSupplierInvoice
+from .create_invoice_result_supplier_invoice_document_type import (
+    CreateInvoiceResultSupplierInvoiceDocumentType,
+)
+from .create_invoice_result_supplier_invoice_due_date_source import (
+    CreateInvoiceResultSupplierInvoiceDueDateSource,
+)
+from .create_invoice_result_supplier_invoice_entered_by import (
+    CreateInvoiceResultSupplierInvoiceEnteredBy,
+)
+from .create_invoice_result_supplier_invoice_invoice_kind import (
+    CreateInvoiceResultSupplierInvoiceInvoiceKind,
+)
+from .create_invoice_result_supplier_invoice_match_status import (
+    CreateInvoiceResultSupplierInvoiceMatchStatus,
+)
+from .create_invoice_result_supplier_invoice_party_details import (
+    CreateInvoiceResultSupplierInvoicePartyDetails,
+)
+from .create_invoice_result_supplier_invoice_payment_type_0 import (
+    CreateInvoiceResultSupplierInvoicePaymentType0,
+)
+from .create_invoice_result_supplier_invoice_payment_type_0_method import (
+    CreateInvoiceResultSupplierInvoicePaymentType0Method,
+)
+from .create_invoice_result_supplier_invoice_payment_type_0_paid_amount import (
+    CreateInvoiceResultSupplierInvoicePaymentType0PaidAmount,
+)
+from .create_invoice_result_supplier_invoice_payment_type_0_status import (
+    CreateInvoiceResultSupplierInvoicePaymentType0Status,
+)
+from .create_invoice_result_supplier_invoice_payment_type_1 import (
+    CreateInvoiceResultSupplierInvoicePaymentType1,
+)
+from .create_invoice_result_supplier_invoice_payment_type_1_payment_method_type import (
+    CreateInvoiceResultSupplierInvoicePaymentType1PaymentMethodType,
+)
+from .create_invoice_result_supplier_invoice_payment_type_1_state import (
+    CreateInvoiceResultSupplierInvoicePaymentType1State,
+)
+from .create_invoice_result_supplier_invoice_payment_type_1_status import (
+    CreateInvoiceResultSupplierInvoicePaymentType1Status,
+)
+from .create_invoice_result_supplier_invoice_source import (
+    CreateInvoiceResultSupplierInvoiceSource,
+)
+from .create_invoice_result_supplier_invoice_submitted_format import (
+    CreateInvoiceResultSupplierInvoiceSubmittedFormat,
+)
+from .create_invoice_result_supplier_invoice_withdrawn_payment_type_0 import (
+    CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0,
+)
+from .create_invoice_result_supplier_invoice_withdrawn_payment_type_0_method import (
+    CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0Method,
+)
+from .create_invoice_result_supplier_invoice_withdrawn_payment_type_0_paid_amount import (
+    CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0PaidAmount,
+)
+from .create_invoice_result_supplier_invoice_withdrawn_payment_type_0_status import (
+    CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0Status,
+)
+from .create_invoice_result_supplier_invoice_withdrawn_payment_type_1 import (
+    CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1,
+)
+from .create_invoice_result_supplier_invoice_withdrawn_payment_type_1_payment_method_type import (
+    CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1PaymentMethodType,
+)
+from .create_invoice_result_supplier_invoice_withdrawn_payment_type_1_state import (
+    CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1State,
+)
+from .create_invoice_result_supplier_invoice_withdrawn_payment_type_1_status import (
+    CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1Status,
+)
 from .create_manual_invoice_input import CreateManualInvoiceInput
+from .create_manual_invoice_input_document_type import (
+    CreateManualInvoiceInputDocumentType,
+)
+from .create_manual_invoice_input_invoice_kind import (
+    CreateManualInvoiceInputInvoiceKind,
+)
 from .create_manual_invoice_line_item_input import CreateManualInvoiceLineItemInput
 from .create_purchase_order_input import CreatePurchaseOrderInput
 from .create_purchase_order_input_provider import CreatePurchaseOrderInputProvider
+from .credit_note_application import CreditNoteApplication
+from .credit_note_history_entry import CreditNoteHistoryEntry
+from .credit_note_history_entry_action import CreditNoteHistoryEntryAction
 from .currency_amount_input import CurrencyAmountInput
 from .currency_exchange_details_input import CurrencyExchangeDetailsInput
 from .discover_azure_scopes_input import DiscoverAzureScopesInput
@@ -146,6 +400,7 @@ from .feed_attempt import FeedAttempt
 from .feed_attempt_format import FeedAttemptFormat
 from .feed_attempt_mode import FeedAttemptMode
 from .feed_attempt_outcome import FeedAttemptOutcome
+from .feed_attempt_params import FeedAttemptParams
 from .feed_attempts_page import FeedAttemptsPage
 from .feed_validation_result import FeedValidationResult
 from .feed_validation_result_findings_item import FeedValidationResultFindingsItem
@@ -153,11 +408,17 @@ from .feed_validation_result_findings_item_code import (
     FeedValidationResultFindingsItemCode,
 )
 from .feed_validation_result_invoice import FeedValidationResultInvoice
+from .feed_validation_result_invoice_document_type import (
+    FeedValidationResultInvoiceDocumentType,
+)
 from .feed_validation_result_invoice_due_date_source import (
     FeedValidationResultInvoiceDueDateSource,
 )
 from .feed_validation_result_invoice_entered_by import (
     FeedValidationResultInvoiceEnteredBy,
+)
+from .feed_validation_result_invoice_invoice_kind import (
+    FeedValidationResultInvoiceInvoiceKind,
 )
 from .feed_validation_result_invoice_match_status import (
     FeedValidationResultInvoiceMatchStatus,
@@ -226,6 +487,206 @@ from .feed_validation_warning_code import FeedValidationWarningCode
 from .geography import Geography
 from .geography_preset_id import GeographyPresetId
 from .get_buyer_workspace_result import GetBuyerWorkspaceResult
+from .get_invoice_result_buyer_credit_note import GetInvoiceResultBuyerCreditNote
+from .get_invoice_result_buyer_credit_note_cloud_provider import (
+    GetInvoiceResultBuyerCreditNoteCloudProvider,
+)
+from .get_invoice_result_buyer_credit_note_document_type import (
+    GetInvoiceResultBuyerCreditNoteDocumentType,
+)
+from .get_invoice_result_buyer_credit_note_entered_by import (
+    GetInvoiceResultBuyerCreditNoteEnteredBy,
+)
+from .get_invoice_result_buyer_credit_note_exports_item import (
+    GetInvoiceResultBuyerCreditNoteExportsItem,
+)
+from .get_invoice_result_buyer_credit_note_po_effect_type_0 import (
+    GetInvoiceResultBuyerCreditNotePoEffectType0,
+)
+from .get_invoice_result_buyer_credit_note_po_effect_type_0_kind import (
+    GetInvoiceResultBuyerCreditNotePoEffectType0Kind,
+)
+from .get_invoice_result_buyer_credit_note_po_effect_type_1 import (
+    GetInvoiceResultBuyerCreditNotePoEffectType1,
+)
+from .get_invoice_result_buyer_credit_note_po_effect_type_1_kind import (
+    GetInvoiceResultBuyerCreditNotePoEffectType1Kind,
+)
+from .get_invoice_result_buyer_credit_note_po_effect_type_1_why import (
+    GetInvoiceResultBuyerCreditNotePoEffectType1Why,
+)
+from .get_invoice_result_buyer_credit_note_reason import (
+    GetInvoiceResultBuyerCreditNoteReason,
+)
+from .get_invoice_result_buyer_credit_note_rejection import (
+    GetInvoiceResultBuyerCreditNoteRejection,
+)
+from .get_invoice_result_buyer_credit_note_source import (
+    GetInvoiceResultBuyerCreditNoteSource,
+)
+from .get_invoice_result_buyer_credit_note_status import (
+    GetInvoiceResultBuyerCreditNoteStatus,
+)
+from .get_invoice_result_buyer_credit_note_submitted_format import (
+    GetInvoiceResultBuyerCreditNoteSubmittedFormat,
+)
+from .get_invoice_result_buyer_invoice import GetInvoiceResultBuyerInvoice
+from .get_invoice_result_buyer_invoice_discrepancy_reason import (
+    GetInvoiceResultBuyerInvoiceDiscrepancyReason,
+)
+from .get_invoice_result_buyer_invoice_document_type import (
+    GetInvoiceResultBuyerInvoiceDocumentType,
+)
+from .get_invoice_result_buyer_invoice_due_date_source import (
+    GetInvoiceResultBuyerInvoiceDueDateSource,
+)
+from .get_invoice_result_buyer_invoice_entered_by import (
+    GetInvoiceResultBuyerInvoiceEnteredBy,
+)
+from .get_invoice_result_buyer_invoice_invoice_kind import (
+    GetInvoiceResultBuyerInvoiceInvoiceKind,
+)
+from .get_invoice_result_buyer_invoice_match_basis import (
+    GetInvoiceResultBuyerInvoiceMatchBasis,
+)
+from .get_invoice_result_buyer_invoice_match_status import (
+    GetInvoiceResultBuyerInvoiceMatchStatus,
+)
+from .get_invoice_result_buyer_invoice_party_details import (
+    GetInvoiceResultBuyerInvoicePartyDetails,
+)
+from .get_invoice_result_buyer_invoice_source import GetInvoiceResultBuyerInvoiceSource
+from .get_invoice_result_buyer_invoice_submitted_format import (
+    GetInvoiceResultBuyerInvoiceSubmittedFormat,
+)
+from .get_invoice_result_buyer_invoice_unverified_reason import (
+    GetInvoiceResultBuyerInvoiceUnverifiedReason,
+)
+from .get_invoice_result_buyer_invoice_usage_source import (
+    GetInvoiceResultBuyerInvoiceUsageSource,
+)
+from .get_invoice_result_supplier_credit_note import GetInvoiceResultSupplierCreditNote
+from .get_invoice_result_supplier_credit_note_cloud_provider import (
+    GetInvoiceResultSupplierCreditNoteCloudProvider,
+)
+from .get_invoice_result_supplier_credit_note_document_type import (
+    GetInvoiceResultSupplierCreditNoteDocumentType,
+)
+from .get_invoice_result_supplier_credit_note_entered_by import (
+    GetInvoiceResultSupplierCreditNoteEnteredBy,
+)
+from .get_invoice_result_supplier_credit_note_exports_item import (
+    GetInvoiceResultSupplierCreditNoteExportsItem,
+)
+from .get_invoice_result_supplier_credit_note_history_item import (
+    GetInvoiceResultSupplierCreditNoteHistoryItem,
+)
+from .get_invoice_result_supplier_credit_note_history_item_action import (
+    GetInvoiceResultSupplierCreditNoteHistoryItemAction,
+)
+from .get_invoice_result_supplier_credit_note_po_effect_type_0 import (
+    GetInvoiceResultSupplierCreditNotePoEffectType0,
+)
+from .get_invoice_result_supplier_credit_note_po_effect_type_0_kind import (
+    GetInvoiceResultSupplierCreditNotePoEffectType0Kind,
+)
+from .get_invoice_result_supplier_credit_note_po_effect_type_1 import (
+    GetInvoiceResultSupplierCreditNotePoEffectType1,
+)
+from .get_invoice_result_supplier_credit_note_po_effect_type_1_kind import (
+    GetInvoiceResultSupplierCreditNotePoEffectType1Kind,
+)
+from .get_invoice_result_supplier_credit_note_po_effect_type_1_why import (
+    GetInvoiceResultSupplierCreditNotePoEffectType1Why,
+)
+from .get_invoice_result_supplier_credit_note_reason import (
+    GetInvoiceResultSupplierCreditNoteReason,
+)
+from .get_invoice_result_supplier_credit_note_rejection import (
+    GetInvoiceResultSupplierCreditNoteRejection,
+)
+from .get_invoice_result_supplier_credit_note_source import (
+    GetInvoiceResultSupplierCreditNoteSource,
+)
+from .get_invoice_result_supplier_credit_note_status import (
+    GetInvoiceResultSupplierCreditNoteStatus,
+)
+from .get_invoice_result_supplier_credit_note_submitted_format import (
+    GetInvoiceResultSupplierCreditNoteSubmittedFormat,
+)
+from .get_invoice_result_supplier_invoice import GetInvoiceResultSupplierInvoice
+from .get_invoice_result_supplier_invoice_document_type import (
+    GetInvoiceResultSupplierInvoiceDocumentType,
+)
+from .get_invoice_result_supplier_invoice_due_date_source import (
+    GetInvoiceResultSupplierInvoiceDueDateSource,
+)
+from .get_invoice_result_supplier_invoice_entered_by import (
+    GetInvoiceResultSupplierInvoiceEnteredBy,
+)
+from .get_invoice_result_supplier_invoice_invoice_kind import (
+    GetInvoiceResultSupplierInvoiceInvoiceKind,
+)
+from .get_invoice_result_supplier_invoice_match_status import (
+    GetInvoiceResultSupplierInvoiceMatchStatus,
+)
+from .get_invoice_result_supplier_invoice_party_details import (
+    GetInvoiceResultSupplierInvoicePartyDetails,
+)
+from .get_invoice_result_supplier_invoice_payment_type_0 import (
+    GetInvoiceResultSupplierInvoicePaymentType0,
+)
+from .get_invoice_result_supplier_invoice_payment_type_0_method import (
+    GetInvoiceResultSupplierInvoicePaymentType0Method,
+)
+from .get_invoice_result_supplier_invoice_payment_type_0_paid_amount import (
+    GetInvoiceResultSupplierInvoicePaymentType0PaidAmount,
+)
+from .get_invoice_result_supplier_invoice_payment_type_0_status import (
+    GetInvoiceResultSupplierInvoicePaymentType0Status,
+)
+from .get_invoice_result_supplier_invoice_payment_type_1 import (
+    GetInvoiceResultSupplierInvoicePaymentType1,
+)
+from .get_invoice_result_supplier_invoice_payment_type_1_payment_method_type import (
+    GetInvoiceResultSupplierInvoicePaymentType1PaymentMethodType,
+)
+from .get_invoice_result_supplier_invoice_payment_type_1_state import (
+    GetInvoiceResultSupplierInvoicePaymentType1State,
+)
+from .get_invoice_result_supplier_invoice_payment_type_1_status import (
+    GetInvoiceResultSupplierInvoicePaymentType1Status,
+)
+from .get_invoice_result_supplier_invoice_source import (
+    GetInvoiceResultSupplierInvoiceSource,
+)
+from .get_invoice_result_supplier_invoice_submitted_format import (
+    GetInvoiceResultSupplierInvoiceSubmittedFormat,
+)
+from .get_invoice_result_supplier_invoice_withdrawn_payment_type_0 import (
+    GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0,
+)
+from .get_invoice_result_supplier_invoice_withdrawn_payment_type_0_method import (
+    GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0Method,
+)
+from .get_invoice_result_supplier_invoice_withdrawn_payment_type_0_paid_amount import (
+    GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0PaidAmount,
+)
+from .get_invoice_result_supplier_invoice_withdrawn_payment_type_0_status import (
+    GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0Status,
+)
+from .get_invoice_result_supplier_invoice_withdrawn_payment_type_1 import (
+    GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1,
+)
+from .get_invoice_result_supplier_invoice_withdrawn_payment_type_1_payment_method_type import (
+    GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1PaymentMethodType,
+)
+from .get_invoice_result_supplier_invoice_withdrawn_payment_type_1_state import (
+    GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1State,
+)
+from .get_invoice_result_supplier_invoice_withdrawn_payment_type_1_status import (
+    GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1Status,
+)
 from .get_org_profile_result import GetOrgProfileResult
 from .get_org_profile_result_role import GetOrgProfileResultRole
 from .get_reference_rate_result import GetReferenceRateResult
@@ -243,8 +704,10 @@ from .invoice_breakdown_entry import InvoiceBreakdownEntry
 from .invoice_breakdown_group import InvoiceBreakdownGroup
 from .invoice_buyer_view import InvoiceBuyerView
 from .invoice_buyer_view_discrepancy_reason import InvoiceBuyerViewDiscrepancyReason
+from .invoice_buyer_view_document_type import InvoiceBuyerViewDocumentType
 from .invoice_buyer_view_due_date_source import InvoiceBuyerViewDueDateSource
 from .invoice_buyer_view_entered_by import InvoiceBuyerViewEnteredBy
+from .invoice_buyer_view_invoice_kind import InvoiceBuyerViewInvoiceKind
 from .invoice_buyer_view_match_basis import InvoiceBuyerViewMatchBasis
 from .invoice_buyer_view_match_status import InvoiceBuyerViewMatchStatus
 from .invoice_buyer_view_party_details import InvoiceBuyerViewPartyDetails
@@ -263,11 +726,16 @@ from .invoice_counterparty_open_purchase_orders_item import (
 from .invoice_counterparty_open_purchase_orders_item_lines_item import (
     InvoiceCounterpartyOpenPurchaseOrdersItemLinesItem,
 )
+from .invoice_credit_application import InvoiceCreditApplication
 from .invoice_currency_amount import InvoiceCurrencyAmount
 from .invoice_currency_amount_amount_breakdown import (
     InvoiceCurrencyAmountAmountBreakdown,
 )
 from .invoice_currency_exchange_details import InvoiceCurrencyExchangeDetails
+from .invoice_deduction import InvoiceDeduction
+from .invoice_deduction_input import InvoiceDeductionInput
+from .invoice_deduction_input_kind import InvoiceDeductionInputKind
+from .invoice_deduction_kind import InvoiceDeductionKind
 from .invoice_line_item import InvoiceLineItem
 from .invoice_party_details import InvoicePartyDetails
 from .invoice_payment_record import InvoicePaymentRecord
@@ -279,6 +747,10 @@ from .invoice_rate_warning_object import InvoiceRateWarningObject
 from .invoice_rate_warning_source import InvoiceRateWarningSource
 from .invoice_rejection import InvoiceRejection
 from .invoice_rejection_reason_code import InvoiceRejectionReasonCode
+from .invoice_remittance import InvoiceRemittance
+from .invoice_remittance_file import InvoiceRemittanceFile
+from .invoice_remittance_file_content_type import InvoiceRemittanceFileContentType
+from .invoice_replacement_check import InvoiceReplacementCheck
 from .invoice_source_document import InvoiceSourceDocument
 from .invoice_source_document_content_type import InvoiceSourceDocumentContentType
 from .invoice_stripe_payment import InvoiceStripePayment
@@ -287,8 +759,10 @@ from .invoice_stripe_payment_payment_method_type import (
 )
 from .invoice_stripe_payment_state import InvoiceStripePaymentState
 from .invoice_supplier_view import InvoiceSupplierView
+from .invoice_supplier_view_document_type import InvoiceSupplierViewDocumentType
 from .invoice_supplier_view_due_date_source import InvoiceSupplierViewDueDateSource
 from .invoice_supplier_view_entered_by import InvoiceSupplierViewEnteredBy
+from .invoice_supplier_view_invoice_kind import InvoiceSupplierViewInvoiceKind
 from .invoice_supplier_view_match_status import InvoiceSupplierViewMatchStatus
 from .invoice_supplier_view_party_details import InvoiceSupplierViewPartyDetails
 from .invoice_supplier_view_payment_type_0 import InvoiceSupplierViewPaymentType0
@@ -347,10 +821,211 @@ from .line_item_input import LineItemInput
 from .line_item_input_rule_type import LineItemInputRuleType
 from .line_item_input_scope_type import LineItemInputScopeType
 from .line_item_price_source import LineItemPriceSource
+from .line_item_punchout_ref import LineItemPunchoutRef
 from .line_item_rule_type import LineItemRuleType
 from .line_item_scope_type import LineItemScopeType
 from .list_employees_role import ListEmployeesRole
 from .list_invoice_counterparties_result import ListInvoiceCounterpartiesResult
+from .list_invoices_item_buyer_credit_note import ListInvoicesItemBuyerCreditNote
+from .list_invoices_item_buyer_credit_note_cloud_provider import (
+    ListInvoicesItemBuyerCreditNoteCloudProvider,
+)
+from .list_invoices_item_buyer_credit_note_document_type import (
+    ListInvoicesItemBuyerCreditNoteDocumentType,
+)
+from .list_invoices_item_buyer_credit_note_entered_by import (
+    ListInvoicesItemBuyerCreditNoteEnteredBy,
+)
+from .list_invoices_item_buyer_credit_note_exports_item import (
+    ListInvoicesItemBuyerCreditNoteExportsItem,
+)
+from .list_invoices_item_buyer_credit_note_po_effect_type_0 import (
+    ListInvoicesItemBuyerCreditNotePoEffectType0,
+)
+from .list_invoices_item_buyer_credit_note_po_effect_type_0_kind import (
+    ListInvoicesItemBuyerCreditNotePoEffectType0Kind,
+)
+from .list_invoices_item_buyer_credit_note_po_effect_type_1 import (
+    ListInvoicesItemBuyerCreditNotePoEffectType1,
+)
+from .list_invoices_item_buyer_credit_note_po_effect_type_1_kind import (
+    ListInvoicesItemBuyerCreditNotePoEffectType1Kind,
+)
+from .list_invoices_item_buyer_credit_note_po_effect_type_1_why import (
+    ListInvoicesItemBuyerCreditNotePoEffectType1Why,
+)
+from .list_invoices_item_buyer_credit_note_reason import (
+    ListInvoicesItemBuyerCreditNoteReason,
+)
+from .list_invoices_item_buyer_credit_note_rejection import (
+    ListInvoicesItemBuyerCreditNoteRejection,
+)
+from .list_invoices_item_buyer_credit_note_source import (
+    ListInvoicesItemBuyerCreditNoteSource,
+)
+from .list_invoices_item_buyer_credit_note_status import (
+    ListInvoicesItemBuyerCreditNoteStatus,
+)
+from .list_invoices_item_buyer_credit_note_submitted_format import (
+    ListInvoicesItemBuyerCreditNoteSubmittedFormat,
+)
+from .list_invoices_item_buyer_invoice import ListInvoicesItemBuyerInvoice
+from .list_invoices_item_buyer_invoice_discrepancy_reason import (
+    ListInvoicesItemBuyerInvoiceDiscrepancyReason,
+)
+from .list_invoices_item_buyer_invoice_document_type import (
+    ListInvoicesItemBuyerInvoiceDocumentType,
+)
+from .list_invoices_item_buyer_invoice_due_date_source import (
+    ListInvoicesItemBuyerInvoiceDueDateSource,
+)
+from .list_invoices_item_buyer_invoice_entered_by import (
+    ListInvoicesItemBuyerInvoiceEnteredBy,
+)
+from .list_invoices_item_buyer_invoice_invoice_kind import (
+    ListInvoicesItemBuyerInvoiceInvoiceKind,
+)
+from .list_invoices_item_buyer_invoice_match_basis import (
+    ListInvoicesItemBuyerInvoiceMatchBasis,
+)
+from .list_invoices_item_buyer_invoice_match_status import (
+    ListInvoicesItemBuyerInvoiceMatchStatus,
+)
+from .list_invoices_item_buyer_invoice_party_details import (
+    ListInvoicesItemBuyerInvoicePartyDetails,
+)
+from .list_invoices_item_buyer_invoice_source import ListInvoicesItemBuyerInvoiceSource
+from .list_invoices_item_buyer_invoice_submitted_format import (
+    ListInvoicesItemBuyerInvoiceSubmittedFormat,
+)
+from .list_invoices_item_buyer_invoice_unverified_reason import (
+    ListInvoicesItemBuyerInvoiceUnverifiedReason,
+)
+from .list_invoices_item_buyer_invoice_usage_source import (
+    ListInvoicesItemBuyerInvoiceUsageSource,
+)
+from .list_invoices_item_supplier_credit_note import ListInvoicesItemSupplierCreditNote
+from .list_invoices_item_supplier_credit_note_cloud_provider import (
+    ListInvoicesItemSupplierCreditNoteCloudProvider,
+)
+from .list_invoices_item_supplier_credit_note_document_type import (
+    ListInvoicesItemSupplierCreditNoteDocumentType,
+)
+from .list_invoices_item_supplier_credit_note_entered_by import (
+    ListInvoicesItemSupplierCreditNoteEnteredBy,
+)
+from .list_invoices_item_supplier_credit_note_exports_item import (
+    ListInvoicesItemSupplierCreditNoteExportsItem,
+)
+from .list_invoices_item_supplier_credit_note_history_item import (
+    ListInvoicesItemSupplierCreditNoteHistoryItem,
+)
+from .list_invoices_item_supplier_credit_note_history_item_action import (
+    ListInvoicesItemSupplierCreditNoteHistoryItemAction,
+)
+from .list_invoices_item_supplier_credit_note_po_effect_type_0 import (
+    ListInvoicesItemSupplierCreditNotePoEffectType0,
+)
+from .list_invoices_item_supplier_credit_note_po_effect_type_0_kind import (
+    ListInvoicesItemSupplierCreditNotePoEffectType0Kind,
+)
+from .list_invoices_item_supplier_credit_note_po_effect_type_1 import (
+    ListInvoicesItemSupplierCreditNotePoEffectType1,
+)
+from .list_invoices_item_supplier_credit_note_po_effect_type_1_kind import (
+    ListInvoicesItemSupplierCreditNotePoEffectType1Kind,
+)
+from .list_invoices_item_supplier_credit_note_po_effect_type_1_why import (
+    ListInvoicesItemSupplierCreditNotePoEffectType1Why,
+)
+from .list_invoices_item_supplier_credit_note_reason import (
+    ListInvoicesItemSupplierCreditNoteReason,
+)
+from .list_invoices_item_supplier_credit_note_rejection import (
+    ListInvoicesItemSupplierCreditNoteRejection,
+)
+from .list_invoices_item_supplier_credit_note_source import (
+    ListInvoicesItemSupplierCreditNoteSource,
+)
+from .list_invoices_item_supplier_credit_note_status import (
+    ListInvoicesItemSupplierCreditNoteStatus,
+)
+from .list_invoices_item_supplier_credit_note_submitted_format import (
+    ListInvoicesItemSupplierCreditNoteSubmittedFormat,
+)
+from .list_invoices_item_supplier_invoice import ListInvoicesItemSupplierInvoice
+from .list_invoices_item_supplier_invoice_document_type import (
+    ListInvoicesItemSupplierInvoiceDocumentType,
+)
+from .list_invoices_item_supplier_invoice_due_date_source import (
+    ListInvoicesItemSupplierInvoiceDueDateSource,
+)
+from .list_invoices_item_supplier_invoice_entered_by import (
+    ListInvoicesItemSupplierInvoiceEnteredBy,
+)
+from .list_invoices_item_supplier_invoice_invoice_kind import (
+    ListInvoicesItemSupplierInvoiceInvoiceKind,
+)
+from .list_invoices_item_supplier_invoice_match_status import (
+    ListInvoicesItemSupplierInvoiceMatchStatus,
+)
+from .list_invoices_item_supplier_invoice_party_details import (
+    ListInvoicesItemSupplierInvoicePartyDetails,
+)
+from .list_invoices_item_supplier_invoice_payment_type_0 import (
+    ListInvoicesItemSupplierInvoicePaymentType0,
+)
+from .list_invoices_item_supplier_invoice_payment_type_0_method import (
+    ListInvoicesItemSupplierInvoicePaymentType0Method,
+)
+from .list_invoices_item_supplier_invoice_payment_type_0_paid_amount import (
+    ListInvoicesItemSupplierInvoicePaymentType0PaidAmount,
+)
+from .list_invoices_item_supplier_invoice_payment_type_0_status import (
+    ListInvoicesItemSupplierInvoicePaymentType0Status,
+)
+from .list_invoices_item_supplier_invoice_payment_type_1 import (
+    ListInvoicesItemSupplierInvoicePaymentType1,
+)
+from .list_invoices_item_supplier_invoice_payment_type_1_payment_method_type import (
+    ListInvoicesItemSupplierInvoicePaymentType1PaymentMethodType,
+)
+from .list_invoices_item_supplier_invoice_payment_type_1_state import (
+    ListInvoicesItemSupplierInvoicePaymentType1State,
+)
+from .list_invoices_item_supplier_invoice_payment_type_1_status import (
+    ListInvoicesItemSupplierInvoicePaymentType1Status,
+)
+from .list_invoices_item_supplier_invoice_source import (
+    ListInvoicesItemSupplierInvoiceSource,
+)
+from .list_invoices_item_supplier_invoice_submitted_format import (
+    ListInvoicesItemSupplierInvoiceSubmittedFormat,
+)
+from .list_invoices_item_supplier_invoice_withdrawn_payment_type_0 import (
+    ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0,
+)
+from .list_invoices_item_supplier_invoice_withdrawn_payment_type_0_method import (
+    ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0Method,
+)
+from .list_invoices_item_supplier_invoice_withdrawn_payment_type_0_paid_amount import (
+    ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0PaidAmount,
+)
+from .list_invoices_item_supplier_invoice_withdrawn_payment_type_0_status import (
+    ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0Status,
+)
+from .list_invoices_item_supplier_invoice_withdrawn_payment_type_1 import (
+    ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1,
+)
+from .list_invoices_item_supplier_invoice_withdrawn_payment_type_1_payment_method_type import (
+    ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1PaymentMethodType,
+)
+from .list_invoices_item_supplier_invoice_withdrawn_payment_type_1_state import (
+    ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1State,
+)
+from .list_invoices_item_supplier_invoice_withdrawn_payment_type_1_status import (
+    ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1Status,
+)
 from .list_notifications_audience import ListNotificationsAudience
 from .list_notifications_page_audience import ListNotificationsPageAudience
 from .mark_all_notifications_read_audience import MarkAllNotificationsReadAudience
@@ -358,11 +1033,15 @@ from .mark_all_notifications_read_result import MarkAllNotificationsReadResult
 from .notification import Notification
 from .notification_audience import NotificationAudience
 from .notification_page import NotificationPage
+from .notification_resolution import NotificationResolution
+from .notification_resolution_outcome import NotificationResolutionOutcome
 from .notification_type import NotificationType
+from .open_purchase_order_deposit import OpenPurchaseOrderDeposit
 from .org_profile import OrgProfile
 from .org_profile_role import OrgProfileRole
 from .payer_account_ref import PayerAccountRef
 from .payer_account_ref_input import PayerAccountRefInput
+from .payment_export_input import PaymentExportInput
 from .payment_history_entry import PaymentHistoryEntry
 from .payment_history_entry_action import PaymentHistoryEntryAction
 from .payment_history_entry_record import PaymentHistoryEntryRecord
@@ -372,19 +1051,55 @@ from .payment_history_entry_record_paid_amount import (
 )
 from .postal_address import PostalAddress
 from .postal_address_input import PostalAddressInput
+from .price_amount import PriceAmount
+from .price_amount_interval import PriceAmountInterval
 from .profile_images import ProfileImages
+from .punchout_line_origin import PunchoutLineOrigin
+from .punchout_line_origin_classification import PunchoutLineOriginClassification
+from .punchout_line_origin_kind import PunchoutLineOriginKind
+from .punchout_ref_input import PunchoutRefInput
 from .purchase_order import PurchaseOrder
+from .purchase_order_bill_to import PurchaseOrderBillTo
+from .purchase_order_bill_to_source import PurchaseOrderBillToSource
 from .purchase_order_change_summary import PurchaseOrderChangeSummary
 from .purchase_order_change_summary_outcome import PurchaseOrderChangeSummaryOutcome
+from .purchase_order_cost_center_change import PurchaseOrderCostCenterChange
+from .purchase_order_prior_invoiced import PurchaseOrderPriorInvoiced
+from .purchase_order_prior_invoiced_basis import PurchaseOrderPriorInvoicedBasis
+from .purchase_order_prior_invoiced_source_system import (
+    PurchaseOrderPriorInvoicedSourceSystem,
+)
 from .purchase_order_provider import PurchaseOrderProvider
+from .purchase_order_punchout import PurchaseOrderPunchout
+from .purchase_order_punchout_claimed import PurchaseOrderPunchoutClaimed
+from .purchase_order_punchout_claimed_additional_property import (
+    PurchaseOrderPunchoutClaimedAdditionalProperty,
+)
+from .purchase_order_punchout_claimed_additional_property_exact import (
+    PurchaseOrderPunchoutClaimedAdditionalPropertyExact,
+)
+from .purchase_order_punchout_claimed_additional_property_operation_allowed import (
+    PurchaseOrderPunchoutClaimedAdditionalPropertyOperationAllowed,
+)
 from .purchase_order_quote_document import PurchaseOrderQuoteDocument
 from .purchase_order_quote_document_content_type import (
     PurchaseOrderQuoteDocumentContentType,
 )
+from .purchase_order_ship_to import PurchaseOrderShipTo
 from .purchase_order_status import PurchaseOrderStatus
+from .purchase_order_supplier_email import PurchaseOrderSupplierEmail
 from .purchase_order_supplier_invite import PurchaseOrderSupplierInvite
 from .purchase_order_supplier_invite_status import PurchaseOrderSupplierInviteStatus
 from .purchase_order_supplier_view import PurchaseOrderSupplierView
+from .purchase_order_supplier_view_prior_invoiced import (
+    PurchaseOrderSupplierViewPriorInvoiced,
+)
+from .purchase_order_supplier_view_prior_invoiced_basis import (
+    PurchaseOrderSupplierViewPriorInvoicedBasis,
+)
+from .purchase_order_supplier_view_prior_invoiced_source_system import (
+    PurchaseOrderSupplierViewPriorInvoicedSourceSystem,
+)
 from .purchase_order_supplier_view_provider import PurchaseOrderSupplierViewProvider
 from .purchase_order_supplier_view_quote_document import (
     PurchaseOrderSupplierViewQuoteDocument,
@@ -393,6 +1108,9 @@ from .purchase_order_supplier_view_quote_document_content_type import (
     PurchaseOrderSupplierViewQuoteDocumentContentType,
 )
 from .purchase_order_supplier_view_status import PurchaseOrderSupplierViewStatus
+from .purchase_order_supplier_view_supplier_email import (
+    PurchaseOrderSupplierViewSupplierEmail,
+)
 from .question_condition import QuestionCondition
 from .question_option import QuestionOption
 from .questionnaire_field_def import QuestionnaireFieldDef
@@ -409,8 +1127,10 @@ from .record_payment_result import RecordPaymentResult
 from .record_payment_result_discrepancy_reason import (
     RecordPaymentResultDiscrepancyReason,
 )
+from .record_payment_result_document_type import RecordPaymentResultDocumentType
 from .record_payment_result_due_date_source import RecordPaymentResultDueDateSource
 from .record_payment_result_entered_by import RecordPaymentResultEnteredBy
+from .record_payment_result_invoice_kind import RecordPaymentResultInvoiceKind
 from .record_payment_result_match_basis import RecordPaymentResultMatchBasis
 from .record_payment_result_match_status import RecordPaymentResultMatchStatus
 from .record_payment_result_party_details import RecordPaymentResultPartyDetails
@@ -420,19 +1140,61 @@ from .record_payment_result_unverified_reason import RecordPaymentResultUnverifi
 from .record_payment_result_usage_source import RecordPaymentResultUsageSource
 from .reference_rate import ReferenceRate
 from .reference_rate_attribution import ReferenceRateAttribution
+from .region_tier_price import RegionTierPrice
 from .reject_invoice_input import RejectInvoiceInput
 from .reject_invoice_input_reason_code import RejectInvoiceInputReasonCode
 from .reminder_settings import ReminderSettings
 from .remittance_check import RemittanceCheck
 from .remittance_check_changed_fields_item import RemittanceCheckChangedFieldsItem
 from .remittance_check_status import RemittanceCheckStatus
+from .remittance_file_input import RemittanceFileInput
 from .remittance_instructions import RemittanceInstructions
 from .remittance_instructions_input import RemittanceInstructionsInput
 from .remittance_instructions_input_method import RemittanceInstructionsInputMethod
 from .remittance_instructions_method import RemittanceInstructionsMethod
+from .remove_invoice_replacement_link_result import RemoveInvoiceReplacementLinkResult
+from .remove_invoice_replacement_link_result_discrepancy_reason import (
+    RemoveInvoiceReplacementLinkResultDiscrepancyReason,
+)
+from .remove_invoice_replacement_link_result_document_type import (
+    RemoveInvoiceReplacementLinkResultDocumentType,
+)
+from .remove_invoice_replacement_link_result_due_date_source import (
+    RemoveInvoiceReplacementLinkResultDueDateSource,
+)
+from .remove_invoice_replacement_link_result_entered_by import (
+    RemoveInvoiceReplacementLinkResultEnteredBy,
+)
+from .remove_invoice_replacement_link_result_invoice_kind import (
+    RemoveInvoiceReplacementLinkResultInvoiceKind,
+)
+from .remove_invoice_replacement_link_result_match_basis import (
+    RemoveInvoiceReplacementLinkResultMatchBasis,
+)
+from .remove_invoice_replacement_link_result_match_status import (
+    RemoveInvoiceReplacementLinkResultMatchStatus,
+)
+from .remove_invoice_replacement_link_result_party_details import (
+    RemoveInvoiceReplacementLinkResultPartyDetails,
+)
+from .remove_invoice_replacement_link_result_source import (
+    RemoveInvoiceReplacementLinkResultSource,
+)
+from .remove_invoice_replacement_link_result_submitted_format import (
+    RemoveInvoiceReplacementLinkResultSubmittedFormat,
+)
+from .remove_invoice_replacement_link_result_unverified_reason import (
+    RemoveInvoiceReplacementLinkResultUnverifiedReason,
+)
+from .remove_invoice_replacement_link_result_usage_source import (
+    RemoveInvoiceReplacementLinkResultUsageSource,
+)
 from .self_approval_record import SelfApprovalRecord
 from .self_approval_record_basis import SelfApprovalRecordBasis
 from .self_approval_record_waived_exclusion import SelfApprovalRecordWaivedExclusion
+from .send_remittance_input import SendRemittanceInput
+from .server_message import ServerMessage
+from .server_message_params import ServerMessageParams
 from .set_connection_currencies_input import SetConnectionCurrenciesInput
 from .set_exchange_rate_warning_result import SetExchangeRateWarningResult
 from .set_invoice_feed_input import SetInvoiceFeedInput
@@ -473,6 +1235,10 @@ from .spend_limit_gate import SpendLimitGate
 from .spend_limit_history_detail import SpendLimitHistoryDetail
 from .start_stripe_payment_result import StartStripePaymentResult
 from .start_stripe_payment_result_state import StartStripePaymentResultState
+from .store_order import StoreOrder
+from .store_order_refusal import StoreOrderRefusal
+from .store_order_status import StoreOrderStatus
+from .store_order_store_answer import StoreOrderStoreAnswer
 from .stripe_payment_status import StripePaymentStatus
 from .stripe_payment_status_payment_method_type import (
     StripePaymentStatusPaymentMethodType,
@@ -483,7 +1249,45 @@ from .stripe_payment_status_reason import StripePaymentStatusReason
 from .stripe_payment_status_state import StripePaymentStatusState
 from .supplier_approval_view import SupplierApprovalView
 from .supplier_approval_view_status import SupplierApprovalViewStatus
+from .supplier_credit_note_view import SupplierCreditNoteView
+from .supplier_credit_note_view_cloud_provider import (
+    SupplierCreditNoteViewCloudProvider,
+)
+from .supplier_credit_note_view_entered_by import SupplierCreditNoteViewEnteredBy
+from .supplier_credit_note_view_exports_item import SupplierCreditNoteViewExportsItem
+from .supplier_credit_note_view_history_item import SupplierCreditNoteViewHistoryItem
+from .supplier_credit_note_view_history_item_action import (
+    SupplierCreditNoteViewHistoryItemAction,
+)
+from .supplier_credit_note_view_po_effect_type_0 import (
+    SupplierCreditNoteViewPoEffectType0,
+)
+from .supplier_credit_note_view_po_effect_type_0_kind import (
+    SupplierCreditNoteViewPoEffectType0Kind,
+)
+from .supplier_credit_note_view_po_effect_type_1 import (
+    SupplierCreditNoteViewPoEffectType1,
+)
+from .supplier_credit_note_view_po_effect_type_1_kind import (
+    SupplierCreditNoteViewPoEffectType1Kind,
+)
+from .supplier_credit_note_view_po_effect_type_1_why import (
+    SupplierCreditNoteViewPoEffectType1Why,
+)
+from .supplier_credit_note_view_reason import SupplierCreditNoteViewReason
+from .supplier_credit_note_view_rejection import SupplierCreditNoteViewRejection
+from .supplier_credit_note_view_source import SupplierCreditNoteViewSource
+from .supplier_credit_note_view_status import SupplierCreditNoteViewStatus
+from .supplier_credit_note_view_submitted_format import (
+    SupplierCreditNoteViewSubmittedFormat,
+)
 from .supplier_region_request import SupplierRegionRequest
+from .supplier_remittance_view import SupplierRemittanceView
+from .supplier_remittance_view_file import SupplierRemittanceViewFile
+from .supplier_remittance_view_file_content_type import (
+    SupplierRemittanceViewFileContentType,
+)
+from .uncredited_original import UncreditedOriginal
 from .update_approval_chain_input import UpdateApprovalChainInput
 from .update_approval_chain_input_linked_to import UpdateApprovalChainInputLinkedTo
 from .update_automation_rules_input import UpdateAutomationRulesInput
@@ -494,11 +1298,46 @@ from .update_org_profile_input_geography_preset_id import (
 )
 from .update_purchase_order_input import UpdatePurchaseOrderInput
 from .update_reminder_settings_input import UpdateReminderSettingsInput
+from .validate_feed_invoice_result_credit_note import (
+    ValidateFeedInvoiceResultCreditNote,
+)
+from .validate_feed_invoice_result_credit_note_credit_note import (
+    ValidateFeedInvoiceResultCreditNoteCreditNote,
+)
+from .validate_feed_invoice_result_credit_note_credit_note_reason import (
+    ValidateFeedInvoiceResultCreditNoteCreditNoteReason,
+)
+from .validate_feed_invoice_result_credit_note_document_type import (
+    ValidateFeedInvoiceResultCreditNoteDocumentType,
+)
+from .validate_feed_invoice_result_credit_note_replay_type_0 import (
+    ValidateFeedInvoiceResultCreditNoteReplayType0,
+)
+from .validate_feed_invoice_result_credit_note_submitted_format import (
+    ValidateFeedInvoiceResultCreditNoteSubmittedFormat,
+)
+from .validate_feed_invoice_result_credit_note_warnings_item import (
+    ValidateFeedInvoiceResultCreditNoteWarningsItem,
+)
 
 __all__ = (
     "AddCloudProviderAsSupplierResult",
     "AddCloudProviderAsSupplierResultCloudProvider",
     "AddCloudProviderAsSupplierResultStatus",
+    "AddInvoiceReplacementLinksResult",
+    "AddInvoiceReplacementLinksResultDiscrepancyReason",
+    "AddInvoiceReplacementLinksResultDocumentType",
+    "AddInvoiceReplacementLinksResultDueDateSource",
+    "AddInvoiceReplacementLinksResultEnteredBy",
+    "AddInvoiceReplacementLinksResultInvoiceKind",
+    "AddInvoiceReplacementLinksResultMatchBasis",
+    "AddInvoiceReplacementLinksResultMatchStatus",
+    "AddInvoiceReplacementLinksResultPartyDetails",
+    "AddInvoiceReplacementLinksResultSource",
+    "AddInvoiceReplacementLinksResultSubmittedFormat",
+    "AddInvoiceReplacementLinksResultUnverifiedReason",
+    "AddInvoiceReplacementLinksResultUsageSource",
+    "AddReplacementLinksInput",
     "AmountBreakdownInput",
     "ApiError",
     "ApiKeySummary",
@@ -560,6 +1399,7 @@ __all__ = (
     "BillingSummaryManagedBy",
     "BillingSummaryPlan",
     "BillingSummarySubscriptionStatus",
+    "BillToPartyInput",
     "BreakdownEntryInput",
     "BreakdownGroupInput",
     "CancelPurchaseOrderInput",
@@ -600,10 +1440,87 @@ __all__ = (
     "CreateCloudConnectionInputOciHomeRegion",
     "CreateCloudConnectionInputProvider",
     "CreateFeedInvoiceInput",
+    "CreateFeedInvoiceInputDocumentType",
+    "CreateFeedInvoiceInputInvoiceKind",
+    "CreateInvoiceResultBuyerCreditNote",
+    "CreateInvoiceResultBuyerCreditNoteCloudProvider",
+    "CreateInvoiceResultBuyerCreditNoteDocumentType",
+    "CreateInvoiceResultBuyerCreditNoteEnteredBy",
+    "CreateInvoiceResultBuyerCreditNoteExportsItem",
+    "CreateInvoiceResultBuyerCreditNotePoEffectType0",
+    "CreateInvoiceResultBuyerCreditNotePoEffectType0Kind",
+    "CreateInvoiceResultBuyerCreditNotePoEffectType1",
+    "CreateInvoiceResultBuyerCreditNotePoEffectType1Kind",
+    "CreateInvoiceResultBuyerCreditNotePoEffectType1Why",
+    "CreateInvoiceResultBuyerCreditNoteReason",
+    "CreateInvoiceResultBuyerCreditNoteRejection",
+    "CreateInvoiceResultBuyerCreditNoteSource",
+    "CreateInvoiceResultBuyerCreditNoteStatus",
+    "CreateInvoiceResultBuyerCreditNoteSubmittedFormat",
+    "CreateInvoiceResultBuyerInvoice",
+    "CreateInvoiceResultBuyerInvoiceDiscrepancyReason",
+    "CreateInvoiceResultBuyerInvoiceDocumentType",
+    "CreateInvoiceResultBuyerInvoiceDueDateSource",
+    "CreateInvoiceResultBuyerInvoiceEnteredBy",
+    "CreateInvoiceResultBuyerInvoiceInvoiceKind",
+    "CreateInvoiceResultBuyerInvoiceMatchBasis",
+    "CreateInvoiceResultBuyerInvoiceMatchStatus",
+    "CreateInvoiceResultBuyerInvoicePartyDetails",
+    "CreateInvoiceResultBuyerInvoiceSource",
+    "CreateInvoiceResultBuyerInvoiceSubmittedFormat",
+    "CreateInvoiceResultBuyerInvoiceUnverifiedReason",
+    "CreateInvoiceResultBuyerInvoiceUsageSource",
+    "CreateInvoiceResultSupplierCreditNote",
+    "CreateInvoiceResultSupplierCreditNoteCloudProvider",
+    "CreateInvoiceResultSupplierCreditNoteDocumentType",
+    "CreateInvoiceResultSupplierCreditNoteEnteredBy",
+    "CreateInvoiceResultSupplierCreditNoteExportsItem",
+    "CreateInvoiceResultSupplierCreditNoteHistoryItem",
+    "CreateInvoiceResultSupplierCreditNoteHistoryItemAction",
+    "CreateInvoiceResultSupplierCreditNotePoEffectType0",
+    "CreateInvoiceResultSupplierCreditNotePoEffectType0Kind",
+    "CreateInvoiceResultSupplierCreditNotePoEffectType1",
+    "CreateInvoiceResultSupplierCreditNotePoEffectType1Kind",
+    "CreateInvoiceResultSupplierCreditNotePoEffectType1Why",
+    "CreateInvoiceResultSupplierCreditNoteReason",
+    "CreateInvoiceResultSupplierCreditNoteRejection",
+    "CreateInvoiceResultSupplierCreditNoteSource",
+    "CreateInvoiceResultSupplierCreditNoteStatus",
+    "CreateInvoiceResultSupplierCreditNoteSubmittedFormat",
+    "CreateInvoiceResultSupplierInvoice",
+    "CreateInvoiceResultSupplierInvoiceDocumentType",
+    "CreateInvoiceResultSupplierInvoiceDueDateSource",
+    "CreateInvoiceResultSupplierInvoiceEnteredBy",
+    "CreateInvoiceResultSupplierInvoiceInvoiceKind",
+    "CreateInvoiceResultSupplierInvoiceMatchStatus",
+    "CreateInvoiceResultSupplierInvoicePartyDetails",
+    "CreateInvoiceResultSupplierInvoicePaymentType0",
+    "CreateInvoiceResultSupplierInvoicePaymentType0Method",
+    "CreateInvoiceResultSupplierInvoicePaymentType0PaidAmount",
+    "CreateInvoiceResultSupplierInvoicePaymentType0Status",
+    "CreateInvoiceResultSupplierInvoicePaymentType1",
+    "CreateInvoiceResultSupplierInvoicePaymentType1PaymentMethodType",
+    "CreateInvoiceResultSupplierInvoicePaymentType1State",
+    "CreateInvoiceResultSupplierInvoicePaymentType1Status",
+    "CreateInvoiceResultSupplierInvoiceSource",
+    "CreateInvoiceResultSupplierInvoiceSubmittedFormat",
+    "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0",
+    "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0Method",
+    "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0PaidAmount",
+    "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0Status",
+    "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1",
+    "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1PaymentMethodType",
+    "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1State",
+    "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1Status",
     "CreateManualInvoiceInput",
+    "CreateManualInvoiceInputDocumentType",
+    "CreateManualInvoiceInputInvoiceKind",
     "CreateManualInvoiceLineItemInput",
     "CreatePurchaseOrderInput",
     "CreatePurchaseOrderInputProvider",
+    "CreditNoteApplication",
+    "CreditNoteHistoryEntry",
+    "CreditNoteHistoryEntryAction",
     "CurrencyAmountInput",
     "CurrencyExchangeDetailsInput",
     "DiscoverAzureScopesInput",
@@ -616,13 +1533,16 @@ __all__ = (
     "FeedAttemptFormat",
     "FeedAttemptMode",
     "FeedAttemptOutcome",
+    "FeedAttemptParams",
     "FeedAttemptsPage",
     "FeedValidationResult",
     "FeedValidationResultFindingsItem",
     "FeedValidationResultFindingsItemCode",
     "FeedValidationResultInvoice",
+    "FeedValidationResultInvoiceDocumentType",
     "FeedValidationResultInvoiceDueDateSource",
     "FeedValidationResultInvoiceEnteredBy",
+    "FeedValidationResultInvoiceInvoiceKind",
     "FeedValidationResultInvoiceMatchStatus",
     "FeedValidationResultInvoicePartyDetails",
     "FeedValidationResultInvoicePaymentType0",
@@ -650,6 +1570,76 @@ __all__ = (
     "Geography",
     "GeographyPresetId",
     "GetBuyerWorkspaceResult",
+    "GetInvoiceResultBuyerCreditNote",
+    "GetInvoiceResultBuyerCreditNoteCloudProvider",
+    "GetInvoiceResultBuyerCreditNoteDocumentType",
+    "GetInvoiceResultBuyerCreditNoteEnteredBy",
+    "GetInvoiceResultBuyerCreditNoteExportsItem",
+    "GetInvoiceResultBuyerCreditNotePoEffectType0",
+    "GetInvoiceResultBuyerCreditNotePoEffectType0Kind",
+    "GetInvoiceResultBuyerCreditNotePoEffectType1",
+    "GetInvoiceResultBuyerCreditNotePoEffectType1Kind",
+    "GetInvoiceResultBuyerCreditNotePoEffectType1Why",
+    "GetInvoiceResultBuyerCreditNoteReason",
+    "GetInvoiceResultBuyerCreditNoteRejection",
+    "GetInvoiceResultBuyerCreditNoteSource",
+    "GetInvoiceResultBuyerCreditNoteStatus",
+    "GetInvoiceResultBuyerCreditNoteSubmittedFormat",
+    "GetInvoiceResultBuyerInvoice",
+    "GetInvoiceResultBuyerInvoiceDiscrepancyReason",
+    "GetInvoiceResultBuyerInvoiceDocumentType",
+    "GetInvoiceResultBuyerInvoiceDueDateSource",
+    "GetInvoiceResultBuyerInvoiceEnteredBy",
+    "GetInvoiceResultBuyerInvoiceInvoiceKind",
+    "GetInvoiceResultBuyerInvoiceMatchBasis",
+    "GetInvoiceResultBuyerInvoiceMatchStatus",
+    "GetInvoiceResultBuyerInvoicePartyDetails",
+    "GetInvoiceResultBuyerInvoiceSource",
+    "GetInvoiceResultBuyerInvoiceSubmittedFormat",
+    "GetInvoiceResultBuyerInvoiceUnverifiedReason",
+    "GetInvoiceResultBuyerInvoiceUsageSource",
+    "GetInvoiceResultSupplierCreditNote",
+    "GetInvoiceResultSupplierCreditNoteCloudProvider",
+    "GetInvoiceResultSupplierCreditNoteDocumentType",
+    "GetInvoiceResultSupplierCreditNoteEnteredBy",
+    "GetInvoiceResultSupplierCreditNoteExportsItem",
+    "GetInvoiceResultSupplierCreditNoteHistoryItem",
+    "GetInvoiceResultSupplierCreditNoteHistoryItemAction",
+    "GetInvoiceResultSupplierCreditNotePoEffectType0",
+    "GetInvoiceResultSupplierCreditNotePoEffectType0Kind",
+    "GetInvoiceResultSupplierCreditNotePoEffectType1",
+    "GetInvoiceResultSupplierCreditNotePoEffectType1Kind",
+    "GetInvoiceResultSupplierCreditNotePoEffectType1Why",
+    "GetInvoiceResultSupplierCreditNoteReason",
+    "GetInvoiceResultSupplierCreditNoteRejection",
+    "GetInvoiceResultSupplierCreditNoteSource",
+    "GetInvoiceResultSupplierCreditNoteStatus",
+    "GetInvoiceResultSupplierCreditNoteSubmittedFormat",
+    "GetInvoiceResultSupplierInvoice",
+    "GetInvoiceResultSupplierInvoiceDocumentType",
+    "GetInvoiceResultSupplierInvoiceDueDateSource",
+    "GetInvoiceResultSupplierInvoiceEnteredBy",
+    "GetInvoiceResultSupplierInvoiceInvoiceKind",
+    "GetInvoiceResultSupplierInvoiceMatchStatus",
+    "GetInvoiceResultSupplierInvoicePartyDetails",
+    "GetInvoiceResultSupplierInvoicePaymentType0",
+    "GetInvoiceResultSupplierInvoicePaymentType0Method",
+    "GetInvoiceResultSupplierInvoicePaymentType0PaidAmount",
+    "GetInvoiceResultSupplierInvoicePaymentType0Status",
+    "GetInvoiceResultSupplierInvoicePaymentType1",
+    "GetInvoiceResultSupplierInvoicePaymentType1PaymentMethodType",
+    "GetInvoiceResultSupplierInvoicePaymentType1State",
+    "GetInvoiceResultSupplierInvoicePaymentType1Status",
+    "GetInvoiceResultSupplierInvoiceSource",
+    "GetInvoiceResultSupplierInvoiceSubmittedFormat",
+    "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0",
+    "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0Method",
+    "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0PaidAmount",
+    "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0Status",
+    "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1",
+    "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1PaymentMethodType",
+    "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1State",
+    "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1Status",
     "GetOrgProfileResult",
     "GetOrgProfileResultRole",
     "GetReferenceRateResult",
@@ -665,8 +1655,10 @@ __all__ = (
     "InvoiceBreakdownGroup",
     "InvoiceBuyerView",
     "InvoiceBuyerViewDiscrepancyReason",
+    "InvoiceBuyerViewDocumentType",
     "InvoiceBuyerViewDueDateSource",
     "InvoiceBuyerViewEnteredBy",
+    "InvoiceBuyerViewInvoiceKind",
     "InvoiceBuyerViewMatchBasis",
     "InvoiceBuyerViewMatchStatus",
     "InvoiceBuyerViewPartyDetails",
@@ -681,9 +1673,14 @@ __all__ = (
     "InvoiceCounterpartyFeedReadiness",
     "InvoiceCounterpartyOpenPurchaseOrdersItem",
     "InvoiceCounterpartyOpenPurchaseOrdersItemLinesItem",
+    "InvoiceCreditApplication",
     "InvoiceCurrencyAmount",
     "InvoiceCurrencyAmountAmountBreakdown",
     "InvoiceCurrencyExchangeDetails",
+    "InvoiceDeduction",
+    "InvoiceDeductionInput",
+    "InvoiceDeductionInputKind",
+    "InvoiceDeductionKind",
     "InvoiceLineItem",
     "InvoicePartyDetails",
     "InvoicePaymentRecord",
@@ -695,14 +1692,20 @@ __all__ = (
     "InvoiceRateWarningSource",
     "InvoiceRejection",
     "InvoiceRejectionReasonCode",
+    "InvoiceRemittance",
+    "InvoiceRemittanceFile",
+    "InvoiceRemittanceFileContentType",
+    "InvoiceReplacementCheck",
     "InvoiceSourceDocument",
     "InvoiceSourceDocumentContentType",
     "InvoiceStripePayment",
     "InvoiceStripePaymentPaymentMethodType",
     "InvoiceStripePaymentState",
     "InvoiceSupplierView",
+    "InvoiceSupplierViewDocumentType",
     "InvoiceSupplierViewDueDateSource",
     "InvoiceSupplierViewEnteredBy",
+    "InvoiceSupplierViewInvoiceKind",
     "InvoiceSupplierViewMatchStatus",
     "InvoiceSupplierViewPartyDetails",
     "InvoiceSupplierViewPaymentType0",
@@ -733,10 +1736,81 @@ __all__ = (
     "LineItemInputRuleType",
     "LineItemInputScopeType",
     "LineItemPriceSource",
+    "LineItemPunchoutRef",
     "LineItemRuleType",
     "LineItemScopeType",
     "ListEmployeesRole",
     "ListInvoiceCounterpartiesResult",
+    "ListInvoicesItemBuyerCreditNote",
+    "ListInvoicesItemBuyerCreditNoteCloudProvider",
+    "ListInvoicesItemBuyerCreditNoteDocumentType",
+    "ListInvoicesItemBuyerCreditNoteEnteredBy",
+    "ListInvoicesItemBuyerCreditNoteExportsItem",
+    "ListInvoicesItemBuyerCreditNotePoEffectType0",
+    "ListInvoicesItemBuyerCreditNotePoEffectType0Kind",
+    "ListInvoicesItemBuyerCreditNotePoEffectType1",
+    "ListInvoicesItemBuyerCreditNotePoEffectType1Kind",
+    "ListInvoicesItemBuyerCreditNotePoEffectType1Why",
+    "ListInvoicesItemBuyerCreditNoteReason",
+    "ListInvoicesItemBuyerCreditNoteRejection",
+    "ListInvoicesItemBuyerCreditNoteSource",
+    "ListInvoicesItemBuyerCreditNoteStatus",
+    "ListInvoicesItemBuyerCreditNoteSubmittedFormat",
+    "ListInvoicesItemBuyerInvoice",
+    "ListInvoicesItemBuyerInvoiceDiscrepancyReason",
+    "ListInvoicesItemBuyerInvoiceDocumentType",
+    "ListInvoicesItemBuyerInvoiceDueDateSource",
+    "ListInvoicesItemBuyerInvoiceEnteredBy",
+    "ListInvoicesItemBuyerInvoiceInvoiceKind",
+    "ListInvoicesItemBuyerInvoiceMatchBasis",
+    "ListInvoicesItemBuyerInvoiceMatchStatus",
+    "ListInvoicesItemBuyerInvoicePartyDetails",
+    "ListInvoicesItemBuyerInvoiceSource",
+    "ListInvoicesItemBuyerInvoiceSubmittedFormat",
+    "ListInvoicesItemBuyerInvoiceUnverifiedReason",
+    "ListInvoicesItemBuyerInvoiceUsageSource",
+    "ListInvoicesItemSupplierCreditNote",
+    "ListInvoicesItemSupplierCreditNoteCloudProvider",
+    "ListInvoicesItemSupplierCreditNoteDocumentType",
+    "ListInvoicesItemSupplierCreditNoteEnteredBy",
+    "ListInvoicesItemSupplierCreditNoteExportsItem",
+    "ListInvoicesItemSupplierCreditNoteHistoryItem",
+    "ListInvoicesItemSupplierCreditNoteHistoryItemAction",
+    "ListInvoicesItemSupplierCreditNotePoEffectType0",
+    "ListInvoicesItemSupplierCreditNotePoEffectType0Kind",
+    "ListInvoicesItemSupplierCreditNotePoEffectType1",
+    "ListInvoicesItemSupplierCreditNotePoEffectType1Kind",
+    "ListInvoicesItemSupplierCreditNotePoEffectType1Why",
+    "ListInvoicesItemSupplierCreditNoteReason",
+    "ListInvoicesItemSupplierCreditNoteRejection",
+    "ListInvoicesItemSupplierCreditNoteSource",
+    "ListInvoicesItemSupplierCreditNoteStatus",
+    "ListInvoicesItemSupplierCreditNoteSubmittedFormat",
+    "ListInvoicesItemSupplierInvoice",
+    "ListInvoicesItemSupplierInvoiceDocumentType",
+    "ListInvoicesItemSupplierInvoiceDueDateSource",
+    "ListInvoicesItemSupplierInvoiceEnteredBy",
+    "ListInvoicesItemSupplierInvoiceInvoiceKind",
+    "ListInvoicesItemSupplierInvoiceMatchStatus",
+    "ListInvoicesItemSupplierInvoicePartyDetails",
+    "ListInvoicesItemSupplierInvoicePaymentType0",
+    "ListInvoicesItemSupplierInvoicePaymentType0Method",
+    "ListInvoicesItemSupplierInvoicePaymentType0PaidAmount",
+    "ListInvoicesItemSupplierInvoicePaymentType0Status",
+    "ListInvoicesItemSupplierInvoicePaymentType1",
+    "ListInvoicesItemSupplierInvoicePaymentType1PaymentMethodType",
+    "ListInvoicesItemSupplierInvoicePaymentType1State",
+    "ListInvoicesItemSupplierInvoicePaymentType1Status",
+    "ListInvoicesItemSupplierInvoiceSource",
+    "ListInvoicesItemSupplierInvoiceSubmittedFormat",
+    "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0",
+    "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0Method",
+    "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0PaidAmount",
+    "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0Status",
+    "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1",
+    "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1PaymentMethodType",
+    "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1State",
+    "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1Status",
     "ListNotificationsAudience",
     "ListNotificationsPageAudience",
     "MarkAllNotificationsReadAudience",
@@ -744,11 +1818,15 @@ __all__ = (
     "Notification",
     "NotificationAudience",
     "NotificationPage",
+    "NotificationResolution",
+    "NotificationResolutionOutcome",
     "NotificationType",
+    "OpenPurchaseOrderDeposit",
     "OrgProfile",
     "OrgProfileRole",
     "PayerAccountRef",
     "PayerAccountRefInput",
+    "PaymentExportInput",
     "PaymentHistoryEntry",
     "PaymentHistoryEntryAction",
     "PaymentHistoryEntryRecord",
@@ -756,21 +1834,44 @@ __all__ = (
     "PaymentHistoryEntryRecordPaidAmount",
     "PostalAddress",
     "PostalAddressInput",
+    "PriceAmount",
+    "PriceAmountInterval",
     "ProfileImages",
+    "PunchoutLineOrigin",
+    "PunchoutLineOriginClassification",
+    "PunchoutLineOriginKind",
+    "PunchoutRefInput",
     "PurchaseOrder",
+    "PurchaseOrderBillTo",
+    "PurchaseOrderBillToSource",
     "PurchaseOrderChangeSummary",
     "PurchaseOrderChangeSummaryOutcome",
+    "PurchaseOrderCostCenterChange",
+    "PurchaseOrderPriorInvoiced",
+    "PurchaseOrderPriorInvoicedBasis",
+    "PurchaseOrderPriorInvoicedSourceSystem",
     "PurchaseOrderProvider",
+    "PurchaseOrderPunchout",
+    "PurchaseOrderPunchoutClaimed",
+    "PurchaseOrderPunchoutClaimedAdditionalProperty",
+    "PurchaseOrderPunchoutClaimedAdditionalPropertyExact",
+    "PurchaseOrderPunchoutClaimedAdditionalPropertyOperationAllowed",
     "PurchaseOrderQuoteDocument",
     "PurchaseOrderQuoteDocumentContentType",
+    "PurchaseOrderShipTo",
     "PurchaseOrderStatus",
+    "PurchaseOrderSupplierEmail",
     "PurchaseOrderSupplierInvite",
     "PurchaseOrderSupplierInviteStatus",
     "PurchaseOrderSupplierView",
+    "PurchaseOrderSupplierViewPriorInvoiced",
+    "PurchaseOrderSupplierViewPriorInvoicedBasis",
+    "PurchaseOrderSupplierViewPriorInvoicedSourceSystem",
     "PurchaseOrderSupplierViewProvider",
     "PurchaseOrderSupplierViewQuoteDocument",
     "PurchaseOrderSupplierViewQuoteDocumentContentType",
     "PurchaseOrderSupplierViewStatus",
+    "PurchaseOrderSupplierViewSupplierEmail",
     "QuestionCondition",
     "QuestionnaireFieldDef",
     "QuestionnaireFieldDefDocType",
@@ -785,8 +1886,10 @@ __all__ = (
     "RecordPaymentInputMethod",
     "RecordPaymentResult",
     "RecordPaymentResultDiscrepancyReason",
+    "RecordPaymentResultDocumentType",
     "RecordPaymentResultDueDateSource",
     "RecordPaymentResultEnteredBy",
+    "RecordPaymentResultInvoiceKind",
     "RecordPaymentResultMatchBasis",
     "RecordPaymentResultMatchStatus",
     "RecordPaymentResultPartyDetails",
@@ -796,19 +1899,37 @@ __all__ = (
     "RecordPaymentResultUsageSource",
     "ReferenceRate",
     "ReferenceRateAttribution",
+    "RegionTierPrice",
     "RejectInvoiceInput",
     "RejectInvoiceInputReasonCode",
     "ReminderSettings",
     "RemittanceCheck",
     "RemittanceCheckChangedFieldsItem",
     "RemittanceCheckStatus",
+    "RemittanceFileInput",
     "RemittanceInstructions",
     "RemittanceInstructionsInput",
     "RemittanceInstructionsInputMethod",
     "RemittanceInstructionsMethod",
+    "RemoveInvoiceReplacementLinkResult",
+    "RemoveInvoiceReplacementLinkResultDiscrepancyReason",
+    "RemoveInvoiceReplacementLinkResultDocumentType",
+    "RemoveInvoiceReplacementLinkResultDueDateSource",
+    "RemoveInvoiceReplacementLinkResultEnteredBy",
+    "RemoveInvoiceReplacementLinkResultInvoiceKind",
+    "RemoveInvoiceReplacementLinkResultMatchBasis",
+    "RemoveInvoiceReplacementLinkResultMatchStatus",
+    "RemoveInvoiceReplacementLinkResultPartyDetails",
+    "RemoveInvoiceReplacementLinkResultSource",
+    "RemoveInvoiceReplacementLinkResultSubmittedFormat",
+    "RemoveInvoiceReplacementLinkResultUnverifiedReason",
+    "RemoveInvoiceReplacementLinkResultUsageSource",
     "SelfApprovalRecord",
     "SelfApprovalRecordBasis",
     "SelfApprovalRecordWaivedExclusion",
+    "SendRemittanceInput",
+    "ServerMessage",
+    "ServerMessageParams",
     "SetConnectionCurrenciesInput",
     "SetExchangeRateWarningResult",
     "SetInvoiceFeedInput",
@@ -833,6 +1954,10 @@ __all__ = (
     "SpendLimitHistoryDetail",
     "StartStripePaymentResult",
     "StartStripePaymentResultState",
+    "StoreOrder",
+    "StoreOrderRefusal",
+    "StoreOrderStatus",
+    "StoreOrderStoreAnswer",
     "StripePaymentStatus",
     "StripePaymentStatusPaymentMethodType",
     "StripePaymentStatusQuote",
@@ -841,7 +1966,27 @@ __all__ = (
     "StripePaymentStatusState",
     "SupplierApprovalView",
     "SupplierApprovalViewStatus",
+    "SupplierCreditNoteView",
+    "SupplierCreditNoteViewCloudProvider",
+    "SupplierCreditNoteViewEnteredBy",
+    "SupplierCreditNoteViewExportsItem",
+    "SupplierCreditNoteViewHistoryItem",
+    "SupplierCreditNoteViewHistoryItemAction",
+    "SupplierCreditNoteViewPoEffectType0",
+    "SupplierCreditNoteViewPoEffectType0Kind",
+    "SupplierCreditNoteViewPoEffectType1",
+    "SupplierCreditNoteViewPoEffectType1Kind",
+    "SupplierCreditNoteViewPoEffectType1Why",
+    "SupplierCreditNoteViewReason",
+    "SupplierCreditNoteViewRejection",
+    "SupplierCreditNoteViewSource",
+    "SupplierCreditNoteViewStatus",
+    "SupplierCreditNoteViewSubmittedFormat",
     "SupplierRegionRequest",
+    "SupplierRemittanceView",
+    "SupplierRemittanceViewFile",
+    "SupplierRemittanceViewFileContentType",
+    "UncreditedOriginal",
     "UpdateApprovalChainInput",
     "UpdateApprovalChainInputLinkedTo",
     "UpdateAutomationRulesInput",
@@ -850,4 +1995,11 @@ __all__ = (
     "UpdateOrgProfileInputGeographyPresetId",
     "UpdatePurchaseOrderInput",
     "UpdateReminderSettingsInput",
+    "ValidateFeedInvoiceResultCreditNote",
+    "ValidateFeedInvoiceResultCreditNoteCreditNote",
+    "ValidateFeedInvoiceResultCreditNoteCreditNoteReason",
+    "ValidateFeedInvoiceResultCreditNoteDocumentType",
+    "ValidateFeedInvoiceResultCreditNoteReplayType0",
+    "ValidateFeedInvoiceResultCreditNoteSubmittedFormat",
+    "ValidateFeedInvoiceResultCreditNoteWarningsItem",
 )

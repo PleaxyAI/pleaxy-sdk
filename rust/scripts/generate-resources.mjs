@@ -49,7 +49,11 @@ for (const file of readdirSync(apisDir).filter((f) => f.endsWith("_api.rs")).sor
         path = `${path}.replace("${name}", &crate::apis::urlencode(${arg}))`;
       }
       const query = download.query.map((q) => `("${q}", ${snake(q)})`).join(", ");
-      structs += `${docs}    pub async fn ${fn}(&self${typedParams ? ", " + typedParams : ""}) -> Result<Vec<u8>, crate::apis::Error<crate::apis::${module}::${errorType}>> {\n        self.0.download(reqwest::Method::${download.method}, &${path}, &[${query}]).await\n    }\n\n`;
+      // The one argument that's neither a path nor a query parameter is the request body (an export's { invoiceIds }).
+      const named = new Set([...(download.path.match(/\{(\w+)\}/g) ?? []).map((n) => snake(n.slice(1, -1))), ...download.query.map(snake)]);
+      const bodyParam = params ? params.split(/,\s*(?=\w+:)/).find((p) => !named.has(p.split(":")[0].trim())) : undefined;
+      const body = bodyParam ? (/:\s*Option</.test(bodyParam) ? `${bodyParam.split(":")[0].trim()}.as_ref()` : `Some(&${bodyParam.split(":")[0].trim()})`) : "None::<&()>";
+      structs += `${docs}    pub async fn ${fn}(&self${typedParams ? ", " + typedParams : ""}) -> Result<Vec<u8>, crate::apis::Error<crate::apis::${module}::${errorType}>> {\n        self.0.download(reqwest::Method::${download.method}, &${path}, &[${query}], ${body}).await\n    }\n\n`;
     } else {
       structs += `${docs}    pub async fn ${fn}(&self${typedParams ? ", " + typedParams : ""}) -> ${typed.trim()} {\n        crate::apis::${module}::${fn}(&self.0.config${args.length ? ", " + args.join(", ") : ""}).await\n    }\n\n`;
     }

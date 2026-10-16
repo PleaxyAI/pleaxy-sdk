@@ -19,6 +19,8 @@ pub struct InvoiceSourceDocument {
     pub file_name: Option<String>,
     #[serde(rename = "contentType", skip_serializing_if = "Option::is_none")]
     pub content_type: Option<ContentType>,
+    #[serde(rename = "statedPoNumber", skip_serializing_if = "Option::is_none")]
+    pub stated_po_number: Option<String>,
 }
 
 impl InvoiceSourceDocument {
@@ -27,6 +29,7 @@ impl InvoiceSourceDocument {
             import_id: None,
             file_name: None,
             content_type: None,
+            stated_po_number: None,
         }
     }
 }

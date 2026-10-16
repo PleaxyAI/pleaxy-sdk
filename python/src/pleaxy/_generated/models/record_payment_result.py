@@ -7,6 +7,10 @@ from ..models.record_payment_result_discrepancy_reason import (
     RecordPaymentResultDiscrepancyReason,
     check_record_payment_result_discrepancy_reason,
 )
+from ..models.record_payment_result_document_type import (
+    RecordPaymentResultDocumentType,
+    check_record_payment_result_document_type,
+)
 from ..models.record_payment_result_due_date_source import (
     RecordPaymentResultDueDateSource,
     check_record_payment_result_due_date_source,
@@ -14,6 +18,10 @@ from ..models.record_payment_result_due_date_source import (
 from ..models.record_payment_result_entered_by import (
     RecordPaymentResultEnteredBy,
     check_record_payment_result_entered_by,
+)
+from ..models.record_payment_result_invoice_kind import (
+    RecordPaymentResultInvoiceKind,
+    check_record_payment_result_invoice_kind,
 )
 from ..models.record_payment_result_match_basis import (
     RecordPaymentResultMatchBasis,
@@ -47,11 +55,15 @@ if TYPE_CHECKING:
     from ..models.invoice_base_currency_amount import InvoiceBaseCurrencyAmount
     from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
     from ..models.invoice_control_finding import InvoiceControlFinding
+    from ..models.invoice_credit_application import InvoiceCreditApplication
     from ..models.invoice_currency_amount import InvoiceCurrencyAmount
+    from ..models.invoice_deduction import InvoiceDeduction
     from ..models.invoice_line_item import InvoiceLineItem
     from ..models.invoice_payment_record import InvoicePaymentRecord
     from ..models.invoice_rate_warning import InvoiceRateWarning
     from ..models.invoice_rejection import InvoiceRejection
+    from ..models.invoice_remittance import InvoiceRemittance
+    from ..models.invoice_replacement_check import InvoiceReplacementCheck
     from ..models.invoice_source_document import InvoiceSourceDocument
     from ..models.late_fee_terms import LateFeeTerms
     from ..models.payment_history_entry import PaymentHistoryEntry
@@ -60,6 +72,7 @@ if TYPE_CHECKING:
     )
     from ..models.remittance_check import RemittanceCheck
     from ..models.remittance_instructions import RemittanceInstructions
+    from ..models.uncredited_original import UncreditedOriginal
 
 
 T = TypeVar("T", bound="RecordPaymentResult")
@@ -87,6 +100,8 @@ class RecordPaymentResult:
         contract_id (Union[Unset, str]):
         line_items (Union[Unset, List['InvoiceLineItem']]):
         po (Union[Unset, str]):
+        po_line_no (Union[Unset, float]):
+        bills_no_po_line (Union[Unset, bool]):
         party_details (Union[Unset, RecordPaymentResultPartyDetails]):
         usage_amount (Union[Unset, float]):
         usage_amount_simulated (Union[Unset, bool]):
@@ -104,6 +119,7 @@ class RecordPaymentResult:
         due_date (Union[Unset, str]):
         paid_at (Union[Unset, str]):
         payment (Union[Unset, InvoicePaymentRecord]):
+        remittances (Union[Unset, List['InvoiceRemittance']]):
         payment_history (Union[Unset, List['PaymentHistoryEntry']]):
         export_available_from (Union[Unset, str]):
         previous_exported_at (Union[Unset, str]):
@@ -111,6 +127,8 @@ class RecordPaymentResult:
         last_reminded_at (Union[Unset, str]):
         rejection (Union[Unset, InvoiceRejection]):
         replaces_invoice_id (Union[Unset, str]):
+        replaces_invoice_ids (Union[Unset, List[str]]):
+        replaced_by_invoice_ids (Union[Unset, List[str]]):
         source (Union[Unset, RecordPaymentResultSource]):
         entered_by (Union[Unset, RecordPaymentResultEnteredBy]):
         invoice_date (Union[Unset, str]):
@@ -123,6 +141,15 @@ class RecordPaymentResult:
         tax_amount (Union[Unset, float]):
         tax_breakdown (Union[Unset, List['InvoiceBreakdownEntry']]):
         withholdings (Union[Unset, List['InvoiceBreakdownEntry']]):
+        document_type (Union[Unset, RecordPaymentResultDocumentType]):
+        amends_invoice_id (Union[Unset, str]):
+        amends_external_invoice_number (Union[Unset, str]):
+        debit_note_ids (Union[Unset, List[str]]):
+        invoice_kind (Union[Unset, RecordPaymentResultInvoiceKind]):
+        deductions (Union[Unset, List['InvoiceDeduction']]):
+        credit_applications (Union[Unset, List['InvoiceCreditApplication']]):
+        credit_note_ids (Union[Unset, List[str]]):
+        credit_version (Union[Unset, float]):
         payment_currency_amount (Union[Unset, InvoiceCurrencyAmount]):
         tax_currency_amount (Union[Unset, InvoiceCurrencyAmount]):
         rate_warnings (Union[Unset, List['InvoiceRateWarning']]):
@@ -132,6 +159,8 @@ class RecordPaymentResult:
         has_original_pdf (Union[Unset, bool]):
         base_currency_amount (Union[Unset, InvoiceBaseCurrencyAmount]):
         viewer_is_supplier_member (Union[Unset, bool]):
+        replacement (Union[Unset, InvoiceReplacementCheck]):
+        uncredited_originals (Union[Unset, List['UncreditedOriginal']]):
     """
 
     id: str
@@ -152,6 +181,8 @@ class RecordPaymentResult:
     contract_id: Union[Unset, str] = UNSET
     line_items: Union[Unset, List["InvoiceLineItem"]] = UNSET
     po: Union[Unset, str] = UNSET
+    po_line_no: Union[Unset, float] = UNSET
+    bills_no_po_line: Union[Unset, bool] = UNSET
     party_details: Union[Unset, "RecordPaymentResultPartyDetails"] = UNSET
     usage_amount: Union[Unset, float] = UNSET
     usage_amount_simulated: Union[Unset, bool] = UNSET
@@ -169,6 +200,7 @@ class RecordPaymentResult:
     due_date: Union[Unset, str] = UNSET
     paid_at: Union[Unset, str] = UNSET
     payment: Union[Unset, "InvoicePaymentRecord"] = UNSET
+    remittances: Union[Unset, List["InvoiceRemittance"]] = UNSET
     payment_history: Union[Unset, List["PaymentHistoryEntry"]] = UNSET
     export_available_from: Union[Unset, str] = UNSET
     previous_exported_at: Union[Unset, str] = UNSET
@@ -176,6 +208,8 @@ class RecordPaymentResult:
     last_reminded_at: Union[Unset, str] = UNSET
     rejection: Union[Unset, "InvoiceRejection"] = UNSET
     replaces_invoice_id: Union[Unset, str] = UNSET
+    replaces_invoice_ids: Union[Unset, List[str]] = UNSET
+    replaced_by_invoice_ids: Union[Unset, List[str]] = UNSET
     source: Union[Unset, RecordPaymentResultSource] = UNSET
     entered_by: Union[Unset, RecordPaymentResultEnteredBy] = UNSET
     invoice_date: Union[Unset, str] = UNSET
@@ -188,6 +222,15 @@ class RecordPaymentResult:
     tax_amount: Union[Unset, float] = UNSET
     tax_breakdown: Union[Unset, List["InvoiceBreakdownEntry"]] = UNSET
     withholdings: Union[Unset, List["InvoiceBreakdownEntry"]] = UNSET
+    document_type: Union[Unset, RecordPaymentResultDocumentType] = UNSET
+    amends_invoice_id: Union[Unset, str] = UNSET
+    amends_external_invoice_number: Union[Unset, str] = UNSET
+    debit_note_ids: Union[Unset, List[str]] = UNSET
+    invoice_kind: Union[Unset, RecordPaymentResultInvoiceKind] = UNSET
+    deductions: Union[Unset, List["InvoiceDeduction"]] = UNSET
+    credit_applications: Union[Unset, List["InvoiceCreditApplication"]] = UNSET
+    credit_note_ids: Union[Unset, List[str]] = UNSET
+    credit_version: Union[Unset, float] = UNSET
     payment_currency_amount: Union[Unset, "InvoiceCurrencyAmount"] = UNSET
     tax_currency_amount: Union[Unset, "InvoiceCurrencyAmount"] = UNSET
     rate_warnings: Union[Unset, List["InvoiceRateWarning"]] = UNSET
@@ -197,6 +240,8 @@ class RecordPaymentResult:
     has_original_pdf: Union[Unset, bool] = UNSET
     base_currency_amount: Union[Unset, "InvoiceBaseCurrencyAmount"] = UNSET
     viewer_is_supplier_member: Union[Unset, bool] = UNSET
+    replacement: Union[Unset, "InvoiceReplacementCheck"] = UNSET
+    uncredited_originals: Union[Unset, List["UncreditedOriginal"]] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -244,6 +289,10 @@ class RecordPaymentResult:
                 line_items.append(line_items_item)
 
         po = self.po
+
+        po_line_no = self.po_line_no
+
+        bills_no_po_line = self.bills_no_po_line
 
         party_details: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.party_details, Unset):
@@ -298,6 +347,13 @@ class RecordPaymentResult:
         if not isinstance(self.payment, Unset):
             payment = self.payment.to_dict()
 
+        remittances: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.remittances, Unset):
+            remittances = []
+            for remittances_item_data in self.remittances:
+                remittances_item = remittances_item_data.to_dict()
+                remittances.append(remittances_item)
+
         payment_history: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.payment_history, Unset):
             payment_history = []
@@ -320,6 +376,14 @@ class RecordPaymentResult:
             rejection = self.rejection.to_dict()
 
         replaces_invoice_id = self.replaces_invoice_id
+
+        replaces_invoice_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.replaces_invoice_ids, Unset):
+            replaces_invoice_ids = self.replaces_invoice_ids
+
+        replaced_by_invoice_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.replaced_by_invoice_ids, Unset):
+            replaced_by_invoice_ids = self.replaced_by_invoice_ids
 
         source: Union[Unset, str] = UNSET
         if not isinstance(self.source, Unset):
@@ -368,6 +432,42 @@ class RecordPaymentResult:
                 withholdings_item = withholdings_item_data.to_dict()
                 withholdings.append(withholdings_item)
 
+        document_type: Union[Unset, str] = UNSET
+        if not isinstance(self.document_type, Unset):
+            document_type = self.document_type
+
+        amends_invoice_id = self.amends_invoice_id
+
+        amends_external_invoice_number = self.amends_external_invoice_number
+
+        debit_note_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.debit_note_ids, Unset):
+            debit_note_ids = self.debit_note_ids
+
+        invoice_kind: Union[Unset, str] = UNSET
+        if not isinstance(self.invoice_kind, Unset):
+            invoice_kind = self.invoice_kind
+
+        deductions: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.deductions, Unset):
+            deductions = []
+            for deductions_item_data in self.deductions:
+                deductions_item = deductions_item_data.to_dict()
+                deductions.append(deductions_item)
+
+        credit_applications: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.credit_applications, Unset):
+            credit_applications = []
+            for credit_applications_item_data in self.credit_applications:
+                credit_applications_item = credit_applications_item_data.to_dict()
+                credit_applications.append(credit_applications_item)
+
+        credit_note_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.credit_note_ids, Unset):
+            credit_note_ids = self.credit_note_ids
+
+        credit_version = self.credit_version
+
         payment_currency_amount: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.payment_currency_amount, Unset):
             payment_currency_amount = self.payment_currency_amount.to_dict()
@@ -402,6 +502,17 @@ class RecordPaymentResult:
             base_currency_amount = self.base_currency_amount.to_dict()
 
         viewer_is_supplier_member = self.viewer_is_supplier_member
+
+        replacement: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.replacement, Unset):
+            replacement = self.replacement.to_dict()
+
+        uncredited_originals: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.uncredited_originals, Unset):
+            uncredited_originals = []
+            for uncredited_originals_item_data in self.uncredited_originals:
+                uncredited_originals_item = uncredited_originals_item_data.to_dict()
+                uncredited_originals.append(uncredited_originals_item)
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -444,6 +555,10 @@ class RecordPaymentResult:
             field_dict["lineItems"] = line_items
         if po is not UNSET:
             field_dict["po"] = po
+        if po_line_no is not UNSET:
+            field_dict["poLineNo"] = po_line_no
+        if bills_no_po_line is not UNSET:
+            field_dict["billsNoPoLine"] = bills_no_po_line
         if party_details is not UNSET:
             field_dict["partyDetails"] = party_details
         if usage_amount is not UNSET:
@@ -480,6 +595,8 @@ class RecordPaymentResult:
             field_dict["paidAt"] = paid_at
         if payment is not UNSET:
             field_dict["payment"] = payment
+        if remittances is not UNSET:
+            field_dict["remittances"] = remittances
         if payment_history is not UNSET:
             field_dict["paymentHistory"] = payment_history
         if export_available_from is not UNSET:
@@ -494,6 +611,10 @@ class RecordPaymentResult:
             field_dict["rejection"] = rejection
         if replaces_invoice_id is not UNSET:
             field_dict["replacesInvoiceId"] = replaces_invoice_id
+        if replaces_invoice_ids is not UNSET:
+            field_dict["replacesInvoiceIds"] = replaces_invoice_ids
+        if replaced_by_invoice_ids is not UNSET:
+            field_dict["replacedByInvoiceIds"] = replaced_by_invoice_ids
         if source is not UNSET:
             field_dict["source"] = source
         if entered_by is not UNSET:
@@ -518,6 +639,24 @@ class RecordPaymentResult:
             field_dict["taxBreakdown"] = tax_breakdown
         if withholdings is not UNSET:
             field_dict["withholdings"] = withholdings
+        if document_type is not UNSET:
+            field_dict["documentType"] = document_type
+        if amends_invoice_id is not UNSET:
+            field_dict["amendsInvoiceId"] = amends_invoice_id
+        if amends_external_invoice_number is not UNSET:
+            field_dict["amendsExternalInvoiceNumber"] = amends_external_invoice_number
+        if debit_note_ids is not UNSET:
+            field_dict["debitNoteIds"] = debit_note_ids
+        if invoice_kind is not UNSET:
+            field_dict["invoiceKind"] = invoice_kind
+        if deductions is not UNSET:
+            field_dict["deductions"] = deductions
+        if credit_applications is not UNSET:
+            field_dict["creditApplications"] = credit_applications
+        if credit_note_ids is not UNSET:
+            field_dict["creditNoteIds"] = credit_note_ids
+        if credit_version is not UNSET:
+            field_dict["creditVersion"] = credit_version
         if payment_currency_amount is not UNSET:
             field_dict["paymentCurrencyAmount"] = payment_currency_amount
         if tax_currency_amount is not UNSET:
@@ -536,6 +675,10 @@ class RecordPaymentResult:
             field_dict["baseCurrencyAmount"] = base_currency_amount
         if viewer_is_supplier_member is not UNSET:
             field_dict["viewerIsSupplierMember"] = viewer_is_supplier_member
+        if replacement is not UNSET:
+            field_dict["replacement"] = replacement
+        if uncredited_originals is not UNSET:
+            field_dict["uncreditedOriginals"] = uncredited_originals
 
         return field_dict
 
@@ -546,11 +689,15 @@ class RecordPaymentResult:
         from ..models.invoice_base_currency_amount import InvoiceBaseCurrencyAmount
         from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
         from ..models.invoice_control_finding import InvoiceControlFinding
+        from ..models.invoice_credit_application import InvoiceCreditApplication
         from ..models.invoice_currency_amount import InvoiceCurrencyAmount
+        from ..models.invoice_deduction import InvoiceDeduction
         from ..models.invoice_line_item import InvoiceLineItem
         from ..models.invoice_payment_record import InvoicePaymentRecord
         from ..models.invoice_rate_warning import InvoiceRateWarning
         from ..models.invoice_rejection import InvoiceRejection
+        from ..models.invoice_remittance import InvoiceRemittance
+        from ..models.invoice_replacement_check import InvoiceReplacementCheck
         from ..models.invoice_source_document import InvoiceSourceDocument
         from ..models.late_fee_terms import LateFeeTerms
         from ..models.payment_history_entry import PaymentHistoryEntry
@@ -559,6 +706,7 @@ class RecordPaymentResult:
         )
         from ..models.remittance_check import RemittanceCheck
         from ..models.remittance_instructions import RemittanceInstructions
+        from ..models.uncredited_original import UncreditedOriginal
 
         d = src_dict.copy()
         id = d.pop("id")
@@ -611,6 +759,10 @@ class RecordPaymentResult:
             line_items.append(line_items_item)
 
         po = d.pop("po", UNSET)
+
+        po_line_no = d.pop("poLineNo", UNSET)
+
+        bills_no_po_line = d.pop("billsNoPoLine", UNSET)
 
         _party_details = d.pop("partyDetails", UNSET)
         party_details: Union[Unset, RecordPaymentResultPartyDetails]
@@ -692,6 +844,13 @@ class RecordPaymentResult:
         else:
             payment = InvoicePaymentRecord.from_dict(_payment)
 
+        remittances = []
+        _remittances = d.pop("remittances", UNSET)
+        for remittances_item_data in _remittances or []:
+            remittances_item = InvoiceRemittance.from_dict(remittances_item_data)
+
+            remittances.append(remittances_item)
+
         payment_history = []
         _payment_history = d.pop("paymentHistory", UNSET)
         for payment_history_item_data in _payment_history or []:
@@ -724,6 +883,10 @@ class RecordPaymentResult:
             rejection = InvoiceRejection.from_dict(_rejection)
 
         replaces_invoice_id = d.pop("replacesInvoiceId", UNSET)
+
+        replaces_invoice_ids = cast(List[str], d.pop("replacesInvoiceIds", UNSET))
+
+        replaced_by_invoice_ids = cast(List[str], d.pop("replacedByInvoiceIds", UNSET))
 
         _source = d.pop("source", UNSET)
         source: Union[Unset, RecordPaymentResultSource]
@@ -782,6 +945,46 @@ class RecordPaymentResult:
             withholdings_item = InvoiceBreakdownEntry.from_dict(withholdings_item_data)
 
             withholdings.append(withholdings_item)
+
+        _document_type = d.pop("documentType", UNSET)
+        document_type: Union[Unset, RecordPaymentResultDocumentType]
+        if isinstance(_document_type, Unset):
+            document_type = UNSET
+        else:
+            document_type = check_record_payment_result_document_type(_document_type)
+
+        amends_invoice_id = d.pop("amendsInvoiceId", UNSET)
+
+        amends_external_invoice_number = d.pop("amendsExternalInvoiceNumber", UNSET)
+
+        debit_note_ids = cast(List[str], d.pop("debitNoteIds", UNSET))
+
+        _invoice_kind = d.pop("invoiceKind", UNSET)
+        invoice_kind: Union[Unset, RecordPaymentResultInvoiceKind]
+        if isinstance(_invoice_kind, Unset):
+            invoice_kind = UNSET
+        else:
+            invoice_kind = check_record_payment_result_invoice_kind(_invoice_kind)
+
+        deductions = []
+        _deductions = d.pop("deductions", UNSET)
+        for deductions_item_data in _deductions or []:
+            deductions_item = InvoiceDeduction.from_dict(deductions_item_data)
+
+            deductions.append(deductions_item)
+
+        credit_applications = []
+        _credit_applications = d.pop("creditApplications", UNSET)
+        for credit_applications_item_data in _credit_applications or []:
+            credit_applications_item = InvoiceCreditApplication.from_dict(
+                credit_applications_item_data
+            )
+
+            credit_applications.append(credit_applications_item)
+
+        credit_note_ids = cast(List[str], d.pop("creditNoteIds", UNSET))
+
+        credit_version = d.pop("creditVersion", UNSET)
 
         _payment_currency_amount = d.pop("paymentCurrencyAmount", UNSET)
         payment_currency_amount: Union[Unset, InvoiceCurrencyAmount]
@@ -842,6 +1045,22 @@ class RecordPaymentResult:
 
         viewer_is_supplier_member = d.pop("viewerIsSupplierMember", UNSET)
 
+        _replacement = d.pop("replacement", UNSET)
+        replacement: Union[Unset, InvoiceReplacementCheck]
+        if isinstance(_replacement, Unset):
+            replacement = UNSET
+        else:
+            replacement = InvoiceReplacementCheck.from_dict(_replacement)
+
+        uncredited_originals = []
+        _uncredited_originals = d.pop("uncreditedOriginals", UNSET)
+        for uncredited_originals_item_data in _uncredited_originals or []:
+            uncredited_originals_item = UncreditedOriginal.from_dict(
+                uncredited_originals_item_data
+            )
+
+            uncredited_originals.append(uncredited_originals_item)
+
         record_payment_result = cls(
             id=id,
             already_recorded=already_recorded,
@@ -861,6 +1080,8 @@ class RecordPaymentResult:
             contract_id=contract_id,
             line_items=line_items,
             po=po,
+            po_line_no=po_line_no,
+            bills_no_po_line=bills_no_po_line,
             party_details=party_details,
             usage_amount=usage_amount,
             usage_amount_simulated=usage_amount_simulated,
@@ -878,6 +1099,7 @@ class RecordPaymentResult:
             due_date=due_date,
             paid_at=paid_at,
             payment=payment,
+            remittances=remittances,
             payment_history=payment_history,
             export_available_from=export_available_from,
             previous_exported_at=previous_exported_at,
@@ -885,6 +1107,8 @@ class RecordPaymentResult:
             last_reminded_at=last_reminded_at,
             rejection=rejection,
             replaces_invoice_id=replaces_invoice_id,
+            replaces_invoice_ids=replaces_invoice_ids,
+            replaced_by_invoice_ids=replaced_by_invoice_ids,
             source=source,
             entered_by=entered_by,
             invoice_date=invoice_date,
@@ -897,6 +1121,15 @@ class RecordPaymentResult:
             tax_amount=tax_amount,
             tax_breakdown=tax_breakdown,
             withholdings=withholdings,
+            document_type=document_type,
+            amends_invoice_id=amends_invoice_id,
+            amends_external_invoice_number=amends_external_invoice_number,
+            debit_note_ids=debit_note_ids,
+            invoice_kind=invoice_kind,
+            deductions=deductions,
+            credit_applications=credit_applications,
+            credit_note_ids=credit_note_ids,
+            credit_version=credit_version,
             payment_currency_amount=payment_currency_amount,
             tax_currency_amount=tax_currency_amount,
             rate_warnings=rate_warnings,
@@ -906,6 +1139,8 @@ class RecordPaymentResult:
             has_original_pdf=has_original_pdf,
             base_currency_amount=base_currency_amount,
             viewer_is_supplier_member=viewer_is_supplier_member,
+            replacement=replacement,
+            uncredited_originals=uncredited_originals,
         )
 
         record_payment_result.additional_properties = d

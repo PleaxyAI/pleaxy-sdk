@@ -6,11 +6,16 @@ from typing import (
     Type,
     TypeVar,
     Union,
+    cast,
 )
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.feed_validation_result_invoice_document_type import (
+    FeedValidationResultInvoiceDocumentType,
+    check_feed_validation_result_invoice_document_type,
+)
 from ..models.feed_validation_result_invoice_due_date_source import (
     FeedValidationResultInvoiceDueDateSource,
     check_feed_validation_result_invoice_due_date_source,
@@ -18,6 +23,10 @@ from ..models.feed_validation_result_invoice_due_date_source import (
 from ..models.feed_validation_result_invoice_entered_by import (
     FeedValidationResultInvoiceEnteredBy,
     check_feed_validation_result_invoice_entered_by,
+)
+from ..models.feed_validation_result_invoice_invoice_kind import (
+    FeedValidationResultInvoiceInvoiceKind,
+    check_feed_validation_result_invoice_invoice_kind,
 )
 from ..models.feed_validation_result_invoice_match_status import (
     FeedValidationResultInvoiceMatchStatus,
@@ -48,13 +57,16 @@ if TYPE_CHECKING:
     from ..models.invoice_adjustment import InvoiceAdjustment
     from ..models.invoice_base_currency_amount import InvoiceBaseCurrencyAmount
     from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
+    from ..models.invoice_credit_application import InvoiceCreditApplication
     from ..models.invoice_currency_amount import InvoiceCurrencyAmount
+    from ..models.invoice_deduction import InvoiceDeduction
     from ..models.invoice_line_item import InvoiceLineItem
     from ..models.invoice_rejection import InvoiceRejection
     from ..models.invoice_source_document import InvoiceSourceDocument
     from ..models.late_fee_terms import LateFeeTerms
     from ..models.remittance_instructions import RemittanceInstructions
     from ..models.supplier_approval_view import SupplierApprovalView
+    from ..models.supplier_remittance_view import SupplierRemittanceView
 
 
 T = TypeVar("T", bound="FeedValidationResultInvoice")
@@ -78,6 +90,8 @@ class FeedValidationResultInvoice:
         contract_id (Union[Unset, str]):
         line_items (Union[Unset, List['InvoiceLineItem']]):
         po (Union[Unset, str]):
+        po_line_no (Union[Unset, float]):
+        bills_no_po_line (Union[Unset, bool]):
         party_details (Union[Unset, FeedValidationResultInvoicePartyDetails]):
         match_status (Union[Unset, FeedValidationResultInvoiceMatchStatus]):
         paid (Union[Unset, bool]):
@@ -85,10 +99,13 @@ class FeedValidationResultInvoice:
         due_date (Union[Unset, str]):
         paid_at (Union[Unset, str]):
         payment (Union['FeedValidationResultInvoicePaymentType0', 'FeedValidationResultInvoicePaymentType1', Unset]):
+        remittances (Union[Unset, List['SupplierRemittanceView']]):
         due_date_source (Union[Unset, FeedValidationResultInvoiceDueDateSource]):
         last_reminded_at (Union[Unset, str]):
         rejection (Union[Unset, InvoiceRejection]):
         replaces_invoice_id (Union[Unset, str]):
+        replaces_invoice_ids (Union[Unset, List[str]]):
+        replaced_by_invoice_ids (Union[Unset, List[str]]):
         entered_by (Union[Unset, FeedValidationResultInvoiceEnteredBy]):
         invoice_date (Union[Unset, str]):
         submitted_format (Union[Unset, FeedValidationResultInvoiceSubmittedFormat]):
@@ -97,6 +114,15 @@ class FeedValidationResultInvoice:
         tax_amount (Union[Unset, float]):
         tax_breakdown (Union[Unset, List['InvoiceBreakdownEntry']]):
         withholdings (Union[Unset, List['InvoiceBreakdownEntry']]):
+        document_type (Union[Unset, FeedValidationResultInvoiceDocumentType]):
+        amends_invoice_id (Union[Unset, str]):
+        amends_external_invoice_number (Union[Unset, str]):
+        debit_note_ids (Union[Unset, List[str]]):
+        invoice_kind (Union[Unset, FeedValidationResultInvoiceInvoiceKind]):
+        deductions (Union[Unset, List['InvoiceDeduction']]):
+        credit_applications (Union[Unset, List['InvoiceCreditApplication']]):
+        credit_note_ids (Union[Unset, List[str]]):
+        credit_version (Union[Unset, float]):
         payment_currency_amount (Union[Unset, InvoiceCurrencyAmount]):
         tax_currency_amount (Union[Unset, InvoiceCurrencyAmount]):
         remittance_instructions (Union[Unset, RemittanceInstructions]):
@@ -123,6 +149,8 @@ class FeedValidationResultInvoice:
     contract_id: Union[Unset, str] = UNSET
     line_items: Union[Unset, List["InvoiceLineItem"]] = UNSET
     po: Union[Unset, str] = UNSET
+    po_line_no: Union[Unset, float] = UNSET
+    bills_no_po_line: Union[Unset, bool] = UNSET
     party_details: Union[Unset, "FeedValidationResultInvoicePartyDetails"] = UNSET
     match_status: Union[Unset, FeedValidationResultInvoiceMatchStatus] = UNSET
     paid: Union[Unset, bool] = UNSET
@@ -134,10 +162,13 @@ class FeedValidationResultInvoice:
         "FeedValidationResultInvoicePaymentType1",
         Unset,
     ] = UNSET
+    remittances: Union[Unset, List["SupplierRemittanceView"]] = UNSET
     due_date_source: Union[Unset, FeedValidationResultInvoiceDueDateSource] = UNSET
     last_reminded_at: Union[Unset, str] = UNSET
     rejection: Union[Unset, "InvoiceRejection"] = UNSET
     replaces_invoice_id: Union[Unset, str] = UNSET
+    replaces_invoice_ids: Union[Unset, List[str]] = UNSET
+    replaced_by_invoice_ids: Union[Unset, List[str]] = UNSET
     entered_by: Union[Unset, FeedValidationResultInvoiceEnteredBy] = UNSET
     invoice_date: Union[Unset, str] = UNSET
     submitted_format: Union[Unset, FeedValidationResultInvoiceSubmittedFormat] = UNSET
@@ -146,6 +177,15 @@ class FeedValidationResultInvoice:
     tax_amount: Union[Unset, float] = UNSET
     tax_breakdown: Union[Unset, List["InvoiceBreakdownEntry"]] = UNSET
     withholdings: Union[Unset, List["InvoiceBreakdownEntry"]] = UNSET
+    document_type: Union[Unset, FeedValidationResultInvoiceDocumentType] = UNSET
+    amends_invoice_id: Union[Unset, str] = UNSET
+    amends_external_invoice_number: Union[Unset, str] = UNSET
+    debit_note_ids: Union[Unset, List[str]] = UNSET
+    invoice_kind: Union[Unset, FeedValidationResultInvoiceInvoiceKind] = UNSET
+    deductions: Union[Unset, List["InvoiceDeduction"]] = UNSET
+    credit_applications: Union[Unset, List["InvoiceCreditApplication"]] = UNSET
+    credit_note_ids: Union[Unset, List[str]] = UNSET
+    credit_version: Union[Unset, float] = UNSET
     payment_currency_amount: Union[Unset, "InvoiceCurrencyAmount"] = UNSET
     tax_currency_amount: Union[Unset, "InvoiceCurrencyAmount"] = UNSET
     remittance_instructions: Union[Unset, "RemittanceInstructions"] = UNSET
@@ -206,6 +246,10 @@ class FeedValidationResultInvoice:
 
         po = self.po
 
+        po_line_no = self.po_line_no
+
+        bills_no_po_line = self.bills_no_po_line
+
         party_details: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.party_details, Unset):
             party_details = self.party_details.to_dict()
@@ -230,6 +274,13 @@ class FeedValidationResultInvoice:
         else:
             payment = self.payment.to_dict()
 
+        remittances: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.remittances, Unset):
+            remittances = []
+            for remittances_item_data in self.remittances:
+                remittances_item = remittances_item_data.to_dict()
+                remittances.append(remittances_item)
+
         due_date_source: Union[Unset, str] = UNSET
         if not isinstance(self.due_date_source, Unset):
             due_date_source = self.due_date_source
@@ -241,6 +292,14 @@ class FeedValidationResultInvoice:
             rejection = self.rejection.to_dict()
 
         replaces_invoice_id = self.replaces_invoice_id
+
+        replaces_invoice_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.replaces_invoice_ids, Unset):
+            replaces_invoice_ids = self.replaces_invoice_ids
+
+        replaced_by_invoice_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.replaced_by_invoice_ids, Unset):
+            replaced_by_invoice_ids = self.replaced_by_invoice_ids
 
         entered_by: Union[Unset, str] = UNSET
         if not isinstance(self.entered_by, Unset):
@@ -276,6 +335,42 @@ class FeedValidationResultInvoice:
             for withholdings_item_data in self.withholdings:
                 withholdings_item = withholdings_item_data.to_dict()
                 withholdings.append(withholdings_item)
+
+        document_type: Union[Unset, str] = UNSET
+        if not isinstance(self.document_type, Unset):
+            document_type = self.document_type
+
+        amends_invoice_id = self.amends_invoice_id
+
+        amends_external_invoice_number = self.amends_external_invoice_number
+
+        debit_note_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.debit_note_ids, Unset):
+            debit_note_ids = self.debit_note_ids
+
+        invoice_kind: Union[Unset, str] = UNSET
+        if not isinstance(self.invoice_kind, Unset):
+            invoice_kind = self.invoice_kind
+
+        deductions: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.deductions, Unset):
+            deductions = []
+            for deductions_item_data in self.deductions:
+                deductions_item = deductions_item_data.to_dict()
+                deductions.append(deductions_item)
+
+        credit_applications: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.credit_applications, Unset):
+            credit_applications = []
+            for credit_applications_item_data in self.credit_applications:
+                credit_applications_item = credit_applications_item_data.to_dict()
+                credit_applications.append(credit_applications_item)
+
+        credit_note_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.credit_note_ids, Unset):
+            credit_note_ids = self.credit_note_ids
+
+        credit_version = self.credit_version
 
         payment_currency_amount: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.payment_currency_amount, Unset):
@@ -344,6 +439,10 @@ class FeedValidationResultInvoice:
             field_dict["lineItems"] = line_items
         if po is not UNSET:
             field_dict["po"] = po
+        if po_line_no is not UNSET:
+            field_dict["poLineNo"] = po_line_no
+        if bills_no_po_line is not UNSET:
+            field_dict["billsNoPoLine"] = bills_no_po_line
         if party_details is not UNSET:
             field_dict["partyDetails"] = party_details
         if match_status is not UNSET:
@@ -358,6 +457,8 @@ class FeedValidationResultInvoice:
             field_dict["paidAt"] = paid_at
         if payment is not UNSET:
             field_dict["payment"] = payment
+        if remittances is not UNSET:
+            field_dict["remittances"] = remittances
         if due_date_source is not UNSET:
             field_dict["dueDateSource"] = due_date_source
         if last_reminded_at is not UNSET:
@@ -366,6 +467,10 @@ class FeedValidationResultInvoice:
             field_dict["rejection"] = rejection
         if replaces_invoice_id is not UNSET:
             field_dict["replacesInvoiceId"] = replaces_invoice_id
+        if replaces_invoice_ids is not UNSET:
+            field_dict["replacesInvoiceIds"] = replaces_invoice_ids
+        if replaced_by_invoice_ids is not UNSET:
+            field_dict["replacedByInvoiceIds"] = replaced_by_invoice_ids
         if entered_by is not UNSET:
             field_dict["enteredBy"] = entered_by
         if invoice_date is not UNSET:
@@ -382,6 +487,24 @@ class FeedValidationResultInvoice:
             field_dict["taxBreakdown"] = tax_breakdown
         if withholdings is not UNSET:
             field_dict["withholdings"] = withholdings
+        if document_type is not UNSET:
+            field_dict["documentType"] = document_type
+        if amends_invoice_id is not UNSET:
+            field_dict["amendsInvoiceId"] = amends_invoice_id
+        if amends_external_invoice_number is not UNSET:
+            field_dict["amendsExternalInvoiceNumber"] = amends_external_invoice_number
+        if debit_note_ids is not UNSET:
+            field_dict["debitNoteIds"] = debit_note_ids
+        if invoice_kind is not UNSET:
+            field_dict["invoiceKind"] = invoice_kind
+        if deductions is not UNSET:
+            field_dict["deductions"] = deductions
+        if credit_applications is not UNSET:
+            field_dict["creditApplications"] = credit_applications
+        if credit_note_ids is not UNSET:
+            field_dict["creditNoteIds"] = credit_note_ids
+        if credit_version is not UNSET:
+            field_dict["creditVersion"] = credit_version
         if payment_currency_amount is not UNSET:
             field_dict["paymentCurrencyAmount"] = payment_currency_amount
         if tax_currency_amount is not UNSET:
@@ -423,13 +546,16 @@ class FeedValidationResultInvoice:
         from ..models.invoice_adjustment import InvoiceAdjustment
         from ..models.invoice_base_currency_amount import InvoiceBaseCurrencyAmount
         from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
+        from ..models.invoice_credit_application import InvoiceCreditApplication
         from ..models.invoice_currency_amount import InvoiceCurrencyAmount
+        from ..models.invoice_deduction import InvoiceDeduction
         from ..models.invoice_line_item import InvoiceLineItem
         from ..models.invoice_rejection import InvoiceRejection
         from ..models.invoice_source_document import InvoiceSourceDocument
         from ..models.late_fee_terms import LateFeeTerms
         from ..models.remittance_instructions import RemittanceInstructions
         from ..models.supplier_approval_view import SupplierApprovalView
+        from ..models.supplier_remittance_view import SupplierRemittanceView
 
         d = src_dict.copy()
         supplier = d.pop("supplier", UNSET)
@@ -474,6 +600,10 @@ class FeedValidationResultInvoice:
             line_items.append(line_items_item)
 
         po = d.pop("po", UNSET)
+
+        po_line_no = d.pop("poLineNo", UNSET)
+
+        bills_no_po_line = d.pop("billsNoPoLine", UNSET)
 
         _party_details = d.pop("partyDetails", UNSET)
         party_details: Union[Unset, FeedValidationResultInvoicePartyDetails]
@@ -526,6 +656,13 @@ class FeedValidationResultInvoice:
 
         payment = _parse_payment(d.pop("payment", UNSET))
 
+        remittances = []
+        _remittances = d.pop("remittances", UNSET)
+        for remittances_item_data in _remittances or []:
+            remittances_item = SupplierRemittanceView.from_dict(remittances_item_data)
+
+            remittances.append(remittances_item)
+
         _due_date_source = d.pop("dueDateSource", UNSET)
         due_date_source: Union[Unset, FeedValidationResultInvoiceDueDateSource]
         if isinstance(_due_date_source, Unset):
@@ -545,6 +682,10 @@ class FeedValidationResultInvoice:
             rejection = InvoiceRejection.from_dict(_rejection)
 
         replaces_invoice_id = d.pop("replacesInvoiceId", UNSET)
+
+        replaces_invoice_ids = cast(List[str], d.pop("replacesInvoiceIds", UNSET))
+
+        replaced_by_invoice_ids = cast(List[str], d.pop("replacedByInvoiceIds", UNSET))
 
         _entered_by = d.pop("enteredBy", UNSET)
         entered_by: Union[Unset, FeedValidationResultInvoiceEnteredBy]
@@ -590,6 +731,50 @@ class FeedValidationResultInvoice:
             withholdings_item = InvoiceBreakdownEntry.from_dict(withholdings_item_data)
 
             withholdings.append(withholdings_item)
+
+        _document_type = d.pop("documentType", UNSET)
+        document_type: Union[Unset, FeedValidationResultInvoiceDocumentType]
+        if isinstance(_document_type, Unset):
+            document_type = UNSET
+        else:
+            document_type = check_feed_validation_result_invoice_document_type(
+                _document_type
+            )
+
+        amends_invoice_id = d.pop("amendsInvoiceId", UNSET)
+
+        amends_external_invoice_number = d.pop("amendsExternalInvoiceNumber", UNSET)
+
+        debit_note_ids = cast(List[str], d.pop("debitNoteIds", UNSET))
+
+        _invoice_kind = d.pop("invoiceKind", UNSET)
+        invoice_kind: Union[Unset, FeedValidationResultInvoiceInvoiceKind]
+        if isinstance(_invoice_kind, Unset):
+            invoice_kind = UNSET
+        else:
+            invoice_kind = check_feed_validation_result_invoice_invoice_kind(
+                _invoice_kind
+            )
+
+        deductions = []
+        _deductions = d.pop("deductions", UNSET)
+        for deductions_item_data in _deductions or []:
+            deductions_item = InvoiceDeduction.from_dict(deductions_item_data)
+
+            deductions.append(deductions_item)
+
+        credit_applications = []
+        _credit_applications = d.pop("creditApplications", UNSET)
+        for credit_applications_item_data in _credit_applications or []:
+            credit_applications_item = InvoiceCreditApplication.from_dict(
+                credit_applications_item_data
+            )
+
+            credit_applications.append(credit_applications_item)
+
+        credit_note_ids = cast(List[str], d.pop("creditNoteIds", UNSET))
+
+        credit_version = d.pop("creditVersion", UNSET)
 
         _payment_currency_amount = d.pop("paymentCurrencyAmount", UNSET)
         payment_currency_amount: Union[Unset, InvoiceCurrencyAmount]
@@ -682,6 +867,8 @@ class FeedValidationResultInvoice:
             contract_id=contract_id,
             line_items=line_items,
             po=po,
+            po_line_no=po_line_no,
+            bills_no_po_line=bills_no_po_line,
             party_details=party_details,
             match_status=match_status,
             paid=paid,
@@ -689,10 +876,13 @@ class FeedValidationResultInvoice:
             due_date=due_date,
             paid_at=paid_at,
             payment=payment,
+            remittances=remittances,
             due_date_source=due_date_source,
             last_reminded_at=last_reminded_at,
             rejection=rejection,
             replaces_invoice_id=replaces_invoice_id,
+            replaces_invoice_ids=replaces_invoice_ids,
+            replaced_by_invoice_ids=replaced_by_invoice_ids,
             entered_by=entered_by,
             invoice_date=invoice_date,
             submitted_format=submitted_format,
@@ -701,6 +891,15 @@ class FeedValidationResultInvoice:
             tax_amount=tax_amount,
             tax_breakdown=tax_breakdown,
             withholdings=withholdings,
+            document_type=document_type,
+            amends_invoice_id=amends_invoice_id,
+            amends_external_invoice_number=amends_external_invoice_number,
+            debit_note_ids=debit_note_ids,
+            invoice_kind=invoice_kind,
+            deductions=deductions,
+            credit_applications=credit_applications,
+            credit_note_ids=credit_note_ids,
+            credit_version=credit_version,
             payment_currency_amount=payment_currency_amount,
             tax_currency_amount=tax_currency_amount,
             remittance_instructions=remittance_instructions,

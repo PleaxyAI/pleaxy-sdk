@@ -38,6 +38,9 @@ import ai.pleaxy.client.ApiClient;
   PaymentHistoryEntry.JSON_PROPERTY_AT,
   PaymentHistoryEntry.JSON_PROPERTY_BY,
   PaymentHistoryEntry.JSON_PROPERTY_BY_NAME,
+  PaymentHistoryEntry.JSON_PROPERTY_REMITTANCE_ID,
+  PaymentHistoryEntry.JSON_PROPERTY_CREDIT_NOTE_ID,
+  PaymentHistoryEntry.JSON_PROPERTY_AMOUNT,
   PaymentHistoryEntry.JSON_PROPERTY_RECORD
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -60,7 +63,13 @@ public class PaymentHistoryEntry {
     
     STRIPE_FAILED(String.valueOf("stripe_failed")),
     
-    STRIPE_SUCCEEDED(String.valueOf("stripe_succeeded"));
+    STRIPE_SUCCEEDED(String.valueOf("stripe_succeeded")),
+    
+    REMITTANCE_SENT(String.valueOf("remittance_sent")),
+    
+    CREDIT_APPLIED(String.valueOf("credit_applied")),
+    
+    CREDIT_REMOVED(String.valueOf("credit_removed"));
 
     private String value;
 
@@ -104,6 +113,18 @@ public class PaymentHistoryEntry {
   public static final String JSON_PROPERTY_BY_NAME = "byName";
   @javax.annotation.Nullable
   private String byName;
+
+  public static final String JSON_PROPERTY_REMITTANCE_ID = "remittanceId";
+  @javax.annotation.Nullable
+  private String remittanceId;
+
+  public static final String JSON_PROPERTY_CREDIT_NOTE_ID = "creditNoteId";
+  @javax.annotation.Nullable
+  private String creditNoteId;
+
+  public static final String JSON_PROPERTY_AMOUNT = "amount";
+  @javax.annotation.Nullable
+  private Double amount;
 
   public static final String JSON_PROPERTY_RECORD = "record";
   @javax.annotation.Nullable
@@ -208,6 +229,78 @@ public class PaymentHistoryEntry {
   }
 
 
+  public PaymentHistoryEntry remittanceId(@javax.annotation.Nullable String remittanceId) {
+    this.remittanceId = remittanceId;
+    return this;
+  }
+
+  /**
+   * Get remittanceId
+   * @return remittanceId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REMITTANCE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getRemittanceId() {
+    return remittanceId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REMITTANCE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRemittanceId(@javax.annotation.Nullable String remittanceId) {
+    this.remittanceId = remittanceId;
+  }
+
+
+  public PaymentHistoryEntry creditNoteId(@javax.annotation.Nullable String creditNoteId) {
+    this.creditNoteId = creditNoteId;
+    return this;
+  }
+
+  /**
+   * Get creditNoteId
+   * @return creditNoteId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CREDIT_NOTE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getCreditNoteId() {
+    return creditNoteId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREDIT_NOTE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCreditNoteId(@javax.annotation.Nullable String creditNoteId) {
+    this.creditNoteId = creditNoteId;
+  }
+
+
+  public PaymentHistoryEntry amount(@javax.annotation.Nullable Double amount) {
+    this.amount = amount;
+    return this;
+  }
+
+  /**
+   * Get amount
+   * @return amount
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AMOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getAmount() {
+    return amount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AMOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAmount(@javax.annotation.Nullable Double amount) {
+    this.amount = amount;
+  }
+
+
   public PaymentHistoryEntry record(@javax.annotation.Nullable PaymentHistoryEntryRecord record) {
     this.record = record;
     return this;
@@ -248,12 +341,15 @@ public class PaymentHistoryEntry {
         Objects.equals(this.at, paymentHistoryEntry.at) &&
         Objects.equals(this.by, paymentHistoryEntry.by) &&
         Objects.equals(this.byName, paymentHistoryEntry.byName) &&
+        Objects.equals(this.remittanceId, paymentHistoryEntry.remittanceId) &&
+        Objects.equals(this.creditNoteId, paymentHistoryEntry.creditNoteId) &&
+        Objects.equals(this.amount, paymentHistoryEntry.amount) &&
         Objects.equals(this.record, paymentHistoryEntry.record);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(action, at, by, byName, record);
+    return Objects.hash(action, at, by, byName, remittanceId, creditNoteId, amount, record);
   }
 
   @Override
@@ -264,6 +360,9 @@ public class PaymentHistoryEntry {
     sb.append("    at: ").append(toIndentedString(at)).append("\n");
     sb.append("    by: ").append(toIndentedString(by)).append("\n");
     sb.append("    byName: ").append(toIndentedString(byName)).append("\n");
+    sb.append("    remittanceId: ").append(toIndentedString(remittanceId)).append("\n");
+    sb.append("    creditNoteId: ").append(toIndentedString(creditNoteId)).append("\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    record: ").append(toIndentedString(record)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -330,6 +429,21 @@ public class PaymentHistoryEntry {
     // add `byName` to the URL query string
     if (getByName() != null) {
       joiner.add(String.format("%sbyName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getByName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `remittanceId` to the URL query string
+    if (getRemittanceId() != null) {
+      joiner.add(String.format("%sremittanceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRemittanceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `creditNoteId` to the URL query string
+    if (getCreditNoteId() != null) {
+      joiner.add(String.format("%screditNoteId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreditNoteId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `amount` to the URL query string
+    if (getAmount() != null) {
+      joiner.add(String.format("%samount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAmount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `record` to the URL query string

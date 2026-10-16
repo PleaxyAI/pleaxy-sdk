@@ -29,9 +29,15 @@ module Pleaxy
 
     attr_accessor :message
 
+    attr_accessor :message_id
+
+    attr_accessor :params
+
     attr_accessor :invoice_number
 
     attr_accessor :invoice_id
+
+    attr_accessor :credit_note_id
 
     attr_accessor :key_id
 
@@ -69,8 +75,11 @@ module Pleaxy
         :'status' => :'status',
         :'code' => :'code',
         :'message' => :'message',
+        :'message_id' => :'messageId',
+        :'params' => :'params',
         :'invoice_number' => :'invoiceNumber',
         :'invoice_id' => :'invoiceId',
+        :'credit_note_id' => :'creditNoteId',
         :'key_id' => :'keyId',
         :'cursor' => :'cursor'
       }
@@ -91,8 +100,11 @@ module Pleaxy
         :'status' => :'Float',
         :'code' => :'String',
         :'message' => :'String',
+        :'message_id' => :'String',
+        :'params' => :'Hash<String, FeedAttemptParamsValue>',
         :'invoice_number' => :'String',
         :'invoice_id' => :'String',
+        :'credit_note_id' => :'String',
         :'key_id' => :'String',
         :'cursor' => :'String'
       }
@@ -147,12 +159,26 @@ module Pleaxy
         self.message = attributes[:'message']
       end
 
+      if attributes.key?(:'message_id')
+        self.message_id = attributes[:'message_id']
+      end
+
+      if attributes.key?(:'params')
+        if (value = attributes[:'params']).is_a?(Hash)
+          self.params = value
+        end
+      end
+
       if attributes.key?(:'invoice_number')
         self.invoice_number = attributes[:'invoice_number']
       end
 
       if attributes.key?(:'invoice_id')
         self.invoice_id = attributes[:'invoice_id']
+      end
+
+      if attributes.key?(:'credit_note_id')
+        self.credit_note_id = attributes[:'credit_note_id']
       end
 
       if attributes.key?(:'key_id')
@@ -227,8 +253,11 @@ module Pleaxy
           status == o.status &&
           code == o.code &&
           message == o.message &&
+          message_id == o.message_id &&
+          params == o.params &&
           invoice_number == o.invoice_number &&
           invoice_id == o.invoice_id &&
+          credit_note_id == o.credit_note_id &&
           key_id == o.key_id &&
           cursor == o.cursor
     end
@@ -242,7 +271,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [at, mode, format, outcome, status, code, message, invoice_number, invoice_id, key_id, cursor].hash
+      [at, mode, format, outcome, status, code, message, message_id, params, invoice_number, invoice_id, credit_note_id, key_id, cursor].hash
     end
 
     # Builds the object from hash

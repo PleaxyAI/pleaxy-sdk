@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.BillToPartyInput;
 import ai.pleaxy.model.LineItemInput;
 import ai.pleaxy.model.PayerAccountRefInput;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -43,6 +44,7 @@ import ai.pleaxy.client.ApiClient;
   CreatePurchaseOrderInput.JSON_PROPERTY_CURRENCY,
   CreatePurchaseOrderInput.JSON_PROPERTY_PROVIDER,
   CreatePurchaseOrderInput.JSON_PROPERTY_PAYER_ACCOUNTS,
+  CreatePurchaseOrderInput.JSON_PROPERTY_BILL_TO_PARTY,
   CreatePurchaseOrderInput.JSON_PROPERTY_BILL_TO,
   CreatePurchaseOrderInput.JSON_PROPERTY_COST_CENTER,
   CreatePurchaseOrderInput.JSON_PROPERTY_BUDGET_OWNER,
@@ -119,6 +121,10 @@ public class CreatePurchaseOrderInput {
   public static final String JSON_PROPERTY_PAYER_ACCOUNTS = "payerAccounts";
   @javax.annotation.Nullable
   private List<PayerAccountRefInput> payerAccounts = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_BILL_TO_PARTY = "billToParty";
+  @javax.annotation.Nullable
+  private BillToPartyInput billToParty;
 
   public static final String JSON_PROPERTY_BILL_TO = "billTo";
   @javax.annotation.Nullable
@@ -319,15 +325,41 @@ public class CreatePurchaseOrderInput {
   }
 
 
+  public CreatePurchaseOrderInput billToParty(@javax.annotation.Nullable BillToPartyInput billToParty) {
+    this.billToParty = billToParty;
+    return this;
+  }
+
+  /**
+   * Who the supplier invoices, when it isn&#39;t the buyer&#39;s company profile billing details. Left out, the order copies those details as they are now (company name, billing address, tax id).
+   * @return billToParty
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BILL_TO_PARTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public BillToPartyInput getBillToParty() {
+    return billToParty;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BILL_TO_PARTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBillToParty(@javax.annotation.Nullable BillToPartyInput billToParty) {
+    this.billToParty = billToParty;
+  }
+
+
   public CreatePurchaseOrderInput billTo(@javax.annotation.Nullable String billTo) {
     this.billTo = billTo;
     return this;
   }
 
   /**
-   * Get billTo
+   * Use &#x60;billToParty&#x60;. A one-line bill-to address for the buyer&#39;s company, kept as typed; ignored when &#x60;billToParty&#x60; is sent.
    * @return billTo
+   * @deprecated
    */
+  @Deprecated
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BILL_TO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -609,6 +641,7 @@ public class CreatePurchaseOrderInput {
         Objects.equals(this.currency, createPurchaseOrderInput.currency) &&
         Objects.equals(this.provider, createPurchaseOrderInput.provider) &&
         Objects.equals(this.payerAccounts, createPurchaseOrderInput.payerAccounts) &&
+        Objects.equals(this.billToParty, createPurchaseOrderInput.billToParty) &&
         Objects.equals(this.billTo, createPurchaseOrderInput.billTo) &&
         Objects.equals(this.costCenter, createPurchaseOrderInput.costCenter) &&
         Objects.equals(this.budgetOwner, createPurchaseOrderInput.budgetOwner) &&
@@ -624,7 +657,7 @@ public class CreatePurchaseOrderInput {
 
   @Override
   public int hashCode() {
-    return Objects.hash(poNumber, supplier, supplierRegionId, currency, provider, payerAccounts, billTo, costCenter, budgetOwner, buyerName, supplierSite, supplierContactEmail, notes, contractId, quoteImportId, draft, lineItems);
+    return Objects.hash(poNumber, supplier, supplierRegionId, currency, provider, payerAccounts, billToParty, billTo, costCenter, budgetOwner, buyerName, supplierSite, supplierContactEmail, notes, contractId, quoteImportId, draft, lineItems);
   }
 
   @Override
@@ -637,6 +670,7 @@ public class CreatePurchaseOrderInput {
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    provider: ").append(toIndentedString(provider)).append("\n");
     sb.append("    payerAccounts: ").append(toIndentedString(payerAccounts)).append("\n");
+    sb.append("    billToParty: ").append(toIndentedString(billToParty)).append("\n");
     sb.append("    billTo: ").append(toIndentedString(billTo)).append("\n");
     sb.append("    costCenter: ").append(toIndentedString(costCenter)).append("\n");
     sb.append("    budgetOwner: ").append(toIndentedString(budgetOwner)).append("\n");
@@ -728,6 +762,11 @@ public class CreatePurchaseOrderInput {
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
+    }
+
+    // add `billToParty` to the URL query string
+    if (getBillToParty() != null) {
+      joiner.add(getBillToParty().toUrlQueryString(prefix + "billToParty" + suffix));
     }
 
     // add `billTo` to the URL query string

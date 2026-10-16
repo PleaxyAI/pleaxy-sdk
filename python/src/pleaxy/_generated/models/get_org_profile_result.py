@@ -31,6 +31,8 @@ class GetOrgProfileResult:
         billing_email (Union[Unset, str]):
         billing_address (Union[Unset, str]):
         billing_address_parts (Union[Unset, PostalAddress]):
+        billing_address_legacy_text (Union[Unset, str]):
+        billing_address_needs_review (Union[Unset, bool]):
         tax_id (Union[Unset, str]):
         currency (Union[Unset, str]):
         other_currencies (Union[Unset, List[str]]):
@@ -43,6 +45,8 @@ class GetOrgProfileResult:
         primary_contact_email (Union[Unset, str]):
         created_at (Union[Unset, str]):
         verified (Union[Unset, bool]):
+        listed_in_directory (Union[Unset, bool]):
+        directory_id (Union[Unset, str]):
     """
 
     id: str
@@ -54,6 +58,8 @@ class GetOrgProfileResult:
     billing_email: Union[Unset, str] = UNSET
     billing_address: Union[Unset, str] = UNSET
     billing_address_parts: Union[Unset, "PostalAddress"] = UNSET
+    billing_address_legacy_text: Union[Unset, str] = UNSET
+    billing_address_needs_review: Union[Unset, bool] = UNSET
     tax_id: Union[Unset, str] = UNSET
     currency: Union[Unset, str] = UNSET
     other_currencies: Union[Unset, List[str]] = UNSET
@@ -66,6 +72,8 @@ class GetOrgProfileResult:
     primary_contact_email: Union[Unset, str] = UNSET
     created_at: Union[Unset, str] = UNSET
     verified: Union[Unset, bool] = UNSET
+    listed_in_directory: Union[Unset, bool] = UNSET
+    directory_id: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -92,6 +100,10 @@ class GetOrgProfileResult:
         billing_address_parts: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.billing_address_parts, Unset):
             billing_address_parts = self.billing_address_parts.to_dict()
+
+        billing_address_legacy_text = self.billing_address_legacy_text
+
+        billing_address_needs_review = self.billing_address_needs_review
 
         tax_id = self.tax_id
 
@@ -125,6 +137,10 @@ class GetOrgProfileResult:
 
         verified = self.verified
 
+        listed_in_directory = self.listed_in_directory
+
+        directory_id = self.directory_id
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -148,6 +164,10 @@ class GetOrgProfileResult:
             field_dict["billingAddress"] = billing_address
         if billing_address_parts is not UNSET:
             field_dict["billingAddressParts"] = billing_address_parts
+        if billing_address_legacy_text is not UNSET:
+            field_dict["billingAddressLegacyText"] = billing_address_legacy_text
+        if billing_address_needs_review is not UNSET:
+            field_dict["billingAddressNeedsReview"] = billing_address_needs_review
         if tax_id is not UNSET:
             field_dict["taxId"] = tax_id
         if currency is not UNSET:
@@ -172,6 +192,10 @@ class GetOrgProfileResult:
             field_dict["createdAt"] = created_at
         if verified is not UNSET:
             field_dict["verified"] = verified
+        if listed_in_directory is not UNSET:
+            field_dict["listedInDirectory"] = listed_in_directory
+        if directory_id is not UNSET:
+            field_dict["directoryId"] = directory_id
 
         return field_dict
 
@@ -215,6 +239,10 @@ class GetOrgProfileResult:
         else:
             billing_address_parts = PostalAddress.from_dict(_billing_address_parts)
 
+        billing_address_legacy_text = d.pop("billingAddressLegacyText", UNSET)
+
+        billing_address_needs_review = d.pop("billingAddressNeedsReview", UNSET)
+
         tax_id = d.pop("taxId", UNSET)
 
         currency = d.pop("currency", UNSET)
@@ -244,6 +272,10 @@ class GetOrgProfileResult:
 
         verified = d.pop("verified", UNSET)
 
+        listed_in_directory = d.pop("listedInDirectory", UNSET)
+
+        directory_id = d.pop("directoryId", UNSET)
+
         get_org_profile_result = cls(
             id=id,
             images=images,
@@ -254,6 +286,8 @@ class GetOrgProfileResult:
             billing_email=billing_email,
             billing_address=billing_address,
             billing_address_parts=billing_address_parts,
+            billing_address_legacy_text=billing_address_legacy_text,
+            billing_address_needs_review=billing_address_needs_review,
             tax_id=tax_id,
             currency=currency,
             other_currencies=other_currencies,
@@ -266,6 +300,8 @@ class GetOrgProfileResult:
             primary_contact_email=primary_contact_email,
             created_at=created_at,
             verified=verified,
+            listed_in_directory=listed_in_directory,
+            directory_id=directory_id,
         )
 
         get_org_profile_result.additional_properties = d

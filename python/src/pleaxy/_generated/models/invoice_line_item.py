@@ -18,8 +18,6 @@ class InvoiceLineItem:
         amount (Union[Unset, float]):
         discount (Union[Unset, float]):
         charge (Union[Unset, float]):
-        po_line_no (Union[Unset, float]):
-        bills_no_po_line (Union[Unset, bool]):
     """
 
     description: Union[Unset, str] = UNSET
@@ -28,8 +26,6 @@ class InvoiceLineItem:
     amount: Union[Unset, float] = UNSET
     discount: Union[Unset, float] = UNSET
     charge: Union[Unset, float] = UNSET
-    po_line_no: Union[Unset, float] = UNSET
-    bills_no_po_line: Union[Unset, bool] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -44,10 +40,6 @@ class InvoiceLineItem:
         discount = self.discount
 
         charge = self.charge
-
-        po_line_no = self.po_line_no
-
-        bills_no_po_line = self.bills_no_po_line
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -64,10 +56,6 @@ class InvoiceLineItem:
             field_dict["discount"] = discount
         if charge is not UNSET:
             field_dict["charge"] = charge
-        if po_line_no is not UNSET:
-            field_dict["poLineNo"] = po_line_no
-        if bills_no_po_line is not UNSET:
-            field_dict["billsNoPoLine"] = bills_no_po_line
 
         return field_dict
 
@@ -86,10 +74,6 @@ class InvoiceLineItem:
 
         charge = d.pop("charge", UNSET)
 
-        po_line_no = d.pop("poLineNo", UNSET)
-
-        bills_no_po_line = d.pop("billsNoPoLine", UNSET)
-
         invoice_line_item = cls(
             description=description,
             qty=qty,
@@ -97,8 +81,6 @@ class InvoiceLineItem:
             amount=amount,
             discount=discount,
             charge=charge,
-            po_line_no=po_line_no,
-            bills_no_po_line=bills_no_po_line,
         )
 
         invoice_line_item.additional_properties = d

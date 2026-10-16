@@ -15,6 +15,8 @@ require 'time'
 
 module Pleaxy
   class InvoicePartyDetails
+    attr_accessor :name
+
     attr_accessor :address_lines
 
     attr_accessor :tax_id
@@ -24,6 +26,7 @@ module Pleaxy
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'name' => :'name',
         :'address_lines' => :'addressLines',
         :'tax_id' => :'taxId',
         :'tax_id_label' => :'taxIdLabel'
@@ -38,6 +41,7 @@ module Pleaxy
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'name' => :'String',
         :'address_lines' => :'Array<String>',
         :'tax_id' => :'String',
         :'tax_id_label' => :'String'
@@ -64,6 +68,10 @@ module Pleaxy
         end
         h[k.to_sym] = v
       }
+
+      if attributes.key?(:'name')
+        self.name = attributes[:'name']
+      end
 
       if attributes.key?(:'address_lines')
         if (value = attributes[:'address_lines']).is_a?(Array)
@@ -100,6 +108,7 @@ module Pleaxy
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
+          name == o.name &&
           address_lines == o.address_lines &&
           tax_id == o.tax_id &&
           tax_id_label == o.tax_id_label
@@ -114,7 +123,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [address_lines, tax_id, tax_id_label].hash
+      [name, address_lines, tax_id, tax_id_label].hash
     end
 
     # Builds the object from hash

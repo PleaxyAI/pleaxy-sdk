@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.InvoiceCounterpartyOpenPurchaseOrdersInnerLinesInner;
+import ai.pleaxy.model.OpenPurchaseOrderDeposit;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -42,7 +43,10 @@ import ai.pleaxy.client.ApiClient;
   InvoiceCounterpartyOpenPurchaseOrdersInner.JSON_PROPERTY_LABEL,
   InvoiceCounterpartyOpenPurchaseOrdersInner.JSON_PROPERTY_CURRENCY,
   InvoiceCounterpartyOpenPurchaseOrdersInner.JSON_PROPERTY_INVOICED_AMOUNT,
-  InvoiceCounterpartyOpenPurchaseOrdersInner.JSON_PROPERTY_LINES
+  InvoiceCounterpartyOpenPurchaseOrdersInner.JSON_PROPERTY_LINES,
+  InvoiceCounterpartyOpenPurchaseOrdersInner.JSON_PROPERTY_DEFAULT_DUE_IN_DAYS,
+  InvoiceCounterpartyOpenPurchaseOrdersInner.JSON_PROPERTY_BILL_TO_COMPANY_NAME,
+  InvoiceCounterpartyOpenPurchaseOrdersInner.JSON_PROPERTY_PAID_DEPOSITS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class InvoiceCounterpartyOpenPurchaseOrdersInner {
@@ -73,6 +77,18 @@ public class InvoiceCounterpartyOpenPurchaseOrdersInner {
   public static final String JSON_PROPERTY_LINES = "lines";
   @javax.annotation.Nullable
   private List<InvoiceCounterpartyOpenPurchaseOrdersInnerLinesInner> lines = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_DEFAULT_DUE_IN_DAYS = "defaultDueInDays";
+  @javax.annotation.Nullable
+  private Double defaultDueInDays;
+
+  public static final String JSON_PROPERTY_BILL_TO_COMPANY_NAME = "billToCompanyName";
+  @javax.annotation.Nullable
+  private String billToCompanyName;
+
+  public static final String JSON_PROPERTY_PAID_DEPOSITS = "paidDeposits";
+  @javax.annotation.Nullable
+  private List<OpenPurchaseOrderDeposit> paidDeposits = new ArrayList<>();
 
   public InvoiceCounterpartyOpenPurchaseOrdersInner() { 
   }
@@ -253,6 +269,86 @@ public class InvoiceCounterpartyOpenPurchaseOrdersInner {
   }
 
 
+  public InvoiceCounterpartyOpenPurchaseOrdersInner defaultDueInDays(@javax.annotation.Nullable Double defaultDueInDays) {
+    this.defaultDueInDays = defaultDueInDays;
+    return this;
+  }
+
+  /**
+   * Get defaultDueInDays
+   * @return defaultDueInDays
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DEFAULT_DUE_IN_DAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getDefaultDueInDays() {
+    return defaultDueInDays;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DEFAULT_DUE_IN_DAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDefaultDueInDays(@javax.annotation.Nullable Double defaultDueInDays) {
+    this.defaultDueInDays = defaultDueInDays;
+  }
+
+
+  public InvoiceCounterpartyOpenPurchaseOrdersInner billToCompanyName(@javax.annotation.Nullable String billToCompanyName) {
+    this.billToCompanyName = billToCompanyName;
+    return this;
+  }
+
+  /**
+   * Get billToCompanyName
+   * @return billToCompanyName
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BILL_TO_COMPANY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getBillToCompanyName() {
+    return billToCompanyName;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BILL_TO_COMPANY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBillToCompanyName(@javax.annotation.Nullable String billToCompanyName) {
+    this.billToCompanyName = billToCompanyName;
+  }
+
+
+  public InvoiceCounterpartyOpenPurchaseOrdersInner paidDeposits(@javax.annotation.Nullable List<OpenPurchaseOrderDeposit> paidDeposits) {
+    this.paidDeposits = paidDeposits;
+    return this;
+  }
+
+  public InvoiceCounterpartyOpenPurchaseOrdersInner addPaidDepositsItem(OpenPurchaseOrderDeposit paidDepositsItem) {
+    if (this.paidDeposits == null) {
+      this.paidDeposits = new ArrayList<>();
+    }
+    this.paidDeposits.add(paidDepositsItem);
+    return this;
+  }
+
+  /**
+   * Get paidDeposits
+   * @return paidDeposits
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PAID_DEPOSITS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<OpenPurchaseOrderDeposit> getPaidDeposits() {
+    return paidDeposits;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PAID_DEPOSITS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaidDeposits(@javax.annotation.Nullable List<OpenPurchaseOrderDeposit> paidDeposits) {
+    this.paidDeposits = paidDeposits;
+  }
+
+
   /**
    * Return true if this InvoiceCounterparty_openPurchaseOrders_inner object is equal to o.
    */
@@ -271,12 +367,15 @@ public class InvoiceCounterpartyOpenPurchaseOrdersInner {
         Objects.equals(this.label, invoiceCounterpartyOpenPurchaseOrdersInner.label) &&
         Objects.equals(this.currency, invoiceCounterpartyOpenPurchaseOrdersInner.currency) &&
         Objects.equals(this.invoicedAmount, invoiceCounterpartyOpenPurchaseOrdersInner.invoicedAmount) &&
-        Objects.equals(this.lines, invoiceCounterpartyOpenPurchaseOrdersInner.lines);
+        Objects.equals(this.lines, invoiceCounterpartyOpenPurchaseOrdersInner.lines) &&
+        Objects.equals(this.defaultDueInDays, invoiceCounterpartyOpenPurchaseOrdersInner.defaultDueInDays) &&
+        Objects.equals(this.billToCompanyName, invoiceCounterpartyOpenPurchaseOrdersInner.billToCompanyName) &&
+        Objects.equals(this.paidDeposits, invoiceCounterpartyOpenPurchaseOrdersInner.paidDeposits);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, amount, createdAt, label, currency, invoicedAmount, lines);
+    return Objects.hash(id, amount, createdAt, label, currency, invoicedAmount, lines, defaultDueInDays, billToCompanyName, paidDeposits);
   }
 
   @Override
@@ -290,6 +389,9 @@ public class InvoiceCounterpartyOpenPurchaseOrdersInner {
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    invoicedAmount: ").append(toIndentedString(invoicedAmount)).append("\n");
     sb.append("    lines: ").append(toIndentedString(lines)).append("\n");
+    sb.append("    defaultDueInDays: ").append(toIndentedString(defaultDueInDays)).append("\n");
+    sb.append("    billToCompanyName: ").append(toIndentedString(billToCompanyName)).append("\n");
+    sb.append("    paidDeposits: ").append(toIndentedString(paidDeposits)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -372,6 +474,26 @@ public class InvoiceCounterpartyOpenPurchaseOrdersInner {
       for (int i = 0; i < getLines().size(); i++) {
         if (getLines().get(i) != null) {
           joiner.add(getLines().get(i).toUrlQueryString(String.format("%slines%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `defaultDueInDays` to the URL query string
+    if (getDefaultDueInDays() != null) {
+      joiner.add(String.format("%sdefaultDueInDays%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDefaultDueInDays()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `billToCompanyName` to the URL query string
+    if (getBillToCompanyName() != null) {
+      joiner.add(String.format("%sbillToCompanyName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBillToCompanyName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `paidDeposits` to the URL query string
+    if (getPaidDeposits() != null) {
+      for (int i = 0; i < getPaidDeposits().size(); i++) {
+        if (getPaidDeposits().get(i) != null) {
+          joiner.add(getPaidDeposits().get(i).toUrlQueryString(String.format("%spaidDeposits%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }

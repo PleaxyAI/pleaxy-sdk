@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -9,6 +9,11 @@ from ..models.notification_audience import (
 )
 from ..models.notification_type import NotificationType, check_notification_type
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.notification_resolution import NotificationResolution
+    from ..models.server_message_params import ServerMessageParams
+
 
 T = TypeVar("T", bound="Notification")
 
@@ -23,11 +28,16 @@ class Notification:
         type (Union[Unset, NotificationType]):
         title (Union[Unset, str]):
         body (Union[Unset, str]):
+        title_message_id (Union[Unset, str]):
+        title_params (Union[Unset, ServerMessageParams]):
+        body_message_id (Union[Unset, str]):
+        body_params (Union[Unset, ServerMessageParams]):
         related_id (Union[Unset, str]):
         stage_id (Union[Unset, str]):
         buyer_workspace_id (Union[Unset, str]):
         created_at (Union[Unset, str]):
         read (Union[Unset, bool]):
+        resolution (Union[Unset, NotificationResolution]):
     """
 
     id: str
@@ -36,11 +46,16 @@ class Notification:
     type: Union[Unset, NotificationType] = UNSET
     title: Union[Unset, str] = UNSET
     body: Union[Unset, str] = UNSET
+    title_message_id: Union[Unset, str] = UNSET
+    title_params: Union[Unset, "ServerMessageParams"] = UNSET
+    body_message_id: Union[Unset, str] = UNSET
+    body_params: Union[Unset, "ServerMessageParams"] = UNSET
     related_id: Union[Unset, str] = UNSET
     stage_id: Union[Unset, str] = UNSET
     buyer_workspace_id: Union[Unset, str] = UNSET
     created_at: Union[Unset, str] = UNSET
     read: Union[Unset, bool] = UNSET
+    resolution: Union[Unset, "NotificationResolution"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -60,6 +75,18 @@ class Notification:
 
         body = self.body
 
+        title_message_id = self.title_message_id
+
+        title_params: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.title_params, Unset):
+            title_params = self.title_params.to_dict()
+
+        body_message_id = self.body_message_id
+
+        body_params: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.body_params, Unset):
+            body_params = self.body_params.to_dict()
+
         related_id = self.related_id
 
         stage_id = self.stage_id
@@ -69,6 +96,10 @@ class Notification:
         created_at = self.created_at
 
         read = self.read
+
+        resolution: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.resolution, Unset):
+            resolution = self.resolution.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -87,6 +118,14 @@ class Notification:
             field_dict["title"] = title
         if body is not UNSET:
             field_dict["body"] = body
+        if title_message_id is not UNSET:
+            field_dict["titleMessageId"] = title_message_id
+        if title_params is not UNSET:
+            field_dict["titleParams"] = title_params
+        if body_message_id is not UNSET:
+            field_dict["bodyMessageId"] = body_message_id
+        if body_params is not UNSET:
+            field_dict["bodyParams"] = body_params
         if related_id is not UNSET:
             field_dict["relatedId"] = related_id
         if stage_id is not UNSET:
@@ -97,11 +136,16 @@ class Notification:
             field_dict["createdAt"] = created_at
         if read is not UNSET:
             field_dict["read"] = read
+        if resolution is not UNSET:
+            field_dict["resolution"] = resolution
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.notification_resolution import NotificationResolution
+        from ..models.server_message_params import ServerMessageParams
+
         d = src_dict.copy()
         id = d.pop("id")
 
@@ -125,6 +169,24 @@ class Notification:
 
         body = d.pop("body", UNSET)
 
+        title_message_id = d.pop("titleMessageId", UNSET)
+
+        _title_params = d.pop("titleParams", UNSET)
+        title_params: Union[Unset, ServerMessageParams]
+        if isinstance(_title_params, Unset):
+            title_params = UNSET
+        else:
+            title_params = ServerMessageParams.from_dict(_title_params)
+
+        body_message_id = d.pop("bodyMessageId", UNSET)
+
+        _body_params = d.pop("bodyParams", UNSET)
+        body_params: Union[Unset, ServerMessageParams]
+        if isinstance(_body_params, Unset):
+            body_params = UNSET
+        else:
+            body_params = ServerMessageParams.from_dict(_body_params)
+
         related_id = d.pop("relatedId", UNSET)
 
         stage_id = d.pop("stageId", UNSET)
@@ -135,6 +197,13 @@ class Notification:
 
         read = d.pop("read", UNSET)
 
+        _resolution = d.pop("resolution", UNSET)
+        resolution: Union[Unset, NotificationResolution]
+        if isinstance(_resolution, Unset):
+            resolution = UNSET
+        else:
+            resolution = NotificationResolution.from_dict(_resolution)
+
         notification = cls(
             id=id,
             audience=audience,
@@ -142,11 +211,16 @@ class Notification:
             type=type,
             title=title,
             body=body,
+            title_message_id=title_message_id,
+            title_params=title_params,
+            body_message_id=body_message_id,
+            body_params=body_params,
             related_id=related_id,
             stage_id=stage_id,
             buyer_workspace_id=buyer_workspace_id,
             created_at=created_at,
             read=read,
+            resolution=resolution,
         )
 
         notification.additional_properties = d

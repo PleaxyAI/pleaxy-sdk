@@ -35,7 +35,8 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   InvoiceSourceDocument.JSON_PROPERTY_IMPORT_ID,
   InvoiceSourceDocument.JSON_PROPERTY_FILE_NAME,
-  InvoiceSourceDocument.JSON_PROPERTY_CONTENT_TYPE
+  InvoiceSourceDocument.JSON_PROPERTY_CONTENT_TYPE,
+  InvoiceSourceDocument.JSON_PROPERTY_STATED_PO_NUMBER
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class InvoiceSourceDocument {
@@ -87,6 +88,10 @@ public class InvoiceSourceDocument {
   public static final String JSON_PROPERTY_CONTENT_TYPE = "contentType";
   @javax.annotation.Nullable
   private ContentTypeEnum contentType;
+
+  public static final String JSON_PROPERTY_STATED_PO_NUMBER = "statedPoNumber";
+  @javax.annotation.Nullable
+  private String statedPoNumber;
 
   public InvoiceSourceDocument() { 
   }
@@ -163,6 +168,30 @@ public class InvoiceSourceDocument {
   }
 
 
+  public InvoiceSourceDocument statedPoNumber(@javax.annotation.Nullable String statedPoNumber) {
+    this.statedPoNumber = statedPoNumber;
+    return this;
+  }
+
+  /**
+   * Get statedPoNumber
+   * @return statedPoNumber
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_STATED_PO_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getStatedPoNumber() {
+    return statedPoNumber;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_STATED_PO_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setStatedPoNumber(@javax.annotation.Nullable String statedPoNumber) {
+    this.statedPoNumber = statedPoNumber;
+  }
+
+
   /**
    * Return true if this InvoiceSourceDocument object is equal to o.
    */
@@ -177,12 +206,13 @@ public class InvoiceSourceDocument {
     InvoiceSourceDocument invoiceSourceDocument = (InvoiceSourceDocument) o;
     return Objects.equals(this.importId, invoiceSourceDocument.importId) &&
         Objects.equals(this.fileName, invoiceSourceDocument.fileName) &&
-        Objects.equals(this.contentType, invoiceSourceDocument.contentType);
+        Objects.equals(this.contentType, invoiceSourceDocument.contentType) &&
+        Objects.equals(this.statedPoNumber, invoiceSourceDocument.statedPoNumber);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(importId, fileName, contentType);
+    return Objects.hash(importId, fileName, contentType, statedPoNumber);
   }
 
   @Override
@@ -192,6 +222,7 @@ public class InvoiceSourceDocument {
     sb.append("    importId: ").append(toIndentedString(importId)).append("\n");
     sb.append("    fileName: ").append(toIndentedString(fileName)).append("\n");
     sb.append("    contentType: ").append(toIndentedString(contentType)).append("\n");
+    sb.append("    statedPoNumber: ").append(toIndentedString(statedPoNumber)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -252,6 +283,11 @@ public class InvoiceSourceDocument {
     // add `contentType` to the URL query string
     if (getContentType() != null) {
       joiner.add(String.format("%scontentType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getContentType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `statedPoNumber` to the URL query string
+    if (getStatedPoNumber() != null) {
+      joiner.add(String.format("%sstatedPoNumber%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStatedPoNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

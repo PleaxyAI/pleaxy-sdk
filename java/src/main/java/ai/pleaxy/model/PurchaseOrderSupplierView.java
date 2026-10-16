@@ -21,7 +21,12 @@ import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.LineItem;
 import ai.pleaxy.model.PayerAccountRef;
+import ai.pleaxy.model.PurchaseOrderBillTo;
+import ai.pleaxy.model.PurchaseOrderShipTo;
+import ai.pleaxy.model.PurchaseOrderSupplierEmail;
+import ai.pleaxy.model.PurchaseOrderSupplierViewPriorInvoiced;
 import ai.pleaxy.model.PurchaseOrderSupplierViewQuoteDocument;
+import ai.pleaxy.model.StoreOrder;
 import ai.pleaxy.model.SupplierApprovalView;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -56,14 +61,21 @@ import ai.pleaxy.client.ApiClient;
   PurchaseOrderSupplierView.JSON_PROPERTY_LAST_REPLACED_INVOICE_ID,
   PurchaseOrderSupplierView.JSON_PROPERTY_PAYER_ACCOUNTS,
   PurchaseOrderSupplierView.JSON_PROPERTY_BILL_TO,
+  PurchaseOrderSupplierView.JSON_PROPERTY_BILL_TO_PARTY,
   PurchaseOrderSupplierView.JSON_PROPERTY_BUYER_ORG_NAME,
   PurchaseOrderSupplierView.JSON_PROPERTY_BUYER_REGION_NAME,
   PurchaseOrderSupplierView.JSON_PROPERTY_SUPPLIER_REGION_NAME,
   PurchaseOrderSupplierView.JSON_PROPERTY_SUPPLIER_SITE,
   PurchaseOrderSupplierView.JSON_PROPERTY_CONTRACT_ID,
+  PurchaseOrderSupplierView.JSON_PROPERTY_SUPPLIER_EMAIL,
   PurchaseOrderSupplierView.JSON_PROPERTY_LINE_ITEMS,
   PurchaseOrderSupplierView.JSON_PROPERTY_VERSION,
+  PurchaseOrderSupplierView.JSON_PROPERTY_STORE_ID,
+  PurchaseOrderSupplierView.JSON_PROPERTY_DELIVERY_ADDRESS_ID,
+  PurchaseOrderSupplierView.JSON_PROPERTY_SHIP_TO,
+  PurchaseOrderSupplierView.JSON_PROPERTY_STORE_ORDER,
   PurchaseOrderSupplierView.JSON_PROPERTY_APPROVAL,
+  PurchaseOrderSupplierView.JSON_PROPERTY_PRIOR_INVOICED,
   PurchaseOrderSupplierView.JSON_PROPERTY_QUOTE_DOCUMENT,
   PurchaseOrderSupplierView.JSON_PROPERTY_BUYER_WORKSPACE_ID
 })
@@ -225,6 +237,10 @@ public class PurchaseOrderSupplierView {
   @javax.annotation.Nullable
   private String billTo;
 
+  public static final String JSON_PROPERTY_BILL_TO_PARTY = "billToParty";
+  @javax.annotation.Nullable
+  private PurchaseOrderBillTo billToParty;
+
   public static final String JSON_PROPERTY_BUYER_ORG_NAME = "buyerOrgName";
   @javax.annotation.Nullable
   private String buyerOrgName;
@@ -245,6 +261,10 @@ public class PurchaseOrderSupplierView {
   @javax.annotation.Nullable
   private String contractId;
 
+  public static final String JSON_PROPERTY_SUPPLIER_EMAIL = "supplierEmail";
+  @javax.annotation.Nullable
+  private PurchaseOrderSupplierEmail supplierEmail;
+
   public static final String JSON_PROPERTY_LINE_ITEMS = "lineItems";
   @javax.annotation.Nullable
   private List<LineItem> lineItems = new ArrayList<>();
@@ -253,9 +273,29 @@ public class PurchaseOrderSupplierView {
   @javax.annotation.Nullable
   private Double version;
 
+  public static final String JSON_PROPERTY_STORE_ID = "storeId";
+  @javax.annotation.Nullable
+  private String storeId;
+
+  public static final String JSON_PROPERTY_DELIVERY_ADDRESS_ID = "deliveryAddressId";
+  @javax.annotation.Nullable
+  private String deliveryAddressId;
+
+  public static final String JSON_PROPERTY_SHIP_TO = "shipTo";
+  @javax.annotation.Nullable
+  private PurchaseOrderShipTo shipTo;
+
+  public static final String JSON_PROPERTY_STORE_ORDER = "storeOrder";
+  @javax.annotation.Nullable
+  private StoreOrder storeOrder;
+
   public static final String JSON_PROPERTY_APPROVAL = "approval";
   @javax.annotation.Nullable
   private SupplierApprovalView approval;
+
+  public static final String JSON_PROPERTY_PRIOR_INVOICED = "priorInvoiced";
+  @javax.annotation.Nullable
+  private PurchaseOrderSupplierViewPriorInvoiced priorInvoiced;
 
   public static final String JSON_PROPERTY_QUOTE_DOCUMENT = "quoteDocument";
   @javax.annotation.Nullable
@@ -692,6 +732,30 @@ public class PurchaseOrderSupplierView {
   }
 
 
+  public PurchaseOrderSupplierView billToParty(@javax.annotation.Nullable PurchaseOrderBillTo billToParty) {
+    this.billToParty = billToParty;
+    return this;
+  }
+
+  /**
+   * Get billToParty
+   * @return billToParty
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BILL_TO_PARTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PurchaseOrderBillTo getBillToParty() {
+    return billToParty;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BILL_TO_PARTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBillToParty(@javax.annotation.Nullable PurchaseOrderBillTo billToParty) {
+    this.billToParty = billToParty;
+  }
+
+
   public PurchaseOrderSupplierView buyerOrgName(@javax.annotation.Nullable String buyerOrgName) {
     this.buyerOrgName = buyerOrgName;
     return this;
@@ -812,6 +876,30 @@ public class PurchaseOrderSupplierView {
   }
 
 
+  public PurchaseOrderSupplierView supplierEmail(@javax.annotation.Nullable PurchaseOrderSupplierEmail supplierEmail) {
+    this.supplierEmail = supplierEmail;
+    return this;
+  }
+
+  /**
+   * Get supplierEmail
+   * @return supplierEmail
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_EMAIL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PurchaseOrderSupplierEmail getSupplierEmail() {
+    return supplierEmail;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_EMAIL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSupplierEmail(@javax.annotation.Nullable PurchaseOrderSupplierEmail supplierEmail) {
+    this.supplierEmail = supplierEmail;
+  }
+
+
   public PurchaseOrderSupplierView lineItems(@javax.annotation.Nullable List<LineItem> lineItems) {
     this.lineItems = lineItems;
     return this;
@@ -868,6 +956,102 @@ public class PurchaseOrderSupplierView {
   }
 
 
+  public PurchaseOrderSupplierView storeId(@javax.annotation.Nullable String storeId) {
+    this.storeId = storeId;
+    return this;
+  }
+
+  /**
+   * Get storeId
+   * @return storeId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_STORE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getStoreId() {
+    return storeId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_STORE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setStoreId(@javax.annotation.Nullable String storeId) {
+    this.storeId = storeId;
+  }
+
+
+  public PurchaseOrderSupplierView deliveryAddressId(@javax.annotation.Nullable String deliveryAddressId) {
+    this.deliveryAddressId = deliveryAddressId;
+    return this;
+  }
+
+  /**
+   * Get deliveryAddressId
+   * @return deliveryAddressId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DELIVERY_ADDRESS_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getDeliveryAddressId() {
+    return deliveryAddressId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DELIVERY_ADDRESS_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDeliveryAddressId(@javax.annotation.Nullable String deliveryAddressId) {
+    this.deliveryAddressId = deliveryAddressId;
+  }
+
+
+  public PurchaseOrderSupplierView shipTo(@javax.annotation.Nullable PurchaseOrderShipTo shipTo) {
+    this.shipTo = shipTo;
+    return this;
+  }
+
+  /**
+   * Get shipTo
+   * @return shipTo
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SHIP_TO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PurchaseOrderShipTo getShipTo() {
+    return shipTo;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SHIP_TO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setShipTo(@javax.annotation.Nullable PurchaseOrderShipTo shipTo) {
+    this.shipTo = shipTo;
+  }
+
+
+  public PurchaseOrderSupplierView storeOrder(@javax.annotation.Nullable StoreOrder storeOrder) {
+    this.storeOrder = storeOrder;
+    return this;
+  }
+
+  /**
+   * Get storeOrder
+   * @return storeOrder
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_STORE_ORDER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public StoreOrder getStoreOrder() {
+    return storeOrder;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_STORE_ORDER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setStoreOrder(@javax.annotation.Nullable StoreOrder storeOrder) {
+    this.storeOrder = storeOrder;
+  }
+
+
   public PurchaseOrderSupplierView approval(@javax.annotation.Nullable SupplierApprovalView approval) {
     this.approval = approval;
     return this;
@@ -889,6 +1073,30 @@ public class PurchaseOrderSupplierView {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setApproval(@javax.annotation.Nullable SupplierApprovalView approval) {
     this.approval = approval;
+  }
+
+
+  public PurchaseOrderSupplierView priorInvoiced(@javax.annotation.Nullable PurchaseOrderSupplierViewPriorInvoiced priorInvoiced) {
+    this.priorInvoiced = priorInvoiced;
+    return this;
+  }
+
+  /**
+   * Get priorInvoiced
+   * @return priorInvoiced
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PRIOR_INVOICED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PurchaseOrderSupplierViewPriorInvoiced getPriorInvoiced() {
+    return priorInvoiced;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PRIOR_INVOICED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPriorInvoiced(@javax.annotation.Nullable PurchaseOrderSupplierViewPriorInvoiced priorInvoiced) {
+    this.priorInvoiced = priorInvoiced;
   }
 
 
@@ -969,21 +1177,28 @@ public class PurchaseOrderSupplierView {
         Objects.equals(this.lastReplacedInvoiceId, purchaseOrderSupplierView.lastReplacedInvoiceId) &&
         Objects.equals(this.payerAccounts, purchaseOrderSupplierView.payerAccounts) &&
         Objects.equals(this.billTo, purchaseOrderSupplierView.billTo) &&
+        Objects.equals(this.billToParty, purchaseOrderSupplierView.billToParty) &&
         Objects.equals(this.buyerOrgName, purchaseOrderSupplierView.buyerOrgName) &&
         Objects.equals(this.buyerRegionName, purchaseOrderSupplierView.buyerRegionName) &&
         Objects.equals(this.supplierRegionName, purchaseOrderSupplierView.supplierRegionName) &&
         Objects.equals(this.supplierSite, purchaseOrderSupplierView.supplierSite) &&
         Objects.equals(this.contractId, purchaseOrderSupplierView.contractId) &&
+        Objects.equals(this.supplierEmail, purchaseOrderSupplierView.supplierEmail) &&
         Objects.equals(this.lineItems, purchaseOrderSupplierView.lineItems) &&
         Objects.equals(this.version, purchaseOrderSupplierView.version) &&
+        Objects.equals(this.storeId, purchaseOrderSupplierView.storeId) &&
+        Objects.equals(this.deliveryAddressId, purchaseOrderSupplierView.deliveryAddressId) &&
+        Objects.equals(this.shipTo, purchaseOrderSupplierView.shipTo) &&
+        Objects.equals(this.storeOrder, purchaseOrderSupplierView.storeOrder) &&
         Objects.equals(this.approval, purchaseOrderSupplierView.approval) &&
+        Objects.equals(this.priorInvoiced, purchaseOrderSupplierView.priorInvoiced) &&
         Objects.equals(this.quoteDocument, purchaseOrderSupplierView.quoteDocument) &&
         Objects.equals(this.buyerWorkspaceId, purchaseOrderSupplierView.buyerWorkspaceId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, provider, id, buyerOrgId, supplierOrgId, status, createdAt, amount, currency, invoiceId, invoiceIds, invoicedAmount, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, payerAccounts, billTo, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, contractId, lineItems, version, approval, quoteDocument, buyerWorkspaceId);
+    return Objects.hash(supplier, provider, id, buyerOrgId, supplierOrgId, status, createdAt, amount, currency, invoiceId, invoiceIds, invoicedAmount, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, payerAccounts, billTo, billToParty, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, contractId, supplierEmail, lineItems, version, storeId, deliveryAddressId, shipTo, storeOrder, approval, priorInvoiced, quoteDocument, buyerWorkspaceId);
   }
 
   @Override
@@ -1007,14 +1222,21 @@ public class PurchaseOrderSupplierView {
     sb.append("    lastReplacedInvoiceId: ").append(toIndentedString(lastReplacedInvoiceId)).append("\n");
     sb.append("    payerAccounts: ").append(toIndentedString(payerAccounts)).append("\n");
     sb.append("    billTo: ").append(toIndentedString(billTo)).append("\n");
+    sb.append("    billToParty: ").append(toIndentedString(billToParty)).append("\n");
     sb.append("    buyerOrgName: ").append(toIndentedString(buyerOrgName)).append("\n");
     sb.append("    buyerRegionName: ").append(toIndentedString(buyerRegionName)).append("\n");
     sb.append("    supplierRegionName: ").append(toIndentedString(supplierRegionName)).append("\n");
     sb.append("    supplierSite: ").append(toIndentedString(supplierSite)).append("\n");
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
+    sb.append("    supplierEmail: ").append(toIndentedString(supplierEmail)).append("\n");
     sb.append("    lineItems: ").append(toIndentedString(lineItems)).append("\n");
     sb.append("    version: ").append(toIndentedString(version)).append("\n");
+    sb.append("    storeId: ").append(toIndentedString(storeId)).append("\n");
+    sb.append("    deliveryAddressId: ").append(toIndentedString(deliveryAddressId)).append("\n");
+    sb.append("    shipTo: ").append(toIndentedString(shipTo)).append("\n");
+    sb.append("    storeOrder: ").append(toIndentedString(storeOrder)).append("\n");
     sb.append("    approval: ").append(toIndentedString(approval)).append("\n");
+    sb.append("    priorInvoiced: ").append(toIndentedString(priorInvoiced)).append("\n");
     sb.append("    quoteDocument: ").append(toIndentedString(quoteDocument)).append("\n");
     sb.append("    buyerWorkspaceId: ").append(toIndentedString(buyerWorkspaceId)).append("\n");
     sb.append("}");
@@ -1158,6 +1380,11 @@ public class PurchaseOrderSupplierView {
       joiner.add(String.format("%sbillTo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBillTo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `billToParty` to the URL query string
+    if (getBillToParty() != null) {
+      joiner.add(getBillToParty().toUrlQueryString(prefix + "billToParty" + suffix));
+    }
+
     // add `buyerOrgName` to the URL query string
     if (getBuyerOrgName() != null) {
       joiner.add(String.format("%sbuyerOrgName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBuyerOrgName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -1183,6 +1410,11 @@ public class PurchaseOrderSupplierView {
       joiner.add(String.format("%scontractId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getContractId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `supplierEmail` to the URL query string
+    if (getSupplierEmail() != null) {
+      joiner.add(getSupplierEmail().toUrlQueryString(prefix + "supplierEmail" + suffix));
+    }
+
     // add `lineItems` to the URL query string
     if (getLineItems() != null) {
       for (int i = 0; i < getLineItems().size(); i++) {
@@ -1198,9 +1430,34 @@ public class PurchaseOrderSupplierView {
       joiner.add(String.format("%sversion%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `storeId` to the URL query string
+    if (getStoreId() != null) {
+      joiner.add(String.format("%sstoreId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStoreId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `deliveryAddressId` to the URL query string
+    if (getDeliveryAddressId() != null) {
+      joiner.add(String.format("%sdeliveryAddressId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDeliveryAddressId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `shipTo` to the URL query string
+    if (getShipTo() != null) {
+      joiner.add(getShipTo().toUrlQueryString(prefix + "shipTo" + suffix));
+    }
+
+    // add `storeOrder` to the URL query string
+    if (getStoreOrder() != null) {
+      joiner.add(getStoreOrder().toUrlQueryString(prefix + "storeOrder" + suffix));
+    }
+
     // add `approval` to the URL query string
     if (getApproval() != null) {
       joiner.add(getApproval().toUrlQueryString(prefix + "approval" + suffix));
+    }
+
+    // add `priorInvoiced` to the URL query string
+    if (getPriorInvoiced() != null) {
+      joiner.add(getPriorInvoiced().toUrlQueryString(prefix + "priorInvoiced" + suffix));
     }
 
     // add `quoteDocument` to the URL query string

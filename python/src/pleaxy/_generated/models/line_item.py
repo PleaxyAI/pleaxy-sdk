@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -10,6 +10,11 @@ from ..models.line_item_price_source import (
 from ..models.line_item_rule_type import LineItemRuleType, check_line_item_rule_type
 from ..models.line_item_scope_type import LineItemScopeType, check_line_item_scope_type
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.line_item_punchout_ref import LineItemPunchoutRef
+    from ..models.punchout_line_origin import PunchoutLineOrigin
+
 
 T = TypeVar("T", bound="LineItem")
 
@@ -38,6 +43,8 @@ class LineItem:
         contract_id (Union[Unset, str]):
         contract_term_id (Union[Unset, str]):
         quote_line_no (Union[Unset, float]):
+        origin (Union[Unset, PunchoutLineOrigin]):
+        punchout_ref (Union[Unset, LineItemPunchoutRef]):
     """
 
     line_no: Union[Unset, float] = UNSET
@@ -60,6 +67,8 @@ class LineItem:
     contract_id: Union[Unset, str] = UNSET
     contract_term_id: Union[Unset, str] = UNSET
     quote_line_no: Union[Unset, float] = UNSET
+    origin: Union[Unset, "PunchoutLineOrigin"] = UNSET
+    punchout_ref: Union[Unset, "LineItemPunchoutRef"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -113,6 +122,14 @@ class LineItem:
 
         quote_line_no = self.quote_line_no
 
+        origin: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.origin, Unset):
+            origin = self.origin.to_dict()
+
+        punchout_ref: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.punchout_ref, Unset):
+            punchout_ref = self.punchout_ref.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -156,11 +173,18 @@ class LineItem:
             field_dict["contractTermId"] = contract_term_id
         if quote_line_no is not UNSET:
             field_dict["quoteLineNo"] = quote_line_no
+        if origin is not UNSET:
+            field_dict["origin"] = origin
+        if punchout_ref is not UNSET:
+            field_dict["punchoutRef"] = punchout_ref
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.line_item_punchout_ref import LineItemPunchoutRef
+        from ..models.punchout_line_origin import PunchoutLineOrigin
+
         d = src_dict.copy()
         line_no = d.pop("lineNo", UNSET)
 
@@ -224,6 +248,20 @@ class LineItem:
 
         quote_line_no = d.pop("quoteLineNo", UNSET)
 
+        _origin = d.pop("origin", UNSET)
+        origin: Union[Unset, PunchoutLineOrigin]
+        if isinstance(_origin, Unset):
+            origin = UNSET
+        else:
+            origin = PunchoutLineOrigin.from_dict(_origin)
+
+        _punchout_ref = d.pop("punchoutRef", UNSET)
+        punchout_ref: Union[Unset, LineItemPunchoutRef]
+        if isinstance(_punchout_ref, Unset):
+            punchout_ref = UNSET
+        else:
+            punchout_ref = LineItemPunchoutRef.from_dict(_punchout_ref)
+
         line_item = cls(
             line_no=line_no,
             scope_type=scope_type,
@@ -245,6 +283,8 @@ class LineItem:
             contract_id=contract_id,
             contract_term_id=contract_term_id,
             quote_line_no=quote_line_no,
+            origin=origin,
+            punchout_ref=punchout_ref,
         )
 
         line_item.additional_properties = d

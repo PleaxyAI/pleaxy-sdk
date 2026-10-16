@@ -33,6 +33,7 @@ class UpdateOrgProfileInput:
         primary_contact_email (Union[Unset, str]):
         countries (Union[Unset, List[str]]):
         time_zone (Union[Unset, str]):
+        listed_in_directory (Union[Unset, bool]):
         geography_preset_id (Union[Unset, UpdateOrgProfileInputGeographyPresetId]):
     """
 
@@ -49,6 +50,7 @@ class UpdateOrgProfileInput:
     primary_contact_email: Union[Unset, str] = UNSET
     countries: Union[Unset, List[str]] = UNSET
     time_zone: Union[Unset, str] = UNSET
+    listed_in_directory: Union[Unset, bool] = UNSET
     geography_preset_id: Union[Unset, UpdateOrgProfileInputGeographyPresetId] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -87,6 +89,8 @@ class UpdateOrgProfileInput:
 
         time_zone = self.time_zone
 
+        listed_in_directory = self.listed_in_directory
+
         geography_preset_id: Union[Unset, str] = UNSET
         if not isinstance(self.geography_preset_id, Unset):
             geography_preset_id = self.geography_preset_id
@@ -120,6 +124,8 @@ class UpdateOrgProfileInput:
             field_dict["countries"] = countries
         if time_zone is not UNSET:
             field_dict["timeZone"] = time_zone
+        if listed_in_directory is not UNSET:
+            field_dict["listedInDirectory"] = listed_in_directory
         if geography_preset_id is not UNSET:
             field_dict["geographyPresetId"] = geography_preset_id
 
@@ -161,6 +167,8 @@ class UpdateOrgProfileInput:
 
         time_zone = d.pop("timeZone", UNSET)
 
+        listed_in_directory = d.pop("listedInDirectory", UNSET)
+
         _geography_preset_id = d.pop("geographyPresetId", UNSET)
         geography_preset_id: Union[Unset, UpdateOrgProfileInputGeographyPresetId]
         if isinstance(_geography_preset_id, Unset):
@@ -184,6 +192,7 @@ class UpdateOrgProfileInput:
             primary_contact_email=primary_contact_email,
             countries=countries,
             time_zone=time_zone,
+            listed_in_directory=listed_in_directory,
             geography_preset_id=geography_preset_id,
         )
 

@@ -17,13 +17,13 @@ module Pleaxy
   class FeedValidationResultFindingsInner
     attr_accessor :contract_id
 
+    attr_accessor :po_line_no
+
     attr_accessor :code
 
     attr_accessor :message
 
     attr_accessor :invoice_line
-
-    attr_accessor :po_line_no
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -51,10 +51,10 @@ module Pleaxy
     def self.attribute_map
       {
         :'contract_id' => :'contractId',
+        :'po_line_no' => :'poLineNo',
         :'code' => :'code',
         :'message' => :'message',
-        :'invoice_line' => :'invoiceLine',
-        :'po_line_no' => :'poLineNo'
+        :'invoice_line' => :'invoiceLine'
       }
     end
 
@@ -67,10 +67,10 @@ module Pleaxy
     def self.openapi_types
       {
         :'contract_id' => :'String',
+        :'po_line_no' => :'Float',
         :'code' => :'String',
         :'message' => :'String',
-        :'invoice_line' => :'Float',
-        :'po_line_no' => :'Float'
+        :'invoice_line' => :'Float'
       }
     end
 
@@ -99,6 +99,10 @@ module Pleaxy
         self.contract_id = attributes[:'contract_id']
       end
 
+      if attributes.key?(:'po_line_no')
+        self.po_line_no = attributes[:'po_line_no']
+      end
+
       if attributes.key?(:'code')
         self.code = attributes[:'code']
       end
@@ -109,10 +113,6 @@ module Pleaxy
 
       if attributes.key?(:'invoice_line')
         self.invoice_line = attributes[:'invoice_line']
-      end
-
-      if attributes.key?(:'po_line_no')
-        self.po_line_no = attributes[:'po_line_no']
       end
     end
 
@@ -149,10 +149,10 @@ module Pleaxy
       return true if self.equal?(o)
       self.class == o.class &&
           contract_id == o.contract_id &&
+          po_line_no == o.po_line_no &&
           code == o.code &&
           message == o.message &&
-          invoice_line == o.invoice_line &&
-          po_line_no == o.po_line_no
+          invoice_line == o.invoice_line
     end
 
     # @see the `==` method
@@ -164,7 +164,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [contract_id, code, message, invoice_line, po_line_no].hash
+      [contract_id, po_line_no, code, message, invoice_line].hash
     end
 
     # Builds the object from hash

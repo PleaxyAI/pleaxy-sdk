@@ -19,6 +19,78 @@ module Pleaxy
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
+    # [Buyer] Name the invoices this invoice replaces (credit and rebill, credit notes spec §20), when that wasn't known as it was entered: { invoiceIds }, 1–20 invoices or debit notes from the same supplier. Each original then lists it in replacedByInvoiceIds; links already there are kept. 404 REPLACES_NOT_FOUND, 400 REPLACES_INVALID, 409 REPLACEMENT_CHANGED.
+    # @param invoice_id [String] 
+    # @param add_replacement_links_input [AddReplacementLinksInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [AddInvoiceReplacementLinksResult]
+    def add_invoice_replacement_links(invoice_id, add_replacement_links_input, opts = {})
+      data, _status_code, _headers = add_invoice_replacement_links_with_http_info(invoice_id, add_replacement_links_input, opts)
+      data
+    end
+
+    # [Buyer] Name the invoices this invoice replaces (credit and rebill, credit notes spec §20), when that wasn&#39;t known as it was entered: { invoiceIds }, 1–20 invoices or debit notes from the same supplier. Each original then lists it in replacedByInvoiceIds; links already there are kept. 404 REPLACES_NOT_FOUND, 400 REPLACES_INVALID, 409 REPLACEMENT_CHANGED.
+    # @param invoice_id [String] 
+    # @param add_replacement_links_input [AddReplacementLinksInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(AddInvoiceReplacementLinksResult, Integer, Hash)>] AddInvoiceReplacementLinksResult data, response status code and response headers
+    def add_invoice_replacement_links_with_http_info(invoice_id, add_replacement_links_input, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: InvoicesApi.add_invoice_replacement_links ...'
+      end
+      # verify the required parameter 'invoice_id' is set
+      if @api_client.config.client_side_validation && invoice_id.nil?
+        fail ArgumentError, "Missing the required parameter 'invoice_id' when calling InvoicesApi.add_invoice_replacement_links"
+      end
+      # verify the required parameter 'add_replacement_links_input' is set
+      if @api_client.config.client_side_validation && add_replacement_links_input.nil?
+        fail ArgumentError, "Missing the required parameter 'add_replacement_links_input' when calling InvoicesApi.add_invoice_replacement_links"
+      end
+      # resource path
+      local_var_path = '/invoices/{invoiceId}/replaces'.sub('{' + 'invoiceId' + '}', CGI.escape(invoice_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(add_replacement_links_input)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AddInvoiceReplacementLinksResult'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"InvoicesApi.add_invoice_replacement_links",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: InvoicesApi#add_invoice_replacement_links\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] Approve an invoice - only the current stage's assigned approver may call this
     # @param invoice_id [String] 
     # @param [Hash] opts the optional parameters
@@ -80,7 +152,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Both] Record an invoice. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
+    # [Both] Record an invoice - or, with \"documentType\": \"credit_note\" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
     # @param create_manual_invoice_input [CreateManualInvoiceInput] 
     # @param [Hash] opts the optional parameters
     # @return [CreateInvoiceResult]
@@ -89,7 +161,7 @@ module Pleaxy
       data
     end
 
-    # [Both] Record an invoice. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer&#39;s workspace, and whoever entered it can&#39;t approve, resolve or settle it. cXML or UBL (buyer only): a supplier&#39;s document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
+    # [Both] Record an invoice - or, with \&quot;documentType\&quot;: \&quot;credit_note\&quot; and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer&#39;s workspace, and whoever entered it can&#39;t approve, resolve or settle it. cXML or UBL (buyer only): a supplier&#39;s document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
     # @param create_manual_invoice_input [CreateManualInvoiceInput] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(CreateInvoiceResult, Integer, Hash)>] CreateInvoiceResult data, response status code and response headers
@@ -146,16 +218,18 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
+    # [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row's Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
     # @param [Hash] opts the optional parameters
+    # @option opts [PaymentExportInput] :payment_export_input 
     # @return [File]
     def export_invoices_for_payment(opts = {})
       data, _status_code, _headers = export_invoices_for_payment_with_http_info(opts)
       data
     end
 
-    # [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
+    # [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row&#39;s Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don&#39;t cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
     # @param [Hash] opts the optional parameters
+    # @option opts [PaymentExportInput] :payment_export_input 
     # @return [Array<(File, Integer, Hash)>] File data, response status code and response headers
     def export_invoices_for_payment_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -171,12 +245,17 @@ module Pleaxy
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['text/csv', 'application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body]
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'payment_export_input'])
 
       # return_type
       return_type = opts[:debug_return_type] || 'File'
@@ -201,7 +280,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Both] Get a single invoice. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>.
+    # [Both] Get a single invoice, or with a credit note's id (CN-…) that credit note; documentType says which. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>. A Buyer caller also gets, on a replaced invoice, replacement (whether its credit notes cover it in full), and on a replacement, uncreditedOriginals (credit and rebill).
     # @param invoice_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :buyer 
@@ -211,7 +290,7 @@ module Pleaxy
       data
     end
 
-    # [Both] Get a single invoice. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer&#39;s matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer&#x3D;&lt;buyer Workspace ID&gt;.
+    # [Both] Get a single invoice, or with a credit note&#39;s id (CN-…) that credit note; documentType says which. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer&#39;s matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer&#x3D;&lt;buyer Workspace ID&gt;. A Buyer caller also gets, on a replaced invoice, replacement (whether its credit notes cover it in full), and on a replacement, uncreditedOriginals (credit and rebill).
     # @param invoice_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :buyer 
@@ -509,20 +588,22 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
+    # [Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. ?documentType=credit_note lists credit notes instead, ?documentType=all both, newest first; every item carries documentType (default invoice). A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
     # @param [Hash] opts the optional parameters
     # @option opts [String] :from ISO 8601 date/timestamp - only items created on or after this are returned.
     # @option opts [String] :to ISO 8601 date/timestamp - only items created on or before this are returned.
+    # @option opts [String] :document_type 
     # @return [Array<ListInvoicesItem>]
     def list_invoices(opts = {})
       data, _status_code, _headers = list_invoices_with_http_info(opts)
       data
     end
 
-    # [Both] List invoices - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;. A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
+    # [Both] List invoices - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;. ?documentType&#x3D;credit_note lists credit notes instead, ?documentType&#x3D;all both, newest first; every item carries documentType (default invoice). A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
     # @param [Hash] opts the optional parameters
     # @option opts [String] :from ISO 8601 date/timestamp - only items created on or after this are returned.
     # @option opts [String] :to ISO 8601 date/timestamp - only items created on or before this are returned.
+    # @option opts [String] :document_type 
     # @return [Array<(Array<ListInvoicesItem>, Integer, Hash)>] Array<ListInvoicesItem> data, response status code and response headers
     def list_invoices_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -535,6 +616,7 @@ module Pleaxy
       query_params = opts[:query_params] || {}
       query_params[:'from'] = opts[:'from'] if !opts[:'from'].nil?
       query_params[:'to'] = opts[:'to'] if !opts[:'to'].nil?
+      query_params[:'documentType'] = opts[:'document_type'] if !opts[:'document_type'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -642,7 +724,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }. Pleaxy moves no money and doesn't check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can't be later than today in the workspace's time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED.
+    # [Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }, optionally with a remittance for the supplier: { remittance: { note?, file?: { fileId, fileName } } } (see SendRemittance). Pleaxy moves no money and doesn't check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can't be later than today in the workspace's time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. A replaced invoice its credit notes don't cover in full is 409 REPLACED_UNCREDITED until you send confirmReplaced: true: paying it as well as its replacement pays twice. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED.
     # @param invoice_id [String] 
     # @param record_payment_input [RecordPaymentInput] 
     # @param [Hash] opts the optional parameters
@@ -652,7 +734,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }. Pleaxy moves no money and doesn&#39;t check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can&#39;t be later than today in the workspace&#39;s time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED.
+    # [Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }, optionally with a remittance for the supplier: { remittance: { note?, file?: { fileId, fileName } } } (see SendRemittance). Pleaxy moves no money and doesn&#39;t check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can&#39;t be later than today in the workspace&#39;s time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. A replaced invoice its credit notes don&#39;t cover in full is 409 REPLACED_UNCREDITED until you send confirmReplaced: true: paying it as well as its replacement pays twice. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED.
     # @param invoice_id [String] 
     # @param record_payment_input [RecordPaymentInput] 
     # @param [Hash] opts the optional parameters
@@ -850,6 +932,73 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Buyer] Undo a replacement link entered wrongly (credit notes spec §20), on both invoices. The rejected invoice an invoice corrects on its purchase order stays linked.
+    # @param invoice_id [String] 
+    # @param original_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [RemoveInvoiceReplacementLinkResult]
+    def remove_invoice_replacement_link(invoice_id, original_id, opts = {})
+      data, _status_code, _headers = remove_invoice_replacement_link_with_http_info(invoice_id, original_id, opts)
+      data
+    end
+
+    # [Buyer] Undo a replacement link entered wrongly (credit notes spec §20), on both invoices. The rejected invoice an invoice corrects on its purchase order stays linked.
+    # @param invoice_id [String] 
+    # @param original_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(RemoveInvoiceReplacementLinkResult, Integer, Hash)>] RemoveInvoiceReplacementLinkResult data, response status code and response headers
+    def remove_invoice_replacement_link_with_http_info(invoice_id, original_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: InvoicesApi.remove_invoice_replacement_link ...'
+      end
+      # verify the required parameter 'invoice_id' is set
+      if @api_client.config.client_side_validation && invoice_id.nil?
+        fail ArgumentError, "Missing the required parameter 'invoice_id' when calling InvoicesApi.remove_invoice_replacement_link"
+      end
+      # verify the required parameter 'original_id' is set
+      if @api_client.config.client_side_validation && original_id.nil?
+        fail ArgumentError, "Missing the required parameter 'original_id' when calling InvoicesApi.remove_invoice_replacement_link"
+      end
+      # resource path
+      local_var_path = '/invoices/{invoiceId}/replaces/{originalId}'.sub('{' + 'invoiceId' + '}', CGI.escape(invoice_id.to_s)).sub('{' + 'originalId' + '}', CGI.escape(original_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'RemoveInvoiceReplacementLinkResult'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"InvoicesApi.remove_invoice_replacement_link",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:DELETE, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: InvoicesApi#remove_invoice_replacement_link\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] Resolve a matching discrepancy - an unverified invoice needs a signed-in person, not an API key
     # @param invoice_id [String] 
     # @param [Hash] opts the optional parameters
@@ -972,18 +1121,20 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only.
+    # [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don't cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only.
     # @param invoice_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :confirm_replaced 
     # @return [StartStripePaymentResult]
     def start_stripe_payment(invoice_id, opts = {})
       data, _status_code, _headers = start_stripe_payment_with_http_info(invoice_id, opts)
       data
     end
 
-    # [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier&#39;s own Stripe account. The buyer pays the invoice plus Stripe&#39;s fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can&#39;t be paid this way. Human session only.
+    # [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier&#39;s own Stripe account. The buyer pays the invoice plus Stripe&#39;s fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don&#39;t cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced&#x3D;true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can&#39;t be paid this way. Human session only.
     # @param invoice_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :confirm_replaced 
     # @return [Array<(StartStripePaymentResult, Integer, Hash)>] StartStripePaymentResult data, response status code and response headers
     def start_stripe_payment_with_http_info(invoice_id, opts = {})
       if @api_client.config.debugging
@@ -998,6 +1149,7 @@ module Pleaxy
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'confirmReplaced'] = opts[:'confirm_replaced'] if !opts[:'confirm_replaced'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -1033,21 +1185,21 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Supplier] Submit an invoice to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection.
+    # [Supplier] Submit an invoice - or a credit note: UBL <CreditNote>, a cXML credit memo, or JSON with documentType \"credit_note\" - to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection.
     # @param connection_id [String] 
     # @param create_feed_invoice_input [CreateFeedInvoiceInput] 
     # @param [Hash] opts the optional parameters
-    # @return [InvoiceSupplierView]
+    # @return [SubmitFeedInvoiceResult]
     def submit_feed_invoice(connection_id, create_feed_invoice_input, opts = {})
       data, _status_code, _headers = submit_feed_invoice_with_http_info(connection_id, create_feed_invoice_input, opts)
       data
     end
 
-    # [Supplier] Submit an invoice to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection.
+    # [Supplier] Submit an invoice - or a credit note: UBL &lt;CreditNote&gt;, a cXML credit memo, or JSON with documentType \&quot;credit_note\&quot; - to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection.
     # @param connection_id [String] 
     # @param create_feed_invoice_input [CreateFeedInvoiceInput] 
     # @param [Hash] opts the optional parameters
-    # @return [Array<(InvoiceSupplierView, Integer, Hash)>] InvoiceSupplierView data, response status code and response headers
+    # @return [Array<(SubmitFeedInvoiceResult, Integer, Hash)>] SubmitFeedInvoiceResult data, response status code and response headers
     def submit_feed_invoice_with_http_info(connection_id, create_feed_invoice_input, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: InvoicesApi.submit_feed_invoice ...'
@@ -1083,7 +1235,7 @@ module Pleaxy
       post_body = opts[:debug_body] || @api_client.object_to_http_body(create_feed_invoice_input)
 
       # return_type
-      return_type = opts[:debug_return_type] || 'InvoiceSupplierView'
+      return_type = opts[:debug_return_type] || 'SubmitFeedInvoiceResult'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
@@ -1109,7 +1261,7 @@ module Pleaxy
     # @param connection_id [String] 
     # @param create_feed_invoice_input [CreateFeedInvoiceInput] 
     # @param [Hash] opts the optional parameters
-    # @return [FeedValidationResult]
+    # @return [ValidateFeedInvoiceResult]
     def validate_feed_invoice(connection_id, create_feed_invoice_input, opts = {})
       data, _status_code, _headers = validate_feed_invoice_with_http_info(connection_id, create_feed_invoice_input, opts)
       data
@@ -1119,7 +1271,7 @@ module Pleaxy
     # @param connection_id [String] 
     # @param create_feed_invoice_input [CreateFeedInvoiceInput] 
     # @param [Hash] opts the optional parameters
-    # @return [Array<(FeedValidationResult, Integer, Hash)>] FeedValidationResult data, response status code and response headers
+    # @return [Array<(ValidateFeedInvoiceResult, Integer, Hash)>] ValidateFeedInvoiceResult data, response status code and response headers
     def validate_feed_invoice_with_http_info(connection_id, create_feed_invoice_input, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: InvoicesApi.validate_feed_invoice ...'
@@ -1155,7 +1307,7 @@ module Pleaxy
       post_body = opts[:debug_body] || @api_client.object_to_http_body(create_feed_invoice_input)
 
       # return_type
-      return_type = opts[:debug_return_type] || 'FeedValidationResult'
+      return_type = opts[:debug_return_type] || 'ValidateFeedInvoiceResult'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['apiKey', 'session']

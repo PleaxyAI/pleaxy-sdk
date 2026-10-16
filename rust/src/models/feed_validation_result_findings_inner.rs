@@ -15,24 +15,24 @@ use serde::{Deserialize, Serialize};
 pub struct FeedValidationResultFindingsInner {
     #[serde(rename = "contractId", skip_serializing_if = "Option::is_none")]
     pub contract_id: Option<String>,
+    #[serde(rename = "poLineNo", skip_serializing_if = "Option::is_none")]
+    pub po_line_no: Option<f64>,
     #[serde(rename = "code", skip_serializing_if = "Option::is_none")]
     pub code: Option<Code>,
     #[serde(rename = "message", skip_serializing_if = "Option::is_none")]
     pub message: Option<String>,
     #[serde(rename = "invoiceLine", skip_serializing_if = "Option::is_none")]
     pub invoice_line: Option<f64>,
-    #[serde(rename = "poLineNo", skip_serializing_if = "Option::is_none")]
-    pub po_line_no: Option<f64>,
 }
 
 impl FeedValidationResultFindingsInner {
     pub fn new() -> FeedValidationResultFindingsInner {
         FeedValidationResultFindingsInner {
             contract_id: None,
+            po_line_no: None,
             code: None,
             message: None,
             invoice_line: None,
-            po_line_no: None,
         }
     }
 }

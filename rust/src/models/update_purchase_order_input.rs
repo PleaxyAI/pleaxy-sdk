@@ -19,10 +19,22 @@ pub struct UpdatePurchaseOrderInput {
     /// Replaces the PO's whole line-item set and recalculates its amount. The approval chain is rebuilt from scratch, discarding any sign-offs already collected.
     #[serde(rename = "lineItems", skip_serializing_if = "Option::is_none")]
     pub line_items: Option<Vec<models::LineItemInput>>,
+    /// Who the supplier invoices, entered on the order; `null` copies the buyer's company profile billing details as they are now. Bookkeeping: never re-triggers approval.
+    #[serde(
+        rename = "billToParty",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub bill_to_party: Option<Option<models::BillToPartyInput>>,
+    /// Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; an empty string copies the company profile's. Ignored when `billToParty` is sent.
     #[serde(rename = "billTo", skip_serializing_if = "Option::is_none")]
     pub bill_to: Option<String>,
     #[serde(rename = "costCenter", skip_serializing_if = "Option::is_none")]
     pub cost_center: Option<String>,
+    /// Drafts only: the workspace delivery address an online store order ships to, copied onto the order at submit. An empty string goes back to the workspace default.
+    #[serde(rename = "deliveryAddressId", skip_serializing_if = "Option::is_none")]
+    pub delivery_address_id: Option<String>,
     #[serde(rename = "budgetOwner", skip_serializing_if = "Option::is_none")]
     pub budget_owner: Option<String>,
     #[serde(rename = "buyerName", skip_serializing_if = "Option::is_none")]
@@ -52,8 +64,10 @@ impl UpdatePurchaseOrderInput {
         UpdatePurchaseOrderInput {
             currency: None,
             line_items: None,
+            bill_to_party: None,
             bill_to: None,
             cost_center: None,
+            delivery_address_id: None,
             budget_owner: None,
             buyer_name: None,
             notes: None,

@@ -39,7 +39,11 @@ module Pleaxy
 
     attr_accessor :current_price_label
 
+    attr_accessor :current_price
+
     attr_accessor :current_total_label
+
+    attr_accessor :current_total
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -78,7 +82,9 @@ module Pleaxy
         :'interval' => :'interval',
         :'available_plans' => :'availablePlans',
         :'current_price_label' => :'currentPriceLabel',
-        :'current_total_label' => :'currentTotalLabel'
+        :'current_price' => :'currentPrice',
+        :'current_total_label' => :'currentTotalLabel',
+        :'current_total' => :'currentTotal'
       }
     end
 
@@ -102,7 +108,9 @@ module Pleaxy
         :'interval' => :'String',
         :'available_plans' => :'Array<BillingSummaryAvailablePlansInner>',
         :'current_price_label' => :'String',
-        :'current_total_label' => :'String'
+        :'current_price' => :'PriceAmount',
+        :'current_total_label' => :'String',
+        :'current_total' => :'PriceAmount'
       }
     end
 
@@ -177,8 +185,16 @@ module Pleaxy
         self.current_price_label = attributes[:'current_price_label']
       end
 
+      if attributes.key?(:'current_price')
+        self.current_price = attributes[:'current_price']
+      end
+
       if attributes.key?(:'current_total_label')
         self.current_total_label = attributes[:'current_total_label']
+      end
+
+      if attributes.key?(:'current_total')
+        self.current_total = attributes[:'current_total']
       end
     end
 
@@ -262,7 +278,9 @@ module Pleaxy
           interval == o.interval &&
           available_plans == o.available_plans &&
           current_price_label == o.current_price_label &&
-          current_total_label == o.current_total_label
+          current_price == o.current_price &&
+          current_total_label == o.current_total_label &&
+          current_total == o.current_total
     end
 
     # @see the `==` method
@@ -274,7 +292,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [billing_enabled, plan, managed_by, has_billing_account, subscription_status, current_period_end, cancel_at_period_end, past_due_since, buyer_region_count, interval, available_plans, current_price_label, current_total_label].hash
+      [billing_enabled, plan, managed_by, has_billing_account, subscription_status, current_period_end, cancel_at_period_end, past_due_since, buyer_region_count, interval, available_plans, current_price_label, current_price, current_total_label, current_total].hash
     end
 
     # Builds the object from hash

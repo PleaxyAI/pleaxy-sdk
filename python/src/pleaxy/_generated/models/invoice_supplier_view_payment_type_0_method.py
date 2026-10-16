@@ -1,6 +1,8 @@
 from typing import Literal, Set, cast
 
-InvoiceSupplierViewPaymentType0Method = Literal["ach", "card", "check", "other", "wire"]
+InvoiceSupplierViewPaymentType0Method = Literal[
+    "ach", "card", "check", "credit", "other", "wire"
+]
 
 INVOICE_SUPPLIER_VIEW_PAYMENT_TYPE_0_METHOD_VALUES: Set[
     InvoiceSupplierViewPaymentType0Method
@@ -8,6 +10,7 @@ INVOICE_SUPPLIER_VIEW_PAYMENT_TYPE_0_METHOD_VALUES: Set[
     "ach",
     "card",
     "check",
+    "credit",
     "other",
     "wire",
 }

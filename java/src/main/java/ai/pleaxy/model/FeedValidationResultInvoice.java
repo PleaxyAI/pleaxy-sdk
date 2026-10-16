@@ -23,7 +23,9 @@ import ai.pleaxy.model.InvoiceAdjustment;
 import ai.pleaxy.model.InvoiceBaseCurrencyAmount;
 import ai.pleaxy.model.InvoiceBreakdownEntry;
 import ai.pleaxy.model.InvoiceBuyerViewPartyDetails;
+import ai.pleaxy.model.InvoiceCreditApplication;
 import ai.pleaxy.model.InvoiceCurrencyAmount;
+import ai.pleaxy.model.InvoiceDeduction;
 import ai.pleaxy.model.InvoiceLineItem;
 import ai.pleaxy.model.InvoiceRejection;
 import ai.pleaxy.model.InvoiceSourceDocument;
@@ -31,6 +33,7 @@ import ai.pleaxy.model.InvoiceSupplierViewPayment;
 import ai.pleaxy.model.LateFeeTerms;
 import ai.pleaxy.model.RemittanceInstructions;
 import ai.pleaxy.model.SupplierApprovalView;
+import ai.pleaxy.model.SupplierRemittanceView;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -61,6 +64,8 @@ import ai.pleaxy.client.ApiClient;
   FeedValidationResultInvoice.JSON_PROPERTY_CONTRACT_ID,
   FeedValidationResultInvoice.JSON_PROPERTY_LINE_ITEMS,
   FeedValidationResultInvoice.JSON_PROPERTY_PO,
+  FeedValidationResultInvoice.JSON_PROPERTY_PO_LINE_NO,
+  FeedValidationResultInvoice.JSON_PROPERTY_BILLS_NO_PO_LINE,
   FeedValidationResultInvoice.JSON_PROPERTY_PARTY_DETAILS,
   FeedValidationResultInvoice.JSON_PROPERTY_MATCH_STATUS,
   FeedValidationResultInvoice.JSON_PROPERTY_PAID,
@@ -68,10 +73,13 @@ import ai.pleaxy.client.ApiClient;
   FeedValidationResultInvoice.JSON_PROPERTY_DUE_DATE,
   FeedValidationResultInvoice.JSON_PROPERTY_PAID_AT,
   FeedValidationResultInvoice.JSON_PROPERTY_PAYMENT,
+  FeedValidationResultInvoice.JSON_PROPERTY_REMITTANCES,
   FeedValidationResultInvoice.JSON_PROPERTY_DUE_DATE_SOURCE,
   FeedValidationResultInvoice.JSON_PROPERTY_LAST_REMINDED_AT,
   FeedValidationResultInvoice.JSON_PROPERTY_REJECTION,
   FeedValidationResultInvoice.JSON_PROPERTY_REPLACES_INVOICE_ID,
+  FeedValidationResultInvoice.JSON_PROPERTY_REPLACES_INVOICE_IDS,
+  FeedValidationResultInvoice.JSON_PROPERTY_REPLACED_BY_INVOICE_IDS,
   FeedValidationResultInvoice.JSON_PROPERTY_ENTERED_BY,
   FeedValidationResultInvoice.JSON_PROPERTY_INVOICE_DATE,
   FeedValidationResultInvoice.JSON_PROPERTY_SUBMITTED_FORMAT,
@@ -80,6 +88,15 @@ import ai.pleaxy.client.ApiClient;
   FeedValidationResultInvoice.JSON_PROPERTY_TAX_AMOUNT,
   FeedValidationResultInvoice.JSON_PROPERTY_TAX_BREAKDOWN,
   FeedValidationResultInvoice.JSON_PROPERTY_WITHHOLDINGS,
+  FeedValidationResultInvoice.JSON_PROPERTY_DOCUMENT_TYPE,
+  FeedValidationResultInvoice.JSON_PROPERTY_AMENDS_INVOICE_ID,
+  FeedValidationResultInvoice.JSON_PROPERTY_AMENDS_EXTERNAL_INVOICE_NUMBER,
+  FeedValidationResultInvoice.JSON_PROPERTY_DEBIT_NOTE_IDS,
+  FeedValidationResultInvoice.JSON_PROPERTY_INVOICE_KIND,
+  FeedValidationResultInvoice.JSON_PROPERTY_DEDUCTIONS,
+  FeedValidationResultInvoice.JSON_PROPERTY_CREDIT_APPLICATIONS,
+  FeedValidationResultInvoice.JSON_PROPERTY_CREDIT_NOTE_IDS,
+  FeedValidationResultInvoice.JSON_PROPERTY_CREDIT_VERSION,
   FeedValidationResultInvoice.JSON_PROPERTY_PAYMENT_CURRENCY_AMOUNT,
   FeedValidationResultInvoice.JSON_PROPERTY_TAX_CURRENCY_AMOUNT,
   FeedValidationResultInvoice.JSON_PROPERTY_REMITTANCE_INSTRUCTIONS,
@@ -148,6 +165,14 @@ public class FeedValidationResultInvoice {
   @javax.annotation.Nullable
   private String po;
 
+  public static final String JSON_PROPERTY_PO_LINE_NO = "poLineNo";
+  @javax.annotation.Nullable
+  private Double poLineNo;
+
+  public static final String JSON_PROPERTY_BILLS_NO_PO_LINE = "billsNoPoLine";
+  @javax.annotation.Nullable
+  private Boolean billsNoPoLine;
+
   public static final String JSON_PROPERTY_PARTY_DETAILS = "partyDetails";
   @javax.annotation.Nullable
   private InvoiceBuyerViewPartyDetails partyDetails;
@@ -215,6 +240,10 @@ public class FeedValidationResultInvoice {
   @javax.annotation.Nullable
   private InvoiceSupplierViewPayment payment;
 
+  public static final String JSON_PROPERTY_REMITTANCES = "remittances";
+  @javax.annotation.Nullable
+  private List<SupplierRemittanceView> remittances = new ArrayList<>();
+
   /**
    * Gets or Sets dueDateSource
    */
@@ -265,6 +294,14 @@ public class FeedValidationResultInvoice {
   public static final String JSON_PROPERTY_REPLACES_INVOICE_ID = "replacesInvoiceId";
   @javax.annotation.Nullable
   private String replacesInvoiceId;
+
+  public static final String JSON_PROPERTY_REPLACES_INVOICE_IDS = "replacesInvoiceIds";
+  @javax.annotation.Nullable
+  private List<String> replacesInvoiceIds = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_REPLACED_BY_INVOICE_IDS = "replacedByInvoiceIds";
+  @javax.annotation.Nullable
+  private List<String> replacedByInvoiceIds = new ArrayList<>();
 
   /**
    * Gets or Sets enteredBy
@@ -369,6 +406,108 @@ public class FeedValidationResultInvoice {
   public static final String JSON_PROPERTY_WITHHOLDINGS = "withholdings";
   @javax.annotation.Nullable
   private List<InvoiceBreakdownEntry> withholdings = new ArrayList<>();
+
+  /**
+   * Gets or Sets documentType
+   */
+  public enum DocumentTypeEnum {
+    DEBIT_NOTE(String.valueOf("debit_note"));
+
+    private String value;
+
+    DocumentTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static DocumentTypeEnum fromValue(String value) {
+      for (DocumentTypeEnum b : DocumentTypeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_DOCUMENT_TYPE = "documentType";
+  @javax.annotation.Nullable
+  private DocumentTypeEnum documentType;
+
+  public static final String JSON_PROPERTY_AMENDS_INVOICE_ID = "amendsInvoiceId";
+  @javax.annotation.Nullable
+  private String amendsInvoiceId;
+
+  public static final String JSON_PROPERTY_AMENDS_EXTERNAL_INVOICE_NUMBER = "amendsExternalInvoiceNumber";
+  @javax.annotation.Nullable
+  private String amendsExternalInvoiceNumber;
+
+  public static final String JSON_PROPERTY_DEBIT_NOTE_IDS = "debitNoteIds";
+  @javax.annotation.Nullable
+  private List<String> debitNoteIds = new ArrayList<>();
+
+  /**
+   * Gets or Sets invoiceKind
+   */
+  public enum InvoiceKindEnum {
+    PREPAYMENT(String.valueOf("prepayment"));
+
+    private String value;
+
+    InvoiceKindEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static InvoiceKindEnum fromValue(String value) {
+      for (InvoiceKindEnum b : InvoiceKindEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_INVOICE_KIND = "invoiceKind";
+  @javax.annotation.Nullable
+  private InvoiceKindEnum invoiceKind;
+
+  public static final String JSON_PROPERTY_DEDUCTIONS = "deductions";
+  @javax.annotation.Nullable
+  private List<InvoiceDeduction> deductions = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_CREDIT_APPLICATIONS = "creditApplications";
+  @javax.annotation.Nullable
+  private List<InvoiceCreditApplication> creditApplications = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_CREDIT_NOTE_IDS = "creditNoteIds";
+  @javax.annotation.Nullable
+  private List<String> creditNoteIds = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_CREDIT_VERSION = "creditVersion";
+  @javax.annotation.Nullable
+  private Double creditVersion;
 
   public static final String JSON_PROPERTY_PAYMENT_CURRENCY_AMOUNT = "paymentCurrencyAmount";
   @javax.annotation.Nullable
@@ -753,6 +892,54 @@ public class FeedValidationResultInvoice {
   }
 
 
+  public FeedValidationResultInvoice poLineNo(@javax.annotation.Nullable Double poLineNo) {
+    this.poLineNo = poLineNo;
+    return this;
+  }
+
+  /**
+   * Get poLineNo
+   * @return poLineNo
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PO_LINE_NO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getPoLineNo() {
+    return poLineNo;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PO_LINE_NO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPoLineNo(@javax.annotation.Nullable Double poLineNo) {
+    this.poLineNo = poLineNo;
+  }
+
+
+  public FeedValidationResultInvoice billsNoPoLine(@javax.annotation.Nullable Boolean billsNoPoLine) {
+    this.billsNoPoLine = billsNoPoLine;
+    return this;
+  }
+
+  /**
+   * Get billsNoPoLine
+   * @return billsNoPoLine
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BILLS_NO_PO_LINE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getBillsNoPoLine() {
+    return billsNoPoLine;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BILLS_NO_PO_LINE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBillsNoPoLine(@javax.annotation.Nullable Boolean billsNoPoLine) {
+    this.billsNoPoLine = billsNoPoLine;
+  }
+
+
   public FeedValidationResultInvoice partyDetails(@javax.annotation.Nullable InvoiceBuyerViewPartyDetails partyDetails) {
     this.partyDetails = partyDetails;
     return this;
@@ -921,6 +1108,38 @@ public class FeedValidationResultInvoice {
   }
 
 
+  public FeedValidationResultInvoice remittances(@javax.annotation.Nullable List<SupplierRemittanceView> remittances) {
+    this.remittances = remittances;
+    return this;
+  }
+
+  public FeedValidationResultInvoice addRemittancesItem(SupplierRemittanceView remittancesItem) {
+    if (this.remittances == null) {
+      this.remittances = new ArrayList<>();
+    }
+    this.remittances.add(remittancesItem);
+    return this;
+  }
+
+  /**
+   * Get remittances
+   * @return remittances
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REMITTANCES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<SupplierRemittanceView> getRemittances() {
+    return remittances;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REMITTANCES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRemittances(@javax.annotation.Nullable List<SupplierRemittanceView> remittances) {
+    this.remittances = remittances;
+  }
+
+
   public FeedValidationResultInvoice dueDateSource(@javax.annotation.Nullable DueDateSourceEnum dueDateSource) {
     this.dueDateSource = dueDateSource;
     return this;
@@ -1014,6 +1233,70 @@ public class FeedValidationResultInvoice {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setReplacesInvoiceId(@javax.annotation.Nullable String replacesInvoiceId) {
     this.replacesInvoiceId = replacesInvoiceId;
+  }
+
+
+  public FeedValidationResultInvoice replacesInvoiceIds(@javax.annotation.Nullable List<String> replacesInvoiceIds) {
+    this.replacesInvoiceIds = replacesInvoiceIds;
+    return this;
+  }
+
+  public FeedValidationResultInvoice addReplacesInvoiceIdsItem(String replacesInvoiceIdsItem) {
+    if (this.replacesInvoiceIds == null) {
+      this.replacesInvoiceIds = new ArrayList<>();
+    }
+    this.replacesInvoiceIds.add(replacesInvoiceIdsItem);
+    return this;
+  }
+
+  /**
+   * Get replacesInvoiceIds
+   * @return replacesInvoiceIds
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REPLACES_INVOICE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getReplacesInvoiceIds() {
+    return replacesInvoiceIds;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REPLACES_INVOICE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReplacesInvoiceIds(@javax.annotation.Nullable List<String> replacesInvoiceIds) {
+    this.replacesInvoiceIds = replacesInvoiceIds;
+  }
+
+
+  public FeedValidationResultInvoice replacedByInvoiceIds(@javax.annotation.Nullable List<String> replacedByInvoiceIds) {
+    this.replacedByInvoiceIds = replacedByInvoiceIds;
+    return this;
+  }
+
+  public FeedValidationResultInvoice addReplacedByInvoiceIdsItem(String replacedByInvoiceIdsItem) {
+    if (this.replacedByInvoiceIds == null) {
+      this.replacedByInvoiceIds = new ArrayList<>();
+    }
+    this.replacedByInvoiceIds.add(replacedByInvoiceIdsItem);
+    return this;
+  }
+
+  /**
+   * Get replacedByInvoiceIds
+   * @return replacedByInvoiceIds
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REPLACED_BY_INVOICE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getReplacedByInvoiceIds() {
+    return replacedByInvoiceIds;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REPLACED_BY_INVOICE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReplacedByInvoiceIds(@javax.annotation.Nullable List<String> replacedByInvoiceIds) {
+    this.replacedByInvoiceIds = replacedByInvoiceIds;
   }
 
 
@@ -1230,6 +1513,254 @@ public class FeedValidationResultInvoice {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setWithholdings(@javax.annotation.Nullable List<InvoiceBreakdownEntry> withholdings) {
     this.withholdings = withholdings;
+  }
+
+
+  public FeedValidationResultInvoice documentType(@javax.annotation.Nullable DocumentTypeEnum documentType) {
+    this.documentType = documentType;
+    return this;
+  }
+
+  /**
+   * Get documentType
+   * @return documentType
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DOCUMENT_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public DocumentTypeEnum getDocumentType() {
+    return documentType;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DOCUMENT_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDocumentType(@javax.annotation.Nullable DocumentTypeEnum documentType) {
+    this.documentType = documentType;
+  }
+
+
+  public FeedValidationResultInvoice amendsInvoiceId(@javax.annotation.Nullable String amendsInvoiceId) {
+    this.amendsInvoiceId = amendsInvoiceId;
+    return this;
+  }
+
+  /**
+   * Get amendsInvoiceId
+   * @return amendsInvoiceId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AMENDS_INVOICE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getAmendsInvoiceId() {
+    return amendsInvoiceId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AMENDS_INVOICE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAmendsInvoiceId(@javax.annotation.Nullable String amendsInvoiceId) {
+    this.amendsInvoiceId = amendsInvoiceId;
+  }
+
+
+  public FeedValidationResultInvoice amendsExternalInvoiceNumber(@javax.annotation.Nullable String amendsExternalInvoiceNumber) {
+    this.amendsExternalInvoiceNumber = amendsExternalInvoiceNumber;
+    return this;
+  }
+
+  /**
+   * Get amendsExternalInvoiceNumber
+   * @return amendsExternalInvoiceNumber
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AMENDS_EXTERNAL_INVOICE_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getAmendsExternalInvoiceNumber() {
+    return amendsExternalInvoiceNumber;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AMENDS_EXTERNAL_INVOICE_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAmendsExternalInvoiceNumber(@javax.annotation.Nullable String amendsExternalInvoiceNumber) {
+    this.amendsExternalInvoiceNumber = amendsExternalInvoiceNumber;
+  }
+
+
+  public FeedValidationResultInvoice debitNoteIds(@javax.annotation.Nullable List<String> debitNoteIds) {
+    this.debitNoteIds = debitNoteIds;
+    return this;
+  }
+
+  public FeedValidationResultInvoice addDebitNoteIdsItem(String debitNoteIdsItem) {
+    if (this.debitNoteIds == null) {
+      this.debitNoteIds = new ArrayList<>();
+    }
+    this.debitNoteIds.add(debitNoteIdsItem);
+    return this;
+  }
+
+  /**
+   * Get debitNoteIds
+   * @return debitNoteIds
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DEBIT_NOTE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getDebitNoteIds() {
+    return debitNoteIds;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DEBIT_NOTE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDebitNoteIds(@javax.annotation.Nullable List<String> debitNoteIds) {
+    this.debitNoteIds = debitNoteIds;
+  }
+
+
+  public FeedValidationResultInvoice invoiceKind(@javax.annotation.Nullable InvoiceKindEnum invoiceKind) {
+    this.invoiceKind = invoiceKind;
+    return this;
+  }
+
+  /**
+   * Get invoiceKind
+   * @return invoiceKind
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_INVOICE_KIND)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceKindEnum getInvoiceKind() {
+    return invoiceKind;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_INVOICE_KIND)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setInvoiceKind(@javax.annotation.Nullable InvoiceKindEnum invoiceKind) {
+    this.invoiceKind = invoiceKind;
+  }
+
+
+  public FeedValidationResultInvoice deductions(@javax.annotation.Nullable List<InvoiceDeduction> deductions) {
+    this.deductions = deductions;
+    return this;
+  }
+
+  public FeedValidationResultInvoice addDeductionsItem(InvoiceDeduction deductionsItem) {
+    if (this.deductions == null) {
+      this.deductions = new ArrayList<>();
+    }
+    this.deductions.add(deductionsItem);
+    return this;
+  }
+
+  /**
+   * Get deductions
+   * @return deductions
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DEDUCTIONS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<InvoiceDeduction> getDeductions() {
+    return deductions;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DEDUCTIONS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDeductions(@javax.annotation.Nullable List<InvoiceDeduction> deductions) {
+    this.deductions = deductions;
+  }
+
+
+  public FeedValidationResultInvoice creditApplications(@javax.annotation.Nullable List<InvoiceCreditApplication> creditApplications) {
+    this.creditApplications = creditApplications;
+    return this;
+  }
+
+  public FeedValidationResultInvoice addCreditApplicationsItem(InvoiceCreditApplication creditApplicationsItem) {
+    if (this.creditApplications == null) {
+      this.creditApplications = new ArrayList<>();
+    }
+    this.creditApplications.add(creditApplicationsItem);
+    return this;
+  }
+
+  /**
+   * Get creditApplications
+   * @return creditApplications
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CREDIT_APPLICATIONS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<InvoiceCreditApplication> getCreditApplications() {
+    return creditApplications;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREDIT_APPLICATIONS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCreditApplications(@javax.annotation.Nullable List<InvoiceCreditApplication> creditApplications) {
+    this.creditApplications = creditApplications;
+  }
+
+
+  public FeedValidationResultInvoice creditNoteIds(@javax.annotation.Nullable List<String> creditNoteIds) {
+    this.creditNoteIds = creditNoteIds;
+    return this;
+  }
+
+  public FeedValidationResultInvoice addCreditNoteIdsItem(String creditNoteIdsItem) {
+    if (this.creditNoteIds == null) {
+      this.creditNoteIds = new ArrayList<>();
+    }
+    this.creditNoteIds.add(creditNoteIdsItem);
+    return this;
+  }
+
+  /**
+   * Get creditNoteIds
+   * @return creditNoteIds
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CREDIT_NOTE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getCreditNoteIds() {
+    return creditNoteIds;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREDIT_NOTE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCreditNoteIds(@javax.annotation.Nullable List<String> creditNoteIds) {
+    this.creditNoteIds = creditNoteIds;
+  }
+
+
+  public FeedValidationResultInvoice creditVersion(@javax.annotation.Nullable Double creditVersion) {
+    this.creditVersion = creditVersion;
+    return this;
+  }
+
+  /**
+   * Get creditVersion
+   * @return creditVersion
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CREDIT_VERSION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getCreditVersion() {
+    return creditVersion;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREDIT_VERSION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCreditVersion(@javax.annotation.Nullable Double creditVersion) {
+    this.creditVersion = creditVersion;
   }
 
 
@@ -1475,6 +2006,8 @@ public class FeedValidationResultInvoice {
         Objects.equals(this.contractId, feedValidationResultInvoice.contractId) &&
         Objects.equals(this.lineItems, feedValidationResultInvoice.lineItems) &&
         Objects.equals(this.po, feedValidationResultInvoice.po) &&
+        Objects.equals(this.poLineNo, feedValidationResultInvoice.poLineNo) &&
+        Objects.equals(this.billsNoPoLine, feedValidationResultInvoice.billsNoPoLine) &&
         Objects.equals(this.partyDetails, feedValidationResultInvoice.partyDetails) &&
         Objects.equals(this.matchStatus, feedValidationResultInvoice.matchStatus) &&
         Objects.equals(this.paid, feedValidationResultInvoice.paid) &&
@@ -1482,10 +2015,13 @@ public class FeedValidationResultInvoice {
         Objects.equals(this.dueDate, feedValidationResultInvoice.dueDate) &&
         Objects.equals(this.paidAt, feedValidationResultInvoice.paidAt) &&
         Objects.equals(this.payment, feedValidationResultInvoice.payment) &&
+        Objects.equals(this.remittances, feedValidationResultInvoice.remittances) &&
         Objects.equals(this.dueDateSource, feedValidationResultInvoice.dueDateSource) &&
         Objects.equals(this.lastRemindedAt, feedValidationResultInvoice.lastRemindedAt) &&
         Objects.equals(this.rejection, feedValidationResultInvoice.rejection) &&
         Objects.equals(this.replacesInvoiceId, feedValidationResultInvoice.replacesInvoiceId) &&
+        Objects.equals(this.replacesInvoiceIds, feedValidationResultInvoice.replacesInvoiceIds) &&
+        Objects.equals(this.replacedByInvoiceIds, feedValidationResultInvoice.replacedByInvoiceIds) &&
         Objects.equals(this.enteredBy, feedValidationResultInvoice.enteredBy) &&
         Objects.equals(this.invoiceDate, feedValidationResultInvoice.invoiceDate) &&
         Objects.equals(this.submittedFormat, feedValidationResultInvoice.submittedFormat) &&
@@ -1494,6 +2030,15 @@ public class FeedValidationResultInvoice {
         Objects.equals(this.taxAmount, feedValidationResultInvoice.taxAmount) &&
         Objects.equals(this.taxBreakdown, feedValidationResultInvoice.taxBreakdown) &&
         Objects.equals(this.withholdings, feedValidationResultInvoice.withholdings) &&
+        Objects.equals(this.documentType, feedValidationResultInvoice.documentType) &&
+        Objects.equals(this.amendsInvoiceId, feedValidationResultInvoice.amendsInvoiceId) &&
+        Objects.equals(this.amendsExternalInvoiceNumber, feedValidationResultInvoice.amendsExternalInvoiceNumber) &&
+        Objects.equals(this.debitNoteIds, feedValidationResultInvoice.debitNoteIds) &&
+        Objects.equals(this.invoiceKind, feedValidationResultInvoice.invoiceKind) &&
+        Objects.equals(this.deductions, feedValidationResultInvoice.deductions) &&
+        Objects.equals(this.creditApplications, feedValidationResultInvoice.creditApplications) &&
+        Objects.equals(this.creditNoteIds, feedValidationResultInvoice.creditNoteIds) &&
+        Objects.equals(this.creditVersion, feedValidationResultInvoice.creditVersion) &&
         Objects.equals(this.paymentCurrencyAmount, feedValidationResultInvoice.paymentCurrencyAmount) &&
         Objects.equals(this.taxCurrencyAmount, feedValidationResultInvoice.taxCurrencyAmount) &&
         Objects.equals(this.remittanceInstructions, feedValidationResultInvoice.remittanceInstructions) &&
@@ -1507,7 +2052,7 @@ public class FeedValidationResultInvoice {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, buyerOrgId, supplierOrgId, lateFeeTerms, amount, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, partyDetails, matchStatus, paid, dueInDays, dueDate, paidAt, payment, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, sourceDocument, hasOriginalPdf, baseCurrencyAmount, withdrawnPayment, buyerWorkspaceId, nextReminderAt);
+    return Objects.hash(supplier, buyerOrgId, supplierOrgId, lateFeeTerms, amount, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, paid, dueInDays, dueDate, paidAt, payment, remittances, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, sourceDocument, hasOriginalPdf, baseCurrencyAmount, withdrawnPayment, buyerWorkspaceId, nextReminderAt);
   }
 
   @Override
@@ -1528,6 +2073,8 @@ public class FeedValidationResultInvoice {
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
     sb.append("    lineItems: ").append(toIndentedString(lineItems)).append("\n");
     sb.append("    po: ").append(toIndentedString(po)).append("\n");
+    sb.append("    poLineNo: ").append(toIndentedString(poLineNo)).append("\n");
+    sb.append("    billsNoPoLine: ").append(toIndentedString(billsNoPoLine)).append("\n");
     sb.append("    partyDetails: ").append(toIndentedString(partyDetails)).append("\n");
     sb.append("    matchStatus: ").append(toIndentedString(matchStatus)).append("\n");
     sb.append("    paid: ").append(toIndentedString(paid)).append("\n");
@@ -1535,10 +2082,13 @@ public class FeedValidationResultInvoice {
     sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
     sb.append("    paidAt: ").append(toIndentedString(paidAt)).append("\n");
     sb.append("    payment: ").append(toIndentedString(payment)).append("\n");
+    sb.append("    remittances: ").append(toIndentedString(remittances)).append("\n");
     sb.append("    dueDateSource: ").append(toIndentedString(dueDateSource)).append("\n");
     sb.append("    lastRemindedAt: ").append(toIndentedString(lastRemindedAt)).append("\n");
     sb.append("    rejection: ").append(toIndentedString(rejection)).append("\n");
     sb.append("    replacesInvoiceId: ").append(toIndentedString(replacesInvoiceId)).append("\n");
+    sb.append("    replacesInvoiceIds: ").append(toIndentedString(replacesInvoiceIds)).append("\n");
+    sb.append("    replacedByInvoiceIds: ").append(toIndentedString(replacedByInvoiceIds)).append("\n");
     sb.append("    enteredBy: ").append(toIndentedString(enteredBy)).append("\n");
     sb.append("    invoiceDate: ").append(toIndentedString(invoiceDate)).append("\n");
     sb.append("    submittedFormat: ").append(toIndentedString(submittedFormat)).append("\n");
@@ -1547,6 +2097,15 @@ public class FeedValidationResultInvoice {
     sb.append("    taxAmount: ").append(toIndentedString(taxAmount)).append("\n");
     sb.append("    taxBreakdown: ").append(toIndentedString(taxBreakdown)).append("\n");
     sb.append("    withholdings: ").append(toIndentedString(withholdings)).append("\n");
+    sb.append("    documentType: ").append(toIndentedString(documentType)).append("\n");
+    sb.append("    amendsInvoiceId: ").append(toIndentedString(amendsInvoiceId)).append("\n");
+    sb.append("    amendsExternalInvoiceNumber: ").append(toIndentedString(amendsExternalInvoiceNumber)).append("\n");
+    sb.append("    debitNoteIds: ").append(toIndentedString(debitNoteIds)).append("\n");
+    sb.append("    invoiceKind: ").append(toIndentedString(invoiceKind)).append("\n");
+    sb.append("    deductions: ").append(toIndentedString(deductions)).append("\n");
+    sb.append("    creditApplications: ").append(toIndentedString(creditApplications)).append("\n");
+    sb.append("    creditNoteIds: ").append(toIndentedString(creditNoteIds)).append("\n");
+    sb.append("    creditVersion: ").append(toIndentedString(creditVersion)).append("\n");
     sb.append("    paymentCurrencyAmount: ").append(toIndentedString(paymentCurrencyAmount)).append("\n");
     sb.append("    taxCurrencyAmount: ").append(toIndentedString(taxCurrencyAmount)).append("\n");
     sb.append("    remittanceInstructions: ").append(toIndentedString(remittanceInstructions)).append("\n");
@@ -1678,6 +2237,16 @@ public class FeedValidationResultInvoice {
       joiner.add(String.format("%spo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `poLineNo` to the URL query string
+    if (getPoLineNo() != null) {
+      joiner.add(String.format("%spoLineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPoLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `billsNoPoLine` to the URL query string
+    if (getBillsNoPoLine() != null) {
+      joiner.add(String.format("%sbillsNoPoLine%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBillsNoPoLine()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
     // add `partyDetails` to the URL query string
     if (getPartyDetails() != null) {
       joiner.add(getPartyDetails().toUrlQueryString(prefix + "partyDetails" + suffix));
@@ -1713,6 +2282,16 @@ public class FeedValidationResultInvoice {
       joiner.add(getPayment().toUrlQueryString(prefix + "payment" + suffix));
     }
 
+    // add `remittances` to the URL query string
+    if (getRemittances() != null) {
+      for (int i = 0; i < getRemittances().size(); i++) {
+        if (getRemittances().get(i) != null) {
+          joiner.add(getRemittances().get(i).toUrlQueryString(String.format("%sremittances%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
     // add `dueDateSource` to the URL query string
     if (getDueDateSource() != null) {
       joiner.add(String.format("%sdueDateSource%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDueDateSource()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -1731,6 +2310,24 @@ public class FeedValidationResultInvoice {
     // add `replacesInvoiceId` to the URL query string
     if (getReplacesInvoiceId() != null) {
       joiner.add(String.format("%sreplacesInvoiceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReplacesInvoiceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `replacesInvoiceIds` to the URL query string
+    if (getReplacesInvoiceIds() != null) {
+      for (int i = 0; i < getReplacesInvoiceIds().size(); i++) {
+        joiner.add(String.format("%sreplacesInvoiceIds%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getReplacesInvoiceIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `replacedByInvoiceIds` to the URL query string
+    if (getReplacedByInvoiceIds() != null) {
+      for (int i = 0; i < getReplacedByInvoiceIds().size(); i++) {
+        joiner.add(String.format("%sreplacedByInvoiceIds%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getReplacedByInvoiceIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
     }
 
     // add `enteredBy` to the URL query string
@@ -1786,6 +2383,69 @@ public class FeedValidationResultInvoice {
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
+    }
+
+    // add `documentType` to the URL query string
+    if (getDocumentType() != null) {
+      joiner.add(String.format("%sdocumentType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDocumentType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `amendsInvoiceId` to the URL query string
+    if (getAmendsInvoiceId() != null) {
+      joiner.add(String.format("%samendsInvoiceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAmendsInvoiceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `amendsExternalInvoiceNumber` to the URL query string
+    if (getAmendsExternalInvoiceNumber() != null) {
+      joiner.add(String.format("%samendsExternalInvoiceNumber%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAmendsExternalInvoiceNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `debitNoteIds` to the URL query string
+    if (getDebitNoteIds() != null) {
+      for (int i = 0; i < getDebitNoteIds().size(); i++) {
+        joiner.add(String.format("%sdebitNoteIds%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getDebitNoteIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `invoiceKind` to the URL query string
+    if (getInvoiceKind() != null) {
+      joiner.add(String.format("%sinvoiceKind%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInvoiceKind()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `deductions` to the URL query string
+    if (getDeductions() != null) {
+      for (int i = 0; i < getDeductions().size(); i++) {
+        if (getDeductions().get(i) != null) {
+          joiner.add(getDeductions().get(i).toUrlQueryString(String.format("%sdeductions%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `creditApplications` to the URL query string
+    if (getCreditApplications() != null) {
+      for (int i = 0; i < getCreditApplications().size(); i++) {
+        if (getCreditApplications().get(i) != null) {
+          joiner.add(getCreditApplications().get(i).toUrlQueryString(String.format("%screditApplications%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `creditNoteIds` to the URL query string
+    if (getCreditNoteIds() != null) {
+      for (int i = 0; i < getCreditNoteIds().size(); i++) {
+        joiner.add(String.format("%screditNoteIds%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getCreditNoteIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `creditVersion` to the URL query string
+    if (getCreditVersion() != null) {
+      joiner.add(String.format("%screditVersion%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreditVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `paymentCurrencyAmount` to the URL query string

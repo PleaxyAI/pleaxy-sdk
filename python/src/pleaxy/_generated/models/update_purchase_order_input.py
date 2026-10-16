@@ -6,6 +6,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.bill_to_party_input import BillToPartyInput
     from ..models.line_item_input import LineItemInput
 
 
@@ -20,8 +21,12 @@ class UpdatePurchaseOrderInput:
             supplier with an account, one it prices in; otherwise any ISO 4217 code. A submitted PO keeps its currency.
         line_items (Union[Unset, List['LineItemInput']]): Replaces the PO's whole line-item set and recalculates its
             amount. The approval chain is rebuilt from scratch, discarding any sign-offs already collected.
-        bill_to (Union[Unset, str]):
+        bill_to_party (Union[Unset, BillToPartyInput]):
+        bill_to (Union[Unset, str]): Use `billToParty`. A one-line bill-to address for the buyer's company, kept as
+            typed; an empty string copies the company profile's. Ignored when `billToParty` is sent.
         cost_center (Union[Unset, str]):
+        delivery_address_id (Union[Unset, str]): Drafts only: the workspace delivery address an online store order ships
+            to, copied onto the order at submit. An empty string goes back to the workspace default.
         budget_owner (Union[Unset, str]):
         buyer_name (Union[Unset, str]):
         notes (Union[Unset, str]):
@@ -33,8 +38,10 @@ class UpdatePurchaseOrderInput:
 
     currency: Union[Unset, str] = UNSET
     line_items: Union[Unset, List["LineItemInput"]] = UNSET
+    bill_to_party: Union[Unset, "BillToPartyInput"] = UNSET
     bill_to: Union[Unset, str] = UNSET
     cost_center: Union[Unset, str] = UNSET
+    delivery_address_id: Union[Unset, str] = UNSET
     budget_owner: Union[Unset, str] = UNSET
     buyer_name: Union[Unset, str] = UNSET
     notes: Union[Unset, str] = UNSET
@@ -52,9 +59,15 @@ class UpdatePurchaseOrderInput:
                 line_items_item = line_items_item_data.to_dict()
                 line_items.append(line_items_item)
 
+        bill_to_party: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.bill_to_party, Unset):
+            bill_to_party = self.bill_to_party.to_dict()
+
         bill_to = self.bill_to
 
         cost_center = self.cost_center
+
+        delivery_address_id = self.delivery_address_id
 
         budget_owner = self.budget_owner
 
@@ -81,10 +94,14 @@ class UpdatePurchaseOrderInput:
             field_dict["currency"] = currency
         if line_items is not UNSET:
             field_dict["lineItems"] = line_items
+        if bill_to_party is not UNSET:
+            field_dict["billToParty"] = bill_to_party
         if bill_to is not UNSET:
             field_dict["billTo"] = bill_to
         if cost_center is not UNSET:
             field_dict["costCenter"] = cost_center
+        if delivery_address_id is not UNSET:
+            field_dict["deliveryAddressId"] = delivery_address_id
         if budget_owner is not UNSET:
             field_dict["budgetOwner"] = budget_owner
         if buyer_name is not UNSET:
@@ -100,6 +117,7 @@ class UpdatePurchaseOrderInput:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.bill_to_party_input import BillToPartyInput
         from ..models.line_item_input import LineItemInput
 
         d = src_dict.copy()
@@ -112,9 +130,18 @@ class UpdatePurchaseOrderInput:
 
             line_items.append(line_items_item)
 
+        _bill_to_party = d.pop("billToParty", UNSET)
+        bill_to_party: Union[Unset, BillToPartyInput]
+        if isinstance(_bill_to_party, Unset):
+            bill_to_party = UNSET
+        else:
+            bill_to_party = BillToPartyInput.from_dict(_bill_to_party)
+
         bill_to = d.pop("billTo", UNSET)
 
         cost_center = d.pop("costCenter", UNSET)
+
+        delivery_address_id = d.pop("deliveryAddressId", UNSET)
 
         budget_owner = d.pop("budgetOwner", UNSET)
 
@@ -143,8 +170,10 @@ class UpdatePurchaseOrderInput:
         update_purchase_order_input = cls(
             currency=currency,
             line_items=line_items,
+            bill_to_party=bill_to_party,
             bill_to=bill_to,
             cost_center=cost_center,
+            delivery_address_id=delivery_address_id,
             budget_owner=budget_owner,
             buyer_name=buyer_name,
             notes=notes,

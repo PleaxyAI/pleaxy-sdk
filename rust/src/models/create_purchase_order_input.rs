@@ -30,6 +30,10 @@ pub struct CreatePurchaseOrderInput {
     /// Only with `provider`: this region's cloud connections of that provider the PO applies to, by `id`. A connection still being set up is refused. The PO stores each connection's own label and detail; any sent here are ignored.
     #[serde(rename = "payerAccounts", skip_serializing_if = "Option::is_none")]
     pub payer_accounts: Option<Vec<models::PayerAccountRefInput>>,
+    /// Who the supplier invoices, when it isn't the buyer's company profile billing details. Left out, the order copies those details as they are now (company name, billing address, tax id).
+    #[serde(rename = "billToParty", skip_serializing_if = "Option::is_none")]
+    pub bill_to_party: Option<models::BillToPartyInput>,
+    /// Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; ignored when `billToParty` is sent.
     #[serde(rename = "billTo", skip_serializing_if = "Option::is_none")]
     pub bill_to: Option<String>,
     #[serde(rename = "costCenter", skip_serializing_if = "Option::is_none")]
@@ -73,6 +77,7 @@ impl CreatePurchaseOrderInput {
             currency: None,
             provider: None,
             payer_accounts: None,
+            bill_to_party: None,
             bill_to: None,
             cost_center: None,
             budget_owner: None,

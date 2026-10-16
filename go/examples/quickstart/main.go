@@ -33,7 +33,7 @@ func main() {
 				UnitPrice:    0.096,
 				Qty:          5000,
 				NteAmount:    0,
-				PaymentTerms: "Net 30",
+				PaymentTerms: pleaxy.Ptr("Net 30"),
 				ValidFrom:    "2026-01-01",
 				ValidUntil:   "2026-12-31",
 			},

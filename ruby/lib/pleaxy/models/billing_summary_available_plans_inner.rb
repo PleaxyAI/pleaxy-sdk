@@ -19,9 +19,15 @@ module Pleaxy
 
     attr_accessor :monthly_price_label
 
+    attr_accessor :monthly_price
+
     attr_accessor :yearly_price_label
 
+    attr_accessor :yearly_price
+
     attr_accessor :additional_region_price_labels
+
+    attr_accessor :additional_region_prices
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -50,8 +56,11 @@ module Pleaxy
       {
         :'plan' => :'plan',
         :'monthly_price_label' => :'monthlyPriceLabel',
+        :'monthly_price' => :'monthlyPrice',
         :'yearly_price_label' => :'yearlyPriceLabel',
-        :'additional_region_price_labels' => :'additionalRegionPriceLabels'
+        :'yearly_price' => :'yearlyPrice',
+        :'additional_region_price_labels' => :'additionalRegionPriceLabels',
+        :'additional_region_prices' => :'additionalRegionPrices'
       }
     end
 
@@ -65,8 +74,11 @@ module Pleaxy
       {
         :'plan' => :'String',
         :'monthly_price_label' => :'String',
+        :'monthly_price' => :'PriceAmount',
         :'yearly_price_label' => :'String',
-        :'additional_region_price_labels' => :'Array<String>'
+        :'yearly_price' => :'PriceAmount',
+        :'additional_region_price_labels' => :'Array<String>',
+        :'additional_region_prices' => :'Array<RegionTierPrice>'
       }
     end
 
@@ -99,13 +111,27 @@ module Pleaxy
         self.monthly_price_label = attributes[:'monthly_price_label']
       end
 
+      if attributes.key?(:'monthly_price')
+        self.monthly_price = attributes[:'monthly_price']
+      end
+
       if attributes.key?(:'yearly_price_label')
         self.yearly_price_label = attributes[:'yearly_price_label']
+      end
+
+      if attributes.key?(:'yearly_price')
+        self.yearly_price = attributes[:'yearly_price']
       end
 
       if attributes.key?(:'additional_region_price_labels')
         if (value = attributes[:'additional_region_price_labels']).is_a?(Array)
           self.additional_region_price_labels = value
+        end
+      end
+
+      if attributes.key?(:'additional_region_prices')
+        if (value = attributes[:'additional_region_prices']).is_a?(Array)
+          self.additional_region_prices = value
         end
       end
     end
@@ -144,8 +170,11 @@ module Pleaxy
       self.class == o.class &&
           plan == o.plan &&
           monthly_price_label == o.monthly_price_label &&
+          monthly_price == o.monthly_price &&
           yearly_price_label == o.yearly_price_label &&
-          additional_region_price_labels == o.additional_region_price_labels
+          yearly_price == o.yearly_price &&
+          additional_region_price_labels == o.additional_region_price_labels &&
+          additional_region_prices == o.additional_region_prices
     end
 
     # @see the `==` method
@@ -157,7 +186,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [plan, monthly_price_label, yearly_price_label, additional_region_price_labels].hash
+      [plan, monthly_price_label, monthly_price, yearly_price_label, yearly_price, additional_region_price_labels, additional_region_prices].hash
     end
 
     # Builds the object from hash

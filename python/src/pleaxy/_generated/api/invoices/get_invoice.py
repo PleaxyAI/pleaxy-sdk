@@ -5,8 +5,16 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.invoice_buyer_view import InvoiceBuyerView
-from ...models.invoice_supplier_view import InvoiceSupplierView
+from ...models.get_invoice_result_buyer_credit_note import (
+    GetInvoiceResultBuyerCreditNote,
+)
+from ...models.get_invoice_result_buyer_invoice import GetInvoiceResultBuyerInvoice
+from ...models.get_invoice_result_supplier_credit_note import (
+    GetInvoiceResultSupplierCreditNote,
+)
+from ...models.get_invoice_result_supplier_invoice import (
+    GetInvoiceResultSupplierInvoice,
+)
 from ...types import UNSET, Response, Unset
 
 
@@ -34,29 +42,61 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union["InvoiceBuyerView", "InvoiceSupplierView"]]:
+) -> Optional[
+    Union[
+        "GetInvoiceResultBuyerCreditNote",
+        "GetInvoiceResultBuyerInvoice",
+        "GetInvoiceResultSupplierCreditNote",
+        "GetInvoiceResultSupplierInvoice",
+    ]
+]:
     if response.status_code == 200:
 
         def _parse_response_200(
             data: object,
-        ) -> Union["InvoiceBuyerView", "InvoiceSupplierView"]:
+        ) -> Union[
+            "GetInvoiceResultBuyerCreditNote",
+            "GetInvoiceResultBuyerInvoice",
+            "GetInvoiceResultSupplierCreditNote",
+            "GetInvoiceResultSupplierInvoice",
+        ]:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
                 componentsschemas_get_invoice_result_type_0 = (
-                    InvoiceBuyerView.from_dict(data)
+                    GetInvoiceResultSupplierCreditNote.from_dict(data)
                 )
 
                 return componentsschemas_get_invoice_result_type_0
             except:  # noqa: E722
                 pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_get_invoice_result_type_1 = (
+                    GetInvoiceResultBuyerCreditNote.from_dict(data)
+                )
+
+                return componentsschemas_get_invoice_result_type_1
+            except:  # noqa: E722
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_get_invoice_result_type_2 = (
+                    GetInvoiceResultBuyerInvoice.from_dict(data)
+                )
+
+                return componentsschemas_get_invoice_result_type_2
+            except:  # noqa: E722
+                pass
             if not isinstance(data, dict):
                 raise TypeError()
-            componentsschemas_get_invoice_result_type_1 = InvoiceSupplierView.from_dict(
-                data
+            componentsschemas_get_invoice_result_type_3 = (
+                GetInvoiceResultSupplierInvoice.from_dict(data)
             )
 
-            return componentsschemas_get_invoice_result_type_1
+            return componentsschemas_get_invoice_result_type_3
 
         response_200 = _parse_response_200(response.json())
 
@@ -69,7 +109,14 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union["InvoiceBuyerView", "InvoiceSupplierView"]]:
+) -> Response[
+    Union[
+        "GetInvoiceResultBuyerCreditNote",
+        "GetInvoiceResultBuyerInvoice",
+        "GetInvoiceResultSupplierCreditNote",
+        "GetInvoiceResultSupplierInvoice",
+    ]
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -83,11 +130,21 @@ def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     buyer: Union[Unset, str] = UNSET,
-) -> Response[Union["InvoiceBuyerView", "InvoiceSupplierView"]]:
-    """[Both] Get a single invoice. A Supplier caller gets a reduced view - no approval workflow detail
+) -> Response[
+    Union[
+        "GetInvoiceResultBuyerCreditNote",
+        "GetInvoiceResultBuyerInvoice",
+        "GetInvoiceResultSupplierCreditNote",
+        "GetInvoiceResultSupplierInvoice",
+    ]
+]:
+    """[Both] Get a single invoice, or with a credit note's id (CN-…) that credit note; documentType says
+    which. A Supplier caller gets a reduced view - no approval workflow detail
     (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the
     buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409
-    INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>.
+    INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>. A Buyer caller also gets, on a
+    replaced invoice, replacement (whether its credit notes cover it in full), and on a replacement,
+    uncreditedOriginals (credit and rebill).
 
     Args:
         invoice_id (str):
@@ -98,7 +155,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union['InvoiceBuyerView', 'InvoiceSupplierView']]
+        Response[Union['GetInvoiceResultBuyerCreditNote', 'GetInvoiceResultBuyerInvoice', 'GetInvoiceResultSupplierCreditNote', 'GetInvoiceResultSupplierInvoice']]
     """
 
     kwargs = _get_kwargs(
@@ -118,11 +175,21 @@ def sync(
     *,
     client: Union[AuthenticatedClient, Client],
     buyer: Union[Unset, str] = UNSET,
-) -> Optional[Union["InvoiceBuyerView", "InvoiceSupplierView"]]:
-    """[Both] Get a single invoice. A Supplier caller gets a reduced view - no approval workflow detail
+) -> Optional[
+    Union[
+        "GetInvoiceResultBuyerCreditNote",
+        "GetInvoiceResultBuyerInvoice",
+        "GetInvoiceResultSupplierCreditNote",
+        "GetInvoiceResultSupplierInvoice",
+    ]
+]:
+    """[Both] Get a single invoice, or with a credit note's id (CN-…) that credit note; documentType says
+    which. A Supplier caller gets a reduced view - no approval workflow detail
     (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the
     buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409
-    INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>.
+    INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>. A Buyer caller also gets, on a
+    replaced invoice, replacement (whether its credit notes cover it in full), and on a replacement,
+    uncreditedOriginals (credit and rebill).
 
     Args:
         invoice_id (str):
@@ -133,7 +200,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union['InvoiceBuyerView', 'InvoiceSupplierView']
+        Union['GetInvoiceResultBuyerCreditNote', 'GetInvoiceResultBuyerInvoice', 'GetInvoiceResultSupplierCreditNote', 'GetInvoiceResultSupplierInvoice']
     """
 
     return sync_detailed(
@@ -148,11 +215,21 @@ async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     buyer: Union[Unset, str] = UNSET,
-) -> Response[Union["InvoiceBuyerView", "InvoiceSupplierView"]]:
-    """[Both] Get a single invoice. A Supplier caller gets a reduced view - no approval workflow detail
+) -> Response[
+    Union[
+        "GetInvoiceResultBuyerCreditNote",
+        "GetInvoiceResultBuyerInvoice",
+        "GetInvoiceResultSupplierCreditNote",
+        "GetInvoiceResultSupplierInvoice",
+    ]
+]:
+    """[Both] Get a single invoice, or with a credit note's id (CN-…) that credit note; documentType says
+    which. A Supplier caller gets a reduced view - no approval workflow detail
     (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the
     buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409
-    INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>.
+    INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>. A Buyer caller also gets, on a
+    replaced invoice, replacement (whether its credit notes cover it in full), and on a replacement,
+    uncreditedOriginals (credit and rebill).
 
     Args:
         invoice_id (str):
@@ -163,7 +240,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union['InvoiceBuyerView', 'InvoiceSupplierView']]
+        Response[Union['GetInvoiceResultBuyerCreditNote', 'GetInvoiceResultBuyerInvoice', 'GetInvoiceResultSupplierCreditNote', 'GetInvoiceResultSupplierInvoice']]
     """
 
     kwargs = _get_kwargs(
@@ -181,11 +258,21 @@ async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
     buyer: Union[Unset, str] = UNSET,
-) -> Optional[Union["InvoiceBuyerView", "InvoiceSupplierView"]]:
-    """[Both] Get a single invoice. A Supplier caller gets a reduced view - no approval workflow detail
+) -> Optional[
+    Union[
+        "GetInvoiceResultBuyerCreditNote",
+        "GetInvoiceResultBuyerInvoice",
+        "GetInvoiceResultSupplierCreditNote",
+        "GetInvoiceResultSupplierInvoice",
+    ]
+]:
+    """[Both] Get a single invoice, or with a credit note's id (CN-…) that credit note; documentType says
+    which. A Supplier caller gets a reduced view - no approval workflow detail
     (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the
     buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409
-    INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>.
+    INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>. A Buyer caller also gets, on a
+    replaced invoice, replacement (whether its credit notes cover it in full), and on a replacement,
+    uncreditedOriginals (credit and rebill).
 
     Args:
         invoice_id (str):
@@ -196,7 +283,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union['InvoiceBuyerView', 'InvoiceSupplierView']
+        Union['GetInvoiceResultBuyerCreditNote', 'GetInvoiceResultBuyerInvoice', 'GetInvoiceResultSupplierCreditNote', 'GetInvoiceResultSupplierInvoice']
     """
 
     return (

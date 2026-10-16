@@ -6,11 +6,16 @@ from typing import (
     Type,
     TypeVar,
     Union,
+    cast,
 )
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.invoice_supplier_view_document_type import (
+    InvoiceSupplierViewDocumentType,
+    check_invoice_supplier_view_document_type,
+)
 from ..models.invoice_supplier_view_due_date_source import (
     InvoiceSupplierViewDueDateSource,
     check_invoice_supplier_view_due_date_source,
@@ -18,6 +23,10 @@ from ..models.invoice_supplier_view_due_date_source import (
 from ..models.invoice_supplier_view_entered_by import (
     InvoiceSupplierViewEnteredBy,
     check_invoice_supplier_view_entered_by,
+)
+from ..models.invoice_supplier_view_invoice_kind import (
+    InvoiceSupplierViewInvoiceKind,
+    check_invoice_supplier_view_invoice_kind,
 )
 from ..models.invoice_supplier_view_match_status import (
     InvoiceSupplierViewMatchStatus,
@@ -37,7 +46,9 @@ if TYPE_CHECKING:
     from ..models.invoice_adjustment import InvoiceAdjustment
     from ..models.invoice_base_currency_amount import InvoiceBaseCurrencyAmount
     from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
+    from ..models.invoice_credit_application import InvoiceCreditApplication
     from ..models.invoice_currency_amount import InvoiceCurrencyAmount
+    from ..models.invoice_deduction import InvoiceDeduction
     from ..models.invoice_line_item import InvoiceLineItem
     from ..models.invoice_rejection import InvoiceRejection
     from ..models.invoice_source_document import InvoiceSourceDocument
@@ -59,6 +70,7 @@ if TYPE_CHECKING:
     from ..models.late_fee_terms import LateFeeTerms
     from ..models.remittance_instructions import RemittanceInstructions
     from ..models.supplier_approval_view import SupplierApprovalView
+    from ..models.supplier_remittance_view import SupplierRemittanceView
 
 
 T = TypeVar("T", bound="InvoiceSupplierView")
@@ -83,6 +95,8 @@ class InvoiceSupplierView:
         contract_id (Union[Unset, str]):
         line_items (Union[Unset, List['InvoiceLineItem']]):
         po (Union[Unset, str]):
+        po_line_no (Union[Unset, float]):
+        bills_no_po_line (Union[Unset, bool]):
         party_details (Union[Unset, InvoiceSupplierViewPartyDetails]):
         match_status (Union[Unset, InvoiceSupplierViewMatchStatus]):
         paid (Union[Unset, bool]):
@@ -93,6 +107,8 @@ class InvoiceSupplierView:
         last_reminded_at (Union[Unset, str]):
         rejection (Union[Unset, InvoiceRejection]):
         replaces_invoice_id (Union[Unset, str]):
+        replaces_invoice_ids (Union[Unset, List[str]]):
+        replaced_by_invoice_ids (Union[Unset, List[str]]):
         source (Union[Unset, InvoiceSupplierViewSource]):
         entered_by (Union[Unset, InvoiceSupplierViewEnteredBy]):
         invoice_date (Union[Unset, str]):
@@ -102,6 +118,15 @@ class InvoiceSupplierView:
         tax_amount (Union[Unset, float]):
         tax_breakdown (Union[Unset, List['InvoiceBreakdownEntry']]):
         withholdings (Union[Unset, List['InvoiceBreakdownEntry']]):
+        document_type (Union[Unset, InvoiceSupplierViewDocumentType]):
+        amends_invoice_id (Union[Unset, str]):
+        amends_external_invoice_number (Union[Unset, str]):
+        debit_note_ids (Union[Unset, List[str]]):
+        invoice_kind (Union[Unset, InvoiceSupplierViewInvoiceKind]):
+        deductions (Union[Unset, List['InvoiceDeduction']]):
+        credit_applications (Union[Unset, List['InvoiceCreditApplication']]):
+        credit_note_ids (Union[Unset, List[str]]):
+        credit_version (Union[Unset, float]):
         payment_currency_amount (Union[Unset, InvoiceCurrencyAmount]):
         tax_currency_amount (Union[Unset, InvoiceCurrencyAmount]):
         remittance_instructions (Union[Unset, RemittanceInstructions]):
@@ -112,6 +137,7 @@ class InvoiceSupplierView:
         payment (Union['InvoiceSupplierViewPaymentType0', 'InvoiceSupplierViewPaymentType1', Unset]):
         withdrawn_payment (Union['InvoiceSupplierViewWithdrawnPaymentType0', 'InvoiceSupplierViewWithdrawnPaymentType1',
             Unset]):
+        remittances (Union[Unset, List['SupplierRemittanceView']]):
         buyer_workspace_id (Union[Unset, str]):
         next_reminder_at (Union[Unset, str]):
     """
@@ -131,6 +157,8 @@ class InvoiceSupplierView:
     contract_id: Union[Unset, str] = UNSET
     line_items: Union[Unset, List["InvoiceLineItem"]] = UNSET
     po: Union[Unset, str] = UNSET
+    po_line_no: Union[Unset, float] = UNSET
+    bills_no_po_line: Union[Unset, bool] = UNSET
     party_details: Union[Unset, "InvoiceSupplierViewPartyDetails"] = UNSET
     match_status: Union[Unset, InvoiceSupplierViewMatchStatus] = UNSET
     paid: Union[Unset, bool] = UNSET
@@ -141,6 +169,8 @@ class InvoiceSupplierView:
     last_reminded_at: Union[Unset, str] = UNSET
     rejection: Union[Unset, "InvoiceRejection"] = UNSET
     replaces_invoice_id: Union[Unset, str] = UNSET
+    replaces_invoice_ids: Union[Unset, List[str]] = UNSET
+    replaced_by_invoice_ids: Union[Unset, List[str]] = UNSET
     source: Union[Unset, InvoiceSupplierViewSource] = UNSET
     entered_by: Union[Unset, InvoiceSupplierViewEnteredBy] = UNSET
     invoice_date: Union[Unset, str] = UNSET
@@ -150,6 +180,15 @@ class InvoiceSupplierView:
     tax_amount: Union[Unset, float] = UNSET
     tax_breakdown: Union[Unset, List["InvoiceBreakdownEntry"]] = UNSET
     withholdings: Union[Unset, List["InvoiceBreakdownEntry"]] = UNSET
+    document_type: Union[Unset, InvoiceSupplierViewDocumentType] = UNSET
+    amends_invoice_id: Union[Unset, str] = UNSET
+    amends_external_invoice_number: Union[Unset, str] = UNSET
+    debit_note_ids: Union[Unset, List[str]] = UNSET
+    invoice_kind: Union[Unset, InvoiceSupplierViewInvoiceKind] = UNSET
+    deductions: Union[Unset, List["InvoiceDeduction"]] = UNSET
+    credit_applications: Union[Unset, List["InvoiceCreditApplication"]] = UNSET
+    credit_note_ids: Union[Unset, List[str]] = UNSET
+    credit_version: Union[Unset, float] = UNSET
     payment_currency_amount: Union[Unset, "InvoiceCurrencyAmount"] = UNSET
     tax_currency_amount: Union[Unset, "InvoiceCurrencyAmount"] = UNSET
     remittance_instructions: Union[Unset, "RemittanceInstructions"] = UNSET
@@ -165,6 +204,7 @@ class InvoiceSupplierView:
         "InvoiceSupplierViewWithdrawnPaymentType1",
         Unset,
     ] = UNSET
+    remittances: Union[Unset, List["SupplierRemittanceView"]] = UNSET
     buyer_workspace_id: Union[Unset, str] = UNSET
     next_reminder_at: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -214,6 +254,10 @@ class InvoiceSupplierView:
 
         po = self.po
 
+        po_line_no = self.po_line_no
+
+        bills_no_po_line = self.bills_no_po_line
+
         party_details: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.party_details, Unset):
             party_details = self.party_details.to_dict()
@@ -241,6 +285,14 @@ class InvoiceSupplierView:
             rejection = self.rejection.to_dict()
 
         replaces_invoice_id = self.replaces_invoice_id
+
+        replaces_invoice_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.replaces_invoice_ids, Unset):
+            replaces_invoice_ids = self.replaces_invoice_ids
+
+        replaced_by_invoice_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.replaced_by_invoice_ids, Unset):
+            replaced_by_invoice_ids = self.replaced_by_invoice_ids
 
         source: Union[Unset, str] = UNSET
         if not isinstance(self.source, Unset):
@@ -280,6 +332,42 @@ class InvoiceSupplierView:
             for withholdings_item_data in self.withholdings:
                 withholdings_item = withholdings_item_data.to_dict()
                 withholdings.append(withholdings_item)
+
+        document_type: Union[Unset, str] = UNSET
+        if not isinstance(self.document_type, Unset):
+            document_type = self.document_type
+
+        amends_invoice_id = self.amends_invoice_id
+
+        amends_external_invoice_number = self.amends_external_invoice_number
+
+        debit_note_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.debit_note_ids, Unset):
+            debit_note_ids = self.debit_note_ids
+
+        invoice_kind: Union[Unset, str] = UNSET
+        if not isinstance(self.invoice_kind, Unset):
+            invoice_kind = self.invoice_kind
+
+        deductions: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.deductions, Unset):
+            deductions = []
+            for deductions_item_data in self.deductions:
+                deductions_item = deductions_item_data.to_dict()
+                deductions.append(deductions_item)
+
+        credit_applications: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.credit_applications, Unset):
+            credit_applications = []
+            for credit_applications_item_data in self.credit_applications:
+                credit_applications_item = credit_applications_item_data.to_dict()
+                credit_applications.append(credit_applications_item)
+
+        credit_note_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.credit_note_ids, Unset):
+            credit_note_ids = self.credit_note_ids
+
+        credit_version = self.credit_version
 
         payment_currency_amount: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.payment_currency_amount, Unset):
@@ -325,6 +413,13 @@ class InvoiceSupplierView:
         else:
             withdrawn_payment = self.withdrawn_payment.to_dict()
 
+        remittances: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.remittances, Unset):
+            remittances = []
+            for remittances_item_data in self.remittances:
+                remittances_item = remittances_item_data.to_dict()
+                remittances.append(remittances_item)
+
         buyer_workspace_id = self.buyer_workspace_id
 
         next_reminder_at = self.next_reminder_at
@@ -364,6 +459,10 @@ class InvoiceSupplierView:
             field_dict["lineItems"] = line_items
         if po is not UNSET:
             field_dict["po"] = po
+        if po_line_no is not UNSET:
+            field_dict["poLineNo"] = po_line_no
+        if bills_no_po_line is not UNSET:
+            field_dict["billsNoPoLine"] = bills_no_po_line
         if party_details is not UNSET:
             field_dict["partyDetails"] = party_details
         if match_status is not UNSET:
@@ -384,6 +483,10 @@ class InvoiceSupplierView:
             field_dict["rejection"] = rejection
         if replaces_invoice_id is not UNSET:
             field_dict["replacesInvoiceId"] = replaces_invoice_id
+        if replaces_invoice_ids is not UNSET:
+            field_dict["replacesInvoiceIds"] = replaces_invoice_ids
+        if replaced_by_invoice_ids is not UNSET:
+            field_dict["replacedByInvoiceIds"] = replaced_by_invoice_ids
         if source is not UNSET:
             field_dict["source"] = source
         if entered_by is not UNSET:
@@ -402,6 +505,24 @@ class InvoiceSupplierView:
             field_dict["taxBreakdown"] = tax_breakdown
         if withholdings is not UNSET:
             field_dict["withholdings"] = withholdings
+        if document_type is not UNSET:
+            field_dict["documentType"] = document_type
+        if amends_invoice_id is not UNSET:
+            field_dict["amendsInvoiceId"] = amends_invoice_id
+        if amends_external_invoice_number is not UNSET:
+            field_dict["amendsExternalInvoiceNumber"] = amends_external_invoice_number
+        if debit_note_ids is not UNSET:
+            field_dict["debitNoteIds"] = debit_note_ids
+        if invoice_kind is not UNSET:
+            field_dict["invoiceKind"] = invoice_kind
+        if deductions is not UNSET:
+            field_dict["deductions"] = deductions
+        if credit_applications is not UNSET:
+            field_dict["creditApplications"] = credit_applications
+        if credit_note_ids is not UNSET:
+            field_dict["creditNoteIds"] = credit_note_ids
+        if credit_version is not UNSET:
+            field_dict["creditVersion"] = credit_version
         if payment_currency_amount is not UNSET:
             field_dict["paymentCurrencyAmount"] = payment_currency_amount
         if tax_currency_amount is not UNSET:
@@ -420,6 +541,8 @@ class InvoiceSupplierView:
             field_dict["payment"] = payment
         if withdrawn_payment is not UNSET:
             field_dict["withdrawnPayment"] = withdrawn_payment
+        if remittances is not UNSET:
+            field_dict["remittances"] = remittances
         if buyer_workspace_id is not UNSET:
             field_dict["buyerWorkspaceId"] = buyer_workspace_id
         if next_reminder_at is not UNSET:
@@ -432,7 +555,9 @@ class InvoiceSupplierView:
         from ..models.invoice_adjustment import InvoiceAdjustment
         from ..models.invoice_base_currency_amount import InvoiceBaseCurrencyAmount
         from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
+        from ..models.invoice_credit_application import InvoiceCreditApplication
         from ..models.invoice_currency_amount import InvoiceCurrencyAmount
+        from ..models.invoice_deduction import InvoiceDeduction
         from ..models.invoice_line_item import InvoiceLineItem
         from ..models.invoice_rejection import InvoiceRejection
         from ..models.invoice_source_document import InvoiceSourceDocument
@@ -454,6 +579,7 @@ class InvoiceSupplierView:
         from ..models.late_fee_terms import LateFeeTerms
         from ..models.remittance_instructions import RemittanceInstructions
         from ..models.supplier_approval_view import SupplierApprovalView
+        from ..models.supplier_remittance_view import SupplierRemittanceView
 
         d = src_dict.copy()
         id = d.pop("id")
@@ -496,6 +622,10 @@ class InvoiceSupplierView:
 
         po = d.pop("po", UNSET)
 
+        po_line_no = d.pop("poLineNo", UNSET)
+
+        bills_no_po_line = d.pop("billsNoPoLine", UNSET)
+
         _party_details = d.pop("partyDetails", UNSET)
         party_details: Union[Unset, InvoiceSupplierViewPartyDetails]
         if isinstance(_party_details, Unset):
@@ -537,6 +667,10 @@ class InvoiceSupplierView:
             rejection = InvoiceRejection.from_dict(_rejection)
 
         replaces_invoice_id = d.pop("replacesInvoiceId", UNSET)
+
+        replaces_invoice_ids = cast(List[str], d.pop("replacesInvoiceIds", UNSET))
+
+        replaced_by_invoice_ids = cast(List[str], d.pop("replacedByInvoiceIds", UNSET))
 
         _source = d.pop("source", UNSET)
         source: Union[Unset, InvoiceSupplierViewSource]
@@ -589,6 +723,46 @@ class InvoiceSupplierView:
             withholdings_item = InvoiceBreakdownEntry.from_dict(withholdings_item_data)
 
             withholdings.append(withholdings_item)
+
+        _document_type = d.pop("documentType", UNSET)
+        document_type: Union[Unset, InvoiceSupplierViewDocumentType]
+        if isinstance(_document_type, Unset):
+            document_type = UNSET
+        else:
+            document_type = check_invoice_supplier_view_document_type(_document_type)
+
+        amends_invoice_id = d.pop("amendsInvoiceId", UNSET)
+
+        amends_external_invoice_number = d.pop("amendsExternalInvoiceNumber", UNSET)
+
+        debit_note_ids = cast(List[str], d.pop("debitNoteIds", UNSET))
+
+        _invoice_kind = d.pop("invoiceKind", UNSET)
+        invoice_kind: Union[Unset, InvoiceSupplierViewInvoiceKind]
+        if isinstance(_invoice_kind, Unset):
+            invoice_kind = UNSET
+        else:
+            invoice_kind = check_invoice_supplier_view_invoice_kind(_invoice_kind)
+
+        deductions = []
+        _deductions = d.pop("deductions", UNSET)
+        for deductions_item_data in _deductions or []:
+            deductions_item = InvoiceDeduction.from_dict(deductions_item_data)
+
+            deductions.append(deductions_item)
+
+        credit_applications = []
+        _credit_applications = d.pop("creditApplications", UNSET)
+        for credit_applications_item_data in _credit_applications or []:
+            credit_applications_item = InvoiceCreditApplication.from_dict(
+                credit_applications_item_data
+            )
+
+            credit_applications.append(credit_applications_item)
+
+        credit_note_ids = cast(List[str], d.pop("creditNoteIds", UNSET))
+
+        credit_version = d.pop("creditVersion", UNSET)
 
         _payment_currency_amount = d.pop("paymentCurrencyAmount", UNSET)
         payment_currency_amount: Union[Unset, InvoiceCurrencyAmount]
@@ -692,6 +866,13 @@ class InvoiceSupplierView:
 
         withdrawn_payment = _parse_withdrawn_payment(d.pop("withdrawnPayment", UNSET))
 
+        remittances = []
+        _remittances = d.pop("remittances", UNSET)
+        for remittances_item_data in _remittances or []:
+            remittances_item = SupplierRemittanceView.from_dict(remittances_item_data)
+
+            remittances.append(remittances_item)
+
         buyer_workspace_id = d.pop("buyerWorkspaceId", UNSET)
 
         next_reminder_at = d.pop("nextReminderAt", UNSET)
@@ -712,6 +893,8 @@ class InvoiceSupplierView:
             contract_id=contract_id,
             line_items=line_items,
             po=po,
+            po_line_no=po_line_no,
+            bills_no_po_line=bills_no_po_line,
             party_details=party_details,
             match_status=match_status,
             paid=paid,
@@ -722,6 +905,8 @@ class InvoiceSupplierView:
             last_reminded_at=last_reminded_at,
             rejection=rejection,
             replaces_invoice_id=replaces_invoice_id,
+            replaces_invoice_ids=replaces_invoice_ids,
+            replaced_by_invoice_ids=replaced_by_invoice_ids,
             source=source,
             entered_by=entered_by,
             invoice_date=invoice_date,
@@ -731,6 +916,15 @@ class InvoiceSupplierView:
             tax_amount=tax_amount,
             tax_breakdown=tax_breakdown,
             withholdings=withholdings,
+            document_type=document_type,
+            amends_invoice_id=amends_invoice_id,
+            amends_external_invoice_number=amends_external_invoice_number,
+            debit_note_ids=debit_note_ids,
+            invoice_kind=invoice_kind,
+            deductions=deductions,
+            credit_applications=credit_applications,
+            credit_note_ids=credit_note_ids,
+            credit_version=credit_version,
             payment_currency_amount=payment_currency_amount,
             tax_currency_amount=tax_currency_amount,
             remittance_instructions=remittance_instructions,
@@ -740,6 +934,7 @@ class InvoiceSupplierView:
             approval=approval,
             payment=payment,
             withdrawn_payment=withdrawn_payment,
+            remittances=remittances,
             buyer_workspace_id=buyer_workspace_id,
             next_reminder_at=next_reminder_at,
         )

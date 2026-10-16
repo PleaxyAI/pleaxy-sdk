@@ -41,6 +41,8 @@ module Pleaxy
 
     attr_accessor :time_zone
 
+    attr_accessor :listed_in_directory
+
     attr_accessor :geography_preset_id
 
     class EnumAttributeValidator
@@ -81,6 +83,7 @@ module Pleaxy
         :'primary_contact_email' => :'primaryContactEmail',
         :'countries' => :'countries',
         :'time_zone' => :'timeZone',
+        :'listed_in_directory' => :'listedInDirectory',
         :'geography_preset_id' => :'geographyPresetId'
       }
     end
@@ -106,6 +109,7 @@ module Pleaxy
         :'primary_contact_email' => :'String',
         :'countries' => :'Array<String>',
         :'time_zone' => :'String',
+        :'listed_in_directory' => :'Boolean',
         :'geography_preset_id' => :'String'
       }
     end
@@ -189,6 +193,10 @@ module Pleaxy
 
       if attributes.key?(:'time_zone')
         self.time_zone = attributes[:'time_zone']
+      end
+
+      if attributes.key?(:'listed_in_directory')
+        self.listed_in_directory = attributes[:'listed_in_directory']
       end
 
       if attributes.key?(:'geography_preset_id')
@@ -317,6 +325,7 @@ module Pleaxy
           primary_contact_email == o.primary_contact_email &&
           countries == o.countries &&
           time_zone == o.time_zone &&
+          listed_in_directory == o.listed_in_directory &&
           geography_preset_id == o.geography_preset_id
     end
 
@@ -329,7 +338,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [region_name, company_name, billing_email, billing_address, billing_address_parts, tax_id, currency, other_currencies, payment_currencies, primary_contact_name, primary_contact_email, countries, time_zone, geography_preset_id].hash
+      [region_name, company_name, billing_email, billing_address, billing_address_parts, tax_id, currency, other_currencies, payment_currencies, primary_contact_name, primary_contact_email, countries, time_zone, listed_in_directory, geography_preset_id].hash
     end
 
     # Builds the object from hash

@@ -184,6 +184,13 @@ export class InvoicesResource {
   constructor(private readonly transport: Transport) {}
 
   /**
+   * [Buyer] Name the invoices this invoice replaces (credit and rebill, credit notes spec §20), when that wasn't known as it was entered: { invoiceIds }, 1–20 invoices or debit notes from the same supplier. Each original then lists it in replacedByInvoiceIds; links already there are kept. 404 REPLACES_NOT_FOUND, 400 REPLACES_INVALID, 409 REPLACEMENT_CHANGED.
+   */
+  addInvoiceReplacementLinks(invoiceId: string, body: RequestBody<"AddInvoiceReplacementLinks">, options?: RequestOptions): Promise<ResponseBody<"AddInvoiceReplacementLinks">> {
+    return this.transport.request("post", "/invoices/{invoiceId}/replaces", { path: { invoiceId }, body, options }) as Promise<ResponseBody<"AddInvoiceReplacementLinks">>;
+  }
+
+  /**
    * [Buyer] Approve an invoice - only the current stage's assigned approver may call this
    */
   approveInvoice(invoiceId: string, options?: RequestOptions): Promise<ResponseBody<"ApproveInvoice">> {
@@ -191,21 +198,21 @@ export class InvoicesResource {
   }
 
   /**
-   * [Both] Record an invoice. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
+   * [Both] Record an invoice - or, with "documentType": "credit_note" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
    */
   createInvoice(body: RequestBody<"CreateInvoice">, options?: RequestOptions): Promise<ResponseBody<"CreateInvoice">> {
     return this.transport.request("post", "/invoices", { path: undefined, body, options }) as Promise<ResponseBody<"CreateInvoice">>;
   }
 
   /**
-   * [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
+   * [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row's Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
    */
-  exportInvoicesForPayment(options?: RequestOptions): Promise<ArrayBuffer> {
-    return this.transport.request("post", "/invoices/payment-export", { path: undefined, parseAs: "arrayBuffer", options }) as Promise<ArrayBuffer>;
+  exportInvoicesForPayment(body?: RequestBody<"ExportInvoicesForPayment">, options?: RequestOptions): Promise<ArrayBuffer> {
+    return this.transport.request("post", "/invoices/payment-export", { path: undefined, body, parseAs: "arrayBuffer", options }) as Promise<ArrayBuffer>;
   }
 
   /**
-   * [Both] Get a single invoice. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>.
+   * [Both] Get a single invoice, or with a credit note's id (CN-…) that credit note; documentType says which. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>. A Buyer caller also gets, on a replaced invoice, replacement (whether its credit notes cover it in full), and on a replacement, uncreditedOriginals (credit and rebill).
    */
   getInvoice(invoiceId: string, query?: QueryParams<"GetInvoice">, options?: RequestOptions): Promise<ResponseBody<"GetInvoice">> {
     return this.transport.request("get", "/invoices/{invoiceId}", { path: { invoiceId }, query, options }) as Promise<ResponseBody<"GetInvoice">>;
@@ -240,7 +247,7 @@ export class InvoicesResource {
   }
 
   /**
-   * [Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
+   * [Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. ?documentType=credit_note lists credit notes instead, ?documentType=all both, newest first; every item carries documentType (default invoice). A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
    */
   listInvoices(query?: QueryParams<"ListInvoices">, options?: RequestOptions): Promise<ResponseBody<"ListInvoices">> {
     return this.transport.request("get", "/invoices", { path: undefined, query, options }) as Promise<ResponseBody<"ListInvoices">>;
@@ -254,7 +261,7 @@ export class InvoicesResource {
   }
 
   /**
-   * [Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }. Pleaxy moves no money and doesn't check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can't be later than today in the workspace's time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED.
+   * [Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }, optionally with a remittance for the supplier: { remittance: { note?, file?: { fileId, fileName } } } (see SendRemittance). Pleaxy moves no money and doesn't check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can't be later than today in the workspace's time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. A replaced invoice its credit notes don't cover in full is 409 REPLACED_UNCREDITED until you send confirmReplaced: true: paying it as well as its replacement pays twice. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED.
    */
   recordPayment(invoiceId: string, body: RequestBody<"RecordPayment">, options?: RequestOptions): Promise<ResponseBody<"RecordPayment">> {
     return this.transport.request("post", "/invoices/{invoiceId}/payment-record", { path: { invoiceId }, body, options }) as Promise<ResponseBody<"RecordPayment">>;
@@ -275,6 +282,13 @@ export class InvoicesResource {
   }
 
   /**
+   * [Buyer] Undo a replacement link entered wrongly (credit notes spec §20), on both invoices. The rejected invoice an invoice corrects on its purchase order stays linked.
+   */
+  removeInvoiceReplacementLink(invoiceId: string, originalId: string, options?: RequestOptions): Promise<ResponseBody<"RemoveInvoiceReplacementLink">> {
+    return this.transport.request("delete", "/invoices/{invoiceId}/replaces/{originalId}", { path: { invoiceId, originalId }, options }) as Promise<ResponseBody<"RemoveInvoiceReplacementLink">>;
+  }
+
+  /**
    * [Buyer] Resolve a matching discrepancy - an unverified invoice needs a signed-in person, not an API key
    */
   resolveInvoiceDiscrepancy(invoiceId: string, options?: RequestOptions): Promise<ResponseBody<"ResolveInvoiceDiscrepancy">> {
@@ -289,14 +303,14 @@ export class InvoicesResource {
   }
 
   /**
-   * [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only.
+   * [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don't cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only.
    */
-  startStripePayment(invoiceId: string, options?: RequestOptions): Promise<ResponseBody<"StartStripePayment">> {
-    return this.transport.request("post", "/invoices/{invoiceId}/stripe-payment", { path: { invoiceId }, options }) as Promise<ResponseBody<"StartStripePayment">>;
+  startStripePayment(invoiceId: string, query?: QueryParams<"StartStripePayment">, options?: RequestOptions): Promise<ResponseBody<"StartStripePayment">> {
+    return this.transport.request("post", "/invoices/{invoiceId}/stripe-payment", { path: { invoiceId }, query, options }) as Promise<ResponseBody<"StartStripePayment">>;
   }
 
   /**
-   * [Supplier] Submit an invoice to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection.
+   * [Supplier] Submit an invoice - or a credit note: UBL <CreditNote>, a cXML credit memo, or JSON with documentType "credit_note" - to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection.
    */
   submitFeedInvoice(connectionId: string, body: RequestBody<"SubmitFeedInvoice">, options?: RequestOptions): Promise<ResponseBody<"SubmitFeedInvoice">> {
     return this.transport.request("post", "/invoices/connections/{connectionId}", { path: { connectionId }, body, options }) as Promise<ResponseBody<"SubmitFeedInvoice">>;

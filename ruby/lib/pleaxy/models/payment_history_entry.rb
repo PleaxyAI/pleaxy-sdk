@@ -23,6 +23,12 @@ module Pleaxy
 
     attr_accessor :by_name
 
+    attr_accessor :remittance_id
+
+    attr_accessor :credit_note_id
+
+    attr_accessor :amount
+
     attr_accessor :record
 
     class EnumAttributeValidator
@@ -54,6 +60,9 @@ module Pleaxy
         :'at' => :'at',
         :'by' => :'by',
         :'by_name' => :'byName',
+        :'remittance_id' => :'remittanceId',
+        :'credit_note_id' => :'creditNoteId',
+        :'amount' => :'amount',
         :'record' => :'record'
       }
     end
@@ -70,6 +79,9 @@ module Pleaxy
         :'at' => :'String',
         :'by' => :'String',
         :'by_name' => :'String',
+        :'remittance_id' => :'String',
+        :'credit_note_id' => :'String',
+        :'amount' => :'Float',
         :'record' => :'PaymentHistoryEntryRecord'
       }
     end
@@ -111,6 +123,18 @@ module Pleaxy
         self.by_name = attributes[:'by_name']
       end
 
+      if attributes.key?(:'remittance_id')
+        self.remittance_id = attributes[:'remittance_id']
+      end
+
+      if attributes.key?(:'credit_note_id')
+        self.credit_note_id = attributes[:'credit_note_id']
+      end
+
+      if attributes.key?(:'amount')
+        self.amount = attributes[:'amount']
+      end
+
       if attributes.key?(:'record')
         self.record = attributes[:'record']
       end
@@ -128,7 +152,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      action_validator = EnumAttributeValidator.new('String', ["exported", "recorded", "export_withdrawn", "record_withdrawn", "stripe_started", "stripe_released", "stripe_failed", "stripe_succeeded"])
+      action_validator = EnumAttributeValidator.new('String', ["exported", "recorded", "export_withdrawn", "record_withdrawn", "stripe_started", "stripe_released", "stripe_failed", "stripe_succeeded", "remittance_sent", "credit_applied", "credit_removed"])
       return false unless action_validator.valid?(@action)
       true
     end
@@ -136,7 +160,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] action Object to be assigned
     def action=(action)
-      validator = EnumAttributeValidator.new('String', ["exported", "recorded", "export_withdrawn", "record_withdrawn", "stripe_started", "stripe_released", "stripe_failed", "stripe_succeeded"])
+      validator = EnumAttributeValidator.new('String', ["exported", "recorded", "export_withdrawn", "record_withdrawn", "stripe_started", "stripe_released", "stripe_failed", "stripe_succeeded", "remittance_sent", "credit_applied", "credit_removed"])
       unless validator.valid?(action)
         fail ArgumentError, "invalid value for \"action\", must be one of #{validator.allowable_values}."
       end
@@ -152,6 +176,9 @@ module Pleaxy
           at == o.at &&
           by == o.by &&
           by_name == o.by_name &&
+          remittance_id == o.remittance_id &&
+          credit_note_id == o.credit_note_id &&
+          amount == o.amount &&
           record == o.record
     end
 
@@ -164,7 +191,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [action, at, by, by_name, record].hash
+      [action, at, by, by_name, remittance_id, credit_note_id, amount, record].hash
     end
 
     # Builds the object from hash

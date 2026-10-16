@@ -11,6 +11,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.breakdown_entry_input import BreakdownEntryInput
+    from ..models.send_remittance_input import SendRemittanceInput
 
 
 T = TypeVar("T", bound="RecordPaymentInput")
@@ -28,6 +29,8 @@ class RecordPaymentInput:
         rate (Union[Unset, float]):
         rate_date (Union[Unset, str]):
         withholdings (Union[Unset, List['BreakdownEntryInput']]):
+        remittance (Union[Unset, SendRemittanceInput]):
+        confirm_replaced (Union[Unset, bool]):
     """
 
     method: RecordPaymentInputMethod
@@ -38,6 +41,8 @@ class RecordPaymentInput:
     rate: Union[Unset, float] = UNSET
     rate_date: Union[Unset, str] = UNSET
     withholdings: Union[Unset, List["BreakdownEntryInput"]] = UNSET
+    remittance: Union[Unset, "SendRemittanceInput"] = UNSET
+    confirm_replaced: Union[Unset, bool] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -62,6 +67,12 @@ class RecordPaymentInput:
                 withholdings_item = withholdings_item_data.to_dict()
                 withholdings.append(withholdings_item)
 
+        remittance: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.remittance, Unset):
+            remittance = self.remittance.to_dict()
+
+        confirm_replaced = self.confirm_replaced
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -81,12 +92,17 @@ class RecordPaymentInput:
             field_dict["rateDate"] = rate_date
         if withholdings is not UNSET:
             field_dict["withholdings"] = withholdings
+        if remittance is not UNSET:
+            field_dict["remittance"] = remittance
+        if confirm_replaced is not UNSET:
+            field_dict["confirmReplaced"] = confirm_replaced
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.breakdown_entry_input import BreakdownEntryInput
+        from ..models.send_remittance_input import SendRemittanceInput
 
         d = src_dict.copy()
         method = check_record_payment_input_method(d.pop("method"))
@@ -110,6 +126,15 @@ class RecordPaymentInput:
 
             withholdings.append(withholdings_item)
 
+        _remittance = d.pop("remittance", UNSET)
+        remittance: Union[Unset, SendRemittanceInput]
+        if isinstance(_remittance, Unset):
+            remittance = UNSET
+        else:
+            remittance = SendRemittanceInput.from_dict(_remittance)
+
+        confirm_replaced = d.pop("confirmReplaced", UNSET)
+
         record_payment_input = cls(
             method=method,
             payment_date=payment_date,
@@ -119,6 +144,8 @@ class RecordPaymentInput:
             rate=rate,
             rate_date=rate_date,
             withholdings=withholdings,
+            remittance=remittance,
+            confirm_replaced=confirm_replaced,
         )
 
         record_payment_input.additional_properties = d

@@ -12,17 +12,21 @@ T = TypeVar("T", bound="InvoicePartyDetails")
 class InvoicePartyDetails:
     """
     Attributes:
+        name (Union[Unset, str]):
         address_lines (Union[Unset, List[str]]):
         tax_id (Union[Unset, str]):
         tax_id_label (Union[Unset, str]):
     """
 
+    name: Union[Unset, str] = UNSET
     address_lines: Union[Unset, List[str]] = UNSET
     tax_id: Union[Unset, str] = UNSET
     tax_id_label: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
+        name = self.name
+
         address_lines: Union[Unset, List[str]] = UNSET
         if not isinstance(self.address_lines, Unset):
             address_lines = self.address_lines
@@ -34,6 +38,8 @@ class InvoicePartyDetails:
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
+        if name is not UNSET:
+            field_dict["name"] = name
         if address_lines is not UNSET:
             field_dict["addressLines"] = address_lines
         if tax_id is not UNSET:
@@ -46,6 +52,8 @@ class InvoicePartyDetails:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
+        name = d.pop("name", UNSET)
+
         address_lines = cast(List[str], d.pop("addressLines", UNSET))
 
         tax_id = d.pop("taxId", UNSET)
@@ -53,6 +61,7 @@ class InvoicePartyDetails:
         tax_id_label = d.pop("taxIdLabel", UNSET)
 
         invoice_party_details = cls(
+            name=name,
             address_lines=address_lines,
             tax_id=tax_id,
             tax_id_label=tax_id_label,

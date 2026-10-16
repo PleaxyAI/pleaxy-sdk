@@ -27,10 +27,16 @@ pub struct FeedAttempt {
     pub code: Option<String>,
     #[serde(rename = "message", skip_serializing_if = "Option::is_none")]
     pub message: Option<String>,
+    #[serde(rename = "messageId", skip_serializing_if = "Option::is_none")]
+    pub message_id: Option<String>,
+    #[serde(rename = "params", skip_serializing_if = "Option::is_none")]
+    pub params: Option<std::collections::HashMap<String, models::FeedAttemptParamsValue>>,
     #[serde(rename = "invoiceNumber", skip_serializing_if = "Option::is_none")]
     pub invoice_number: Option<String>,
     #[serde(rename = "invoiceId", skip_serializing_if = "Option::is_none")]
     pub invoice_id: Option<String>,
+    #[serde(rename = "creditNoteId", skip_serializing_if = "Option::is_none")]
+    pub credit_note_id: Option<String>,
     #[serde(rename = "keyId", skip_serializing_if = "Option::is_none")]
     pub key_id: Option<String>,
     #[serde(rename = "cursor", skip_serializing_if = "Option::is_none")]
@@ -47,8 +53,11 @@ impl FeedAttempt {
             status: None,
             code: None,
             message: None,
+            message_id: None,
+            params: None,
             invoice_number: None,
             invoice_id: None,
+            credit_note_id: None,
             key_id: None,
             cursor: None,
         }

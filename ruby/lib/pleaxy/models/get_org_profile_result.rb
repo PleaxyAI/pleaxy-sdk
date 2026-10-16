@@ -33,6 +33,10 @@ module Pleaxy
 
     attr_accessor :billing_address_parts
 
+    attr_accessor :billing_address_legacy_text
+
+    attr_accessor :billing_address_needs_review
+
     attr_accessor :tax_id
 
     attr_accessor :currency
@@ -56,6 +60,10 @@ module Pleaxy
     attr_accessor :created_at
 
     attr_accessor :verified
+
+    attr_accessor :listed_in_directory
+
+    attr_accessor :directory_id
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -91,6 +99,8 @@ module Pleaxy
         :'billing_email' => :'billingEmail',
         :'billing_address' => :'billingAddress',
         :'billing_address_parts' => :'billingAddressParts',
+        :'billing_address_legacy_text' => :'billingAddressLegacyText',
+        :'billing_address_needs_review' => :'billingAddressNeedsReview',
         :'tax_id' => :'taxId',
         :'currency' => :'currency',
         :'other_currencies' => :'otherCurrencies',
@@ -102,7 +112,9 @@ module Pleaxy
         :'primary_contact_name' => :'primaryContactName',
         :'primary_contact_email' => :'primaryContactEmail',
         :'created_at' => :'createdAt',
-        :'verified' => :'verified'
+        :'verified' => :'verified',
+        :'listed_in_directory' => :'listedInDirectory',
+        :'directory_id' => :'directoryId'
       }
     end
 
@@ -123,6 +135,8 @@ module Pleaxy
         :'billing_email' => :'String',
         :'billing_address' => :'String',
         :'billing_address_parts' => :'PostalAddress',
+        :'billing_address_legacy_text' => :'String',
+        :'billing_address_needs_review' => :'Boolean',
         :'tax_id' => :'String',
         :'currency' => :'String',
         :'other_currencies' => :'Array<String>',
@@ -134,7 +148,9 @@ module Pleaxy
         :'primary_contact_name' => :'String',
         :'primary_contact_email' => :'String',
         :'created_at' => :'String',
-        :'verified' => :'Boolean'
+        :'verified' => :'Boolean',
+        :'listed_in_directory' => :'Boolean',
+        :'directory_id' => :'String'
       }
     end
 
@@ -197,6 +213,14 @@ module Pleaxy
         self.billing_address_parts = attributes[:'billing_address_parts']
       end
 
+      if attributes.key?(:'billing_address_legacy_text')
+        self.billing_address_legacy_text = attributes[:'billing_address_legacy_text']
+      end
+
+      if attributes.key?(:'billing_address_needs_review')
+        self.billing_address_needs_review = attributes[:'billing_address_needs_review']
+      end
+
       if attributes.key?(:'tax_id')
         self.tax_id = attributes[:'tax_id']
       end
@@ -250,6 +274,14 @@ module Pleaxy
       if attributes.key?(:'verified')
         self.verified = attributes[:'verified']
       end
+
+      if attributes.key?(:'listed_in_directory')
+        self.listed_in_directory = attributes[:'listed_in_directory']
+      end
+
+      if attributes.key?(:'directory_id')
+        self.directory_id = attributes[:'directory_id']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -298,6 +330,8 @@ module Pleaxy
           billing_email == o.billing_email &&
           billing_address == o.billing_address &&
           billing_address_parts == o.billing_address_parts &&
+          billing_address_legacy_text == o.billing_address_legacy_text &&
+          billing_address_needs_review == o.billing_address_needs_review &&
           tax_id == o.tax_id &&
           currency == o.currency &&
           other_currencies == o.other_currencies &&
@@ -309,7 +343,9 @@ module Pleaxy
           primary_contact_name == o.primary_contact_name &&
           primary_contact_email == o.primary_contact_email &&
           created_at == o.created_at &&
-          verified == o.verified
+          verified == o.verified &&
+          listed_in_directory == o.listed_in_directory &&
+          directory_id == o.directory_id
     end
 
     # @see the `==` method
@@ -321,7 +357,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [images, id, role, region_id, region_name, company_name, billing_email, billing_address, billing_address_parts, tax_id, currency, other_currencies, payment_currencies, fx_warning_pct, countries, geography, time_zone, primary_contact_name, primary_contact_email, created_at, verified].hash
+      [images, id, role, region_id, region_name, company_name, billing_email, billing_address, billing_address_parts, billing_address_legacy_text, billing_address_needs_review, tax_id, currency, other_currencies, payment_currencies, fx_warning_pct, countries, geography, time_zone, primary_contact_name, primary_contact_email, created_at, verified, listed_in_directory, directory_id].hash
     end
 
     # Builds the object from hash

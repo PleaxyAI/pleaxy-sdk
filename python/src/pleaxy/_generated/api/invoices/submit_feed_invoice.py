@@ -7,6 +7,7 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_feed_invoice_input import CreateFeedInvoiceInput
 from ...models.invoice_supplier_view import InvoiceSupplierView
+from ...models.supplier_credit_note_view import SupplierCreditNoteView
 from ...types import Response
 
 
@@ -35,9 +36,31 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[InvoiceSupplierView]:
+) -> Optional[Union["InvoiceSupplierView", "SupplierCreditNoteView"]]:
     if response.status_code == 201:
-        response_201 = InvoiceSupplierView.from_dict(response.json())
+
+        def _parse_response_201(
+            data: object,
+        ) -> Union["InvoiceSupplierView", "SupplierCreditNoteView"]:
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_submit_feed_invoice_result_type_0 = (
+                    InvoiceSupplierView.from_dict(data)
+                )
+
+                return componentsschemas_submit_feed_invoice_result_type_0
+            except:  # noqa: E722
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            componentsschemas_submit_feed_invoice_result_type_1 = (
+                SupplierCreditNoteView.from_dict(data)
+            )
+
+            return componentsschemas_submit_feed_invoice_result_type_1
+
+        response_201 = _parse_response_201(response.json())
 
         return response_201
     if client.raise_on_unexpected_status:
@@ -48,7 +71,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[InvoiceSupplierView]:
+) -> Response[Union["InvoiceSupplierView", "SupplierCreditNoteView"]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -62,9 +85,10 @@ def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     body: CreateFeedInvoiceInput,
-) -> Response[InvoiceSupplierView]:
-    """[Supplier] Submit an invoice to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML).
-    API key with the invoices:feed scope only; the buyer must turn on automated invoices for the
+) -> Response[Union["InvoiceSupplierView", "SupplierCreditNoteView"]]:
+    r"""[Supplier] Submit an invoice - or a credit note: UBL <CreditNote>, a cXML credit memo, or JSON with
+    documentType \"credit_note\" - to one connected buyer from an automated feed (JSON, UBL 2.1 or
+    cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the
     connection.
 
     Args:
@@ -76,7 +100,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[InvoiceSupplierView]
+        Response[Union['InvoiceSupplierView', 'SupplierCreditNoteView']]
     """
 
     kwargs = _get_kwargs(
@@ -96,9 +120,10 @@ def sync(
     *,
     client: Union[AuthenticatedClient, Client],
     body: CreateFeedInvoiceInput,
-) -> Optional[InvoiceSupplierView]:
-    """[Supplier] Submit an invoice to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML).
-    API key with the invoices:feed scope only; the buyer must turn on automated invoices for the
+) -> Optional[Union["InvoiceSupplierView", "SupplierCreditNoteView"]]:
+    r"""[Supplier] Submit an invoice - or a credit note: UBL <CreditNote>, a cXML credit memo, or JSON with
+    documentType \"credit_note\" - to one connected buyer from an automated feed (JSON, UBL 2.1 or
+    cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the
     connection.
 
     Args:
@@ -110,7 +135,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        InvoiceSupplierView
+        Union['InvoiceSupplierView', 'SupplierCreditNoteView']
     """
 
     return sync_detailed(
@@ -125,9 +150,10 @@ async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     body: CreateFeedInvoiceInput,
-) -> Response[InvoiceSupplierView]:
-    """[Supplier] Submit an invoice to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML).
-    API key with the invoices:feed scope only; the buyer must turn on automated invoices for the
+) -> Response[Union["InvoiceSupplierView", "SupplierCreditNoteView"]]:
+    r"""[Supplier] Submit an invoice - or a credit note: UBL <CreditNote>, a cXML credit memo, or JSON with
+    documentType \"credit_note\" - to one connected buyer from an automated feed (JSON, UBL 2.1 or
+    cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the
     connection.
 
     Args:
@@ -139,7 +165,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[InvoiceSupplierView]
+        Response[Union['InvoiceSupplierView', 'SupplierCreditNoteView']]
     """
 
     kwargs = _get_kwargs(
@@ -157,9 +183,10 @@ async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
     body: CreateFeedInvoiceInput,
-) -> Optional[InvoiceSupplierView]:
-    """[Supplier] Submit an invoice to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML).
-    API key with the invoices:feed scope only; the buyer must turn on automated invoices for the
+) -> Optional[Union["InvoiceSupplierView", "SupplierCreditNoteView"]]:
+    r"""[Supplier] Submit an invoice - or a credit note: UBL <CreditNote>, a cXML credit memo, or JSON with
+    documentType \"credit_note\" - to one connected buyer from an automated feed (JSON, UBL 2.1 or
+    cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the
     connection.
 
     Args:
@@ -171,7 +198,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        InvoiceSupplierView
+        Union['InvoiceSupplierView', 'SupplierCreditNoteView']
     """
 
     return (

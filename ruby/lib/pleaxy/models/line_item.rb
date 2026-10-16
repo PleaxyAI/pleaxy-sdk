@@ -55,6 +55,10 @@ module Pleaxy
 
     attr_accessor :quote_line_no
 
+    attr_accessor :origin
+
+    attr_accessor :punchout_ref
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -99,7 +103,9 @@ module Pleaxy
         :'customer_line_no' => :'customerLineNo',
         :'contract_id' => :'contractId',
         :'contract_term_id' => :'contractTermId',
-        :'quote_line_no' => :'quoteLineNo'
+        :'quote_line_no' => :'quoteLineNo',
+        :'origin' => :'origin',
+        :'punchout_ref' => :'punchoutRef'
       }
     end
 
@@ -130,7 +136,9 @@ module Pleaxy
         :'customer_line_no' => :'String',
         :'contract_id' => :'String',
         :'contract_term_id' => :'String',
-        :'quote_line_no' => :'Float'
+        :'quote_line_no' => :'Float',
+        :'origin' => :'PunchoutLineOrigin',
+        :'punchout_ref' => :'LineItemPunchoutRef'
       }
     end
 
@@ -235,6 +243,14 @@ module Pleaxy
       if attributes.key?(:'quote_line_no')
         self.quote_line_no = attributes[:'quote_line_no']
       end
+
+      if attributes.key?(:'origin')
+        self.origin = attributes[:'origin']
+      end
+
+      if attributes.key?(:'punchout_ref')
+        self.punchout_ref = attributes[:'punchout_ref']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -312,7 +328,9 @@ module Pleaxy
           customer_line_no == o.customer_line_no &&
           contract_id == o.contract_id &&
           contract_term_id == o.contract_term_id &&
-          quote_line_no == o.quote_line_no
+          quote_line_no == o.quote_line_no &&
+          origin == o.origin &&
+          punchout_ref == o.punchout_ref
     end
 
     # @see the `==` method
@@ -324,7 +342,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [line_no, scope_type, scope_id, name, rule_type, unit, unit_price, qty, nte_amount, currency, payment_terms, valid_from, valid_until, consumed, supplier_sku, price_source, customer_line_no, contract_id, contract_term_id, quote_line_no].hash
+      [line_no, scope_type, scope_id, name, rule_type, unit, unit_price, qty, nte_amount, currency, payment_terms, valid_from, valid_until, consumed, supplier_sku, price_source, customer_line_no, contract_id, contract_term_id, quote_line_no, origin, punchout_ref].hash
     end
 
     # Builds the object from hash

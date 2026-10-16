@@ -19,6 +19,8 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.LineItemPunchoutRef;
+import ai.pleaxy.model.PunchoutLineOrigin;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -52,7 +54,9 @@ import ai.pleaxy.client.ApiClient;
   LineItem.JSON_PROPERTY_CUSTOMER_LINE_NO,
   LineItem.JSON_PROPERTY_CONTRACT_ID,
   LineItem.JSON_PROPERTY_CONTRACT_TERM_ID,
-  LineItem.JSON_PROPERTY_QUOTE_LINE_NO
+  LineItem.JSON_PROPERTY_QUOTE_LINE_NO,
+  LineItem.JSON_PROPERTY_ORIGIN,
+  LineItem.JSON_PROPERTY_PUNCHOUT_REF
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class LineItem {
@@ -246,6 +250,14 @@ public class LineItem {
   public static final String JSON_PROPERTY_QUOTE_LINE_NO = "quoteLineNo";
   @javax.annotation.Nullable
   private Double quoteLineNo;
+
+  public static final String JSON_PROPERTY_ORIGIN = "origin";
+  @javax.annotation.Nullable
+  private PunchoutLineOrigin origin;
+
+  public static final String JSON_PROPERTY_PUNCHOUT_REF = "punchoutRef";
+  @javax.annotation.Nullable
+  private LineItemPunchoutRef punchoutRef;
 
   public LineItem() { 
   }
@@ -730,6 +742,54 @@ public class LineItem {
   }
 
 
+  public LineItem origin(@javax.annotation.Nullable PunchoutLineOrigin origin) {
+    this.origin = origin;
+    return this;
+  }
+
+  /**
+   * Get origin
+   * @return origin
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ORIGIN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PunchoutLineOrigin getOrigin() {
+    return origin;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ORIGIN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOrigin(@javax.annotation.Nullable PunchoutLineOrigin origin) {
+    this.origin = origin;
+  }
+
+
+  public LineItem punchoutRef(@javax.annotation.Nullable LineItemPunchoutRef punchoutRef) {
+    this.punchoutRef = punchoutRef;
+    return this;
+  }
+
+  /**
+   * Get punchoutRef
+   * @return punchoutRef
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PUNCHOUT_REF)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public LineItemPunchoutRef getPunchoutRef() {
+    return punchoutRef;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PUNCHOUT_REF)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPunchoutRef(@javax.annotation.Nullable LineItemPunchoutRef punchoutRef) {
+    this.punchoutRef = punchoutRef;
+  }
+
+
   /**
    * Return true if this LineItem object is equal to o.
    */
@@ -761,12 +821,14 @@ public class LineItem {
         Objects.equals(this.customerLineNo, lineItem.customerLineNo) &&
         Objects.equals(this.contractId, lineItem.contractId) &&
         Objects.equals(this.contractTermId, lineItem.contractTermId) &&
-        Objects.equals(this.quoteLineNo, lineItem.quoteLineNo);
+        Objects.equals(this.quoteLineNo, lineItem.quoteLineNo) &&
+        Objects.equals(this.origin, lineItem.origin) &&
+        Objects.equals(this.punchoutRef, lineItem.punchoutRef);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(lineNo, scopeType, scopeId, name, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, consumed, supplierSku, priceSource, customerLineNo, contractId, contractTermId, quoteLineNo);
+    return Objects.hash(lineNo, scopeType, scopeId, name, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, consumed, supplierSku, priceSource, customerLineNo, contractId, contractTermId, quoteLineNo, origin, punchoutRef);
   }
 
   @Override
@@ -793,6 +855,8 @@ public class LineItem {
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
     sb.append("    contractTermId: ").append(toIndentedString(contractTermId)).append("\n");
     sb.append("    quoteLineNo: ").append(toIndentedString(quoteLineNo)).append("\n");
+    sb.append("    origin: ").append(toIndentedString(origin)).append("\n");
+    sb.append("    punchoutRef: ").append(toIndentedString(punchoutRef)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -938,6 +1002,16 @@ public class LineItem {
     // add `quoteLineNo` to the URL query string
     if (getQuoteLineNo() != null) {
       joiner.add(String.format("%squoteLineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuoteLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `origin` to the URL query string
+    if (getOrigin() != null) {
+      joiner.add(getOrigin().toUrlQueryString(prefix + "origin" + suffix));
+    }
+
+    // add `punchoutRef` to the URL query string
+    if (getPunchoutRef() != null) {
+      joiner.add(getPunchoutRef().toUrlQueryString(prefix + "punchoutRef" + suffix));
     }
 
     return joiner.toString();

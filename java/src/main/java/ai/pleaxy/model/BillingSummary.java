@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.BillingSummaryAvailablePlansInner;
+import ai.pleaxy.model.PriceAmount;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -48,7 +49,9 @@ import ai.pleaxy.client.ApiClient;
   BillingSummary.JSON_PROPERTY_INTERVAL,
   BillingSummary.JSON_PROPERTY_AVAILABLE_PLANS,
   BillingSummary.JSON_PROPERTY_CURRENT_PRICE_LABEL,
-  BillingSummary.JSON_PROPERTY_CURRENT_TOTAL_LABEL
+  BillingSummary.JSON_PROPERTY_CURRENT_PRICE,
+  BillingSummary.JSON_PROPERTY_CURRENT_TOTAL_LABEL,
+  BillingSummary.JSON_PROPERTY_CURRENT_TOTAL
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class BillingSummary {
@@ -262,9 +265,17 @@ public class BillingSummary {
   @javax.annotation.Nullable
   private String currentPriceLabel;
 
+  public static final String JSON_PROPERTY_CURRENT_PRICE = "currentPrice";
+  @javax.annotation.Nullable
+  private PriceAmount currentPrice;
+
   public static final String JSON_PROPERTY_CURRENT_TOTAL_LABEL = "currentTotalLabel";
   @javax.annotation.Nullable
   private String currentTotalLabel;
+
+  public static final String JSON_PROPERTY_CURRENT_TOTAL = "currentTotal";
+  @javax.annotation.Nullable
+  private PriceAmount currentTotal;
 
   public BillingSummary() { 
   }
@@ -565,6 +576,30 @@ public class BillingSummary {
   }
 
 
+  public BillingSummary currentPrice(@javax.annotation.Nullable PriceAmount currentPrice) {
+    this.currentPrice = currentPrice;
+    return this;
+  }
+
+  /**
+   * Get currentPrice
+   * @return currentPrice
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CURRENT_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PriceAmount getCurrentPrice() {
+    return currentPrice;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CURRENT_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCurrentPrice(@javax.annotation.Nullable PriceAmount currentPrice) {
+    this.currentPrice = currentPrice;
+  }
+
+
   public BillingSummary currentTotalLabel(@javax.annotation.Nullable String currentTotalLabel) {
     this.currentTotalLabel = currentTotalLabel;
     return this;
@@ -586,6 +621,30 @@ public class BillingSummary {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCurrentTotalLabel(@javax.annotation.Nullable String currentTotalLabel) {
     this.currentTotalLabel = currentTotalLabel;
+  }
+
+
+  public BillingSummary currentTotal(@javax.annotation.Nullable PriceAmount currentTotal) {
+    this.currentTotal = currentTotal;
+    return this;
+  }
+
+  /**
+   * Get currentTotal
+   * @return currentTotal
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CURRENT_TOTAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PriceAmount getCurrentTotal() {
+    return currentTotal;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CURRENT_TOTAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCurrentTotal(@javax.annotation.Nullable PriceAmount currentTotal) {
+    this.currentTotal = currentTotal;
   }
 
 
@@ -613,12 +672,14 @@ public class BillingSummary {
         Objects.equals(this.interval, billingSummary.interval) &&
         Objects.equals(this.availablePlans, billingSummary.availablePlans) &&
         Objects.equals(this.currentPriceLabel, billingSummary.currentPriceLabel) &&
-        Objects.equals(this.currentTotalLabel, billingSummary.currentTotalLabel);
+        Objects.equals(this.currentPrice, billingSummary.currentPrice) &&
+        Objects.equals(this.currentTotalLabel, billingSummary.currentTotalLabel) &&
+        Objects.equals(this.currentTotal, billingSummary.currentTotal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(billingEnabled, plan, managedBy, hasBillingAccount, subscriptionStatus, currentPeriodEnd, cancelAtPeriodEnd, pastDueSince, buyerRegionCount, interval, availablePlans, currentPriceLabel, currentTotalLabel);
+    return Objects.hash(billingEnabled, plan, managedBy, hasBillingAccount, subscriptionStatus, currentPeriodEnd, cancelAtPeriodEnd, pastDueSince, buyerRegionCount, interval, availablePlans, currentPriceLabel, currentPrice, currentTotalLabel, currentTotal);
   }
 
   @Override
@@ -637,7 +698,9 @@ public class BillingSummary {
     sb.append("    interval: ").append(toIndentedString(interval)).append("\n");
     sb.append("    availablePlans: ").append(toIndentedString(availablePlans)).append("\n");
     sb.append("    currentPriceLabel: ").append(toIndentedString(currentPriceLabel)).append("\n");
+    sb.append("    currentPrice: ").append(toIndentedString(currentPrice)).append("\n");
     sb.append("    currentTotalLabel: ").append(toIndentedString(currentTotalLabel)).append("\n");
+    sb.append("    currentTotal: ").append(toIndentedString(currentTotal)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -750,9 +813,19 @@ public class BillingSummary {
       joiner.add(String.format("%scurrentPriceLabel%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCurrentPriceLabel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `currentPrice` to the URL query string
+    if (getCurrentPrice() != null) {
+      joiner.add(getCurrentPrice().toUrlQueryString(prefix + "currentPrice" + suffix));
+    }
+
     // add `currentTotalLabel` to the URL query string
     if (getCurrentTotalLabel() != null) {
       joiner.add(String.format("%scurrentTotalLabel%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCurrentTotalLabel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `currentTotal` to the URL query string
+    if (getCurrentTotal() != null) {
+      joiner.add(getCurrentTotal().toUrlQueryString(prefix + "currentTotal" + suffix));
     }
 
     return joiner.toString();

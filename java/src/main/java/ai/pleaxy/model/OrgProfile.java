@@ -45,6 +45,8 @@ import ai.pleaxy.client.ApiClient;
   OrgProfile.JSON_PROPERTY_BILLING_EMAIL,
   OrgProfile.JSON_PROPERTY_BILLING_ADDRESS,
   OrgProfile.JSON_PROPERTY_BILLING_ADDRESS_PARTS,
+  OrgProfile.JSON_PROPERTY_BILLING_ADDRESS_LEGACY_TEXT,
+  OrgProfile.JSON_PROPERTY_BILLING_ADDRESS_NEEDS_REVIEW,
   OrgProfile.JSON_PROPERTY_TAX_ID,
   OrgProfile.JSON_PROPERTY_CURRENCY,
   OrgProfile.JSON_PROPERTY_OTHER_CURRENCIES,
@@ -56,7 +58,9 @@ import ai.pleaxy.client.ApiClient;
   OrgProfile.JSON_PROPERTY_PRIMARY_CONTACT_NAME,
   OrgProfile.JSON_PROPERTY_PRIMARY_CONTACT_EMAIL,
   OrgProfile.JSON_PROPERTY_CREATED_AT,
-  OrgProfile.JSON_PROPERTY_VERIFIED
+  OrgProfile.JSON_PROPERTY_VERIFIED,
+  OrgProfile.JSON_PROPERTY_LISTED_IN_DIRECTORY,
+  OrgProfile.JSON_PROPERTY_DIRECTORY_ID
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class OrgProfile {
@@ -127,6 +131,14 @@ public class OrgProfile {
   @javax.annotation.Nullable
   private PostalAddress billingAddressParts;
 
+  public static final String JSON_PROPERTY_BILLING_ADDRESS_LEGACY_TEXT = "billingAddressLegacyText";
+  @javax.annotation.Nullable
+  private String billingAddressLegacyText;
+
+  public static final String JSON_PROPERTY_BILLING_ADDRESS_NEEDS_REVIEW = "billingAddressNeedsReview";
+  @javax.annotation.Nullable
+  private Boolean billingAddressNeedsReview;
+
   public static final String JSON_PROPERTY_TAX_ID = "taxId";
   @javax.annotation.Nullable
   private String taxId;
@@ -174,6 +186,14 @@ public class OrgProfile {
   public static final String JSON_PROPERTY_VERIFIED = "verified";
   @javax.annotation.Nullable
   private Boolean verified;
+
+  public static final String JSON_PROPERTY_LISTED_IN_DIRECTORY = "listedInDirectory";
+  @javax.annotation.Nullable
+  private Boolean listedInDirectory;
+
+  public static final String JSON_PROPERTY_DIRECTORY_ID = "directoryId";
+  @javax.annotation.Nullable
+  private String directoryId;
 
   public OrgProfile() { 
   }
@@ -367,6 +387,54 @@ public class OrgProfile {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBillingAddressParts(@javax.annotation.Nullable PostalAddress billingAddressParts) {
     this.billingAddressParts = billingAddressParts;
+  }
+
+
+  public OrgProfile billingAddressLegacyText(@javax.annotation.Nullable String billingAddressLegacyText) {
+    this.billingAddressLegacyText = billingAddressLegacyText;
+    return this;
+  }
+
+  /**
+   * Get billingAddressLegacyText
+   * @return billingAddressLegacyText
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BILLING_ADDRESS_LEGACY_TEXT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getBillingAddressLegacyText() {
+    return billingAddressLegacyText;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BILLING_ADDRESS_LEGACY_TEXT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBillingAddressLegacyText(@javax.annotation.Nullable String billingAddressLegacyText) {
+    this.billingAddressLegacyText = billingAddressLegacyText;
+  }
+
+
+  public OrgProfile billingAddressNeedsReview(@javax.annotation.Nullable Boolean billingAddressNeedsReview) {
+    this.billingAddressNeedsReview = billingAddressNeedsReview;
+    return this;
+  }
+
+  /**
+   * Get billingAddressNeedsReview
+   * @return billingAddressNeedsReview
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BILLING_ADDRESS_NEEDS_REVIEW)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getBillingAddressNeedsReview() {
+    return billingAddressNeedsReview;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BILLING_ADDRESS_NEEDS_REVIEW)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBillingAddressNeedsReview(@javax.annotation.Nullable Boolean billingAddressNeedsReview) {
+    this.billingAddressNeedsReview = billingAddressNeedsReview;
   }
 
 
@@ -682,6 +750,54 @@ public class OrgProfile {
   }
 
 
+  public OrgProfile listedInDirectory(@javax.annotation.Nullable Boolean listedInDirectory) {
+    this.listedInDirectory = listedInDirectory;
+    return this;
+  }
+
+  /**
+   * Get listedInDirectory
+   * @return listedInDirectory
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_LISTED_IN_DIRECTORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getListedInDirectory() {
+    return listedInDirectory;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_LISTED_IN_DIRECTORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setListedInDirectory(@javax.annotation.Nullable Boolean listedInDirectory) {
+    this.listedInDirectory = listedInDirectory;
+  }
+
+
+  public OrgProfile directoryId(@javax.annotation.Nullable String directoryId) {
+    this.directoryId = directoryId;
+    return this;
+  }
+
+  /**
+   * Get directoryId
+   * @return directoryId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DIRECTORY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getDirectoryId() {
+    return directoryId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DIRECTORY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDirectoryId(@javax.annotation.Nullable String directoryId) {
+    this.directoryId = directoryId;
+  }
+
+
   /**
    * Return true if this OrgProfile object is equal to o.
    */
@@ -702,6 +818,8 @@ public class OrgProfile {
         Objects.equals(this.billingEmail, orgProfile.billingEmail) &&
         Objects.equals(this.billingAddress, orgProfile.billingAddress) &&
         Objects.equals(this.billingAddressParts, orgProfile.billingAddressParts) &&
+        Objects.equals(this.billingAddressLegacyText, orgProfile.billingAddressLegacyText) &&
+        Objects.equals(this.billingAddressNeedsReview, orgProfile.billingAddressNeedsReview) &&
         Objects.equals(this.taxId, orgProfile.taxId) &&
         Objects.equals(this.currency, orgProfile.currency) &&
         Objects.equals(this.otherCurrencies, orgProfile.otherCurrencies) &&
@@ -713,12 +831,14 @@ public class OrgProfile {
         Objects.equals(this.primaryContactName, orgProfile.primaryContactName) &&
         Objects.equals(this.primaryContactEmail, orgProfile.primaryContactEmail) &&
         Objects.equals(this.createdAt, orgProfile.createdAt) &&
-        Objects.equals(this.verified, orgProfile.verified);
+        Objects.equals(this.verified, orgProfile.verified) &&
+        Objects.equals(this.listedInDirectory, orgProfile.listedInDirectory) &&
+        Objects.equals(this.directoryId, orgProfile.directoryId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, role, regionId, regionName, companyName, billingEmail, billingAddress, billingAddressParts, taxId, currency, otherCurrencies, paymentCurrencies, fxWarningPct, countries, geography, timeZone, primaryContactName, primaryContactEmail, createdAt, verified);
+    return Objects.hash(id, role, regionId, regionName, companyName, billingEmail, billingAddress, billingAddressParts, billingAddressLegacyText, billingAddressNeedsReview, taxId, currency, otherCurrencies, paymentCurrencies, fxWarningPct, countries, geography, timeZone, primaryContactName, primaryContactEmail, createdAt, verified, listedInDirectory, directoryId);
   }
 
   @Override
@@ -733,6 +853,8 @@ public class OrgProfile {
     sb.append("    billingEmail: ").append(toIndentedString(billingEmail)).append("\n");
     sb.append("    billingAddress: ").append(toIndentedString(billingAddress)).append("\n");
     sb.append("    billingAddressParts: ").append(toIndentedString(billingAddressParts)).append("\n");
+    sb.append("    billingAddressLegacyText: ").append(toIndentedString(billingAddressLegacyText)).append("\n");
+    sb.append("    billingAddressNeedsReview: ").append(toIndentedString(billingAddressNeedsReview)).append("\n");
     sb.append("    taxId: ").append(toIndentedString(taxId)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    otherCurrencies: ").append(toIndentedString(otherCurrencies)).append("\n");
@@ -745,6 +867,8 @@ public class OrgProfile {
     sb.append("    primaryContactEmail: ").append(toIndentedString(primaryContactEmail)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    verified: ").append(toIndentedString(verified)).append("\n");
+    sb.append("    listedInDirectory: ").append(toIndentedString(listedInDirectory)).append("\n");
+    sb.append("    directoryId: ").append(toIndentedString(directoryId)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -832,6 +956,16 @@ public class OrgProfile {
       joiner.add(getBillingAddressParts().toUrlQueryString(prefix + "billingAddressParts" + suffix));
     }
 
+    // add `billingAddressLegacyText` to the URL query string
+    if (getBillingAddressLegacyText() != null) {
+      joiner.add(String.format("%sbillingAddressLegacyText%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBillingAddressLegacyText()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `billingAddressNeedsReview` to the URL query string
+    if (getBillingAddressNeedsReview() != null) {
+      joiner.add(String.format("%sbillingAddressNeedsReview%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBillingAddressNeedsReview()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
     // add `taxId` to the URL query string
     if (getTaxId() != null) {
       joiner.add(String.format("%staxId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTaxId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -902,6 +1036,16 @@ public class OrgProfile {
     // add `verified` to the URL query string
     if (getVerified() != null) {
       joiner.add(String.format("%sverified%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getVerified()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `listedInDirectory` to the URL query string
+    if (getListedInDirectory() != null) {
+      joiner.add(String.format("%slistedInDirectory%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getListedInDirectory()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `directoryId` to the URL query string
+    if (getDirectoryId() != null) {
+      joiner.add(String.format("%sdirectoryId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDirectoryId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

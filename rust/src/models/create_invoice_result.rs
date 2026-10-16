@@ -21,16 +21,14 @@ pub struct CreateInvoiceResult {
     pub buyer_org_id: Option<String>,
     #[serde(rename = "supplierOrgId", skip_serializing_if = "Option::is_none")]
     pub supplier_org_id: Option<String>,
+    #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
+    pub status: Option<Status>,
     #[serde(rename = "createdAt", skip_serializing_if = "Option::is_none")]
     pub created_at: Option<String>,
-    #[serde(rename = "lateFeeTerms", skip_serializing_if = "Option::is_none")]
-    pub late_fee_terms: Option<models::LateFeeTerms>,
+    #[serde(rename = "cloudProvider", skip_serializing_if = "Option::is_none")]
+    pub cloud_provider: Option<CloudProvider>,
     #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
     pub amount: Option<f64>,
-    #[serde(rename = "approvalVersion", skip_serializing_if = "Option::is_none")]
-    pub approval_version: Option<f64>,
-    #[serde(rename = "approval", skip_serializing_if = "Option::is_none")]
-    pub approval: Option<models::SupplierApprovalView>,
     #[serde(
         rename = "supplierConnectionId",
         skip_serializing_if = "Option::is_none"
@@ -38,18 +36,94 @@ pub struct CreateInvoiceResult {
     pub supplier_connection_id: Option<String>,
     #[serde(rename = "currency", skip_serializing_if = "Option::is_none")]
     pub currency: Option<String>,
+    #[serde(rename = "invoiceId", skip_serializing_if = "Option::is_none")]
+    pub invoice_id: Option<String>,
     #[serde(rename = "buyerOrgName", skip_serializing_if = "Option::is_none")]
     pub buyer_org_name: Option<String>,
+    #[serde(rename = "lineItems", skip_serializing_if = "Option::is_none")]
+    pub line_items: Option<Vec<models::InvoiceLineItem>>,
+    #[serde(rename = "version", skip_serializing_if = "Option::is_none")]
+    pub version: Option<f64>,
+    #[serde(rename = "po", skip_serializing_if = "Option::is_none")]
+    pub po: Option<String>,
+    #[serde(rename = "poLineNo", skip_serializing_if = "Option::is_none")]
+    pub po_line_no: Option<f64>,
+    #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
+    pub source: Option<Source>,
+    #[serde(rename = "enteredBy", skip_serializing_if = "Option::is_none")]
+    pub entered_by: Option<EnteredBy>,
+    #[serde(rename = "submittedFormat", skip_serializing_if = "Option::is_none")]
+    pub submitted_format: Option<SubmittedFormat>,
+    #[serde(
+        rename = "externalInvoiceNumber",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub external_invoice_number: Option<String>,
+    #[serde(rename = "adjustments", skip_serializing_if = "Option::is_none")]
+    pub adjustments: Option<Vec<models::InvoiceAdjustment>>,
+    #[serde(rename = "taxAmount", skip_serializing_if = "Option::is_none")]
+    pub tax_amount: Option<f64>,
+    #[serde(rename = "taxBreakdown", skip_serializing_if = "Option::is_none")]
+    pub tax_breakdown: Option<Vec<models::InvoiceBreakdownEntry>>,
+    #[serde(rename = "note", skip_serializing_if = "Option::is_none")]
+    pub note: Option<String>,
+    #[serde(
+        rename = "externalCreditNoteNumber",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub external_credit_note_number: Option<String>,
+    #[serde(rename = "issueDate", skip_serializing_if = "Option::is_none")]
+    pub issue_date: Option<String>,
+    #[serde(rename = "reason", skip_serializing_if = "Option::is_none")]
+    pub reason: Option<Reason>,
+    #[serde(rename = "correctsBilling", skip_serializing_if = "Option::is_none")]
+    pub corrects_billing: Option<bool>,
+    #[serde(rename = "refunded", skip_serializing_if = "Option::is_none")]
+    pub refunded: Option<f64>,
+    #[serde(rename = "acceptedAt", skip_serializing_if = "Option::is_none")]
+    pub accepted_at: Option<String>,
+    #[serde(rename = "autoAccepted", skip_serializing_if = "Option::is_none")]
+    pub auto_accepted: Option<bool>,
+    #[serde(rename = "poEffect", skip_serializing_if = "Option::is_none")]
+    pub po_effect: Option<models::SupplierCreditNoteViewPoEffect>,
+    #[serde(rename = "applications", skip_serializing_if = "Option::is_none")]
+    pub applications: Option<Vec<models::CreditNoteApplication>>,
+    #[serde(rename = "exports", skip_serializing_if = "Option::is_none")]
+    pub exports: Option<Vec<models::SupplierCreditNoteViewExportsInner>>,
+    #[serde(rename = "remaining", skip_serializing_if = "Option::is_none")]
+    pub remaining: Option<f64>,
+    #[serde(rename = "hasPdf", skip_serializing_if = "Option::is_none")]
+    pub has_pdf: Option<bool>,
+    #[serde(rename = "buyerWorkspaceId", skip_serializing_if = "Option::is_none")]
+    pub buyer_workspace_id: Option<String>,
+    #[serde(rename = "history", skip_serializing_if = "Option::is_none")]
+    pub history: Option<Vec<models::CreditNoteHistoryEntry>>,
+    #[serde(rename = "rejection", skip_serializing_if = "Option::is_none")]
+    pub rejection: Option<models::InvoiceRejection>,
+    #[serde(rename = "documentType", skip_serializing_if = "Option::is_none")]
+    pub document_type: Option<DocumentType>,
+    #[serde(rename = "submittedBy", skip_serializing_if = "Option::is_none")]
+    pub submitted_by: Option<String>,
+    #[serde(rename = "feedPayloadHash", skip_serializing_if = "Option::is_none")]
+    pub feed_payload_hash: Option<String>,
+    #[serde(rename = "sourceDocument", skip_serializing_if = "Option::is_none")]
+    pub source_document: Option<models::InvoiceSourceDocument>,
+    #[serde(rename = "acceptedByName", skip_serializing_if = "Option::is_none")]
+    pub accepted_by_name: Option<String>,
+    #[serde(rename = "lateFeeTerms", skip_serializing_if = "Option::is_none")]
+    pub late_fee_terms: Option<models::LateFeeTerms>,
+    #[serde(rename = "approvalVersion", skip_serializing_if = "Option::is_none")]
+    pub approval_version: Option<f64>,
+    #[serde(rename = "approval", skip_serializing_if = "Option::is_none")]
+    pub approval: Option<models::SupplierApprovalView>,
     #[serde(rename = "buyerRegionName", skip_serializing_if = "Option::is_none")]
     pub buyer_region_name: Option<String>,
     #[serde(rename = "supplierRegionName", skip_serializing_if = "Option::is_none")]
     pub supplier_region_name: Option<String>,
     #[serde(rename = "contractId", skip_serializing_if = "Option::is_none")]
     pub contract_id: Option<String>,
-    #[serde(rename = "lineItems", skip_serializing_if = "Option::is_none")]
-    pub line_items: Option<Vec<models::InvoiceLineItem>>,
-    #[serde(rename = "po", skip_serializing_if = "Option::is_none")]
-    pub po: Option<String>,
+    #[serde(rename = "billsNoPoLine", skip_serializing_if = "Option::is_none")]
+    pub bills_no_po_line: Option<bool>,
     #[serde(rename = "partyDetails", skip_serializing_if = "Option::is_none")]
     pub party_details: Option<models::InvoiceBuyerViewPartyDetails>,
     #[serde(rename = "usageAmount", skip_serializing_if = "Option::is_none")]
@@ -90,6 +164,8 @@ pub struct CreateInvoiceResult {
     pub paid_at: Option<String>,
     #[serde(rename = "payment", skip_serializing_if = "Option::is_none")]
     pub payment: Option<models::InvoiceSupplierViewPayment>,
+    #[serde(rename = "remittances", skip_serializing_if = "Option::is_none")]
+    pub remittances: Option<Vec<models::SupplierRemittanceView>>,
     #[serde(rename = "paymentHistory", skip_serializing_if = "Option::is_none")]
     pub payment_history: Option<Vec<models::PaymentHistoryEntry>>,
     #[serde(
@@ -103,37 +179,40 @@ pub struct CreateInvoiceResult {
     pub due_date_source: Option<DueDateSource>,
     #[serde(rename = "lastRemindedAt", skip_serializing_if = "Option::is_none")]
     pub last_reminded_at: Option<String>,
-    #[serde(rename = "rejection", skip_serializing_if = "Option::is_none")]
-    pub rejection: Option<models::InvoiceRejection>,
     #[serde(rename = "replacesInvoiceId", skip_serializing_if = "Option::is_none")]
     pub replaces_invoice_id: Option<String>,
-    #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
-    pub source: Option<Source>,
-    #[serde(rename = "enteredBy", skip_serializing_if = "Option::is_none")]
-    pub entered_by: Option<EnteredBy>,
+    #[serde(rename = "replacesInvoiceIds", skip_serializing_if = "Option::is_none")]
+    pub replaces_invoice_ids: Option<Vec<String>>,
+    #[serde(
+        rename = "replacedByInvoiceIds",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub replaced_by_invoice_ids: Option<Vec<String>>,
     #[serde(rename = "invoiceDate", skip_serializing_if = "Option::is_none")]
     pub invoice_date: Option<String>,
     #[serde(rename = "sodExcludedKeys", skip_serializing_if = "Option::is_none")]
     pub sod_excluded_keys: Option<Vec<String>>,
-    #[serde(rename = "submittedFormat", skip_serializing_if = "Option::is_none")]
-    pub submitted_format: Option<SubmittedFormat>,
-    #[serde(rename = "submittedBy", skip_serializing_if = "Option::is_none")]
-    pub submitted_by: Option<String>,
-    #[serde(rename = "feedPayloadHash", skip_serializing_if = "Option::is_none")]
-    pub feed_payload_hash: Option<String>,
-    #[serde(
-        rename = "externalInvoiceNumber",
-        skip_serializing_if = "Option::is_none"
-    )]
-    pub external_invoice_number: Option<String>,
-    #[serde(rename = "adjustments", skip_serializing_if = "Option::is_none")]
-    pub adjustments: Option<Vec<models::InvoiceAdjustment>>,
-    #[serde(rename = "taxAmount", skip_serializing_if = "Option::is_none")]
-    pub tax_amount: Option<f64>,
-    #[serde(rename = "taxBreakdown", skip_serializing_if = "Option::is_none")]
-    pub tax_breakdown: Option<Vec<models::InvoiceBreakdownEntry>>,
     #[serde(rename = "withholdings", skip_serializing_if = "Option::is_none")]
     pub withholdings: Option<Vec<models::InvoiceBreakdownEntry>>,
+    #[serde(rename = "amendsInvoiceId", skip_serializing_if = "Option::is_none")]
+    pub amends_invoice_id: Option<String>,
+    #[serde(
+        rename = "amendsExternalInvoiceNumber",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub amends_external_invoice_number: Option<String>,
+    #[serde(rename = "debitNoteIds", skip_serializing_if = "Option::is_none")]
+    pub debit_note_ids: Option<Vec<String>>,
+    #[serde(rename = "invoiceKind", skip_serializing_if = "Option::is_none")]
+    pub invoice_kind: Option<InvoiceKind>,
+    #[serde(rename = "deductions", skip_serializing_if = "Option::is_none")]
+    pub deductions: Option<Vec<models::InvoiceDeduction>>,
+    #[serde(rename = "creditApplications", skip_serializing_if = "Option::is_none")]
+    pub credit_applications: Option<Vec<models::InvoiceCreditApplication>>,
+    #[serde(rename = "creditNoteIds", skip_serializing_if = "Option::is_none")]
+    pub credit_note_ids: Option<Vec<String>>,
+    #[serde(rename = "creditVersion", skip_serializing_if = "Option::is_none")]
+    pub credit_version: Option<f64>,
     #[serde(
         rename = "paymentCurrencyAmount",
         skip_serializing_if = "Option::is_none"
@@ -150,8 +229,6 @@ pub struct CreateInvoiceResult {
     pub remittance_instructions: Option<models::RemittanceInstructions>,
     #[serde(rename = "remittanceCheck", skip_serializing_if = "Option::is_none")]
     pub remittance_check: Option<models::RemittanceCheck>,
-    #[serde(rename = "sourceDocument", skip_serializing_if = "Option::is_none")]
-    pub source_document: Option<models::InvoiceSourceDocument>,
     #[serde(rename = "hasOriginalPdf", skip_serializing_if = "Option::is_none")]
     pub has_original_pdf: Option<bool>,
     #[serde(rename = "baseCurrencyAmount", skip_serializing_if = "Option::is_none")]
@@ -161,10 +238,15 @@ pub struct CreateInvoiceResult {
         skip_serializing_if = "Option::is_none"
     )]
     pub viewer_is_supplier_member: Option<bool>,
+    #[serde(rename = "replacement", skip_serializing_if = "Option::is_none")]
+    pub replacement: Option<models::InvoiceReplacementCheck>,
+    #[serde(
+        rename = "uncreditedOriginals",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub uncredited_originals: Option<Vec<models::UncreditedOriginal>>,
     #[serde(rename = "withdrawnPayment", skip_serializing_if = "Option::is_none")]
     pub withdrawn_payment: Option<models::InvoiceSupplierViewPayment>,
-    #[serde(rename = "buyerWorkspaceId", skip_serializing_if = "Option::is_none")]
-    pub buyer_workspace_id: Option<String>,
     #[serde(rename = "nextReminderAt", skip_serializing_if = "Option::is_none")]
     pub next_reminder_at: Option<String>,
 }
@@ -176,19 +258,53 @@ impl CreateInvoiceResult {
             id,
             buyer_org_id: None,
             supplier_org_id: None,
+            status: None,
             created_at: None,
-            late_fee_terms: None,
+            cloud_provider: None,
             amount: None,
-            approval_version: None,
-            approval: None,
             supplier_connection_id: None,
             currency: None,
+            invoice_id: None,
             buyer_org_name: None,
+            line_items: None,
+            version: None,
+            po: None,
+            po_line_no: None,
+            source: None,
+            entered_by: None,
+            submitted_format: None,
+            external_invoice_number: None,
+            adjustments: None,
+            tax_amount: None,
+            tax_breakdown: None,
+            note: None,
+            external_credit_note_number: None,
+            issue_date: None,
+            reason: None,
+            corrects_billing: None,
+            refunded: None,
+            accepted_at: None,
+            auto_accepted: None,
+            po_effect: None,
+            applications: None,
+            exports: None,
+            remaining: None,
+            has_pdf: None,
+            buyer_workspace_id: None,
+            history: None,
+            rejection: None,
+            document_type: None,
+            submitted_by: None,
+            feed_payload_hash: None,
+            source_document: None,
+            accepted_by_name: None,
+            late_fee_terms: None,
+            approval_version: None,
+            approval: None,
             buyer_region_name: None,
             supplier_region_name: None,
             contract_id: None,
-            line_items: None,
-            po: None,
+            bills_no_po_line: None,
             party_details: None,
             usage_amount: None,
             usage_amount_simulated: None,
@@ -206,134 +322,75 @@ impl CreateInvoiceResult {
             due_date: None,
             paid_at: None,
             payment: None,
+            remittances: None,
             payment_history: None,
             export_available_from: None,
             previous_exported_at: None,
             due_date_source: None,
             last_reminded_at: None,
-            rejection: None,
             replaces_invoice_id: None,
-            source: None,
-            entered_by: None,
+            replaces_invoice_ids: None,
+            replaced_by_invoice_ids: None,
             invoice_date: None,
             sod_excluded_keys: None,
-            submitted_format: None,
-            submitted_by: None,
-            feed_payload_hash: None,
-            external_invoice_number: None,
-            adjustments: None,
-            tax_amount: None,
-            tax_breakdown: None,
             withholdings: None,
+            amends_invoice_id: None,
+            amends_external_invoice_number: None,
+            debit_note_ids: None,
+            invoice_kind: None,
+            deductions: None,
+            credit_applications: None,
+            credit_note_ids: None,
+            credit_version: None,
             payment_currency_amount: None,
             tax_currency_amount: None,
             rate_warnings: None,
             remittance_instructions: None,
             remittance_check: None,
-            source_document: None,
             has_original_pdf: None,
             base_currency_amount: None,
             viewer_is_supplier_member: None,
+            replacement: None,
+            uncredited_originals: None,
             withdrawn_payment: None,
-            buyer_workspace_id: None,
             next_reminder_at: None,
         }
     }
 }
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum UsageSource {
-    #[serde(rename = "aws_invoice")]
-    AwsInvoice,
-    #[serde(rename = "billing_export")]
-    BillingExport,
-    #[serde(rename = "mca_invoice")]
-    McaInvoice,
-    #[serde(rename = "ea_balance")]
-    EaBalance,
-    #[serde(rename = "usage_api_closed_month")]
-    UsageApiClosedMonth,
-    #[serde(rename = "osp_invoice")]
-    OspInvoice,
+pub enum Status {
+    #[serde(rename = "rejected")]
+    Rejected,
+    #[serde(rename = "accepted")]
+    Accepted,
+    #[serde(rename = "pending_acceptance")]
+    PendingAcceptance,
+    #[serde(rename = "void")]
+    Void,
 }
 
-impl Default for UsageSource {
-    fn default() -> UsageSource {
-        Self::AwsInvoice
+impl Default for Status {
+    fn default() -> Status {
+        Self::Rejected
     }
 }
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum MatchStatus {
-    #[serde(rename = "pending")]
-    Pending,
-    #[serde(rename = "matched")]
-    Matched,
-    #[serde(rename = "discrepancy")]
-    Discrepancy,
-    #[serde(rename = "unverified")]
-    Unverified,
+pub enum CloudProvider {
+    #[serde(rename = "aws")]
+    Aws,
+    #[serde(rename = "gcp")]
+    Gcp,
+    #[serde(rename = "azure")]
+    Azure,
+    #[serde(rename = "oci")]
+    Oci,
 }
 
-impl Default for MatchStatus {
-    fn default() -> MatchStatus {
-        Self::Pending
-    }
-}
-///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum UnverifiedReason {
-    #[serde(rename = "no_purchase_order")]
-    PurchaseOrder,
-    #[serde(rename = "no_billing_connection")]
-    BillingConnection,
-}
-
-impl Default for UnverifiedReason {
-    fn default() -> UnverifiedReason {
-        Self::PurchaseOrder
-    }
-}
-///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum MatchBasis {
-    #[serde(rename = "purchase_order")]
-    PurchaseOrder,
-}
-
-impl Default for MatchBasis {
-    fn default() -> MatchBasis {
-        Self::PurchaseOrder
-    }
-}
-///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum DiscrepancyReason {
-    #[serde(rename = "amount")]
-    Amount,
-    #[serde(rename = "currency")]
-    Currency,
-    #[serde(rename = "controls")]
-    Controls,
-}
-
-impl Default for DiscrepancyReason {
-    fn default() -> DiscrepancyReason {
-        Self::Amount
-    }
-}
-///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum DueDateSource {
-    #[serde(rename = "default")]
-    Default,
-    #[serde(rename = "stated")]
-    Stated,
-}
-
-impl Default for DueDateSource {
-    fn default() -> DueDateSource {
-        Self::Default
+impl Default for CloudProvider {
+    fn default() -> CloudProvider {
+        Self::Aws
     }
 }
 ///
@@ -382,5 +439,149 @@ pub enum SubmittedFormat {
 impl Default for SubmittedFormat {
     fn default() -> SubmittedFormat {
         Self::Json
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Reason {
+    #[serde(rename = "other")]
+    Other,
+    #[serde(rename = "returned_goods")]
+    ReturnedGoods,
+    #[serde(rename = "price_adjustment")]
+    PriceAdjustment,
+    #[serde(rename = "service_credit")]
+    ServiceCredit,
+    #[serde(rename = "rebate")]
+    Rebate,
+}
+
+impl Default for Reason {
+    fn default() -> Reason {
+        Self::Other
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum DocumentType {
+    #[serde(rename = "debit_note")]
+    DebitNote,
+    #[serde(rename = "invoice")]
+    Invoice,
+}
+
+impl Default for DocumentType {
+    fn default() -> DocumentType {
+        Self::DebitNote
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum UsageSource {
+    #[serde(rename = "aws_invoice")]
+    AwsInvoice,
+    #[serde(rename = "billing_export")]
+    BillingExport,
+    #[serde(rename = "mca_invoice")]
+    McaInvoice,
+    #[serde(rename = "ea_balance")]
+    EaBalance,
+    #[serde(rename = "usage_api_closed_month")]
+    UsageApiClosedMonth,
+    #[serde(rename = "osp_invoice")]
+    OspInvoice,
+}
+
+impl Default for UsageSource {
+    fn default() -> UsageSource {
+        Self::AwsInvoice
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum MatchStatus {
+    #[serde(rename = "pending")]
+    Pending,
+    #[serde(rename = "matched")]
+    Matched,
+    #[serde(rename = "discrepancy")]
+    Discrepancy,
+    #[serde(rename = "unverified")]
+    Unverified,
+}
+
+impl Default for MatchStatus {
+    fn default() -> MatchStatus {
+        Self::Pending
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum UnverifiedReason {
+    #[serde(rename = "no_purchase_order")]
+    NoPurchaseOrder,
+    #[serde(rename = "no_billing_connection")]
+    NoBillingConnection,
+    #[serde(rename = "debit_note")]
+    DebitNote,
+}
+
+impl Default for UnverifiedReason {
+    fn default() -> UnverifiedReason {
+        Self::NoPurchaseOrder
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum MatchBasis {
+    #[serde(rename = "purchase_order")]
+    PurchaseOrder,
+}
+
+impl Default for MatchBasis {
+    fn default() -> MatchBasis {
+        Self::PurchaseOrder
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum DiscrepancyReason {
+    #[serde(rename = "amount")]
+    Amount,
+    #[serde(rename = "currency")]
+    Currency,
+    #[serde(rename = "controls")]
+    Controls,
+}
+
+impl Default for DiscrepancyReason {
+    fn default() -> DiscrepancyReason {
+        Self::Amount
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum DueDateSource {
+    #[serde(rename = "default")]
+    Default,
+    #[serde(rename = "stated")]
+    Stated,
+}
+
+impl Default for DueDateSource {
+    fn default() -> DueDateSource {
+        Self::Default
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum InvoiceKind {
+    #[serde(rename = "prepayment")]
+    Prepayment,
+}
+
+impl Default for InvoiceKind {
+    fn default() -> InvoiceKind {
+        Self::Prepayment
     }
 }

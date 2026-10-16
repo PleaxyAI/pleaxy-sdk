@@ -1,7 +1,7 @@
 from typing import Literal, Set, cast
 
 FeedValidationResultInvoicePaymentType0Method = Literal[
-    "ach", "card", "check", "other", "wire"
+    "ach", "card", "check", "credit", "other", "wire"
 ]
 
 FEED_VALIDATION_RESULT_INVOICE_PAYMENT_TYPE_0_METHOD_VALUES: Set[
@@ -10,6 +10,7 @@ FEED_VALIDATION_RESULT_INVOICE_PAYMENT_TYPE_0_METHOD_VALUES: Set[
     "ach",
     "card",
     "check",
+    "credit",
     "other",
     "wire",
 }

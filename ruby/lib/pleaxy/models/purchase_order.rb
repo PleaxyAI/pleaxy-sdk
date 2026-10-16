@@ -35,6 +35,8 @@ module Pleaxy
 
     attr_accessor :invoiced_amount
 
+    attr_accessor :prior_invoiced
+
     attr_accessor :rejected_invoice_count
 
     attr_accessor :last_rejected_invoice_id
@@ -47,7 +49,11 @@ module Pleaxy
 
     attr_accessor :bill_to
 
+    attr_accessor :bill_to_party
+
     attr_accessor :cost_center
+
+    attr_accessor :cost_center_changes
 
     attr_accessor :budget_owner
 
@@ -71,6 +77,8 @@ module Pleaxy
 
     attr_accessor :contract_id
 
+    attr_accessor :supplier_email
+
     attr_accessor :quote_document
 
     attr_accessor :line_items
@@ -90,6 +98,18 @@ module Pleaxy
     attr_accessor :version
 
     attr_accessor :last_change
+
+    attr_accessor :approval_amount
+
+    attr_accessor :punchout
+
+    attr_accessor :store_id
+
+    attr_accessor :delivery_address_id
+
+    attr_accessor :ship_to
+
+    attr_accessor :store_order
 
     attr_accessor :created_at
 
@@ -128,13 +148,16 @@ module Pleaxy
         :'invoice_id' => :'invoiceId',
         :'invoice_ids' => :'invoiceIds',
         :'invoiced_amount' => :'invoicedAmount',
+        :'prior_invoiced' => :'priorInvoiced',
         :'rejected_invoice_count' => :'rejectedInvoiceCount',
         :'last_rejected_invoice_id' => :'lastRejectedInvoiceId',
         :'last_replaced_invoice_id' => :'lastReplacedInvoiceId',
         :'provider' => :'provider',
         :'payer_accounts' => :'payerAccounts',
         :'bill_to' => :'billTo',
+        :'bill_to_party' => :'billToParty',
         :'cost_center' => :'costCenter',
+        :'cost_center_changes' => :'costCenterChanges',
         :'budget_owner' => :'budgetOwner',
         :'buyer_name' => :'buyerName',
         :'buyer_org_name' => :'buyerOrgName',
@@ -146,6 +169,7 @@ module Pleaxy
         :'supplier_connection_id' => :'supplierConnectionId',
         :'notes' => :'notes',
         :'contract_id' => :'contractId',
+        :'supplier_email' => :'supplierEmail',
         :'quote_document' => :'quoteDocument',
         :'line_items' => :'lineItems',
         :'approval' => :'approval',
@@ -156,6 +180,12 @@ module Pleaxy
         :'updated_at' => :'updatedAt',
         :'version' => :'version',
         :'last_change' => :'lastChange',
+        :'approval_amount' => :'approvalAmount',
+        :'punchout' => :'punchout',
+        :'store_id' => :'storeId',
+        :'delivery_address_id' => :'deliveryAddressId',
+        :'ship_to' => :'shipTo',
+        :'store_order' => :'storeOrder',
         :'created_at' => :'createdAt'
       }
     end
@@ -178,13 +208,16 @@ module Pleaxy
         :'invoice_id' => :'String',
         :'invoice_ids' => :'Array<String>',
         :'invoiced_amount' => :'Float',
+        :'prior_invoiced' => :'PurchaseOrderPriorInvoiced',
         :'rejected_invoice_count' => :'Float',
         :'last_rejected_invoice_id' => :'String',
         :'last_replaced_invoice_id' => :'String',
         :'provider' => :'String',
         :'payer_accounts' => :'Array<PayerAccountRef>',
         :'bill_to' => :'String',
+        :'bill_to_party' => :'PurchaseOrderBillTo',
         :'cost_center' => :'String',
+        :'cost_center_changes' => :'Array<PurchaseOrderCostCenterChange>',
         :'budget_owner' => :'String',
         :'buyer_name' => :'String',
         :'buyer_org_name' => :'String',
@@ -196,6 +229,7 @@ module Pleaxy
         :'supplier_connection_id' => :'String',
         :'notes' => :'String',
         :'contract_id' => :'String',
+        :'supplier_email' => :'PurchaseOrderSupplierEmail',
         :'quote_document' => :'PurchaseOrderQuoteDocument',
         :'line_items' => :'Array<LineItem>',
         :'approval' => :'ApprovalChain',
@@ -206,6 +240,12 @@ module Pleaxy
         :'updated_at' => :'String',
         :'version' => :'Float',
         :'last_change' => :'PurchaseOrderChangeSummary',
+        :'approval_amount' => :'Float',
+        :'punchout' => :'PurchaseOrderPunchout',
+        :'store_id' => :'String',
+        :'delivery_address_id' => :'String',
+        :'ship_to' => :'PurchaseOrderShipTo',
+        :'store_order' => :'StoreOrder',
         :'created_at' => :'String'
       }
     end
@@ -275,6 +315,10 @@ module Pleaxy
         self.invoiced_amount = attributes[:'invoiced_amount']
       end
 
+      if attributes.key?(:'prior_invoiced')
+        self.prior_invoiced = attributes[:'prior_invoiced']
+      end
+
       if attributes.key?(:'rejected_invoice_count')
         self.rejected_invoice_count = attributes[:'rejected_invoice_count']
       end
@@ -301,8 +345,18 @@ module Pleaxy
         self.bill_to = attributes[:'bill_to']
       end
 
+      if attributes.key?(:'bill_to_party')
+        self.bill_to_party = attributes[:'bill_to_party']
+      end
+
       if attributes.key?(:'cost_center')
         self.cost_center = attributes[:'cost_center']
+      end
+
+      if attributes.key?(:'cost_center_changes')
+        if (value = attributes[:'cost_center_changes']).is_a?(Array)
+          self.cost_center_changes = value
+        end
       end
 
       if attributes.key?(:'budget_owner')
@@ -349,6 +403,10 @@ module Pleaxy
         self.contract_id = attributes[:'contract_id']
       end
 
+      if attributes.key?(:'supplier_email')
+        self.supplier_email = attributes[:'supplier_email']
+      end
+
       if attributes.key?(:'quote_document')
         self.quote_document = attributes[:'quote_document']
       end
@@ -389,6 +447,30 @@ module Pleaxy
 
       if attributes.key?(:'last_change')
         self.last_change = attributes[:'last_change']
+      end
+
+      if attributes.key?(:'approval_amount')
+        self.approval_amount = attributes[:'approval_amount']
+      end
+
+      if attributes.key?(:'punchout')
+        self.punchout = attributes[:'punchout']
+      end
+
+      if attributes.key?(:'store_id')
+        self.store_id = attributes[:'store_id']
+      end
+
+      if attributes.key?(:'delivery_address_id')
+        self.delivery_address_id = attributes[:'delivery_address_id']
+      end
+
+      if attributes.key?(:'ship_to')
+        self.ship_to = attributes[:'ship_to']
+      end
+
+      if attributes.key?(:'store_order')
+        self.store_order = attributes[:'store_order']
       end
 
       if attributes.key?(:'created_at')
@@ -455,13 +537,16 @@ module Pleaxy
           invoice_id == o.invoice_id &&
           invoice_ids == o.invoice_ids &&
           invoiced_amount == o.invoiced_amount &&
+          prior_invoiced == o.prior_invoiced &&
           rejected_invoice_count == o.rejected_invoice_count &&
           last_rejected_invoice_id == o.last_rejected_invoice_id &&
           last_replaced_invoice_id == o.last_replaced_invoice_id &&
           provider == o.provider &&
           payer_accounts == o.payer_accounts &&
           bill_to == o.bill_to &&
+          bill_to_party == o.bill_to_party &&
           cost_center == o.cost_center &&
+          cost_center_changes == o.cost_center_changes &&
           budget_owner == o.budget_owner &&
           buyer_name == o.buyer_name &&
           buyer_org_name == o.buyer_org_name &&
@@ -473,6 +558,7 @@ module Pleaxy
           supplier_connection_id == o.supplier_connection_id &&
           notes == o.notes &&
           contract_id == o.contract_id &&
+          supplier_email == o.supplier_email &&
           quote_document == o.quote_document &&
           line_items == o.line_items &&
           approval == o.approval &&
@@ -483,6 +569,12 @@ module Pleaxy
           updated_at == o.updated_at &&
           version == o.version &&
           last_change == o.last_change &&
+          approval_amount == o.approval_amount &&
+          punchout == o.punchout &&
+          store_id == o.store_id &&
+          delivery_address_id == o.delivery_address_id &&
+          ship_to == o.ship_to &&
+          store_order == o.store_order &&
           created_at == o.created_at
     end
 
@@ -495,7 +587,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, buyer_org_id, supplier_org_id, supplier, amount, currency, status, invoice_id, invoice_ids, invoiced_amount, rejected_invoice_count, last_rejected_invoice_id, last_replaced_invoice_id, provider, payer_accounts, bill_to, cost_center, budget_owner, buyer_name, buyer_org_name, buyer_region_name, supplier_region_name, supplier_site, supplier_contact_email, supplier_invite, supplier_connection_id, notes, contract_id, quote_document, line_items, approval, approval_version, ever_spend_limit_gated, spend_limit_gated_at, updated_by, updated_at, version, last_change, created_at].hash
+      [id, buyer_org_id, supplier_org_id, supplier, amount, currency, status, invoice_id, invoice_ids, invoiced_amount, prior_invoiced, rejected_invoice_count, last_rejected_invoice_id, last_replaced_invoice_id, provider, payer_accounts, bill_to, bill_to_party, cost_center, cost_center_changes, budget_owner, buyer_name, buyer_org_name, buyer_region_name, supplier_region_name, supplier_site, supplier_contact_email, supplier_invite, supplier_connection_id, notes, contract_id, supplier_email, quote_document, line_items, approval, approval_version, ever_spend_limit_gated, spend_limit_gated_at, updated_by, updated_at, version, last_change, approval_amount, punchout, store_id, delivery_address_id, ship_to, store_order, created_at].hash
     end
 
     # Builds the object from hash

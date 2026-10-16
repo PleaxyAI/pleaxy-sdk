@@ -17,13 +17,22 @@ pub struct BillingSummaryAvailablePlansInner {
     pub plan: Option<Plan>,
     #[serde(rename = "monthlyPriceLabel", skip_serializing_if = "Option::is_none")]
     pub monthly_price_label: Option<String>,
+    #[serde(rename = "monthlyPrice", skip_serializing_if = "Option::is_none")]
+    pub monthly_price: Option<models::PriceAmount>,
     #[serde(rename = "yearlyPriceLabel", skip_serializing_if = "Option::is_none")]
     pub yearly_price_label: Option<String>,
+    #[serde(rename = "yearlyPrice", skip_serializing_if = "Option::is_none")]
+    pub yearly_price: Option<models::PriceAmount>,
     #[serde(
         rename = "additionalRegionPriceLabels",
         skip_serializing_if = "Option::is_none"
     )]
     pub additional_region_price_labels: Option<Vec<String>>,
+    #[serde(
+        rename = "additionalRegionPrices",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub additional_region_prices: Option<Vec<models::RegionTierPrice>>,
 }
 
 impl BillingSummaryAvailablePlansInner {
@@ -31,8 +40,11 @@ impl BillingSummaryAvailablePlansInner {
         BillingSummaryAvailablePlansInner {
             plan: None,
             monthly_price_label: None,
+            monthly_price: None,
             yearly_price_label: None,
+            yearly_price: None,
             additional_region_price_labels: None,
+            additional_region_prices: None,
         }
     }
 }

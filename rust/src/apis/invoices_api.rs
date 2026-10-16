@@ -13,6 +13,14 @@ use crate::{apis::ResponseContent, models};
 use reqwest;
 use serde::{Deserialize, Serialize};
 
+/// struct for typed errors of method [`add_invoice_replacement_links`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum AddInvoiceReplacementLinksError {
+    DefaultResponse(models::ApiError),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`approve_invoice`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -117,6 +125,14 @@ pub enum RemindInvoiceError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`remove_invoice_replacement_link`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum RemoveInvoiceReplacementLinkError {
+    DefaultResponse(models::ApiError),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`resolve_invoice_discrepancy`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -171,6 +187,60 @@ pub enum WithdrawPaymentExportError {
 pub enum WithdrawPaymentRecordError {
     DefaultResponse(models::ApiError),
     UnknownValue(serde_json::Value),
+}
+
+pub async fn add_invoice_replacement_links(
+    configuration: &configuration::Configuration,
+    invoice_id: &str,
+    add_replacement_links_input: models::AddReplacementLinksInput,
+) -> Result<models::AddInvoiceReplacementLinksResult, Error<AddInvoiceReplacementLinksError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!(
+        "{}/invoices/{invoiceId}/replaces",
+        local_var_configuration.base_path,
+        invoiceId = crate::apis::urlencode(invoice_id)
+    );
+    let mut local_var_req_builder =
+        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder =
+            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("X-Api-Key", local_var_value);
+    };
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+    local_var_req_builder = local_var_req_builder.json(&add_replacement_links_input);
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<AddInvoiceReplacementLinksError> =
+            serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent {
+            status: local_var_status,
+            content: local_var_content,
+            entity: local_var_entity,
+        };
+        Err(Error::ResponseError(local_var_error))
+    }
 }
 
 pub async fn approve_invoice(
@@ -276,6 +346,7 @@ pub async fn create_invoice(
 
 pub async fn export_invoices_for_payment(
     configuration: &configuration::Configuration,
+    payment_export_input: Option<models::PaymentExportInput>,
 ) -> Result<std::path::PathBuf, Error<ExportInvoicesForPaymentError>> {
     let local_var_configuration = configuration;
 
@@ -303,6 +374,7 @@ pub async fn export_invoices_for_payment(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.json(&payment_export_input);
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -601,6 +673,7 @@ pub async fn list_invoices(
     configuration: &configuration::Configuration,
     from: Option<&str>,
     to: Option<&str>,
+    document_type: Option<&str>,
 ) -> Result<Vec<models::ListInvoicesItem>, Error<ListInvoicesError>> {
     let local_var_configuration = configuration;
 
@@ -616,6 +689,10 @@ pub async fn list_invoices(
     }
     if let Some(ref local_var_str) = to {
         local_var_req_builder = local_var_req_builder.query(&[("to", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = document_type {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("documentType", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder =
@@ -872,6 +949,60 @@ pub async fn remind_invoice(
     }
 }
 
+pub async fn remove_invoice_replacement_link(
+    configuration: &configuration::Configuration,
+    invoice_id: &str,
+    original_id: &str,
+) -> Result<models::RemoveInvoiceReplacementLinkResult, Error<RemoveInvoiceReplacementLinkError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!(
+        "{}/invoices/{invoiceId}/replaces/{originalId}",
+        local_var_configuration.base_path,
+        invoiceId = crate::apis::urlencode(invoice_id),
+        originalId = crate::apis::urlencode(original_id)
+    );
+    let mut local_var_req_builder =
+        local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder =
+            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("X-Api-Key", local_var_value);
+    };
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<RemoveInvoiceReplacementLinkError> =
+            serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent {
+            status: local_var_status,
+            content: local_var_content,
+            entity: local_var_entity,
+        };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
 pub async fn resolve_invoice_discrepancy(
     configuration: &configuration::Configuration,
     invoice_id: &str,
@@ -979,6 +1110,7 @@ pub async fn run_invoice_match(
 pub async fn start_stripe_payment(
     configuration: &configuration::Configuration,
     invoice_id: &str,
+    confirm_replaced: Option<&str>,
 ) -> Result<models::StartStripePaymentResult, Error<StartStripePaymentError>> {
     let local_var_configuration = configuration;
 
@@ -992,6 +1124,10 @@ pub async fn start_stripe_payment(
     let mut local_var_req_builder =
         local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
+    if let Some(ref local_var_str) = confirm_replaced {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("confirmReplaced", &local_var_str.to_string())]);
+    }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder =
             local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -1032,7 +1168,7 @@ pub async fn submit_feed_invoice(
     configuration: &configuration::Configuration,
     connection_id: &str,
     create_feed_invoice_input: models::CreateFeedInvoiceInput,
-) -> Result<models::InvoiceSupplierView, Error<SubmitFeedInvoiceError>> {
+) -> Result<models::SubmitFeedInvoiceResult, Error<SubmitFeedInvoiceError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -1086,7 +1222,7 @@ pub async fn validate_feed_invoice(
     configuration: &configuration::Configuration,
     connection_id: &str,
     create_feed_invoice_input: models::CreateFeedInvoiceInput,
-) -> Result<models::FeedValidationResult, Error<ValidateFeedInvoiceError>> {
+) -> Result<models::ValidateFeedInvoiceResult, Error<ValidateFeedInvoiceError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;

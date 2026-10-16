@@ -16,6 +16,18 @@ func (c *Client) AddCloudProviderAsSupplier(ctx context.Context, provider string
 	return resp.JSON201, nil
 }
 
+// AddInvoiceReplacementLinks - [Buyer] Name the invoices this invoice replaces (credit and rebill, credit notes spec §20), when that wasn't known as it was entered: { invoiceIds }, 1–20 invoices or debit notes from the same supplier. Each original then lists it in replacedByInvoiceIds; links already there are kept. 404 REPLACES_NOT_FOUND, 400 REPLACES_INVALID, 409 REPLACEMENT_CHANGED.
+func (c *Client) AddInvoiceReplacementLinks(ctx context.Context, invoiceId string, body AddInvoiceReplacementLinksJSONRequestBody) (*AddInvoiceReplacementLinksResult, error) {
+	resp, err := c.api.AddInvoiceReplacementLinksWithResponse(ctx, invoiceId, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // ApproveInvoice - [Buyer] Approve an invoice - only the current stage's assigned approver may call this
 func (c *Client) ApproveInvoice(ctx context.Context, invoiceId string) (*InvoiceBuyerView, error) {
 	resp, err := c.api.ApproveInvoiceWithResponse(ctx, invoiceId)
@@ -88,7 +100,7 @@ func (c *Client) CreateCloudConnection(ctx context.Context, body CreateCloudConn
 	return resp.JSON201, nil
 }
 
-// CreateInvoice - [Both] Record an invoice. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
+// CreateInvoice - [Both] Record an invoice - or, with "documentType": "credit_note" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
 func (c *Client) CreateInvoice(ctx context.Context, body CreateInvoiceJSONRequestBody) (*CreateInvoiceResult, error) {
 	resp, err := c.api.CreateInvoiceWithResponse(ctx, body)
 	if err != nil {
@@ -136,9 +148,9 @@ func (c *Client) DiscoverAzureBillingScopes(ctx context.Context, body DiscoverAz
 	return resp.JSON201, nil
 }
 
-// ExportInvoicesForPayment - [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
-func (c *Client) ExportInvoicesForPayment(ctx context.Context) ([]byte, error) {
-	resp, err := c.api.ExportInvoicesForPaymentWithResponse(ctx)
+// ExportInvoicesForPayment - [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row's Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
+func (c *Client) ExportInvoicesForPayment(ctx context.Context, body ExportInvoicesForPaymentJSONRequestBody) ([]byte, error) {
+	resp, err := c.api.ExportInvoicesForPaymentWithResponse(ctx, body)
 	if err != nil {
 		return nil, err
 	}
@@ -232,7 +244,7 @@ func (c *Client) GetExchangeRates(ctx context.Context, params *GetExchangeRatesP
 	return resp.JSON200, nil
 }
 
-// GetInvoice - [Both] Get a single invoice. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>.
+// GetInvoice - [Both] Get a single invoice, or with a credit note's id (CN-…) that credit note; documentType says which. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>. A Buyer caller also gets, on a replaced invoice, replacement (whether its credit notes cover it in full), and on a replacement, uncreditedOriginals (credit and rebill).
 func (c *Client) GetInvoice(ctx context.Context, invoiceId string, params *GetInvoiceParams) (*GetInvoiceResult, error) {
 	resp, err := c.api.GetInvoiceWithResponse(ctx, invoiceId, params)
 	if err != nil {
@@ -436,7 +448,7 @@ func (c *Client) ListInvoiceCounterparties(ctx context.Context, params *ListInvo
 	return resp.JSON200, nil
 }
 
-// ListInvoices - [Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
+// ListInvoices - [Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. ?documentType=credit_note lists credit notes instead, ?documentType=all both, newest first; every item carries documentType (default invoice). A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
 func (c *Client) ListInvoices(ctx context.Context, params *ListInvoicesParams) (*[]ListInvoicesItem, error) {
 	resp, err := c.api.ListInvoicesWithResponse(ctx, params)
 	if err != nil {
@@ -529,7 +541,7 @@ func (c *Client) ReassignPurchaseOrderApprovalStage(ctx context.Context, poId st
 	return resp.JSON201, nil
 }
 
-// RecordPayment - [Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }. Pleaxy moves no money and doesn't check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can't be later than today in the workspace's time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED.
+// RecordPayment - [Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }, optionally with a remittance for the supplier: { remittance: { note?, file?: { fileId, fileName } } } (see SendRemittance). Pleaxy moves no money and doesn't check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can't be later than today in the workspace's time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. A replaced invoice its credit notes don't cover in full is 409 REPLACED_UNCREDITED until you send confirmReplaced: true: paying it as well as its replacement pays twice. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED.
 func (c *Client) RecordPayment(ctx context.Context, invoiceId string, body RecordPaymentJSONRequestBody) (*RecordPaymentResult, error) {
 	resp, err := c.api.RecordPaymentWithResponse(ctx, invoiceId, body)
 	if err != nil {
@@ -575,6 +587,18 @@ func (c *Client) RemindInvoice(ctx context.Context, invoiceId string, params *Re
 		return nil, err
 	}
 	return resp.JSON201, nil
+}
+
+// RemoveInvoiceReplacementLink - [Buyer] Undo a replacement link entered wrongly (credit notes spec §20), on both invoices. The rejected invoice an invoice corrects on its purchase order stays linked.
+func (c *Client) RemoveInvoiceReplacementLink(ctx context.Context, invoiceId string, originalId string) (*RemoveInvoiceReplacementLinkResult, error) {
+	resp, err := c.api.RemoveInvoiceReplacementLinkWithResponse(ctx, invoiceId, originalId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
 }
 
 // ResolveInvoiceDiscrepancy - [Buyer] Resolve a matching discrepancy - an unverified invoice needs a signed-in person, not an API key
@@ -646,9 +670,9 @@ func (c *Client) SetSupplierCurrencies(ctx context.Context, connectionId string,
 	return resp.JSON200, nil
 }
 
-// StartStripePayment - [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only.
-func (c *Client) StartStripePayment(ctx context.Context, invoiceId string) (*StartStripePaymentResult, error) {
-	resp, err := c.api.StartStripePaymentWithResponse(ctx, invoiceId)
+// StartStripePayment - [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don't cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only.
+func (c *Client) StartStripePayment(ctx context.Context, invoiceId string, params *StartStripePaymentParams) (*StartStripePaymentResult, error) {
+	resp, err := c.api.StartStripePaymentWithResponse(ctx, invoiceId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -658,8 +682,8 @@ func (c *Client) StartStripePayment(ctx context.Context, invoiceId string) (*Sta
 	return resp.JSON201, nil
 }
 
-// SubmitFeedInvoice - [Supplier] Submit an invoice to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection.
-func (c *Client) SubmitFeedInvoice(ctx context.Context, connectionId string, body SubmitFeedInvoiceJSONRequestBody) (*InvoiceSupplierView, error) {
+// SubmitFeedInvoice - [Supplier] Submit an invoice - or a credit note: UBL <CreditNote>, a cXML credit memo, or JSON with documentType "credit_note" - to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection.
+func (c *Client) SubmitFeedInvoice(ctx context.Context, connectionId string, body SubmitFeedInvoiceJSONRequestBody) (*SubmitFeedInvoiceResult, error) {
 	resp, err := c.api.SubmitFeedInvoiceWithResponse(ctx, connectionId, body)
 	if err != nil {
 		return nil, err
@@ -767,7 +791,7 @@ func (c *Client) UpdateReminderSettings(ctx context.Context, body UpdateReminder
 }
 
 // ValidateFeedInvoice - [Supplier] Check an invoice document against one connected buyer exactly as SubmitFeedInvoice would, writing nothing: no invoice, no number reservation, no notification. Same key, scope, formats and refusals; the buyer's switch is reported (feedEnabled) instead of enforced; 200 test calls per connection per day.
-func (c *Client) ValidateFeedInvoice(ctx context.Context, connectionId string, body ValidateFeedInvoiceJSONRequestBody) (*FeedValidationResult, error) {
+func (c *Client) ValidateFeedInvoice(ctx context.Context, connectionId string, body ValidateFeedInvoiceJSONRequestBody) (*ValidateFeedInvoiceResult, error) {
 	resp, err := c.api.ValidateFeedInvoiceWithResponse(ctx, connectionId, body)
 	if err != nil {
 		return nil, err

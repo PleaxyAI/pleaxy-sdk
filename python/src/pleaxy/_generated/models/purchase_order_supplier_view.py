@@ -16,9 +16,18 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.line_item import LineItem
     from ..models.payer_account_ref import PayerAccountRef
+    from ..models.purchase_order_bill_to import PurchaseOrderBillTo
+    from ..models.purchase_order_ship_to import PurchaseOrderShipTo
+    from ..models.purchase_order_supplier_view_prior_invoiced import (
+        PurchaseOrderSupplierViewPriorInvoiced,
+    )
     from ..models.purchase_order_supplier_view_quote_document import (
         PurchaseOrderSupplierViewQuoteDocument,
     )
+    from ..models.purchase_order_supplier_view_supplier_email import (
+        PurchaseOrderSupplierViewSupplierEmail,
+    )
+    from ..models.store_order import StoreOrder
     from ..models.supplier_approval_view import SupplierApprovalView
 
 
@@ -46,14 +55,21 @@ class PurchaseOrderSupplierView:
         last_replaced_invoice_id (Union[Unset, str]):
         payer_accounts (Union[Unset, List['PayerAccountRef']]):
         bill_to (Union[Unset, str]):
+        bill_to_party (Union[Unset, PurchaseOrderBillTo]):
         buyer_org_name (Union[Unset, str]):
         buyer_region_name (Union[Unset, str]):
         supplier_region_name (Union[Unset, str]):
         supplier_site (Union[Unset, str]):
         contract_id (Union[Unset, str]):
+        supplier_email (Union[Unset, PurchaseOrderSupplierViewSupplierEmail]):
         line_items (Union[Unset, List['LineItem']]):
         version (Union[Unset, float]):
+        store_id (Union[Unset, str]):
+        delivery_address_id (Union[Unset, str]):
+        ship_to (Union[Unset, PurchaseOrderShipTo]):
+        store_order (Union[Unset, StoreOrder]):
         approval (Union[Unset, SupplierApprovalView]):
+        prior_invoiced (Union[Unset, PurchaseOrderSupplierViewPriorInvoiced]):
         quote_document (Union[Unset, PurchaseOrderSupplierViewQuoteDocument]):
         buyer_workspace_id (Union[Unset, str]):
     """
@@ -75,14 +91,21 @@ class PurchaseOrderSupplierView:
     last_replaced_invoice_id: Union[Unset, str] = UNSET
     payer_accounts: Union[Unset, List["PayerAccountRef"]] = UNSET
     bill_to: Union[Unset, str] = UNSET
+    bill_to_party: Union[Unset, "PurchaseOrderBillTo"] = UNSET
     buyer_org_name: Union[Unset, str] = UNSET
     buyer_region_name: Union[Unset, str] = UNSET
     supplier_region_name: Union[Unset, str] = UNSET
     supplier_site: Union[Unset, str] = UNSET
     contract_id: Union[Unset, str] = UNSET
+    supplier_email: Union[Unset, "PurchaseOrderSupplierViewSupplierEmail"] = UNSET
     line_items: Union[Unset, List["LineItem"]] = UNSET
     version: Union[Unset, float] = UNSET
+    store_id: Union[Unset, str] = UNSET
+    delivery_address_id: Union[Unset, str] = UNSET
+    ship_to: Union[Unset, "PurchaseOrderShipTo"] = UNSET
+    store_order: Union[Unset, "StoreOrder"] = UNSET
     approval: Union[Unset, "SupplierApprovalView"] = UNSET
+    prior_invoiced: Union[Unset, "PurchaseOrderSupplierViewPriorInvoiced"] = UNSET
     quote_document: Union[Unset, "PurchaseOrderSupplierViewQuoteDocument"] = UNSET
     buyer_workspace_id: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -133,6 +156,10 @@ class PurchaseOrderSupplierView:
 
         bill_to = self.bill_to
 
+        bill_to_party: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.bill_to_party, Unset):
+            bill_to_party = self.bill_to_party.to_dict()
+
         buyer_org_name = self.buyer_org_name
 
         buyer_region_name = self.buyer_region_name
@@ -143,6 +170,10 @@ class PurchaseOrderSupplierView:
 
         contract_id = self.contract_id
 
+        supplier_email: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.supplier_email, Unset):
+            supplier_email = self.supplier_email.to_dict()
+
         line_items: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.line_items, Unset):
             line_items = []
@@ -152,9 +183,25 @@ class PurchaseOrderSupplierView:
 
         version = self.version
 
+        store_id = self.store_id
+
+        delivery_address_id = self.delivery_address_id
+
+        ship_to: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.ship_to, Unset):
+            ship_to = self.ship_to.to_dict()
+
+        store_order: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.store_order, Unset):
+            store_order = self.store_order.to_dict()
+
         approval: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.approval, Unset):
             approval = self.approval.to_dict()
+
+        prior_invoiced: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.prior_invoiced, Unset):
+            prior_invoiced = self.prior_invoiced.to_dict()
 
         quote_document: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.quote_document, Unset):
@@ -201,6 +248,8 @@ class PurchaseOrderSupplierView:
             field_dict["payerAccounts"] = payer_accounts
         if bill_to is not UNSET:
             field_dict["billTo"] = bill_to
+        if bill_to_party is not UNSET:
+            field_dict["billToParty"] = bill_to_party
         if buyer_org_name is not UNSET:
             field_dict["buyerOrgName"] = buyer_org_name
         if buyer_region_name is not UNSET:
@@ -211,12 +260,24 @@ class PurchaseOrderSupplierView:
             field_dict["supplierSite"] = supplier_site
         if contract_id is not UNSET:
             field_dict["contractId"] = contract_id
+        if supplier_email is not UNSET:
+            field_dict["supplierEmail"] = supplier_email
         if line_items is not UNSET:
             field_dict["lineItems"] = line_items
         if version is not UNSET:
             field_dict["version"] = version
+        if store_id is not UNSET:
+            field_dict["storeId"] = store_id
+        if delivery_address_id is not UNSET:
+            field_dict["deliveryAddressId"] = delivery_address_id
+        if ship_to is not UNSET:
+            field_dict["shipTo"] = ship_to
+        if store_order is not UNSET:
+            field_dict["storeOrder"] = store_order
         if approval is not UNSET:
             field_dict["approval"] = approval
+        if prior_invoiced is not UNSET:
+            field_dict["priorInvoiced"] = prior_invoiced
         if quote_document is not UNSET:
             field_dict["quoteDocument"] = quote_document
         if buyer_workspace_id is not UNSET:
@@ -228,9 +289,18 @@ class PurchaseOrderSupplierView:
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.line_item import LineItem
         from ..models.payer_account_ref import PayerAccountRef
+        from ..models.purchase_order_bill_to import PurchaseOrderBillTo
+        from ..models.purchase_order_ship_to import PurchaseOrderShipTo
+        from ..models.purchase_order_supplier_view_prior_invoiced import (
+            PurchaseOrderSupplierViewPriorInvoiced,
+        )
         from ..models.purchase_order_supplier_view_quote_document import (
             PurchaseOrderSupplierViewQuoteDocument,
         )
+        from ..models.purchase_order_supplier_view_supplier_email import (
+            PurchaseOrderSupplierViewSupplierEmail,
+        )
+        from ..models.store_order import StoreOrder
         from ..models.supplier_approval_view import SupplierApprovalView
 
         d = src_dict.copy()
@@ -283,6 +353,13 @@ class PurchaseOrderSupplierView:
 
         bill_to = d.pop("billTo", UNSET)
 
+        _bill_to_party = d.pop("billToParty", UNSET)
+        bill_to_party: Union[Unset, PurchaseOrderBillTo]
+        if isinstance(_bill_to_party, Unset):
+            bill_to_party = UNSET
+        else:
+            bill_to_party = PurchaseOrderBillTo.from_dict(_bill_to_party)
+
         buyer_org_name = d.pop("buyerOrgName", UNSET)
 
         buyer_region_name = d.pop("buyerRegionName", UNSET)
@@ -293,6 +370,15 @@ class PurchaseOrderSupplierView:
 
         contract_id = d.pop("contractId", UNSET)
 
+        _supplier_email = d.pop("supplierEmail", UNSET)
+        supplier_email: Union[Unset, PurchaseOrderSupplierViewSupplierEmail]
+        if isinstance(_supplier_email, Unset):
+            supplier_email = UNSET
+        else:
+            supplier_email = PurchaseOrderSupplierViewSupplierEmail.from_dict(
+                _supplier_email
+            )
+
         line_items = []
         _line_items = d.pop("lineItems", UNSET)
         for line_items_item_data in _line_items or []:
@@ -302,12 +388,39 @@ class PurchaseOrderSupplierView:
 
         version = d.pop("version", UNSET)
 
+        store_id = d.pop("storeId", UNSET)
+
+        delivery_address_id = d.pop("deliveryAddressId", UNSET)
+
+        _ship_to = d.pop("shipTo", UNSET)
+        ship_to: Union[Unset, PurchaseOrderShipTo]
+        if isinstance(_ship_to, Unset):
+            ship_to = UNSET
+        else:
+            ship_to = PurchaseOrderShipTo.from_dict(_ship_to)
+
+        _store_order = d.pop("storeOrder", UNSET)
+        store_order: Union[Unset, StoreOrder]
+        if isinstance(_store_order, Unset):
+            store_order = UNSET
+        else:
+            store_order = StoreOrder.from_dict(_store_order)
+
         _approval = d.pop("approval", UNSET)
         approval: Union[Unset, SupplierApprovalView]
         if isinstance(_approval, Unset):
             approval = UNSET
         else:
             approval = SupplierApprovalView.from_dict(_approval)
+
+        _prior_invoiced = d.pop("priorInvoiced", UNSET)
+        prior_invoiced: Union[Unset, PurchaseOrderSupplierViewPriorInvoiced]
+        if isinstance(_prior_invoiced, Unset):
+            prior_invoiced = UNSET
+        else:
+            prior_invoiced = PurchaseOrderSupplierViewPriorInvoiced.from_dict(
+                _prior_invoiced
+            )
 
         _quote_document = d.pop("quoteDocument", UNSET)
         quote_document: Union[Unset, PurchaseOrderSupplierViewQuoteDocument]
@@ -338,14 +451,21 @@ class PurchaseOrderSupplierView:
             last_replaced_invoice_id=last_replaced_invoice_id,
             payer_accounts=payer_accounts,
             bill_to=bill_to,
+            bill_to_party=bill_to_party,
             buyer_org_name=buyer_org_name,
             buyer_region_name=buyer_region_name,
             supplier_region_name=supplier_region_name,
             supplier_site=supplier_site,
             contract_id=contract_id,
+            supplier_email=supplier_email,
             line_items=line_items,
             version=version,
+            store_id=store_id,
+            delivery_address_id=delivery_address_id,
+            ship_to=ship_to,
+            store_order=store_order,
             approval=approval,
+            prior_invoiced=prior_invoiced,
             quote_document=quote_document,
             buyer_workspace_id=buyer_workspace_id,
         )

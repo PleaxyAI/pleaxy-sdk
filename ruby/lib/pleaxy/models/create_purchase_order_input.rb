@@ -32,6 +32,10 @@ module Pleaxy
     # Only with `provider`: this region's cloud connections of that provider the PO applies to, by `id`. A connection still being set up is refused. The PO stores each connection's own label and detail; any sent here are ignored.
     attr_accessor :payer_accounts
 
+    # Who the supplier invoices, when it isn't the buyer's company profile billing details. Left out, the order copies those details as they are now (company name, billing address, tax id).
+    attr_accessor :bill_to_party
+
+    # Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; ignored when `billToParty` is sent.
     attr_accessor :bill_to
 
     attr_accessor :cost_center
@@ -89,6 +93,7 @@ module Pleaxy
         :'currency' => :'currency',
         :'provider' => :'provider',
         :'payer_accounts' => :'payerAccounts',
+        :'bill_to_party' => :'billToParty',
         :'bill_to' => :'billTo',
         :'cost_center' => :'costCenter',
         :'budget_owner' => :'budgetOwner',
@@ -117,6 +122,7 @@ module Pleaxy
         :'currency' => :'String',
         :'provider' => :'String',
         :'payer_accounts' => :'Array<PayerAccountRefInput>',
+        :'bill_to_party' => :'BillToPartyInput',
         :'bill_to' => :'String',
         :'cost_center' => :'String',
         :'budget_owner' => :'String',
@@ -178,6 +184,10 @@ module Pleaxy
         if (value = attributes[:'payer_accounts']).is_a?(Array)
           self.payer_accounts = value
         end
+      end
+
+      if attributes.key?(:'bill_to_party')
+        self.bill_to_party = attributes[:'bill_to_party']
       end
 
       if attributes.key?(:'bill_to')
@@ -243,6 +253,10 @@ module Pleaxy
         invalid_properties.push('invalid value for "supplier", supplier cannot be nil.')
       end
 
+      if !@bill_to.nil? && @bill_to.to_s.length > 500
+        invalid_properties.push('invalid value for "bill_to", the character length must be smaller than or equal to 500.')
+      end
+
       if !@supplier_contact_email.nil? && @supplier_contact_email.to_s.length > 254
         invalid_properties.push('invalid value for "supplier_contact_email", the character length must be smaller than or equal to 254.')
       end
@@ -270,6 +284,7 @@ module Pleaxy
       return false if @supplier.nil?
       provider_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci"])
       return false unless provider_validator.valid?(@provider)
+      return false if !@bill_to.nil? && @bill_to.to_s.length > 500
       return false if !@supplier_contact_email.nil? && @supplier_contact_email.to_s.length > 254
       return false if !@contract_id.nil? && @contract_id.to_s.length > 60
       return false if !@quote_import_id.nil? && @quote_import_id.to_s.length > 20
@@ -300,6 +315,20 @@ module Pleaxy
         fail ArgumentError, "invalid value for \"provider\", must be one of #{validator.allowable_values}."
       end
       @provider = provider
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] bill_to Value to be assigned
+    def bill_to=(bill_to)
+      if bill_to.nil?
+        fail ArgumentError, 'bill_to cannot be nil'
+      end
+
+      if bill_to.to_s.length > 500
+        fail ArgumentError, 'invalid value for "bill_to", the character length must be smaller than or equal to 500.'
+      end
+
+      @bill_to = bill_to
     end
 
     # Custom attribute writer method with validation
@@ -355,6 +384,7 @@ module Pleaxy
           currency == o.currency &&
           provider == o.provider &&
           payer_accounts == o.payer_accounts &&
+          bill_to_party == o.bill_to_party &&
           bill_to == o.bill_to &&
           cost_center == o.cost_center &&
           budget_owner == o.budget_owner &&
@@ -377,7 +407,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [po_number, supplier, supplier_region_id, currency, provider, payer_accounts, bill_to, cost_center, budget_owner, buyer_name, supplier_site, supplier_contact_email, notes, contract_id, quote_import_id, draft, line_items].hash
+      [po_number, supplier, supplier_region_id, currency, provider, payer_accounts, bill_to_party, bill_to, cost_center, budget_owner, buyer_name, supplier_site, supplier_contact_email, notes, contract_id, quote_import_id, draft, line_items].hash
     end
 
     # Builds the object from hash

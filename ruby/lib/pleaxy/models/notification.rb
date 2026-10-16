@@ -27,6 +27,14 @@ module Pleaxy
 
     attr_accessor :body
 
+    attr_accessor :title_message_id
+
+    attr_accessor :title_params
+
+    attr_accessor :body_message_id
+
+    attr_accessor :body_params
+
     attr_accessor :related_id
 
     attr_accessor :stage_id
@@ -36,6 +44,8 @@ module Pleaxy
     attr_accessor :created_at
 
     attr_accessor :read
+
+    attr_accessor :resolution
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -68,11 +78,16 @@ module Pleaxy
         :'type' => :'type',
         :'title' => :'title',
         :'body' => :'body',
+        :'title_message_id' => :'titleMessageId',
+        :'title_params' => :'titleParams',
+        :'body_message_id' => :'bodyMessageId',
+        :'body_params' => :'bodyParams',
         :'related_id' => :'relatedId',
         :'stage_id' => :'stageId',
         :'buyer_workspace_id' => :'buyerWorkspaceId',
         :'created_at' => :'createdAt',
-        :'read' => :'read'
+        :'read' => :'read',
+        :'resolution' => :'resolution'
       }
     end
 
@@ -90,11 +105,16 @@ module Pleaxy
         :'type' => :'String',
         :'title' => :'String',
         :'body' => :'String',
+        :'title_message_id' => :'String',
+        :'title_params' => :'Hash<String, ServerMessageParamsValue>',
+        :'body_message_id' => :'String',
+        :'body_params' => :'Hash<String, ServerMessageParamsValue>',
         :'related_id' => :'String',
         :'stage_id' => :'String',
         :'buyer_workspace_id' => :'String',
         :'created_at' => :'String',
-        :'read' => :'Boolean'
+        :'read' => :'Boolean',
+        :'resolution' => :'NotificationResolution'
       }
     end
 
@@ -145,6 +165,26 @@ module Pleaxy
         self.body = attributes[:'body']
       end
 
+      if attributes.key?(:'title_message_id')
+        self.title_message_id = attributes[:'title_message_id']
+      end
+
+      if attributes.key?(:'title_params')
+        if (value = attributes[:'title_params']).is_a?(Hash)
+          self.title_params = value
+        end
+      end
+
+      if attributes.key?(:'body_message_id')
+        self.body_message_id = attributes[:'body_message_id']
+      end
+
+      if attributes.key?(:'body_params')
+        if (value = attributes[:'body_params']).is_a?(Hash)
+          self.body_params = value
+        end
+      end
+
       if attributes.key?(:'related_id')
         self.related_id = attributes[:'related_id']
       end
@@ -163,6 +203,10 @@ module Pleaxy
 
       if attributes.key?(:'read')
         self.read = attributes[:'read']
+      end
+
+      if attributes.key?(:'resolution')
+        self.resolution = attributes[:'resolution']
       end
     end
 
@@ -185,7 +229,7 @@ module Pleaxy
       return false if @id.nil?
       audience_validator = EnumAttributeValidator.new('String', ["buyer", "supplier"])
       return false unless audience_validator.valid?(@audience)
-      type_validator = EnumAttributeValidator.new('String', ["po_approved", "po_rejected", "po_canceled", "po_changed", "po_approval_requested", "po_needs_approver", "invoice_submitted", "invoice_ready_for_approval", "invoice_approval_requested", "invoice_discrepancy", "invoice_approved", "invoice_paid", "invoice_payment_withdrawn", "invoice_payment_failed", "invoice_reminder", "invoice_rejected", "invoice_payment_reminder", "invoice_entered_by_buyer", "invoice_needs_approver", "invoice_feed_changed", "supplier_connection_invited", "supplier_connection_submitted", "supplier_connection_approved", "supplier_connection_rejected", "supplier_connection_region_mismatch", "support_case_opened", "support_case_updated", "supplier_late_fee_terms_changed", "contract_terms_to_acknowledge", "contract_terms_acknowledged", "contract_terms_disputed", "copilot_allowance_80", "copilot_allowance_100", "copilot_degraded", "copilot_packs_low", "copilot_packs_empty", "copilot_payg_cap"])
+      type_validator = EnumAttributeValidator.new('String', ["po_approved", "po_rejected", "po_canceled", "po_changed", "po_approval_requested", "po_store_order_problem", "po_needs_approver", "invoice_submitted", "invoice_ready_for_approval", "invoice_approval_requested", "invoice_discrepancy", "invoice_approved", "invoice_paid", "invoice_payment_withdrawn", "invoice_remittance_sent", "invoice_payment_failed", "invoice_reminder", "invoice_rejected", "invoice_payment_reminder", "invoice_entered_by_buyer", "invoice_needs_approver", "credit_note_received", "credit_note_accepted", "credit_note_rejected", "credit_note_applied", "invoice_comment", "po_comment", "contract_comment", "invoice_feed_changed", "supplier_connection_invited", "supplier_connection_submitted", "supplier_connection_approved", "supplier_connection_rejected", "supplier_connection_region_mismatch", "support_case_opened", "support_case_updated", "supplier_late_fee_terms_changed", "contract_terms_to_acknowledge", "contract_terms_acknowledged", "contract_terms_disputed", "contract_sent_to_joined_supplier", "copilot_allowance_80", "copilot_allowance_100", "copilot_degraded", "copilot_packs_low", "copilot_packs_empty", "copilot_payg_cap"])
       return false unless type_validator.valid?(@type)
       true
     end
@@ -203,7 +247,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] type Object to be assigned
     def type=(type)
-      validator = EnumAttributeValidator.new('String', ["po_approved", "po_rejected", "po_canceled", "po_changed", "po_approval_requested", "po_needs_approver", "invoice_submitted", "invoice_ready_for_approval", "invoice_approval_requested", "invoice_discrepancy", "invoice_approved", "invoice_paid", "invoice_payment_withdrawn", "invoice_payment_failed", "invoice_reminder", "invoice_rejected", "invoice_payment_reminder", "invoice_entered_by_buyer", "invoice_needs_approver", "invoice_feed_changed", "supplier_connection_invited", "supplier_connection_submitted", "supplier_connection_approved", "supplier_connection_rejected", "supplier_connection_region_mismatch", "support_case_opened", "support_case_updated", "supplier_late_fee_terms_changed", "contract_terms_to_acknowledge", "contract_terms_acknowledged", "contract_terms_disputed", "copilot_allowance_80", "copilot_allowance_100", "copilot_degraded", "copilot_packs_low", "copilot_packs_empty", "copilot_payg_cap"])
+      validator = EnumAttributeValidator.new('String', ["po_approved", "po_rejected", "po_canceled", "po_changed", "po_approval_requested", "po_store_order_problem", "po_needs_approver", "invoice_submitted", "invoice_ready_for_approval", "invoice_approval_requested", "invoice_discrepancy", "invoice_approved", "invoice_paid", "invoice_payment_withdrawn", "invoice_remittance_sent", "invoice_payment_failed", "invoice_reminder", "invoice_rejected", "invoice_payment_reminder", "invoice_entered_by_buyer", "invoice_needs_approver", "credit_note_received", "credit_note_accepted", "credit_note_rejected", "credit_note_applied", "invoice_comment", "po_comment", "contract_comment", "invoice_feed_changed", "supplier_connection_invited", "supplier_connection_submitted", "supplier_connection_approved", "supplier_connection_rejected", "supplier_connection_region_mismatch", "support_case_opened", "support_case_updated", "supplier_late_fee_terms_changed", "contract_terms_to_acknowledge", "contract_terms_acknowledged", "contract_terms_disputed", "contract_sent_to_joined_supplier", "copilot_allowance_80", "copilot_allowance_100", "copilot_degraded", "copilot_packs_low", "copilot_packs_empty", "copilot_payg_cap"])
       unless validator.valid?(type)
         fail ArgumentError, "invalid value for \"type\", must be one of #{validator.allowable_values}."
       end
@@ -221,11 +265,16 @@ module Pleaxy
           type == o.type &&
           title == o.title &&
           body == o.body &&
+          title_message_id == o.title_message_id &&
+          title_params == o.title_params &&
+          body_message_id == o.body_message_id &&
+          body_params == o.body_params &&
           related_id == o.related_id &&
           stage_id == o.stage_id &&
           buyer_workspace_id == o.buyer_workspace_id &&
           created_at == o.created_at &&
-          read == o.read
+          read == o.read &&
+          resolution == o.resolution
     end
 
     # @see the `==` method
@@ -237,7 +286,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, audience, recipient_employee_key, type, title, body, related_id, stage_id, buyer_workspace_id, created_at, read].hash
+      [id, audience, recipient_employee_key, type, title, body, title_message_id, title_params, body_message_id, body_params, related_id, stage_id, buyer_workspace_id, created_at, read, resolution].hash
     end
 
     # Builds the object from hash

@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -7,6 +7,10 @@ from ..models.feed_attempt_format import FeedAttemptFormat, check_feed_attempt_f
 from ..models.feed_attempt_mode import FeedAttemptMode, check_feed_attempt_mode
 from ..models.feed_attempt_outcome import FeedAttemptOutcome, check_feed_attempt_outcome
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.feed_attempt_params import FeedAttemptParams
+
 
 T = TypeVar("T", bound="FeedAttempt")
 
@@ -22,8 +26,11 @@ class FeedAttempt:
         status (Union[Unset, float]):
         code (Union[Unset, str]):
         message (Union[Unset, str]):
+        message_id (Union[Unset, str]):
+        params (Union[Unset, FeedAttemptParams]):
         invoice_number (Union[Unset, str]):
         invoice_id (Union[Unset, str]):
+        credit_note_id (Union[Unset, str]):
         key_id (Union[Unset, str]):
         cursor (Union[Unset, str]):
     """
@@ -35,8 +42,11 @@ class FeedAttempt:
     status: Union[Unset, float] = UNSET
     code: Union[Unset, str] = UNSET
     message: Union[Unset, str] = UNSET
+    message_id: Union[Unset, str] = UNSET
+    params: Union[Unset, "FeedAttemptParams"] = UNSET
     invoice_number: Union[Unset, str] = UNSET
     invoice_id: Union[Unset, str] = UNSET
+    credit_note_id: Union[Unset, str] = UNSET
     key_id: Union[Unset, str] = UNSET
     cursor: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -62,9 +72,17 @@ class FeedAttempt:
 
         message = self.message
 
+        message_id = self.message_id
+
+        params: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.params, Unset):
+            params = self.params.to_dict()
+
         invoice_number = self.invoice_number
 
         invoice_id = self.invoice_id
+
+        credit_note_id = self.credit_note_id
 
         key_id = self.key_id
 
@@ -87,10 +105,16 @@ class FeedAttempt:
             field_dict["code"] = code
         if message is not UNSET:
             field_dict["message"] = message
+        if message_id is not UNSET:
+            field_dict["messageId"] = message_id
+        if params is not UNSET:
+            field_dict["params"] = params
         if invoice_number is not UNSET:
             field_dict["invoiceNumber"] = invoice_number
         if invoice_id is not UNSET:
             field_dict["invoiceId"] = invoice_id
+        if credit_note_id is not UNSET:
+            field_dict["creditNoteId"] = credit_note_id
         if key_id is not UNSET:
             field_dict["keyId"] = key_id
         if cursor is not UNSET:
@@ -100,6 +124,8 @@ class FeedAttempt:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.feed_attempt_params import FeedAttemptParams
+
         d = src_dict.copy()
         at = d.pop("at", UNSET)
 
@@ -130,9 +156,20 @@ class FeedAttempt:
 
         message = d.pop("message", UNSET)
 
+        message_id = d.pop("messageId", UNSET)
+
+        _params = d.pop("params", UNSET)
+        params: Union[Unset, FeedAttemptParams]
+        if isinstance(_params, Unset):
+            params = UNSET
+        else:
+            params = FeedAttemptParams.from_dict(_params)
+
         invoice_number = d.pop("invoiceNumber", UNSET)
 
         invoice_id = d.pop("invoiceId", UNSET)
+
+        credit_note_id = d.pop("creditNoteId", UNSET)
 
         key_id = d.pop("keyId", UNSET)
 
@@ -146,8 +183,11 @@ class FeedAttempt:
             status=status,
             code=code,
             message=message,
+            message_id=message_id,
+            params=params,
             invoice_number=invoice_number,
             invoice_id=invoice_id,
+            credit_note_id=credit_note_id,
             key_id=key_id,
             cursor=cursor,
         )

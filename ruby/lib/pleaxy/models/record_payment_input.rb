@@ -31,6 +31,10 @@ module Pleaxy
 
     attr_accessor :withholdings
 
+    attr_accessor :remittance
+
+    attr_accessor :confirm_replaced
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -63,7 +67,9 @@ module Pleaxy
         :'currency' => :'currency',
         :'rate' => :'rate',
         :'rate_date' => :'rateDate',
-        :'withholdings' => :'withholdings'
+        :'withholdings' => :'withholdings',
+        :'remittance' => :'remittance',
+        :'confirm_replaced' => :'confirmReplaced'
       }
     end
 
@@ -82,7 +88,9 @@ module Pleaxy
         :'currency' => :'String',
         :'rate' => :'Float',
         :'rate_date' => :'String',
-        :'withholdings' => :'Array<BreakdownEntryInput>'
+        :'withholdings' => :'Array<BreakdownEntryInput>',
+        :'remittance' => :'SendRemittanceInput',
+        :'confirm_replaced' => :'Boolean'
       }
     end
 
@@ -145,6 +153,14 @@ module Pleaxy
         if (value = attributes[:'withholdings']).is_a?(Array)
           self.withholdings = value
         end
+      end
+
+      if attributes.key?(:'remittance')
+        self.remittance = attributes[:'remittance']
+      end
+
+      if attributes.key?(:'confirm_replaced')
+        self.confirm_replaced = attributes[:'confirm_replaced']
       end
     end
 
@@ -301,7 +317,9 @@ module Pleaxy
           currency == o.currency &&
           rate == o.rate &&
           rate_date == o.rate_date &&
-          withholdings == o.withholdings
+          withholdings == o.withholdings &&
+          remittance == o.remittance &&
+          confirm_replaced == o.confirm_replaced
     end
 
     # @see the `==` method
@@ -313,7 +331,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [method, payment_date, reference, amount, currency, rate, rate_date, withholdings].hash
+      [method, payment_date, reference, amount, currency, rate, rate_date, withholdings, remittance, confirm_replaced].hash
     end
 
     # Builds the object from hash

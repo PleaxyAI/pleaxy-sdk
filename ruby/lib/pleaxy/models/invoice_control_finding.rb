@@ -19,6 +19,10 @@ module Pleaxy
 
     attr_accessor :message
 
+    attr_accessor :message_id
+
+    attr_accessor :params
+
     attr_accessor :invoice_line
 
     attr_accessor :po_line_no
@@ -58,6 +62,8 @@ module Pleaxy
       {
         :'code' => :'code',
         :'message' => :'message',
+        :'message_id' => :'messageId',
+        :'params' => :'params',
         :'invoice_line' => :'invoiceLine',
         :'po_line_no' => :'poLineNo',
         :'contract_id' => :'contractId',
@@ -77,6 +83,8 @@ module Pleaxy
       {
         :'code' => :'String',
         :'message' => :'String',
+        :'message_id' => :'String',
+        :'params' => :'Hash<String, ServerMessageParamsValue>',
         :'invoice_line' => :'Float',
         :'po_line_no' => :'Float',
         :'contract_id' => :'String',
@@ -113,6 +121,16 @@ module Pleaxy
 
       if attributes.key?(:'message')
         self.message = attributes[:'message']
+      end
+
+      if attributes.key?(:'message_id')
+        self.message_id = attributes[:'message_id']
+      end
+
+      if attributes.key?(:'params')
+        if (value = attributes[:'params']).is_a?(Hash)
+          self.params = value
+        end
       end
 
       if attributes.key?(:'invoice_line')
@@ -174,6 +192,8 @@ module Pleaxy
       self.class == o.class &&
           code == o.code &&
           message == o.message &&
+          message_id == o.message_id &&
+          params == o.params &&
           invoice_line == o.invoice_line &&
           po_line_no == o.po_line_no &&
           contract_id == o.contract_id &&
@@ -191,7 +211,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [code, message, invoice_line, po_line_no, contract_id, allowed, billed, contract_version].hash
+      [code, message, message_id, params, invoice_line, po_line_no, contract_id, allowed, billed, contract_version].hash
     end
 
     # Builds the object from hash

@@ -17,6 +17,10 @@ pub struct InvoiceControlFinding {
     pub code: Option<Code>,
     #[serde(rename = "message", skip_serializing_if = "Option::is_none")]
     pub message: Option<String>,
+    #[serde(rename = "messageId", skip_serializing_if = "Option::is_none")]
+    pub message_id: Option<String>,
+    #[serde(rename = "params", skip_serializing_if = "Option::is_none")]
+    pub params: Option<std::collections::HashMap<String, models::ServerMessageParamsValue>>,
     #[serde(rename = "invoiceLine", skip_serializing_if = "Option::is_none")]
     pub invoice_line: Option<f64>,
     #[serde(rename = "poLineNo", skip_serializing_if = "Option::is_none")]
@@ -36,6 +40,8 @@ impl InvoiceControlFinding {
         InvoiceControlFinding {
             code: None,
             message: None,
+            message_id: None,
+            params: None,
             invoice_line: None,
             po_line_no: None,
             contract_id: None,

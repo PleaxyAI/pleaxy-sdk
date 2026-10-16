@@ -64,12 +64,15 @@ def sync_detailed(
     body: RecordPaymentInput,
 ) -> Response[RecordPaymentResult]:
     """[Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method:
-    ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }. Pleaxy moves no money and doesn't
-    check the payment happened; the supplier is notified and gets a remittance advice marked as recorded
-    by the buyer. The date can't be later than today in the workspace's time zone or before the invoice
-    date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true;
-    different details are 409 PAYMENT_ALREADY_RECORDED. Human session only: an API key gets 403
-    HUMAN_SESSION_REQUIRED.
+    ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }, optionally with a remittance for
+    the supplier: { remittance: { note?, file?: { fileId, fileName } } } (see SendRemittance). Pleaxy
+    moves no money and doesn't check the payment happened; the supplier is notified and gets a
+    remittance advice marked as recorded by the buyer. The date can't be later than today in the
+    workspace's time zone or before the invoice date. An amount is refused (400). Repeating the same
+    details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED.
+    A replaced invoice its credit notes don't cover in full is 409 REPLACED_UNCREDITED until you send
+    confirmReplaced: true: paying it as well as its replacement pays twice. Human session only: an API
+    key gets 403 HUMAN_SESSION_REQUIRED.
 
     Args:
         invoice_id (str):
@@ -102,12 +105,15 @@ def sync(
     body: RecordPaymentInput,
 ) -> Optional[RecordPaymentResult]:
     """[Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method:
-    ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }. Pleaxy moves no money and doesn't
-    check the payment happened; the supplier is notified and gets a remittance advice marked as recorded
-    by the buyer. The date can't be later than today in the workspace's time zone or before the invoice
-    date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true;
-    different details are 409 PAYMENT_ALREADY_RECORDED. Human session only: an API key gets 403
-    HUMAN_SESSION_REQUIRED.
+    ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }, optionally with a remittance for
+    the supplier: { remittance: { note?, file?: { fileId, fileName } } } (see SendRemittance). Pleaxy
+    moves no money and doesn't check the payment happened; the supplier is notified and gets a
+    remittance advice marked as recorded by the buyer. The date can't be later than today in the
+    workspace's time zone or before the invoice date. An amount is refused (400). Repeating the same
+    details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED.
+    A replaced invoice its credit notes don't cover in full is 409 REPLACED_UNCREDITED until you send
+    confirmReplaced: true: paying it as well as its replacement pays twice. Human session only: an API
+    key gets 403 HUMAN_SESSION_REQUIRED.
 
     Args:
         invoice_id (str):
@@ -135,12 +141,15 @@ async def asyncio_detailed(
     body: RecordPaymentInput,
 ) -> Response[RecordPaymentResult]:
     """[Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method:
-    ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }. Pleaxy moves no money and doesn't
-    check the payment happened; the supplier is notified and gets a remittance advice marked as recorded
-    by the buyer. The date can't be later than today in the workspace's time zone or before the invoice
-    date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true;
-    different details are 409 PAYMENT_ALREADY_RECORDED. Human session only: an API key gets 403
-    HUMAN_SESSION_REQUIRED.
+    ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }, optionally with a remittance for
+    the supplier: { remittance: { note?, file?: { fileId, fileName } } } (see SendRemittance). Pleaxy
+    moves no money and doesn't check the payment happened; the supplier is notified and gets a
+    remittance advice marked as recorded by the buyer. The date can't be later than today in the
+    workspace's time zone or before the invoice date. An amount is refused (400). Repeating the same
+    details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED.
+    A replaced invoice its credit notes don't cover in full is 409 REPLACED_UNCREDITED until you send
+    confirmReplaced: true: paying it as well as its replacement pays twice. Human session only: an API
+    key gets 403 HUMAN_SESSION_REQUIRED.
 
     Args:
         invoice_id (str):
@@ -171,12 +180,15 @@ async def asyncio(
     body: RecordPaymentInput,
 ) -> Optional[RecordPaymentResult]:
     """[Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method:
-    ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }. Pleaxy moves no money and doesn't
-    check the payment happened; the supplier is notified and gets a remittance advice marked as recorded
-    by the buyer. The date can't be later than today in the workspace's time zone or before the invoice
-    date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true;
-    different details are 409 PAYMENT_ALREADY_RECORDED. Human session only: an API key gets 403
-    HUMAN_SESSION_REQUIRED.
+    ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }, optionally with a remittance for
+    the supplier: { remittance: { note?, file?: { fileId, fileName } } } (see SendRemittance). Pleaxy
+    moves no money and doesn't check the payment happened; the supplier is notified and gets a
+    remittance advice marked as recorded by the buyer. The date can't be later than today in the
+    workspace's time zone or before the invoice date. An amount is refused (400). Repeating the same
+    details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED.
+    A replaced invoice its credit notes don't cover in full is 409 REPLACED_UNCREDITED until you send
+    confirmReplaced: true: paying it as well as its replacement pays twice. Human session only: an API
+    key gets 403 HUMAN_SESSION_REQUIRED.
 
     Args:
         invoice_id (str):

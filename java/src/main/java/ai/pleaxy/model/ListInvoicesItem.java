@@ -19,24 +19,35 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.CreditNoteApplication;
+import ai.pleaxy.model.CreditNoteHistoryEntry;
 import ai.pleaxy.model.InvoiceAdjustment;
 import ai.pleaxy.model.InvoiceBaseCurrencyAmount;
 import ai.pleaxy.model.InvoiceBreakdownEntry;
-import ai.pleaxy.model.InvoiceBuyerView;
 import ai.pleaxy.model.InvoiceBuyerViewPartyDetails;
 import ai.pleaxy.model.InvoiceControlFinding;
+import ai.pleaxy.model.InvoiceCreditApplication;
 import ai.pleaxy.model.InvoiceCurrencyAmount;
+import ai.pleaxy.model.InvoiceDeduction;
 import ai.pleaxy.model.InvoiceLineItem;
 import ai.pleaxy.model.InvoiceRateWarning;
-import ai.pleaxy.model.InvoiceRejection;
+import ai.pleaxy.model.InvoiceReplacementCheck;
 import ai.pleaxy.model.InvoiceSourceDocument;
-import ai.pleaxy.model.InvoiceSupplierView;
 import ai.pleaxy.model.InvoiceSupplierViewPayment;
 import ai.pleaxy.model.LateFeeTerms;
+import ai.pleaxy.model.ListInvoicesItemBuyerCreditNote;
+import ai.pleaxy.model.ListInvoicesItemBuyerCreditNoteRejection;
+import ai.pleaxy.model.ListInvoicesItemBuyerInvoice;
+import ai.pleaxy.model.ListInvoicesItemSupplierCreditNote;
+import ai.pleaxy.model.ListInvoicesItemSupplierInvoice;
 import ai.pleaxy.model.PaymentHistoryEntry;
 import ai.pleaxy.model.RemittanceCheck;
 import ai.pleaxy.model.RemittanceInstructions;
 import ai.pleaxy.model.SupplierApprovalView;
+import ai.pleaxy.model.SupplierCreditNoteViewExportsInner;
+import ai.pleaxy.model.SupplierCreditNoteViewPoEffect;
+import ai.pleaxy.model.SupplierRemittanceView;
+import ai.pleaxy.model.UncreditedOriginal;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -103,9 +114,9 @@ public class ListInvoicesItem extends AbstractOpenApiSchema {
             JsonNode tree = jp.readValueAsTree();
 
             Object deserialized = null;
-            // deserialize InvoiceBuyerView
+            // deserialize ListInvoicesItemBuyerCreditNote
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(InvoiceBuyerView.class);
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(ListInvoicesItemBuyerCreditNote.class);
                 ListInvoicesItem ret = new ListInvoicesItem();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -114,9 +125,31 @@ public class ListInvoicesItem extends AbstractOpenApiSchema {
                 log.log(Level.FINER, "Input data does not match 'ListInvoicesItem'", e);
             }
 
-            // deserialize InvoiceSupplierView
+            // deserialize ListInvoicesItemBuyerInvoice
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(InvoiceSupplierView.class);
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(ListInvoicesItemBuyerInvoice.class);
+                ListInvoicesItem ret = new ListInvoicesItem();
+                ret.setActualInstance(deserialized);
+                return ret;
+            } catch (Exception e) {
+                // deserialization failed, continue, log to help debugging
+                log.log(Level.FINER, "Input data does not match 'ListInvoicesItem'", e);
+            }
+
+            // deserialize ListInvoicesItemSupplierCreditNote
+            try {
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(ListInvoicesItemSupplierCreditNote.class);
+                ListInvoicesItem ret = new ListInvoicesItem();
+                ret.setActualInstance(deserialized);
+                return ret;
+            } catch (Exception e) {
+                // deserialization failed, continue, log to help debugging
+                log.log(Level.FINER, "Input data does not match 'ListInvoicesItem'", e);
+            }
+
+            // deserialize ListInvoicesItemSupplierInvoice
+            try {
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(ListInvoicesItemSupplierInvoice.class);
                 ListInvoicesItem ret = new ListInvoicesItem();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -144,19 +177,31 @@ public class ListInvoicesItem extends AbstractOpenApiSchema {
         super("anyOf", Boolean.FALSE);
     }
 
-    public ListInvoicesItem(InvoiceBuyerView o) {
+    public ListInvoicesItem(ListInvoicesItemBuyerCreditNote o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
-    public ListInvoicesItem(InvoiceSupplierView o) {
+    public ListInvoicesItem(ListInvoicesItemBuyerInvoice o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
+    public ListInvoicesItem(ListInvoicesItemSupplierCreditNote o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
+    public ListInvoicesItem(ListInvoicesItemSupplierInvoice o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     static {
-        schemas.put("InvoiceBuyerView", InvoiceBuyerView.class);
-        schemas.put("InvoiceSupplierView", InvoiceSupplierView.class);
+        schemas.put("ListInvoicesItemBuyerCreditNote", ListInvoicesItemBuyerCreditNote.class);
+        schemas.put("ListInvoicesItemBuyerInvoice", ListInvoicesItemBuyerInvoice.class);
+        schemas.put("ListInvoicesItemSupplierCreditNote", ListInvoicesItemSupplierCreditNote.class);
+        schemas.put("ListInvoicesItemSupplierInvoice", ListInvoicesItemSupplierInvoice.class);
         JSON.registerDescendants(ListInvoicesItem.class, Collections.unmodifiableMap(schemas));
     }
 
@@ -168,31 +213,41 @@ public class ListInvoicesItem extends AbstractOpenApiSchema {
     /**
      * Set the instance that matches the anyOf child schema, check
      * the instance parameter is valid against the anyOf child schemas:
-     * InvoiceBuyerView, InvoiceSupplierView
+     * ListInvoicesItemBuyerCreditNote, ListInvoicesItemBuyerInvoice, ListInvoicesItemSupplierCreditNote, ListInvoicesItemSupplierInvoice
      *
      * It could be an instance of the 'anyOf' schemas.
      * The anyOf child schemas may themselves be a composed schema (allOf, anyOf, anyOf).
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(InvoiceBuyerView.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(ListInvoicesItemBuyerCreditNote.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(InvoiceSupplierView.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(ListInvoicesItemBuyerInvoice.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        throw new RuntimeException("Invalid instance type. Must be InvoiceBuyerView, InvoiceSupplierView");
+        if (JSON.isInstanceOf(ListInvoicesItemSupplierCreditNote.class, instance, new HashSet<Class<?>>())) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        if (JSON.isInstanceOf(ListInvoicesItemSupplierInvoice.class, instance, new HashSet<Class<?>>())) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        throw new RuntimeException("Invalid instance type. Must be ListInvoicesItemBuyerCreditNote, ListInvoicesItemBuyerInvoice, ListInvoicesItemSupplierCreditNote, ListInvoicesItemSupplierInvoice");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * InvoiceBuyerView, InvoiceSupplierView
+     * ListInvoicesItemBuyerCreditNote, ListInvoicesItemBuyerInvoice, ListInvoicesItemSupplierCreditNote, ListInvoicesItemSupplierInvoice
      *
-     * @return The actual instance (InvoiceBuyerView, InvoiceSupplierView)
+     * @return The actual instance (ListInvoicesItemBuyerCreditNote, ListInvoicesItemBuyerInvoice, ListInvoicesItemSupplierCreditNote, ListInvoicesItemSupplierInvoice)
      */
     @Override
     public Object getActualInstance() {
@@ -200,25 +255,47 @@ public class ListInvoicesItem extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `InvoiceBuyerView`. If the actual instance is not `InvoiceBuyerView`,
+     * Get the actual instance of `ListInvoicesItemBuyerCreditNote`. If the actual instance is not `ListInvoicesItemBuyerCreditNote`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `InvoiceBuyerView`
-     * @throws ClassCastException if the instance is not `InvoiceBuyerView`
+     * @return The actual instance of `ListInvoicesItemBuyerCreditNote`
+     * @throws ClassCastException if the instance is not `ListInvoicesItemBuyerCreditNote`
      */
-    public InvoiceBuyerView getInvoiceBuyerView() throws ClassCastException {
-        return (InvoiceBuyerView)super.getActualInstance();
+    public ListInvoicesItemBuyerCreditNote getListInvoicesItemBuyerCreditNote() throws ClassCastException {
+        return (ListInvoicesItemBuyerCreditNote)super.getActualInstance();
     }
 
     /**
-     * Get the actual instance of `InvoiceSupplierView`. If the actual instance is not `InvoiceSupplierView`,
+     * Get the actual instance of `ListInvoicesItemBuyerInvoice`. If the actual instance is not `ListInvoicesItemBuyerInvoice`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `InvoiceSupplierView`
-     * @throws ClassCastException if the instance is not `InvoiceSupplierView`
+     * @return The actual instance of `ListInvoicesItemBuyerInvoice`
+     * @throws ClassCastException if the instance is not `ListInvoicesItemBuyerInvoice`
      */
-    public InvoiceSupplierView getInvoiceSupplierView() throws ClassCastException {
-        return (InvoiceSupplierView)super.getActualInstance();
+    public ListInvoicesItemBuyerInvoice getListInvoicesItemBuyerInvoice() throws ClassCastException {
+        return (ListInvoicesItemBuyerInvoice)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `ListInvoicesItemSupplierCreditNote`. If the actual instance is not `ListInvoicesItemSupplierCreditNote`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `ListInvoicesItemSupplierCreditNote`
+     * @throws ClassCastException if the instance is not `ListInvoicesItemSupplierCreditNote`
+     */
+    public ListInvoicesItemSupplierCreditNote getListInvoicesItemSupplierCreditNote() throws ClassCastException {
+        return (ListInvoicesItemSupplierCreditNote)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `ListInvoicesItemSupplierInvoice`. If the actual instance is not `ListInvoicesItemSupplierInvoice`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `ListInvoicesItemSupplierInvoice`
+     * @throws ClassCastException if the instance is not `ListInvoicesItemSupplierInvoice`
+     */
+    public ListInvoicesItemSupplierInvoice getListInvoicesItemSupplierInvoice() throws ClassCastException {
+        return (ListInvoicesItemSupplierInvoice)super.getActualInstance();
     }
 
 

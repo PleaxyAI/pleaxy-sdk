@@ -29,12 +29,6 @@ module Pleaxy
     # Total charges on this line (freight, handling…), with no more decimal places than the buyer's currency allows (at most 2).
     attr_accessor :charge
 
-    # The purchase order line this line bills (its lineNo), when the invoice is against a PO. An invoice bills one PO line: lines naming different ones, or one naming a line while another sets billsNoPoLine, are refused (INVOICE_PO_LINE_MULTIPLE), and a line naming neither bills the one the others name. Lines are never matched by description. Against a one-line PO, a line without one bills that line. Against a multi-line PO, an invoice naming no line makes it a discrepancy a person must resolve. A lineNo the PO doesn't have is refused.
-    attr_accessor :po_line_no
-
-    # true when the invoice bills none of the PO's lines (an unordered extra, a one-off fee). It draws on the PO's balance only, and the invoice always needs a person's approval. Not with poLineNo, on this line or another. Shipping and handling usually belong in adjustments instead.
-    attr_accessor :bills_no_po_line
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -42,9 +36,7 @@ module Pleaxy
         :'qty' => :'qty',
         :'unit_price' => :'unitPrice',
         :'discount' => :'discount',
-        :'charge' => :'charge',
-        :'po_line_no' => :'poLineNo',
-        :'bills_no_po_line' => :'billsNoPoLine'
+        :'charge' => :'charge'
       }
     end
 
@@ -60,9 +52,7 @@ module Pleaxy
         :'qty' => :'Float',
         :'unit_price' => :'Float',
         :'discount' => :'Float',
-        :'charge' => :'Float',
-        :'po_line_no' => :'Float',
-        :'bills_no_po_line' => :'Boolean'
+        :'charge' => :'Float'
       }
     end
 
@@ -111,14 +101,6 @@ module Pleaxy
 
       if attributes.key?(:'charge')
         self.charge = attributes[:'charge']
-      end
-
-      if attributes.key?(:'po_line_no')
-        self.po_line_no = attributes[:'po_line_no']
-      end
-
-      if attributes.key?(:'bills_no_po_line')
-        self.bills_no_po_line = attributes[:'bills_no_po_line']
       end
     end
 
@@ -179,14 +161,6 @@ module Pleaxy
         invalid_properties.push('invalid value for "charge", must be greater than or equal to 0.')
       end
 
-      if !@po_line_no.nil? && @po_line_no > 100000
-        invalid_properties.push('invalid value for "po_line_no", must be smaller than or equal to 100000.')
-      end
-
-      if !@po_line_no.nil? && @po_line_no < 1
-        invalid_properties.push('invalid value for "po_line_no", must be greater than or equal to 1.')
-      end
-
       invalid_properties
     end
 
@@ -207,8 +181,6 @@ module Pleaxy
       return false if !@discount.nil? && @discount < 0
       return false if !@charge.nil? && @charge > 1000000000000000
       return false if !@charge.nil? && @charge < 0
-      return false if !@po_line_no.nil? && @po_line_no > 100000
-      return false if !@po_line_no.nil? && @po_line_no < 1
       true
     end
 
@@ -302,24 +274,6 @@ module Pleaxy
       @charge = charge
     end
 
-    # Custom attribute writer method with validation
-    # @param [Object] po_line_no Value to be assigned
-    def po_line_no=(po_line_no)
-      if po_line_no.nil?
-        fail ArgumentError, 'po_line_no cannot be nil'
-      end
-
-      if po_line_no > 100000
-        fail ArgumentError, 'invalid value for "po_line_no", must be smaller than or equal to 100000.'
-      end
-
-      if po_line_no < 1
-        fail ArgumentError, 'invalid value for "po_line_no", must be greater than or equal to 1.'
-      end
-
-      @po_line_no = po_line_no
-    end
-
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
@@ -329,9 +283,7 @@ module Pleaxy
           qty == o.qty &&
           unit_price == o.unit_price &&
           discount == o.discount &&
-          charge == o.charge &&
-          po_line_no == o.po_line_no &&
-          bills_no_po_line == o.bills_no_po_line
+          charge == o.charge
     end
 
     # @see the `==` method
@@ -343,7 +295,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [description, qty, unit_price, discount, charge, po_line_no, bills_no_po_line].hash
+      [description, qty, unit_price, discount, charge].hash
     end
 
     # Builds the object from hash

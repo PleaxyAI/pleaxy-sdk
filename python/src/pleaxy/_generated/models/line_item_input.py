@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -12,6 +12,10 @@ from ..models.line_item_input_scope_type import (
     check_line_item_input_scope_type,
 )
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.punchout_ref_input import PunchoutRefInput
+
 
 T = TypeVar("T", bound="LineItemInput")
 
@@ -27,18 +31,21 @@ class LineItemInput:
         unit_price (float):
         qty (float):
         nte_amount (float):
-        payment_terms (str):
         valid_from (str):
         valid_until (str):
         scope_id (Union[None, Unset, str]):
         currency (Union[Unset, str]): ISO 4217. Optional - the server writes the order's currency on every line. If
             sent, it must be the order's currency (any case); another currency is a 400, since Pleaxy doesn't convert
             currencies.
+        payment_terms (Union[Unset, str]): The line's payment terms, e.g. "Net 30". Optional: left out (or blank), the
+            line takes the default payment terms of the contract it was priced from or the order names (contractId), else
+            the catalog item's, else "Net 30".
         customer_line_no (Union[Unset, str]): The buyer's own number for this line (e.g. from their ERP), up to 40
             characters. Optional, like poNumber; stored and shown alongside the server's lineNo, never replacing it.
         quote_line_no (Union[Unset, float]): The line of the order's quote (quoteImportId) this line was filled from,
             when Pleaxy read the quote. Kept on the line; the app shows the line as priced from the supplier's quote unless
             a contract rate priced it.
+        punchout_ref (Union[Unset, PunchoutRefInput]):
     """
 
     scope_type: LineItemInputScopeType
@@ -48,13 +55,14 @@ class LineItemInput:
     unit_price: float
     qty: float
     nte_amount: float
-    payment_terms: str
     valid_from: str
     valid_until: str
     scope_id: Union[None, Unset, str] = UNSET
     currency: Union[Unset, str] = UNSET
+    payment_terms: Union[Unset, str] = UNSET
     customer_line_no: Union[Unset, str] = UNSET
     quote_line_no: Union[Unset, float] = UNSET
+    punchout_ref: Union[Unset, "PunchoutRefInput"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,8 +80,6 @@ class LineItemInput:
 
         nte_amount = self.nte_amount
 
-        payment_terms = self.payment_terms
-
         valid_from = self.valid_from
 
         valid_until = self.valid_until
@@ -86,9 +92,15 @@ class LineItemInput:
 
         currency = self.currency
 
+        payment_terms = self.payment_terms
+
         customer_line_no = self.customer_line_no
 
         quote_line_no = self.quote_line_no
+
+        punchout_ref: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.punchout_ref, Unset):
+            punchout_ref = self.punchout_ref.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -101,7 +113,6 @@ class LineItemInput:
                 "unitPrice": unit_price,
                 "qty": qty,
                 "nteAmount": nte_amount,
-                "paymentTerms": payment_terms,
                 "validFrom": valid_from,
                 "validUntil": valid_until,
             }
@@ -110,15 +121,21 @@ class LineItemInput:
             field_dict["scopeId"] = scope_id
         if currency is not UNSET:
             field_dict["currency"] = currency
+        if payment_terms is not UNSET:
+            field_dict["paymentTerms"] = payment_terms
         if customer_line_no is not UNSET:
             field_dict["customerLineNo"] = customer_line_no
         if quote_line_no is not UNSET:
             field_dict["quoteLineNo"] = quote_line_no
+        if punchout_ref is not UNSET:
+            field_dict["punchoutRef"] = punchout_ref
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.punchout_ref_input import PunchoutRefInput
+
         d = src_dict.copy()
         scope_type = check_line_item_input_scope_type(d.pop("scopeType"))
 
@@ -133,8 +150,6 @@ class LineItemInput:
         qty = d.pop("qty")
 
         nte_amount = d.pop("nteAmount")
-
-        payment_terms = d.pop("paymentTerms")
 
         valid_from = d.pop("validFrom")
 
@@ -151,9 +166,18 @@ class LineItemInput:
 
         currency = d.pop("currency", UNSET)
 
+        payment_terms = d.pop("paymentTerms", UNSET)
+
         customer_line_no = d.pop("customerLineNo", UNSET)
 
         quote_line_no = d.pop("quoteLineNo", UNSET)
+
+        _punchout_ref = d.pop("punchoutRef", UNSET)
+        punchout_ref: Union[Unset, PunchoutRefInput]
+        if isinstance(_punchout_ref, Unset):
+            punchout_ref = UNSET
+        else:
+            punchout_ref = PunchoutRefInput.from_dict(_punchout_ref)
 
         line_item_input = cls(
             scope_type=scope_type,
@@ -163,13 +187,14 @@ class LineItemInput:
             unit_price=unit_price,
             qty=qty,
             nte_amount=nte_amount,
-            payment_terms=payment_terms,
             valid_from=valid_from,
             valid_until=valid_until,
             scope_id=scope_id,
             currency=currency,
+            payment_terms=payment_terms,
             customer_line_no=customer_line_no,
             quote_line_no=quote_line_no,
+            punchout_ref=punchout_ref,
         )
 
         line_item_input.additional_properties = d

@@ -7,6 +7,9 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_feed_invoice_input import CreateFeedInvoiceInput
 from ...models.feed_validation_result import FeedValidationResult
+from ...models.validate_feed_invoice_result_credit_note import (
+    ValidateFeedInvoiceResultCreditNote,
+)
 from ...types import Response
 
 
@@ -35,9 +38,31 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[FeedValidationResult]:
+) -> Optional[Union["FeedValidationResult", "ValidateFeedInvoiceResultCreditNote"]]:
     if response.status_code == 200:
-        response_200 = FeedValidationResult.from_dict(response.json())
+
+        def _parse_response_200(
+            data: object,
+        ) -> Union["FeedValidationResult", "ValidateFeedInvoiceResultCreditNote"]:
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_validate_feed_invoice_result_type_0 = (
+                    ValidateFeedInvoiceResultCreditNote.from_dict(data)
+                )
+
+                return componentsschemas_validate_feed_invoice_result_type_0
+            except:  # noqa: E722
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            componentsschemas_validate_feed_invoice_result_type_1 = (
+                FeedValidationResult.from_dict(data)
+            )
+
+            return componentsschemas_validate_feed_invoice_result_type_1
+
+        response_200 = _parse_response_200(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -48,7 +73,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[FeedValidationResult]:
+) -> Response[Union["FeedValidationResult", "ValidateFeedInvoiceResultCreditNote"]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -62,7 +87,7 @@ def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     body: CreateFeedInvoiceInput,
-) -> Response[FeedValidationResult]:
+) -> Response[Union["FeedValidationResult", "ValidateFeedInvoiceResultCreditNote"]]:
     """[Supplier] Check an invoice document against one connected buyer exactly as SubmitFeedInvoice would,
     writing nothing: no invoice, no number reservation, no notification. Same key, scope, formats and
     refusals; the buyer's switch is reported (feedEnabled) instead of enforced; 200 test calls per
@@ -77,7 +102,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FeedValidationResult]
+        Response[Union['FeedValidationResult', 'ValidateFeedInvoiceResultCreditNote']]
     """
 
     kwargs = _get_kwargs(
@@ -97,7 +122,7 @@ def sync(
     *,
     client: Union[AuthenticatedClient, Client],
     body: CreateFeedInvoiceInput,
-) -> Optional[FeedValidationResult]:
+) -> Optional[Union["FeedValidationResult", "ValidateFeedInvoiceResultCreditNote"]]:
     """[Supplier] Check an invoice document against one connected buyer exactly as SubmitFeedInvoice would,
     writing nothing: no invoice, no number reservation, no notification. Same key, scope, formats and
     refusals; the buyer's switch is reported (feedEnabled) instead of enforced; 200 test calls per
@@ -112,7 +137,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FeedValidationResult
+        Union['FeedValidationResult', 'ValidateFeedInvoiceResultCreditNote']
     """
 
     return sync_detailed(
@@ -127,7 +152,7 @@ async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     body: CreateFeedInvoiceInput,
-) -> Response[FeedValidationResult]:
+) -> Response[Union["FeedValidationResult", "ValidateFeedInvoiceResultCreditNote"]]:
     """[Supplier] Check an invoice document against one connected buyer exactly as SubmitFeedInvoice would,
     writing nothing: no invoice, no number reservation, no notification. Same key, scope, formats and
     refusals; the buyer's switch is reported (feedEnabled) instead of enforced; 200 test calls per
@@ -142,7 +167,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FeedValidationResult]
+        Response[Union['FeedValidationResult', 'ValidateFeedInvoiceResultCreditNote']]
     """
 
     kwargs = _get_kwargs(
@@ -160,7 +185,7 @@ async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
     body: CreateFeedInvoiceInput,
-) -> Optional[FeedValidationResult]:
+) -> Optional[Union["FeedValidationResult", "ValidateFeedInvoiceResultCreditNote"]]:
     """[Supplier] Check an invoice document against one connected buyer exactly as SubmitFeedInvoice would,
     writing nothing: no invoice, no number reservation, no notification. Same key, scope, formats and
     refusals; the buyer's switch is reported (feedEnabled) instead of enforced; 200 test calls per
@@ -175,7 +200,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FeedValidationResult
+        Union['FeedValidationResult', 'ValidateFeedInvoiceResultCreditNote']
     """
 
     return (

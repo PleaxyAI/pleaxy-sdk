@@ -183,16 +183,20 @@ pub fn api_error<T>(err: &Error<T>) -> Option<ApiErrorBody> {
 impl Client {
     /// GETs or POSTs a file download (a payment export's CSV, a remittance advice PDF) and returns its bytes.
     /// The generated functions for these parse the body as JSON, so src/resources.rs calls this instead.
-    pub(crate) async fn download<T: serde::de::DeserializeOwned>(
+    pub(crate) async fn download<T: serde::de::DeserializeOwned, B: serde::Serialize>(
         &self,
         method: reqwest::Method,
         path: &str,
         query: &[(&str, Option<&str>)],
+        body: Option<&B>,
     ) -> Result<Vec<u8>, Error<T>> {
         let config = &self.config;
         let mut request = config
             .client
             .request(method, format!("{}{}", config.base_path, path));
+        if let Some(body) = body {
+            request = request.json(body);
+        }
         let query: Vec<(&str, &str)> = query
             .iter()
             .filter_map(|(k, v)| v.map(|v| (*k, v)))

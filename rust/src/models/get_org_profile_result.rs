@@ -34,6 +34,16 @@ pub struct GetOrgProfileResult {
         skip_serializing_if = "Option::is_none"
     )]
     pub billing_address_parts: Option<models::PostalAddress>,
+    #[serde(
+        rename = "billingAddressLegacyText",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub billing_address_legacy_text: Option<String>,
+    #[serde(
+        rename = "billingAddressNeedsReview",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub billing_address_needs_review: Option<bool>,
     #[serde(rename = "taxId", skip_serializing_if = "Option::is_none")]
     pub tax_id: Option<String>,
     #[serde(rename = "currency", skip_serializing_if = "Option::is_none")]
@@ -61,6 +71,10 @@ pub struct GetOrgProfileResult {
     pub created_at: Option<String>,
     #[serde(rename = "verified", skip_serializing_if = "Option::is_none")]
     pub verified: Option<bool>,
+    #[serde(rename = "listedInDirectory", skip_serializing_if = "Option::is_none")]
+    pub listed_in_directory: Option<bool>,
+    #[serde(rename = "directoryId", skip_serializing_if = "Option::is_none")]
+    pub directory_id: Option<String>,
 }
 
 impl GetOrgProfileResult {
@@ -75,6 +89,8 @@ impl GetOrgProfileResult {
             billing_email: None,
             billing_address: None,
             billing_address_parts: None,
+            billing_address_legacy_text: None,
+            billing_address_needs_review: None,
             tax_id: None,
             currency: None,
             other_currencies: None,
@@ -87,6 +103,8 @@ impl GetOrgProfileResult {
             primary_contact_email: None,
             created_at: None,
             verified: None,
+            listed_in_directory: None,
+            directory_id: None,
         }
     }
 }

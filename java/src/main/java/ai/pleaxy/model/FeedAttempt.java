@@ -19,12 +19,15 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.FeedAttemptParamsValue;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -40,8 +43,11 @@ import ai.pleaxy.client.ApiClient;
   FeedAttempt.JSON_PROPERTY_STATUS,
   FeedAttempt.JSON_PROPERTY_CODE,
   FeedAttempt.JSON_PROPERTY_MESSAGE,
+  FeedAttempt.JSON_PROPERTY_MESSAGE_ID,
+  FeedAttempt.JSON_PROPERTY_PARAMS,
   FeedAttempt.JSON_PROPERTY_INVOICE_NUMBER,
   FeedAttempt.JSON_PROPERTY_INVOICE_ID,
+  FeedAttempt.JSON_PROPERTY_CREDIT_NOTE_ID,
   FeedAttempt.JSON_PROPERTY_KEY_ID,
   FeedAttempt.JSON_PROPERTY_CURSOR
 })
@@ -186,6 +192,14 @@ public class FeedAttempt {
   @javax.annotation.Nullable
   private String message;
 
+  public static final String JSON_PROPERTY_MESSAGE_ID = "messageId";
+  @javax.annotation.Nullable
+  private String messageId;
+
+  public static final String JSON_PROPERTY_PARAMS = "params";
+  @javax.annotation.Nullable
+  private Map<String, FeedAttemptParamsValue> params = new HashMap<>();
+
   public static final String JSON_PROPERTY_INVOICE_NUMBER = "invoiceNumber";
   @javax.annotation.Nullable
   private String invoiceNumber;
@@ -193,6 +207,10 @@ public class FeedAttempt {
   public static final String JSON_PROPERTY_INVOICE_ID = "invoiceId";
   @javax.annotation.Nullable
   private String invoiceId;
+
+  public static final String JSON_PROPERTY_CREDIT_NOTE_ID = "creditNoteId";
+  @javax.annotation.Nullable
+  private String creditNoteId;
 
   public static final String JSON_PROPERTY_KEY_ID = "keyId";
   @javax.annotation.Nullable
@@ -373,6 +391,62 @@ public class FeedAttempt {
   }
 
 
+  public FeedAttempt messageId(@javax.annotation.Nullable String messageId) {
+    this.messageId = messageId;
+    return this;
+  }
+
+  /**
+   * Get messageId
+   * @return messageId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MESSAGE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getMessageId() {
+    return messageId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MESSAGE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMessageId(@javax.annotation.Nullable String messageId) {
+    this.messageId = messageId;
+  }
+
+
+  public FeedAttempt params(@javax.annotation.Nullable Map<String, FeedAttemptParamsValue> params) {
+    this.params = params;
+    return this;
+  }
+
+  public FeedAttempt putParamsItem(String key, FeedAttemptParamsValue paramsItem) {
+    if (this.params == null) {
+      this.params = new HashMap<>();
+    }
+    this.params.put(key, paramsItem);
+    return this;
+  }
+
+  /**
+   * Get params
+   * @return params
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PARAMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Map<String, FeedAttemptParamsValue> getParams() {
+    return params;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PARAMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setParams(@javax.annotation.Nullable Map<String, FeedAttemptParamsValue> params) {
+    this.params = params;
+  }
+
+
   public FeedAttempt invoiceNumber(@javax.annotation.Nullable String invoiceNumber) {
     this.invoiceNumber = invoiceNumber;
     return this;
@@ -418,6 +492,30 @@ public class FeedAttempt {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setInvoiceId(@javax.annotation.Nullable String invoiceId) {
     this.invoiceId = invoiceId;
+  }
+
+
+  public FeedAttempt creditNoteId(@javax.annotation.Nullable String creditNoteId) {
+    this.creditNoteId = creditNoteId;
+    return this;
+  }
+
+  /**
+   * Get creditNoteId
+   * @return creditNoteId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CREDIT_NOTE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getCreditNoteId() {
+    return creditNoteId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREDIT_NOTE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCreditNoteId(@javax.annotation.Nullable String creditNoteId) {
+    this.creditNoteId = creditNoteId;
   }
 
 
@@ -488,15 +586,18 @@ public class FeedAttempt {
         Objects.equals(this.status, feedAttempt.status) &&
         Objects.equals(this.code, feedAttempt.code) &&
         Objects.equals(this.message, feedAttempt.message) &&
+        Objects.equals(this.messageId, feedAttempt.messageId) &&
+        Objects.equals(this.params, feedAttempt.params) &&
         Objects.equals(this.invoiceNumber, feedAttempt.invoiceNumber) &&
         Objects.equals(this.invoiceId, feedAttempt.invoiceId) &&
+        Objects.equals(this.creditNoteId, feedAttempt.creditNoteId) &&
         Objects.equals(this.keyId, feedAttempt.keyId) &&
         Objects.equals(this.cursor, feedAttempt.cursor);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(at, mode, format, outcome, status, code, message, invoiceNumber, invoiceId, keyId, cursor);
+    return Objects.hash(at, mode, format, outcome, status, code, message, messageId, params, invoiceNumber, invoiceId, creditNoteId, keyId, cursor);
   }
 
   @Override
@@ -510,8 +611,11 @@ public class FeedAttempt {
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("    messageId: ").append(toIndentedString(messageId)).append("\n");
+    sb.append("    params: ").append(toIndentedString(params)).append("\n");
     sb.append("    invoiceNumber: ").append(toIndentedString(invoiceNumber)).append("\n");
     sb.append("    invoiceId: ").append(toIndentedString(invoiceId)).append("\n");
+    sb.append("    creditNoteId: ").append(toIndentedString(creditNoteId)).append("\n");
     sb.append("    keyId: ").append(toIndentedString(keyId)).append("\n");
     sb.append("    cursor: ").append(toIndentedString(cursor)).append("\n");
     sb.append("}");
@@ -596,6 +700,21 @@ public class FeedAttempt {
       joiner.add(String.format("%smessage%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMessage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `messageId` to the URL query string
+    if (getMessageId() != null) {
+      joiner.add(String.format("%smessageId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMessageId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `params` to the URL query string
+    if (getParams() != null) {
+      for (String _key : getParams().keySet()) {
+        if (getParams().get(_key) != null) {
+          joiner.add(getParams().get(_key).toUrlQueryString(String.format("%sparams%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix))));
+        }
+      }
+    }
+
     // add `invoiceNumber` to the URL query string
     if (getInvoiceNumber() != null) {
       joiner.add(String.format("%sinvoiceNumber%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInvoiceNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -604,6 +723,11 @@ public class FeedAttempt {
     // add `invoiceId` to the URL query string
     if (getInvoiceId() != null) {
       joiner.add(String.format("%sinvoiceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInvoiceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `creditNoteId` to the URL query string
+    if (getCreditNoteId() != null) {
+      joiner.add(String.format("%screditNoteId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreditNoteId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `keyId` to the URL query string

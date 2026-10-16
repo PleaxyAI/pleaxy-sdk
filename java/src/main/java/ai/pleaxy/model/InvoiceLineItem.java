@@ -38,9 +38,7 @@ import ai.pleaxy.client.ApiClient;
   InvoiceLineItem.JSON_PROPERTY_UNIT_PRICE,
   InvoiceLineItem.JSON_PROPERTY_AMOUNT,
   InvoiceLineItem.JSON_PROPERTY_DISCOUNT,
-  InvoiceLineItem.JSON_PROPERTY_CHARGE,
-  InvoiceLineItem.JSON_PROPERTY_PO_LINE_NO,
-  InvoiceLineItem.JSON_PROPERTY_BILLS_NO_PO_LINE
+  InvoiceLineItem.JSON_PROPERTY_CHARGE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class InvoiceLineItem {
@@ -67,14 +65,6 @@ public class InvoiceLineItem {
   public static final String JSON_PROPERTY_CHARGE = "charge";
   @javax.annotation.Nullable
   private Double charge;
-
-  public static final String JSON_PROPERTY_PO_LINE_NO = "poLineNo";
-  @javax.annotation.Nullable
-  private Double poLineNo;
-
-  public static final String JSON_PROPERTY_BILLS_NO_PO_LINE = "billsNoPoLine";
-  @javax.annotation.Nullable
-  private Boolean billsNoPoLine;
 
   public InvoiceLineItem() { 
   }
@@ -223,54 +213,6 @@ public class InvoiceLineItem {
   }
 
 
-  public InvoiceLineItem poLineNo(@javax.annotation.Nullable Double poLineNo) {
-    this.poLineNo = poLineNo;
-    return this;
-  }
-
-  /**
-   * Get poLineNo
-   * @return poLineNo
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PO_LINE_NO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public Double getPoLineNo() {
-    return poLineNo;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_PO_LINE_NO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPoLineNo(@javax.annotation.Nullable Double poLineNo) {
-    this.poLineNo = poLineNo;
-  }
-
-
-  public InvoiceLineItem billsNoPoLine(@javax.annotation.Nullable Boolean billsNoPoLine) {
-    this.billsNoPoLine = billsNoPoLine;
-    return this;
-  }
-
-  /**
-   * Get billsNoPoLine
-   * @return billsNoPoLine
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BILLS_NO_PO_LINE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public Boolean getBillsNoPoLine() {
-    return billsNoPoLine;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_BILLS_NO_PO_LINE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBillsNoPoLine(@javax.annotation.Nullable Boolean billsNoPoLine) {
-    this.billsNoPoLine = billsNoPoLine;
-  }
-
-
   /**
    * Return true if this InvoiceLineItem object is equal to o.
    */
@@ -288,14 +230,12 @@ public class InvoiceLineItem {
         Objects.equals(this.unitPrice, invoiceLineItem.unitPrice) &&
         Objects.equals(this.amount, invoiceLineItem.amount) &&
         Objects.equals(this.discount, invoiceLineItem.discount) &&
-        Objects.equals(this.charge, invoiceLineItem.charge) &&
-        Objects.equals(this.poLineNo, invoiceLineItem.poLineNo) &&
-        Objects.equals(this.billsNoPoLine, invoiceLineItem.billsNoPoLine);
+        Objects.equals(this.charge, invoiceLineItem.charge);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(description, qty, unitPrice, amount, discount, charge, poLineNo, billsNoPoLine);
+    return Objects.hash(description, qty, unitPrice, amount, discount, charge);
   }
 
   @Override
@@ -308,8 +248,6 @@ public class InvoiceLineItem {
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    discount: ").append(toIndentedString(discount)).append("\n");
     sb.append("    charge: ").append(toIndentedString(charge)).append("\n");
-    sb.append("    poLineNo: ").append(toIndentedString(poLineNo)).append("\n");
-    sb.append("    billsNoPoLine: ").append(toIndentedString(billsNoPoLine)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -385,16 +323,6 @@ public class InvoiceLineItem {
     // add `charge` to the URL query string
     if (getCharge() != null) {
       joiner.add(String.format("%scharge%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCharge()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `poLineNo` to the URL query string
-    if (getPoLineNo() != null) {
-      joiner.add(String.format("%spoLineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPoLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `billsNoPoLine` to the URL query string
-    if (getBillsNoPoLine() != null) {
-      joiner.add(String.format("%sbillsNoPoLine%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBillsNoPoLine()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

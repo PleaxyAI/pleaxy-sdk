@@ -22,6 +22,7 @@ if TYPE_CHECKING:
     from ..models.billing_summary_available_plans_item import (
         BillingSummaryAvailablePlansItem,
     )
+    from ..models.price_amount import PriceAmount
 
 
 T = TypeVar("T", bound="BillingSummary")
@@ -43,7 +44,9 @@ class BillingSummary:
         interval (Union[Unset, BillingSummaryInterval]):
         available_plans (Union[Unset, List['BillingSummaryAvailablePlansItem']]):
         current_price_label (Union[Unset, str]):
+        current_price (Union[Unset, PriceAmount]):
         current_total_label (Union[Unset, str]):
+        current_total (Union[Unset, PriceAmount]):
     """
 
     billing_enabled: Union[Unset, bool] = UNSET
@@ -58,7 +61,9 @@ class BillingSummary:
     interval: Union[Unset, BillingSummaryInterval] = UNSET
     available_plans: Union[Unset, List["BillingSummaryAvailablePlansItem"]] = UNSET
     current_price_label: Union[Unset, str] = UNSET
+    current_price: Union[Unset, "PriceAmount"] = UNSET
     current_total_label: Union[Unset, str] = UNSET
+    current_total: Union[Unset, "PriceAmount"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -99,7 +104,15 @@ class BillingSummary:
 
         current_price_label = self.current_price_label
 
+        current_price: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.current_price, Unset):
+            current_price = self.current_price.to_dict()
+
         current_total_label = self.current_total_label
+
+        current_total: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.current_total, Unset):
+            current_total = self.current_total.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -128,8 +141,12 @@ class BillingSummary:
             field_dict["availablePlans"] = available_plans
         if current_price_label is not UNSET:
             field_dict["currentPriceLabel"] = current_price_label
+        if current_price is not UNSET:
+            field_dict["currentPrice"] = current_price
         if current_total_label is not UNSET:
             field_dict["currentTotalLabel"] = current_total_label
+        if current_total is not UNSET:
+            field_dict["currentTotal"] = current_total
 
         return field_dict
 
@@ -138,6 +155,7 @@ class BillingSummary:
         from ..models.billing_summary_available_plans_item import (
             BillingSummaryAvailablePlansItem,
         )
+        from ..models.price_amount import PriceAmount
 
         d = src_dict.copy()
         billing_enabled = d.pop("billingEnabled", UNSET)
@@ -193,7 +211,21 @@ class BillingSummary:
 
         current_price_label = d.pop("currentPriceLabel", UNSET)
 
+        _current_price = d.pop("currentPrice", UNSET)
+        current_price: Union[Unset, PriceAmount]
+        if isinstance(_current_price, Unset):
+            current_price = UNSET
+        else:
+            current_price = PriceAmount.from_dict(_current_price)
+
         current_total_label = d.pop("currentTotalLabel", UNSET)
+
+        _current_total = d.pop("currentTotal", UNSET)
+        current_total: Union[Unset, PriceAmount]
+        if isinstance(_current_total, Unset):
+            current_total = UNSET
+        else:
+            current_total = PriceAmount.from_dict(_current_total)
 
         billing_summary = cls(
             billing_enabled=billing_enabled,
@@ -208,7 +240,9 @@ class BillingSummary:
             interval=interval,
             available_plans=available_plans,
             current_price_label=current_price_label,
+            current_price=current_price,
             current_total_label=current_total_label,
+            current_total=current_total,
         )
 
         billing_summary.additional_properties = d

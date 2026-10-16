@@ -22,9 +22,16 @@ import java.util.HashMap;
 import ai.pleaxy.model.ApprovalChain;
 import ai.pleaxy.model.LineItem;
 import ai.pleaxy.model.PayerAccountRef;
+import ai.pleaxy.model.PurchaseOrderBillTo;
 import ai.pleaxy.model.PurchaseOrderChangeSummary;
+import ai.pleaxy.model.PurchaseOrderCostCenterChange;
+import ai.pleaxy.model.PurchaseOrderPriorInvoiced;
+import ai.pleaxy.model.PurchaseOrderPunchout;
 import ai.pleaxy.model.PurchaseOrderQuoteDocument;
+import ai.pleaxy.model.PurchaseOrderShipTo;
+import ai.pleaxy.model.PurchaseOrderSupplierEmail;
 import ai.pleaxy.model.PurchaseOrderSupplierInvite;
+import ai.pleaxy.model.StoreOrder;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -51,13 +58,16 @@ import ai.pleaxy.client.ApiClient;
   PurchaseOrder.JSON_PROPERTY_INVOICE_ID,
   PurchaseOrder.JSON_PROPERTY_INVOICE_IDS,
   PurchaseOrder.JSON_PROPERTY_INVOICED_AMOUNT,
+  PurchaseOrder.JSON_PROPERTY_PRIOR_INVOICED,
   PurchaseOrder.JSON_PROPERTY_REJECTED_INVOICE_COUNT,
   PurchaseOrder.JSON_PROPERTY_LAST_REJECTED_INVOICE_ID,
   PurchaseOrder.JSON_PROPERTY_LAST_REPLACED_INVOICE_ID,
   PurchaseOrder.JSON_PROPERTY_PROVIDER,
   PurchaseOrder.JSON_PROPERTY_PAYER_ACCOUNTS,
   PurchaseOrder.JSON_PROPERTY_BILL_TO,
+  PurchaseOrder.JSON_PROPERTY_BILL_TO_PARTY,
   PurchaseOrder.JSON_PROPERTY_COST_CENTER,
+  PurchaseOrder.JSON_PROPERTY_COST_CENTER_CHANGES,
   PurchaseOrder.JSON_PROPERTY_BUDGET_OWNER,
   PurchaseOrder.JSON_PROPERTY_BUYER_NAME,
   PurchaseOrder.JSON_PROPERTY_BUYER_ORG_NAME,
@@ -69,6 +79,7 @@ import ai.pleaxy.client.ApiClient;
   PurchaseOrder.JSON_PROPERTY_SUPPLIER_CONNECTION_ID,
   PurchaseOrder.JSON_PROPERTY_NOTES,
   PurchaseOrder.JSON_PROPERTY_CONTRACT_ID,
+  PurchaseOrder.JSON_PROPERTY_SUPPLIER_EMAIL,
   PurchaseOrder.JSON_PROPERTY_QUOTE_DOCUMENT,
   PurchaseOrder.JSON_PROPERTY_LINE_ITEMS,
   PurchaseOrder.JSON_PROPERTY_APPROVAL,
@@ -79,6 +90,12 @@ import ai.pleaxy.client.ApiClient;
   PurchaseOrder.JSON_PROPERTY_UPDATED_AT,
   PurchaseOrder.JSON_PROPERTY_VERSION,
   PurchaseOrder.JSON_PROPERTY_LAST_CHANGE,
+  PurchaseOrder.JSON_PROPERTY_APPROVAL_AMOUNT,
+  PurchaseOrder.JSON_PROPERTY_PUNCHOUT,
+  PurchaseOrder.JSON_PROPERTY_STORE_ID,
+  PurchaseOrder.JSON_PROPERTY_DELIVERY_ADDRESS_ID,
+  PurchaseOrder.JSON_PROPERTY_SHIP_TO,
+  PurchaseOrder.JSON_PROPERTY_STORE_ORDER,
   PurchaseOrder.JSON_PROPERTY_CREATED_AT
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -172,6 +189,10 @@ public class PurchaseOrder {
   @javax.annotation.Nullable
   private Double invoicedAmount;
 
+  public static final String JSON_PROPERTY_PRIOR_INVOICED = "priorInvoiced";
+  @javax.annotation.Nullable
+  private PurchaseOrderPriorInvoiced priorInvoiced;
+
   public static final String JSON_PROPERTY_REJECTED_INVOICE_COUNT = "rejectedInvoiceCount";
   @javax.annotation.Nullable
   private Double rejectedInvoiceCount;
@@ -235,9 +256,17 @@ public class PurchaseOrder {
   @javax.annotation.Nullable
   private String billTo;
 
+  public static final String JSON_PROPERTY_BILL_TO_PARTY = "billToParty";
+  @javax.annotation.Nullable
+  private PurchaseOrderBillTo billToParty;
+
   public static final String JSON_PROPERTY_COST_CENTER = "costCenter";
   @javax.annotation.Nullable
   private String costCenter;
+
+  public static final String JSON_PROPERTY_COST_CENTER_CHANGES = "costCenterChanges";
+  @javax.annotation.Nullable
+  private List<PurchaseOrderCostCenterChange> costCenterChanges = new ArrayList<>();
 
   public static final String JSON_PROPERTY_BUDGET_OWNER = "budgetOwner";
   @javax.annotation.Nullable
@@ -283,6 +312,10 @@ public class PurchaseOrder {
   @javax.annotation.Nullable
   private String contractId;
 
+  public static final String JSON_PROPERTY_SUPPLIER_EMAIL = "supplierEmail";
+  @javax.annotation.Nullable
+  private PurchaseOrderSupplierEmail supplierEmail;
+
   public static final String JSON_PROPERTY_QUOTE_DOCUMENT = "quoteDocument";
   @javax.annotation.Nullable
   private PurchaseOrderQuoteDocument quoteDocument;
@@ -322,6 +355,30 @@ public class PurchaseOrder {
   public static final String JSON_PROPERTY_LAST_CHANGE = "lastChange";
   @javax.annotation.Nullable
   private PurchaseOrderChangeSummary lastChange;
+
+  public static final String JSON_PROPERTY_APPROVAL_AMOUNT = "approvalAmount";
+  @javax.annotation.Nullable
+  private Double approvalAmount;
+
+  public static final String JSON_PROPERTY_PUNCHOUT = "punchout";
+  @javax.annotation.Nullable
+  private PurchaseOrderPunchout punchout;
+
+  public static final String JSON_PROPERTY_STORE_ID = "storeId";
+  @javax.annotation.Nullable
+  private String storeId;
+
+  public static final String JSON_PROPERTY_DELIVERY_ADDRESS_ID = "deliveryAddressId";
+  @javax.annotation.Nullable
+  private String deliveryAddressId;
+
+  public static final String JSON_PROPERTY_SHIP_TO = "shipTo";
+  @javax.annotation.Nullable
+  private PurchaseOrderShipTo shipTo;
+
+  public static final String JSON_PROPERTY_STORE_ORDER = "storeOrder";
+  @javax.annotation.Nullable
+  private StoreOrder storeOrder;
 
   public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nullable
@@ -578,6 +635,30 @@ public class PurchaseOrder {
   }
 
 
+  public PurchaseOrder priorInvoiced(@javax.annotation.Nullable PurchaseOrderPriorInvoiced priorInvoiced) {
+    this.priorInvoiced = priorInvoiced;
+    return this;
+  }
+
+  /**
+   * Get priorInvoiced
+   * @return priorInvoiced
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PRIOR_INVOICED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PurchaseOrderPriorInvoiced getPriorInvoiced() {
+    return priorInvoiced;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PRIOR_INVOICED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPriorInvoiced(@javax.annotation.Nullable PurchaseOrderPriorInvoiced priorInvoiced) {
+    this.priorInvoiced = priorInvoiced;
+  }
+
+
   public PurchaseOrder rejectedInvoiceCount(@javax.annotation.Nullable Double rejectedInvoiceCount) {
     this.rejectedInvoiceCount = rejectedInvoiceCount;
     return this;
@@ -730,6 +811,30 @@ public class PurchaseOrder {
   }
 
 
+  public PurchaseOrder billToParty(@javax.annotation.Nullable PurchaseOrderBillTo billToParty) {
+    this.billToParty = billToParty;
+    return this;
+  }
+
+  /**
+   * Get billToParty
+   * @return billToParty
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BILL_TO_PARTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PurchaseOrderBillTo getBillToParty() {
+    return billToParty;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BILL_TO_PARTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBillToParty(@javax.annotation.Nullable PurchaseOrderBillTo billToParty) {
+    this.billToParty = billToParty;
+  }
+
+
   public PurchaseOrder costCenter(@javax.annotation.Nullable String costCenter) {
     this.costCenter = costCenter;
     return this;
@@ -751,6 +856,38 @@ public class PurchaseOrder {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCostCenter(@javax.annotation.Nullable String costCenter) {
     this.costCenter = costCenter;
+  }
+
+
+  public PurchaseOrder costCenterChanges(@javax.annotation.Nullable List<PurchaseOrderCostCenterChange> costCenterChanges) {
+    this.costCenterChanges = costCenterChanges;
+    return this;
+  }
+
+  public PurchaseOrder addCostCenterChangesItem(PurchaseOrderCostCenterChange costCenterChangesItem) {
+    if (this.costCenterChanges == null) {
+      this.costCenterChanges = new ArrayList<>();
+    }
+    this.costCenterChanges.add(costCenterChangesItem);
+    return this;
+  }
+
+  /**
+   * Get costCenterChanges
+   * @return costCenterChanges
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COST_CENTER_CHANGES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<PurchaseOrderCostCenterChange> getCostCenterChanges() {
+    return costCenterChanges;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COST_CENTER_CHANGES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCostCenterChanges(@javax.annotation.Nullable List<PurchaseOrderCostCenterChange> costCenterChanges) {
+    this.costCenterChanges = costCenterChanges;
   }
 
 
@@ -1018,6 +1155,30 @@ public class PurchaseOrder {
   }
 
 
+  public PurchaseOrder supplierEmail(@javax.annotation.Nullable PurchaseOrderSupplierEmail supplierEmail) {
+    this.supplierEmail = supplierEmail;
+    return this;
+  }
+
+  /**
+   * Get supplierEmail
+   * @return supplierEmail
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_EMAIL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PurchaseOrderSupplierEmail getSupplierEmail() {
+    return supplierEmail;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_EMAIL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSupplierEmail(@javax.annotation.Nullable PurchaseOrderSupplierEmail supplierEmail) {
+    this.supplierEmail = supplierEmail;
+  }
+
+
   public PurchaseOrder quoteDocument(@javax.annotation.Nullable PurchaseOrderQuoteDocument quoteDocument) {
     this.quoteDocument = quoteDocument;
     return this;
@@ -1266,6 +1427,150 @@ public class PurchaseOrder {
   }
 
 
+  public PurchaseOrder approvalAmount(@javax.annotation.Nullable Double approvalAmount) {
+    this.approvalAmount = approvalAmount;
+    return this;
+  }
+
+  /**
+   * Get approvalAmount
+   * @return approvalAmount
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_APPROVAL_AMOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getApprovalAmount() {
+    return approvalAmount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_APPROVAL_AMOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setApprovalAmount(@javax.annotation.Nullable Double approvalAmount) {
+    this.approvalAmount = approvalAmount;
+  }
+
+
+  public PurchaseOrder punchout(@javax.annotation.Nullable PurchaseOrderPunchout punchout) {
+    this.punchout = punchout;
+    return this;
+  }
+
+  /**
+   * Get punchout
+   * @return punchout
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PUNCHOUT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PurchaseOrderPunchout getPunchout() {
+    return punchout;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PUNCHOUT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPunchout(@javax.annotation.Nullable PurchaseOrderPunchout punchout) {
+    this.punchout = punchout;
+  }
+
+
+  public PurchaseOrder storeId(@javax.annotation.Nullable String storeId) {
+    this.storeId = storeId;
+    return this;
+  }
+
+  /**
+   * Get storeId
+   * @return storeId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_STORE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getStoreId() {
+    return storeId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_STORE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setStoreId(@javax.annotation.Nullable String storeId) {
+    this.storeId = storeId;
+  }
+
+
+  public PurchaseOrder deliveryAddressId(@javax.annotation.Nullable String deliveryAddressId) {
+    this.deliveryAddressId = deliveryAddressId;
+    return this;
+  }
+
+  /**
+   * Get deliveryAddressId
+   * @return deliveryAddressId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DELIVERY_ADDRESS_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getDeliveryAddressId() {
+    return deliveryAddressId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DELIVERY_ADDRESS_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDeliveryAddressId(@javax.annotation.Nullable String deliveryAddressId) {
+    this.deliveryAddressId = deliveryAddressId;
+  }
+
+
+  public PurchaseOrder shipTo(@javax.annotation.Nullable PurchaseOrderShipTo shipTo) {
+    this.shipTo = shipTo;
+    return this;
+  }
+
+  /**
+   * Get shipTo
+   * @return shipTo
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SHIP_TO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PurchaseOrderShipTo getShipTo() {
+    return shipTo;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SHIP_TO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setShipTo(@javax.annotation.Nullable PurchaseOrderShipTo shipTo) {
+    this.shipTo = shipTo;
+  }
+
+
+  public PurchaseOrder storeOrder(@javax.annotation.Nullable StoreOrder storeOrder) {
+    this.storeOrder = storeOrder;
+    return this;
+  }
+
+  /**
+   * Get storeOrder
+   * @return storeOrder
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_STORE_ORDER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public StoreOrder getStoreOrder() {
+    return storeOrder;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_STORE_ORDER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setStoreOrder(@javax.annotation.Nullable StoreOrder storeOrder) {
+    this.storeOrder = storeOrder;
+  }
+
+
   public PurchaseOrder createdAt(@javax.annotation.Nullable String createdAt) {
     this.createdAt = createdAt;
     return this;
@@ -1312,13 +1617,16 @@ public class PurchaseOrder {
         Objects.equals(this.invoiceId, purchaseOrder.invoiceId) &&
         Objects.equals(this.invoiceIds, purchaseOrder.invoiceIds) &&
         Objects.equals(this.invoicedAmount, purchaseOrder.invoicedAmount) &&
+        Objects.equals(this.priorInvoiced, purchaseOrder.priorInvoiced) &&
         Objects.equals(this.rejectedInvoiceCount, purchaseOrder.rejectedInvoiceCount) &&
         Objects.equals(this.lastRejectedInvoiceId, purchaseOrder.lastRejectedInvoiceId) &&
         Objects.equals(this.lastReplacedInvoiceId, purchaseOrder.lastReplacedInvoiceId) &&
         Objects.equals(this.provider, purchaseOrder.provider) &&
         Objects.equals(this.payerAccounts, purchaseOrder.payerAccounts) &&
         Objects.equals(this.billTo, purchaseOrder.billTo) &&
+        Objects.equals(this.billToParty, purchaseOrder.billToParty) &&
         Objects.equals(this.costCenter, purchaseOrder.costCenter) &&
+        Objects.equals(this.costCenterChanges, purchaseOrder.costCenterChanges) &&
         Objects.equals(this.budgetOwner, purchaseOrder.budgetOwner) &&
         Objects.equals(this.buyerName, purchaseOrder.buyerName) &&
         Objects.equals(this.buyerOrgName, purchaseOrder.buyerOrgName) &&
@@ -1330,6 +1638,7 @@ public class PurchaseOrder {
         Objects.equals(this.supplierConnectionId, purchaseOrder.supplierConnectionId) &&
         Objects.equals(this.notes, purchaseOrder.notes) &&
         Objects.equals(this.contractId, purchaseOrder.contractId) &&
+        Objects.equals(this.supplierEmail, purchaseOrder.supplierEmail) &&
         Objects.equals(this.quoteDocument, purchaseOrder.quoteDocument) &&
         Objects.equals(this.lineItems, purchaseOrder.lineItems) &&
         Objects.equals(this.approval, purchaseOrder.approval) &&
@@ -1340,12 +1649,18 @@ public class PurchaseOrder {
         Objects.equals(this.updatedAt, purchaseOrder.updatedAt) &&
         Objects.equals(this.version, purchaseOrder.version) &&
         Objects.equals(this.lastChange, purchaseOrder.lastChange) &&
+        Objects.equals(this.approvalAmount, purchaseOrder.approvalAmount) &&
+        Objects.equals(this.punchout, purchaseOrder.punchout) &&
+        Objects.equals(this.storeId, purchaseOrder.storeId) &&
+        Objects.equals(this.deliveryAddressId, purchaseOrder.deliveryAddressId) &&
+        Objects.equals(this.shipTo, purchaseOrder.shipTo) &&
+        Objects.equals(this.storeOrder, purchaseOrder.storeOrder) &&
         Objects.equals(this.createdAt, purchaseOrder.createdAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, buyerOrgId, supplierOrgId, supplier, amount, currency, status, invoiceId, invoiceIds, invoicedAmount, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, provider, payerAccounts, billTo, costCenter, budgetOwner, buyerName, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, supplierContactEmail, supplierInvite, supplierConnectionId, notes, contractId, quoteDocument, lineItems, approval, approvalVersion, everSpendLimitGated, spendLimitGatedAt, updatedBy, updatedAt, version, lastChange, createdAt);
+    return Objects.hash(id, buyerOrgId, supplierOrgId, supplier, amount, currency, status, invoiceId, invoiceIds, invoicedAmount, priorInvoiced, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, provider, payerAccounts, billTo, billToParty, costCenter, costCenterChanges, budgetOwner, buyerName, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, supplierContactEmail, supplierInvite, supplierConnectionId, notes, contractId, supplierEmail, quoteDocument, lineItems, approval, approvalVersion, everSpendLimitGated, spendLimitGatedAt, updatedBy, updatedAt, version, lastChange, approvalAmount, punchout, storeId, deliveryAddressId, shipTo, storeOrder, createdAt);
   }
 
   @Override
@@ -1362,13 +1677,16 @@ public class PurchaseOrder {
     sb.append("    invoiceId: ").append(toIndentedString(invoiceId)).append("\n");
     sb.append("    invoiceIds: ").append(toIndentedString(invoiceIds)).append("\n");
     sb.append("    invoicedAmount: ").append(toIndentedString(invoicedAmount)).append("\n");
+    sb.append("    priorInvoiced: ").append(toIndentedString(priorInvoiced)).append("\n");
     sb.append("    rejectedInvoiceCount: ").append(toIndentedString(rejectedInvoiceCount)).append("\n");
     sb.append("    lastRejectedInvoiceId: ").append(toIndentedString(lastRejectedInvoiceId)).append("\n");
     sb.append("    lastReplacedInvoiceId: ").append(toIndentedString(lastReplacedInvoiceId)).append("\n");
     sb.append("    provider: ").append(toIndentedString(provider)).append("\n");
     sb.append("    payerAccounts: ").append(toIndentedString(payerAccounts)).append("\n");
     sb.append("    billTo: ").append(toIndentedString(billTo)).append("\n");
+    sb.append("    billToParty: ").append(toIndentedString(billToParty)).append("\n");
     sb.append("    costCenter: ").append(toIndentedString(costCenter)).append("\n");
+    sb.append("    costCenterChanges: ").append(toIndentedString(costCenterChanges)).append("\n");
     sb.append("    budgetOwner: ").append(toIndentedString(budgetOwner)).append("\n");
     sb.append("    buyerName: ").append(toIndentedString(buyerName)).append("\n");
     sb.append("    buyerOrgName: ").append(toIndentedString(buyerOrgName)).append("\n");
@@ -1380,6 +1698,7 @@ public class PurchaseOrder {
     sb.append("    supplierConnectionId: ").append(toIndentedString(supplierConnectionId)).append("\n");
     sb.append("    notes: ").append(toIndentedString(notes)).append("\n");
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
+    sb.append("    supplierEmail: ").append(toIndentedString(supplierEmail)).append("\n");
     sb.append("    quoteDocument: ").append(toIndentedString(quoteDocument)).append("\n");
     sb.append("    lineItems: ").append(toIndentedString(lineItems)).append("\n");
     sb.append("    approval: ").append(toIndentedString(approval)).append("\n");
@@ -1390,6 +1709,12 @@ public class PurchaseOrder {
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    version: ").append(toIndentedString(version)).append("\n");
     sb.append("    lastChange: ").append(toIndentedString(lastChange)).append("\n");
+    sb.append("    approvalAmount: ").append(toIndentedString(approvalAmount)).append("\n");
+    sb.append("    punchout: ").append(toIndentedString(punchout)).append("\n");
+    sb.append("    storeId: ").append(toIndentedString(storeId)).append("\n");
+    sb.append("    deliveryAddressId: ").append(toIndentedString(deliveryAddressId)).append("\n");
+    sb.append("    shipTo: ").append(toIndentedString(shipTo)).append("\n");
+    sb.append("    storeOrder: ").append(toIndentedString(storeOrder)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -1492,6 +1817,11 @@ public class PurchaseOrder {
       joiner.add(String.format("%sinvoicedAmount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInvoicedAmount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `priorInvoiced` to the URL query string
+    if (getPriorInvoiced() != null) {
+      joiner.add(getPriorInvoiced().toUrlQueryString(prefix + "priorInvoiced" + suffix));
+    }
+
     // add `rejectedInvoiceCount` to the URL query string
     if (getRejectedInvoiceCount() != null) {
       joiner.add(String.format("%srejectedInvoiceCount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRejectedInvoiceCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -1527,9 +1857,24 @@ public class PurchaseOrder {
       joiner.add(String.format("%sbillTo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBillTo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `billToParty` to the URL query string
+    if (getBillToParty() != null) {
+      joiner.add(getBillToParty().toUrlQueryString(prefix + "billToParty" + suffix));
+    }
+
     // add `costCenter` to the URL query string
     if (getCostCenter() != null) {
       joiner.add(String.format("%scostCenter%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCostCenter()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `costCenterChanges` to the URL query string
+    if (getCostCenterChanges() != null) {
+      for (int i = 0; i < getCostCenterChanges().size(); i++) {
+        if (getCostCenterChanges().get(i) != null) {
+          joiner.add(getCostCenterChanges().get(i).toUrlQueryString(String.format("%scostCenterChanges%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
     }
 
     // add `budgetOwner` to the URL query string
@@ -1587,6 +1932,11 @@ public class PurchaseOrder {
       joiner.add(String.format("%scontractId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getContractId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `supplierEmail` to the URL query string
+    if (getSupplierEmail() != null) {
+      joiner.add(getSupplierEmail().toUrlQueryString(prefix + "supplierEmail" + suffix));
+    }
+
     // add `quoteDocument` to the URL query string
     if (getQuoteDocument() != null) {
       joiner.add(getQuoteDocument().toUrlQueryString(prefix + "quoteDocument" + suffix));
@@ -1640,6 +1990,36 @@ public class PurchaseOrder {
     // add `lastChange` to the URL query string
     if (getLastChange() != null) {
       joiner.add(getLastChange().toUrlQueryString(prefix + "lastChange" + suffix));
+    }
+
+    // add `approvalAmount` to the URL query string
+    if (getApprovalAmount() != null) {
+      joiner.add(String.format("%sapprovalAmount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getApprovalAmount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `punchout` to the URL query string
+    if (getPunchout() != null) {
+      joiner.add(getPunchout().toUrlQueryString(prefix + "punchout" + suffix));
+    }
+
+    // add `storeId` to the URL query string
+    if (getStoreId() != null) {
+      joiner.add(String.format("%sstoreId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStoreId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `deliveryAddressId` to the URL query string
+    if (getDeliveryAddressId() != null) {
+      joiner.add(String.format("%sdeliveryAddressId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDeliveryAddressId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `shipTo` to the URL query string
+    if (getShipTo() != null) {
+      joiner.add(getShipTo().toUrlQueryString(prefix + "shipTo" + suffix));
+    }
+
+    // add `storeOrder` to the URL query string
+    if (getStoreOrder() != null) {
+      joiner.add(getStoreOrder().toUrlQueryString(prefix + "storeOrder" + suffix));
     }
 
     // add `createdAt` to the URL query string

@@ -364,6 +364,22 @@ impl<'a> ExchangeRates<'a> {
 pub struct Invoices<'a>(&'a Client);
 
 impl<'a> Invoices<'a> {
+    pub async fn add_invoice_replacement_links(
+        &self,
+        invoice_id: &str,
+        add_replacement_links_input: crate::models::AddReplacementLinksInput,
+    ) -> Result<
+        crate::models::AddInvoiceReplacementLinksResult,
+        crate::apis::Error<crate::apis::invoices_api::AddInvoiceReplacementLinksError>,
+    > {
+        crate::apis::invoices_api::add_invoice_replacement_links(
+            &self.0.config,
+            invoice_id,
+            add_replacement_links_input,
+        )
+        .await
+    }
+
     pub async fn approve_invoice(
         &self,
         invoice_id: &str,
@@ -386,10 +402,16 @@ impl<'a> Invoices<'a> {
 
     pub async fn export_invoices_for_payment(
         &self,
+        payment_export_input: Option<crate::models::PaymentExportInput>,
     ) -> Result<Vec<u8>, crate::apis::Error<crate::apis::invoices_api::ExportInvoicesForPaymentError>>
     {
         self.0
-            .download(reqwest::Method::POST, &"/invoices/payment-export", &[])
+            .download(
+                reqwest::Method::POST,
+                &"/invoices/payment-export",
+                &[],
+                payment_export_input.as_ref(),
+            )
             .await
     }
 
@@ -414,6 +436,7 @@ impl<'a> Invoices<'a> {
                 &"/invoices/payment-exports/{exportId}"
                     .replace("{exportId}", &crate::apis::urlencode(export_id)),
                 &[],
+                None::<&()>,
             )
             .await
     }
@@ -430,6 +453,7 @@ impl<'a> Invoices<'a> {
                 &"/invoices/{invoiceId}/remittance-advice"
                     .replace("{invoiceId}", &crate::apis::urlencode(invoice_id)),
                 &[("buyer", buyer)],
+                None::<&()>,
             )
             .await
     }
@@ -458,11 +482,12 @@ impl<'a> Invoices<'a> {
         &self,
         from: Option<&str>,
         to: Option<&str>,
+        document_type: Option<&str>,
     ) -> Result<
         Vec<crate::models::ListInvoicesItem>,
         crate::apis::Error<crate::apis::invoices_api::ListInvoicesError>,
     > {
-        crate::apis::invoices_api::list_invoices(&self.0.config, from, to).await
+        crate::apis::invoices_api::list_invoices(&self.0.config, from, to, document_type).await
     }
 
     pub async fn reassign_invoice_approval_stage(
@@ -516,6 +541,22 @@ impl<'a> Invoices<'a> {
         crate::apis::invoices_api::remind_invoice(&self.0.config, invoice_id, buyer).await
     }
 
+    pub async fn remove_invoice_replacement_link(
+        &self,
+        invoice_id: &str,
+        original_id: &str,
+    ) -> Result<
+        crate::models::RemoveInvoiceReplacementLinkResult,
+        crate::apis::Error<crate::apis::invoices_api::RemoveInvoiceReplacementLinkError>,
+    > {
+        crate::apis::invoices_api::remove_invoice_replacement_link(
+            &self.0.config,
+            invoice_id,
+            original_id,
+        )
+        .await
+    }
+
     pub async fn resolve_invoice_discrepancy(
         &self,
         invoice_id: &str,
@@ -539,11 +580,17 @@ impl<'a> Invoices<'a> {
     pub async fn start_stripe_payment(
         &self,
         invoice_id: &str,
+        confirm_replaced: Option<&str>,
     ) -> Result<
         crate::models::StartStripePaymentResult,
         crate::apis::Error<crate::apis::invoices_api::StartStripePaymentError>,
     > {
-        crate::apis::invoices_api::start_stripe_payment(&self.0.config, invoice_id).await
+        crate::apis::invoices_api::start_stripe_payment(
+            &self.0.config,
+            invoice_id,
+            confirm_replaced,
+        )
+        .await
     }
 
     pub async fn submit_feed_invoice(
@@ -551,7 +598,7 @@ impl<'a> Invoices<'a> {
         connection_id: &str,
         create_feed_invoice_input: crate::models::CreateFeedInvoiceInput,
     ) -> Result<
-        crate::models::InvoiceSupplierView,
+        crate::models::SubmitFeedInvoiceResult,
         crate::apis::Error<crate::apis::invoices_api::SubmitFeedInvoiceError>,
     > {
         crate::apis::invoices_api::submit_feed_invoice(
@@ -567,7 +614,7 @@ impl<'a> Invoices<'a> {
         connection_id: &str,
         create_feed_invoice_input: crate::models::CreateFeedInvoiceInput,
     ) -> Result<
-        crate::models::FeedValidationResult,
+        crate::models::ValidateFeedInvoiceResult,
         crate::apis::Error<crate::apis::invoices_api::ValidateFeedInvoiceError>,
     > {
         crate::apis::invoices_api::validate_feed_invoice(

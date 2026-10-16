@@ -49,6 +49,8 @@ module Pleaxy
 
     attr_accessor :bill_to
 
+    attr_accessor :bill_to_party
+
     attr_accessor :buyer_org_name
 
     attr_accessor :buyer_region_name
@@ -59,11 +61,23 @@ module Pleaxy
 
     attr_accessor :contract_id
 
+    attr_accessor :supplier_email
+
     attr_accessor :line_items
 
     attr_accessor :version
 
+    attr_accessor :store_id
+
+    attr_accessor :delivery_address_id
+
+    attr_accessor :ship_to
+
+    attr_accessor :store_order
+
     attr_accessor :approval
+
+    attr_accessor :prior_invoiced
 
     attr_accessor :quote_document
 
@@ -111,14 +125,21 @@ module Pleaxy
         :'last_replaced_invoice_id' => :'lastReplacedInvoiceId',
         :'payer_accounts' => :'payerAccounts',
         :'bill_to' => :'billTo',
+        :'bill_to_party' => :'billToParty',
         :'buyer_org_name' => :'buyerOrgName',
         :'buyer_region_name' => :'buyerRegionName',
         :'supplier_region_name' => :'supplierRegionName',
         :'supplier_site' => :'supplierSite',
         :'contract_id' => :'contractId',
+        :'supplier_email' => :'supplierEmail',
         :'line_items' => :'lineItems',
         :'version' => :'version',
+        :'store_id' => :'storeId',
+        :'delivery_address_id' => :'deliveryAddressId',
+        :'ship_to' => :'shipTo',
+        :'store_order' => :'storeOrder',
         :'approval' => :'approval',
+        :'prior_invoiced' => :'priorInvoiced',
         :'quote_document' => :'quoteDocument',
         :'buyer_workspace_id' => :'buyerWorkspaceId'
       }
@@ -149,14 +170,21 @@ module Pleaxy
         :'last_replaced_invoice_id' => :'String',
         :'payer_accounts' => :'Array<PayerAccountRef>',
         :'bill_to' => :'String',
+        :'bill_to_party' => :'PurchaseOrderBillTo',
         :'buyer_org_name' => :'String',
         :'buyer_region_name' => :'String',
         :'supplier_region_name' => :'String',
         :'supplier_site' => :'String',
         :'contract_id' => :'String',
+        :'supplier_email' => :'PurchaseOrderSupplierEmail',
         :'line_items' => :'Array<LineItem>',
         :'version' => :'Float',
+        :'store_id' => :'String',
+        :'delivery_address_id' => :'String',
+        :'ship_to' => :'PurchaseOrderShipTo',
+        :'store_order' => :'StoreOrder',
         :'approval' => :'SupplierApprovalView',
+        :'prior_invoiced' => :'PurchaseOrderSupplierViewPriorInvoiced',
         :'quote_document' => :'PurchaseOrderSupplierViewQuoteDocument',
         :'buyer_workspace_id' => :'String'
       }
@@ -257,6 +285,10 @@ module Pleaxy
         self.bill_to = attributes[:'bill_to']
       end
 
+      if attributes.key?(:'bill_to_party')
+        self.bill_to_party = attributes[:'bill_to_party']
+      end
+
       if attributes.key?(:'buyer_org_name')
         self.buyer_org_name = attributes[:'buyer_org_name']
       end
@@ -277,6 +309,10 @@ module Pleaxy
         self.contract_id = attributes[:'contract_id']
       end
 
+      if attributes.key?(:'supplier_email')
+        self.supplier_email = attributes[:'supplier_email']
+      end
+
       if attributes.key?(:'line_items')
         if (value = attributes[:'line_items']).is_a?(Array)
           self.line_items = value
@@ -287,8 +323,28 @@ module Pleaxy
         self.version = attributes[:'version']
       end
 
+      if attributes.key?(:'store_id')
+        self.store_id = attributes[:'store_id']
+      end
+
+      if attributes.key?(:'delivery_address_id')
+        self.delivery_address_id = attributes[:'delivery_address_id']
+      end
+
+      if attributes.key?(:'ship_to')
+        self.ship_to = attributes[:'ship_to']
+      end
+
+      if attributes.key?(:'store_order')
+        self.store_order = attributes[:'store_order']
+      end
+
       if attributes.key?(:'approval')
         self.approval = attributes[:'approval']
+      end
+
+      if attributes.key?(:'prior_invoiced')
+        self.prior_invoiced = attributes[:'prior_invoiced']
       end
 
       if attributes.key?(:'quote_document')
@@ -366,14 +422,21 @@ module Pleaxy
           last_replaced_invoice_id == o.last_replaced_invoice_id &&
           payer_accounts == o.payer_accounts &&
           bill_to == o.bill_to &&
+          bill_to_party == o.bill_to_party &&
           buyer_org_name == o.buyer_org_name &&
           buyer_region_name == o.buyer_region_name &&
           supplier_region_name == o.supplier_region_name &&
           supplier_site == o.supplier_site &&
           contract_id == o.contract_id &&
+          supplier_email == o.supplier_email &&
           line_items == o.line_items &&
           version == o.version &&
+          store_id == o.store_id &&
+          delivery_address_id == o.delivery_address_id &&
+          ship_to == o.ship_to &&
+          store_order == o.store_order &&
           approval == o.approval &&
+          prior_invoiced == o.prior_invoiced &&
           quote_document == o.quote_document &&
           buyer_workspace_id == o.buyer_workspace_id
     end
@@ -387,7 +450,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier, provider, id, buyer_org_id, supplier_org_id, status, created_at, amount, currency, invoice_id, invoice_ids, invoiced_amount, rejected_invoice_count, last_rejected_invoice_id, last_replaced_invoice_id, payer_accounts, bill_to, buyer_org_name, buyer_region_name, supplier_region_name, supplier_site, contract_id, line_items, version, approval, quote_document, buyer_workspace_id].hash
+      [supplier, provider, id, buyer_org_id, supplier_org_id, status, created_at, amount, currency, invoice_id, invoice_ids, invoiced_amount, rejected_invoice_count, last_rejected_invoice_id, last_replaced_invoice_id, payer_accounts, bill_to, bill_to_party, buyer_org_name, buyer_region_name, supplier_region_name, supplier_site, contract_id, supplier_email, line_items, version, store_id, delivery_address_id, ship_to, store_order, approval, prior_invoiced, quote_document, buyer_workspace_id].hash
     end
 
     # Builds the object from hash

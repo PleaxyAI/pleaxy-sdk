@@ -27,10 +27,6 @@ module Pleaxy
 
     attr_accessor :charge
 
-    attr_accessor :po_line_no
-
-    attr_accessor :bills_no_po_line
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -39,9 +35,7 @@ module Pleaxy
         :'unit_price' => :'unitPrice',
         :'amount' => :'amount',
         :'discount' => :'discount',
-        :'charge' => :'charge',
-        :'po_line_no' => :'poLineNo',
-        :'bills_no_po_line' => :'billsNoPoLine'
+        :'charge' => :'charge'
       }
     end
 
@@ -58,9 +52,7 @@ module Pleaxy
         :'unit_price' => :'Float',
         :'amount' => :'Float',
         :'discount' => :'Float',
-        :'charge' => :'Float',
-        :'po_line_no' => :'Float',
-        :'bills_no_po_line' => :'Boolean'
+        :'charge' => :'Float'
       }
     end
 
@@ -108,14 +100,6 @@ module Pleaxy
       if attributes.key?(:'charge')
         self.charge = attributes[:'charge']
       end
-
-      if attributes.key?(:'po_line_no')
-        self.po_line_no = attributes[:'po_line_no']
-      end
-
-      if attributes.key?(:'bills_no_po_line')
-        self.bills_no_po_line = attributes[:'bills_no_po_line']
-      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -143,9 +127,7 @@ module Pleaxy
           unit_price == o.unit_price &&
           amount == o.amount &&
           discount == o.discount &&
-          charge == o.charge &&
-          po_line_no == o.po_line_no &&
-          bills_no_po_line == o.bills_no_po_line
+          charge == o.charge
     end
 
     # @see the `==` method
@@ -157,7 +139,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [description, qty, unit_price, amount, discount, charge, po_line_no, bills_no_po_line].hash
+      [description, qty, unit_price, amount, discount, charge].hash
     end
 
     # Builds the object from hash

@@ -47,6 +47,8 @@ pub struct UpdateOrgProfileInput {
     pub countries: Option<Vec<String>>,
     #[serde(rename = "timeZone", skip_serializing_if = "Option::is_none")]
     pub time_zone: Option<String>,
+    #[serde(rename = "listedInDirectory", skip_serializing_if = "Option::is_none")]
+    pub listed_in_directory: Option<bool>,
     #[serde(
         rename = "geographyPresetId",
         default,
@@ -72,6 +74,7 @@ impl UpdateOrgProfileInput {
             primary_contact_email: None,
             countries: None,
             time_zone: None,
+            listed_in_directory: None,
             geography_preset_id: None,
         }
     }

@@ -34,6 +34,7 @@ module Pleaxy
     # ISO 4217. Optional - the server writes the order's currency on every line. If sent, it must be the order's currency (any case); another currency is a 400, since Pleaxy doesn't convert currencies.
     attr_accessor :currency
 
+    # The line's payment terms, e.g. \"Net 30\". Optional: left out (or blank), the line takes the default payment terms of the contract it was priced from or the order names (contractId), else the catalog item's, else \"Net 30\".
     attr_accessor :payment_terms
 
     attr_accessor :valid_from
@@ -45,6 +46,9 @@ module Pleaxy
 
     # The line of the order's quote (quoteImportId) this line was filled from, when Pleaxy read the quote. Kept on the line; the app shows the line as priced from the supplier's quote unless a contract rate priced it.
     attr_accessor :quote_line_no
+
+    # The online-store cart line this line came from (store punchout spec D4). The server reads that cart's evidence and sets what the line is - its name, unit and part numbers - from it; only qty and unitPrice are yours.
+    attr_accessor :punchout_ref
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -84,7 +88,8 @@ module Pleaxy
         :'valid_from' => :'validFrom',
         :'valid_until' => :'validUntil',
         :'customer_line_no' => :'customerLineNo',
-        :'quote_line_no' => :'quoteLineNo'
+        :'quote_line_no' => :'quoteLineNo',
+        :'punchout_ref' => :'punchoutRef'
       }
     end
 
@@ -109,7 +114,8 @@ module Pleaxy
         :'valid_from' => :'String',
         :'valid_until' => :'String',
         :'customer_line_no' => :'String',
-        :'quote_line_no' => :'Float'
+        :'quote_line_no' => :'Float',
+        :'punchout_ref' => :'PunchoutRefInput'
       }
     end
 
@@ -187,8 +193,6 @@ module Pleaxy
 
       if attributes.key?(:'payment_terms')
         self.payment_terms = attributes[:'payment_terms']
-      else
-        self.payment_terms = nil
       end
 
       if attributes.key?(:'valid_from')
@@ -209,6 +213,10 @@ module Pleaxy
 
       if attributes.key?(:'quote_line_no')
         self.quote_line_no = attributes[:'quote_line_no']
+      end
+
+      if attributes.key?(:'punchout_ref')
+        self.punchout_ref = attributes[:'punchout_ref']
       end
     end
 
@@ -257,8 +265,8 @@ module Pleaxy
         invalid_properties.push('invalid value for "nte_amount", must be greater than or equal to 0.')
       end
 
-      if @payment_terms.nil?
-        invalid_properties.push('invalid value for "payment_terms", payment_terms cannot be nil.')
+      if !@payment_terms.nil? && @payment_terms.to_s.length > 40
+        invalid_properties.push('invalid value for "payment_terms", the character length must be smaller than or equal to 40.')
       end
 
       if @valid_from.nil?
@@ -303,7 +311,7 @@ module Pleaxy
       return false if @qty < 0
       return false if @nte_amount.nil?
       return false if @nte_amount < 0
-      return false if @payment_terms.nil?
+      return false if !@payment_terms.nil? && @payment_terms.to_s.length > 40
       return false if @valid_from.nil?
       return false if @valid_until.nil?
       return false if !@customer_line_no.nil? && @customer_line_no !~ Regexp.new(/^[A-Za-z0-9._\-\/ ]{1,40}$/)
@@ -375,6 +383,20 @@ module Pleaxy
     end
 
     # Custom attribute writer method with validation
+    # @param [Object] payment_terms Value to be assigned
+    def payment_terms=(payment_terms)
+      if payment_terms.nil?
+        fail ArgumentError, 'payment_terms cannot be nil'
+      end
+
+      if payment_terms.to_s.length > 40
+        fail ArgumentError, 'invalid value for "payment_terms", the character length must be smaller than or equal to 40.'
+      end
+
+      @payment_terms = payment_terms
+    end
+
+    # Custom attribute writer method with validation
     # @param [Object] customer_line_no Value to be assigned
     def customer_line_no=(customer_line_no)
       if customer_line_no.nil?
@@ -425,7 +447,8 @@ module Pleaxy
           valid_from == o.valid_from &&
           valid_until == o.valid_until &&
           customer_line_no == o.customer_line_no &&
-          quote_line_no == o.quote_line_no
+          quote_line_no == o.quote_line_no &&
+          punchout_ref == o.punchout_ref
     end
 
     # @see the `==` method
@@ -437,7 +460,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [scope_type, scope_id, name, rule_type, unit, unit_price, qty, nte_amount, currency, payment_terms, valid_from, valid_until, customer_line_no, quote_line_no].hash
+      [scope_type, scope_id, name, rule_type, unit, unit_price, qty, nte_amount, currency, payment_terms, valid_from, valid_until, customer_line_no, quote_line_no, punchout_ref].hash
     end
 
     # Builds the object from hash

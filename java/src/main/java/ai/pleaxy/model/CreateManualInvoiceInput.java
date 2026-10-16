@@ -23,6 +23,7 @@ import ai.pleaxy.model.BreakdownEntryInput;
 import ai.pleaxy.model.CreateManualInvoiceLineItemInput;
 import ai.pleaxy.model.CurrencyAmountInput;
 import ai.pleaxy.model.InvoiceAdjustmentInput;
+import ai.pleaxy.model.InvoiceDeductionInput;
 import ai.pleaxy.model.RemittanceInstructionsInput;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -41,16 +42,25 @@ import ai.pleaxy.client.ApiClient;
  */
 @JsonPropertyOrder({
   CreateManualInvoiceInput.JSON_PROPERTY_CONNECTION_ID,
+  CreateManualInvoiceInput.JSON_PROPERTY_DOCUMENT_TYPE,
+  CreateManualInvoiceInput.JSON_PROPERTY_AMENDS_INVOICE_ID,
+  CreateManualInvoiceInput.JSON_PROPERTY_AMENDS_INVOICE_NUMBER,
+  CreateManualInvoiceInput.JSON_PROPERTY_REPLACES_INVOICE_IDS,
+  CreateManualInvoiceInput.JSON_PROPERTY_REPLACES_INVOICE_NUMBERS,
   CreateManualInvoiceInput.JSON_PROPERTY_PO_ID,
   CreateManualInvoiceInput.JSON_PROPERTY_INVOICE_NUMBER,
   CreateManualInvoiceInput.JSON_PROPERTY_INVOICE_DATE,
   CreateManualInvoiceInput.JSON_PROPERTY_DUE_IN_DAYS,
   CreateManualInvoiceInput.JSON_PROPERTY_LINE_ITEMS,
+  CreateManualInvoiceInput.JSON_PROPERTY_PO_LINE_NO,
+  CreateManualInvoiceInput.JSON_PROPERTY_BILLS_NO_PO_LINE,
   CreateManualInvoiceInput.JSON_PROPERTY_ADJUSTMENTS,
   CreateManualInvoiceInput.JSON_PROPERTY_SOURCE_IMPORT_ID,
   CreateManualInvoiceInput.JSON_PROPERTY_TAX_AMOUNT,
   CreateManualInvoiceInput.JSON_PROPERTY_TAX_BREAKDOWN,
   CreateManualInvoiceInput.JSON_PROPERTY_WITHHOLDINGS,
+  CreateManualInvoiceInput.JSON_PROPERTY_INVOICE_KIND,
+  CreateManualInvoiceInput.JSON_PROPERTY_DEDUCTIONS,
   CreateManualInvoiceInput.JSON_PROPERTY_PAYMENT_CURRENCY_AMOUNT,
   CreateManualInvoiceInput.JSON_PROPERTY_TAX_CURRENCY_AMOUNT,
   CreateManualInvoiceInput.JSON_PROPERTY_CURRENCY,
@@ -60,8 +70,63 @@ import ai.pleaxy.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class CreateManualInvoiceInput {
   public static final String JSON_PROPERTY_CONNECTION_ID = "connectionId";
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private String connectionId;
+
+  /**
+   * \&quot;debit_note\&quot; for an amendment that raises what an invoice asked for (credit notes spec §18): it names the invoice it amends and takes its buyer, supplier, currency and PO. \&quot;invoice\&quot; or absent: an invoice.
+   */
+  public enum DocumentTypeEnum {
+    INVOICE(String.valueOf("invoice")),
+    
+    DEBIT_NOTE(String.valueOf("debit_note"));
+
+    private String value;
+
+    DocumentTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static DocumentTypeEnum fromValue(String value) {
+      for (DocumentTypeEnum b : DocumentTypeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_DOCUMENT_TYPE = "documentType";
+  @javax.annotation.Nullable
+  private DocumentTypeEnum documentType;
+
+  public static final String JSON_PROPERTY_AMENDS_INVOICE_ID = "amendsInvoiceId";
+  @javax.annotation.Nullable
+  private String amendsInvoiceId;
+
+  public static final String JSON_PROPERTY_AMENDS_INVOICE_NUMBER = "amendsInvoiceNumber";
+  @javax.annotation.Nullable
+  private String amendsInvoiceNumber;
+
+  public static final String JSON_PROPERTY_REPLACES_INVOICE_IDS = "replacesInvoiceIds";
+  @javax.annotation.Nullable
+  private List<String> replacesInvoiceIds = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_REPLACES_INVOICE_NUMBERS = "replacesInvoiceNumbers";
+  @javax.annotation.Nullable
+  private List<String> replacesInvoiceNumbers = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PO_ID = "poId";
   @javax.annotation.Nullable
@@ -83,6 +148,14 @@ public class CreateManualInvoiceInput {
   @javax.annotation.Nonnull
   private List<CreateManualInvoiceLineItemInput> lineItems = new ArrayList<>();
 
+  public static final String JSON_PROPERTY_PO_LINE_NO = "poLineNo";
+  @javax.annotation.Nullable
+  private Double poLineNo;
+
+  public static final String JSON_PROPERTY_BILLS_NO_PO_LINE = "billsNoPoLine";
+  @javax.annotation.Nullable
+  private Boolean billsNoPoLine;
+
   public static final String JSON_PROPERTY_ADJUSTMENTS = "adjustments";
   @javax.annotation.Nullable
   private List<InvoiceAdjustmentInput> adjustments = new ArrayList<>();
@@ -102,6 +175,47 @@ public class CreateManualInvoiceInput {
   public static final String JSON_PROPERTY_WITHHOLDINGS = "withholdings";
   @javax.annotation.Nullable
   private List<BreakdownEntryInput> withholdings = new ArrayList<>();
+
+  /**
+   * \&quot;prepayment\&quot; for an invoice that bills a deposit (UBL InvoiceTypeCode 386). Its payment can later be deducted from the final invoice.
+   */
+  public enum InvoiceKindEnum {
+    PREPAYMENT(String.valueOf("prepayment"));
+
+    private String value;
+
+    InvoiceKindEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static InvoiceKindEnum fromValue(String value) {
+      for (InvoiceKindEnum b : InvoiceKindEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_INVOICE_KIND = "invoiceKind";
+  @javax.annotation.Nullable
+  private InvoiceKindEnum invoiceKind;
+
+  public static final String JSON_PROPERTY_DEDUCTIONS = "deductions";
+  @javax.annotation.Nullable
+  private List<InvoiceDeductionInput> deductions = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PAYMENT_CURRENCY_AMOUNT = "paymentCurrencyAmount";
   @javax.annotation.Nullable
@@ -126,27 +240,163 @@ public class CreateManualInvoiceInput {
   public CreateManualInvoiceInput() { 
   }
 
-  public CreateManualInvoiceInput connectionId(@javax.annotation.Nonnull String connectionId) {
+  public CreateManualInvoiceInput connectionId(@javax.annotation.Nullable String connectionId) {
     this.connectionId = connectionId;
     return this;
   }
 
   /**
-   * The SupplierConnection to invoice - see GET .../invoices/counterparties
+   * The SupplierConnection to invoice - see GET .../invoices/counterparties. A debit note may leave it out: it takes its original invoice&#39;s.
    * @return connectionId
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CONNECTION_ID)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getConnectionId() {
     return connectionId;
   }
 
 
   @JsonProperty(JSON_PROPERTY_CONNECTION_ID)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setConnectionId(@javax.annotation.Nonnull String connectionId) {
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setConnectionId(@javax.annotation.Nullable String connectionId) {
     this.connectionId = connectionId;
+  }
+
+
+  public CreateManualInvoiceInput documentType(@javax.annotation.Nullable DocumentTypeEnum documentType) {
+    this.documentType = documentType;
+    return this;
+  }
+
+  /**
+   * \&quot;debit_note\&quot; for an amendment that raises what an invoice asked for (credit notes spec §18): it names the invoice it amends and takes its buyer, supplier, currency and PO. \&quot;invoice\&quot; or absent: an invoice.
+   * @return documentType
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DOCUMENT_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public DocumentTypeEnum getDocumentType() {
+    return documentType;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DOCUMENT_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDocumentType(@javax.annotation.Nullable DocumentTypeEnum documentType) {
+    this.documentType = documentType;
+  }
+
+
+  public CreateManualInvoiceInput amendsInvoiceId(@javax.annotation.Nullable String amendsInvoiceId) {
+    this.amendsInvoiceId = amendsInvoiceId;
+    return this;
+  }
+
+  /**
+   * Debit note: the Pleaxy id of the invoice it amends (or amendsInvoiceNumber).
+   * @return amendsInvoiceId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AMENDS_INVOICE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getAmendsInvoiceId() {
+    return amendsInvoiceId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AMENDS_INVOICE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAmendsInvoiceId(@javax.annotation.Nullable String amendsInvoiceId) {
+    this.amendsInvoiceId = amendsInvoiceId;
+  }
+
+
+  public CreateManualInvoiceInput amendsInvoiceNumber(@javax.annotation.Nullable String amendsInvoiceNumber) {
+    this.amendsInvoiceNumber = amendsInvoiceNumber;
+    return this;
+  }
+
+  /**
+   * Debit note: the supplier&#39;s number of the invoice it amends, when the Pleaxy id isn&#39;t known (the feed&#39;s way).
+   * @return amendsInvoiceNumber
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AMENDS_INVOICE_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getAmendsInvoiceNumber() {
+    return amendsInvoiceNumber;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AMENDS_INVOICE_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAmendsInvoiceNumber(@javax.annotation.Nullable String amendsInvoiceNumber) {
+    this.amendsInvoiceNumber = amendsInvoiceNumber;
+  }
+
+
+  public CreateManualInvoiceInput replacesInvoiceIds(@javax.annotation.Nullable List<String> replacesInvoiceIds) {
+    this.replacesInvoiceIds = replacesInvoiceIds;
+    return this;
+  }
+
+  public CreateManualInvoiceInput addReplacesInvoiceIdsItem(String replacesInvoiceIdsItem) {
+    if (this.replacesInvoiceIds == null) {
+      this.replacesInvoiceIds = new ArrayList<>();
+    }
+    this.replacesInvoiceIds.add(replacesInvoiceIdsItem);
+    return this;
+  }
+
+  /**
+   * A replacement invoice (credit and rebill, credit notes spec §20): the Pleaxy ids of the invoices and debit notes it replaces, 1–20, all from this supplier. Or replacesInvoiceNumbers.
+   * @return replacesInvoiceIds
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REPLACES_INVOICE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getReplacesInvoiceIds() {
+    return replacesInvoiceIds;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REPLACES_INVOICE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReplacesInvoiceIds(@javax.annotation.Nullable List<String> replacesInvoiceIds) {
+    this.replacesInvoiceIds = replacesInvoiceIds;
+  }
+
+
+  public CreateManualInvoiceInput replacesInvoiceNumbers(@javax.annotation.Nullable List<String> replacesInvoiceNumbers) {
+    this.replacesInvoiceNumbers = replacesInvoiceNumbers;
+    return this;
+  }
+
+  public CreateManualInvoiceInput addReplacesInvoiceNumbersItem(String replacesInvoiceNumbersItem) {
+    if (this.replacesInvoiceNumbers == null) {
+      this.replacesInvoiceNumbers = new ArrayList<>();
+    }
+    this.replacesInvoiceNumbers.add(replacesInvoiceNumbersItem);
+    return this;
+  }
+
+  /**
+   * A replacement invoice: the supplier&#39;s numbers of the invoices it replaces, when the Pleaxy ids aren&#39;t known (the feed&#39;s way). 1–20.
+   * @return replacesInvoiceNumbers
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REPLACES_INVOICE_NUMBERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getReplacesInvoiceNumbers() {
+    return replacesInvoiceNumbers;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REPLACES_INVOICE_NUMBERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReplacesInvoiceNumbers(@javax.annotation.Nullable List<String> replacesInvoiceNumbers) {
+    this.replacesInvoiceNumbers = replacesInvoiceNumbers;
   }
 
 
@@ -277,6 +527,56 @@ public class CreateManualInvoiceInput {
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setLineItems(@javax.annotation.Nonnull List<CreateManualInvoiceLineItemInput> lineItems) {
     this.lineItems = lineItems;
+  }
+
+
+  public CreateManualInvoiceInput poLineNo(@javax.annotation.Nullable Double poLineNo) {
+    this.poLineNo = poLineNo;
+    return this;
+  }
+
+  /**
+   * The purchase order line this invoice bills (its lineNo), when it is against a PO. An invoice bills one PO line, stated here and never on its lines, and all of its lines are held to it. Lines are never matched by description. Against a one-line PO, an invoice without one bills that line. Against a multi-line PO, an invoice naming no line makes it a discrepancy a person must resolve. A lineNo the PO doesn&#39;t have is refused. Not with billsNoPoLine.
+   * minimum: 1
+   * maximum: 100000
+   * @return poLineNo
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PO_LINE_NO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getPoLineNo() {
+    return poLineNo;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PO_LINE_NO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPoLineNo(@javax.annotation.Nullable Double poLineNo) {
+    this.poLineNo = poLineNo;
+  }
+
+
+  public CreateManualInvoiceInput billsNoPoLine(@javax.annotation.Nullable Boolean billsNoPoLine) {
+    this.billsNoPoLine = billsNoPoLine;
+    return this;
+  }
+
+  /**
+   * true when the invoice bills none of the PO&#39;s lines (an unordered extra, a one-off fee). It draws on the PO&#39;s balance only, and the invoice always needs a person&#39;s approval. Not with poLineNo. Shipping and handling usually belong in adjustments instead.
+   * @return billsNoPoLine
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BILLS_NO_PO_LINE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getBillsNoPoLine() {
+    return billsNoPoLine;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BILLS_NO_PO_LINE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBillsNoPoLine(@javax.annotation.Nullable Boolean billsNoPoLine) {
+    this.billsNoPoLine = billsNoPoLine;
   }
 
 
@@ -426,6 +726,62 @@ public class CreateManualInvoiceInput {
   }
 
 
+  public CreateManualInvoiceInput invoiceKind(@javax.annotation.Nullable InvoiceKindEnum invoiceKind) {
+    this.invoiceKind = invoiceKind;
+    return this;
+  }
+
+  /**
+   * \&quot;prepayment\&quot; for an invoice that bills a deposit (UBL InvoiceTypeCode 386). Its payment can later be deducted from the final invoice.
+   * @return invoiceKind
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_INVOICE_KIND)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceKindEnum getInvoiceKind() {
+    return invoiceKind;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_INVOICE_KIND)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setInvoiceKind(@javax.annotation.Nullable InvoiceKindEnum invoiceKind) {
+    this.invoiceKind = invoiceKind;
+  }
+
+
+  public CreateManualInvoiceInput deductions(@javax.annotation.Nullable List<InvoiceDeductionInput> deductions) {
+    this.deductions = deductions;
+    return this;
+  }
+
+  public CreateManualInvoiceInput addDeductionsItem(InvoiceDeductionInput deductionsItem) {
+    if (this.deductions == null) {
+      this.deductions = new ArrayList<>();
+    }
+    this.deductions.add(deductionsItem);
+    return this;
+  }
+
+  /**
+   * What was already paid towards the invoice after tax: deposits and advances the buyer paid, and credits the seller applied. They reduce what&#39;s owed, never the total or its tax. With the withholdings, less than the total. At most 20.
+   * @return deductions
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DEDUCTIONS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<InvoiceDeductionInput> getDeductions() {
+    return deductions;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DEDUCTIONS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDeductions(@javax.annotation.Nullable List<InvoiceDeductionInput> deductions) {
+    this.deductions = deductions;
+  }
+
+
   public CreateManualInvoiceInput paymentCurrencyAmount(@javax.annotation.Nullable CurrencyAmountInput paymentCurrencyAmount) {
     this.paymentCurrencyAmount = paymentCurrencyAmount;
     return this;
@@ -559,16 +915,25 @@ public class CreateManualInvoiceInput {
     }
     CreateManualInvoiceInput createManualInvoiceInput = (CreateManualInvoiceInput) o;
     return Objects.equals(this.connectionId, createManualInvoiceInput.connectionId) &&
+        Objects.equals(this.documentType, createManualInvoiceInput.documentType) &&
+        Objects.equals(this.amendsInvoiceId, createManualInvoiceInput.amendsInvoiceId) &&
+        Objects.equals(this.amendsInvoiceNumber, createManualInvoiceInput.amendsInvoiceNumber) &&
+        Objects.equals(this.replacesInvoiceIds, createManualInvoiceInput.replacesInvoiceIds) &&
+        Objects.equals(this.replacesInvoiceNumbers, createManualInvoiceInput.replacesInvoiceNumbers) &&
         Objects.equals(this.poId, createManualInvoiceInput.poId) &&
         Objects.equals(this.invoiceNumber, createManualInvoiceInput.invoiceNumber) &&
         Objects.equals(this.invoiceDate, createManualInvoiceInput.invoiceDate) &&
         Objects.equals(this.dueInDays, createManualInvoiceInput.dueInDays) &&
         Objects.equals(this.lineItems, createManualInvoiceInput.lineItems) &&
+        Objects.equals(this.poLineNo, createManualInvoiceInput.poLineNo) &&
+        Objects.equals(this.billsNoPoLine, createManualInvoiceInput.billsNoPoLine) &&
         Objects.equals(this.adjustments, createManualInvoiceInput.adjustments) &&
         Objects.equals(this.sourceImportId, createManualInvoiceInput.sourceImportId) &&
         Objects.equals(this.taxAmount, createManualInvoiceInput.taxAmount) &&
         Objects.equals(this.taxBreakdown, createManualInvoiceInput.taxBreakdown) &&
         Objects.equals(this.withholdings, createManualInvoiceInput.withholdings) &&
+        Objects.equals(this.invoiceKind, createManualInvoiceInput.invoiceKind) &&
+        Objects.equals(this.deductions, createManualInvoiceInput.deductions) &&
         Objects.equals(this.paymentCurrencyAmount, createManualInvoiceInput.paymentCurrencyAmount) &&
         Objects.equals(this.taxCurrencyAmount, createManualInvoiceInput.taxCurrencyAmount) &&
         Objects.equals(this.currency, createManualInvoiceInput.currency) &&
@@ -578,7 +943,7 @@ public class CreateManualInvoiceInput {
 
   @Override
   public int hashCode() {
-    return Objects.hash(connectionId, poId, invoiceNumber, invoiceDate, dueInDays, lineItems, adjustments, sourceImportId, taxAmount, taxBreakdown, withholdings, paymentCurrencyAmount, taxCurrencyAmount, currency, remittanceInstructions, pdfBase64);
+    return Objects.hash(connectionId, documentType, amendsInvoiceId, amendsInvoiceNumber, replacesInvoiceIds, replacesInvoiceNumbers, poId, invoiceNumber, invoiceDate, dueInDays, lineItems, poLineNo, billsNoPoLine, adjustments, sourceImportId, taxAmount, taxBreakdown, withholdings, invoiceKind, deductions, paymentCurrencyAmount, taxCurrencyAmount, currency, remittanceInstructions, pdfBase64);
   }
 
   @Override
@@ -586,16 +951,25 @@ public class CreateManualInvoiceInput {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateManualInvoiceInput {\n");
     sb.append("    connectionId: ").append(toIndentedString(connectionId)).append("\n");
+    sb.append("    documentType: ").append(toIndentedString(documentType)).append("\n");
+    sb.append("    amendsInvoiceId: ").append(toIndentedString(amendsInvoiceId)).append("\n");
+    sb.append("    amendsInvoiceNumber: ").append(toIndentedString(amendsInvoiceNumber)).append("\n");
+    sb.append("    replacesInvoiceIds: ").append(toIndentedString(replacesInvoiceIds)).append("\n");
+    sb.append("    replacesInvoiceNumbers: ").append(toIndentedString(replacesInvoiceNumbers)).append("\n");
     sb.append("    poId: ").append(toIndentedString(poId)).append("\n");
     sb.append("    invoiceNumber: ").append(toIndentedString(invoiceNumber)).append("\n");
     sb.append("    invoiceDate: ").append(toIndentedString(invoiceDate)).append("\n");
     sb.append("    dueInDays: ").append(toIndentedString(dueInDays)).append("\n");
     sb.append("    lineItems: ").append(toIndentedString(lineItems)).append("\n");
+    sb.append("    poLineNo: ").append(toIndentedString(poLineNo)).append("\n");
+    sb.append("    billsNoPoLine: ").append(toIndentedString(billsNoPoLine)).append("\n");
     sb.append("    adjustments: ").append(toIndentedString(adjustments)).append("\n");
     sb.append("    sourceImportId: ").append(toIndentedString(sourceImportId)).append("\n");
     sb.append("    taxAmount: ").append(toIndentedString(taxAmount)).append("\n");
     sb.append("    taxBreakdown: ").append(toIndentedString(taxBreakdown)).append("\n");
     sb.append("    withholdings: ").append(toIndentedString(withholdings)).append("\n");
+    sb.append("    invoiceKind: ").append(toIndentedString(invoiceKind)).append("\n");
+    sb.append("    deductions: ").append(toIndentedString(deductions)).append("\n");
     sb.append("    paymentCurrencyAmount: ").append(toIndentedString(paymentCurrencyAmount)).append("\n");
     sb.append("    taxCurrencyAmount: ").append(toIndentedString(taxCurrencyAmount)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
@@ -653,6 +1027,39 @@ public class CreateManualInvoiceInput {
       joiner.add(String.format("%sconnectionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getConnectionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `documentType` to the URL query string
+    if (getDocumentType() != null) {
+      joiner.add(String.format("%sdocumentType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDocumentType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `amendsInvoiceId` to the URL query string
+    if (getAmendsInvoiceId() != null) {
+      joiner.add(String.format("%samendsInvoiceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAmendsInvoiceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `amendsInvoiceNumber` to the URL query string
+    if (getAmendsInvoiceNumber() != null) {
+      joiner.add(String.format("%samendsInvoiceNumber%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAmendsInvoiceNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `replacesInvoiceIds` to the URL query string
+    if (getReplacesInvoiceIds() != null) {
+      for (int i = 0; i < getReplacesInvoiceIds().size(); i++) {
+        joiner.add(String.format("%sreplacesInvoiceIds%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getReplacesInvoiceIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `replacesInvoiceNumbers` to the URL query string
+    if (getReplacesInvoiceNumbers() != null) {
+      for (int i = 0; i < getReplacesInvoiceNumbers().size(); i++) {
+        joiner.add(String.format("%sreplacesInvoiceNumbers%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getReplacesInvoiceNumbers().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
     // add `poId` to the URL query string
     if (getPoId() != null) {
       joiner.add(String.format("%spoId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPoId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -681,6 +1088,16 @@ public class CreateManualInvoiceInput {
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
+    }
+
+    // add `poLineNo` to the URL query string
+    if (getPoLineNo() != null) {
+      joiner.add(String.format("%spoLineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPoLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `billsNoPoLine` to the URL query string
+    if (getBillsNoPoLine() != null) {
+      joiner.add(String.format("%sbillsNoPoLine%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBillsNoPoLine()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `adjustments` to the URL query string
@@ -718,6 +1135,21 @@ public class CreateManualInvoiceInput {
       for (int i = 0; i < getWithholdings().size(); i++) {
         if (getWithholdings().get(i) != null) {
           joiner.add(getWithholdings().get(i).toUrlQueryString(String.format("%swithholdings%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `invoiceKind` to the URL query string
+    if (getInvoiceKind() != null) {
+      joiner.add(String.format("%sinvoiceKind%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInvoiceKind()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `deductions` to the URL query string
+    if (getDeductions() != null) {
+      for (int i = 0; i < getDeductions().size(); i++) {
+        if (getDeductions().get(i) != null) {
+          joiner.add(getDeductions().get(i).toUrlQueryString(String.format("%sdeductions%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }

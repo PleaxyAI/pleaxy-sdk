@@ -19,24 +19,35 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.CreateInvoiceResultBuyerCreditNote;
+import ai.pleaxy.model.CreateInvoiceResultBuyerInvoice;
+import ai.pleaxy.model.CreateInvoiceResultSupplierCreditNote;
+import ai.pleaxy.model.CreateInvoiceResultSupplierInvoice;
+import ai.pleaxy.model.CreditNoteApplication;
+import ai.pleaxy.model.CreditNoteHistoryEntry;
 import ai.pleaxy.model.InvoiceAdjustment;
 import ai.pleaxy.model.InvoiceBaseCurrencyAmount;
 import ai.pleaxy.model.InvoiceBreakdownEntry;
-import ai.pleaxy.model.InvoiceBuyerView;
 import ai.pleaxy.model.InvoiceBuyerViewPartyDetails;
 import ai.pleaxy.model.InvoiceControlFinding;
+import ai.pleaxy.model.InvoiceCreditApplication;
 import ai.pleaxy.model.InvoiceCurrencyAmount;
+import ai.pleaxy.model.InvoiceDeduction;
 import ai.pleaxy.model.InvoiceLineItem;
 import ai.pleaxy.model.InvoiceRateWarning;
 import ai.pleaxy.model.InvoiceRejection;
+import ai.pleaxy.model.InvoiceReplacementCheck;
 import ai.pleaxy.model.InvoiceSourceDocument;
-import ai.pleaxy.model.InvoiceSupplierView;
 import ai.pleaxy.model.InvoiceSupplierViewPayment;
 import ai.pleaxy.model.LateFeeTerms;
 import ai.pleaxy.model.PaymentHistoryEntry;
 import ai.pleaxy.model.RemittanceCheck;
 import ai.pleaxy.model.RemittanceInstructions;
 import ai.pleaxy.model.SupplierApprovalView;
+import ai.pleaxy.model.SupplierCreditNoteViewExportsInner;
+import ai.pleaxy.model.SupplierCreditNoteViewPoEffect;
+import ai.pleaxy.model.SupplierRemittanceView;
+import ai.pleaxy.model.UncreditedOriginal;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -103,9 +114,9 @@ public class CreateInvoiceResult extends AbstractOpenApiSchema {
             JsonNode tree = jp.readValueAsTree();
 
             Object deserialized = null;
-            // deserialize InvoiceBuyerView
+            // deserialize CreateInvoiceResultBuyerCreditNote
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(InvoiceBuyerView.class);
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(CreateInvoiceResultBuyerCreditNote.class);
                 CreateInvoiceResult ret = new CreateInvoiceResult();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -114,9 +125,31 @@ public class CreateInvoiceResult extends AbstractOpenApiSchema {
                 log.log(Level.FINER, "Input data does not match 'CreateInvoiceResult'", e);
             }
 
-            // deserialize InvoiceSupplierView
+            // deserialize CreateInvoiceResultBuyerInvoice
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(InvoiceSupplierView.class);
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(CreateInvoiceResultBuyerInvoice.class);
+                CreateInvoiceResult ret = new CreateInvoiceResult();
+                ret.setActualInstance(deserialized);
+                return ret;
+            } catch (Exception e) {
+                // deserialization failed, continue, log to help debugging
+                log.log(Level.FINER, "Input data does not match 'CreateInvoiceResult'", e);
+            }
+
+            // deserialize CreateInvoiceResultSupplierCreditNote
+            try {
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(CreateInvoiceResultSupplierCreditNote.class);
+                CreateInvoiceResult ret = new CreateInvoiceResult();
+                ret.setActualInstance(deserialized);
+                return ret;
+            } catch (Exception e) {
+                // deserialization failed, continue, log to help debugging
+                log.log(Level.FINER, "Input data does not match 'CreateInvoiceResult'", e);
+            }
+
+            // deserialize CreateInvoiceResultSupplierInvoice
+            try {
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(CreateInvoiceResultSupplierInvoice.class);
                 CreateInvoiceResult ret = new CreateInvoiceResult();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -144,19 +177,31 @@ public class CreateInvoiceResult extends AbstractOpenApiSchema {
         super("anyOf", Boolean.FALSE);
     }
 
-    public CreateInvoiceResult(InvoiceBuyerView o) {
+    public CreateInvoiceResult(CreateInvoiceResultBuyerCreditNote o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
-    public CreateInvoiceResult(InvoiceSupplierView o) {
+    public CreateInvoiceResult(CreateInvoiceResultBuyerInvoice o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
+    public CreateInvoiceResult(CreateInvoiceResultSupplierCreditNote o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
+    public CreateInvoiceResult(CreateInvoiceResultSupplierInvoice o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     static {
-        schemas.put("InvoiceBuyerView", InvoiceBuyerView.class);
-        schemas.put("InvoiceSupplierView", InvoiceSupplierView.class);
+        schemas.put("CreateInvoiceResultBuyerCreditNote", CreateInvoiceResultBuyerCreditNote.class);
+        schemas.put("CreateInvoiceResultBuyerInvoice", CreateInvoiceResultBuyerInvoice.class);
+        schemas.put("CreateInvoiceResultSupplierCreditNote", CreateInvoiceResultSupplierCreditNote.class);
+        schemas.put("CreateInvoiceResultSupplierInvoice", CreateInvoiceResultSupplierInvoice.class);
         JSON.registerDescendants(CreateInvoiceResult.class, Collections.unmodifiableMap(schemas));
     }
 
@@ -168,31 +213,41 @@ public class CreateInvoiceResult extends AbstractOpenApiSchema {
     /**
      * Set the instance that matches the anyOf child schema, check
      * the instance parameter is valid against the anyOf child schemas:
-     * InvoiceBuyerView, InvoiceSupplierView
+     * CreateInvoiceResultBuyerCreditNote, CreateInvoiceResultBuyerInvoice, CreateInvoiceResultSupplierCreditNote, CreateInvoiceResultSupplierInvoice
      *
      * It could be an instance of the 'anyOf' schemas.
      * The anyOf child schemas may themselves be a composed schema (allOf, anyOf, anyOf).
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(InvoiceBuyerView.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(CreateInvoiceResultBuyerCreditNote.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(InvoiceSupplierView.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(CreateInvoiceResultBuyerInvoice.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        throw new RuntimeException("Invalid instance type. Must be InvoiceBuyerView, InvoiceSupplierView");
+        if (JSON.isInstanceOf(CreateInvoiceResultSupplierCreditNote.class, instance, new HashSet<Class<?>>())) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        if (JSON.isInstanceOf(CreateInvoiceResultSupplierInvoice.class, instance, new HashSet<Class<?>>())) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        throw new RuntimeException("Invalid instance type. Must be CreateInvoiceResultBuyerCreditNote, CreateInvoiceResultBuyerInvoice, CreateInvoiceResultSupplierCreditNote, CreateInvoiceResultSupplierInvoice");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * InvoiceBuyerView, InvoiceSupplierView
+     * CreateInvoiceResultBuyerCreditNote, CreateInvoiceResultBuyerInvoice, CreateInvoiceResultSupplierCreditNote, CreateInvoiceResultSupplierInvoice
      *
-     * @return The actual instance (InvoiceBuyerView, InvoiceSupplierView)
+     * @return The actual instance (CreateInvoiceResultBuyerCreditNote, CreateInvoiceResultBuyerInvoice, CreateInvoiceResultSupplierCreditNote, CreateInvoiceResultSupplierInvoice)
      */
     @Override
     public Object getActualInstance() {
@@ -200,25 +255,47 @@ public class CreateInvoiceResult extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `InvoiceBuyerView`. If the actual instance is not `InvoiceBuyerView`,
+     * Get the actual instance of `CreateInvoiceResultBuyerCreditNote`. If the actual instance is not `CreateInvoiceResultBuyerCreditNote`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `InvoiceBuyerView`
-     * @throws ClassCastException if the instance is not `InvoiceBuyerView`
+     * @return The actual instance of `CreateInvoiceResultBuyerCreditNote`
+     * @throws ClassCastException if the instance is not `CreateInvoiceResultBuyerCreditNote`
      */
-    public InvoiceBuyerView getInvoiceBuyerView() throws ClassCastException {
-        return (InvoiceBuyerView)super.getActualInstance();
+    public CreateInvoiceResultBuyerCreditNote getCreateInvoiceResultBuyerCreditNote() throws ClassCastException {
+        return (CreateInvoiceResultBuyerCreditNote)super.getActualInstance();
     }
 
     /**
-     * Get the actual instance of `InvoiceSupplierView`. If the actual instance is not `InvoiceSupplierView`,
+     * Get the actual instance of `CreateInvoiceResultBuyerInvoice`. If the actual instance is not `CreateInvoiceResultBuyerInvoice`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `InvoiceSupplierView`
-     * @throws ClassCastException if the instance is not `InvoiceSupplierView`
+     * @return The actual instance of `CreateInvoiceResultBuyerInvoice`
+     * @throws ClassCastException if the instance is not `CreateInvoiceResultBuyerInvoice`
      */
-    public InvoiceSupplierView getInvoiceSupplierView() throws ClassCastException {
-        return (InvoiceSupplierView)super.getActualInstance();
+    public CreateInvoiceResultBuyerInvoice getCreateInvoiceResultBuyerInvoice() throws ClassCastException {
+        return (CreateInvoiceResultBuyerInvoice)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `CreateInvoiceResultSupplierCreditNote`. If the actual instance is not `CreateInvoiceResultSupplierCreditNote`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `CreateInvoiceResultSupplierCreditNote`
+     * @throws ClassCastException if the instance is not `CreateInvoiceResultSupplierCreditNote`
+     */
+    public CreateInvoiceResultSupplierCreditNote getCreateInvoiceResultSupplierCreditNote() throws ClassCastException {
+        return (CreateInvoiceResultSupplierCreditNote)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `CreateInvoiceResultSupplierInvoice`. If the actual instance is not `CreateInvoiceResultSupplierInvoice`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `CreateInvoiceResultSupplierInvoice`
+     * @throws ClassCastException if the instance is not `CreateInvoiceResultSupplierInvoice`
+     */
+    public CreateInvoiceResultSupplierInvoice getCreateInvoiceResultSupplierInvoice() throws ClassCastException {
+        return (CreateInvoiceResultSupplierInvoice)super.getActualInstance();
     }
 
 

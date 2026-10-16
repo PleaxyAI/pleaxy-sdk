@@ -1,10 +1,13 @@
 from typing import Literal, Set, cast
 
 PaymentHistoryEntryAction = Literal[
+    "credit_applied",
+    "credit_removed",
     "export_withdrawn",
     "exported",
     "record_withdrawn",
     "recorded",
+    "remittance_sent",
     "stripe_failed",
     "stripe_released",
     "stripe_started",
@@ -12,10 +15,13 @@ PaymentHistoryEntryAction = Literal[
 ]
 
 PAYMENT_HISTORY_ENTRY_ACTION_VALUES: Set[PaymentHistoryEntryAction] = {
+    "credit_applied",
+    "credit_removed",
     "export_withdrawn",
     "exported",
     "record_withdrawn",
     "recorded",
+    "remittance_sent",
     "stripe_failed",
     "stripe_released",
     "stripe_started",

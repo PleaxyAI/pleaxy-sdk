@@ -38,7 +38,7 @@ if (result.matchStatus === "discrepancy") {
 
 // Chase a pending approval (supplier)
 const invoices = await pleaxy.invoices.listInvoices();
-const pending = invoices.filter((inv) => inv.approval?.status === "pending");
+const pending = invoices.filter((inv) => "approval" in inv && inv.approval?.status === "pending");
 for (const inv of pending) {
   await pleaxy.invoices.remindInvoice(inv.id);
 }

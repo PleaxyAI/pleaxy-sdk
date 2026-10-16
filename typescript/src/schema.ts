@@ -618,7 +618,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Supplier] Submit an invoice to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection. */
+        /** [Supplier] Submit an invoice - or a credit note: UBL <CreditNote>, a cXML credit memo, or JSON with documentType "credit_note" - to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection. */
         post: operations["SubmitFeedInvoice"];
         delete?: never;
         options?: never;
@@ -650,10 +650,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** [Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice). */
+        /** [Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. ?documentType=credit_note lists credit notes instead, ?documentType=all both, newest first; every item carries documentType (default invoice). A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice). */
         get: operations["ListInvoices"];
         put?: never;
-        /** [Both] Record an invoice. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED. */
+        /** [Both] Record an invoice - or, with "documentType": "credit_note" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED. */
         post: operations["CreateInvoice"];
         delete?: never;
         options?: never;
@@ -685,11 +685,45 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** [Both] Get a single invoice. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>. */
+        /** [Both] Get a single invoice, or with a credit note's id (CN-…) that credit note; documentType says which. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>. A Buyer caller also gets, on a replaced invoice, replacement (whether its credit notes cover it in full), and on a replacement, uncreditedOriginals (credit and rebill). */
         get: operations["GetInvoice"];
         put?: never;
         post?: never;
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/invoices/{invoiceId}/replaces": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Name the invoices this invoice replaces (credit and rebill, credit notes spec §20), when that wasn't known as it was entered: { invoiceIds }, 1–20 invoices or debit notes from the same supplier. Each original then lists it in replacedByInvoiceIds; links already there are kept. 404 REPLACES_NOT_FOUND, 400 REPLACES_INVALID, 409 REPLACEMENT_CHANGED. */
+        post: operations["AddInvoiceReplacementLinks"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/invoices/{invoiceId}/replaces/{originalId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** [Buyer] Undo a replacement link entered wrongly (credit notes spec §20), on both invoices. The rejected invoice an invoice corrects on its purchase order stays linked. */
+        delete: operations["RemoveInvoiceReplacementLink"];
         options?: never;
         head?: never;
         patch?: never;
@@ -789,7 +823,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }. Pleaxy moves no money and doesn't check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can't be later than today in the workspace's time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED. */
+        /** [Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }, optionally with a remittance for the supplier: { remittance: { note?, file?: { fileId, fileName } } } (see SendRemittance). Pleaxy moves no money and doesn't check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can't be later than today in the workspace's time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. A replaced invoice its credit notes don't cover in full is 409 REPLACED_UNCREDITED until you send confirmReplaced: true: paying it as well as its replacement pays twice. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED. */
         post: operations["RecordPayment"];
         /** [Buyer] Withdraw a payment record: { confirm: true }. The invoice reads as unpaid again, the supplier is told, and any later remittance advice is marked Revised or Withdrawn. It doesn't cancel or reverse any payment. 409 NO_PAYMENT_RECORD when there is none. Human session only. */
         delete: operations["WithdrawPaymentRecord"];
@@ -807,7 +841,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only. */
+        /** [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row's Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only. */
         post: operations["ExportInvoicesForPayment"];
         delete?: never;
         options?: never;
@@ -910,7 +944,7 @@ export interface paths {
         /** [Buyer] Whether this invoice can be paid through Pleaxy with Stripe: { available, reason?, state?, paymentMethodType?, quote? }. `quote` is { amount, fee, total, currency } in dollars: the buyer covers Stripe's bank-transfer fee (0.8%, capped at $5) so the supplier receives the full invoice amount. `reason` explains why not (not_configured, not_approved, payment_locked, supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). `state` is the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded. */
         get: operations["GetStripePayment"];
         put?: never;
-        /** [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only. */
+        /** [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don't cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only. */
         post: operations["StartStripePayment"];
         delete?: never;
         options?: never;
@@ -1115,6 +1149,7 @@ export interface components {
             primaryContactEmail?: string;
             countries?: string[];
             timeZone?: string;
+            listedInDirectory?: boolean;
             /** @enum {string|null} */
             geographyPresetId?: "eu" | "eea" | "uk" | "emea" | "apac" | "latam" | "namer" | "global" | "continent-africa" | "continent-antarctica" | "continent-asia" | "continent-europe" | "continent-north-america" | "continent-oceania" | "continent-south-america" | null;
         };
@@ -1122,6 +1157,19 @@ export interface components {
             id: string;
             label: string;
             detail: string;
+        };
+        BillToPartyInput: {
+            /** @description The company the supplier invoices. Defaults to the buyer's company name. */
+            companyName?: string;
+            address: components["schemas"]["PostalAddressInput"];
+            /** @description That company's tax id (VAT number, CUIT, EIN...). None when left out. */
+            taxId?: string;
+        };
+        PunchoutRefInput: {
+            /** @example SS-0123456789ABCDEF0123456789ABCDEF */
+            sessionId: string;
+            /** Format: double */
+            cartLineNo: number;
         };
         LineItemInput: {
             /** @enum {string} */
@@ -1139,7 +1187,8 @@ export interface components {
             nteAmount: number;
             /** @description ISO 4217. Optional - the server writes the order's currency on every line. If sent, it must be the order's currency (any case); another currency is a 400, since Pleaxy doesn't convert currencies. */
             currency?: string;
-            paymentTerms: string;
+            /** @description The line's payment terms, e.g. "Net 30". Optional: left out (or blank), the line takes the default payment terms of the contract it was priced from or the order names (contractId), else the catalog item's, else "Net 30". */
+            paymentTerms?: string;
             validFrom: string;
             validUntil: string;
             /** @description The buyer's own number for this line (e.g. from their ERP), up to 40 characters. Optional, like poNumber; stored and shown alongside the server's lineNo, never replacing it. */
@@ -1149,6 +1198,8 @@ export interface components {
              * @description The line of the order's quote (quoteImportId) this line was filled from, when Pleaxy read the quote. Kept on the line; the app shows the line as priced from the supplier's quote unless a contract rate priced it.
              */
             quoteLineNo?: number;
+            /** @description The online-store cart line this line came from (store punchout spec D4). The server reads that cart's evidence and sets what the line is - its name, unit and part numbers - from it; only qty and unitPrice are yours. */
+            punchoutRef?: components["schemas"]["PunchoutRefInput"];
         };
         CreatePurchaseOrderInput: {
             /** @description Custom PO number to use as this PO's id instead of an auto-generated one (e.g. 'PO-2026-0042'). Must be unique within the region. */
@@ -1163,6 +1214,12 @@ export interface components {
             provider?: "aws" | "gcp" | "azure" | "oci";
             /** @description Only with `provider`: this region's cloud connections of that provider the PO applies to, by `id`. A connection still being set up is refused. The PO stores each connection's own label and detail; any sent here are ignored. */
             payerAccounts?: components["schemas"]["PayerAccountRefInput"][];
+            /** @description Who the supplier invoices, when it isn't the buyer's company profile billing details. Left out, the order copies those details as they are now (company name, billing address, tax id). */
+            billToParty?: components["schemas"]["BillToPartyInput"];
+            /**
+             * @deprecated
+             * @description Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; ignored when `billToParty` is sent.
+             */
             billTo?: string;
             costCenter?: string;
             budgetOwner?: string;
@@ -1184,8 +1241,16 @@ export interface components {
             currency?: string;
             /** @description Replaces the PO's whole line-item set and recalculates its amount. The approval chain is rebuilt from scratch, discarding any sign-offs already collected. */
             lineItems?: components["schemas"]["LineItemInput"][];
+            /** @description Who the supplier invoices, entered on the order; `null` copies the buyer's company profile billing details as they are now. Bookkeeping: never re-triggers approval. */
+            billToParty?: components["schemas"]["BillToPartyInput"] | null;
+            /**
+             * @deprecated
+             * @description Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; an empty string copies the company profile's. Ignored when `billToParty` is sent.
+             */
             billTo?: string;
             costCenter?: string;
+            /** @description Drafts only: the workspace delivery address an online store order ships to, copied onto the order at submit. An empty string goes back to the workspace default. */
+            deliveryAddressId?: string;
             budgetOwner?: string;
             buyerName?: string;
             notes?: string;
@@ -1234,13 +1299,6 @@ export interface components {
              * @description Total charges on this line (freight, handling…), with no more decimal places than the buyer's currency allows (at most 2).
              */
             charge?: number;
-            /**
-             * Format: double
-             * @description The purchase order line this line bills (its lineNo), when the invoice is against a PO. An invoice bills one PO line: lines naming different ones, or one naming a line while another sets billsNoPoLine, are refused (INVOICE_PO_LINE_MULTIPLE), and a line naming neither bills the one the others name. Lines are never matched by description. Against a one-line PO, a line without one bills that line. Against a multi-line PO, an invoice naming no line makes it a discrepancy a person must resolve. A lineNo the PO doesn't have is refused.
-             */
-            poLineNo?: number;
-            /** @description true when the invoice bills none of the PO's lines (an unordered extra, a one-off fee). It draws on the PO's balance only, and the invoice always needs a person's approval. Not with poLineNo, on this line or another. Shipping and handling usually belong in adjustments instead. */
-            billsNoPoLine?: boolean;
         };
         InvoiceAdjustmentInput: {
             /** @enum {string} */
@@ -1266,6 +1324,26 @@ export interface components {
              * @description A percentage, 0–100, when the entry has one (IVA 21). Omit for fixed amounts.
              */
             rate?: number;
+        };
+        InvoiceDeductionInput: {
+            /**
+             * @description prepayment: the buyer already paid it (a deposit, an advance). credit: the seller applied a credit it holds (prepaid or promotional credits).
+             * @enum {string}
+             */
+            kind: "prepayment" | "credit";
+            /** @description What it is, e.g. "30% deposit" or "AWS promotional credit". 1–200 characters. */
+            description: string;
+            /**
+             * Format: double
+             * @description More than 0, in the invoice's currency, including tax. With the withholdings, less than the invoice total.
+             */
+            amount: number;
+            /** @description Prepayment only: the paid Pleaxy invoice it was - a deposit on the same purchase order from the same supplier. Its payment reference and date are filled in, and the purchase order isn't drawn twice for it. */
+            sourceInvoiceId?: string;
+            /** @description The payment's reference, or the seller's id for the credit. 1–64 characters. A prepayment needs this or sourceInvoiceId. */
+            reference?: string;
+            /** @description Prepayment only: when it was paid, YYYY-MM-DD. */
+            paidOn?: string;
         };
         BreakdownGroupInput: {
             /** Format: double */
@@ -1335,6 +1413,19 @@ export interface components {
             notes?: string;
         };
         CreateFeedInvoiceInput: {
+            /**
+             * @description "debit_note" for an amendment that raises what an invoice asked for (credit notes spec §18): it names the invoice it amends and takes its buyer, supplier, currency and PO. "invoice" or absent: an invoice.
+             * @enum {string}
+             */
+            documentType?: "invoice" | "debit_note";
+            /** @description Debit note: the Pleaxy id of the invoice it amends (or amendsInvoiceNumber). */
+            amendsInvoiceId?: string;
+            /** @description Debit note: the supplier's number of the invoice it amends, when the Pleaxy id isn't known (the feed's way). */
+            amendsInvoiceNumber?: string;
+            /** @description A replacement invoice (credit and rebill, credit notes spec §20): the Pleaxy ids of the invoices and debit notes it replaces, 1–20, all from this supplier. Or replacesInvoiceNumbers. */
+            replacesInvoiceIds?: string[];
+            /** @description A replacement invoice: the supplier's numbers of the invoices it replaces, when the Pleaxy ids aren't known (the feed's way). 1–20. */
+            replacesInvoiceNumbers?: string[];
             /** @description An open PO between exactly this buyer and supplier */
             poId?: string;
             /** @description Unique per supplier within the buyer's workspace, case-insensitively */
@@ -1347,6 +1438,13 @@ export interface components {
              */
             dueInDays?: number;
             lineItems: components["schemas"]["CreateManualInvoiceLineItemInput"][];
+            /**
+             * Format: double
+             * @description The purchase order line this invoice bills (its lineNo), when it is against a PO. An invoice bills one PO line, stated here and never on its lines, and all of its lines are held to it. Lines are never matched by description. Against a one-line PO, an invoice without one bills that line. Against a multi-line PO, an invoice naming no line makes it a discrepancy a person must resolve. A lineNo the PO doesn't have is refused. Not with billsNoPoLine.
+             */
+            poLineNo?: number;
+            /** @description true when the invoice bills none of the PO's lines (an unordered extra, a one-off fee). It draws on the PO's balance only, and the invoice always needs a person's approval. Not with poLineNo. Shipping and handling usually belong in adjustments instead. */
+            billsNoPoLine?: boolean;
             /** @description Invoice-level discounts and charges, before tax. At most 20. */
             adjustments?: components["schemas"]["InvoiceAdjustmentInput"][];
             /** @description Buyer only: the invoice import (POST .../invoice-imports) this invoice was recorded from. Its document is kept with the invoice when it is a PDF under 8 MB, and the import records the invoice. */
@@ -1360,6 +1458,13 @@ export interface components {
             taxBreakdown?: components["schemas"]["BreakdownEntryInput"][];
             /** @description Amounts the invoice withholds from its total, in the invoice's currency, e.g. ISR retenido 10%. Positive; they reduce what's owed, never the total. Less than the total in all. At most 20. */
             withholdings?: components["schemas"]["BreakdownEntryInput"][];
+            /**
+             * @description "prepayment" for an invoice that bills a deposit (UBL InvoiceTypeCode 386). Its payment can later be deducted from the final invoice.
+             * @enum {string}
+             */
+            invoiceKind?: "prepayment";
+            /** @description What was already paid towards the invoice after tax: deposits and advances the buyer paid, and credits the seller applied. They reduce what's owed, never the total or its tax. With the withholdings, less than the total. At most 20. */
+            deductions?: components["schemas"]["InvoiceDeductionInput"][];
             /** @description Only when the invoice names the amount owed in another currency (e.g. AWS billing in ARS): that amount, with the rate printed on the invoice. Leave it off when the invoice is converted at the payment-date rate. Pleaxy checks the figures against the rate and never converts anything itself. */
             paymentCurrencyAmount?: components["schemas"]["CurrencyAmountInput"];
             /** @description Tax as stated in the legal currency of the buyer's country, when that isn't the invoice's currency. Needs taxAmount. Display only. */
@@ -1371,9 +1476,26 @@ export interface components {
             /** @description Base64-encoded PDF of the invoice */
             pdfBase64?: string;
         };
+        AddReplacementLinksInput: {
+            /** @description The Pleaxy ids of the invoices and debit notes this invoice replaces, from the same supplier. 1–20; links already there are kept. */
+            invoiceIds: string[];
+        };
         CreateManualInvoiceInput: {
-            /** @description The SupplierConnection to invoice - see GET .../invoices/counterparties */
-            connectionId: string;
+            /** @description The SupplierConnection to invoice - see GET .../invoices/counterparties. A debit note may leave it out: it takes its original invoice's. */
+            connectionId?: string;
+            /**
+             * @description "debit_note" for an amendment that raises what an invoice asked for (credit notes spec §18): it names the invoice it amends and takes its buyer, supplier, currency and PO. "invoice" or absent: an invoice.
+             * @enum {string}
+             */
+            documentType?: "invoice" | "debit_note";
+            /** @description Debit note: the Pleaxy id of the invoice it amends (or amendsInvoiceNumber). */
+            amendsInvoiceId?: string;
+            /** @description Debit note: the supplier's number of the invoice it amends, when the Pleaxy id isn't known (the feed's way). */
+            amendsInvoiceNumber?: string;
+            /** @description A replacement invoice (credit and rebill, credit notes spec §20): the Pleaxy ids of the invoices and debit notes it replaces, 1–20, all from this supplier. Or replacesInvoiceNumbers. */
+            replacesInvoiceIds?: string[];
+            /** @description A replacement invoice: the supplier's numbers of the invoices it replaces, when the Pleaxy ids aren't known (the feed's way). 1–20. */
+            replacesInvoiceNumbers?: string[];
             /** @description An open PO between exactly this buyer and supplier */
             poId?: string;
             /** @description Unique per supplier within the buyer's workspace, case-insensitively */
@@ -1386,6 +1508,13 @@ export interface components {
              */
             dueInDays?: number;
             lineItems: components["schemas"]["CreateManualInvoiceLineItemInput"][];
+            /**
+             * Format: double
+             * @description The purchase order line this invoice bills (its lineNo), when it is against a PO. An invoice bills one PO line, stated here and never on its lines, and all of its lines are held to it. Lines are never matched by description. Against a one-line PO, an invoice without one bills that line. Against a multi-line PO, an invoice naming no line makes it a discrepancy a person must resolve. A lineNo the PO doesn't have is refused. Not with billsNoPoLine.
+             */
+            poLineNo?: number;
+            /** @description true when the invoice bills none of the PO's lines (an unordered extra, a one-off fee). It draws on the PO's balance only, and the invoice always needs a person's approval. Not with poLineNo. Shipping and handling usually belong in adjustments instead. */
+            billsNoPoLine?: boolean;
             /** @description Invoice-level discounts and charges, before tax. At most 20. */
             adjustments?: components["schemas"]["InvoiceAdjustmentInput"][];
             /** @description Buyer only: the invoice import (POST .../invoice-imports) this invoice was recorded from. Its document is kept with the invoice when it is a PDF under 8 MB, and the import records the invoice. */
@@ -1399,6 +1528,13 @@ export interface components {
             taxBreakdown?: components["schemas"]["BreakdownEntryInput"][];
             /** @description Amounts the invoice withholds from its total, in the invoice's currency, e.g. ISR retenido 10%. Positive; they reduce what's owed, never the total. Less than the total in all. At most 20. */
             withholdings?: components["schemas"]["BreakdownEntryInput"][];
+            /**
+             * @description "prepayment" for an invoice that bills a deposit (UBL InvoiceTypeCode 386). Its payment can later be deducted from the final invoice.
+             * @enum {string}
+             */
+            invoiceKind?: "prepayment";
+            /** @description What was already paid towards the invoice after tax: deposits and advances the buyer paid, and credits the seller applied. They reduce what's owed, never the total or its tax. With the withholdings, less than the total. At most 20. */
+            deductions?: components["schemas"]["InvoiceDeductionInput"][];
             /** @description Only when the invoice names the amount owed in another currency (e.g. AWS billing in ARS): that amount, with the rate printed on the invoice. Leave it off when the invoice is converted at the payment-date rate. Pleaxy checks the figures against the rate and never converts anything itself. */
             paymentCurrencyAmount?: components["schemas"]["CurrencyAmountInput"];
             /** @description Tax as stated in the legal currency of the buyer's country, when that isn't the invoice's currency. Needs taxAmount. Display only. */
@@ -1416,6 +1552,14 @@ export interface components {
             /** @description Shown to the supplier exactly as written, as plain text. Line breaks, control and invisible characters are removed; the minimum counts letters and numbers. */
             reason: string;
         };
+        RemittanceFileInput: {
+            fileId: string;
+            fileName: string;
+        };
+        SendRemittanceInput: {
+            note?: string;
+            file?: components["schemas"]["RemittanceFileInput"];
+        };
         RecordPaymentInput: {
             /** @enum {string} */
             method: "ach" | "wire" | "check" | "card" | "other";
@@ -1428,6 +1572,12 @@ export interface components {
             rate?: number;
             rateDate?: string;
             withholdings?: components["schemas"]["BreakdownEntryInput"][];
+            remittance?: components["schemas"]["SendRemittanceInput"];
+            confirmReplaced?: boolean;
+        };
+        PaymentExportInput: {
+            invoiceIds?: string[];
+            confirmReplaced?: boolean;
         };
         EmployeeSummary: {
             key?: string;
@@ -1698,8 +1848,13 @@ export interface components {
             status?: number;
             code?: string;
             message?: string;
+            messageId?: string;
+            params?: {
+                [key: string]: string | number | boolean;
+            };
             invoiceNumber?: string;
             invoiceId?: string;
+            creditNoteId?: string;
             keyId?: string;
             cursor?: string;
         };
@@ -1709,14 +1864,31 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_needs_approver" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap";
+            type?: "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "po_store_order_problem" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_needs_approver" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap";
             title?: string;
             body?: string;
+            titleMessageId?: string;
+            titleParams?: components["schemas"]["ServerMessageParams"];
+            bodyMessageId?: string;
+            bodyParams?: components["schemas"]["ServerMessageParams"];
             relatedId?: string;
             stageId?: string;
             buyerWorkspaceId?: string;
             createdAt?: string;
             read?: boolean;
+            resolution?: components["schemas"]["NotificationResolution"];
+        };
+        ServerMessageParams: {
+            [key: string]: string | number | boolean | components["schemas"]["ServerMessage"];
+        };
+        ServerMessage: {
+            messageId?: string;
+            params?: components["schemas"]["ServerMessageParams"];
+        };
+        NotificationResolution: {
+            /** @enum {string} */
+            outcome?: "you_approved" | "you_rejected" | "no_longer_needed";
+            at?: string;
         };
         NotificationPage: {
             items?: components["schemas"]["Notification"][];
@@ -1766,6 +1938,8 @@ export interface components {
             billingEmail?: string;
             billingAddress?: string;
             billingAddressParts?: components["schemas"]["PostalAddress"];
+            billingAddressLegacyText?: string;
+            billingAddressNeedsReview?: boolean;
             taxId?: string;
             currency?: string;
             otherCurrencies?: string[];
@@ -1779,6 +1953,8 @@ export interface components {
             primaryContactEmail?: string;
             createdAt?: string;
             verified?: boolean;
+            listedInDirectory?: boolean;
+            directoryId?: string;
         };
         PurchaseOrder: {
             id: string;
@@ -1794,6 +1970,7 @@ export interface components {
             invoiceIds?: string[];
             /** Format: double */
             invoicedAmount?: number;
+            priorInvoiced?: components["schemas"]["PurchaseOrderPriorInvoiced"];
             /** Format: double */
             rejectedInvoiceCount?: number;
             lastRejectedInvoiceId?: string;
@@ -1802,7 +1979,9 @@ export interface components {
             provider?: "aws" | "gcp" | "azure" | "oci";
             payerAccounts?: components["schemas"]["PayerAccountRef"][];
             billTo?: string;
+            billToParty?: components["schemas"]["PurchaseOrderBillTo"];
             costCenter?: string;
+            costCenterChanges?: components["schemas"]["PurchaseOrderCostCenterChange"][];
             budgetOwner?: string;
             buyerName?: string;
             buyerOrgName?: string;
@@ -1814,6 +1993,10 @@ export interface components {
             supplierConnectionId?: string;
             notes?: string;
             contractId?: string;
+            supplierEmail?: {
+                to?: string;
+                at?: string;
+            };
             quoteDocument?: components["schemas"]["PurchaseOrderQuoteDocument"];
             lineItems?: components["schemas"]["LineItem"][];
             approval?: components["schemas"]["ApprovalChain"];
@@ -1826,12 +2009,48 @@ export interface components {
             /** Format: double */
             version?: number;
             lastChange?: components["schemas"]["PurchaseOrderChangeSummary"];
+            /** Format: double */
+            approvalAmount?: number;
+            punchout?: components["schemas"]["PurchaseOrderPunchout"];
+            storeId?: string;
+            deliveryAddressId?: string;
+            shipTo?: components["schemas"]["PurchaseOrderShipTo"];
+            storeOrder?: components["schemas"]["StoreOrder"];
             createdAt?: string;
+        };
+        PurchaseOrderPriorInvoiced: {
+            /** Format: double */
+            amount?: number;
+            currency?: string;
+            /** @enum {string} */
+            basis?: "invoiced" | "remaining";
+            /** @enum {string} */
+            sourceSystem?: "sap_ariba" | "coupa" | "oracle";
+            importId?: string;
+            fileName?: string;
+            importedAt?: string;
+            importedBy?: string;
         };
         PayerAccountRef: {
             id: string;
             label?: string;
             detail?: string;
+        };
+        PurchaseOrderBillTo: {
+            /** @enum {string} */
+            source?: "custom" | "company_profile";
+            companyName?: string;
+            address?: components["schemas"]["PostalAddress"];
+            addressText?: string;
+            taxId?: string;
+        };
+        PurchaseOrderCostCenterChange: {
+            from?: string;
+            to?: string;
+            reason?: string;
+            by?: string;
+            byName?: string;
+            at?: string;
         };
         PurchaseOrderSupplierInvite: {
             /** @enum {string} */
@@ -1879,6 +2098,33 @@ export interface components {
             contractTermId?: string;
             /** Format: double */
             quoteLineNo?: number;
+            origin?: components["schemas"]["PunchoutLineOrigin"];
+            punchoutRef?: {
+                sessionId?: string;
+                /** Format: double */
+                cartLineNo?: number;
+            };
+        };
+        PunchoutLineOrigin: {
+            /** @enum {string} */
+            kind?: "punchout";
+            storeId?: string;
+            sessionId?: string;
+            /** Format: double */
+            cartLineNo?: number;
+            supplierPartId?: string;
+            supplierPartAuxiliaryId?: string;
+            manufacturerPartId?: string;
+            manufacturerName?: string;
+            classification?: {
+                domain?: string;
+                code?: string;
+            };
+            /** Format: double */
+            evidenceUnitPrice?: number;
+            /** Format: double */
+            evidenceQuantity?: number;
+            edited?: boolean;
         };
         ApprovalChain: {
             requester?: string;
@@ -2036,6 +2282,50 @@ export interface components {
             /** @enum {string} */
             outcome?: "approved" | "draft" | "reapproval";
         };
+        PurchaseOrderPunchout: {
+            claimed?: {
+                [key: string]: {
+                    /** Format: double */
+                    claimFloor?: number;
+                    claimedAt?: string;
+                    /** @enum {string} */
+                    operationAllowed?: "create" | "edit" | "inspect";
+                    orderBy?: string;
+                    exact?: {
+                        /** Format: double */
+                        cartLines?: number;
+                    };
+                };
+            };
+        };
+        PurchaseOrderShipTo: {
+            addressId?: string;
+            label?: string;
+            attention?: string;
+            address?: components["schemas"]["PostalAddress"];
+            phone?: string;
+        };
+        StoreOrder: {
+            /** @enum {string} */
+            status?: "failed" | "manual" | "refused" | "expired" | "queued" | "sending" | "retrying" | "sent";
+            payloadId?: string;
+            /** Format: double */
+            attempts?: number;
+            queuedAt?: string;
+            lastAttemptAt?: string;
+            nextAttemptAt?: string;
+            sentAt?: string;
+            refusal?: {
+                code?: string;
+                text?: string;
+            };
+            storeAnswer?: {
+                code?: string;
+                text?: string;
+            };
+            deadline?: string;
+            queueSk?: string;
+        };
         PurchaseOrderSupplierView: {
             supplier?: string;
             /** @enum {string} */
@@ -2059,15 +2349,34 @@ export interface components {
             lastReplacedInvoiceId?: string;
             payerAccounts?: components["schemas"]["PayerAccountRef"][];
             billTo?: string;
+            billToParty?: components["schemas"]["PurchaseOrderBillTo"];
             buyerOrgName?: string;
             buyerRegionName?: string;
             supplierRegionName?: string;
             supplierSite?: string;
             contractId?: string;
+            supplierEmail?: {
+                to?: string;
+                at?: string;
+            };
             lineItems?: components["schemas"]["LineItem"][];
             /** Format: double */
             version?: number;
+            storeId?: string;
+            deliveryAddressId?: string;
+            shipTo?: components["schemas"]["PurchaseOrderShipTo"];
+            storeOrder?: components["schemas"]["StoreOrder"];
             approval?: components["schemas"]["SupplierApprovalView"];
+            priorInvoiced?: {
+                /** Format: double */
+                amount?: number;
+                currency?: string;
+                /** @enum {string} */
+                basis?: "invoiced" | "remaining";
+                /** @enum {string} */
+                sourceSystem?: "sap_ariba" | "coupa" | "oracle";
+                importedAt?: string;
+            };
             quoteDocument?: {
                 importId?: string;
                 fileName?: string;
@@ -2103,6 +2412,9 @@ export interface components {
             contractId?: string;
             lineItems?: components["schemas"]["InvoiceLineItem"][];
             po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            billsNoPoLine?: boolean;
             partyDetails?: {
                 supplier?: components["schemas"]["InvoicePartyDetails"];
                 buyer?: components["schemas"]["InvoicePartyDetails"];
@@ -2119,7 +2431,7 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note";
             /** @enum {string} */
             matchBasis?: "purchase_order";
             /** @enum {string} */
@@ -2131,6 +2443,7 @@ export interface components {
             dueDate?: string;
             paidAt?: string;
             payment?: components["schemas"]["InvoicePaymentRecord"];
+            remittances?: components["schemas"]["InvoiceRemittance"][];
             paymentHistory?: components["schemas"]["PaymentHistoryEntry"][];
             exportAvailableFrom?: string;
             previousExportedAt?: string;
@@ -2139,6 +2452,8 @@ export interface components {
             lastRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
             replacesInvoiceId?: string;
+            replacesInvoiceIds?: string[];
+            replacedByInvoiceIds?: string[];
             /** @enum {string} */
             source?: "manual" | "po-flip" | "direct" | "feed";
             /** @enum {string} */
@@ -2155,6 +2470,18 @@ export interface components {
             taxAmount?: number;
             taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
             withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+            /** @enum {string} */
+            documentType?: "debit_note";
+            amendsInvoiceId?: string;
+            amendsExternalInvoiceNumber?: string;
+            debitNoteIds?: string[];
+            /** @enum {string} */
+            invoiceKind?: "prepayment";
+            deductions?: components["schemas"]["InvoiceDeduction"][];
+            creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            creditNoteIds?: string[];
+            /** Format: double */
+            creditVersion?: number;
             paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
             taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
             rateWarnings?: components["schemas"]["InvoiceRateWarning"][];
@@ -2164,6 +2491,8 @@ export interface components {
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
             viewerIsSupplierMember?: boolean;
+            replacement?: components["schemas"]["InvoiceReplacementCheck"];
+            uncreditedOriginals?: components["schemas"]["UncreditedOriginal"][];
         };
         InvoiceLineItem: {
             description?: string;
@@ -2177,11 +2506,9 @@ export interface components {
             discount?: number;
             /** Format: double */
             charge?: number;
-            /** Format: double */
-            poLineNo?: number;
-            billsNoPoLine?: boolean;
         };
         InvoicePartyDetails: {
+            name?: string;
             addressLines?: string[];
             taxId?: string;
             taxIdLabel?: string;
@@ -2190,6 +2517,8 @@ export interface components {
             /** @enum {string} */
             code?: "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed";
             message?: string;
+            messageId?: string;
+            params?: components["schemas"]["ServerMessageParams"];
             /** Format: double */
             invoiceLine?: number;
             /** Format: double */
@@ -2211,7 +2540,7 @@ export interface components {
             exportedBy?: string;
             exportedByName?: string;
             /** @enum {string} */
-            method?: "card" | "ach" | "wire" | "check" | "other";
+            method?: "card" | "ach" | "wire" | "check" | "other" | "credit";
             paymentDate?: string;
             reference?: string;
             recordedAt?: string;
@@ -2254,16 +2583,35 @@ export interface components {
             /** Format: double */
             rate?: number;
         };
+        InvoiceRemittance: {
+            id: string;
+            sentAt?: string;
+            sentBy?: string;
+            sentByName?: string;
+            note?: string;
+            file?: {
+                fileId?: string;
+                fileName?: string;
+                /** @enum {string} */
+                contentType?: "application/pdf" | "image/png" | "image/jpeg";
+                /** Format: double */
+                sizeBytes?: number;
+            };
+        };
         PaymentHistoryEntry: {
             /** @enum {string} */
-            action?: "exported" | "recorded" | "export_withdrawn" | "record_withdrawn" | "stripe_started" | "stripe_released" | "stripe_failed" | "stripe_succeeded";
+            action?: "exported" | "recorded" | "export_withdrawn" | "record_withdrawn" | "stripe_started" | "stripe_released" | "stripe_failed" | "stripe_succeeded" | "remittance_sent" | "credit_applied" | "credit_removed";
             at?: string;
             by?: string;
             byName?: string;
+            remittanceId?: string;
+            creditNoteId?: string;
+            /** Format: double */
+            amount?: number;
             record?: {
                 withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
                 /** @enum {string} */
-                method?: "card" | "ach" | "wire" | "check" | "other";
+                method?: "card" | "ach" | "wire" | "check" | "other" | "credit";
                 paymentDate?: string;
                 reference?: string;
                 recordedAt?: string;
@@ -2291,6 +2639,28 @@ export interface components {
             description?: string;
             /** Format: double */
             amount?: number;
+        };
+        InvoiceDeduction: {
+            /** @enum {string} */
+            kind?: "credit" | "prepayment";
+            description?: string;
+            /** Format: double */
+            amount?: number;
+            sourceInvoiceId?: string;
+            reference?: string;
+            paidOn?: string;
+            stated?: boolean;
+        };
+        InvoiceCreditApplication: {
+            id: string;
+            creditNoteId?: string;
+            externalCreditNoteNumber?: string;
+            /** Format: double */
+            amount?: number;
+            appliedAt?: string;
+            appliedBy?: string;
+            appliedByName?: string;
+            auto?: boolean;
         };
         InvoiceCurrencyAmount: {
             currencyCode?: string;
@@ -2359,6 +2729,7 @@ export interface components {
             fileName?: string;
             /** @enum {string} */
             contentType?: "application/pdf" | "image/png" | "image/jpeg";
+            statedPoNumber?: string;
         };
         InvoiceBaseCurrencyAmount: {
             currencyCode?: string;
@@ -2373,6 +2744,18 @@ export interface components {
                 fees?: components["schemas"]["InvoiceBreakdownGroup"];
                 taxes?: components["schemas"]["InvoiceBreakdownGroup"];
             };
+        };
+        InvoiceReplacementCheck: {
+            creditedInFull?: boolean;
+            /** Format: double */
+            uncredited?: number;
+        };
+        UncreditedOriginal: {
+            invoiceId?: string;
+            externalInvoiceNumber?: string;
+            /** Format: double */
+            uncredited?: number;
+            currency?: string;
         };
         InvoiceSupplierView: {
             supplier?: string;
@@ -2391,6 +2774,9 @@ export interface components {
             contractId?: string;
             lineItems?: components["schemas"]["InvoiceLineItem"][];
             po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            billsNoPoLine?: boolean;
             partyDetails?: {
                 supplier?: components["schemas"]["InvoicePartyDetails"];
                 buyer?: components["schemas"]["InvoicePartyDetails"];
@@ -2407,6 +2793,8 @@ export interface components {
             lastRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
             replacesInvoiceId?: string;
+            replacesInvoiceIds?: string[];
+            replacedByInvoiceIds?: string[];
             /** @enum {string} */
             source?: "manual" | "po-flip" | "direct" | "feed";
             /** @enum {string} */
@@ -2420,6 +2808,18 @@ export interface components {
             taxAmount?: number;
             taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
             withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+            /** @enum {string} */
+            documentType?: "debit_note";
+            amendsInvoiceId?: string;
+            amendsExternalInvoiceNumber?: string;
+            debitNoteIds?: string[];
+            /** @enum {string} */
+            invoiceKind?: "prepayment";
+            deductions?: components["schemas"]["InvoiceDeduction"][];
+            creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            creditNoteIds?: string[];
+            /** Format: double */
+            creditVersion?: number;
             paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
             taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
@@ -2430,7 +2830,7 @@ export interface components {
             payment?: {
                 withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
                 /** @enum {string} */
-                method?: "card" | "ach" | "wire" | "check" | "other";
+                method?: "card" | "ach" | "wire" | "check" | "other" | "credit";
                 paymentDate?: string;
                 reference?: string;
                 recordedAt?: string;
@@ -2458,7 +2858,7 @@ export interface components {
             withdrawnPayment?: {
                 withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
                 /** @enum {string} */
-                method?: "card" | "ach" | "wire" | "check" | "other";
+                method?: "card" | "ach" | "wire" | "check" | "other" | "credit";
                 paymentDate?: string;
                 reference?: string;
                 recordedAt?: string;
@@ -2483,8 +2883,21 @@ export interface components {
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
             };
+            remittances?: components["schemas"]["SupplierRemittanceView"][];
             buyerWorkspaceId?: string;
             nextReminderAt?: string;
+        };
+        SupplierRemittanceView: {
+            id: string;
+            sentAt?: string;
+            note?: string;
+            file?: {
+                fileName?: string;
+                /** @enum {string} */
+                contentType?: "application/pdf" | "image/png" | "image/jpeg";
+                /** Format: double */
+                sizeBytes?: number;
+            };
         };
         ExchangeRatesView: {
             workspaceCurrency?: string;
@@ -2518,6 +2931,99 @@ export interface components {
                 url?: string;
             };
         };
+        SupplierCreditNoteView: {
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            /** @enum {string} */
+            status?: "rejected" | "accepted" | "pending_acceptance" | "void";
+            createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+            /** Format: double */
+            amount?: number;
+            supplierConnectionId?: string;
+            currency?: string;
+            invoiceId?: string;
+            buyerOrgName?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            /** Format: double */
+            version?: number;
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            /** @enum {string} */
+            source?: "feed" | "cloud_sync";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            note?: string;
+            externalCreditNoteNumber?: string;
+            issueDate?: string;
+            /** @enum {string} */
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            correctsBilling?: boolean;
+            /** Format: double */
+            refunded?: number;
+            acceptedAt?: string;
+            autoAccepted?: boolean;
+            poEffect?: {
+                /** @enum {string} */
+                kind?: "release";
+                po?: string;
+                /** Format: double */
+                poLineNo?: number;
+                /** Format: double */
+                amount?: number;
+                /** Format: double */
+                qty?: number;
+            } | {
+                /** @enum {string} */
+                kind?: "none";
+                /** @enum {string} */
+                why?: "not_a_correction" | "no_po" | "po_closed";
+            };
+            applications?: components["schemas"]["CreditNoteApplication"][];
+            exports?: {
+                exportId?: string;
+                exportedAt?: string;
+            }[];
+            /** Format: double */
+            remaining?: number;
+            hasPdf?: boolean;
+            buyerWorkspaceId?: string;
+            history?: {
+                at?: string;
+                /** Format: double */
+                amount?: number;
+                invoiceId?: string;
+                /** @enum {string} */
+                action?: "rejected" | "accepted" | "exported" | "issued" | "applied" | "removed" | "returned" | "voided";
+                exportId?: string;
+            }[];
+            rejection?: {
+                at?: string;
+                reason?: string;
+            };
+        };
+        CreditNoteApplication: {
+            id: string;
+            invoiceId?: string;
+            externalInvoiceNumber?: string;
+            /** Format: double */
+            amount?: number;
+            appliedAt?: string;
+            appliedBy?: string;
+            appliedByName?: string;
+            auto?: boolean;
+        };
         FeedValidationResult: {
             valid?: boolean;
             feedEnabled?: boolean;
@@ -2539,6 +3045,9 @@ export interface components {
                 contractId?: string;
                 lineItems?: components["schemas"]["InvoiceLineItem"][];
                 po?: string;
+                /** Format: double */
+                poLineNo?: number;
+                billsNoPoLine?: boolean;
                 partyDetails?: {
                     supplier?: components["schemas"]["InvoicePartyDetails"];
                     buyer?: components["schemas"]["InvoicePartyDetails"];
@@ -2553,7 +3062,7 @@ export interface components {
                 payment?: {
                     withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
                     /** @enum {string} */
-                    method?: "card" | "ach" | "wire" | "check" | "other";
+                    method?: "card" | "ach" | "wire" | "check" | "other" | "credit";
                     paymentDate?: string;
                     reference?: string;
                     recordedAt?: string;
@@ -2578,11 +3087,14 @@ export interface components {
                     paymentMethodType?: "card" | "us_bank_account";
                     succeededAt?: string;
                 };
+                remittances?: components["schemas"]["SupplierRemittanceView"][];
                 /** @enum {string} */
                 dueDateSource?: "default" | "stated";
                 lastRemindedAt?: string;
                 rejection?: components["schemas"]["InvoiceRejection"];
                 replacesInvoiceId?: string;
+                replacesInvoiceIds?: string[];
+                replacedByInvoiceIds?: string[];
                 /** @enum {string} */
                 enteredBy?: "buyer" | "supplier";
                 invoiceDate?: string;
@@ -2594,6 +3106,18 @@ export interface components {
                 taxAmount?: number;
                 taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
                 withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+                /** @enum {string} */
+                documentType?: "debit_note";
+                amendsInvoiceId?: string;
+                amendsExternalInvoiceNumber?: string;
+                debitNoteIds?: string[];
+                /** @enum {string} */
+                invoiceKind?: "prepayment";
+                deductions?: components["schemas"]["InvoiceDeduction"][];
+                creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+                creditNoteIds?: string[];
+                /** Format: double */
+                creditVersion?: number;
                 paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
                 taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
                 remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
@@ -2603,7 +3127,7 @@ export interface components {
                 withdrawnPayment?: {
                     withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
                     /** @enum {string} */
-                    method?: "card" | "ach" | "wire" | "check" | "other";
+                    method?: "card" | "ach" | "wire" | "check" | "other" | "credit";
                     paymentDate?: string;
                     reference?: string;
                     recordedAt?: string;
@@ -2635,13 +3159,13 @@ export interface components {
             matchStatusOnSubmit?: "pending" | "matched" | "discrepancy" | "unverified";
             findings?: {
                 contractId?: string;
+                /** Format: double */
+                poLineNo?: number;
                 /** @enum {string} */
                 code?: "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed";
                 message?: string;
                 /** Format: double */
                 invoiceLine?: number;
-                /** Format: double */
-                poLineNo?: number;
             }[];
             replay?: {
                 invoiceId?: string;
@@ -2653,6 +3177,17 @@ export interface components {
             /** @enum {string} */
             code?: "FEED_NOT_ENABLED" | "RATE_DIFFERS";
             message?: string;
+        };
+        CreditNoteHistoryEntry: {
+            /** @enum {string} */
+            action?: "rejected" | "accepted" | "exported" | "issued" | "applied" | "removed" | "returned" | "voided";
+            at?: string;
+            by?: string;
+            byName?: string;
+            invoiceId?: string;
+            /** Format: double */
+            amount?: number;
+            exportId?: string;
         };
         InvoiceCounterparty: {
             connectionId?: string;
@@ -2678,6 +3213,10 @@ export interface components {
                     /** Format: double */
                     consumed?: number;
                 }[];
+                /** Format: double */
+                defaultDueInDays?: number;
+                billToCompanyName?: string;
+                paidDeposits?: components["schemas"]["OpenPurchaseOrderDeposit"][];
             }[];
             invoiceFeedEnabled?: boolean;
             invoiceFeedUpdatedAt?: string;
@@ -2694,6 +3233,18 @@ export interface components {
             offPlatform?: boolean;
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+        };
+        OpenPurchaseOrderDeposit: {
+            invoiceId?: string;
+            externalInvoiceNumber?: string;
+            currency?: string;
+            /** Format: double */
+            owed?: number;
+            /** Format: double */
+            available?: number;
+            paidOn?: string;
+            prepayment?: boolean;
+            reference?: string;
         };
         BillingSummary: {
             billingEnabled?: boolean;
@@ -2715,11 +3266,30 @@ export interface components {
                 /** @enum {string} */
                 plan?: "managed" | "autonomous" | "supplier-plus";
                 monthlyPriceLabel?: string;
+                monthlyPrice?: components["schemas"]["PriceAmount"];
                 yearlyPriceLabel?: string;
+                yearlyPrice?: components["schemas"]["PriceAmount"];
                 additionalRegionPriceLabels?: string[];
+                additionalRegionPrices?: components["schemas"]["RegionTierPrice"][];
             }[];
             currentPriceLabel?: string;
+            currentPrice?: components["schemas"]["PriceAmount"];
             currentTotalLabel?: string;
+            currentTotal?: components["schemas"]["PriceAmount"];
+        };
+        PriceAmount: {
+            /** Format: double */
+            amount?: number;
+            currency?: string;
+            /** @enum {string} */
+            interval?: "month" | "year";
+        };
+        RegionTierPrice: {
+            /** Format: double */
+            fromRegion?: number;
+            /** Format: double */
+            toRegion?: number | null;
+            price?: components["schemas"]["PriceAmount"];
         };
         StripePaymentStatus: {
             available?: boolean;
@@ -3013,6 +3583,8 @@ export interface components {
             billingEmail?: string;
             billingAddress?: string;
             billingAddressParts?: components["schemas"]["PostalAddress"];
+            billingAddressLegacyText?: string;
+            billingAddressNeedsReview?: boolean;
             taxId?: string;
             currency?: string;
             otherCurrencies?: string[];
@@ -3026,6 +3598,8 @@ export interface components {
             primaryContactEmail?: string;
             createdAt?: string;
             verified?: boolean;
+            listedInDirectory?: boolean;
+            directoryId?: string;
         };
         GetBuyerWorkspaceResult: {
             cloudConnections?: components["schemas"]["CloudConnection"][];
@@ -3046,12 +3620,1442 @@ export interface components {
         GetReferenceRateResult: {
             reference?: components["schemas"]["ReferenceRate"];
         };
-        ListInvoicesItem: components["schemas"]["InvoiceBuyerView"] | components["schemas"]["InvoiceSupplierView"];
-        CreateInvoiceResult: components["schemas"]["InvoiceBuyerView"] | components["schemas"]["InvoiceSupplierView"];
+        SubmitFeedInvoiceResult: components["schemas"]["InvoiceSupplierView"] | components["schemas"]["SupplierCreditNoteView"];
+        ValidateFeedInvoiceResult: components["schemas"]["ValidateFeedInvoiceResultCreditNote"] | components["schemas"]["FeedValidationResult"];
+        ValidateFeedInvoiceResultCreditNote: {
+            valid?: boolean;
+            /** @enum {string} */
+            documentType?: "credit_note";
+            feedEnabled?: boolean;
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            creditNote?: {
+                invoiceId?: string;
+                externalInvoiceNumber?: string;
+                adjustments?: components["schemas"]["InvoiceAdjustment"][];
+                lineItems?: components["schemas"]["InvoiceLineItem"][];
+                /** Format: double */
+                taxAmount?: number;
+                /** Format: double */
+                refunded?: number;
+                /** Format: double */
+                amount?: number;
+                correctsBilling?: boolean;
+                externalCreditNoteNumber?: string;
+                issueDate?: string;
+                currency?: string;
+                /** @enum {string} */
+                reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            };
+            replay?: {
+                creditNoteId?: string;
+                identical?: boolean;
+            } | null;
+            warnings?: {
+                code?: string;
+                message?: string;
+            }[];
+        };
+        ListInvoicesItem: components["schemas"]["ListInvoicesItemBuyerInvoice"] | components["schemas"]["ListInvoicesItemSupplierInvoice"] | components["schemas"]["ListInvoicesItemSupplierCreditNote"] | components["schemas"]["ListInvoicesItemBuyerCreditNote"];
+        ListInvoicesItemBuyerInvoice: {
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            createdAt?: string;
+            lateFeeTerms?: components["schemas"]["LateFeeTerms"];
+            /** Format: double */
+            amount?: number;
+            /** Format: double */
+            approvalVersion?: number;
+            approval?: components["schemas"]["ApprovalChain"];
+            supplierConnectionId?: string;
+            currency?: string;
+            buyerOrgName?: string;
+            buyerRegionName?: string;
+            supplierRegionName?: string;
+            contractId?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            billsNoPoLine?: boolean;
+            partyDetails?: {
+                supplier?: components["schemas"]["InvoicePartyDetails"];
+                buyer?: components["schemas"]["InvoicePartyDetails"];
+            };
+            /** Format: double */
+            usageAmount?: number;
+            usageAmountSimulated?: boolean;
+            usageSimulatedAfterDisconnect?: boolean;
+            usageCurrency?: string;
+            /** @enum {string} */
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
+            /** Format: double */
+            tolerancePct?: number;
+            /** @enum {string} */
+            matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
+            /** @enum {string} */
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note";
+            /** @enum {string} */
+            matchBasis?: "purchase_order";
+            /** @enum {string} */
+            discrepancyReason?: "amount" | "currency" | "controls";
+            controlFindings?: components["schemas"]["InvoiceControlFinding"][];
+            paid?: boolean;
+            /** Format: double */
+            dueInDays?: number;
+            dueDate?: string;
+            paidAt?: string;
+            payment?: components["schemas"]["InvoicePaymentRecord"];
+            remittances?: components["schemas"]["InvoiceRemittance"][];
+            paymentHistory?: components["schemas"]["PaymentHistoryEntry"][];
+            exportAvailableFrom?: string;
+            previousExportedAt?: string;
+            /** @enum {string} */
+            dueDateSource?: "default" | "stated";
+            lastRemindedAt?: string;
+            rejection?: components["schemas"]["InvoiceRejection"];
+            replacesInvoiceId?: string;
+            replacesInvoiceIds?: string[];
+            replacedByInvoiceIds?: string[];
+            /** @enum {string} */
+            source?: "manual" | "po-flip" | "direct" | "feed";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            invoiceDate?: string;
+            sodExcludedKeys?: string[];
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedBy?: string;
+            feedPayloadHash?: string;
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+            /** @enum {string} */
+            documentType?: "debit_note";
+            amendsInvoiceId?: string;
+            amendsExternalInvoiceNumber?: string;
+            debitNoteIds?: string[];
+            /** @enum {string} */
+            invoiceKind?: "prepayment";
+            deductions?: components["schemas"]["InvoiceDeduction"][];
+            creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            creditNoteIds?: string[];
+            /** Format: double */
+            creditVersion?: number;
+            paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            rateWarnings?: components["schemas"]["InvoiceRateWarning"][];
+            remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
+            remittanceCheck?: components["schemas"]["RemittanceCheck"];
+            sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
+            hasOriginalPdf?: boolean;
+            baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
+            viewerIsSupplierMember?: boolean;
+            replacement?: components["schemas"]["InvoiceReplacementCheck"];
+            uncreditedOriginals?: components["schemas"]["UncreditedOriginal"][];
+        };
+        ListInvoicesItemSupplierInvoice: {
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            createdAt?: string;
+            lateFeeTerms?: components["schemas"]["LateFeeTerms"];
+            /** Format: double */
+            amount?: number;
+            supplierConnectionId?: string;
+            currency?: string;
+            buyerOrgName?: string;
+            buyerRegionName?: string;
+            supplierRegionName?: string;
+            contractId?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            billsNoPoLine?: boolean;
+            partyDetails?: {
+                supplier?: components["schemas"]["InvoicePartyDetails"];
+                buyer?: components["schemas"]["InvoicePartyDetails"];
+            };
+            /** @enum {string} */
+            matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
+            paid?: boolean;
+            /** Format: double */
+            dueInDays?: number;
+            dueDate?: string;
+            paidAt?: string;
+            /** @enum {string} */
+            dueDateSource?: "default" | "stated";
+            lastRemindedAt?: string;
+            rejection?: components["schemas"]["InvoiceRejection"];
+            replacesInvoiceId?: string;
+            replacesInvoiceIds?: string[];
+            replacedByInvoiceIds?: string[];
+            /** @enum {string} */
+            source?: "manual" | "po-flip" | "direct" | "feed";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            invoiceDate?: string;
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+            /** @enum {string} */
+            documentType?: "debit_note";
+            amendsInvoiceId?: string;
+            amendsExternalInvoiceNumber?: string;
+            debitNoteIds?: string[];
+            /** @enum {string} */
+            invoiceKind?: "prepayment";
+            deductions?: components["schemas"]["InvoiceDeduction"][];
+            creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            creditNoteIds?: string[];
+            /** Format: double */
+            creditVersion?: number;
+            paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
+            sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
+            hasOriginalPdf?: boolean;
+            baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
+            approval?: components["schemas"]["SupplierApprovalView"];
+            payment?: {
+                withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+                /** @enum {string} */
+                method?: "card" | "ach" | "wire" | "check" | "other" | "credit";
+                paymentDate?: string;
+                reference?: string;
+                recordedAt?: string;
+                /** Format: double */
+                adviceVersion?: number;
+                paidAmount?: {
+                    /** Format: double */
+                    amount?: number;
+                    currency?: string;
+                    /** Format: double */
+                    rate?: number;
+                    rateDate?: string;
+                };
+                /** @enum {string} */
+                status?: "recorded";
+            } | {
+                /** @enum {string} */
+                status?: "stripe";
+                /** @enum {string} */
+                state?: "processing" | "succeeded";
+                /** @enum {string} */
+                paymentMethodType?: "card" | "us_bank_account";
+                succeededAt?: string;
+            };
+            withdrawnPayment?: {
+                withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+                /** @enum {string} */
+                method?: "card" | "ach" | "wire" | "check" | "other" | "credit";
+                paymentDate?: string;
+                reference?: string;
+                recordedAt?: string;
+                /** Format: double */
+                adviceVersion?: number;
+                paidAmount?: {
+                    /** Format: double */
+                    amount?: number;
+                    currency?: string;
+                    /** Format: double */
+                    rate?: number;
+                    rateDate?: string;
+                };
+                /** @enum {string} */
+                status?: "recorded";
+            } | {
+                /** @enum {string} */
+                status?: "stripe";
+                /** @enum {string} */
+                state?: "processing" | "succeeded";
+                /** @enum {string} */
+                paymentMethodType?: "card" | "us_bank_account";
+                succeededAt?: string;
+            };
+            remittances?: components["schemas"]["SupplierRemittanceView"][];
+            buyerWorkspaceId?: string;
+            nextReminderAt?: string;
+        };
+        ListInvoicesItemSupplierCreditNote: {
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            /** @enum {string} */
+            status?: "rejected" | "accepted" | "pending_acceptance" | "void";
+            createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+            /** Format: double */
+            amount?: number;
+            supplierConnectionId?: string;
+            currency?: string;
+            invoiceId?: string;
+            buyerOrgName?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            /** Format: double */
+            version?: number;
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            /** @enum {string} */
+            source?: "feed" | "cloud_sync";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            note?: string;
+            externalCreditNoteNumber?: string;
+            issueDate?: string;
+            /** @enum {string} */
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            correctsBilling?: boolean;
+            /** Format: double */
+            refunded?: number;
+            acceptedAt?: string;
+            autoAccepted?: boolean;
+            poEffect?: {
+                /** @enum {string} */
+                kind?: "release";
+                po?: string;
+                /** Format: double */
+                poLineNo?: number;
+                /** Format: double */
+                amount?: number;
+                /** Format: double */
+                qty?: number;
+            } | {
+                /** @enum {string} */
+                kind?: "none";
+                /** @enum {string} */
+                why?: "not_a_correction" | "no_po" | "po_closed";
+            };
+            applications?: components["schemas"]["CreditNoteApplication"][];
+            exports?: {
+                exportId?: string;
+                exportedAt?: string;
+            }[];
+            /** Format: double */
+            remaining?: number;
+            hasPdf?: boolean;
+            buyerWorkspaceId?: string;
+            history?: {
+                at?: string;
+                /** Format: double */
+                amount?: number;
+                invoiceId?: string;
+                /** @enum {string} */
+                action?: "rejected" | "accepted" | "exported" | "issued" | "applied" | "removed" | "returned" | "voided";
+                exportId?: string;
+            }[];
+            rejection?: {
+                at?: string;
+                reason?: string;
+            };
+            /** @enum {string} */
+            documentType?: "debit_note" | "invoice" | "credit_note";
+        };
+        ListInvoicesItemBuyerCreditNote: {
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            /** @enum {string} */
+            status?: "rejected" | "accepted" | "pending_acceptance" | "void";
+            createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+            /** Format: double */
+            amount?: number;
+            supplierConnectionId?: string;
+            currency?: string;
+            invoiceId?: string;
+            buyerOrgName?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            /** Format: double */
+            version?: number;
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            rejection?: {
+                at?: string;
+                byName?: string;
+                reason?: string;
+            };
+            /** @enum {string} */
+            source?: "feed" | "cloud_sync";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedBy?: string;
+            feedPayloadHash?: string;
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
+            note?: string;
+            externalCreditNoteNumber?: string;
+            issueDate?: string;
+            /** @enum {string} */
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            correctsBilling?: boolean;
+            /** Format: double */
+            refunded?: number;
+            acceptedAt?: string;
+            acceptedByName?: string;
+            autoAccepted?: boolean;
+            poEffect?: {
+                /** @enum {string} */
+                kind?: "release";
+                po?: string;
+                /** Format: double */
+                poLineNo?: number;
+                /** Format: double */
+                amount?: number;
+                /** Format: double */
+                qty?: number;
+            } | {
+                /** @enum {string} */
+                kind?: "none";
+                /** @enum {string} */
+                why?: "not_a_correction" | "no_po" | "po_closed";
+            };
+            applications?: components["schemas"]["CreditNoteApplication"][];
+            exports?: {
+                exportId?: string;
+                exportedAt?: string;
+            }[];
+            history?: components["schemas"]["CreditNoteHistoryEntry"][];
+            /** Format: double */
+            remaining?: number;
+            hasPdf?: boolean;
+            /** @enum {string} */
+            documentType?: "debit_note" | "invoice" | "credit_note";
+        };
+        CreateInvoiceResult: components["schemas"]["CreateInvoiceResultSupplierCreditNote"] | components["schemas"]["CreateInvoiceResultBuyerCreditNote"] | components["schemas"]["CreateInvoiceResultBuyerInvoice"] | components["schemas"]["CreateInvoiceResultSupplierInvoice"];
+        CreateInvoiceResultSupplierCreditNote: {
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            /** @enum {string} */
+            status?: "rejected" | "accepted" | "pending_acceptance" | "void";
+            createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+            /** Format: double */
+            amount?: number;
+            supplierConnectionId?: string;
+            currency?: string;
+            invoiceId?: string;
+            buyerOrgName?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            /** Format: double */
+            version?: number;
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            /** @enum {string} */
+            source?: "feed" | "cloud_sync";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            note?: string;
+            externalCreditNoteNumber?: string;
+            issueDate?: string;
+            /** @enum {string} */
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            correctsBilling?: boolean;
+            /** Format: double */
+            refunded?: number;
+            acceptedAt?: string;
+            autoAccepted?: boolean;
+            poEffect?: {
+                /** @enum {string} */
+                kind?: "release";
+                po?: string;
+                /** Format: double */
+                poLineNo?: number;
+                /** Format: double */
+                amount?: number;
+                /** Format: double */
+                qty?: number;
+            } | {
+                /** @enum {string} */
+                kind?: "none";
+                /** @enum {string} */
+                why?: "not_a_correction" | "no_po" | "po_closed";
+            };
+            applications?: components["schemas"]["CreditNoteApplication"][];
+            exports?: {
+                exportId?: string;
+                exportedAt?: string;
+            }[];
+            /** Format: double */
+            remaining?: number;
+            hasPdf?: boolean;
+            buyerWorkspaceId?: string;
+            history?: {
+                at?: string;
+                /** Format: double */
+                amount?: number;
+                invoiceId?: string;
+                /** @enum {string} */
+                action?: "rejected" | "accepted" | "exported" | "issued" | "applied" | "removed" | "returned" | "voided";
+                exportId?: string;
+            }[];
+            rejection?: {
+                at?: string;
+                reason?: string;
+            };
+            /** @enum {string} */
+            documentType?: "credit_note";
+        };
+        CreateInvoiceResultBuyerCreditNote: {
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            /** @enum {string} */
+            status?: "rejected" | "accepted" | "pending_acceptance" | "void";
+            createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+            /** Format: double */
+            amount?: number;
+            supplierConnectionId?: string;
+            currency?: string;
+            invoiceId?: string;
+            buyerOrgName?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            /** Format: double */
+            version?: number;
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            rejection?: {
+                at?: string;
+                byName?: string;
+                reason?: string;
+            };
+            /** @enum {string} */
+            source?: "feed" | "cloud_sync";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedBy?: string;
+            feedPayloadHash?: string;
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
+            note?: string;
+            externalCreditNoteNumber?: string;
+            issueDate?: string;
+            /** @enum {string} */
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            correctsBilling?: boolean;
+            /** Format: double */
+            refunded?: number;
+            acceptedAt?: string;
+            acceptedByName?: string;
+            autoAccepted?: boolean;
+            poEffect?: {
+                /** @enum {string} */
+                kind?: "release";
+                po?: string;
+                /** Format: double */
+                poLineNo?: number;
+                /** Format: double */
+                amount?: number;
+                /** Format: double */
+                qty?: number;
+            } | {
+                /** @enum {string} */
+                kind?: "none";
+                /** @enum {string} */
+                why?: "not_a_correction" | "no_po" | "po_closed";
+            };
+            applications?: components["schemas"]["CreditNoteApplication"][];
+            exports?: {
+                exportId?: string;
+                exportedAt?: string;
+            }[];
+            history?: components["schemas"]["CreditNoteHistoryEntry"][];
+            /** Format: double */
+            remaining?: number;
+            hasPdf?: boolean;
+            /** @enum {string} */
+            documentType?: "credit_note";
+        };
+        CreateInvoiceResultBuyerInvoice: {
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            createdAt?: string;
+            lateFeeTerms?: components["schemas"]["LateFeeTerms"];
+            /** Format: double */
+            amount?: number;
+            /** Format: double */
+            approvalVersion?: number;
+            approval?: components["schemas"]["ApprovalChain"];
+            supplierConnectionId?: string;
+            currency?: string;
+            buyerOrgName?: string;
+            buyerRegionName?: string;
+            supplierRegionName?: string;
+            contractId?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            billsNoPoLine?: boolean;
+            partyDetails?: {
+                supplier?: components["schemas"]["InvoicePartyDetails"];
+                buyer?: components["schemas"]["InvoicePartyDetails"];
+            };
+            /** Format: double */
+            usageAmount?: number;
+            usageAmountSimulated?: boolean;
+            usageSimulatedAfterDisconnect?: boolean;
+            usageCurrency?: string;
+            /** @enum {string} */
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
+            /** Format: double */
+            tolerancePct?: number;
+            /** @enum {string} */
+            matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
+            /** @enum {string} */
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note";
+            /** @enum {string} */
+            matchBasis?: "purchase_order";
+            /** @enum {string} */
+            discrepancyReason?: "amount" | "currency" | "controls";
+            controlFindings?: components["schemas"]["InvoiceControlFinding"][];
+            paid?: boolean;
+            /** Format: double */
+            dueInDays?: number;
+            dueDate?: string;
+            paidAt?: string;
+            payment?: components["schemas"]["InvoicePaymentRecord"];
+            remittances?: components["schemas"]["InvoiceRemittance"][];
+            paymentHistory?: components["schemas"]["PaymentHistoryEntry"][];
+            exportAvailableFrom?: string;
+            previousExportedAt?: string;
+            /** @enum {string} */
+            dueDateSource?: "default" | "stated";
+            lastRemindedAt?: string;
+            rejection?: components["schemas"]["InvoiceRejection"];
+            replacesInvoiceId?: string;
+            replacesInvoiceIds?: string[];
+            replacedByInvoiceIds?: string[];
+            /** @enum {string} */
+            source?: "manual" | "po-flip" | "direct" | "feed";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            invoiceDate?: string;
+            sodExcludedKeys?: string[];
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedBy?: string;
+            feedPayloadHash?: string;
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+            /** @enum {string} */
+            documentType?: "debit_note" | "invoice";
+            amendsInvoiceId?: string;
+            amendsExternalInvoiceNumber?: string;
+            debitNoteIds?: string[];
+            /** @enum {string} */
+            invoiceKind?: "prepayment";
+            deductions?: components["schemas"]["InvoiceDeduction"][];
+            creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            creditNoteIds?: string[];
+            /** Format: double */
+            creditVersion?: number;
+            paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            rateWarnings?: components["schemas"]["InvoiceRateWarning"][];
+            remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
+            remittanceCheck?: components["schemas"]["RemittanceCheck"];
+            sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
+            hasOriginalPdf?: boolean;
+            baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
+            viewerIsSupplierMember?: boolean;
+            replacement?: components["schemas"]["InvoiceReplacementCheck"];
+            uncreditedOriginals?: components["schemas"]["UncreditedOriginal"][];
+        };
+        CreateInvoiceResultSupplierInvoice: {
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            createdAt?: string;
+            lateFeeTerms?: components["schemas"]["LateFeeTerms"];
+            /** Format: double */
+            amount?: number;
+            supplierConnectionId?: string;
+            currency?: string;
+            buyerOrgName?: string;
+            buyerRegionName?: string;
+            supplierRegionName?: string;
+            contractId?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            billsNoPoLine?: boolean;
+            partyDetails?: {
+                supplier?: components["schemas"]["InvoicePartyDetails"];
+                buyer?: components["schemas"]["InvoicePartyDetails"];
+            };
+            /** @enum {string} */
+            matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
+            paid?: boolean;
+            /** Format: double */
+            dueInDays?: number;
+            dueDate?: string;
+            paidAt?: string;
+            /** @enum {string} */
+            dueDateSource?: "default" | "stated";
+            lastRemindedAt?: string;
+            rejection?: components["schemas"]["InvoiceRejection"];
+            replacesInvoiceId?: string;
+            replacesInvoiceIds?: string[];
+            replacedByInvoiceIds?: string[];
+            /** @enum {string} */
+            source?: "manual" | "po-flip" | "direct" | "feed";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            invoiceDate?: string;
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+            /** @enum {string} */
+            documentType?: "debit_note" | "invoice";
+            amendsInvoiceId?: string;
+            amendsExternalInvoiceNumber?: string;
+            debitNoteIds?: string[];
+            /** @enum {string} */
+            invoiceKind?: "prepayment";
+            deductions?: components["schemas"]["InvoiceDeduction"][];
+            creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            creditNoteIds?: string[];
+            /** Format: double */
+            creditVersion?: number;
+            paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
+            sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
+            hasOriginalPdf?: boolean;
+            baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
+            approval?: components["schemas"]["SupplierApprovalView"];
+            payment?: {
+                withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+                /** @enum {string} */
+                method?: "card" | "ach" | "wire" | "check" | "other" | "credit";
+                paymentDate?: string;
+                reference?: string;
+                recordedAt?: string;
+                /** Format: double */
+                adviceVersion?: number;
+                paidAmount?: {
+                    /** Format: double */
+                    amount?: number;
+                    currency?: string;
+                    /** Format: double */
+                    rate?: number;
+                    rateDate?: string;
+                };
+                /** @enum {string} */
+                status?: "recorded";
+            } | {
+                /** @enum {string} */
+                status?: "stripe";
+                /** @enum {string} */
+                state?: "processing" | "succeeded";
+                /** @enum {string} */
+                paymentMethodType?: "card" | "us_bank_account";
+                succeededAt?: string;
+            };
+            withdrawnPayment?: {
+                withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+                /** @enum {string} */
+                method?: "card" | "ach" | "wire" | "check" | "other" | "credit";
+                paymentDate?: string;
+                reference?: string;
+                recordedAt?: string;
+                /** Format: double */
+                adviceVersion?: number;
+                paidAmount?: {
+                    /** Format: double */
+                    amount?: number;
+                    currency?: string;
+                    /** Format: double */
+                    rate?: number;
+                    rateDate?: string;
+                };
+                /** @enum {string} */
+                status?: "recorded";
+            } | {
+                /** @enum {string} */
+                status?: "stripe";
+                /** @enum {string} */
+                state?: "processing" | "succeeded";
+                /** @enum {string} */
+                paymentMethodType?: "card" | "us_bank_account";
+                succeededAt?: string;
+            };
+            remittances?: components["schemas"]["SupplierRemittanceView"][];
+            buyerWorkspaceId?: string;
+            nextReminderAt?: string;
+        };
         ListInvoiceCounterpartiesResult: {
             counterparties?: components["schemas"]["InvoiceCounterparty"][];
         };
-        GetInvoiceResult: components["schemas"]["InvoiceBuyerView"] | components["schemas"]["InvoiceSupplierView"];
+        GetInvoiceResult: components["schemas"]["GetInvoiceResultSupplierCreditNote"] | components["schemas"]["GetInvoiceResultBuyerCreditNote"] | components["schemas"]["GetInvoiceResultBuyerInvoice"] | components["schemas"]["GetInvoiceResultSupplierInvoice"];
+        GetInvoiceResultSupplierCreditNote: {
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            /** @enum {string} */
+            status?: "rejected" | "accepted" | "pending_acceptance" | "void";
+            createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+            /** Format: double */
+            amount?: number;
+            supplierConnectionId?: string;
+            currency?: string;
+            invoiceId?: string;
+            buyerOrgName?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            /** Format: double */
+            version?: number;
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            /** @enum {string} */
+            source?: "feed" | "cloud_sync";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            note?: string;
+            externalCreditNoteNumber?: string;
+            issueDate?: string;
+            /** @enum {string} */
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            correctsBilling?: boolean;
+            /** Format: double */
+            refunded?: number;
+            acceptedAt?: string;
+            autoAccepted?: boolean;
+            poEffect?: {
+                /** @enum {string} */
+                kind?: "release";
+                po?: string;
+                /** Format: double */
+                poLineNo?: number;
+                /** Format: double */
+                amount?: number;
+                /** Format: double */
+                qty?: number;
+            } | {
+                /** @enum {string} */
+                kind?: "none";
+                /** @enum {string} */
+                why?: "not_a_correction" | "no_po" | "po_closed";
+            };
+            applications?: components["schemas"]["CreditNoteApplication"][];
+            exports?: {
+                exportId?: string;
+                exportedAt?: string;
+            }[];
+            /** Format: double */
+            remaining?: number;
+            hasPdf?: boolean;
+            buyerWorkspaceId?: string;
+            history?: {
+                at?: string;
+                /** Format: double */
+                amount?: number;
+                invoiceId?: string;
+                /** @enum {string} */
+                action?: "rejected" | "accepted" | "exported" | "issued" | "applied" | "removed" | "returned" | "voided";
+                exportId?: string;
+            }[];
+            rejection?: {
+                at?: string;
+                reason?: string;
+            };
+            /** @enum {string} */
+            documentType?: "credit_note";
+        };
+        GetInvoiceResultBuyerCreditNote: {
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            /** @enum {string} */
+            status?: "rejected" | "accepted" | "pending_acceptance" | "void";
+            createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+            /** Format: double */
+            amount?: number;
+            supplierConnectionId?: string;
+            currency?: string;
+            invoiceId?: string;
+            buyerOrgName?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            /** Format: double */
+            version?: number;
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            rejection?: {
+                at?: string;
+                byName?: string;
+                reason?: string;
+            };
+            /** @enum {string} */
+            source?: "feed" | "cloud_sync";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedBy?: string;
+            feedPayloadHash?: string;
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
+            note?: string;
+            externalCreditNoteNumber?: string;
+            issueDate?: string;
+            /** @enum {string} */
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            correctsBilling?: boolean;
+            /** Format: double */
+            refunded?: number;
+            acceptedAt?: string;
+            acceptedByName?: string;
+            autoAccepted?: boolean;
+            poEffect?: {
+                /** @enum {string} */
+                kind?: "release";
+                po?: string;
+                /** Format: double */
+                poLineNo?: number;
+                /** Format: double */
+                amount?: number;
+                /** Format: double */
+                qty?: number;
+            } | {
+                /** @enum {string} */
+                kind?: "none";
+                /** @enum {string} */
+                why?: "not_a_correction" | "no_po" | "po_closed";
+            };
+            applications?: components["schemas"]["CreditNoteApplication"][];
+            exports?: {
+                exportId?: string;
+                exportedAt?: string;
+            }[];
+            history?: components["schemas"]["CreditNoteHistoryEntry"][];
+            /** Format: double */
+            remaining?: number;
+            hasPdf?: boolean;
+            /** @enum {string} */
+            documentType?: "credit_note";
+        };
+        GetInvoiceResultBuyerInvoice: {
+            replacement?: components["schemas"]["InvoiceReplacementCheck"];
+            uncreditedOriginals?: components["schemas"]["UncreditedOriginal"][];
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            createdAt?: string;
+            lateFeeTerms?: components["schemas"]["LateFeeTerms"];
+            /** Format: double */
+            amount?: number;
+            /** Format: double */
+            approvalVersion?: number;
+            approval?: components["schemas"]["ApprovalChain"];
+            supplierConnectionId?: string;
+            currency?: string;
+            buyerOrgName?: string;
+            buyerRegionName?: string;
+            supplierRegionName?: string;
+            contractId?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            billsNoPoLine?: boolean;
+            partyDetails?: {
+                supplier?: components["schemas"]["InvoicePartyDetails"];
+                buyer?: components["schemas"]["InvoicePartyDetails"];
+            };
+            /** Format: double */
+            usageAmount?: number;
+            usageAmountSimulated?: boolean;
+            usageSimulatedAfterDisconnect?: boolean;
+            usageCurrency?: string;
+            /** @enum {string} */
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
+            /** Format: double */
+            tolerancePct?: number;
+            /** @enum {string} */
+            matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
+            /** @enum {string} */
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note";
+            /** @enum {string} */
+            matchBasis?: "purchase_order";
+            /** @enum {string} */
+            discrepancyReason?: "amount" | "currency" | "controls";
+            controlFindings?: components["schemas"]["InvoiceControlFinding"][];
+            paid?: boolean;
+            /** Format: double */
+            dueInDays?: number;
+            dueDate?: string;
+            paidAt?: string;
+            payment?: components["schemas"]["InvoicePaymentRecord"];
+            remittances?: components["schemas"]["InvoiceRemittance"][];
+            paymentHistory?: components["schemas"]["PaymentHistoryEntry"][];
+            exportAvailableFrom?: string;
+            previousExportedAt?: string;
+            /** @enum {string} */
+            dueDateSource?: "default" | "stated";
+            lastRemindedAt?: string;
+            rejection?: components["schemas"]["InvoiceRejection"];
+            replacesInvoiceId?: string;
+            replacesInvoiceIds?: string[];
+            replacedByInvoiceIds?: string[];
+            /** @enum {string} */
+            source?: "manual" | "po-flip" | "direct" | "feed";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            invoiceDate?: string;
+            sodExcludedKeys?: string[];
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedBy?: string;
+            feedPayloadHash?: string;
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+            /** @enum {string} */
+            documentType?: "debit_note" | "invoice";
+            amendsInvoiceId?: string;
+            amendsExternalInvoiceNumber?: string;
+            debitNoteIds?: string[];
+            /** @enum {string} */
+            invoiceKind?: "prepayment";
+            deductions?: components["schemas"]["InvoiceDeduction"][];
+            creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            creditNoteIds?: string[];
+            /** Format: double */
+            creditVersion?: number;
+            paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            rateWarnings?: components["schemas"]["InvoiceRateWarning"][];
+            remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
+            remittanceCheck?: components["schemas"]["RemittanceCheck"];
+            sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
+            hasOriginalPdf?: boolean;
+            baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
+            viewerIsSupplierMember?: boolean;
+        };
+        GetInvoiceResultSupplierInvoice: {
+            replacement?: components["schemas"]["InvoiceReplacementCheck"];
+            uncreditedOriginals?: components["schemas"]["UncreditedOriginal"][];
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            createdAt?: string;
+            lateFeeTerms?: components["schemas"]["LateFeeTerms"];
+            /** Format: double */
+            amount?: number;
+            supplierConnectionId?: string;
+            currency?: string;
+            buyerOrgName?: string;
+            buyerRegionName?: string;
+            supplierRegionName?: string;
+            contractId?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            billsNoPoLine?: boolean;
+            partyDetails?: {
+                supplier?: components["schemas"]["InvoicePartyDetails"];
+                buyer?: components["schemas"]["InvoicePartyDetails"];
+            };
+            /** @enum {string} */
+            matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
+            paid?: boolean;
+            /** Format: double */
+            dueInDays?: number;
+            dueDate?: string;
+            paidAt?: string;
+            /** @enum {string} */
+            dueDateSource?: "default" | "stated";
+            lastRemindedAt?: string;
+            rejection?: components["schemas"]["InvoiceRejection"];
+            replacesInvoiceId?: string;
+            replacesInvoiceIds?: string[];
+            replacedByInvoiceIds?: string[];
+            /** @enum {string} */
+            source?: "manual" | "po-flip" | "direct" | "feed";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            invoiceDate?: string;
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+            /** @enum {string} */
+            documentType?: "debit_note" | "invoice";
+            amendsInvoiceId?: string;
+            amendsExternalInvoiceNumber?: string;
+            debitNoteIds?: string[];
+            /** @enum {string} */
+            invoiceKind?: "prepayment";
+            deductions?: components["schemas"]["InvoiceDeduction"][];
+            creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            creditNoteIds?: string[];
+            /** Format: double */
+            creditVersion?: number;
+            paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
+            sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
+            hasOriginalPdf?: boolean;
+            baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
+            approval?: components["schemas"]["SupplierApprovalView"];
+            payment?: {
+                withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+                /** @enum {string} */
+                method?: "card" | "ach" | "wire" | "check" | "other" | "credit";
+                paymentDate?: string;
+                reference?: string;
+                recordedAt?: string;
+                /** Format: double */
+                adviceVersion?: number;
+                paidAmount?: {
+                    /** Format: double */
+                    amount?: number;
+                    currency?: string;
+                    /** Format: double */
+                    rate?: number;
+                    rateDate?: string;
+                };
+                /** @enum {string} */
+                status?: "recorded";
+            } | {
+                /** @enum {string} */
+                status?: "stripe";
+                /** @enum {string} */
+                state?: "processing" | "succeeded";
+                /** @enum {string} */
+                paymentMethodType?: "card" | "us_bank_account";
+                succeededAt?: string;
+            };
+            withdrawnPayment?: {
+                withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+                /** @enum {string} */
+                method?: "card" | "ach" | "wire" | "check" | "other" | "credit";
+                paymentDate?: string;
+                reference?: string;
+                recordedAt?: string;
+                /** Format: double */
+                adviceVersion?: number;
+                paidAmount?: {
+                    /** Format: double */
+                    amount?: number;
+                    currency?: string;
+                    /** Format: double */
+                    rate?: number;
+                    rateDate?: string;
+                };
+                /** @enum {string} */
+                status?: "recorded";
+            } | {
+                /** @enum {string} */
+                status?: "stripe";
+                /** @enum {string} */
+                state?: "processing" | "succeeded";
+                /** @enum {string} */
+                paymentMethodType?: "card" | "us_bank_account";
+                succeededAt?: string;
+            };
+            remittances?: components["schemas"]["SupplierRemittanceView"][];
+            buyerWorkspaceId?: string;
+            nextReminderAt?: string;
+        };
+        AddInvoiceReplacementLinksResult: {
+            replacement?: components["schemas"]["InvoiceReplacementCheck"];
+            uncreditedOriginals?: components["schemas"]["UncreditedOriginal"][];
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            createdAt?: string;
+            lateFeeTerms?: components["schemas"]["LateFeeTerms"];
+            /** Format: double */
+            amount?: number;
+            /** Format: double */
+            approvalVersion?: number;
+            approval?: components["schemas"]["ApprovalChain"];
+            supplierConnectionId?: string;
+            currency?: string;
+            buyerOrgName?: string;
+            buyerRegionName?: string;
+            supplierRegionName?: string;
+            contractId?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            billsNoPoLine?: boolean;
+            partyDetails?: {
+                supplier?: components["schemas"]["InvoicePartyDetails"];
+                buyer?: components["schemas"]["InvoicePartyDetails"];
+            };
+            /** Format: double */
+            usageAmount?: number;
+            usageAmountSimulated?: boolean;
+            usageSimulatedAfterDisconnect?: boolean;
+            usageCurrency?: string;
+            /** @enum {string} */
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
+            /** Format: double */
+            tolerancePct?: number;
+            /** @enum {string} */
+            matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
+            /** @enum {string} */
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note";
+            /** @enum {string} */
+            matchBasis?: "purchase_order";
+            /** @enum {string} */
+            discrepancyReason?: "amount" | "currency" | "controls";
+            controlFindings?: components["schemas"]["InvoiceControlFinding"][];
+            paid?: boolean;
+            /** Format: double */
+            dueInDays?: number;
+            dueDate?: string;
+            paidAt?: string;
+            payment?: components["schemas"]["InvoicePaymentRecord"];
+            remittances?: components["schemas"]["InvoiceRemittance"][];
+            paymentHistory?: components["schemas"]["PaymentHistoryEntry"][];
+            exportAvailableFrom?: string;
+            previousExportedAt?: string;
+            /** @enum {string} */
+            dueDateSource?: "default" | "stated";
+            lastRemindedAt?: string;
+            rejection?: components["schemas"]["InvoiceRejection"];
+            replacesInvoiceId?: string;
+            replacesInvoiceIds?: string[];
+            replacedByInvoiceIds?: string[];
+            /** @enum {string} */
+            source?: "manual" | "po-flip" | "direct" | "feed";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            invoiceDate?: string;
+            sodExcludedKeys?: string[];
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedBy?: string;
+            feedPayloadHash?: string;
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+            /** @enum {string} */
+            documentType?: "debit_note" | "invoice";
+            amendsInvoiceId?: string;
+            amendsExternalInvoiceNumber?: string;
+            debitNoteIds?: string[];
+            /** @enum {string} */
+            invoiceKind?: "prepayment";
+            deductions?: components["schemas"]["InvoiceDeduction"][];
+            creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            creditNoteIds?: string[];
+            /** Format: double */
+            creditVersion?: number;
+            paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            rateWarnings?: components["schemas"]["InvoiceRateWarning"][];
+            remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
+            remittanceCheck?: components["schemas"]["RemittanceCheck"];
+            sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
+            hasOriginalPdf?: boolean;
+            baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
+            viewerIsSupplierMember?: boolean;
+        };
+        RemoveInvoiceReplacementLinkResult: {
+            replacement?: components["schemas"]["InvoiceReplacementCheck"];
+            uncreditedOriginals?: components["schemas"]["UncreditedOriginal"][];
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            createdAt?: string;
+            lateFeeTerms?: components["schemas"]["LateFeeTerms"];
+            /** Format: double */
+            amount?: number;
+            /** Format: double */
+            approvalVersion?: number;
+            approval?: components["schemas"]["ApprovalChain"];
+            supplierConnectionId?: string;
+            currency?: string;
+            buyerOrgName?: string;
+            buyerRegionName?: string;
+            supplierRegionName?: string;
+            contractId?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            billsNoPoLine?: boolean;
+            partyDetails?: {
+                supplier?: components["schemas"]["InvoicePartyDetails"];
+                buyer?: components["schemas"]["InvoicePartyDetails"];
+            };
+            /** Format: double */
+            usageAmount?: number;
+            usageAmountSimulated?: boolean;
+            usageSimulatedAfterDisconnect?: boolean;
+            usageCurrency?: string;
+            /** @enum {string} */
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
+            /** Format: double */
+            tolerancePct?: number;
+            /** @enum {string} */
+            matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
+            /** @enum {string} */
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note";
+            /** @enum {string} */
+            matchBasis?: "purchase_order";
+            /** @enum {string} */
+            discrepancyReason?: "amount" | "currency" | "controls";
+            controlFindings?: components["schemas"]["InvoiceControlFinding"][];
+            paid?: boolean;
+            /** Format: double */
+            dueInDays?: number;
+            dueDate?: string;
+            paidAt?: string;
+            payment?: components["schemas"]["InvoicePaymentRecord"];
+            remittances?: components["schemas"]["InvoiceRemittance"][];
+            paymentHistory?: components["schemas"]["PaymentHistoryEntry"][];
+            exportAvailableFrom?: string;
+            previousExportedAt?: string;
+            /** @enum {string} */
+            dueDateSource?: "default" | "stated";
+            lastRemindedAt?: string;
+            rejection?: components["schemas"]["InvoiceRejection"];
+            replacesInvoiceId?: string;
+            replacesInvoiceIds?: string[];
+            replacedByInvoiceIds?: string[];
+            /** @enum {string} */
+            source?: "manual" | "po-flip" | "direct" | "feed";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            invoiceDate?: string;
+            sodExcludedKeys?: string[];
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedBy?: string;
+            feedPayloadHash?: string;
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+            /** @enum {string} */
+            documentType?: "debit_note" | "invoice";
+            amendsInvoiceId?: string;
+            amendsExternalInvoiceNumber?: string;
+            debitNoteIds?: string[];
+            /** @enum {string} */
+            invoiceKind?: "prepayment";
+            deductions?: components["schemas"]["InvoiceDeduction"][];
+            creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            creditNoteIds?: string[];
+            /** Format: double */
+            creditVersion?: number;
+            paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
+            rateWarnings?: components["schemas"]["InvoiceRateWarning"][];
+            remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
+            remittanceCheck?: components["schemas"]["RemittanceCheck"];
+            sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
+            hasOriginalPdf?: boolean;
+            baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
+            viewerIsSupplierMember?: boolean;
+        };
         RecordPaymentResult: {
             alreadyRecorded?: boolean;
             supplier?: string;
@@ -3073,6 +5077,9 @@ export interface components {
             contractId?: string;
             lineItems?: components["schemas"]["InvoiceLineItem"][];
             po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            billsNoPoLine?: boolean;
             partyDetails?: {
                 supplier?: components["schemas"]["InvoicePartyDetails"];
                 buyer?: components["schemas"]["InvoicePartyDetails"];
@@ -3089,7 +5096,7 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note";
             /** @enum {string} */
             matchBasis?: "purchase_order";
             /** @enum {string} */
@@ -3101,6 +5108,7 @@ export interface components {
             dueDate?: string;
             paidAt?: string;
             payment?: components["schemas"]["InvoicePaymentRecord"];
+            remittances?: components["schemas"]["InvoiceRemittance"][];
             paymentHistory?: components["schemas"]["PaymentHistoryEntry"][];
             exportAvailableFrom?: string;
             previousExportedAt?: string;
@@ -3109,6 +5117,8 @@ export interface components {
             lastRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
             replacesInvoiceId?: string;
+            replacesInvoiceIds?: string[];
+            replacedByInvoiceIds?: string[];
             /** @enum {string} */
             source?: "manual" | "po-flip" | "direct" | "feed";
             /** @enum {string} */
@@ -3125,6 +5135,18 @@ export interface components {
             taxAmount?: number;
             taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
             withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+            /** @enum {string} */
+            documentType?: "debit_note";
+            amendsInvoiceId?: string;
+            amendsExternalInvoiceNumber?: string;
+            debitNoteIds?: string[];
+            /** @enum {string} */
+            invoiceKind?: "prepayment";
+            deductions?: components["schemas"]["InvoiceDeduction"][];
+            creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            creditNoteIds?: string[];
+            /** Format: double */
+            creditVersion?: number;
             paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
             taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
             rateWarnings?: components["schemas"]["InvoiceRateWarning"][];
@@ -3134,6 +5156,8 @@ export interface components {
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
             viewerIsSupplierMember?: boolean;
+            replacement?: components["schemas"]["InvoiceReplacementCheck"];
+            uncreditedOriginals?: components["schemas"]["UncreditedOriginal"][];
         };
         StartStripePaymentResult: {
             url?: string;
@@ -4575,7 +6599,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["InvoiceSupplierView"];
+                    "application/json": components["schemas"]["SubmitFeedInvoiceResult"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
@@ -4609,7 +6633,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["FeedValidationResult"];
+                    "application/json": components["schemas"]["ValidateFeedInvoiceResult"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
@@ -4630,6 +6654,7 @@ export interface operations {
                 from?: string;
                 /** @description ISO 8601 date/timestamp - only items created on or before this are returned. */
                 to?: string;
+                documentType?: string;
             };
             header?: never;
             path?: never;
@@ -4737,6 +6762,71 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["GetInvoiceResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AddInvoiceReplacementLinks: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invoiceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddReplacementLinksInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AddInvoiceReplacementLinksResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    RemoveInvoiceReplacementLink: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invoiceId: string;
+                originalId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RemoveInvoiceReplacementLinkResult"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
@@ -4979,7 +7069,11 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PaymentExportInput"];
+            };
+        };
         responses: {
             200: {
                 headers: {
@@ -5184,7 +7278,9 @@ export interface operations {
     };
     StartStripePayment: {
         parameters: {
-            query?: never;
+            query?: {
+                confirmReplaced?: string;
+            };
             header?: never;
             path: {
                 invoiceId: string;

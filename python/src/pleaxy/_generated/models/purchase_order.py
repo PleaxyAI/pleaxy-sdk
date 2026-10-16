@@ -17,9 +17,16 @@ if TYPE_CHECKING:
     from ..models.approval_chain import ApprovalChain
     from ..models.line_item import LineItem
     from ..models.payer_account_ref import PayerAccountRef
+    from ..models.purchase_order_bill_to import PurchaseOrderBillTo
     from ..models.purchase_order_change_summary import PurchaseOrderChangeSummary
+    from ..models.purchase_order_cost_center_change import PurchaseOrderCostCenterChange
+    from ..models.purchase_order_prior_invoiced import PurchaseOrderPriorInvoiced
+    from ..models.purchase_order_punchout import PurchaseOrderPunchout
     from ..models.purchase_order_quote_document import PurchaseOrderQuoteDocument
+    from ..models.purchase_order_ship_to import PurchaseOrderShipTo
+    from ..models.purchase_order_supplier_email import PurchaseOrderSupplierEmail
     from ..models.purchase_order_supplier_invite import PurchaseOrderSupplierInvite
+    from ..models.store_order import StoreOrder
 
 
 T = TypeVar("T", bound="PurchaseOrder")
@@ -39,13 +46,16 @@ class PurchaseOrder:
         invoice_id (Union[Unset, str]):
         invoice_ids (Union[Unset, List[str]]):
         invoiced_amount (Union[Unset, float]):
+        prior_invoiced (Union[Unset, PurchaseOrderPriorInvoiced]):
         rejected_invoice_count (Union[Unset, float]):
         last_rejected_invoice_id (Union[Unset, str]):
         last_replaced_invoice_id (Union[Unset, str]):
         provider (Union[Unset, PurchaseOrderProvider]):
         payer_accounts (Union[Unset, List['PayerAccountRef']]):
         bill_to (Union[Unset, str]):
+        bill_to_party (Union[Unset, PurchaseOrderBillTo]):
         cost_center (Union[Unset, str]):
+        cost_center_changes (Union[Unset, List['PurchaseOrderCostCenterChange']]):
         budget_owner (Union[Unset, str]):
         buyer_name (Union[Unset, str]):
         buyer_org_name (Union[Unset, str]):
@@ -57,6 +67,7 @@ class PurchaseOrder:
         supplier_connection_id (Union[Unset, str]):
         notes (Union[Unset, str]):
         contract_id (Union[Unset, str]):
+        supplier_email (Union[Unset, PurchaseOrderSupplierEmail]):
         quote_document (Union[Unset, PurchaseOrderQuoteDocument]):
         line_items (Union[Unset, List['LineItem']]):
         approval (Union[Unset, ApprovalChain]):
@@ -67,6 +78,12 @@ class PurchaseOrder:
         updated_at (Union[Unset, str]):
         version (Union[Unset, float]):
         last_change (Union[Unset, PurchaseOrderChangeSummary]):
+        approval_amount (Union[Unset, float]):
+        punchout (Union[Unset, PurchaseOrderPunchout]):
+        store_id (Union[Unset, str]):
+        delivery_address_id (Union[Unset, str]):
+        ship_to (Union[Unset, PurchaseOrderShipTo]):
+        store_order (Union[Unset, StoreOrder]):
         created_at (Union[Unset, str]):
     """
 
@@ -80,13 +97,16 @@ class PurchaseOrder:
     invoice_id: Union[Unset, str] = UNSET
     invoice_ids: Union[Unset, List[str]] = UNSET
     invoiced_amount: Union[Unset, float] = UNSET
+    prior_invoiced: Union[Unset, "PurchaseOrderPriorInvoiced"] = UNSET
     rejected_invoice_count: Union[Unset, float] = UNSET
     last_rejected_invoice_id: Union[Unset, str] = UNSET
     last_replaced_invoice_id: Union[Unset, str] = UNSET
     provider: Union[Unset, PurchaseOrderProvider] = UNSET
     payer_accounts: Union[Unset, List["PayerAccountRef"]] = UNSET
     bill_to: Union[Unset, str] = UNSET
+    bill_to_party: Union[Unset, "PurchaseOrderBillTo"] = UNSET
     cost_center: Union[Unset, str] = UNSET
+    cost_center_changes: Union[Unset, List["PurchaseOrderCostCenterChange"]] = UNSET
     budget_owner: Union[Unset, str] = UNSET
     buyer_name: Union[Unset, str] = UNSET
     buyer_org_name: Union[Unset, str] = UNSET
@@ -98,6 +118,7 @@ class PurchaseOrder:
     supplier_connection_id: Union[Unset, str] = UNSET
     notes: Union[Unset, str] = UNSET
     contract_id: Union[Unset, str] = UNSET
+    supplier_email: Union[Unset, "PurchaseOrderSupplierEmail"] = UNSET
     quote_document: Union[Unset, "PurchaseOrderQuoteDocument"] = UNSET
     line_items: Union[Unset, List["LineItem"]] = UNSET
     approval: Union[Unset, "ApprovalChain"] = UNSET
@@ -108,6 +129,12 @@ class PurchaseOrder:
     updated_at: Union[Unset, str] = UNSET
     version: Union[Unset, float] = UNSET
     last_change: Union[Unset, "PurchaseOrderChangeSummary"] = UNSET
+    approval_amount: Union[Unset, float] = UNSET
+    punchout: Union[Unset, "PurchaseOrderPunchout"] = UNSET
+    store_id: Union[Unset, str] = UNSET
+    delivery_address_id: Union[Unset, str] = UNSET
+    ship_to: Union[Unset, "PurchaseOrderShipTo"] = UNSET
+    store_order: Union[Unset, "StoreOrder"] = UNSET
     created_at: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -136,6 +163,10 @@ class PurchaseOrder:
 
         invoiced_amount = self.invoiced_amount
 
+        prior_invoiced: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.prior_invoiced, Unset):
+            prior_invoiced = self.prior_invoiced.to_dict()
+
         rejected_invoice_count = self.rejected_invoice_count
 
         last_rejected_invoice_id = self.last_rejected_invoice_id
@@ -155,7 +186,18 @@ class PurchaseOrder:
 
         bill_to = self.bill_to
 
+        bill_to_party: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.bill_to_party, Unset):
+            bill_to_party = self.bill_to_party.to_dict()
+
         cost_center = self.cost_center
+
+        cost_center_changes: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.cost_center_changes, Unset):
+            cost_center_changes = []
+            for cost_center_changes_item_data in self.cost_center_changes:
+                cost_center_changes_item = cost_center_changes_item_data.to_dict()
+                cost_center_changes.append(cost_center_changes_item)
 
         budget_owner = self.budget_owner
 
@@ -180,6 +222,10 @@ class PurchaseOrder:
         notes = self.notes
 
         contract_id = self.contract_id
+
+        supplier_email: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.supplier_email, Unset):
+            supplier_email = self.supplier_email.to_dict()
 
         quote_document: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.quote_document, Unset):
@@ -212,6 +258,24 @@ class PurchaseOrder:
         if not isinstance(self.last_change, Unset):
             last_change = self.last_change.to_dict()
 
+        approval_amount = self.approval_amount
+
+        punchout: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.punchout, Unset):
+            punchout = self.punchout.to_dict()
+
+        store_id = self.store_id
+
+        delivery_address_id = self.delivery_address_id
+
+        ship_to: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.ship_to, Unset):
+            ship_to = self.ship_to.to_dict()
+
+        store_order: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.store_order, Unset):
+            store_order = self.store_order.to_dict()
+
         created_at = self.created_at
 
         field_dict: Dict[str, Any] = {}
@@ -239,6 +303,8 @@ class PurchaseOrder:
             field_dict["invoiceIds"] = invoice_ids
         if invoiced_amount is not UNSET:
             field_dict["invoicedAmount"] = invoiced_amount
+        if prior_invoiced is not UNSET:
+            field_dict["priorInvoiced"] = prior_invoiced
         if rejected_invoice_count is not UNSET:
             field_dict["rejectedInvoiceCount"] = rejected_invoice_count
         if last_rejected_invoice_id is not UNSET:
@@ -251,8 +317,12 @@ class PurchaseOrder:
             field_dict["payerAccounts"] = payer_accounts
         if bill_to is not UNSET:
             field_dict["billTo"] = bill_to
+        if bill_to_party is not UNSET:
+            field_dict["billToParty"] = bill_to_party
         if cost_center is not UNSET:
             field_dict["costCenter"] = cost_center
+        if cost_center_changes is not UNSET:
+            field_dict["costCenterChanges"] = cost_center_changes
         if budget_owner is not UNSET:
             field_dict["budgetOwner"] = budget_owner
         if buyer_name is not UNSET:
@@ -275,6 +345,8 @@ class PurchaseOrder:
             field_dict["notes"] = notes
         if contract_id is not UNSET:
             field_dict["contractId"] = contract_id
+        if supplier_email is not UNSET:
+            field_dict["supplierEmail"] = supplier_email
         if quote_document is not UNSET:
             field_dict["quoteDocument"] = quote_document
         if line_items is not UNSET:
@@ -295,6 +367,18 @@ class PurchaseOrder:
             field_dict["version"] = version
         if last_change is not UNSET:
             field_dict["lastChange"] = last_change
+        if approval_amount is not UNSET:
+            field_dict["approvalAmount"] = approval_amount
+        if punchout is not UNSET:
+            field_dict["punchout"] = punchout
+        if store_id is not UNSET:
+            field_dict["storeId"] = store_id
+        if delivery_address_id is not UNSET:
+            field_dict["deliveryAddressId"] = delivery_address_id
+        if ship_to is not UNSET:
+            field_dict["shipTo"] = ship_to
+        if store_order is not UNSET:
+            field_dict["storeOrder"] = store_order
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
 
@@ -305,9 +389,18 @@ class PurchaseOrder:
         from ..models.approval_chain import ApprovalChain
         from ..models.line_item import LineItem
         from ..models.payer_account_ref import PayerAccountRef
+        from ..models.purchase_order_bill_to import PurchaseOrderBillTo
         from ..models.purchase_order_change_summary import PurchaseOrderChangeSummary
+        from ..models.purchase_order_cost_center_change import (
+            PurchaseOrderCostCenterChange,
+        )
+        from ..models.purchase_order_prior_invoiced import PurchaseOrderPriorInvoiced
+        from ..models.purchase_order_punchout import PurchaseOrderPunchout
         from ..models.purchase_order_quote_document import PurchaseOrderQuoteDocument
+        from ..models.purchase_order_ship_to import PurchaseOrderShipTo
+        from ..models.purchase_order_supplier_email import PurchaseOrderSupplierEmail
         from ..models.purchase_order_supplier_invite import PurchaseOrderSupplierInvite
+        from ..models.store_order import StoreOrder
 
         d = src_dict.copy()
         id = d.pop("id")
@@ -335,6 +428,13 @@ class PurchaseOrder:
 
         invoiced_amount = d.pop("invoicedAmount", UNSET)
 
+        _prior_invoiced = d.pop("priorInvoiced", UNSET)
+        prior_invoiced: Union[Unset, PurchaseOrderPriorInvoiced]
+        if isinstance(_prior_invoiced, Unset):
+            prior_invoiced = UNSET
+        else:
+            prior_invoiced = PurchaseOrderPriorInvoiced.from_dict(_prior_invoiced)
+
         rejected_invoice_count = d.pop("rejectedInvoiceCount", UNSET)
 
         last_rejected_invoice_id = d.pop("lastRejectedInvoiceId", UNSET)
@@ -357,7 +457,23 @@ class PurchaseOrder:
 
         bill_to = d.pop("billTo", UNSET)
 
+        _bill_to_party = d.pop("billToParty", UNSET)
+        bill_to_party: Union[Unset, PurchaseOrderBillTo]
+        if isinstance(_bill_to_party, Unset):
+            bill_to_party = UNSET
+        else:
+            bill_to_party = PurchaseOrderBillTo.from_dict(_bill_to_party)
+
         cost_center = d.pop("costCenter", UNSET)
+
+        cost_center_changes = []
+        _cost_center_changes = d.pop("costCenterChanges", UNSET)
+        for cost_center_changes_item_data in _cost_center_changes or []:
+            cost_center_changes_item = PurchaseOrderCostCenterChange.from_dict(
+                cost_center_changes_item_data
+            )
+
+            cost_center_changes.append(cost_center_changes_item)
 
         budget_owner = d.pop("budgetOwner", UNSET)
 
@@ -385,6 +501,13 @@ class PurchaseOrder:
         notes = d.pop("notes", UNSET)
 
         contract_id = d.pop("contractId", UNSET)
+
+        _supplier_email = d.pop("supplierEmail", UNSET)
+        supplier_email: Union[Unset, PurchaseOrderSupplierEmail]
+        if isinstance(_supplier_email, Unset):
+            supplier_email = UNSET
+        else:
+            supplier_email = PurchaseOrderSupplierEmail.from_dict(_supplier_email)
 
         _quote_document = d.pop("quoteDocument", UNSET)
         quote_document: Union[Unset, PurchaseOrderQuoteDocument]
@@ -426,6 +549,33 @@ class PurchaseOrder:
         else:
             last_change = PurchaseOrderChangeSummary.from_dict(_last_change)
 
+        approval_amount = d.pop("approvalAmount", UNSET)
+
+        _punchout = d.pop("punchout", UNSET)
+        punchout: Union[Unset, PurchaseOrderPunchout]
+        if isinstance(_punchout, Unset):
+            punchout = UNSET
+        else:
+            punchout = PurchaseOrderPunchout.from_dict(_punchout)
+
+        store_id = d.pop("storeId", UNSET)
+
+        delivery_address_id = d.pop("deliveryAddressId", UNSET)
+
+        _ship_to = d.pop("shipTo", UNSET)
+        ship_to: Union[Unset, PurchaseOrderShipTo]
+        if isinstance(_ship_to, Unset):
+            ship_to = UNSET
+        else:
+            ship_to = PurchaseOrderShipTo.from_dict(_ship_to)
+
+        _store_order = d.pop("storeOrder", UNSET)
+        store_order: Union[Unset, StoreOrder]
+        if isinstance(_store_order, Unset):
+            store_order = UNSET
+        else:
+            store_order = StoreOrder.from_dict(_store_order)
+
         created_at = d.pop("createdAt", UNSET)
 
         purchase_order = cls(
@@ -439,13 +589,16 @@ class PurchaseOrder:
             invoice_id=invoice_id,
             invoice_ids=invoice_ids,
             invoiced_amount=invoiced_amount,
+            prior_invoiced=prior_invoiced,
             rejected_invoice_count=rejected_invoice_count,
             last_rejected_invoice_id=last_rejected_invoice_id,
             last_replaced_invoice_id=last_replaced_invoice_id,
             provider=provider,
             payer_accounts=payer_accounts,
             bill_to=bill_to,
+            bill_to_party=bill_to_party,
             cost_center=cost_center,
+            cost_center_changes=cost_center_changes,
             budget_owner=budget_owner,
             buyer_name=buyer_name,
             buyer_org_name=buyer_org_name,
@@ -457,6 +610,7 @@ class PurchaseOrder:
             supplier_connection_id=supplier_connection_id,
             notes=notes,
             contract_id=contract_id,
+            supplier_email=supplier_email,
             quote_document=quote_document,
             line_items=line_items,
             approval=approval,
@@ -467,6 +621,12 @@ class PurchaseOrder:
             updated_at=updated_at,
             version=version,
             last_change=last_change,
+            approval_amount=approval_amount,
+            punchout=punchout,
+            store_id=store_id,
+            delivery_address_id=delivery_address_id,
+            ship_to=ship_to,
+            store_order=store_order,
             created_at=created_at,
         )
 

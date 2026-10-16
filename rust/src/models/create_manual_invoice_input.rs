@@ -13,9 +13,30 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct CreateManualInvoiceInput {
-    /// The SupplierConnection to invoice - see GET .../invoices/counterparties
-    #[serde(rename = "connectionId")]
-    pub connection_id: String,
+    /// The SupplierConnection to invoice - see GET .../invoices/counterparties. A debit note may leave it out: it takes its original invoice's.
+    #[serde(rename = "connectionId", skip_serializing_if = "Option::is_none")]
+    pub connection_id: Option<String>,
+    /// \"debit_note\" for an amendment that raises what an invoice asked for (credit notes spec §18): it names the invoice it amends and takes its buyer, supplier, currency and PO. \"invoice\" or absent: an invoice.
+    #[serde(rename = "documentType", skip_serializing_if = "Option::is_none")]
+    pub document_type: Option<DocumentType>,
+    /// Debit note: the Pleaxy id of the invoice it amends (or amendsInvoiceNumber).
+    #[serde(rename = "amendsInvoiceId", skip_serializing_if = "Option::is_none")]
+    pub amends_invoice_id: Option<String>,
+    /// Debit note: the supplier's number of the invoice it amends, when the Pleaxy id isn't known (the feed's way).
+    #[serde(
+        rename = "amendsInvoiceNumber",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub amends_invoice_number: Option<String>,
+    /// A replacement invoice (credit and rebill, credit notes spec §20): the Pleaxy ids of the invoices and debit notes it replaces, 1–20, all from this supplier. Or replacesInvoiceNumbers.
+    #[serde(rename = "replacesInvoiceIds", skip_serializing_if = "Option::is_none")]
+    pub replaces_invoice_ids: Option<Vec<String>>,
+    /// A replacement invoice: the supplier's numbers of the invoices it replaces, when the Pleaxy ids aren't known (the feed's way). 1–20.
+    #[serde(
+        rename = "replacesInvoiceNumbers",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub replaces_invoice_numbers: Option<Vec<String>>,
     /// An open PO between exactly this buyer and supplier
     #[serde(rename = "poId", skip_serializing_if = "Option::is_none")]
     pub po_id: Option<String>,
@@ -30,6 +51,12 @@ pub struct CreateManualInvoiceInput {
     pub due_in_days: Option<f64>,
     #[serde(rename = "lineItems")]
     pub line_items: Vec<models::CreateManualInvoiceLineItemInput>,
+    /// The purchase order line this invoice bills (its lineNo), when it is against a PO. An invoice bills one PO line, stated here and never on its lines, and all of its lines are held to it. Lines are never matched by description. Against a one-line PO, an invoice without one bills that line. Against a multi-line PO, an invoice naming no line makes it a discrepancy a person must resolve. A lineNo the PO doesn't have is refused. Not with billsNoPoLine.
+    #[serde(rename = "poLineNo", skip_serializing_if = "Option::is_none")]
+    pub po_line_no: Option<f64>,
+    /// true when the invoice bills none of the PO's lines (an unordered extra, a one-off fee). It draws on the PO's balance only, and the invoice always needs a person's approval. Not with poLineNo. Shipping and handling usually belong in adjustments instead.
+    #[serde(rename = "billsNoPoLine", skip_serializing_if = "Option::is_none")]
+    pub bills_no_po_line: Option<bool>,
     /// Invoice-level discounts and charges, before tax. At most 20.
     #[serde(rename = "adjustments", skip_serializing_if = "Option::is_none")]
     pub adjustments: Option<Vec<models::InvoiceAdjustmentInput>>,
@@ -45,6 +72,12 @@ pub struct CreateManualInvoiceInput {
     /// Amounts the invoice withholds from its total, in the invoice's currency, e.g. ISR retenido 10%. Positive; they reduce what's owed, never the total. Less than the total in all. At most 20.
     #[serde(rename = "withholdings", skip_serializing_if = "Option::is_none")]
     pub withholdings: Option<Vec<models::BreakdownEntryInput>>,
+    /// \"prepayment\" for an invoice that bills a deposit (UBL InvoiceTypeCode 386). Its payment can later be deducted from the final invoice.
+    #[serde(rename = "invoiceKind", skip_serializing_if = "Option::is_none")]
+    pub invoice_kind: Option<InvoiceKind>,
+    /// What was already paid towards the invoice after tax: deposits and advances the buyer paid, and credits the seller applied. They reduce what's owed, never the total or its tax. With the withholdings, less than the total. At most 20.
+    #[serde(rename = "deductions", skip_serializing_if = "Option::is_none")]
+    pub deductions: Option<Vec<models::InvoiceDeductionInput>>,
     /// Only when the invoice names the amount owed in another currency (e.g. AWS billing in ARS): that amount, with the rate printed on the invoice. Leave it off when the invoice is converted at the payment-date rate. Pleaxy checks the figures against the rate and never converts anything itself.
     #[serde(
         rename = "paymentCurrencyAmount",
@@ -70,28 +103,62 @@ pub struct CreateManualInvoiceInput {
 
 impl CreateManualInvoiceInput {
     pub fn new(
-        connection_id: String,
         invoice_number: String,
         invoice_date: String,
         line_items: Vec<models::CreateManualInvoiceLineItemInput>,
     ) -> CreateManualInvoiceInput {
         CreateManualInvoiceInput {
-            connection_id,
+            connection_id: None,
+            document_type: None,
+            amends_invoice_id: None,
+            amends_invoice_number: None,
+            replaces_invoice_ids: None,
+            replaces_invoice_numbers: None,
             po_id: None,
             invoice_number,
             invoice_date,
             due_in_days: None,
             line_items,
+            po_line_no: None,
+            bills_no_po_line: None,
             adjustments: None,
             source_import_id: None,
             tax_amount: None,
             tax_breakdown: None,
             withholdings: None,
+            invoice_kind: None,
+            deductions: None,
             payment_currency_amount: None,
             tax_currency_amount: None,
             currency: None,
             remittance_instructions: None,
             pdf_base64: None,
         }
+    }
+}
+/// \"debit_note\" for an amendment that raises what an invoice asked for (credit notes spec §18): it names the invoice it amends and takes its buyer, supplier, currency and PO. \"invoice\" or absent: an invoice.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum DocumentType {
+    #[serde(rename = "invoice")]
+    Invoice,
+    #[serde(rename = "debit_note")]
+    DebitNote,
+}
+
+impl Default for DocumentType {
+    fn default() -> DocumentType {
+        Self::Invoice
+    }
+}
+/// \"prepayment\" for an invoice that bills a deposit (UBL InvoiceTypeCode 386). Its payment can later be deducted from the final invoice.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum InvoiceKind {
+    #[serde(rename = "prepayment")]
+    Prepayment,
+}
+
+impl Default for InvoiceKind {
+    fn default() -> InvoiceKind {
+        Self::Prepayment
     }
 }

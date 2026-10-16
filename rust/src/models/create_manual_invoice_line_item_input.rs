@@ -27,12 +27,6 @@ pub struct CreateManualInvoiceLineItemInput {
     /// Total charges on this line (freight, handling…), with no more decimal places than the buyer's currency allows (at most 2).
     #[serde(rename = "charge", skip_serializing_if = "Option::is_none")]
     pub charge: Option<f64>,
-    /// The purchase order line this line bills (its lineNo), when the invoice is against a PO. An invoice bills one PO line: lines naming different ones, or one naming a line while another sets billsNoPoLine, are refused (INVOICE_PO_LINE_MULTIPLE), and a line naming neither bills the one the others name. Lines are never matched by description. Against a one-line PO, a line without one bills that line. Against a multi-line PO, an invoice naming no line makes it a discrepancy a person must resolve. A lineNo the PO doesn't have is refused.
-    #[serde(rename = "poLineNo", skip_serializing_if = "Option::is_none")]
-    pub po_line_no: Option<f64>,
-    /// true when the invoice bills none of the PO's lines (an unordered extra, a one-off fee). It draws on the PO's balance only, and the invoice always needs a person's approval. Not with poLineNo, on this line or another. Shipping and handling usually belong in adjustments instead.
-    #[serde(rename = "billsNoPoLine", skip_serializing_if = "Option::is_none")]
-    pub bills_no_po_line: Option<bool>,
 }
 
 impl CreateManualInvoiceLineItemInput {
@@ -43,8 +37,6 @@ impl CreateManualInvoiceLineItemInput {
             unit_price,
             discount: None,
             charge: None,
-            po_line_no: None,
-            bills_no_po_line: None,
         }
     }
 }

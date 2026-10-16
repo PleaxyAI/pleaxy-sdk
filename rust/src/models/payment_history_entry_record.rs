@@ -55,6 +55,8 @@ pub enum Method {
     Check,
     #[serde(rename = "other")]
     Other,
+    #[serde(rename = "credit")]
+    Credit,
 }
 
 impl Default for Method {

@@ -26,11 +26,11 @@ let mut line = LineItemInput::new(
     0.096,     // unit price
     5000.0,    // quantity
     0.0,       // not-to-exceed amount
-    "Net 30".into(),
     "2026-01-01".into(),
     "2026-12-31".into(),
 );
 line.scope_id = Some(Some("AWS-EC2-M5LG".into()));
+line.payment_terms = Some("Net 30".into());
 
 let mut input = CreatePurchaseOrderInput::new("Amazon Web Services".into(), vec![line]);
 input.provider = Some(create_purchase_order_input::Provider::Aws);

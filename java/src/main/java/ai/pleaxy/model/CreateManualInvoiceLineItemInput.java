@@ -37,9 +37,7 @@ import ai.pleaxy.client.ApiClient;
   CreateManualInvoiceLineItemInput.JSON_PROPERTY_QTY,
   CreateManualInvoiceLineItemInput.JSON_PROPERTY_UNIT_PRICE,
   CreateManualInvoiceLineItemInput.JSON_PROPERTY_DISCOUNT,
-  CreateManualInvoiceLineItemInput.JSON_PROPERTY_CHARGE,
-  CreateManualInvoiceLineItemInput.JSON_PROPERTY_PO_LINE_NO,
-  CreateManualInvoiceLineItemInput.JSON_PROPERTY_BILLS_NO_PO_LINE
+  CreateManualInvoiceLineItemInput.JSON_PROPERTY_CHARGE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class CreateManualInvoiceLineItemInput {
@@ -62,14 +60,6 @@ public class CreateManualInvoiceLineItemInput {
   public static final String JSON_PROPERTY_CHARGE = "charge";
   @javax.annotation.Nullable
   private Double charge;
-
-  public static final String JSON_PROPERTY_PO_LINE_NO = "poLineNo";
-  @javax.annotation.Nullable
-  private Double poLineNo;
-
-  public static final String JSON_PROPERTY_BILLS_NO_PO_LINE = "billsNoPoLine";
-  @javax.annotation.Nullable
-  private Boolean billsNoPoLine;
 
   public CreateManualInvoiceLineItemInput() { 
   }
@@ -202,56 +192,6 @@ public class CreateManualInvoiceLineItemInput {
   }
 
 
-  public CreateManualInvoiceLineItemInput poLineNo(@javax.annotation.Nullable Double poLineNo) {
-    this.poLineNo = poLineNo;
-    return this;
-  }
-
-  /**
-   * The purchase order line this line bills (its lineNo), when the invoice is against a PO. An invoice bills one PO line: lines naming different ones, or one naming a line while another sets billsNoPoLine, are refused (INVOICE_PO_LINE_MULTIPLE), and a line naming neither bills the one the others name. Lines are never matched by description. Against a one-line PO, a line without one bills that line. Against a multi-line PO, an invoice naming no line makes it a discrepancy a person must resolve. A lineNo the PO doesn&#39;t have is refused.
-   * minimum: 1
-   * maximum: 100000
-   * @return poLineNo
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PO_LINE_NO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public Double getPoLineNo() {
-    return poLineNo;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_PO_LINE_NO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPoLineNo(@javax.annotation.Nullable Double poLineNo) {
-    this.poLineNo = poLineNo;
-  }
-
-
-  public CreateManualInvoiceLineItemInput billsNoPoLine(@javax.annotation.Nullable Boolean billsNoPoLine) {
-    this.billsNoPoLine = billsNoPoLine;
-    return this;
-  }
-
-  /**
-   * true when the invoice bills none of the PO&#39;s lines (an unordered extra, a one-off fee). It draws on the PO&#39;s balance only, and the invoice always needs a person&#39;s approval. Not with poLineNo, on this line or another. Shipping and handling usually belong in adjustments instead.
-   * @return billsNoPoLine
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BILLS_NO_PO_LINE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public Boolean getBillsNoPoLine() {
-    return billsNoPoLine;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_BILLS_NO_PO_LINE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBillsNoPoLine(@javax.annotation.Nullable Boolean billsNoPoLine) {
-    this.billsNoPoLine = billsNoPoLine;
-  }
-
-
   /**
    * Return true if this CreateManualInvoiceLineItemInput object is equal to o.
    */
@@ -268,14 +208,12 @@ public class CreateManualInvoiceLineItemInput {
         Objects.equals(this.qty, createManualInvoiceLineItemInput.qty) &&
         Objects.equals(this.unitPrice, createManualInvoiceLineItemInput.unitPrice) &&
         Objects.equals(this.discount, createManualInvoiceLineItemInput.discount) &&
-        Objects.equals(this.charge, createManualInvoiceLineItemInput.charge) &&
-        Objects.equals(this.poLineNo, createManualInvoiceLineItemInput.poLineNo) &&
-        Objects.equals(this.billsNoPoLine, createManualInvoiceLineItemInput.billsNoPoLine);
+        Objects.equals(this.charge, createManualInvoiceLineItemInput.charge);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(description, qty, unitPrice, discount, charge, poLineNo, billsNoPoLine);
+    return Objects.hash(description, qty, unitPrice, discount, charge);
   }
 
   @Override
@@ -287,8 +225,6 @@ public class CreateManualInvoiceLineItemInput {
     sb.append("    unitPrice: ").append(toIndentedString(unitPrice)).append("\n");
     sb.append("    discount: ").append(toIndentedString(discount)).append("\n");
     sb.append("    charge: ").append(toIndentedString(charge)).append("\n");
-    sb.append("    poLineNo: ").append(toIndentedString(poLineNo)).append("\n");
-    sb.append("    billsNoPoLine: ").append(toIndentedString(billsNoPoLine)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -359,16 +295,6 @@ public class CreateManualInvoiceLineItemInput {
     // add `charge` to the URL query string
     if (getCharge() != null) {
       joiner.add(String.format("%scharge%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCharge()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `poLineNo` to the URL query string
-    if (getPoLineNo() != null) {
-      joiner.add(String.format("%spoLineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPoLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `billsNoPoLine` to the URL query string
-    if (getBillsNoPoLine() != null) {
-      joiner.add(String.format("%sbillsNoPoLine%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBillsNoPoLine()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

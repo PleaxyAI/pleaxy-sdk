@@ -29,6 +29,10 @@ pub struct RecordPaymentInput {
     pub rate_date: Option<String>,
     #[serde(rename = "withholdings", skip_serializing_if = "Option::is_none")]
     pub withholdings: Option<Vec<models::BreakdownEntryInput>>,
+    #[serde(rename = "remittance", skip_serializing_if = "Option::is_none")]
+    pub remittance: Option<models::SendRemittanceInput>,
+    #[serde(rename = "confirmReplaced", skip_serializing_if = "Option::is_none")]
+    pub confirm_replaced: Option<bool>,
 }
 
 impl RecordPaymentInput {
@@ -42,6 +46,8 @@ impl RecordPaymentInput {
             rate: None,
             rate_date: None,
             withholdings: None,
+            remittance: None,
+            confirm_replaced: None,
         }
     }
 }

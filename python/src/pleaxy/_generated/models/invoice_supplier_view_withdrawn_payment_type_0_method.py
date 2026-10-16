@@ -1,7 +1,7 @@
 from typing import Literal, Set, cast
 
 InvoiceSupplierViewWithdrawnPaymentType0Method = Literal[
-    "ach", "card", "check", "other", "wire"
+    "ach", "card", "check", "credit", "other", "wire"
 ]
 
 INVOICE_SUPPLIER_VIEW_WITHDRAWN_PAYMENT_TYPE_0_METHOD_VALUES: Set[
@@ -10,6 +10,7 @@ INVOICE_SUPPLIER_VIEW_WITHDRAWN_PAYMENT_TYPE_0_METHOD_VALUES: Set[
     "ach",
     "card",
     "check",
+    "credit",
     "other",
     "wire",
 }

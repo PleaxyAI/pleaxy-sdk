@@ -19,8 +19,10 @@ module Pleaxy
       # List of class defined in anyOf (OpenAPI v3)
       def openapi_any_of
         [
-          :'InvoiceBuyerView',
-          :'InvoiceSupplierView'
+          :'ListInvoicesItemBuyerCreditNote',
+          :'ListInvoicesItemBuyerInvoice',
+          :'ListInvoicesItemSupplierCreditNote',
+          :'ListInvoicesItemSupplierInvoice'
         ]
       end
 

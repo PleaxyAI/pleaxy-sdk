@@ -49,6 +49,7 @@ import ai.pleaxy.client.ApiClient;
   UpdateOrgProfileInput.JSON_PROPERTY_PRIMARY_CONTACT_EMAIL,
   UpdateOrgProfileInput.JSON_PROPERTY_COUNTRIES,
   UpdateOrgProfileInput.JSON_PROPERTY_TIME_ZONE,
+  UpdateOrgProfileInput.JSON_PROPERTY_LISTED_IN_DIRECTORY,
   UpdateOrgProfileInput.JSON_PROPERTY_GEOGRAPHY_PRESET_ID
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -104,6 +105,10 @@ public class UpdateOrgProfileInput {
   public static final String JSON_PROPERTY_TIME_ZONE = "timeZone";
   @javax.annotation.Nullable
   private String timeZone;
+
+  public static final String JSON_PROPERTY_LISTED_IN_DIRECTORY = "listedInDirectory";
+  @javax.annotation.Nullable
+  private Boolean listedInDirectory;
 
   /**
    * Gets or Sets geographyPresetId
@@ -509,6 +514,30 @@ public class UpdateOrgProfileInput {
   }
 
 
+  public UpdateOrgProfileInput listedInDirectory(@javax.annotation.Nullable Boolean listedInDirectory) {
+    this.listedInDirectory = listedInDirectory;
+    return this;
+  }
+
+  /**
+   * Get listedInDirectory
+   * @return listedInDirectory
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_LISTED_IN_DIRECTORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getListedInDirectory() {
+    return listedInDirectory;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_LISTED_IN_DIRECTORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setListedInDirectory(@javax.annotation.Nullable Boolean listedInDirectory) {
+    this.listedInDirectory = listedInDirectory;
+  }
+
+
   public UpdateOrgProfileInput geographyPresetId(@javax.annotation.Nullable GeographyPresetIdEnum geographyPresetId) {
     this.geographyPresetId = geographyPresetId;
     return this;
@@ -558,12 +587,13 @@ public class UpdateOrgProfileInput {
         Objects.equals(this.primaryContactEmail, updateOrgProfileInput.primaryContactEmail) &&
         Objects.equals(this.countries, updateOrgProfileInput.countries) &&
         Objects.equals(this.timeZone, updateOrgProfileInput.timeZone) &&
+        Objects.equals(this.listedInDirectory, updateOrgProfileInput.listedInDirectory) &&
         Objects.equals(this.geographyPresetId, updateOrgProfileInput.geographyPresetId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(regionName, companyName, billingEmail, billingAddress, billingAddressParts, taxId, currency, otherCurrencies, paymentCurrencies, primaryContactName, primaryContactEmail, countries, timeZone, geographyPresetId);
+    return Objects.hash(regionName, companyName, billingEmail, billingAddress, billingAddressParts, taxId, currency, otherCurrencies, paymentCurrencies, primaryContactName, primaryContactEmail, countries, timeZone, listedInDirectory, geographyPresetId);
   }
 
   @Override
@@ -583,6 +613,7 @@ public class UpdateOrgProfileInput {
     sb.append("    primaryContactEmail: ").append(toIndentedString(primaryContactEmail)).append("\n");
     sb.append("    countries: ").append(toIndentedString(countries)).append("\n");
     sb.append("    timeZone: ").append(toIndentedString(timeZone)).append("\n");
+    sb.append("    listedInDirectory: ").append(toIndentedString(listedInDirectory)).append("\n");
     sb.append("    geographyPresetId: ").append(toIndentedString(geographyPresetId)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -706,6 +737,11 @@ public class UpdateOrgProfileInput {
     // add `timeZone` to the URL query string
     if (getTimeZone() != null) {
       joiner.add(String.format("%stimeZone%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTimeZone()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `listedInDirectory` to the URL query string
+    if (getListedInDirectory() != null) {
+      joiner.add(String.format("%slistedInDirectory%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getListedInDirectory()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `geographyPresetId` to the URL query string

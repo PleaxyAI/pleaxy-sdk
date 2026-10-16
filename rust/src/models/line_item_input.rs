@@ -37,8 +37,9 @@ pub struct LineItemInput {
     /// ISO 4217. Optional - the server writes the order's currency on every line. If sent, it must be the order's currency (any case); another currency is a 400, since Pleaxy doesn't convert currencies.
     #[serde(rename = "currency", skip_serializing_if = "Option::is_none")]
     pub currency: Option<String>,
-    #[serde(rename = "paymentTerms")]
-    pub payment_terms: String,
+    /// The line's payment terms, e.g. \"Net 30\". Optional: left out (or blank), the line takes the default payment terms of the contract it was priced from or the order names (contractId), else the catalog item's, else \"Net 30\".
+    #[serde(rename = "paymentTerms", skip_serializing_if = "Option::is_none")]
+    pub payment_terms: Option<String>,
     #[serde(rename = "validFrom")]
     pub valid_from: String,
     #[serde(rename = "validUntil")]
@@ -49,6 +50,9 @@ pub struct LineItemInput {
     /// The line of the order's quote (quoteImportId) this line was filled from, when Pleaxy read the quote. Kept on the line; the app shows the line as priced from the supplier's quote unless a contract rate priced it.
     #[serde(rename = "quoteLineNo", skip_serializing_if = "Option::is_none")]
     pub quote_line_no: Option<f64>,
+    /// The online-store cart line this line came from (store punchout spec D4). The server reads that cart's evidence and sets what the line is - its name, unit and part numbers - from it; only qty and unitPrice are yours.
+    #[serde(rename = "punchoutRef", skip_serializing_if = "Option::is_none")]
+    pub punchout_ref: Option<models::PunchoutRefInput>,
 }
 
 impl LineItemInput {
@@ -60,7 +64,6 @@ impl LineItemInput {
         unit_price: f64,
         qty: f64,
         nte_amount: f64,
-        payment_terms: String,
         valid_from: String,
         valid_until: String,
     ) -> LineItemInput {
@@ -74,11 +77,12 @@ impl LineItemInput {
             qty,
             nte_amount,
             currency: None,
-            payment_terms,
+            payment_terms: None,
             valid_from,
             valid_until,
             customer_line_no: None,
             quote_line_no: None,
+            punchout_ref: None,
         }
     }
 }

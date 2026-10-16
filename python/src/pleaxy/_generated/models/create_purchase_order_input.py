@@ -10,6 +10,7 @@ from ..models.create_purchase_order_input_provider import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.bill_to_party_input import BillToPartyInput
     from ..models.line_item_input import LineItemInput
     from ..models.payer_account_ref_input import PayerAccountRefInput
 
@@ -38,7 +39,9 @@ class CreatePurchaseOrderInput:
         payer_accounts (Union[Unset, List['PayerAccountRefInput']]): Only with `provider`: this region's cloud
             connections of that provider the PO applies to, by `id`. A connection still being set up is refused. The PO
             stores each connection's own label and detail; any sent here are ignored.
-        bill_to (Union[Unset, str]):
+        bill_to_party (Union[Unset, BillToPartyInput]):
+        bill_to (Union[Unset, str]): Use `billToParty`. A one-line bill-to address for the buyer's company, kept as
+            typed; ignored when `billToParty` is sent.
         cost_center (Union[Unset, str]):
         budget_owner (Union[Unset, str]):
         buyer_name (Union[Unset, str]):
@@ -62,6 +65,7 @@ class CreatePurchaseOrderInput:
     currency: Union[Unset, str] = UNSET
     provider: Union[Unset, CreatePurchaseOrderInputProvider] = UNSET
     payer_accounts: Union[Unset, List["PayerAccountRefInput"]] = UNSET
+    bill_to_party: Union[Unset, "BillToPartyInput"] = UNSET
     bill_to: Union[Unset, str] = UNSET
     cost_center: Union[Unset, str] = UNSET
     budget_owner: Union[Unset, str] = UNSET
@@ -98,6 +102,10 @@ class CreatePurchaseOrderInput:
             for payer_accounts_item_data in self.payer_accounts:
                 payer_accounts_item = payer_accounts_item_data.to_dict()
                 payer_accounts.append(payer_accounts_item)
+
+        bill_to_party: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.bill_to_party, Unset):
+            bill_to_party = self.bill_to_party.to_dict()
 
         bill_to = self.bill_to
 
@@ -137,6 +145,8 @@ class CreatePurchaseOrderInput:
             field_dict["provider"] = provider
         if payer_accounts is not UNSET:
             field_dict["payerAccounts"] = payer_accounts
+        if bill_to_party is not UNSET:
+            field_dict["billToParty"] = bill_to_party
         if bill_to is not UNSET:
             field_dict["billTo"] = bill_to
         if cost_center is not UNSET:
@@ -162,6 +172,7 @@ class CreatePurchaseOrderInput:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.bill_to_party_input import BillToPartyInput
         from ..models.line_item_input import LineItemInput
         from ..models.payer_account_ref_input import PayerAccountRefInput
 
@@ -197,6 +208,13 @@ class CreatePurchaseOrderInput:
 
             payer_accounts.append(payer_accounts_item)
 
+        _bill_to_party = d.pop("billToParty", UNSET)
+        bill_to_party: Union[Unset, BillToPartyInput]
+        if isinstance(_bill_to_party, Unset):
+            bill_to_party = UNSET
+        else:
+            bill_to_party = BillToPartyInput.from_dict(_bill_to_party)
+
         bill_to = d.pop("billTo", UNSET)
 
         cost_center = d.pop("costCenter", UNSET)
@@ -225,6 +243,7 @@ class CreatePurchaseOrderInput:
             currency=currency,
             provider=provider,
             payer_accounts=payer_accounts,
+            bill_to_party=bill_to_party,
             bill_to=bill_to,
             cost_center=cost_center,
             budget_owner=budget_owner,

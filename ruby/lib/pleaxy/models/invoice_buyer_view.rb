@@ -49,6 +49,10 @@ module Pleaxy
 
     attr_accessor :po
 
+    attr_accessor :po_line_no
+
+    attr_accessor :bills_no_po_line
+
     attr_accessor :party_details
 
     attr_accessor :usage_amount
@@ -83,6 +87,8 @@ module Pleaxy
 
     attr_accessor :payment
 
+    attr_accessor :remittances
+
     attr_accessor :payment_history
 
     attr_accessor :export_available_from
@@ -96,6 +102,10 @@ module Pleaxy
     attr_accessor :rejection
 
     attr_accessor :replaces_invoice_id
+
+    attr_accessor :replaces_invoice_ids
+
+    attr_accessor :replaced_by_invoice_ids
 
     attr_accessor :source
 
@@ -121,6 +131,24 @@ module Pleaxy
 
     attr_accessor :withholdings
 
+    attr_accessor :document_type
+
+    attr_accessor :amends_invoice_id
+
+    attr_accessor :amends_external_invoice_number
+
+    attr_accessor :debit_note_ids
+
+    attr_accessor :invoice_kind
+
+    attr_accessor :deductions
+
+    attr_accessor :credit_applications
+
+    attr_accessor :credit_note_ids
+
+    attr_accessor :credit_version
+
     attr_accessor :payment_currency_amount
 
     attr_accessor :tax_currency_amount
@@ -138,6 +166,10 @@ module Pleaxy
     attr_accessor :base_currency_amount
 
     attr_accessor :viewer_is_supplier_member
+
+    attr_accessor :replacement
+
+    attr_accessor :uncredited_originals
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -181,6 +213,8 @@ module Pleaxy
         :'contract_id' => :'contractId',
         :'line_items' => :'lineItems',
         :'po' => :'po',
+        :'po_line_no' => :'poLineNo',
+        :'bills_no_po_line' => :'billsNoPoLine',
         :'party_details' => :'partyDetails',
         :'usage_amount' => :'usageAmount',
         :'usage_amount_simulated' => :'usageAmountSimulated',
@@ -198,6 +232,7 @@ module Pleaxy
         :'due_date' => :'dueDate',
         :'paid_at' => :'paidAt',
         :'payment' => :'payment',
+        :'remittances' => :'remittances',
         :'payment_history' => :'paymentHistory',
         :'export_available_from' => :'exportAvailableFrom',
         :'previous_exported_at' => :'previousExportedAt',
@@ -205,6 +240,8 @@ module Pleaxy
         :'last_reminded_at' => :'lastRemindedAt',
         :'rejection' => :'rejection',
         :'replaces_invoice_id' => :'replacesInvoiceId',
+        :'replaces_invoice_ids' => :'replacesInvoiceIds',
+        :'replaced_by_invoice_ids' => :'replacedByInvoiceIds',
         :'source' => :'source',
         :'entered_by' => :'enteredBy',
         :'invoice_date' => :'invoiceDate',
@@ -217,6 +254,15 @@ module Pleaxy
         :'tax_amount' => :'taxAmount',
         :'tax_breakdown' => :'taxBreakdown',
         :'withholdings' => :'withholdings',
+        :'document_type' => :'documentType',
+        :'amends_invoice_id' => :'amendsInvoiceId',
+        :'amends_external_invoice_number' => :'amendsExternalInvoiceNumber',
+        :'debit_note_ids' => :'debitNoteIds',
+        :'invoice_kind' => :'invoiceKind',
+        :'deductions' => :'deductions',
+        :'credit_applications' => :'creditApplications',
+        :'credit_note_ids' => :'creditNoteIds',
+        :'credit_version' => :'creditVersion',
         :'payment_currency_amount' => :'paymentCurrencyAmount',
         :'tax_currency_amount' => :'taxCurrencyAmount',
         :'rate_warnings' => :'rateWarnings',
@@ -225,7 +271,9 @@ module Pleaxy
         :'source_document' => :'sourceDocument',
         :'has_original_pdf' => :'hasOriginalPdf',
         :'base_currency_amount' => :'baseCurrencyAmount',
-        :'viewer_is_supplier_member' => :'viewerIsSupplierMember'
+        :'viewer_is_supplier_member' => :'viewerIsSupplierMember',
+        :'replacement' => :'replacement',
+        :'uncredited_originals' => :'uncreditedOriginals'
       }
     end
 
@@ -254,6 +302,8 @@ module Pleaxy
         :'contract_id' => :'String',
         :'line_items' => :'Array<InvoiceLineItem>',
         :'po' => :'String',
+        :'po_line_no' => :'Float',
+        :'bills_no_po_line' => :'Boolean',
         :'party_details' => :'InvoiceBuyerViewPartyDetails',
         :'usage_amount' => :'Float',
         :'usage_amount_simulated' => :'Boolean',
@@ -271,6 +321,7 @@ module Pleaxy
         :'due_date' => :'String',
         :'paid_at' => :'String',
         :'payment' => :'InvoicePaymentRecord',
+        :'remittances' => :'Array<InvoiceRemittance>',
         :'payment_history' => :'Array<PaymentHistoryEntry>',
         :'export_available_from' => :'String',
         :'previous_exported_at' => :'String',
@@ -278,6 +329,8 @@ module Pleaxy
         :'last_reminded_at' => :'String',
         :'rejection' => :'InvoiceRejection',
         :'replaces_invoice_id' => :'String',
+        :'replaces_invoice_ids' => :'Array<String>',
+        :'replaced_by_invoice_ids' => :'Array<String>',
         :'source' => :'String',
         :'entered_by' => :'String',
         :'invoice_date' => :'String',
@@ -290,6 +343,15 @@ module Pleaxy
         :'tax_amount' => :'Float',
         :'tax_breakdown' => :'Array<InvoiceBreakdownEntry>',
         :'withholdings' => :'Array<InvoiceBreakdownEntry>',
+        :'document_type' => :'String',
+        :'amends_invoice_id' => :'String',
+        :'amends_external_invoice_number' => :'String',
+        :'debit_note_ids' => :'Array<String>',
+        :'invoice_kind' => :'String',
+        :'deductions' => :'Array<InvoiceDeduction>',
+        :'credit_applications' => :'Array<InvoiceCreditApplication>',
+        :'credit_note_ids' => :'Array<String>',
+        :'credit_version' => :'Float',
         :'payment_currency_amount' => :'InvoiceCurrencyAmount',
         :'tax_currency_amount' => :'InvoiceCurrencyAmount',
         :'rate_warnings' => :'Array<InvoiceRateWarning>',
@@ -298,7 +360,9 @@ module Pleaxy
         :'source_document' => :'InvoiceSourceDocument',
         :'has_original_pdf' => :'Boolean',
         :'base_currency_amount' => :'InvoiceBaseCurrencyAmount',
-        :'viewer_is_supplier_member' => :'Boolean'
+        :'viewer_is_supplier_member' => :'Boolean',
+        :'replacement' => :'InvoiceReplacementCheck',
+        :'uncredited_originals' => :'Array<UncreditedOriginal>'
       }
     end
 
@@ -395,6 +459,14 @@ module Pleaxy
         self.po = attributes[:'po']
       end
 
+      if attributes.key?(:'po_line_no')
+        self.po_line_no = attributes[:'po_line_no']
+      end
+
+      if attributes.key?(:'bills_no_po_line')
+        self.bills_no_po_line = attributes[:'bills_no_po_line']
+      end
+
       if attributes.key?(:'party_details')
         self.party_details = attributes[:'party_details']
       end
@@ -465,6 +537,12 @@ module Pleaxy
         self.payment = attributes[:'payment']
       end
 
+      if attributes.key?(:'remittances')
+        if (value = attributes[:'remittances']).is_a?(Array)
+          self.remittances = value
+        end
+      end
+
       if attributes.key?(:'payment_history')
         if (value = attributes[:'payment_history']).is_a?(Array)
           self.payment_history = value
@@ -493,6 +571,18 @@ module Pleaxy
 
       if attributes.key?(:'replaces_invoice_id')
         self.replaces_invoice_id = attributes[:'replaces_invoice_id']
+      end
+
+      if attributes.key?(:'replaces_invoice_ids')
+        if (value = attributes[:'replaces_invoice_ids']).is_a?(Array)
+          self.replaces_invoice_ids = value
+        end
+      end
+
+      if attributes.key?(:'replaced_by_invoice_ids')
+        if (value = attributes[:'replaced_by_invoice_ids']).is_a?(Array)
+          self.replaced_by_invoice_ids = value
+        end
       end
 
       if attributes.key?(:'source')
@@ -551,6 +641,50 @@ module Pleaxy
         end
       end
 
+      if attributes.key?(:'document_type')
+        self.document_type = attributes[:'document_type']
+      end
+
+      if attributes.key?(:'amends_invoice_id')
+        self.amends_invoice_id = attributes[:'amends_invoice_id']
+      end
+
+      if attributes.key?(:'amends_external_invoice_number')
+        self.amends_external_invoice_number = attributes[:'amends_external_invoice_number']
+      end
+
+      if attributes.key?(:'debit_note_ids')
+        if (value = attributes[:'debit_note_ids']).is_a?(Array)
+          self.debit_note_ids = value
+        end
+      end
+
+      if attributes.key?(:'invoice_kind')
+        self.invoice_kind = attributes[:'invoice_kind']
+      end
+
+      if attributes.key?(:'deductions')
+        if (value = attributes[:'deductions']).is_a?(Array)
+          self.deductions = value
+        end
+      end
+
+      if attributes.key?(:'credit_applications')
+        if (value = attributes[:'credit_applications']).is_a?(Array)
+          self.credit_applications = value
+        end
+      end
+
+      if attributes.key?(:'credit_note_ids')
+        if (value = attributes[:'credit_note_ids']).is_a?(Array)
+          self.credit_note_ids = value
+        end
+      end
+
+      if attributes.key?(:'credit_version')
+        self.credit_version = attributes[:'credit_version']
+      end
+
       if attributes.key?(:'payment_currency_amount')
         self.payment_currency_amount = attributes[:'payment_currency_amount']
       end
@@ -588,6 +722,16 @@ module Pleaxy
       if attributes.key?(:'viewer_is_supplier_member')
         self.viewer_is_supplier_member = attributes[:'viewer_is_supplier_member']
       end
+
+      if attributes.key?(:'replacement')
+        self.replacement = attributes[:'replacement']
+      end
+
+      if attributes.key?(:'uncredited_originals')
+        if (value = attributes[:'uncredited_originals']).is_a?(Array)
+          self.uncredited_originals = value
+        end
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -611,7 +755,7 @@ module Pleaxy
       return false unless usage_source_validator.valid?(@usage_source)
       match_status_validator = EnumAttributeValidator.new('String', ["pending", "matched", "discrepancy", "unverified"])
       return false unless match_status_validator.valid?(@match_status)
-      unverified_reason_validator = EnumAttributeValidator.new('String', ["no_purchase_order", "no_billing_connection"])
+      unverified_reason_validator = EnumAttributeValidator.new('String', ["no_purchase_order", "no_billing_connection", "debit_note"])
       return false unless unverified_reason_validator.valid?(@unverified_reason)
       match_basis_validator = EnumAttributeValidator.new('String', ["purchase_order"])
       return false unless match_basis_validator.valid?(@match_basis)
@@ -625,6 +769,10 @@ module Pleaxy
       return false unless entered_by_validator.valid?(@entered_by)
       submitted_format_validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml"])
       return false unless submitted_format_validator.valid?(@submitted_format)
+      document_type_validator = EnumAttributeValidator.new('String', ["debit_note"])
+      return false unless document_type_validator.valid?(@document_type)
+      invoice_kind_validator = EnumAttributeValidator.new('String', ["prepayment"])
+      return false unless invoice_kind_validator.valid?(@invoice_kind)
       true
     end
 
@@ -651,7 +799,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] unverified_reason Object to be assigned
     def unverified_reason=(unverified_reason)
-      validator = EnumAttributeValidator.new('String', ["no_purchase_order", "no_billing_connection"])
+      validator = EnumAttributeValidator.new('String', ["no_purchase_order", "no_billing_connection", "debit_note"])
       unless validator.valid?(unverified_reason)
         fail ArgumentError, "invalid value for \"unverified_reason\", must be one of #{validator.allowable_values}."
       end
@@ -718,6 +866,26 @@ module Pleaxy
       @submitted_format = submitted_format
     end
 
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] document_type Object to be assigned
+    def document_type=(document_type)
+      validator = EnumAttributeValidator.new('String', ["debit_note"])
+      unless validator.valid?(document_type)
+        fail ArgumentError, "invalid value for \"document_type\", must be one of #{validator.allowable_values}."
+      end
+      @document_type = document_type
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] invoice_kind Object to be assigned
+    def invoice_kind=(invoice_kind)
+      validator = EnumAttributeValidator.new('String', ["prepayment"])
+      unless validator.valid?(invoice_kind)
+        fail ArgumentError, "invalid value for \"invoice_kind\", must be one of #{validator.allowable_values}."
+      end
+      @invoice_kind = invoice_kind
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
@@ -740,6 +908,8 @@ module Pleaxy
           contract_id == o.contract_id &&
           line_items == o.line_items &&
           po == o.po &&
+          po_line_no == o.po_line_no &&
+          bills_no_po_line == o.bills_no_po_line &&
           party_details == o.party_details &&
           usage_amount == o.usage_amount &&
           usage_amount_simulated == o.usage_amount_simulated &&
@@ -757,6 +927,7 @@ module Pleaxy
           due_date == o.due_date &&
           paid_at == o.paid_at &&
           payment == o.payment &&
+          remittances == o.remittances &&
           payment_history == o.payment_history &&
           export_available_from == o.export_available_from &&
           previous_exported_at == o.previous_exported_at &&
@@ -764,6 +935,8 @@ module Pleaxy
           last_reminded_at == o.last_reminded_at &&
           rejection == o.rejection &&
           replaces_invoice_id == o.replaces_invoice_id &&
+          replaces_invoice_ids == o.replaces_invoice_ids &&
+          replaced_by_invoice_ids == o.replaced_by_invoice_ids &&
           source == o.source &&
           entered_by == o.entered_by &&
           invoice_date == o.invoice_date &&
@@ -776,6 +949,15 @@ module Pleaxy
           tax_amount == o.tax_amount &&
           tax_breakdown == o.tax_breakdown &&
           withholdings == o.withholdings &&
+          document_type == o.document_type &&
+          amends_invoice_id == o.amends_invoice_id &&
+          amends_external_invoice_number == o.amends_external_invoice_number &&
+          debit_note_ids == o.debit_note_ids &&
+          invoice_kind == o.invoice_kind &&
+          deductions == o.deductions &&
+          credit_applications == o.credit_applications &&
+          credit_note_ids == o.credit_note_ids &&
+          credit_version == o.credit_version &&
           payment_currency_amount == o.payment_currency_amount &&
           tax_currency_amount == o.tax_currency_amount &&
           rate_warnings == o.rate_warnings &&
@@ -784,7 +966,9 @@ module Pleaxy
           source_document == o.source_document &&
           has_original_pdf == o.has_original_pdf &&
           base_currency_amount == o.base_currency_amount &&
-          viewer_is_supplier_member == o.viewer_is_supplier_member
+          viewer_is_supplier_member == o.viewer_is_supplier_member &&
+          replacement == o.replacement &&
+          uncredited_originals == o.uncredited_originals
     end
 
     # @see the `==` method
@@ -796,7 +980,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, approval_version, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, party_details, usage_amount, usage_amount_simulated, usage_simulated_after_disconnect, usage_currency, usage_source, tolerance_pct, match_status, unverified_reason, match_basis, discrepancy_reason, control_findings, paid, due_in_days, due_date, paid_at, payment, payment_history, export_available_from, previous_exported_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, source, entered_by, invoice_date, sod_excluded_keys, submitted_format, submitted_by, feed_payload_hash, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, payment_currency_amount, tax_currency_amount, rate_warnings, remittance_instructions, remittance_check, source_document, has_original_pdf, base_currency_amount, viewer_is_supplier_member].hash
+      [supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, approval_version, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, usage_amount, usage_amount_simulated, usage_simulated_after_disconnect, usage_currency, usage_source, tolerance_pct, match_status, unverified_reason, match_basis, discrepancy_reason, control_findings, paid, due_in_days, due_date, paid_at, payment, remittances, payment_history, export_available_from, previous_exported_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, source, entered_by, invoice_date, sod_excluded_keys, submitted_format, submitted_by, feed_payload_hash, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, rate_warnings, remittance_instructions, remittance_check, source_document, has_original_pdf, base_currency_amount, viewer_is_supplier_member, replacement, uncredited_originals].hash
     end
 
     # Builds the object from hash

@@ -23,7 +23,9 @@ import ai.pleaxy.model.InvoiceAdjustment;
 import ai.pleaxy.model.InvoiceBaseCurrencyAmount;
 import ai.pleaxy.model.InvoiceBreakdownEntry;
 import ai.pleaxy.model.InvoiceBuyerViewPartyDetails;
+import ai.pleaxy.model.InvoiceCreditApplication;
 import ai.pleaxy.model.InvoiceCurrencyAmount;
+import ai.pleaxy.model.InvoiceDeduction;
 import ai.pleaxy.model.InvoiceLineItem;
 import ai.pleaxy.model.InvoiceRejection;
 import ai.pleaxy.model.InvoiceSourceDocument;
@@ -31,6 +33,7 @@ import ai.pleaxy.model.InvoiceSupplierViewPayment;
 import ai.pleaxy.model.LateFeeTerms;
 import ai.pleaxy.model.RemittanceInstructions;
 import ai.pleaxy.model.SupplierApprovalView;
+import ai.pleaxy.model.SupplierRemittanceView;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -62,6 +65,8 @@ import ai.pleaxy.client.ApiClient;
   InvoiceSupplierView.JSON_PROPERTY_CONTRACT_ID,
   InvoiceSupplierView.JSON_PROPERTY_LINE_ITEMS,
   InvoiceSupplierView.JSON_PROPERTY_PO,
+  InvoiceSupplierView.JSON_PROPERTY_PO_LINE_NO,
+  InvoiceSupplierView.JSON_PROPERTY_BILLS_NO_PO_LINE,
   InvoiceSupplierView.JSON_PROPERTY_PARTY_DETAILS,
   InvoiceSupplierView.JSON_PROPERTY_MATCH_STATUS,
   InvoiceSupplierView.JSON_PROPERTY_PAID,
@@ -72,6 +77,8 @@ import ai.pleaxy.client.ApiClient;
   InvoiceSupplierView.JSON_PROPERTY_LAST_REMINDED_AT,
   InvoiceSupplierView.JSON_PROPERTY_REJECTION,
   InvoiceSupplierView.JSON_PROPERTY_REPLACES_INVOICE_ID,
+  InvoiceSupplierView.JSON_PROPERTY_REPLACES_INVOICE_IDS,
+  InvoiceSupplierView.JSON_PROPERTY_REPLACED_BY_INVOICE_IDS,
   InvoiceSupplierView.JSON_PROPERTY_SOURCE,
   InvoiceSupplierView.JSON_PROPERTY_ENTERED_BY,
   InvoiceSupplierView.JSON_PROPERTY_INVOICE_DATE,
@@ -81,6 +88,15 @@ import ai.pleaxy.client.ApiClient;
   InvoiceSupplierView.JSON_PROPERTY_TAX_AMOUNT,
   InvoiceSupplierView.JSON_PROPERTY_TAX_BREAKDOWN,
   InvoiceSupplierView.JSON_PROPERTY_WITHHOLDINGS,
+  InvoiceSupplierView.JSON_PROPERTY_DOCUMENT_TYPE,
+  InvoiceSupplierView.JSON_PROPERTY_AMENDS_INVOICE_ID,
+  InvoiceSupplierView.JSON_PROPERTY_AMENDS_EXTERNAL_INVOICE_NUMBER,
+  InvoiceSupplierView.JSON_PROPERTY_DEBIT_NOTE_IDS,
+  InvoiceSupplierView.JSON_PROPERTY_INVOICE_KIND,
+  InvoiceSupplierView.JSON_PROPERTY_DEDUCTIONS,
+  InvoiceSupplierView.JSON_PROPERTY_CREDIT_APPLICATIONS,
+  InvoiceSupplierView.JSON_PROPERTY_CREDIT_NOTE_IDS,
+  InvoiceSupplierView.JSON_PROPERTY_CREDIT_VERSION,
   InvoiceSupplierView.JSON_PROPERTY_PAYMENT_CURRENCY_AMOUNT,
   InvoiceSupplierView.JSON_PROPERTY_TAX_CURRENCY_AMOUNT,
   InvoiceSupplierView.JSON_PROPERTY_REMITTANCE_INSTRUCTIONS,
@@ -90,6 +106,7 @@ import ai.pleaxy.client.ApiClient;
   InvoiceSupplierView.JSON_PROPERTY_APPROVAL,
   InvoiceSupplierView.JSON_PROPERTY_PAYMENT,
   InvoiceSupplierView.JSON_PROPERTY_WITHDRAWN_PAYMENT,
+  InvoiceSupplierView.JSON_PROPERTY_REMITTANCES,
   InvoiceSupplierView.JSON_PROPERTY_BUYER_WORKSPACE_ID,
   InvoiceSupplierView.JSON_PROPERTY_NEXT_REMINDER_AT
 })
@@ -154,6 +171,14 @@ public class InvoiceSupplierView {
   public static final String JSON_PROPERTY_PO = "po";
   @javax.annotation.Nullable
   private String po;
+
+  public static final String JSON_PROPERTY_PO_LINE_NO = "poLineNo";
+  @javax.annotation.Nullable
+  private Double poLineNo;
+
+  public static final String JSON_PROPERTY_BILLS_NO_PO_LINE = "billsNoPoLine";
+  @javax.annotation.Nullable
+  private Boolean billsNoPoLine;
 
   public static final String JSON_PROPERTY_PARTY_DETAILS = "partyDetails";
   @javax.annotation.Nullable
@@ -268,6 +293,14 @@ public class InvoiceSupplierView {
   public static final String JSON_PROPERTY_REPLACES_INVOICE_ID = "replacesInvoiceId";
   @javax.annotation.Nullable
   private String replacesInvoiceId;
+
+  public static final String JSON_PROPERTY_REPLACES_INVOICE_IDS = "replacesInvoiceIds";
+  @javax.annotation.Nullable
+  private List<String> replacesInvoiceIds = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_REPLACED_BY_INVOICE_IDS = "replacedByInvoiceIds";
+  @javax.annotation.Nullable
+  private List<String> replacedByInvoiceIds = new ArrayList<>();
 
   /**
    * Gets or Sets source
@@ -416,6 +449,108 @@ public class InvoiceSupplierView {
   @javax.annotation.Nullable
   private List<InvoiceBreakdownEntry> withholdings = new ArrayList<>();
 
+  /**
+   * Gets or Sets documentType
+   */
+  public enum DocumentTypeEnum {
+    DEBIT_NOTE(String.valueOf("debit_note"));
+
+    private String value;
+
+    DocumentTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static DocumentTypeEnum fromValue(String value) {
+      for (DocumentTypeEnum b : DocumentTypeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_DOCUMENT_TYPE = "documentType";
+  @javax.annotation.Nullable
+  private DocumentTypeEnum documentType;
+
+  public static final String JSON_PROPERTY_AMENDS_INVOICE_ID = "amendsInvoiceId";
+  @javax.annotation.Nullable
+  private String amendsInvoiceId;
+
+  public static final String JSON_PROPERTY_AMENDS_EXTERNAL_INVOICE_NUMBER = "amendsExternalInvoiceNumber";
+  @javax.annotation.Nullable
+  private String amendsExternalInvoiceNumber;
+
+  public static final String JSON_PROPERTY_DEBIT_NOTE_IDS = "debitNoteIds";
+  @javax.annotation.Nullable
+  private List<String> debitNoteIds = new ArrayList<>();
+
+  /**
+   * Gets or Sets invoiceKind
+   */
+  public enum InvoiceKindEnum {
+    PREPAYMENT(String.valueOf("prepayment"));
+
+    private String value;
+
+    InvoiceKindEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static InvoiceKindEnum fromValue(String value) {
+      for (InvoiceKindEnum b : InvoiceKindEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_INVOICE_KIND = "invoiceKind";
+  @javax.annotation.Nullable
+  private InvoiceKindEnum invoiceKind;
+
+  public static final String JSON_PROPERTY_DEDUCTIONS = "deductions";
+  @javax.annotation.Nullable
+  private List<InvoiceDeduction> deductions = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_CREDIT_APPLICATIONS = "creditApplications";
+  @javax.annotation.Nullable
+  private List<InvoiceCreditApplication> creditApplications = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_CREDIT_NOTE_IDS = "creditNoteIds";
+  @javax.annotation.Nullable
+  private List<String> creditNoteIds = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_CREDIT_VERSION = "creditVersion";
+  @javax.annotation.Nullable
+  private Double creditVersion;
+
   public static final String JSON_PROPERTY_PAYMENT_CURRENCY_AMOUNT = "paymentCurrencyAmount";
   @javax.annotation.Nullable
   private InvoiceCurrencyAmount paymentCurrencyAmount;
@@ -451,6 +586,10 @@ public class InvoiceSupplierView {
   public static final String JSON_PROPERTY_WITHDRAWN_PAYMENT = "withdrawnPayment";
   @javax.annotation.Nullable
   private InvoiceSupplierViewPayment withdrawnPayment;
+
+  public static final String JSON_PROPERTY_REMITTANCES = "remittances";
+  @javax.annotation.Nullable
+  private List<SupplierRemittanceView> remittances = new ArrayList<>();
 
   public static final String JSON_PROPERTY_BUYER_WORKSPACE_ID = "buyerWorkspaceId";
   @javax.annotation.Nullable
@@ -831,6 +970,54 @@ public class InvoiceSupplierView {
   }
 
 
+  public InvoiceSupplierView poLineNo(@javax.annotation.Nullable Double poLineNo) {
+    this.poLineNo = poLineNo;
+    return this;
+  }
+
+  /**
+   * Get poLineNo
+   * @return poLineNo
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PO_LINE_NO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getPoLineNo() {
+    return poLineNo;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PO_LINE_NO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPoLineNo(@javax.annotation.Nullable Double poLineNo) {
+    this.poLineNo = poLineNo;
+  }
+
+
+  public InvoiceSupplierView billsNoPoLine(@javax.annotation.Nullable Boolean billsNoPoLine) {
+    this.billsNoPoLine = billsNoPoLine;
+    return this;
+  }
+
+  /**
+   * Get billsNoPoLine
+   * @return billsNoPoLine
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BILLS_NO_PO_LINE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getBillsNoPoLine() {
+    return billsNoPoLine;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BILLS_NO_PO_LINE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBillsNoPoLine(@javax.annotation.Nullable Boolean billsNoPoLine) {
+    this.billsNoPoLine = billsNoPoLine;
+  }
+
+
   public InvoiceSupplierView partyDetails(@javax.annotation.Nullable InvoiceBuyerViewPartyDetails partyDetails) {
     this.partyDetails = partyDetails;
     return this;
@@ -1068,6 +1255,70 @@ public class InvoiceSupplierView {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setReplacesInvoiceId(@javax.annotation.Nullable String replacesInvoiceId) {
     this.replacesInvoiceId = replacesInvoiceId;
+  }
+
+
+  public InvoiceSupplierView replacesInvoiceIds(@javax.annotation.Nullable List<String> replacesInvoiceIds) {
+    this.replacesInvoiceIds = replacesInvoiceIds;
+    return this;
+  }
+
+  public InvoiceSupplierView addReplacesInvoiceIdsItem(String replacesInvoiceIdsItem) {
+    if (this.replacesInvoiceIds == null) {
+      this.replacesInvoiceIds = new ArrayList<>();
+    }
+    this.replacesInvoiceIds.add(replacesInvoiceIdsItem);
+    return this;
+  }
+
+  /**
+   * Get replacesInvoiceIds
+   * @return replacesInvoiceIds
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REPLACES_INVOICE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getReplacesInvoiceIds() {
+    return replacesInvoiceIds;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REPLACES_INVOICE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReplacesInvoiceIds(@javax.annotation.Nullable List<String> replacesInvoiceIds) {
+    this.replacesInvoiceIds = replacesInvoiceIds;
+  }
+
+
+  public InvoiceSupplierView replacedByInvoiceIds(@javax.annotation.Nullable List<String> replacedByInvoiceIds) {
+    this.replacedByInvoiceIds = replacedByInvoiceIds;
+    return this;
+  }
+
+  public InvoiceSupplierView addReplacedByInvoiceIdsItem(String replacedByInvoiceIdsItem) {
+    if (this.replacedByInvoiceIds == null) {
+      this.replacedByInvoiceIds = new ArrayList<>();
+    }
+    this.replacedByInvoiceIds.add(replacedByInvoiceIdsItem);
+    return this;
+  }
+
+  /**
+   * Get replacedByInvoiceIds
+   * @return replacedByInvoiceIds
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REPLACED_BY_INVOICE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getReplacedByInvoiceIds() {
+    return replacedByInvoiceIds;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REPLACED_BY_INVOICE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReplacedByInvoiceIds(@javax.annotation.Nullable List<String> replacedByInvoiceIds) {
+    this.replacedByInvoiceIds = replacedByInvoiceIds;
   }
 
 
@@ -1311,6 +1562,254 @@ public class InvoiceSupplierView {
   }
 
 
+  public InvoiceSupplierView documentType(@javax.annotation.Nullable DocumentTypeEnum documentType) {
+    this.documentType = documentType;
+    return this;
+  }
+
+  /**
+   * Get documentType
+   * @return documentType
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DOCUMENT_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public DocumentTypeEnum getDocumentType() {
+    return documentType;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DOCUMENT_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDocumentType(@javax.annotation.Nullable DocumentTypeEnum documentType) {
+    this.documentType = documentType;
+  }
+
+
+  public InvoiceSupplierView amendsInvoiceId(@javax.annotation.Nullable String amendsInvoiceId) {
+    this.amendsInvoiceId = amendsInvoiceId;
+    return this;
+  }
+
+  /**
+   * Get amendsInvoiceId
+   * @return amendsInvoiceId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AMENDS_INVOICE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getAmendsInvoiceId() {
+    return amendsInvoiceId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AMENDS_INVOICE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAmendsInvoiceId(@javax.annotation.Nullable String amendsInvoiceId) {
+    this.amendsInvoiceId = amendsInvoiceId;
+  }
+
+
+  public InvoiceSupplierView amendsExternalInvoiceNumber(@javax.annotation.Nullable String amendsExternalInvoiceNumber) {
+    this.amendsExternalInvoiceNumber = amendsExternalInvoiceNumber;
+    return this;
+  }
+
+  /**
+   * Get amendsExternalInvoiceNumber
+   * @return amendsExternalInvoiceNumber
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AMENDS_EXTERNAL_INVOICE_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getAmendsExternalInvoiceNumber() {
+    return amendsExternalInvoiceNumber;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AMENDS_EXTERNAL_INVOICE_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAmendsExternalInvoiceNumber(@javax.annotation.Nullable String amendsExternalInvoiceNumber) {
+    this.amendsExternalInvoiceNumber = amendsExternalInvoiceNumber;
+  }
+
+
+  public InvoiceSupplierView debitNoteIds(@javax.annotation.Nullable List<String> debitNoteIds) {
+    this.debitNoteIds = debitNoteIds;
+    return this;
+  }
+
+  public InvoiceSupplierView addDebitNoteIdsItem(String debitNoteIdsItem) {
+    if (this.debitNoteIds == null) {
+      this.debitNoteIds = new ArrayList<>();
+    }
+    this.debitNoteIds.add(debitNoteIdsItem);
+    return this;
+  }
+
+  /**
+   * Get debitNoteIds
+   * @return debitNoteIds
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DEBIT_NOTE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getDebitNoteIds() {
+    return debitNoteIds;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DEBIT_NOTE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDebitNoteIds(@javax.annotation.Nullable List<String> debitNoteIds) {
+    this.debitNoteIds = debitNoteIds;
+  }
+
+
+  public InvoiceSupplierView invoiceKind(@javax.annotation.Nullable InvoiceKindEnum invoiceKind) {
+    this.invoiceKind = invoiceKind;
+    return this;
+  }
+
+  /**
+   * Get invoiceKind
+   * @return invoiceKind
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_INVOICE_KIND)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceKindEnum getInvoiceKind() {
+    return invoiceKind;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_INVOICE_KIND)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setInvoiceKind(@javax.annotation.Nullable InvoiceKindEnum invoiceKind) {
+    this.invoiceKind = invoiceKind;
+  }
+
+
+  public InvoiceSupplierView deductions(@javax.annotation.Nullable List<InvoiceDeduction> deductions) {
+    this.deductions = deductions;
+    return this;
+  }
+
+  public InvoiceSupplierView addDeductionsItem(InvoiceDeduction deductionsItem) {
+    if (this.deductions == null) {
+      this.deductions = new ArrayList<>();
+    }
+    this.deductions.add(deductionsItem);
+    return this;
+  }
+
+  /**
+   * Get deductions
+   * @return deductions
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DEDUCTIONS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<InvoiceDeduction> getDeductions() {
+    return deductions;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DEDUCTIONS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDeductions(@javax.annotation.Nullable List<InvoiceDeduction> deductions) {
+    this.deductions = deductions;
+  }
+
+
+  public InvoiceSupplierView creditApplications(@javax.annotation.Nullable List<InvoiceCreditApplication> creditApplications) {
+    this.creditApplications = creditApplications;
+    return this;
+  }
+
+  public InvoiceSupplierView addCreditApplicationsItem(InvoiceCreditApplication creditApplicationsItem) {
+    if (this.creditApplications == null) {
+      this.creditApplications = new ArrayList<>();
+    }
+    this.creditApplications.add(creditApplicationsItem);
+    return this;
+  }
+
+  /**
+   * Get creditApplications
+   * @return creditApplications
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CREDIT_APPLICATIONS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<InvoiceCreditApplication> getCreditApplications() {
+    return creditApplications;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREDIT_APPLICATIONS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCreditApplications(@javax.annotation.Nullable List<InvoiceCreditApplication> creditApplications) {
+    this.creditApplications = creditApplications;
+  }
+
+
+  public InvoiceSupplierView creditNoteIds(@javax.annotation.Nullable List<String> creditNoteIds) {
+    this.creditNoteIds = creditNoteIds;
+    return this;
+  }
+
+  public InvoiceSupplierView addCreditNoteIdsItem(String creditNoteIdsItem) {
+    if (this.creditNoteIds == null) {
+      this.creditNoteIds = new ArrayList<>();
+    }
+    this.creditNoteIds.add(creditNoteIdsItem);
+    return this;
+  }
+
+  /**
+   * Get creditNoteIds
+   * @return creditNoteIds
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CREDIT_NOTE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getCreditNoteIds() {
+    return creditNoteIds;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREDIT_NOTE_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCreditNoteIds(@javax.annotation.Nullable List<String> creditNoteIds) {
+    this.creditNoteIds = creditNoteIds;
+  }
+
+
+  public InvoiceSupplierView creditVersion(@javax.annotation.Nullable Double creditVersion) {
+    this.creditVersion = creditVersion;
+    return this;
+  }
+
+  /**
+   * Get creditVersion
+   * @return creditVersion
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CREDIT_VERSION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getCreditVersion() {
+    return creditVersion;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREDIT_VERSION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCreditVersion(@javax.annotation.Nullable Double creditVersion) {
+    this.creditVersion = creditVersion;
+  }
+
+
   public InvoiceSupplierView paymentCurrencyAmount(@javax.annotation.Nullable InvoiceCurrencyAmount paymentCurrencyAmount) {
     this.paymentCurrencyAmount = paymentCurrencyAmount;
     return this;
@@ -1527,6 +2026,38 @@ public class InvoiceSupplierView {
   }
 
 
+  public InvoiceSupplierView remittances(@javax.annotation.Nullable List<SupplierRemittanceView> remittances) {
+    this.remittances = remittances;
+    return this;
+  }
+
+  public InvoiceSupplierView addRemittancesItem(SupplierRemittanceView remittancesItem) {
+    if (this.remittances == null) {
+      this.remittances = new ArrayList<>();
+    }
+    this.remittances.add(remittancesItem);
+    return this;
+  }
+
+  /**
+   * Get remittances
+   * @return remittances
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REMITTANCES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<SupplierRemittanceView> getRemittances() {
+    return remittances;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REMITTANCES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRemittances(@javax.annotation.Nullable List<SupplierRemittanceView> remittances) {
+    this.remittances = remittances;
+  }
+
+
   public InvoiceSupplierView buyerWorkspaceId(@javax.annotation.Nullable String buyerWorkspaceId) {
     this.buyerWorkspaceId = buyerWorkspaceId;
     return this;
@@ -1602,6 +2133,8 @@ public class InvoiceSupplierView {
         Objects.equals(this.contractId, invoiceSupplierView.contractId) &&
         Objects.equals(this.lineItems, invoiceSupplierView.lineItems) &&
         Objects.equals(this.po, invoiceSupplierView.po) &&
+        Objects.equals(this.poLineNo, invoiceSupplierView.poLineNo) &&
+        Objects.equals(this.billsNoPoLine, invoiceSupplierView.billsNoPoLine) &&
         Objects.equals(this.partyDetails, invoiceSupplierView.partyDetails) &&
         Objects.equals(this.matchStatus, invoiceSupplierView.matchStatus) &&
         Objects.equals(this.paid, invoiceSupplierView.paid) &&
@@ -1612,6 +2145,8 @@ public class InvoiceSupplierView {
         Objects.equals(this.lastRemindedAt, invoiceSupplierView.lastRemindedAt) &&
         Objects.equals(this.rejection, invoiceSupplierView.rejection) &&
         Objects.equals(this.replacesInvoiceId, invoiceSupplierView.replacesInvoiceId) &&
+        Objects.equals(this.replacesInvoiceIds, invoiceSupplierView.replacesInvoiceIds) &&
+        Objects.equals(this.replacedByInvoiceIds, invoiceSupplierView.replacedByInvoiceIds) &&
         Objects.equals(this.source, invoiceSupplierView.source) &&
         Objects.equals(this.enteredBy, invoiceSupplierView.enteredBy) &&
         Objects.equals(this.invoiceDate, invoiceSupplierView.invoiceDate) &&
@@ -1621,6 +2156,15 @@ public class InvoiceSupplierView {
         Objects.equals(this.taxAmount, invoiceSupplierView.taxAmount) &&
         Objects.equals(this.taxBreakdown, invoiceSupplierView.taxBreakdown) &&
         Objects.equals(this.withholdings, invoiceSupplierView.withholdings) &&
+        Objects.equals(this.documentType, invoiceSupplierView.documentType) &&
+        Objects.equals(this.amendsInvoiceId, invoiceSupplierView.amendsInvoiceId) &&
+        Objects.equals(this.amendsExternalInvoiceNumber, invoiceSupplierView.amendsExternalInvoiceNumber) &&
+        Objects.equals(this.debitNoteIds, invoiceSupplierView.debitNoteIds) &&
+        Objects.equals(this.invoiceKind, invoiceSupplierView.invoiceKind) &&
+        Objects.equals(this.deductions, invoiceSupplierView.deductions) &&
+        Objects.equals(this.creditApplications, invoiceSupplierView.creditApplications) &&
+        Objects.equals(this.creditNoteIds, invoiceSupplierView.creditNoteIds) &&
+        Objects.equals(this.creditVersion, invoiceSupplierView.creditVersion) &&
         Objects.equals(this.paymentCurrencyAmount, invoiceSupplierView.paymentCurrencyAmount) &&
         Objects.equals(this.taxCurrencyAmount, invoiceSupplierView.taxCurrencyAmount) &&
         Objects.equals(this.remittanceInstructions, invoiceSupplierView.remittanceInstructions) &&
@@ -1630,13 +2174,14 @@ public class InvoiceSupplierView {
         Objects.equals(this.approval, invoiceSupplierView.approval) &&
         Objects.equals(this.payment, invoiceSupplierView.payment) &&
         Objects.equals(this.withdrawnPayment, invoiceSupplierView.withdrawnPayment) &&
+        Objects.equals(this.remittances, invoiceSupplierView.remittances) &&
         Objects.equals(this.buyerWorkspaceId, invoiceSupplierView.buyerWorkspaceId) &&
         Objects.equals(this.nextReminderAt, invoiceSupplierView.nextReminderAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, partyDetails, matchStatus, paid, dueInDays, dueDate, paidAt, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, source, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, sourceDocument, hasOriginalPdf, baseCurrencyAmount, approval, payment, withdrawnPayment, buyerWorkspaceId, nextReminderAt);
+    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, paid, dueInDays, dueDate, paidAt, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, source, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, sourceDocument, hasOriginalPdf, baseCurrencyAmount, approval, payment, withdrawnPayment, remittances, buyerWorkspaceId, nextReminderAt);
   }
 
   @Override
@@ -1658,6 +2203,8 @@ public class InvoiceSupplierView {
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
     sb.append("    lineItems: ").append(toIndentedString(lineItems)).append("\n");
     sb.append("    po: ").append(toIndentedString(po)).append("\n");
+    sb.append("    poLineNo: ").append(toIndentedString(poLineNo)).append("\n");
+    sb.append("    billsNoPoLine: ").append(toIndentedString(billsNoPoLine)).append("\n");
     sb.append("    partyDetails: ").append(toIndentedString(partyDetails)).append("\n");
     sb.append("    matchStatus: ").append(toIndentedString(matchStatus)).append("\n");
     sb.append("    paid: ").append(toIndentedString(paid)).append("\n");
@@ -1668,6 +2215,8 @@ public class InvoiceSupplierView {
     sb.append("    lastRemindedAt: ").append(toIndentedString(lastRemindedAt)).append("\n");
     sb.append("    rejection: ").append(toIndentedString(rejection)).append("\n");
     sb.append("    replacesInvoiceId: ").append(toIndentedString(replacesInvoiceId)).append("\n");
+    sb.append("    replacesInvoiceIds: ").append(toIndentedString(replacesInvoiceIds)).append("\n");
+    sb.append("    replacedByInvoiceIds: ").append(toIndentedString(replacedByInvoiceIds)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    enteredBy: ").append(toIndentedString(enteredBy)).append("\n");
     sb.append("    invoiceDate: ").append(toIndentedString(invoiceDate)).append("\n");
@@ -1677,6 +2226,15 @@ public class InvoiceSupplierView {
     sb.append("    taxAmount: ").append(toIndentedString(taxAmount)).append("\n");
     sb.append("    taxBreakdown: ").append(toIndentedString(taxBreakdown)).append("\n");
     sb.append("    withholdings: ").append(toIndentedString(withholdings)).append("\n");
+    sb.append("    documentType: ").append(toIndentedString(documentType)).append("\n");
+    sb.append("    amendsInvoiceId: ").append(toIndentedString(amendsInvoiceId)).append("\n");
+    sb.append("    amendsExternalInvoiceNumber: ").append(toIndentedString(amendsExternalInvoiceNumber)).append("\n");
+    sb.append("    debitNoteIds: ").append(toIndentedString(debitNoteIds)).append("\n");
+    sb.append("    invoiceKind: ").append(toIndentedString(invoiceKind)).append("\n");
+    sb.append("    deductions: ").append(toIndentedString(deductions)).append("\n");
+    sb.append("    creditApplications: ").append(toIndentedString(creditApplications)).append("\n");
+    sb.append("    creditNoteIds: ").append(toIndentedString(creditNoteIds)).append("\n");
+    sb.append("    creditVersion: ").append(toIndentedString(creditVersion)).append("\n");
     sb.append("    paymentCurrencyAmount: ").append(toIndentedString(paymentCurrencyAmount)).append("\n");
     sb.append("    taxCurrencyAmount: ").append(toIndentedString(taxCurrencyAmount)).append("\n");
     sb.append("    remittanceInstructions: ").append(toIndentedString(remittanceInstructions)).append("\n");
@@ -1686,6 +2244,7 @@ public class InvoiceSupplierView {
     sb.append("    approval: ").append(toIndentedString(approval)).append("\n");
     sb.append("    payment: ").append(toIndentedString(payment)).append("\n");
     sb.append("    withdrawnPayment: ").append(toIndentedString(withdrawnPayment)).append("\n");
+    sb.append("    remittances: ").append(toIndentedString(remittances)).append("\n");
     sb.append("    buyerWorkspaceId: ").append(toIndentedString(buyerWorkspaceId)).append("\n");
     sb.append("    nextReminderAt: ").append(toIndentedString(nextReminderAt)).append("\n");
     sb.append("}");
@@ -1815,6 +2374,16 @@ public class InvoiceSupplierView {
       joiner.add(String.format("%spo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `poLineNo` to the URL query string
+    if (getPoLineNo() != null) {
+      joiner.add(String.format("%spoLineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPoLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `billsNoPoLine` to the URL query string
+    if (getBillsNoPoLine() != null) {
+      joiner.add(String.format("%sbillsNoPoLine%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBillsNoPoLine()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
     // add `partyDetails` to the URL query string
     if (getPartyDetails() != null) {
       joiner.add(getPartyDetails().toUrlQueryString(prefix + "partyDetails" + suffix));
@@ -1863,6 +2432,24 @@ public class InvoiceSupplierView {
     // add `replacesInvoiceId` to the URL query string
     if (getReplacesInvoiceId() != null) {
       joiner.add(String.format("%sreplacesInvoiceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReplacesInvoiceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `replacesInvoiceIds` to the URL query string
+    if (getReplacesInvoiceIds() != null) {
+      for (int i = 0; i < getReplacesInvoiceIds().size(); i++) {
+        joiner.add(String.format("%sreplacesInvoiceIds%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getReplacesInvoiceIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `replacedByInvoiceIds` to the URL query string
+    if (getReplacedByInvoiceIds() != null) {
+      for (int i = 0; i < getReplacedByInvoiceIds().size(); i++) {
+        joiner.add(String.format("%sreplacedByInvoiceIds%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getReplacedByInvoiceIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
     }
 
     // add `source` to the URL query string
@@ -1925,6 +2512,69 @@ public class InvoiceSupplierView {
       }
     }
 
+    // add `documentType` to the URL query string
+    if (getDocumentType() != null) {
+      joiner.add(String.format("%sdocumentType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDocumentType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `amendsInvoiceId` to the URL query string
+    if (getAmendsInvoiceId() != null) {
+      joiner.add(String.format("%samendsInvoiceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAmendsInvoiceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `amendsExternalInvoiceNumber` to the URL query string
+    if (getAmendsExternalInvoiceNumber() != null) {
+      joiner.add(String.format("%samendsExternalInvoiceNumber%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAmendsExternalInvoiceNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `debitNoteIds` to the URL query string
+    if (getDebitNoteIds() != null) {
+      for (int i = 0; i < getDebitNoteIds().size(); i++) {
+        joiner.add(String.format("%sdebitNoteIds%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getDebitNoteIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `invoiceKind` to the URL query string
+    if (getInvoiceKind() != null) {
+      joiner.add(String.format("%sinvoiceKind%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInvoiceKind()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `deductions` to the URL query string
+    if (getDeductions() != null) {
+      for (int i = 0; i < getDeductions().size(); i++) {
+        if (getDeductions().get(i) != null) {
+          joiner.add(getDeductions().get(i).toUrlQueryString(String.format("%sdeductions%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `creditApplications` to the URL query string
+    if (getCreditApplications() != null) {
+      for (int i = 0; i < getCreditApplications().size(); i++) {
+        if (getCreditApplications().get(i) != null) {
+          joiner.add(getCreditApplications().get(i).toUrlQueryString(String.format("%screditApplications%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `creditNoteIds` to the URL query string
+    if (getCreditNoteIds() != null) {
+      for (int i = 0; i < getCreditNoteIds().size(); i++) {
+        joiner.add(String.format("%screditNoteIds%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getCreditNoteIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `creditVersion` to the URL query string
+    if (getCreditVersion() != null) {
+      joiner.add(String.format("%screditVersion%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreditVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
     // add `paymentCurrencyAmount` to the URL query string
     if (getPaymentCurrencyAmount() != null) {
       joiner.add(getPaymentCurrencyAmount().toUrlQueryString(prefix + "paymentCurrencyAmount" + suffix));
@@ -1968,6 +2618,16 @@ public class InvoiceSupplierView {
     // add `withdrawnPayment` to the URL query string
     if (getWithdrawnPayment() != null) {
       joiner.add(getWithdrawnPayment().toUrlQueryString(prefix + "withdrawnPayment" + suffix));
+    }
+
+    // add `remittances` to the URL query string
+    if (getRemittances() != null) {
+      for (int i = 0; i < getRemittances().size(); i++) {
+        if (getRemittances().get(i) != null) {
+          joiner.add(getRemittances().get(i).toUrlQueryString(String.format("%sremittances%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
     }
 
     // add `buyerWorkspaceId` to the URL query string

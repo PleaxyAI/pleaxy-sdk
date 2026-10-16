@@ -37,8 +37,12 @@ pub struct BillingSummary {
     pub available_plans: Option<Vec<models::BillingSummaryAvailablePlansInner>>,
     #[serde(rename = "currentPriceLabel", skip_serializing_if = "Option::is_none")]
     pub current_price_label: Option<String>,
+    #[serde(rename = "currentPrice", skip_serializing_if = "Option::is_none")]
+    pub current_price: Option<models::PriceAmount>,
     #[serde(rename = "currentTotalLabel", skip_serializing_if = "Option::is_none")]
     pub current_total_label: Option<String>,
+    #[serde(rename = "currentTotal", skip_serializing_if = "Option::is_none")]
+    pub current_total: Option<models::PriceAmount>,
 }
 
 impl BillingSummary {
@@ -56,7 +60,9 @@ impl BillingSummary {
             interval: None,
             available_plans: None,
             current_price_label: None,
+            current_price: None,
             current_total_label: None,
+            current_total: None,
         }
     }
 }

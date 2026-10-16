@@ -19,12 +19,15 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.ServerMessageParamsValue;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -35,6 +38,8 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   InvoiceControlFinding.JSON_PROPERTY_CODE,
   InvoiceControlFinding.JSON_PROPERTY_MESSAGE,
+  InvoiceControlFinding.JSON_PROPERTY_MESSAGE_ID,
+  InvoiceControlFinding.JSON_PROPERTY_PARAMS,
   InvoiceControlFinding.JSON_PROPERTY_INVOICE_LINE,
   InvoiceControlFinding.JSON_PROPERTY_PO_LINE_NO,
   InvoiceControlFinding.JSON_PROPERTY_CONTRACT_ID,
@@ -106,6 +111,14 @@ public class InvoiceControlFinding {
   public static final String JSON_PROPERTY_MESSAGE = "message";
   @javax.annotation.Nullable
   private String message;
+
+  public static final String JSON_PROPERTY_MESSAGE_ID = "messageId";
+  @javax.annotation.Nullable
+  private String messageId;
+
+  public static final String JSON_PROPERTY_PARAMS = "params";
+  @javax.annotation.Nullable
+  private Map<String, ServerMessageParamsValue> params = new HashMap<>();
 
   public static final String JSON_PROPERTY_INVOICE_LINE = "invoiceLine";
   @javax.annotation.Nullable
@@ -179,6 +192,62 @@ public class InvoiceControlFinding {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMessage(@javax.annotation.Nullable String message) {
     this.message = message;
+  }
+
+
+  public InvoiceControlFinding messageId(@javax.annotation.Nullable String messageId) {
+    this.messageId = messageId;
+    return this;
+  }
+
+  /**
+   * Get messageId
+   * @return messageId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MESSAGE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getMessageId() {
+    return messageId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MESSAGE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMessageId(@javax.annotation.Nullable String messageId) {
+    this.messageId = messageId;
+  }
+
+
+  public InvoiceControlFinding params(@javax.annotation.Nullable Map<String, ServerMessageParamsValue> params) {
+    this.params = params;
+    return this;
+  }
+
+  public InvoiceControlFinding putParamsItem(String key, ServerMessageParamsValue paramsItem) {
+    if (this.params == null) {
+      this.params = new HashMap<>();
+    }
+    this.params.put(key, paramsItem);
+    return this;
+  }
+
+  /**
+   * Get params
+   * @return params
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PARAMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Map<String, ServerMessageParamsValue> getParams() {
+    return params;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PARAMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setParams(@javax.annotation.Nullable Map<String, ServerMessageParamsValue> params) {
+    this.params = params;
   }
 
 
@@ -340,6 +409,8 @@ public class InvoiceControlFinding {
     InvoiceControlFinding invoiceControlFinding = (InvoiceControlFinding) o;
     return Objects.equals(this.code, invoiceControlFinding.code) &&
         Objects.equals(this.message, invoiceControlFinding.message) &&
+        Objects.equals(this.messageId, invoiceControlFinding.messageId) &&
+        Objects.equals(this.params, invoiceControlFinding.params) &&
         Objects.equals(this.invoiceLine, invoiceControlFinding.invoiceLine) &&
         Objects.equals(this.poLineNo, invoiceControlFinding.poLineNo) &&
         Objects.equals(this.contractId, invoiceControlFinding.contractId) &&
@@ -350,7 +421,7 @@ public class InvoiceControlFinding {
 
   @Override
   public int hashCode() {
-    return Objects.hash(code, message, invoiceLine, poLineNo, contractId, allowed, billed, contractVersion);
+    return Objects.hash(code, message, messageId, params, invoiceLine, poLineNo, contractId, allowed, billed, contractVersion);
   }
 
   @Override
@@ -359,6 +430,8 @@ public class InvoiceControlFinding {
     sb.append("class InvoiceControlFinding {\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("    messageId: ").append(toIndentedString(messageId)).append("\n");
+    sb.append("    params: ").append(toIndentedString(params)).append("\n");
     sb.append("    invoiceLine: ").append(toIndentedString(invoiceLine)).append("\n");
     sb.append("    poLineNo: ").append(toIndentedString(poLineNo)).append("\n");
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
@@ -420,6 +493,21 @@ public class InvoiceControlFinding {
     // add `message` to the URL query string
     if (getMessage() != null) {
       joiner.add(String.format("%smessage%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMessage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `messageId` to the URL query string
+    if (getMessageId() != null) {
+      joiner.add(String.format("%smessageId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMessageId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `params` to the URL query string
+    if (getParams() != null) {
+      for (String _key : getParams().keySet()) {
+        if (getParams().get(_key) != null) {
+          joiner.add(getParams().get(_key).toUrlQueryString(String.format("%sparams%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix))));
+        }
+      }
     }
 
     // add `invoiceLine` to the URL query string

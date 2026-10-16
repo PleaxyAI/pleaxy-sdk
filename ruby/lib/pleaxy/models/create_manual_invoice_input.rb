@@ -15,8 +15,23 @@ require 'time'
 
 module Pleaxy
   class CreateManualInvoiceInput
-    # The SupplierConnection to invoice - see GET .../invoices/counterparties
+    # The SupplierConnection to invoice - see GET .../invoices/counterparties. A debit note may leave it out: it takes its original invoice's.
     attr_accessor :connection_id
+
+    # \"debit_note\" for an amendment that raises what an invoice asked for (credit notes spec §18): it names the invoice it amends and takes its buyer, supplier, currency and PO. \"invoice\" or absent: an invoice.
+    attr_accessor :document_type
+
+    # Debit note: the Pleaxy id of the invoice it amends (or amendsInvoiceNumber).
+    attr_accessor :amends_invoice_id
+
+    # Debit note: the supplier's number of the invoice it amends, when the Pleaxy id isn't known (the feed's way).
+    attr_accessor :amends_invoice_number
+
+    # A replacement invoice (credit and rebill, credit notes spec §20): the Pleaxy ids of the invoices and debit notes it replaces, 1–20, all from this supplier. Or replacesInvoiceNumbers.
+    attr_accessor :replaces_invoice_ids
+
+    # A replacement invoice: the supplier's numbers of the invoices it replaces, when the Pleaxy ids aren't known (the feed's way). 1–20.
+    attr_accessor :replaces_invoice_numbers
 
     # An open PO between exactly this buyer and supplier
     attr_accessor :po_id
@@ -31,6 +46,12 @@ module Pleaxy
     attr_accessor :due_in_days
 
     attr_accessor :line_items
+
+    # The purchase order line this invoice bills (its lineNo), when it is against a PO. An invoice bills one PO line, stated here and never on its lines, and all of its lines are held to it. Lines are never matched by description. Against a one-line PO, an invoice without one bills that line. Against a multi-line PO, an invoice naming no line makes it a discrepancy a person must resolve. A lineNo the PO doesn't have is refused. Not with billsNoPoLine.
+    attr_accessor :po_line_no
+
+    # true when the invoice bills none of the PO's lines (an unordered extra, a one-off fee). It draws on the PO's balance only, and the invoice always needs a person's approval. Not with poLineNo. Shipping and handling usually belong in adjustments instead.
+    attr_accessor :bills_no_po_line
 
     # Invoice-level discounts and charges, before tax. At most 20.
     attr_accessor :adjustments
@@ -47,6 +68,12 @@ module Pleaxy
     # Amounts the invoice withholds from its total, in the invoice's currency, e.g. ISR retenido 10%. Positive; they reduce what's owed, never the total. Less than the total in all. At most 20.
     attr_accessor :withholdings
 
+    # \"prepayment\" for an invoice that bills a deposit (UBL InvoiceTypeCode 386). Its payment can later be deducted from the final invoice.
+    attr_accessor :invoice_kind
+
+    # What was already paid towards the invoice after tax: deposits and advances the buyer paid, and credits the seller applied. They reduce what's owed, never the total or its tax. With the withholdings, less than the total. At most 20.
+    attr_accessor :deductions
+
     # Only when the invoice names the amount owed in another currency (e.g. AWS billing in ARS): that amount, with the rate printed on the invoice. Leave it off when the invoice is converted at the payment-date rate. Pleaxy checks the figures against the rate and never converts anything itself.
     attr_accessor :payment_currency_amount
 
@@ -62,20 +89,51 @@ module Pleaxy
     # Base64-encoded PDF of the invoice
     attr_accessor :pdf_base64
 
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'connection_id' => :'connectionId',
+        :'document_type' => :'documentType',
+        :'amends_invoice_id' => :'amendsInvoiceId',
+        :'amends_invoice_number' => :'amendsInvoiceNumber',
+        :'replaces_invoice_ids' => :'replacesInvoiceIds',
+        :'replaces_invoice_numbers' => :'replacesInvoiceNumbers',
         :'po_id' => :'poId',
         :'invoice_number' => :'invoiceNumber',
         :'invoice_date' => :'invoiceDate',
         :'due_in_days' => :'dueInDays',
         :'line_items' => :'lineItems',
+        :'po_line_no' => :'poLineNo',
+        :'bills_no_po_line' => :'billsNoPoLine',
         :'adjustments' => :'adjustments',
         :'source_import_id' => :'sourceImportId',
         :'tax_amount' => :'taxAmount',
         :'tax_breakdown' => :'taxBreakdown',
         :'withholdings' => :'withholdings',
+        :'invoice_kind' => :'invoiceKind',
+        :'deductions' => :'deductions',
         :'payment_currency_amount' => :'paymentCurrencyAmount',
         :'tax_currency_amount' => :'taxCurrencyAmount',
         :'currency' => :'currency',
@@ -93,16 +151,25 @@ module Pleaxy
     def self.openapi_types
       {
         :'connection_id' => :'String',
+        :'document_type' => :'String',
+        :'amends_invoice_id' => :'String',
+        :'amends_invoice_number' => :'String',
+        :'replaces_invoice_ids' => :'Array<String>',
+        :'replaces_invoice_numbers' => :'Array<String>',
         :'po_id' => :'String',
         :'invoice_number' => :'String',
         :'invoice_date' => :'String',
         :'due_in_days' => :'Float',
         :'line_items' => :'Array<CreateManualInvoiceLineItemInput>',
+        :'po_line_no' => :'Float',
+        :'bills_no_po_line' => :'Boolean',
         :'adjustments' => :'Array<InvoiceAdjustmentInput>',
         :'source_import_id' => :'String',
         :'tax_amount' => :'Float',
         :'tax_breakdown' => :'Array<BreakdownEntryInput>',
         :'withholdings' => :'Array<BreakdownEntryInput>',
+        :'invoice_kind' => :'String',
+        :'deductions' => :'Array<InvoiceDeductionInput>',
         :'payment_currency_amount' => :'CurrencyAmountInput',
         :'tax_currency_amount' => :'CurrencyAmountInput',
         :'currency' => :'String',
@@ -134,8 +201,30 @@ module Pleaxy
 
       if attributes.key?(:'connection_id')
         self.connection_id = attributes[:'connection_id']
-      else
-        self.connection_id = nil
+      end
+
+      if attributes.key?(:'document_type')
+        self.document_type = attributes[:'document_type']
+      end
+
+      if attributes.key?(:'amends_invoice_id')
+        self.amends_invoice_id = attributes[:'amends_invoice_id']
+      end
+
+      if attributes.key?(:'amends_invoice_number')
+        self.amends_invoice_number = attributes[:'amends_invoice_number']
+      end
+
+      if attributes.key?(:'replaces_invoice_ids')
+        if (value = attributes[:'replaces_invoice_ids']).is_a?(Array)
+          self.replaces_invoice_ids = value
+        end
+      end
+
+      if attributes.key?(:'replaces_invoice_numbers')
+        if (value = attributes[:'replaces_invoice_numbers']).is_a?(Array)
+          self.replaces_invoice_numbers = value
+        end
       end
 
       if attributes.key?(:'po_id')
@@ -166,6 +255,14 @@ module Pleaxy
         self.line_items = nil
       end
 
+      if attributes.key?(:'po_line_no')
+        self.po_line_no = attributes[:'po_line_no']
+      end
+
+      if attributes.key?(:'bills_no_po_line')
+        self.bills_no_po_line = attributes[:'bills_no_po_line']
+      end
+
       if attributes.key?(:'adjustments')
         if (value = attributes[:'adjustments']).is_a?(Array)
           self.adjustments = value
@@ -189,6 +286,16 @@ module Pleaxy
       if attributes.key?(:'withholdings')
         if (value = attributes[:'withholdings']).is_a?(Array)
           self.withholdings = value
+        end
+      end
+
+      if attributes.key?(:'invoice_kind')
+        self.invoice_kind = attributes[:'invoice_kind']
+      end
+
+      if attributes.key?(:'deductions')
+        if (value = attributes[:'deductions']).is_a?(Array)
+          self.deductions = value
         end
       end
 
@@ -218,16 +325,28 @@ module Pleaxy
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
-      if @connection_id.nil?
-        invalid_properties.push('invalid value for "connection_id", connection_id cannot be nil.')
-      end
-
-      if @connection_id.to_s.length > 100
+      if !@connection_id.nil? && @connection_id.to_s.length > 100
         invalid_properties.push('invalid value for "connection_id", the character length must be smaller than or equal to 100.')
       end
 
-      if @connection_id.to_s.length < 1
+      if !@connection_id.nil? && @connection_id.to_s.length < 1
         invalid_properties.push('invalid value for "connection_id", the character length must be great than or equal to 1.')
+      end
+
+      if !@amends_invoice_id.nil? && @amends_invoice_id.to_s.length > 100
+        invalid_properties.push('invalid value for "amends_invoice_id", the character length must be smaller than or equal to 100.')
+      end
+
+      if !@amends_invoice_id.nil? && @amends_invoice_id.to_s.length < 1
+        invalid_properties.push('invalid value for "amends_invoice_id", the character length must be great than or equal to 1.')
+      end
+
+      if !@amends_invoice_number.nil? && @amends_invoice_number.to_s.length > 64
+        invalid_properties.push('invalid value for "amends_invoice_number", the character length must be smaller than or equal to 64.')
+      end
+
+      if !@amends_invoice_number.nil? && @amends_invoice_number.to_s.length < 1
+        invalid_properties.push('invalid value for "amends_invoice_number", the character length must be great than or equal to 1.')
       end
 
       if !@po_id.nil? && @po_id.to_s.length > 100
@@ -271,6 +390,14 @@ module Pleaxy
         invalid_properties.push('invalid value for "line_items", line_items cannot be nil.')
       end
 
+      if !@po_line_no.nil? && @po_line_no > 100000
+        invalid_properties.push('invalid value for "po_line_no", must be smaller than or equal to 100000.')
+      end
+
+      if !@po_line_no.nil? && @po_line_no < 1
+        invalid_properties.push('invalid value for "po_line_no", must be greater than or equal to 1.')
+      end
+
       pattern = Regexp.new(/^ID-[0-9A-F]{8}$/)
       if !@source_import_id.nil? && @source_import_id !~ pattern
         invalid_properties.push("invalid value for \"source_import_id\", must conform to the pattern #{pattern}.")
@@ -291,9 +418,14 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      return false if @connection_id.nil?
-      return false if @connection_id.to_s.length > 100
-      return false if @connection_id.to_s.length < 1
+      return false if !@connection_id.nil? && @connection_id.to_s.length > 100
+      return false if !@connection_id.nil? && @connection_id.to_s.length < 1
+      document_type_validator = EnumAttributeValidator.new('String', ["invoice", "debit_note"])
+      return false unless document_type_validator.valid?(@document_type)
+      return false if !@amends_invoice_id.nil? && @amends_invoice_id.to_s.length > 100
+      return false if !@amends_invoice_id.nil? && @amends_invoice_id.to_s.length < 1
+      return false if !@amends_invoice_number.nil? && @amends_invoice_number.to_s.length > 64
+      return false if !@amends_invoice_number.nil? && @amends_invoice_number.to_s.length < 1
       return false if !@po_id.nil? && @po_id.to_s.length > 100
       return false if !@po_id.nil? && @po_id.to_s.length < 1
       return false if @invoice_number.nil?
@@ -304,9 +436,13 @@ module Pleaxy
       return false if !@due_in_days.nil? && @due_in_days > 365
       return false if !@due_in_days.nil? && @due_in_days < 0
       return false if @line_items.nil?
+      return false if !@po_line_no.nil? && @po_line_no > 100000
+      return false if !@po_line_no.nil? && @po_line_no < 1
       return false if !@source_import_id.nil? && @source_import_id !~ Regexp.new(/^ID-[0-9A-F]{8}$/)
       return false if !@tax_amount.nil? && @tax_amount > 1000000000000000
       return false if !@tax_amount.nil? && @tax_amount < 0
+      invoice_kind_validator = EnumAttributeValidator.new('String', ["prepayment"])
+      return false unless invoice_kind_validator.valid?(@invoice_kind)
       true
     end
 
@@ -326,6 +462,52 @@ module Pleaxy
       end
 
       @connection_id = connection_id
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] document_type Object to be assigned
+    def document_type=(document_type)
+      validator = EnumAttributeValidator.new('String', ["invoice", "debit_note"])
+      unless validator.valid?(document_type)
+        fail ArgumentError, "invalid value for \"document_type\", must be one of #{validator.allowable_values}."
+      end
+      @document_type = document_type
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] amends_invoice_id Value to be assigned
+    def amends_invoice_id=(amends_invoice_id)
+      if amends_invoice_id.nil?
+        fail ArgumentError, 'amends_invoice_id cannot be nil'
+      end
+
+      if amends_invoice_id.to_s.length > 100
+        fail ArgumentError, 'invalid value for "amends_invoice_id", the character length must be smaller than or equal to 100.'
+      end
+
+      if amends_invoice_id.to_s.length < 1
+        fail ArgumentError, 'invalid value for "amends_invoice_id", the character length must be great than or equal to 1.'
+      end
+
+      @amends_invoice_id = amends_invoice_id
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] amends_invoice_number Value to be assigned
+    def amends_invoice_number=(amends_invoice_number)
+      if amends_invoice_number.nil?
+        fail ArgumentError, 'amends_invoice_number cannot be nil'
+      end
+
+      if amends_invoice_number.to_s.length > 64
+        fail ArgumentError, 'invalid value for "amends_invoice_number", the character length must be smaller than or equal to 64.'
+      end
+
+      if amends_invoice_number.to_s.length < 1
+        fail ArgumentError, 'invalid value for "amends_invoice_number", the character length must be great than or equal to 1.'
+      end
+
+      @amends_invoice_number = amends_invoice_number
     end
 
     # Custom attribute writer method with validation
@@ -398,6 +580,24 @@ module Pleaxy
     end
 
     # Custom attribute writer method with validation
+    # @param [Object] po_line_no Value to be assigned
+    def po_line_no=(po_line_no)
+      if po_line_no.nil?
+        fail ArgumentError, 'po_line_no cannot be nil'
+      end
+
+      if po_line_no > 100000
+        fail ArgumentError, 'invalid value for "po_line_no", must be smaller than or equal to 100000.'
+      end
+
+      if po_line_no < 1
+        fail ArgumentError, 'invalid value for "po_line_no", must be greater than or equal to 1.'
+      end
+
+      @po_line_no = po_line_no
+    end
+
+    # Custom attribute writer method with validation
     # @param [Object] source_import_id Value to be assigned
     def source_import_id=(source_import_id)
       if source_import_id.nil?
@@ -430,22 +630,41 @@ module Pleaxy
       @tax_amount = tax_amount
     end
 
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] invoice_kind Object to be assigned
+    def invoice_kind=(invoice_kind)
+      validator = EnumAttributeValidator.new('String', ["prepayment"])
+      unless validator.valid?(invoice_kind)
+        fail ArgumentError, "invalid value for \"invoice_kind\", must be one of #{validator.allowable_values}."
+      end
+      @invoice_kind = invoice_kind
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
           connection_id == o.connection_id &&
+          document_type == o.document_type &&
+          amends_invoice_id == o.amends_invoice_id &&
+          amends_invoice_number == o.amends_invoice_number &&
+          replaces_invoice_ids == o.replaces_invoice_ids &&
+          replaces_invoice_numbers == o.replaces_invoice_numbers &&
           po_id == o.po_id &&
           invoice_number == o.invoice_number &&
           invoice_date == o.invoice_date &&
           due_in_days == o.due_in_days &&
           line_items == o.line_items &&
+          po_line_no == o.po_line_no &&
+          bills_no_po_line == o.bills_no_po_line &&
           adjustments == o.adjustments &&
           source_import_id == o.source_import_id &&
           tax_amount == o.tax_amount &&
           tax_breakdown == o.tax_breakdown &&
           withholdings == o.withholdings &&
+          invoice_kind == o.invoice_kind &&
+          deductions == o.deductions &&
           payment_currency_amount == o.payment_currency_amount &&
           tax_currency_amount == o.tax_currency_amount &&
           currency == o.currency &&
@@ -462,7 +681,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [connection_id, po_id, invoice_number, invoice_date, due_in_days, line_items, adjustments, source_import_id, tax_amount, tax_breakdown, withholdings, payment_currency_amount, tax_currency_amount, currency, remittance_instructions, pdf_base64].hash
+      [connection_id, document_type, amends_invoice_id, amends_invoice_number, replaces_invoice_ids, replaces_invoice_numbers, po_id, invoice_number, invoice_date, due_in_days, line_items, po_line_no, bills_no_po_line, adjustments, source_import_id, tax_amount, tax_breakdown, withholdings, invoice_kind, deductions, payment_currency_amount, tax_currency_amount, currency, remittance_instructions, pdf_base64].hash
     end
 
     # Builds the object from hash

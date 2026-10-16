@@ -24,6 +24,9 @@ class PaymentHistoryEntry:
         at (Union[Unset, str]):
         by (Union[Unset, str]):
         by_name (Union[Unset, str]):
+        remittance_id (Union[Unset, str]):
+        credit_note_id (Union[Unset, str]):
+        amount (Union[Unset, float]):
         record (Union[Unset, PaymentHistoryEntryRecord]):
     """
 
@@ -31,6 +34,9 @@ class PaymentHistoryEntry:
     at: Union[Unset, str] = UNSET
     by: Union[Unset, str] = UNSET
     by_name: Union[Unset, str] = UNSET
+    remittance_id: Union[Unset, str] = UNSET
+    credit_note_id: Union[Unset, str] = UNSET
+    amount: Union[Unset, float] = UNSET
     record: Union[Unset, "PaymentHistoryEntryRecord"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -44,6 +50,12 @@ class PaymentHistoryEntry:
         by = self.by
 
         by_name = self.by_name
+
+        remittance_id = self.remittance_id
+
+        credit_note_id = self.credit_note_id
+
+        amount = self.amount
 
         record: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.record, Unset):
@@ -60,6 +72,12 @@ class PaymentHistoryEntry:
             field_dict["by"] = by
         if by_name is not UNSET:
             field_dict["byName"] = by_name
+        if remittance_id is not UNSET:
+            field_dict["remittanceId"] = remittance_id
+        if credit_note_id is not UNSET:
+            field_dict["creditNoteId"] = credit_note_id
+        if amount is not UNSET:
+            field_dict["amount"] = amount
         if record is not UNSET:
             field_dict["record"] = record
 
@@ -83,6 +101,12 @@ class PaymentHistoryEntry:
 
         by_name = d.pop("byName", UNSET)
 
+        remittance_id = d.pop("remittanceId", UNSET)
+
+        credit_note_id = d.pop("creditNoteId", UNSET)
+
+        amount = d.pop("amount", UNSET)
+
         _record = d.pop("record", UNSET)
         record: Union[Unset, PaymentHistoryEntryRecord]
         if isinstance(_record, Unset):
@@ -95,6 +119,9 @@ class PaymentHistoryEntry:
             at=at,
             by=by,
             by_name=by_name,
+            remittance_id=remittance_id,
+            credit_note_id=credit_note_id,
+            amount=amount,
             record=record,
         )
 

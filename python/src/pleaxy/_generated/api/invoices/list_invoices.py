@@ -5,8 +5,16 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.invoice_buyer_view import InvoiceBuyerView
-from ...models.invoice_supplier_view import InvoiceSupplierView
+from ...models.list_invoices_item_buyer_credit_note import (
+    ListInvoicesItemBuyerCreditNote,
+)
+from ...models.list_invoices_item_buyer_invoice import ListInvoicesItemBuyerInvoice
+from ...models.list_invoices_item_supplier_credit_note import (
+    ListInvoicesItemSupplierCreditNote,
+)
+from ...models.list_invoices_item_supplier_invoice import (
+    ListInvoicesItemSupplierInvoice,
+)
 from ...types import UNSET, Response, Unset
 
 
@@ -14,12 +22,15 @@ def _get_kwargs(
     *,
     from_: Union[Unset, str] = UNSET,
     to: Union[Unset, str] = UNSET,
+    document_type: Union[Unset, str] = UNSET,
 ) -> Dict[str, Any]:
     params: Dict[str, Any] = {}
 
     params["from"] = from_
 
     params["to"] = to
+
+    params["documentType"] = document_type
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -34,7 +45,16 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[List[Union["InvoiceBuyerView", "InvoiceSupplierView"]]]:
+) -> Optional[
+    List[
+        Union[
+            "ListInvoicesItemBuyerCreditNote",
+            "ListInvoicesItemBuyerInvoice",
+            "ListInvoicesItemSupplierCreditNote",
+            "ListInvoicesItemSupplierInvoice",
+        ]
+    ]
+]:
     if response.status_code == 200:
         response_200 = []
         _response_200 = response.json()
@@ -42,24 +62,49 @@ def _parse_response(
 
             def _parse_response_200_item(
                 data: object,
-            ) -> Union["InvoiceBuyerView", "InvoiceSupplierView"]:
+            ) -> Union[
+                "ListInvoicesItemBuyerCreditNote",
+                "ListInvoicesItemBuyerInvoice",
+                "ListInvoicesItemSupplierCreditNote",
+                "ListInvoicesItemSupplierInvoice",
+            ]:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
                     componentsschemas_list_invoices_item_type_0 = (
-                        InvoiceBuyerView.from_dict(data)
+                        ListInvoicesItemBuyerInvoice.from_dict(data)
                     )
 
                     return componentsschemas_list_invoices_item_type_0
                 except:  # noqa: E722
                     pass
+                try:
+                    if not isinstance(data, dict):
+                        raise TypeError()
+                    componentsschemas_list_invoices_item_type_1 = (
+                        ListInvoicesItemSupplierInvoice.from_dict(data)
+                    )
+
+                    return componentsschemas_list_invoices_item_type_1
+                except:  # noqa: E722
+                    pass
+                try:
+                    if not isinstance(data, dict):
+                        raise TypeError()
+                    componentsschemas_list_invoices_item_type_2 = (
+                        ListInvoicesItemSupplierCreditNote.from_dict(data)
+                    )
+
+                    return componentsschemas_list_invoices_item_type_2
+                except:  # noqa: E722
+                    pass
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_list_invoices_item_type_1 = (
-                    InvoiceSupplierView.from_dict(data)
+                componentsschemas_list_invoices_item_type_3 = (
+                    ListInvoicesItemBuyerCreditNote.from_dict(data)
                 )
 
-                return componentsschemas_list_invoices_item_type_1
+                return componentsschemas_list_invoices_item_type_3
 
             response_200_item = _parse_response_200_item(response_200_item_data)
 
@@ -74,7 +119,16 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[List[Union["InvoiceBuyerView", "InvoiceSupplierView"]]]:
+) -> Response[
+    List[
+        Union[
+            "ListInvoicesItemBuyerCreditNote",
+            "ListInvoicesItemBuyerInvoice",
+            "ListInvoicesItemSupplierCreditNote",
+            "ListInvoicesItemSupplierInvoice",
+        ]
+    ]
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -88,26 +142,39 @@ def sync_detailed(
     client: Union[AuthenticatedClient, Client],
     from_: Union[Unset, str] = UNSET,
     to: Union[Unset, str] = UNSET,
-) -> Response[List[Union["InvoiceBuyerView", "InvoiceSupplierView"]]]:
-    """[Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. A Buyer caller gets
-    the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced
-    view (see GetInvoice).
+    document_type: Union[Unset, str] = UNSET,
+) -> Response[
+    List[
+        Union[
+            "ListInvoicesItemBuyerCreditNote",
+            "ListInvoicesItemBuyerInvoice",
+            "ListInvoicesItemSupplierCreditNote",
+            "ListInvoicesItemSupplierInvoice",
+        ]
+    ]
+]:
+    """[Both] List invoices - optionally scoped to a createdAt range via ?from=&to=.
+    ?documentType=credit_note lists credit notes instead, ?documentType=all both, newest first; every
+    item carries documentType (default invoice). A Buyer caller gets the invoices it received; a
+    Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
 
     Args:
         from_ (Union[Unset, str]):
         to (Union[Unset, str]):
+        document_type (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List[Union['InvoiceBuyerView', 'InvoiceSupplierView']]]
+        Response[List[Union['ListInvoicesItemBuyerCreditNote', 'ListInvoicesItemBuyerInvoice', 'ListInvoicesItemSupplierCreditNote', 'ListInvoicesItemSupplierInvoice']]]
     """
 
     kwargs = _get_kwargs(
         from_=from_,
         to=to,
+        document_type=document_type,
     )
 
     response = client.get_httpx_client().request(
@@ -122,27 +189,40 @@ def sync(
     client: Union[AuthenticatedClient, Client],
     from_: Union[Unset, str] = UNSET,
     to: Union[Unset, str] = UNSET,
-) -> Optional[List[Union["InvoiceBuyerView", "InvoiceSupplierView"]]]:
-    """[Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. A Buyer caller gets
-    the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced
-    view (see GetInvoice).
+    document_type: Union[Unset, str] = UNSET,
+) -> Optional[
+    List[
+        Union[
+            "ListInvoicesItemBuyerCreditNote",
+            "ListInvoicesItemBuyerInvoice",
+            "ListInvoicesItemSupplierCreditNote",
+            "ListInvoicesItemSupplierInvoice",
+        ]
+    ]
+]:
+    """[Both] List invoices - optionally scoped to a createdAt range via ?from=&to=.
+    ?documentType=credit_note lists credit notes instead, ?documentType=all both, newest first; every
+    item carries documentType (default invoice). A Buyer caller gets the invoices it received; a
+    Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
 
     Args:
         from_ (Union[Unset, str]):
         to (Union[Unset, str]):
+        document_type (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        List[Union['InvoiceBuyerView', 'InvoiceSupplierView']]
+        List[Union['ListInvoicesItemBuyerCreditNote', 'ListInvoicesItemBuyerInvoice', 'ListInvoicesItemSupplierCreditNote', 'ListInvoicesItemSupplierInvoice']]
     """
 
     return sync_detailed(
         client=client,
         from_=from_,
         to=to,
+        document_type=document_type,
     ).parsed
 
 
@@ -151,26 +231,39 @@ async def asyncio_detailed(
     client: Union[AuthenticatedClient, Client],
     from_: Union[Unset, str] = UNSET,
     to: Union[Unset, str] = UNSET,
-) -> Response[List[Union["InvoiceBuyerView", "InvoiceSupplierView"]]]:
-    """[Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. A Buyer caller gets
-    the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced
-    view (see GetInvoice).
+    document_type: Union[Unset, str] = UNSET,
+) -> Response[
+    List[
+        Union[
+            "ListInvoicesItemBuyerCreditNote",
+            "ListInvoicesItemBuyerInvoice",
+            "ListInvoicesItemSupplierCreditNote",
+            "ListInvoicesItemSupplierInvoice",
+        ]
+    ]
+]:
+    """[Both] List invoices - optionally scoped to a createdAt range via ?from=&to=.
+    ?documentType=credit_note lists credit notes instead, ?documentType=all both, newest first; every
+    item carries documentType (default invoice). A Buyer caller gets the invoices it received; a
+    Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
 
     Args:
         from_ (Union[Unset, str]):
         to (Union[Unset, str]):
+        document_type (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List[Union['InvoiceBuyerView', 'InvoiceSupplierView']]]
+        Response[List[Union['ListInvoicesItemBuyerCreditNote', 'ListInvoicesItemBuyerInvoice', 'ListInvoicesItemSupplierCreditNote', 'ListInvoicesItemSupplierInvoice']]]
     """
 
     kwargs = _get_kwargs(
         from_=from_,
         to=to,
+        document_type=document_type,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -183,21 +276,33 @@ async def asyncio(
     client: Union[AuthenticatedClient, Client],
     from_: Union[Unset, str] = UNSET,
     to: Union[Unset, str] = UNSET,
-) -> Optional[List[Union["InvoiceBuyerView", "InvoiceSupplierView"]]]:
-    """[Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. A Buyer caller gets
-    the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced
-    view (see GetInvoice).
+    document_type: Union[Unset, str] = UNSET,
+) -> Optional[
+    List[
+        Union[
+            "ListInvoicesItemBuyerCreditNote",
+            "ListInvoicesItemBuyerInvoice",
+            "ListInvoicesItemSupplierCreditNote",
+            "ListInvoicesItemSupplierInvoice",
+        ]
+    ]
+]:
+    """[Both] List invoices - optionally scoped to a createdAt range via ?from=&to=.
+    ?documentType=credit_note lists credit notes instead, ?documentType=all both, newest first; every
+    item carries documentType (default invoice). A Buyer caller gets the invoices it received; a
+    Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
 
     Args:
         from_ (Union[Unset, str]):
         to (Union[Unset, str]):
+        document_type (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        List[Union['InvoiceBuyerView', 'InvoiceSupplierView']]
+        List[Union['ListInvoicesItemBuyerCreditNote', 'ListInvoicesItemBuyerInvoice', 'ListInvoicesItemSupplierCreditNote', 'ListInvoicesItemSupplierInvoice']]
     """
 
     return (
@@ -205,5 +310,6 @@ async def asyncio(
             client=client,
             from_=from_,
             to=to,
+            document_type=document_type,
         )
     ).parsed

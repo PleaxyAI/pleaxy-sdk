@@ -56,6 +56,8 @@ pub struct PurchaseOrderSupplierView {
     pub payer_accounts: Option<Vec<models::PayerAccountRef>>,
     #[serde(rename = "billTo", skip_serializing_if = "Option::is_none")]
     pub bill_to: Option<String>,
+    #[serde(rename = "billToParty", skip_serializing_if = "Option::is_none")]
+    pub bill_to_party: Option<models::PurchaseOrderBillTo>,
     #[serde(rename = "buyerOrgName", skip_serializing_if = "Option::is_none")]
     pub buyer_org_name: Option<String>,
     #[serde(rename = "buyerRegionName", skip_serializing_if = "Option::is_none")]
@@ -66,12 +68,24 @@ pub struct PurchaseOrderSupplierView {
     pub supplier_site: Option<String>,
     #[serde(rename = "contractId", skip_serializing_if = "Option::is_none")]
     pub contract_id: Option<String>,
+    #[serde(rename = "supplierEmail", skip_serializing_if = "Option::is_none")]
+    pub supplier_email: Option<models::PurchaseOrderSupplierEmail>,
     #[serde(rename = "lineItems", skip_serializing_if = "Option::is_none")]
     pub line_items: Option<Vec<models::LineItem>>,
     #[serde(rename = "version", skip_serializing_if = "Option::is_none")]
     pub version: Option<f64>,
+    #[serde(rename = "storeId", skip_serializing_if = "Option::is_none")]
+    pub store_id: Option<String>,
+    #[serde(rename = "deliveryAddressId", skip_serializing_if = "Option::is_none")]
+    pub delivery_address_id: Option<String>,
+    #[serde(rename = "shipTo", skip_serializing_if = "Option::is_none")]
+    pub ship_to: Option<models::PurchaseOrderShipTo>,
+    #[serde(rename = "storeOrder", skip_serializing_if = "Option::is_none")]
+    pub store_order: Option<models::StoreOrder>,
     #[serde(rename = "approval", skip_serializing_if = "Option::is_none")]
     pub approval: Option<models::SupplierApprovalView>,
+    #[serde(rename = "priorInvoiced", skip_serializing_if = "Option::is_none")]
+    pub prior_invoiced: Option<models::PurchaseOrderSupplierViewPriorInvoiced>,
     #[serde(rename = "quoteDocument", skip_serializing_if = "Option::is_none")]
     pub quote_document: Option<models::PurchaseOrderSupplierViewQuoteDocument>,
     #[serde(rename = "buyerWorkspaceId", skip_serializing_if = "Option::is_none")]
@@ -98,14 +112,21 @@ impl PurchaseOrderSupplierView {
             last_replaced_invoice_id: None,
             payer_accounts: None,
             bill_to: None,
+            bill_to_party: None,
             buyer_org_name: None,
             buyer_region_name: None,
             supplier_region_name: None,
             supplier_site: None,
             contract_id: None,
+            supplier_email: None,
             line_items: None,
             version: None,
+            store_id: None,
+            delivery_address_id: None,
+            ship_to: None,
+            store_order: None,
             approval: None,
+            prior_invoiced: None,
             quote_document: None,
             buyer_workspace_id: None,
         }

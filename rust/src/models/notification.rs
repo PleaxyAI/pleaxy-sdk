@@ -28,6 +28,14 @@ pub struct Notification {
     pub title: Option<String>,
     #[serde(rename = "body", skip_serializing_if = "Option::is_none")]
     pub body: Option<String>,
+    #[serde(rename = "titleMessageId", skip_serializing_if = "Option::is_none")]
+    pub title_message_id: Option<String>,
+    #[serde(rename = "titleParams", skip_serializing_if = "Option::is_none")]
+    pub title_params: Option<std::collections::HashMap<String, models::ServerMessageParamsValue>>,
+    #[serde(rename = "bodyMessageId", skip_serializing_if = "Option::is_none")]
+    pub body_message_id: Option<String>,
+    #[serde(rename = "bodyParams", skip_serializing_if = "Option::is_none")]
+    pub body_params: Option<std::collections::HashMap<String, models::ServerMessageParamsValue>>,
     #[serde(rename = "relatedId", skip_serializing_if = "Option::is_none")]
     pub related_id: Option<String>,
     #[serde(rename = "stageId", skip_serializing_if = "Option::is_none")]
@@ -38,6 +46,8 @@ pub struct Notification {
     pub created_at: Option<String>,
     #[serde(rename = "read", skip_serializing_if = "Option::is_none")]
     pub read: Option<bool>,
+    #[serde(rename = "resolution", skip_serializing_if = "Option::is_none")]
+    pub resolution: Option<models::NotificationResolution>,
 }
 
 impl Notification {
@@ -49,11 +59,16 @@ impl Notification {
             r#type: None,
             title: None,
             body: None,
+            title_message_id: None,
+            title_params: None,
+            body_message_id: None,
+            body_params: None,
             related_id: None,
             stage_id: None,
             buyer_workspace_id: None,
             created_at: None,
             read: None,
+            resolution: None,
         }
     }
 }
@@ -84,6 +99,8 @@ pub enum Type {
     PoChanged,
     #[serde(rename = "po_approval_requested")]
     PoApprovalRequested,
+    #[serde(rename = "po_store_order_problem")]
+    PoStoreOrderProblem,
     #[serde(rename = "po_needs_approver")]
     PoNeedsApprover,
     #[serde(rename = "invoice_submitted")]
@@ -100,6 +117,8 @@ pub enum Type {
     InvoicePaid,
     #[serde(rename = "invoice_payment_withdrawn")]
     InvoicePaymentWithdrawn,
+    #[serde(rename = "invoice_remittance_sent")]
+    InvoiceRemittanceSent,
     #[serde(rename = "invoice_payment_failed")]
     InvoicePaymentFailed,
     #[serde(rename = "invoice_reminder")]
@@ -112,6 +131,20 @@ pub enum Type {
     InvoiceEnteredByBuyer,
     #[serde(rename = "invoice_needs_approver")]
     InvoiceNeedsApprover,
+    #[serde(rename = "credit_note_received")]
+    CreditNoteReceived,
+    #[serde(rename = "credit_note_accepted")]
+    CreditNoteAccepted,
+    #[serde(rename = "credit_note_rejected")]
+    CreditNoteRejected,
+    #[serde(rename = "credit_note_applied")]
+    CreditNoteApplied,
+    #[serde(rename = "invoice_comment")]
+    InvoiceComment,
+    #[serde(rename = "po_comment")]
+    PoComment,
+    #[serde(rename = "contract_comment")]
+    ContractComment,
     #[serde(rename = "invoice_feed_changed")]
     InvoiceFeedChanged,
     #[serde(rename = "supplier_connection_invited")]
@@ -136,6 +169,8 @@ pub enum Type {
     ContractTermsAcknowledged,
     #[serde(rename = "contract_terms_disputed")]
     ContractTermsDisputed,
+    #[serde(rename = "contract_sent_to_joined_supplier")]
+    ContractSentToJoinedSupplier,
     #[serde(rename = "copilot_allowance_80")]
     CopilotAllowance80,
     #[serde(rename = "copilot_allowance_100")]

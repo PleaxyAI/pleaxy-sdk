@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.BreakdownEntryInput;
+import ai.pleaxy.model.SendRemittanceInput;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -43,7 +44,9 @@ import ai.pleaxy.client.ApiClient;
   RecordPaymentInput.JSON_PROPERTY_CURRENCY,
   RecordPaymentInput.JSON_PROPERTY_RATE,
   RecordPaymentInput.JSON_PROPERTY_RATE_DATE,
-  RecordPaymentInput.JSON_PROPERTY_WITHHOLDINGS
+  RecordPaymentInput.JSON_PROPERTY_WITHHOLDINGS,
+  RecordPaymentInput.JSON_PROPERTY_REMITTANCE,
+  RecordPaymentInput.JSON_PROPERTY_CONFIRM_REPLACED
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class RecordPaymentInput {
@@ -119,6 +122,14 @@ public class RecordPaymentInput {
   public static final String JSON_PROPERTY_WITHHOLDINGS = "withholdings";
   @javax.annotation.Nullable
   private List<BreakdownEntryInput> withholdings = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_REMITTANCE = "remittance";
+  @javax.annotation.Nullable
+  private SendRemittanceInput remittance;
+
+  public static final String JSON_PROPERTY_CONFIRM_REPLACED = "confirmReplaced";
+  @javax.annotation.Nullable
+  private Boolean confirmReplaced;
 
   public RecordPaymentInput() { 
   }
@@ -325,6 +336,54 @@ public class RecordPaymentInput {
   }
 
 
+  public RecordPaymentInput remittance(@javax.annotation.Nullable SendRemittanceInput remittance) {
+    this.remittance = remittance;
+    return this;
+  }
+
+  /**
+   * Get remittance
+   * @return remittance
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REMITTANCE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SendRemittanceInput getRemittance() {
+    return remittance;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REMITTANCE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRemittance(@javax.annotation.Nullable SendRemittanceInput remittance) {
+    this.remittance = remittance;
+  }
+
+
+  public RecordPaymentInput confirmReplaced(@javax.annotation.Nullable Boolean confirmReplaced) {
+    this.confirmReplaced = confirmReplaced;
+    return this;
+  }
+
+  /**
+   * Get confirmReplaced
+   * @return confirmReplaced
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CONFIRM_REPLACED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getConfirmReplaced() {
+    return confirmReplaced;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CONFIRM_REPLACED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setConfirmReplaced(@javax.annotation.Nullable Boolean confirmReplaced) {
+    this.confirmReplaced = confirmReplaced;
+  }
+
+
   /**
    * Return true if this RecordPaymentInput object is equal to o.
    */
@@ -344,12 +403,14 @@ public class RecordPaymentInput {
         Objects.equals(this.currency, recordPaymentInput.currency) &&
         Objects.equals(this.rate, recordPaymentInput.rate) &&
         Objects.equals(this.rateDate, recordPaymentInput.rateDate) &&
-        Objects.equals(this.withholdings, recordPaymentInput.withholdings);
+        Objects.equals(this.withholdings, recordPaymentInput.withholdings) &&
+        Objects.equals(this.remittance, recordPaymentInput.remittance) &&
+        Objects.equals(this.confirmReplaced, recordPaymentInput.confirmReplaced);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(method, paymentDate, reference, amount, currency, rate, rateDate, withholdings);
+    return Objects.hash(method, paymentDate, reference, amount, currency, rate, rateDate, withholdings, remittance, confirmReplaced);
   }
 
   @Override
@@ -364,6 +425,8 @@ public class RecordPaymentInput {
     sb.append("    rate: ").append(toIndentedString(rate)).append("\n");
     sb.append("    rateDate: ").append(toIndentedString(rateDate)).append("\n");
     sb.append("    withholdings: ").append(toIndentedString(withholdings)).append("\n");
+    sb.append("    remittance: ").append(toIndentedString(remittance)).append("\n");
+    sb.append("    confirmReplaced: ").append(toIndentedString(confirmReplaced)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -454,6 +517,16 @@ public class RecordPaymentInput {
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
+    }
+
+    // add `remittance` to the URL query string
+    if (getRemittance() != null) {
+      joiner.add(getRemittance().toUrlQueryString(prefix + "remittance" + suffix));
+    }
+
+    // add `confirmReplaced` to the URL query string
+    if (getConfirmReplaced() != null) {
+      joiner.add(String.format("%sconfirmReplaced%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getConfirmReplaced()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

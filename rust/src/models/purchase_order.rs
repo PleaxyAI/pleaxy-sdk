@@ -33,6 +33,8 @@ pub struct PurchaseOrder {
     pub invoice_ids: Option<Vec<String>>,
     #[serde(rename = "invoicedAmount", skip_serializing_if = "Option::is_none")]
     pub invoiced_amount: Option<f64>,
+    #[serde(rename = "priorInvoiced", skip_serializing_if = "Option::is_none")]
+    pub prior_invoiced: Option<models::PurchaseOrderPriorInvoiced>,
     #[serde(
         rename = "rejectedInvoiceCount",
         skip_serializing_if = "Option::is_none"
@@ -54,8 +56,12 @@ pub struct PurchaseOrder {
     pub payer_accounts: Option<Vec<models::PayerAccountRef>>,
     #[serde(rename = "billTo", skip_serializing_if = "Option::is_none")]
     pub bill_to: Option<String>,
+    #[serde(rename = "billToParty", skip_serializing_if = "Option::is_none")]
+    pub bill_to_party: Option<models::PurchaseOrderBillTo>,
     #[serde(rename = "costCenter", skip_serializing_if = "Option::is_none")]
     pub cost_center: Option<String>,
+    #[serde(rename = "costCenterChanges", skip_serializing_if = "Option::is_none")]
+    pub cost_center_changes: Option<Vec<models::PurchaseOrderCostCenterChange>>,
     #[serde(rename = "budgetOwner", skip_serializing_if = "Option::is_none")]
     pub budget_owner: Option<String>,
     #[serde(rename = "buyerName", skip_serializing_if = "Option::is_none")]
@@ -84,6 +90,8 @@ pub struct PurchaseOrder {
     pub notes: Option<String>,
     #[serde(rename = "contractId", skip_serializing_if = "Option::is_none")]
     pub contract_id: Option<String>,
+    #[serde(rename = "supplierEmail", skip_serializing_if = "Option::is_none")]
+    pub supplier_email: Option<models::PurchaseOrderSupplierEmail>,
     #[serde(rename = "quoteDocument", skip_serializing_if = "Option::is_none")]
     pub quote_document: Option<models::PurchaseOrderQuoteDocument>,
     #[serde(rename = "lineItems", skip_serializing_if = "Option::is_none")]
@@ -107,6 +115,18 @@ pub struct PurchaseOrder {
     pub version: Option<f64>,
     #[serde(rename = "lastChange", skip_serializing_if = "Option::is_none")]
     pub last_change: Option<models::PurchaseOrderChangeSummary>,
+    #[serde(rename = "approvalAmount", skip_serializing_if = "Option::is_none")]
+    pub approval_amount: Option<f64>,
+    #[serde(rename = "punchout", skip_serializing_if = "Option::is_none")]
+    pub punchout: Option<models::PurchaseOrderPunchout>,
+    #[serde(rename = "storeId", skip_serializing_if = "Option::is_none")]
+    pub store_id: Option<String>,
+    #[serde(rename = "deliveryAddressId", skip_serializing_if = "Option::is_none")]
+    pub delivery_address_id: Option<String>,
+    #[serde(rename = "shipTo", skip_serializing_if = "Option::is_none")]
+    pub ship_to: Option<models::PurchaseOrderShipTo>,
+    #[serde(rename = "storeOrder", skip_serializing_if = "Option::is_none")]
+    pub store_order: Option<models::StoreOrder>,
     #[serde(rename = "createdAt", skip_serializing_if = "Option::is_none")]
     pub created_at: Option<String>,
 }
@@ -124,13 +144,16 @@ impl PurchaseOrder {
             invoice_id: None,
             invoice_ids: None,
             invoiced_amount: None,
+            prior_invoiced: None,
             rejected_invoice_count: None,
             last_rejected_invoice_id: None,
             last_replaced_invoice_id: None,
             provider: None,
             payer_accounts: None,
             bill_to: None,
+            bill_to_party: None,
             cost_center: None,
+            cost_center_changes: None,
             budget_owner: None,
             buyer_name: None,
             buyer_org_name: None,
@@ -142,6 +165,7 @@ impl PurchaseOrder {
             supplier_connection_id: None,
             notes: None,
             contract_id: None,
+            supplier_email: None,
             quote_document: None,
             line_items: None,
             approval: None,
@@ -152,6 +176,12 @@ impl PurchaseOrder {
             updated_at: None,
             version: None,
             last_change: None,
+            approval_amount: None,
+            punchout: None,
+            store_id: None,
+            delivery_address_id: None,
+            ship_to: None,
+            store_order: None,
             created_at: None,
         }
     }

@@ -35,12 +35,17 @@ import ai.pleaxy.client.ApiClient;
  * InvoicePartyDetails
  */
 @JsonPropertyOrder({
+  InvoicePartyDetails.JSON_PROPERTY_NAME,
   InvoicePartyDetails.JSON_PROPERTY_ADDRESS_LINES,
   InvoicePartyDetails.JSON_PROPERTY_TAX_ID,
   InvoicePartyDetails.JSON_PROPERTY_TAX_ID_LABEL
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class InvoicePartyDetails {
+  public static final String JSON_PROPERTY_NAME = "name";
+  @javax.annotation.Nullable
+  private String name;
+
   public static final String JSON_PROPERTY_ADDRESS_LINES = "addressLines";
   @javax.annotation.Nullable
   private List<String> addressLines = new ArrayList<>();
@@ -55,6 +60,30 @@ public class InvoicePartyDetails {
 
   public InvoicePartyDetails() { 
   }
+
+  public InvoicePartyDetails name(@javax.annotation.Nullable String name) {
+    this.name = name;
+    return this;
+  }
+
+  /**
+   * Get name
+   * @return name
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getName() {
+    return name;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setName(@javax.annotation.Nullable String name) {
+    this.name = name;
+  }
+
 
   public InvoicePartyDetails addressLines(@javax.annotation.Nullable List<String> addressLines) {
     this.addressLines = addressLines;
@@ -148,20 +177,22 @@ public class InvoicePartyDetails {
       return false;
     }
     InvoicePartyDetails invoicePartyDetails = (InvoicePartyDetails) o;
-    return Objects.equals(this.addressLines, invoicePartyDetails.addressLines) &&
+    return Objects.equals(this.name, invoicePartyDetails.name) &&
+        Objects.equals(this.addressLines, invoicePartyDetails.addressLines) &&
         Objects.equals(this.taxId, invoicePartyDetails.taxId) &&
         Objects.equals(this.taxIdLabel, invoicePartyDetails.taxIdLabel);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(addressLines, taxId, taxIdLabel);
+    return Objects.hash(name, addressLines, taxId, taxIdLabel);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class InvoicePartyDetails {\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    addressLines: ").append(toIndentedString(addressLines)).append("\n");
     sb.append("    taxId: ").append(toIndentedString(taxId)).append("\n");
     sb.append("    taxIdLabel: ").append(toIndentedString(taxIdLabel)).append("\n");
@@ -211,6 +242,11 @@ public class InvoicePartyDetails {
     }
 
     StringJoiner joiner = new StringJoiner("&");
+
+    // add `name` to the URL query string
+    if (getName() != null) {
+      joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
 
     // add `addressLines` to the URL query string
     if (getAddressLines() != null) {

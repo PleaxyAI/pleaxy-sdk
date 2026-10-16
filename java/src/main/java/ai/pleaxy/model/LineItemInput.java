@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.PunchoutRefInput;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -46,7 +47,8 @@ import ai.pleaxy.client.ApiClient;
   LineItemInput.JSON_PROPERTY_VALID_FROM,
   LineItemInput.JSON_PROPERTY_VALID_UNTIL,
   LineItemInput.JSON_PROPERTY_CUSTOMER_LINE_NO,
-  LineItemInput.JSON_PROPERTY_QUOTE_LINE_NO
+  LineItemInput.JSON_PROPERTY_QUOTE_LINE_NO,
+  LineItemInput.JSON_PROPERTY_PUNCHOUT_REF
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class LineItemInput {
@@ -161,7 +163,7 @@ public class LineItemInput {
   private String currency;
 
   public static final String JSON_PROPERTY_PAYMENT_TERMS = "paymentTerms";
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private String paymentTerms;
 
   public static final String JSON_PROPERTY_VALID_FROM = "validFrom";
@@ -179,6 +181,10 @@ public class LineItemInput {
   public static final String JSON_PROPERTY_QUOTE_LINE_NO = "quoteLineNo";
   @javax.annotation.Nullable
   private Double quoteLineNo;
+
+  public static final String JSON_PROPERTY_PUNCHOUT_REF = "punchoutRef";
+  @javax.annotation.Nullable
+  private PunchoutRefInput punchoutRef;
 
   public LineItemInput() { 
   }
@@ -402,26 +408,26 @@ public class LineItemInput {
   }
 
 
-  public LineItemInput paymentTerms(@javax.annotation.Nonnull String paymentTerms) {
+  public LineItemInput paymentTerms(@javax.annotation.Nullable String paymentTerms) {
     this.paymentTerms = paymentTerms;
     return this;
   }
 
   /**
-   * Get paymentTerms
+   * The line&#39;s payment terms, e.g. \&quot;Net 30\&quot;. Optional: left out (or blank), the line takes the default payment terms of the contract it was priced from or the order names (contractId), else the catalog item&#39;s, else \&quot;Net 30\&quot;.
    * @return paymentTerms
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PAYMENT_TERMS)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPaymentTerms() {
     return paymentTerms;
   }
 
 
   @JsonProperty(JSON_PROPERTY_PAYMENT_TERMS)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setPaymentTerms(@javax.annotation.Nonnull String paymentTerms) {
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaymentTerms(@javax.annotation.Nullable String paymentTerms) {
     this.paymentTerms = paymentTerms;
   }
 
@@ -524,6 +530,30 @@ public class LineItemInput {
   }
 
 
+  public LineItemInput punchoutRef(@javax.annotation.Nullable PunchoutRefInput punchoutRef) {
+    this.punchoutRef = punchoutRef;
+    return this;
+  }
+
+  /**
+   * The online-store cart line this line came from (store punchout spec D4). The server reads that cart&#39;s evidence and sets what the line is - its name, unit and part numbers - from it; only qty and unitPrice are yours.
+   * @return punchoutRef
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PUNCHOUT_REF)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PunchoutRefInput getPunchoutRef() {
+    return punchoutRef;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PUNCHOUT_REF)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPunchoutRef(@javax.annotation.Nullable PunchoutRefInput punchoutRef) {
+    this.punchoutRef = punchoutRef;
+  }
+
+
   /**
    * Return true if this LineItemInput object is equal to o.
    */
@@ -549,12 +579,13 @@ public class LineItemInput {
         Objects.equals(this.validFrom, lineItemInput.validFrom) &&
         Objects.equals(this.validUntil, lineItemInput.validUntil) &&
         Objects.equals(this.customerLineNo, lineItemInput.customerLineNo) &&
-        Objects.equals(this.quoteLineNo, lineItemInput.quoteLineNo);
+        Objects.equals(this.quoteLineNo, lineItemInput.quoteLineNo) &&
+        Objects.equals(this.punchoutRef, lineItemInput.punchoutRef);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(scopeType, scopeId, name, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, customerLineNo, quoteLineNo);
+    return Objects.hash(scopeType, scopeId, name, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, customerLineNo, quoteLineNo, punchoutRef);
   }
 
   @Override
@@ -575,6 +606,7 @@ public class LineItemInput {
     sb.append("    validUntil: ").append(toIndentedString(validUntil)).append("\n");
     sb.append("    customerLineNo: ").append(toIndentedString(customerLineNo)).append("\n");
     sb.append("    quoteLineNo: ").append(toIndentedString(quoteLineNo)).append("\n");
+    sb.append("    punchoutRef: ").append(toIndentedString(punchoutRef)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -690,6 +722,11 @@ public class LineItemInput {
     // add `quoteLineNo` to the URL query string
     if (getQuoteLineNo() != null) {
       joiner.add(String.format("%squoteLineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuoteLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `punchoutRef` to the URL query string
+    if (getPunchoutRef() != null) {
+      joiner.add(getPunchoutRef().toUrlQueryString(prefix + "punchoutRef" + suffix));
     }
 
     return joiner.toString();

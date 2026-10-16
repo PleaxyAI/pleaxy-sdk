@@ -58,6 +58,10 @@ pub struct LineItem {
     pub contract_term_id: Option<String>,
     #[serde(rename = "quoteLineNo", skip_serializing_if = "Option::is_none")]
     pub quote_line_no: Option<f64>,
+    #[serde(rename = "origin", skip_serializing_if = "Option::is_none")]
+    pub origin: Option<models::PunchoutLineOrigin>,
+    #[serde(rename = "punchoutRef", skip_serializing_if = "Option::is_none")]
+    pub punchout_ref: Option<models::LineItemPunchoutRef>,
 }
 
 impl LineItem {
@@ -83,6 +87,8 @@ impl LineItem {
             contract_id: None,
             contract_term_id: None,
             quote_line_no: None,
+            origin: None,
+            punchout_ref: None,
         }
     }
 }

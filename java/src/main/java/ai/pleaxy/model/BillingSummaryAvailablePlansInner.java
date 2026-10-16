@@ -19,6 +19,8 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.PriceAmount;
+import ai.pleaxy.model.RegionTierPrice;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,8 +39,11 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   BillingSummaryAvailablePlansInner.JSON_PROPERTY_PLAN,
   BillingSummaryAvailablePlansInner.JSON_PROPERTY_MONTHLY_PRICE_LABEL,
+  BillingSummaryAvailablePlansInner.JSON_PROPERTY_MONTHLY_PRICE,
   BillingSummaryAvailablePlansInner.JSON_PROPERTY_YEARLY_PRICE_LABEL,
-  BillingSummaryAvailablePlansInner.JSON_PROPERTY_ADDITIONAL_REGION_PRICE_LABELS
+  BillingSummaryAvailablePlansInner.JSON_PROPERTY_YEARLY_PRICE,
+  BillingSummaryAvailablePlansInner.JSON_PROPERTY_ADDITIONAL_REGION_PRICE_LABELS,
+  BillingSummaryAvailablePlansInner.JSON_PROPERTY_ADDITIONAL_REGION_PRICES
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class BillingSummaryAvailablePlansInner {
@@ -87,13 +92,25 @@ public class BillingSummaryAvailablePlansInner {
   @javax.annotation.Nullable
   private String monthlyPriceLabel;
 
+  public static final String JSON_PROPERTY_MONTHLY_PRICE = "monthlyPrice";
+  @javax.annotation.Nullable
+  private PriceAmount monthlyPrice;
+
   public static final String JSON_PROPERTY_YEARLY_PRICE_LABEL = "yearlyPriceLabel";
   @javax.annotation.Nullable
   private String yearlyPriceLabel;
 
+  public static final String JSON_PROPERTY_YEARLY_PRICE = "yearlyPrice";
+  @javax.annotation.Nullable
+  private PriceAmount yearlyPrice;
+
   public static final String JSON_PROPERTY_ADDITIONAL_REGION_PRICE_LABELS = "additionalRegionPriceLabels";
   @javax.annotation.Nullable
   private List<String> additionalRegionPriceLabels = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_ADDITIONAL_REGION_PRICES = "additionalRegionPrices";
+  @javax.annotation.Nullable
+  private List<RegionTierPrice> additionalRegionPrices = new ArrayList<>();
 
   public BillingSummaryAvailablePlansInner() { 
   }
@@ -146,6 +163,30 @@ public class BillingSummaryAvailablePlansInner {
   }
 
 
+  public BillingSummaryAvailablePlansInner monthlyPrice(@javax.annotation.Nullable PriceAmount monthlyPrice) {
+    this.monthlyPrice = monthlyPrice;
+    return this;
+  }
+
+  /**
+   * Get monthlyPrice
+   * @return monthlyPrice
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MONTHLY_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PriceAmount getMonthlyPrice() {
+    return monthlyPrice;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MONTHLY_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMonthlyPrice(@javax.annotation.Nullable PriceAmount monthlyPrice) {
+    this.monthlyPrice = monthlyPrice;
+  }
+
+
   public BillingSummaryAvailablePlansInner yearlyPriceLabel(@javax.annotation.Nullable String yearlyPriceLabel) {
     this.yearlyPriceLabel = yearlyPriceLabel;
     return this;
@@ -167,6 +208,30 @@ public class BillingSummaryAvailablePlansInner {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setYearlyPriceLabel(@javax.annotation.Nullable String yearlyPriceLabel) {
     this.yearlyPriceLabel = yearlyPriceLabel;
+  }
+
+
+  public BillingSummaryAvailablePlansInner yearlyPrice(@javax.annotation.Nullable PriceAmount yearlyPrice) {
+    this.yearlyPrice = yearlyPrice;
+    return this;
+  }
+
+  /**
+   * Get yearlyPrice
+   * @return yearlyPrice
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_YEARLY_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PriceAmount getYearlyPrice() {
+    return yearlyPrice;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_YEARLY_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setYearlyPrice(@javax.annotation.Nullable PriceAmount yearlyPrice) {
+    this.yearlyPrice = yearlyPrice;
   }
 
 
@@ -202,6 +267,38 @@ public class BillingSummaryAvailablePlansInner {
   }
 
 
+  public BillingSummaryAvailablePlansInner additionalRegionPrices(@javax.annotation.Nullable List<RegionTierPrice> additionalRegionPrices) {
+    this.additionalRegionPrices = additionalRegionPrices;
+    return this;
+  }
+
+  public BillingSummaryAvailablePlansInner addAdditionalRegionPricesItem(RegionTierPrice additionalRegionPricesItem) {
+    if (this.additionalRegionPrices == null) {
+      this.additionalRegionPrices = new ArrayList<>();
+    }
+    this.additionalRegionPrices.add(additionalRegionPricesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalRegionPrices
+   * @return additionalRegionPrices
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ADDITIONAL_REGION_PRICES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<RegionTierPrice> getAdditionalRegionPrices() {
+    return additionalRegionPrices;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ADDITIONAL_REGION_PRICES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAdditionalRegionPrices(@javax.annotation.Nullable List<RegionTierPrice> additionalRegionPrices) {
+    this.additionalRegionPrices = additionalRegionPrices;
+  }
+
+
   /**
    * Return true if this BillingSummary_availablePlans_inner object is equal to o.
    */
@@ -216,13 +313,16 @@ public class BillingSummaryAvailablePlansInner {
     BillingSummaryAvailablePlansInner billingSummaryAvailablePlansInner = (BillingSummaryAvailablePlansInner) o;
     return Objects.equals(this.plan, billingSummaryAvailablePlansInner.plan) &&
         Objects.equals(this.monthlyPriceLabel, billingSummaryAvailablePlansInner.monthlyPriceLabel) &&
+        Objects.equals(this.monthlyPrice, billingSummaryAvailablePlansInner.monthlyPrice) &&
         Objects.equals(this.yearlyPriceLabel, billingSummaryAvailablePlansInner.yearlyPriceLabel) &&
-        Objects.equals(this.additionalRegionPriceLabels, billingSummaryAvailablePlansInner.additionalRegionPriceLabels);
+        Objects.equals(this.yearlyPrice, billingSummaryAvailablePlansInner.yearlyPrice) &&
+        Objects.equals(this.additionalRegionPriceLabels, billingSummaryAvailablePlansInner.additionalRegionPriceLabels) &&
+        Objects.equals(this.additionalRegionPrices, billingSummaryAvailablePlansInner.additionalRegionPrices);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(plan, monthlyPriceLabel, yearlyPriceLabel, additionalRegionPriceLabels);
+    return Objects.hash(plan, monthlyPriceLabel, monthlyPrice, yearlyPriceLabel, yearlyPrice, additionalRegionPriceLabels, additionalRegionPrices);
   }
 
   @Override
@@ -231,8 +331,11 @@ public class BillingSummaryAvailablePlansInner {
     sb.append("class BillingSummaryAvailablePlansInner {\n");
     sb.append("    plan: ").append(toIndentedString(plan)).append("\n");
     sb.append("    monthlyPriceLabel: ").append(toIndentedString(monthlyPriceLabel)).append("\n");
+    sb.append("    monthlyPrice: ").append(toIndentedString(monthlyPrice)).append("\n");
     sb.append("    yearlyPriceLabel: ").append(toIndentedString(yearlyPriceLabel)).append("\n");
+    sb.append("    yearlyPrice: ").append(toIndentedString(yearlyPrice)).append("\n");
     sb.append("    additionalRegionPriceLabels: ").append(toIndentedString(additionalRegionPriceLabels)).append("\n");
+    sb.append("    additionalRegionPrices: ").append(toIndentedString(additionalRegionPrices)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -290,9 +393,19 @@ public class BillingSummaryAvailablePlansInner {
       joiner.add(String.format("%smonthlyPriceLabel%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMonthlyPriceLabel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `monthlyPrice` to the URL query string
+    if (getMonthlyPrice() != null) {
+      joiner.add(getMonthlyPrice().toUrlQueryString(prefix + "monthlyPrice" + suffix));
+    }
+
     // add `yearlyPriceLabel` to the URL query string
     if (getYearlyPriceLabel() != null) {
       joiner.add(String.format("%syearlyPriceLabel%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getYearlyPriceLabel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `yearlyPrice` to the URL query string
+    if (getYearlyPrice() != null) {
+      joiner.add(getYearlyPrice().toUrlQueryString(prefix + "yearlyPrice" + suffix));
     }
 
     // add `additionalRegionPriceLabels` to the URL query string
@@ -301,6 +414,16 @@ public class BillingSummaryAvailablePlansInner {
         joiner.add(String.format("%sadditionalRegionPriceLabels%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getAdditionalRegionPriceLabels().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `additionalRegionPrices` to the URL query string
+    if (getAdditionalRegionPrices() != null) {
+      for (int i = 0; i < getAdditionalRegionPrices().size(); i++) {
+        if (getAdditionalRegionPrices().get(i) != null) {
+          joiner.add(getAdditionalRegionPrices().get(i).toUrlQueryString(String.format("%sadditionalRegionPrices%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
       }
     }
 

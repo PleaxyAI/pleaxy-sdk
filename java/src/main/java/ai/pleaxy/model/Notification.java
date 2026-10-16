@@ -19,12 +19,16 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.NotificationResolution;
+import ai.pleaxy.model.ServerMessageParamsValue;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -39,11 +43,16 @@ import ai.pleaxy.client.ApiClient;
   Notification.JSON_PROPERTY_TYPE,
   Notification.JSON_PROPERTY_TITLE,
   Notification.JSON_PROPERTY_BODY,
+  Notification.JSON_PROPERTY_TITLE_MESSAGE_ID,
+  Notification.JSON_PROPERTY_TITLE_PARAMS,
+  Notification.JSON_PROPERTY_BODY_MESSAGE_ID,
+  Notification.JSON_PROPERTY_BODY_PARAMS,
   Notification.JSON_PROPERTY_RELATED_ID,
   Notification.JSON_PROPERTY_STAGE_ID,
   Notification.JSON_PROPERTY_BUYER_WORKSPACE_ID,
   Notification.JSON_PROPERTY_CREATED_AT,
-  Notification.JSON_PROPERTY_READ
+  Notification.JSON_PROPERTY_READ,
+  Notification.JSON_PROPERTY_RESOLUTION
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class Notification {
@@ -108,6 +117,8 @@ public class Notification {
     
     PO_APPROVAL_REQUESTED(String.valueOf("po_approval_requested")),
     
+    PO_STORE_ORDER_PROBLEM(String.valueOf("po_store_order_problem")),
+    
     PO_NEEDS_APPROVER(String.valueOf("po_needs_approver")),
     
     INVOICE_SUBMITTED(String.valueOf("invoice_submitted")),
@@ -124,6 +135,8 @@ public class Notification {
     
     INVOICE_PAYMENT_WITHDRAWN(String.valueOf("invoice_payment_withdrawn")),
     
+    INVOICE_REMITTANCE_SENT(String.valueOf("invoice_remittance_sent")),
+    
     INVOICE_PAYMENT_FAILED(String.valueOf("invoice_payment_failed")),
     
     INVOICE_REMINDER(String.valueOf("invoice_reminder")),
@@ -135,6 +148,20 @@ public class Notification {
     INVOICE_ENTERED_BY_BUYER(String.valueOf("invoice_entered_by_buyer")),
     
     INVOICE_NEEDS_APPROVER(String.valueOf("invoice_needs_approver")),
+    
+    CREDIT_NOTE_RECEIVED(String.valueOf("credit_note_received")),
+    
+    CREDIT_NOTE_ACCEPTED(String.valueOf("credit_note_accepted")),
+    
+    CREDIT_NOTE_REJECTED(String.valueOf("credit_note_rejected")),
+    
+    CREDIT_NOTE_APPLIED(String.valueOf("credit_note_applied")),
+    
+    INVOICE_COMMENT(String.valueOf("invoice_comment")),
+    
+    PO_COMMENT(String.valueOf("po_comment")),
+    
+    CONTRACT_COMMENT(String.valueOf("contract_comment")),
     
     INVOICE_FEED_CHANGED(String.valueOf("invoice_feed_changed")),
     
@@ -159,6 +186,8 @@ public class Notification {
     CONTRACT_TERMS_ACKNOWLEDGED(String.valueOf("contract_terms_acknowledged")),
     
     CONTRACT_TERMS_DISPUTED(String.valueOf("contract_terms_disputed")),
+    
+    CONTRACT_SENT_TO_JOINED_SUPPLIER(String.valueOf("contract_sent_to_joined_supplier")),
     
     COPILOT_ALLOWANCE_80(String.valueOf("copilot_allowance_80")),
     
@@ -211,6 +240,22 @@ public class Notification {
   @javax.annotation.Nullable
   private String body;
 
+  public static final String JSON_PROPERTY_TITLE_MESSAGE_ID = "titleMessageId";
+  @javax.annotation.Nullable
+  private String titleMessageId;
+
+  public static final String JSON_PROPERTY_TITLE_PARAMS = "titleParams";
+  @javax.annotation.Nullable
+  private Map<String, ServerMessageParamsValue> titleParams = new HashMap<>();
+
+  public static final String JSON_PROPERTY_BODY_MESSAGE_ID = "bodyMessageId";
+  @javax.annotation.Nullable
+  private String bodyMessageId;
+
+  public static final String JSON_PROPERTY_BODY_PARAMS = "bodyParams";
+  @javax.annotation.Nullable
+  private Map<String, ServerMessageParamsValue> bodyParams = new HashMap<>();
+
   public static final String JSON_PROPERTY_RELATED_ID = "relatedId";
   @javax.annotation.Nullable
   private String relatedId;
@@ -230,6 +275,10 @@ public class Notification {
   public static final String JSON_PROPERTY_READ = "read";
   @javax.annotation.Nullable
   private Boolean read;
+
+  public static final String JSON_PROPERTY_RESOLUTION = "resolution";
+  @javax.annotation.Nullable
+  private NotificationResolution resolution;
 
   public Notification() { 
   }
@@ -378,6 +427,118 @@ public class Notification {
   }
 
 
+  public Notification titleMessageId(@javax.annotation.Nullable String titleMessageId) {
+    this.titleMessageId = titleMessageId;
+    return this;
+  }
+
+  /**
+   * Get titleMessageId
+   * @return titleMessageId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_TITLE_MESSAGE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getTitleMessageId() {
+    return titleMessageId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_TITLE_MESSAGE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setTitleMessageId(@javax.annotation.Nullable String titleMessageId) {
+    this.titleMessageId = titleMessageId;
+  }
+
+
+  public Notification titleParams(@javax.annotation.Nullable Map<String, ServerMessageParamsValue> titleParams) {
+    this.titleParams = titleParams;
+    return this;
+  }
+
+  public Notification putTitleParamsItem(String key, ServerMessageParamsValue titleParamsItem) {
+    if (this.titleParams == null) {
+      this.titleParams = new HashMap<>();
+    }
+    this.titleParams.put(key, titleParamsItem);
+    return this;
+  }
+
+  /**
+   * Get titleParams
+   * @return titleParams
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_TITLE_PARAMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Map<String, ServerMessageParamsValue> getTitleParams() {
+    return titleParams;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_TITLE_PARAMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setTitleParams(@javax.annotation.Nullable Map<String, ServerMessageParamsValue> titleParams) {
+    this.titleParams = titleParams;
+  }
+
+
+  public Notification bodyMessageId(@javax.annotation.Nullable String bodyMessageId) {
+    this.bodyMessageId = bodyMessageId;
+    return this;
+  }
+
+  /**
+   * Get bodyMessageId
+   * @return bodyMessageId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BODY_MESSAGE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getBodyMessageId() {
+    return bodyMessageId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BODY_MESSAGE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBodyMessageId(@javax.annotation.Nullable String bodyMessageId) {
+    this.bodyMessageId = bodyMessageId;
+  }
+
+
+  public Notification bodyParams(@javax.annotation.Nullable Map<String, ServerMessageParamsValue> bodyParams) {
+    this.bodyParams = bodyParams;
+    return this;
+  }
+
+  public Notification putBodyParamsItem(String key, ServerMessageParamsValue bodyParamsItem) {
+    if (this.bodyParams == null) {
+      this.bodyParams = new HashMap<>();
+    }
+    this.bodyParams.put(key, bodyParamsItem);
+    return this;
+  }
+
+  /**
+   * Get bodyParams
+   * @return bodyParams
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BODY_PARAMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Map<String, ServerMessageParamsValue> getBodyParams() {
+    return bodyParams;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BODY_PARAMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBodyParams(@javax.annotation.Nullable Map<String, ServerMessageParamsValue> bodyParams) {
+    this.bodyParams = bodyParams;
+  }
+
+
   public Notification relatedId(@javax.annotation.Nullable String relatedId) {
     this.relatedId = relatedId;
     return this;
@@ -498,6 +659,30 @@ public class Notification {
   }
 
 
+  public Notification resolution(@javax.annotation.Nullable NotificationResolution resolution) {
+    this.resolution = resolution;
+    return this;
+  }
+
+  /**
+   * Get resolution
+   * @return resolution
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RESOLUTION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public NotificationResolution getResolution() {
+    return resolution;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RESOLUTION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setResolution(@javax.annotation.Nullable NotificationResolution resolution) {
+    this.resolution = resolution;
+  }
+
+
   /**
    * Return true if this Notification object is equal to o.
    */
@@ -516,16 +701,21 @@ public class Notification {
         Objects.equals(this.type, notification.type) &&
         Objects.equals(this.title, notification.title) &&
         Objects.equals(this.body, notification.body) &&
+        Objects.equals(this.titleMessageId, notification.titleMessageId) &&
+        Objects.equals(this.titleParams, notification.titleParams) &&
+        Objects.equals(this.bodyMessageId, notification.bodyMessageId) &&
+        Objects.equals(this.bodyParams, notification.bodyParams) &&
         Objects.equals(this.relatedId, notification.relatedId) &&
         Objects.equals(this.stageId, notification.stageId) &&
         Objects.equals(this.buyerWorkspaceId, notification.buyerWorkspaceId) &&
         Objects.equals(this.createdAt, notification.createdAt) &&
-        Objects.equals(this.read, notification.read);
+        Objects.equals(this.read, notification.read) &&
+        Objects.equals(this.resolution, notification.resolution);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, audience, recipientEmployeeKey, type, title, body, relatedId, stageId, buyerWorkspaceId, createdAt, read);
+    return Objects.hash(id, audience, recipientEmployeeKey, type, title, body, titleMessageId, titleParams, bodyMessageId, bodyParams, relatedId, stageId, buyerWorkspaceId, createdAt, read, resolution);
   }
 
   @Override
@@ -538,11 +728,16 @@ public class Notification {
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    body: ").append(toIndentedString(body)).append("\n");
+    sb.append("    titleMessageId: ").append(toIndentedString(titleMessageId)).append("\n");
+    sb.append("    titleParams: ").append(toIndentedString(titleParams)).append("\n");
+    sb.append("    bodyMessageId: ").append(toIndentedString(bodyMessageId)).append("\n");
+    sb.append("    bodyParams: ").append(toIndentedString(bodyParams)).append("\n");
     sb.append("    relatedId: ").append(toIndentedString(relatedId)).append("\n");
     sb.append("    stageId: ").append(toIndentedString(stageId)).append("\n");
     sb.append("    buyerWorkspaceId: ").append(toIndentedString(buyerWorkspaceId)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    read: ").append(toIndentedString(read)).append("\n");
+    sb.append("    resolution: ").append(toIndentedString(resolution)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -620,6 +815,36 @@ public class Notification {
       joiner.add(String.format("%sbody%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBody()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `titleMessageId` to the URL query string
+    if (getTitleMessageId() != null) {
+      joiner.add(String.format("%stitleMessageId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTitleMessageId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `titleParams` to the URL query string
+    if (getTitleParams() != null) {
+      for (String _key : getTitleParams().keySet()) {
+        if (getTitleParams().get(_key) != null) {
+          joiner.add(getTitleParams().get(_key).toUrlQueryString(String.format("%stitleParams%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix))));
+        }
+      }
+    }
+
+    // add `bodyMessageId` to the URL query string
+    if (getBodyMessageId() != null) {
+      joiner.add(String.format("%sbodyMessageId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBodyMessageId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `bodyParams` to the URL query string
+    if (getBodyParams() != null) {
+      for (String _key : getBodyParams().keySet()) {
+        if (getBodyParams().get(_key) != null) {
+          joiner.add(getBodyParams().get(_key).toUrlQueryString(String.format("%sbodyParams%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix))));
+        }
+      }
+    }
+
     // add `relatedId` to the URL query string
     if (getRelatedId() != null) {
       joiner.add(String.format("%srelatedId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRelatedId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -643,6 +868,11 @@ public class Notification {
     // add `read` to the URL query string
     if (getRead() != null) {
       joiner.add(String.format("%sread%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRead()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `resolution` to the URL query string
+    if (getResolution() != null) {
+      joiner.add(getResolution().toUrlQueryString(prefix + "resolution" + suffix));
     }
 
     return joiner.toString();

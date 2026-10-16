@@ -29,6 +29,12 @@ module Pleaxy
 
     attr_accessor :lines
 
+    attr_accessor :default_due_in_days
+
+    attr_accessor :bill_to_company_name
+
+    attr_accessor :paid_deposits
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -38,7 +44,10 @@ module Pleaxy
         :'label' => :'label',
         :'currency' => :'currency',
         :'invoiced_amount' => :'invoicedAmount',
-        :'lines' => :'lines'
+        :'lines' => :'lines',
+        :'default_due_in_days' => :'defaultDueInDays',
+        :'bill_to_company_name' => :'billToCompanyName',
+        :'paid_deposits' => :'paidDeposits'
       }
     end
 
@@ -56,7 +65,10 @@ module Pleaxy
         :'label' => :'String',
         :'currency' => :'String',
         :'invoiced_amount' => :'Float',
-        :'lines' => :'Array<InvoiceCounterpartyOpenPurchaseOrdersInnerLinesInner>'
+        :'lines' => :'Array<InvoiceCounterpartyOpenPurchaseOrdersInnerLinesInner>',
+        :'default_due_in_days' => :'Float',
+        :'bill_to_company_name' => :'String',
+        :'paid_deposits' => :'Array<OpenPurchaseOrderDeposit>'
       }
     end
 
@@ -112,6 +124,20 @@ module Pleaxy
           self.lines = value
         end
       end
+
+      if attributes.key?(:'default_due_in_days')
+        self.default_due_in_days = attributes[:'default_due_in_days']
+      end
+
+      if attributes.key?(:'bill_to_company_name')
+        self.bill_to_company_name = attributes[:'bill_to_company_name']
+      end
+
+      if attributes.key?(:'paid_deposits')
+        if (value = attributes[:'paid_deposits']).is_a?(Array)
+          self.paid_deposits = value
+        end
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -145,7 +171,10 @@ module Pleaxy
           label == o.label &&
           currency == o.currency &&
           invoiced_amount == o.invoiced_amount &&
-          lines == o.lines
+          lines == o.lines &&
+          default_due_in_days == o.default_due_in_days &&
+          bill_to_company_name == o.bill_to_company_name &&
+          paid_deposits == o.paid_deposits
     end
 
     # @see the `==` method
@@ -157,7 +186,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, amount, created_at, label, currency, invoiced_amount, lines].hash
+      [id, amount, created_at, label, currency, invoiced_amount, lines, default_due_in_days, bill_to_company_name, paid_deposits].hash
     end
 
     # Builds the object from hash

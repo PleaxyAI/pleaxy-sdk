@@ -21,6 +21,8 @@ module Pleaxy
 
     attr_accessor :content_type
 
+    attr_accessor :stated_po_number
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -48,7 +50,8 @@ module Pleaxy
       {
         :'import_id' => :'importId',
         :'file_name' => :'fileName',
-        :'content_type' => :'contentType'
+        :'content_type' => :'contentType',
+        :'stated_po_number' => :'statedPoNumber'
       }
     end
 
@@ -62,7 +65,8 @@ module Pleaxy
       {
         :'import_id' => :'String',
         :'file_name' => :'String',
-        :'content_type' => :'String'
+        :'content_type' => :'String',
+        :'stated_po_number' => :'String'
       }
     end
 
@@ -97,6 +101,10 @@ module Pleaxy
 
       if attributes.key?(:'content_type')
         self.content_type = attributes[:'content_type']
+      end
+
+      if attributes.key?(:'stated_po_number')
+        self.stated_po_number = attributes[:'stated_po_number']
       end
     end
 
@@ -134,7 +142,8 @@ module Pleaxy
       self.class == o.class &&
           import_id == o.import_id &&
           file_name == o.file_name &&
-          content_type == o.content_type
+          content_type == o.content_type &&
+          stated_po_number == o.stated_po_number
     end
 
     # @see the `==` method
@@ -146,7 +155,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [import_id, file_name, content_type].hash
+      [import_id, file_name, content_type, stated_po_number].hash
     end
 
     # Builds the object from hash

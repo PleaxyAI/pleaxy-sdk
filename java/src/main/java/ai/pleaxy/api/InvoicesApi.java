@@ -17,23 +17,28 @@ import ai.pleaxy.client.ApiException;
 import ai.pleaxy.client.ApiResponse;
 import ai.pleaxy.client.Pair;
 
+import ai.pleaxy.model.AddInvoiceReplacementLinksResult;
+import ai.pleaxy.model.AddReplacementLinksInput;
 import ai.pleaxy.model.ApiError;
 import ai.pleaxy.model.CreateFeedInvoiceInput;
 import ai.pleaxy.model.CreateInvoiceResult;
 import ai.pleaxy.model.CreateManualInvoiceInput;
-import ai.pleaxy.model.FeedValidationResult;
 import java.io.File;
 import ai.pleaxy.model.GetInvoiceResult;
 import ai.pleaxy.model.InvoiceBuyerView;
 import ai.pleaxy.model.InvoiceSupplierView;
 import ai.pleaxy.model.ListInvoiceCounterpartiesResult;
 import ai.pleaxy.model.ListInvoicesItem;
+import ai.pleaxy.model.PaymentExportInput;
 import ai.pleaxy.model.ReassignApprovalStageInput;
 import ai.pleaxy.model.RecordPaymentInput;
 import ai.pleaxy.model.RecordPaymentResult;
 import ai.pleaxy.model.RejectInvoiceInput;
+import ai.pleaxy.model.RemoveInvoiceReplacementLinkResult;
 import ai.pleaxy.model.StartStripePaymentResult;
 import ai.pleaxy.model.StripePaymentStatus;
+import ai.pleaxy.model.SubmitFeedInvoiceResult;
+import ai.pleaxy.model.ValidateFeedInvoiceResult;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -95,6 +100,91 @@ public class InvoicesApi {
       body = "[no body]";
     }
     return operationId + " call failed with: " + statusCode + " - " + body;
+  }
+
+  /**
+   * [Buyer] Name the invoices this invoice replaces (credit and rebill, credit notes spec §20), when that wasn&#39;t known as it was entered: { invoiceIds }, 1–20 invoices or debit notes from the same supplier. Each original then lists it in replacedByInvoiceIds; links already there are kept. 404 REPLACES_NOT_FOUND, 400 REPLACES_INVALID, 409 REPLACEMENT_CHANGED.
+   * 
+   * @param invoiceId  (required)
+   * @param addReplacementLinksInput  (required)
+   * @return AddInvoiceReplacementLinksResult
+   * @throws ApiException if fails to make API call
+   */
+  public AddInvoiceReplacementLinksResult addInvoiceReplacementLinks(String invoiceId, AddReplacementLinksInput addReplacementLinksInput) throws ApiException {
+    ApiResponse<AddInvoiceReplacementLinksResult> localVarResponse = addInvoiceReplacementLinksWithHttpInfo(invoiceId, addReplacementLinksInput);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Name the invoices this invoice replaces (credit and rebill, credit notes spec §20), when that wasn&#39;t known as it was entered: { invoiceIds }, 1–20 invoices or debit notes from the same supplier. Each original then lists it in replacedByInvoiceIds; links already there are kept. 404 REPLACES_NOT_FOUND, 400 REPLACES_INVALID, 409 REPLACEMENT_CHANGED.
+   * 
+   * @param invoiceId  (required)
+   * @param addReplacementLinksInput  (required)
+   * @return ApiResponse&lt;AddInvoiceReplacementLinksResult&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<AddInvoiceReplacementLinksResult> addInvoiceReplacementLinksWithHttpInfo(String invoiceId, AddReplacementLinksInput addReplacementLinksInput) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = addInvoiceReplacementLinksRequestBuilder(invoiceId, addReplacementLinksInput);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("addInvoiceReplacementLinks", localVarResponse);
+        }
+        return new ApiResponse<AddInvoiceReplacementLinksResult>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<AddInvoiceReplacementLinksResult>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder addInvoiceReplacementLinksRequestBuilder(String invoiceId, AddReplacementLinksInput addReplacementLinksInput) throws ApiException {
+    // verify the required parameter 'invoiceId' is set
+    if (invoiceId == null) {
+      throw new ApiException(400, "Missing the required parameter 'invoiceId' when calling addInvoiceReplacementLinks");
+    }
+    // verify the required parameter 'addReplacementLinksInput' is set
+    if (addReplacementLinksInput == null) {
+      throw new ApiException(400, "Missing the required parameter 'addReplacementLinksInput' when calling addInvoiceReplacementLinks");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/invoices/{invoiceId}/replaces"
+        .replace("{invoiceId}", ApiClient.urlEncode(invoiceId.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(addReplacementLinksInput);
+      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
 
   /**
@@ -171,7 +261,7 @@ public class InvoicesApi {
   }
 
   /**
-   * [Both] Record an invoice. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer&#39;s workspace, and whoever entered it can&#39;t approve, resolve or settle it. cXML or UBL (buyer only): a supplier&#39;s document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
+   * [Both] Record an invoice - or, with \&quot;documentType\&quot;: \&quot;credit_note\&quot; and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer&#39;s workspace, and whoever entered it can&#39;t approve, resolve or settle it. cXML or UBL (buyer only): a supplier&#39;s document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
    * 
    * @param createManualInvoiceInput  (required)
    * @return CreateInvoiceResult
@@ -183,7 +273,7 @@ public class InvoicesApi {
   }
 
   /**
-   * [Both] Record an invoice. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer&#39;s workspace, and whoever entered it can&#39;t approve, resolve or settle it. cXML or UBL (buyer only): a supplier&#39;s document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
+   * [Both] Record an invoice - or, with \&quot;documentType\&quot;: \&quot;credit_note\&quot; and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer&#39;s workspace, and whoever entered it can&#39;t approve, resolve or settle it. cXML or UBL (buyer only): a supplier&#39;s document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
    * 
    * @param createManualInvoiceInput  (required)
    * @return ApiResponse&lt;CreateInvoiceResult&gt;
@@ -249,24 +339,26 @@ public class InvoicesApi {
   }
 
   /**
-   * [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
+   * [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row&#39;s Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don&#39;t cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
    * 
+   * @param paymentExportInput  (optional)
    * @return File
    * @throws ApiException if fails to make API call
    */
-  public File exportInvoicesForPayment() throws ApiException {
-    ApiResponse<File> localVarResponse = exportInvoicesForPaymentWithHttpInfo();
+  public File exportInvoicesForPayment(PaymentExportInput paymentExportInput) throws ApiException {
+    ApiResponse<File> localVarResponse = exportInvoicesForPaymentWithHttpInfo(paymentExportInput);
     return localVarResponse.getData();
   }
 
   /**
-   * [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
+   * [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row&#39;s Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don&#39;t cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
    * 
+   * @param paymentExportInput  (optional)
    * @return ApiResponse&lt;File&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<File> exportInvoicesForPaymentWithHttpInfo() throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = exportInvoicesForPaymentRequestBuilder();
+  public ApiResponse<File> exportInvoicesForPaymentWithHttpInfo(PaymentExportInput paymentExportInput) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = exportInvoicesForPaymentRequestBuilder(paymentExportInput);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -294,7 +386,7 @@ public class InvoicesApi {
     }
   }
 
-  private HttpRequest.Builder exportInvoicesForPaymentRequestBuilder() throws ApiException {
+  private HttpRequest.Builder exportInvoicesForPaymentRequestBuilder(PaymentExportInput paymentExportInput) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -302,9 +394,15 @@ public class InvoicesApi {
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
+    localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "text/csv, application/json");
 
-    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(paymentExportInput);
+      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -315,7 +413,7 @@ public class InvoicesApi {
   }
 
   /**
-   * [Both] Get a single invoice. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer&#39;s matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer&#x3D;&lt;buyer Workspace ID&gt;.
+   * [Both] Get a single invoice, or with a credit note&#39;s id (CN-…) that credit note; documentType says which. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer&#39;s matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer&#x3D;&lt;buyer Workspace ID&gt;. A Buyer caller also gets, on a replaced invoice, replacement (whether its credit notes cover it in full), and on a replacement, uncreditedOriginals (credit and rebill).
    * 
    * @param invoiceId  (required)
    * @param buyer  (optional)
@@ -328,7 +426,7 @@ public class InvoicesApi {
   }
 
   /**
-   * [Both] Get a single invoice. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer&#39;s matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer&#x3D;&lt;buyer Workspace ID&gt;.
+   * [Both] Get a single invoice, or with a credit note&#39;s id (CN-…) that credit note; documentType says which. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer&#39;s matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer&#x3D;&lt;buyer Workspace ID&gt;. A Buyer caller also gets, on a replaced invoice, replacement (whether its credit notes cover it in full), and on a replacement, uncreditedOriginals (credit and rebill).
    * 
    * @param invoiceId  (required)
    * @param buyer  (optional)
@@ -724,28 +822,30 @@ public class InvoicesApi {
   }
 
   /**
-   * [Both] List invoices - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;. A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
+   * [Both] List invoices - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;. ?documentType&#x3D;credit_note lists credit notes instead, ?documentType&#x3D;all both, newest first; every item carries documentType (default invoice). A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
    * 
    * @param from ISO 8601 date/timestamp - only items created on or after this are returned. (optional)
    * @param to ISO 8601 date/timestamp - only items created on or before this are returned. (optional)
+   * @param documentType  (optional)
    * @return List&lt;ListInvoicesItem&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<ListInvoicesItem> listInvoices(String from, String to) throws ApiException {
-    ApiResponse<List<ListInvoicesItem>> localVarResponse = listInvoicesWithHttpInfo(from, to);
+  public List<ListInvoicesItem> listInvoices(String from, String to, String documentType) throws ApiException {
+    ApiResponse<List<ListInvoicesItem>> localVarResponse = listInvoicesWithHttpInfo(from, to, documentType);
     return localVarResponse.getData();
   }
 
   /**
-   * [Both] List invoices - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;. A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
+   * [Both] List invoices - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;. ?documentType&#x3D;credit_note lists credit notes instead, ?documentType&#x3D;all both, newest first; every item carries documentType (default invoice). A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice).
    * 
    * @param from ISO 8601 date/timestamp - only items created on or after this are returned. (optional)
    * @param to ISO 8601 date/timestamp - only items created on or before this are returned. (optional)
+   * @param documentType  (optional)
    * @return ApiResponse&lt;List&lt;ListInvoicesItem&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<ListInvoicesItem>> listInvoicesWithHttpInfo(String from, String to) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = listInvoicesRequestBuilder(from, to);
+  public ApiResponse<List<ListInvoicesItem>> listInvoicesWithHttpInfo(String from, String to, String documentType) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = listInvoicesRequestBuilder(from, to, documentType);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -773,7 +873,7 @@ public class InvoicesApi {
     }
   }
 
-  private HttpRequest.Builder listInvoicesRequestBuilder(String from, String to) throws ApiException {
+  private HttpRequest.Builder listInvoicesRequestBuilder(String from, String to, String documentType) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -786,6 +886,8 @@ public class InvoicesApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("from", from));
     localVarQueryParameterBaseName = "to";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("to", to));
+    localVarQueryParameterBaseName = "documentType";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("documentType", documentType));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
@@ -896,7 +998,7 @@ public class InvoicesApi {
   }
 
   /**
-   * [Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }. Pleaxy moves no money and doesn&#39;t check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can&#39;t be later than today in the workspace&#39;s time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED.
+   * [Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }, optionally with a remittance for the supplier: { remittance: { note?, file?: { fileId, fileName } } } (see SendRemittance). Pleaxy moves no money and doesn&#39;t check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can&#39;t be later than today in the workspace&#39;s time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. A replaced invoice its credit notes don&#39;t cover in full is 409 REPLACED_UNCREDITED until you send confirmReplaced: true: paying it as well as its replacement pays twice. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED.
    * 
    * @param invoiceId  (required)
    * @param recordPaymentInput  (required)
@@ -909,7 +1011,7 @@ public class InvoicesApi {
   }
 
   /**
-   * [Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }. Pleaxy moves no money and doesn&#39;t check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can&#39;t be later than today in the workspace&#39;s time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED.
+   * [Buyer] Record a payment the buyer already made outside Pleaxy, in full: { method: ach|wire|check|card|other, paymentDate: YYYY-MM-DD, reference }, optionally with a remittance for the supplier: { remittance: { note?, file?: { fileId, fileName } } } (see SendRemittance). Pleaxy moves no money and doesn&#39;t check the payment happened; the supplier is notified and gets a remittance advice marked as recorded by the buyer. The date can&#39;t be later than today in the workspace&#39;s time zone or before the invoice date. An amount is refused (400). Repeating the same details returns 200 with alreadyRecorded: true; different details are 409 PAYMENT_ALREADY_RECORDED. A replaced invoice its credit notes don&#39;t cover in full is 409 REPLACED_UNCREDITED until you send confirmReplaced: true: paying it as well as its replacement pays twice. Human session only: an API key gets 403 HUMAN_SESSION_REQUIRED.
    * 
    * @param invoiceId  (required)
    * @param recordPaymentInput  (required)
@@ -1156,6 +1258,86 @@ public class InvoicesApi {
   }
 
   /**
+   * [Buyer] Undo a replacement link entered wrongly (credit notes spec §20), on both invoices. The rejected invoice an invoice corrects on its purchase order stays linked.
+   * 
+   * @param invoiceId  (required)
+   * @param originalId  (required)
+   * @return RemoveInvoiceReplacementLinkResult
+   * @throws ApiException if fails to make API call
+   */
+  public RemoveInvoiceReplacementLinkResult removeInvoiceReplacementLink(String invoiceId, String originalId) throws ApiException {
+    ApiResponse<RemoveInvoiceReplacementLinkResult> localVarResponse = removeInvoiceReplacementLinkWithHttpInfo(invoiceId, originalId);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Undo a replacement link entered wrongly (credit notes spec §20), on both invoices. The rejected invoice an invoice corrects on its purchase order stays linked.
+   * 
+   * @param invoiceId  (required)
+   * @param originalId  (required)
+   * @return ApiResponse&lt;RemoveInvoiceReplacementLinkResult&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<RemoveInvoiceReplacementLinkResult> removeInvoiceReplacementLinkWithHttpInfo(String invoiceId, String originalId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = removeInvoiceReplacementLinkRequestBuilder(invoiceId, originalId);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("removeInvoiceReplacementLink", localVarResponse);
+        }
+        return new ApiResponse<RemoveInvoiceReplacementLinkResult>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<RemoveInvoiceReplacementLinkResult>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder removeInvoiceReplacementLinkRequestBuilder(String invoiceId, String originalId) throws ApiException {
+    // verify the required parameter 'invoiceId' is set
+    if (invoiceId == null) {
+      throw new ApiException(400, "Missing the required parameter 'invoiceId' when calling removeInvoiceReplacementLink");
+    }
+    // verify the required parameter 'originalId' is set
+    if (originalId == null) {
+      throw new ApiException(400, "Missing the required parameter 'originalId' when calling removeInvoiceReplacementLink");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/invoices/{invoiceId}/replaces/{originalId}"
+        .replace("{invoiceId}", ApiClient.urlEncode(invoiceId.toString()))
+        .replace("{originalId}", ApiClient.urlEncode(originalId.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("DELETE", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
    * [Buyer] Resolve a matching discrepancy - an unverified invoice needs a signed-in person, not an API key
    * 
    * @param invoiceId  (required)
@@ -1302,26 +1484,28 @@ public class InvoicesApi {
   }
 
   /**
-   * [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier&#39;s own Stripe account. The buyer pays the invoice plus Stripe&#39;s fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can&#39;t be paid this way. Human session only.
+   * [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier&#39;s own Stripe account. The buyer pays the invoice plus Stripe&#39;s fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don&#39;t cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced&#x3D;true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can&#39;t be paid this way. Human session only.
    * 
    * @param invoiceId  (required)
+   * @param confirmReplaced  (optional)
    * @return StartStripePaymentResult
    * @throws ApiException if fails to make API call
    */
-  public StartStripePaymentResult startStripePayment(String invoiceId) throws ApiException {
-    ApiResponse<StartStripePaymentResult> localVarResponse = startStripePaymentWithHttpInfo(invoiceId);
+  public StartStripePaymentResult startStripePayment(String invoiceId, String confirmReplaced) throws ApiException {
+    ApiResponse<StartStripePaymentResult> localVarResponse = startStripePaymentWithHttpInfo(invoiceId, confirmReplaced);
     return localVarResponse.getData();
   }
 
   /**
-   * [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier&#39;s own Stripe account. The buyer pays the invoice plus Stripe&#39;s fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can&#39;t be paid this way. Human session only.
+   * [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier&#39;s own Stripe account. The buyer pays the invoice plus Stripe&#39;s fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don&#39;t cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced&#x3D;true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can&#39;t be paid this way. Human session only.
    * 
    * @param invoiceId  (required)
+   * @param confirmReplaced  (optional)
    * @return ApiResponse&lt;StartStripePaymentResult&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<StartStripePaymentResult> startStripePaymentWithHttpInfo(String invoiceId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = startStripePaymentRequestBuilder(invoiceId);
+  public ApiResponse<StartStripePaymentResult> startStripePaymentWithHttpInfo(String invoiceId, String confirmReplaced) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = startStripePaymentRequestBuilder(invoiceId, confirmReplaced);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -1349,7 +1533,7 @@ public class InvoicesApi {
     }
   }
 
-  private HttpRequest.Builder startStripePaymentRequestBuilder(String invoiceId) throws ApiException {
+  private HttpRequest.Builder startStripePaymentRequestBuilder(String invoiceId, String confirmReplaced) throws ApiException {
     // verify the required parameter 'invoiceId' is set
     if (invoiceId == null) {
       throw new ApiException(400, "Missing the required parameter 'invoiceId' when calling startStripePayment");
@@ -1360,7 +1544,22 @@ public class InvoicesApi {
     String localVarPath = "/invoices/{invoiceId}/stripe-payment"
         .replace("{invoiceId}", ApiClient.urlEncode(invoiceId.toString()));
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "confirmReplaced";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("confirmReplaced", confirmReplaced));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -1375,27 +1574,27 @@ public class InvoicesApi {
   }
 
   /**
-   * [Supplier] Submit an invoice to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection.
+   * [Supplier] Submit an invoice - or a credit note: UBL &lt;CreditNote&gt;, a cXML credit memo, or JSON with documentType \&quot;credit_note\&quot; - to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection.
    * 
    * @param connectionId  (required)
    * @param createFeedInvoiceInput  (required)
-   * @return InvoiceSupplierView
+   * @return SubmitFeedInvoiceResult
    * @throws ApiException if fails to make API call
    */
-  public InvoiceSupplierView submitFeedInvoice(String connectionId, CreateFeedInvoiceInput createFeedInvoiceInput) throws ApiException {
-    ApiResponse<InvoiceSupplierView> localVarResponse = submitFeedInvoiceWithHttpInfo(connectionId, createFeedInvoiceInput);
+  public SubmitFeedInvoiceResult submitFeedInvoice(String connectionId, CreateFeedInvoiceInput createFeedInvoiceInput) throws ApiException {
+    ApiResponse<SubmitFeedInvoiceResult> localVarResponse = submitFeedInvoiceWithHttpInfo(connectionId, createFeedInvoiceInput);
     return localVarResponse.getData();
   }
 
   /**
-   * [Supplier] Submit an invoice to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection.
+   * [Supplier] Submit an invoice - or a credit note: UBL &lt;CreditNote&gt;, a cXML credit memo, or JSON with documentType \&quot;credit_note\&quot; - to one connected buyer from an automated feed (JSON, UBL 2.1 or cXML). API key with the invoices:feed scope only; the buyer must turn on automated invoices for the connection.
    * 
    * @param connectionId  (required)
    * @param createFeedInvoiceInput  (required)
-   * @return ApiResponse&lt;InvoiceSupplierView&gt;
+   * @return ApiResponse&lt;SubmitFeedInvoiceResult&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<InvoiceSupplierView> submitFeedInvoiceWithHttpInfo(String connectionId, CreateFeedInvoiceInput createFeedInvoiceInput) throws ApiException {
+  public ApiResponse<SubmitFeedInvoiceResult> submitFeedInvoiceWithHttpInfo(String connectionId, CreateFeedInvoiceInput createFeedInvoiceInput) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = submitFeedInvoiceRequestBuilder(connectionId, createFeedInvoiceInput);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -1408,10 +1607,10 @@ public class InvoicesApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("submitFeedInvoice", localVarResponse);
         }
-        return new ApiResponse<InvoiceSupplierView>(
+        return new ApiResponse<SubmitFeedInvoiceResult>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<InvoiceSupplierView>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<SubmitFeedInvoiceResult>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -1464,11 +1663,11 @@ public class InvoicesApi {
    * 
    * @param connectionId  (required)
    * @param createFeedInvoiceInput  (required)
-   * @return FeedValidationResult
+   * @return ValidateFeedInvoiceResult
    * @throws ApiException if fails to make API call
    */
-  public FeedValidationResult validateFeedInvoice(String connectionId, CreateFeedInvoiceInput createFeedInvoiceInput) throws ApiException {
-    ApiResponse<FeedValidationResult> localVarResponse = validateFeedInvoiceWithHttpInfo(connectionId, createFeedInvoiceInput);
+  public ValidateFeedInvoiceResult validateFeedInvoice(String connectionId, CreateFeedInvoiceInput createFeedInvoiceInput) throws ApiException {
+    ApiResponse<ValidateFeedInvoiceResult> localVarResponse = validateFeedInvoiceWithHttpInfo(connectionId, createFeedInvoiceInput);
     return localVarResponse.getData();
   }
 
@@ -1477,10 +1676,10 @@ public class InvoicesApi {
    * 
    * @param connectionId  (required)
    * @param createFeedInvoiceInput  (required)
-   * @return ApiResponse&lt;FeedValidationResult&gt;
+   * @return ApiResponse&lt;ValidateFeedInvoiceResult&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<FeedValidationResult> validateFeedInvoiceWithHttpInfo(String connectionId, CreateFeedInvoiceInput createFeedInvoiceInput) throws ApiException {
+  public ApiResponse<ValidateFeedInvoiceResult> validateFeedInvoiceWithHttpInfo(String connectionId, CreateFeedInvoiceInput createFeedInvoiceInput) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = validateFeedInvoiceRequestBuilder(connectionId, createFeedInvoiceInput);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -1493,10 +1692,10 @@ public class InvoicesApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("validateFeedInvoice", localVarResponse);
         }
-        return new ApiResponse<FeedValidationResult>(
+        return new ApiResponse<ValidateFeedInvoiceResult>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<FeedValidationResult>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ValidateFeedInvoiceResult>() {}) // closes the InputStream
         );
       } finally {
       }

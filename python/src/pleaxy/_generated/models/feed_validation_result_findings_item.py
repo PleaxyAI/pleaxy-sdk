@@ -17,21 +17,23 @@ class FeedValidationResultFindingsItem:
     """
     Attributes:
         contract_id (Union[Unset, str]):
+        po_line_no (Union[Unset, float]):
         code (Union[Unset, FeedValidationResultFindingsItemCode]):
         message (Union[Unset, str]):
         invoice_line (Union[Unset, float]):
-        po_line_no (Union[Unset, float]):
     """
 
     contract_id: Union[Unset, str] = UNSET
+    po_line_no: Union[Unset, float] = UNSET
     code: Union[Unset, FeedValidationResultFindingsItemCode] = UNSET
     message: Union[Unset, str] = UNSET
     invoice_line: Union[Unset, float] = UNSET
-    po_line_no: Union[Unset, float] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         contract_id = self.contract_id
+
+        po_line_no = self.po_line_no
 
         code: Union[Unset, str] = UNSET
         if not isinstance(self.code, Unset):
@@ -41,21 +43,19 @@ class FeedValidationResultFindingsItem:
 
         invoice_line = self.invoice_line
 
-        po_line_no = self.po_line_no
-
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if contract_id is not UNSET:
             field_dict["contractId"] = contract_id
+        if po_line_no is not UNSET:
+            field_dict["poLineNo"] = po_line_no
         if code is not UNSET:
             field_dict["code"] = code
         if message is not UNSET:
             field_dict["message"] = message
         if invoice_line is not UNSET:
             field_dict["invoiceLine"] = invoice_line
-        if po_line_no is not UNSET:
-            field_dict["poLineNo"] = po_line_no
 
         return field_dict
 
@@ -63,6 +63,8 @@ class FeedValidationResultFindingsItem:
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         contract_id = d.pop("contractId", UNSET)
+
+        po_line_no = d.pop("poLineNo", UNSET)
 
         _code = d.pop("code", UNSET)
         code: Union[Unset, FeedValidationResultFindingsItemCode]
@@ -75,14 +77,12 @@ class FeedValidationResultFindingsItem:
 
         invoice_line = d.pop("invoiceLine", UNSET)
 
-        po_line_no = d.pop("poLineNo", UNSET)
-
         feed_validation_result_findings_item = cls(
             contract_id=contract_id,
+            po_line_no=po_line_no,
             code=code,
             message=message,
             invoice_line=invoice_line,
-            po_line_no=po_line_no,
         )
 
         feed_validation_result_findings_item.additional_properties = d

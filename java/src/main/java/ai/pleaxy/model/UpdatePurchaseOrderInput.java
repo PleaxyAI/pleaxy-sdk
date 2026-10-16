@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.BillToPartyInput;
 import ai.pleaxy.model.LineItemInput;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -38,8 +39,10 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   UpdatePurchaseOrderInput.JSON_PROPERTY_CURRENCY,
   UpdatePurchaseOrderInput.JSON_PROPERTY_LINE_ITEMS,
+  UpdatePurchaseOrderInput.JSON_PROPERTY_BILL_TO_PARTY,
   UpdatePurchaseOrderInput.JSON_PROPERTY_BILL_TO,
   UpdatePurchaseOrderInput.JSON_PROPERTY_COST_CENTER,
+  UpdatePurchaseOrderInput.JSON_PROPERTY_DELIVERY_ADDRESS_ID,
   UpdatePurchaseOrderInput.JSON_PROPERTY_BUDGET_OWNER,
   UpdatePurchaseOrderInput.JSON_PROPERTY_BUYER_NAME,
   UpdatePurchaseOrderInput.JSON_PROPERTY_NOTES,
@@ -56,6 +59,10 @@ public class UpdatePurchaseOrderInput {
   @javax.annotation.Nullable
   private List<LineItemInput> lineItems = new ArrayList<>();
 
+  public static final String JSON_PROPERTY_BILL_TO_PARTY = "billToParty";
+  @javax.annotation.Nullable
+  private BillToPartyInput billToParty;
+
   public static final String JSON_PROPERTY_BILL_TO = "billTo";
   @javax.annotation.Nullable
   private String billTo;
@@ -63,6 +70,10 @@ public class UpdatePurchaseOrderInput {
   public static final String JSON_PROPERTY_COST_CENTER = "costCenter";
   @javax.annotation.Nullable
   private String costCenter;
+
+  public static final String JSON_PROPERTY_DELIVERY_ADDRESS_ID = "deliveryAddressId";
+  @javax.annotation.Nullable
+  private String deliveryAddressId;
 
   public static final String JSON_PROPERTY_BUDGET_OWNER = "budgetOwner";
   @javax.annotation.Nullable
@@ -143,15 +154,41 @@ public class UpdatePurchaseOrderInput {
   }
 
 
+  public UpdatePurchaseOrderInput billToParty(@javax.annotation.Nullable BillToPartyInput billToParty) {
+    this.billToParty = billToParty;
+    return this;
+  }
+
+  /**
+   * Who the supplier invoices, entered on the order; &#x60;null&#x60; copies the buyer&#39;s company profile billing details as they are now. Bookkeeping: never re-triggers approval.
+   * @return billToParty
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BILL_TO_PARTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public BillToPartyInput getBillToParty() {
+    return billToParty;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BILL_TO_PARTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBillToParty(@javax.annotation.Nullable BillToPartyInput billToParty) {
+    this.billToParty = billToParty;
+  }
+
+
   public UpdatePurchaseOrderInput billTo(@javax.annotation.Nullable String billTo) {
     this.billTo = billTo;
     return this;
   }
 
   /**
-   * Get billTo
+   * Use &#x60;billToParty&#x60;. A one-line bill-to address for the buyer&#39;s company, kept as typed; an empty string copies the company profile&#39;s. Ignored when &#x60;billToParty&#x60; is sent.
    * @return billTo
+   * @deprecated
    */
+  @Deprecated
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BILL_TO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -188,6 +225,30 @@ public class UpdatePurchaseOrderInput {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCostCenter(@javax.annotation.Nullable String costCenter) {
     this.costCenter = costCenter;
+  }
+
+
+  public UpdatePurchaseOrderInput deliveryAddressId(@javax.annotation.Nullable String deliveryAddressId) {
+    this.deliveryAddressId = deliveryAddressId;
+    return this;
+  }
+
+  /**
+   * Drafts only: the workspace delivery address an online store order ships to, copied onto the order at submit. An empty string goes back to the workspace default.
+   * @return deliveryAddressId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DELIVERY_ADDRESS_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getDeliveryAddressId() {
+    return deliveryAddressId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DELIVERY_ADDRESS_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDeliveryAddressId(@javax.annotation.Nullable String deliveryAddressId) {
+    this.deliveryAddressId = deliveryAddressId;
   }
 
 
@@ -325,8 +386,10 @@ public class UpdatePurchaseOrderInput {
     UpdatePurchaseOrderInput updatePurchaseOrderInput = (UpdatePurchaseOrderInput) o;
     return Objects.equals(this.currency, updatePurchaseOrderInput.currency) &&
         Objects.equals(this.lineItems, updatePurchaseOrderInput.lineItems) &&
+        Objects.equals(this.billToParty, updatePurchaseOrderInput.billToParty) &&
         Objects.equals(this.billTo, updatePurchaseOrderInput.billTo) &&
         Objects.equals(this.costCenter, updatePurchaseOrderInput.costCenter) &&
+        Objects.equals(this.deliveryAddressId, updatePurchaseOrderInput.deliveryAddressId) &&
         Objects.equals(this.budgetOwner, updatePurchaseOrderInput.budgetOwner) &&
         Objects.equals(this.buyerName, updatePurchaseOrderInput.buyerName) &&
         Objects.equals(this.notes, updatePurchaseOrderInput.notes) &&
@@ -336,7 +399,7 @@ public class UpdatePurchaseOrderInput {
 
   @Override
   public int hashCode() {
-    return Objects.hash(currency, lineItems, billTo, costCenter, budgetOwner, buyerName, notes, contractId, quoteImportId);
+    return Objects.hash(currency, lineItems, billToParty, billTo, costCenter, deliveryAddressId, budgetOwner, buyerName, notes, contractId, quoteImportId);
   }
 
   @Override
@@ -345,8 +408,10 @@ public class UpdatePurchaseOrderInput {
     sb.append("class UpdatePurchaseOrderInput {\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    lineItems: ").append(toIndentedString(lineItems)).append("\n");
+    sb.append("    billToParty: ").append(toIndentedString(billToParty)).append("\n");
     sb.append("    billTo: ").append(toIndentedString(billTo)).append("\n");
     sb.append("    costCenter: ").append(toIndentedString(costCenter)).append("\n");
+    sb.append("    deliveryAddressId: ").append(toIndentedString(deliveryAddressId)).append("\n");
     sb.append("    budgetOwner: ").append(toIndentedString(budgetOwner)).append("\n");
     sb.append("    buyerName: ").append(toIndentedString(buyerName)).append("\n");
     sb.append("    notes: ").append(toIndentedString(notes)).append("\n");
@@ -414,6 +479,11 @@ public class UpdatePurchaseOrderInput {
       }
     }
 
+    // add `billToParty` to the URL query string
+    if (getBillToParty() != null) {
+      joiner.add(getBillToParty().toUrlQueryString(prefix + "billToParty" + suffix));
+    }
+
     // add `billTo` to the URL query string
     if (getBillTo() != null) {
       joiner.add(String.format("%sbillTo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBillTo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -422,6 +492,11 @@ public class UpdatePurchaseOrderInput {
     // add `costCenter` to the URL query string
     if (getCostCenter() != null) {
       joiner.add(String.format("%scostCenter%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCostCenter()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `deliveryAddressId` to the URL query string
+    if (getDeliveryAddressId() != null) {
+      joiner.add(String.format("%sdeliveryAddressId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDeliveryAddressId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `budgetOwner` to the URL query string

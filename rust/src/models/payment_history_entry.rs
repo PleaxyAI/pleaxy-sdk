@@ -21,6 +21,12 @@ pub struct PaymentHistoryEntry {
     pub by: Option<String>,
     #[serde(rename = "byName", skip_serializing_if = "Option::is_none")]
     pub by_name: Option<String>,
+    #[serde(rename = "remittanceId", skip_serializing_if = "Option::is_none")]
+    pub remittance_id: Option<String>,
+    #[serde(rename = "creditNoteId", skip_serializing_if = "Option::is_none")]
+    pub credit_note_id: Option<String>,
+    #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
+    pub amount: Option<f64>,
     #[serde(rename = "record", skip_serializing_if = "Option::is_none")]
     pub record: Option<models::PaymentHistoryEntryRecord>,
 }
@@ -32,6 +38,9 @@ impl PaymentHistoryEntry {
             at: None,
             by: None,
             by_name: None,
+            remittance_id: None,
+            credit_note_id: None,
+            amount: None,
             record: None,
         }
     }
@@ -55,6 +64,12 @@ pub enum Action {
     StripeFailed,
     #[serde(rename = "stripe_succeeded")]
     StripeSucceeded,
+    #[serde(rename = "remittance_sent")]
+    RemittanceSent,
+    #[serde(rename = "credit_applied")]
+    CreditApplied,
+    #[serde(rename = "credit_removed")]
+    CreditRemoved,
 }
 
 impl Default for Action {

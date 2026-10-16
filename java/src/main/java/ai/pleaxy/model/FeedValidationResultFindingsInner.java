@@ -34,16 +34,20 @@ import ai.pleaxy.client.ApiClient;
  */
 @JsonPropertyOrder({
   FeedValidationResultFindingsInner.JSON_PROPERTY_CONTRACT_ID,
+  FeedValidationResultFindingsInner.JSON_PROPERTY_PO_LINE_NO,
   FeedValidationResultFindingsInner.JSON_PROPERTY_CODE,
   FeedValidationResultFindingsInner.JSON_PROPERTY_MESSAGE,
-  FeedValidationResultFindingsInner.JSON_PROPERTY_INVOICE_LINE,
-  FeedValidationResultFindingsInner.JSON_PROPERTY_PO_LINE_NO
+  FeedValidationResultFindingsInner.JSON_PROPERTY_INVOICE_LINE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FeedValidationResultFindingsInner {
   public static final String JSON_PROPERTY_CONTRACT_ID = "contractId";
   @javax.annotation.Nullable
   private String contractId;
+
+  public static final String JSON_PROPERTY_PO_LINE_NO = "poLineNo";
+  @javax.annotation.Nullable
+  private Double poLineNo;
 
   /**
    * Gets or Sets code
@@ -112,10 +116,6 @@ public class FeedValidationResultFindingsInner {
   @javax.annotation.Nullable
   private Double invoiceLine;
 
-  public static final String JSON_PROPERTY_PO_LINE_NO = "poLineNo";
-  @javax.annotation.Nullable
-  private Double poLineNo;
-
   public FeedValidationResultFindingsInner() { 
   }
 
@@ -140,6 +140,30 @@ public class FeedValidationResultFindingsInner {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setContractId(@javax.annotation.Nullable String contractId) {
     this.contractId = contractId;
+  }
+
+
+  public FeedValidationResultFindingsInner poLineNo(@javax.annotation.Nullable Double poLineNo) {
+    this.poLineNo = poLineNo;
+    return this;
+  }
+
+  /**
+   * Get poLineNo
+   * @return poLineNo
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PO_LINE_NO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getPoLineNo() {
+    return poLineNo;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PO_LINE_NO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPoLineNo(@javax.annotation.Nullable Double poLineNo) {
+    this.poLineNo = poLineNo;
   }
 
 
@@ -215,30 +239,6 @@ public class FeedValidationResultFindingsInner {
   }
 
 
-  public FeedValidationResultFindingsInner poLineNo(@javax.annotation.Nullable Double poLineNo) {
-    this.poLineNo = poLineNo;
-    return this;
-  }
-
-  /**
-   * Get poLineNo
-   * @return poLineNo
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PO_LINE_NO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public Double getPoLineNo() {
-    return poLineNo;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_PO_LINE_NO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPoLineNo(@javax.annotation.Nullable Double poLineNo) {
-    this.poLineNo = poLineNo;
-  }
-
-
   /**
    * Return true if this FeedValidationResult_findings_inner object is equal to o.
    */
@@ -252,15 +252,15 @@ public class FeedValidationResultFindingsInner {
     }
     FeedValidationResultFindingsInner feedValidationResultFindingsInner = (FeedValidationResultFindingsInner) o;
     return Objects.equals(this.contractId, feedValidationResultFindingsInner.contractId) &&
+        Objects.equals(this.poLineNo, feedValidationResultFindingsInner.poLineNo) &&
         Objects.equals(this.code, feedValidationResultFindingsInner.code) &&
         Objects.equals(this.message, feedValidationResultFindingsInner.message) &&
-        Objects.equals(this.invoiceLine, feedValidationResultFindingsInner.invoiceLine) &&
-        Objects.equals(this.poLineNo, feedValidationResultFindingsInner.poLineNo);
+        Objects.equals(this.invoiceLine, feedValidationResultFindingsInner.invoiceLine);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(contractId, code, message, invoiceLine, poLineNo);
+    return Objects.hash(contractId, poLineNo, code, message, invoiceLine);
   }
 
   @Override
@@ -268,10 +268,10 @@ public class FeedValidationResultFindingsInner {
     StringBuilder sb = new StringBuilder();
     sb.append("class FeedValidationResultFindingsInner {\n");
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
+    sb.append("    poLineNo: ").append(toIndentedString(poLineNo)).append("\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("    invoiceLine: ").append(toIndentedString(invoiceLine)).append("\n");
-    sb.append("    poLineNo: ").append(toIndentedString(poLineNo)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -324,6 +324,11 @@ public class FeedValidationResultFindingsInner {
       joiner.add(String.format("%scontractId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getContractId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `poLineNo` to the URL query string
+    if (getPoLineNo() != null) {
+      joiner.add(String.format("%spoLineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPoLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
     // add `code` to the URL query string
     if (getCode() != null) {
       joiner.add(String.format("%scode%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCode()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -337,11 +342,6 @@ public class FeedValidationResultFindingsInner {
     // add `invoiceLine` to the URL query string
     if (getInvoiceLine() != null) {
       joiner.add(String.format("%sinvoiceLine%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInvoiceLine()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `poLineNo` to the URL query string
-    if (getPoLineNo() != null) {
-      joiner.add(String.format("%spoLineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPoLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
