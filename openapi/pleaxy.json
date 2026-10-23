@@ -2696,7 +2696,7 @@
     "/invoices/payment-records": {
       "post": {
         "operationId": "RecordPayments",
-        "summary": "[Buyer] Record payments your ERP or bank feed already made outside Pleaxy - wires, checks, ACH, card - so each supplier gets its payment notice, remittance advice and sync event without anyone retyping it: { payments: [{ invoiceId, method, paymentDate, reference, note?, ...RecordPayment's currency and withholding fields }] }, 1-50 per call. Each payment follows RecordPayment's rules and is answered on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?, message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still refused. API key with the payments:record scope only, minted with a procurementRole that can edit invoices.",
+        "summary": "[Buyer] Record payments your ERP or bank feed already made outside Pleaxy - wires, checks, ACH, card - so each supplier gets its payment notice, remittance advice and sync event without anyone retyping it: { payments: [{ invoiceId, method, paymentDate, reference, note?, ...RecordPayment's currency and withholding fields }] }, 1-50 per call. Each payment follows RecordPayment's rules and is answered on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?, message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still refused. Up to 500 payments per key per UTC day; past that each payment is refused with 429 RATE_LIMITED. Every call that records a payment raises a payments_recorded_by_key notification in the workspace naming the key and the invoices, so a payment nobody made is seen and withdrawn. API key with the payments:record scope only, minted with a procurementRole that can edit invoices.",
         "requestBody": {
           "required": true,
           "content": {
@@ -6702,6 +6702,7 @@
               "invoice_approved",
               "invoice_paid",
               "invoice_payment_withdrawn",
+              "payments_recorded_by_key",
               "invoice_remittance_sent",
               "invoice_payment_failed",
               "invoice_reminder",
@@ -19732,17 +19733,6 @@
             "items": {
               "type": "object",
               "properties": {
-                "invoiceId": {
-                  "type": "string"
-                },
-                "outcome": {
-                  "type": "string",
-                  "enum": [
-                    "refused",
-                    "recorded",
-                    "already_recorded"
-                  ]
-                },
                 "status": {
                   "type": "number",
                   "format": "double"
@@ -19758,6 +19748,17 @@
                 },
                 "params": {
                   "$ref": "#/components/schemas/ErrorParams"
+                },
+                "invoiceId": {
+                  "type": "string"
+                },
+                "outcome": {
+                  "type": "string",
+                  "enum": [
+                    "refused",
+                    "recorded",
+                    "already_recorded"
+                  ]
                 }
               }
             }

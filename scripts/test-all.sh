@@ -7,7 +7,8 @@ echo "== typescript"
 (cd typescript && npm ci --silent && npx tsc --noEmit && npm test && npm run -s build)
 
 echo "== python"
-(cd python && pip install -q -e . pytest==8.3.4 mypy==1.13.0 && pytest -q && mypy)
+# The same venv as generation (python/.venv), so pip, pytest and mypy are one interpreter whatever is on PATH.
+(cd python && { [ -x .venv/bin/python ] || python3 -m venv .venv; } && .venv/bin/pip install -q -e . pytest==8.3.4 mypy==1.13.0 && .venv/bin/pytest -q && .venv/bin/mypy)
 
 echo "== go"
 (cd go && test -z "$(gofmt -l .)" && go vet ./... && go test ./...)

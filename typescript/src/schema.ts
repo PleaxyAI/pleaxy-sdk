@@ -841,7 +841,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Buyer] Record payments your ERP or bank feed already made outside Pleaxy - wires, checks, ACH, card - so each supplier gets its payment notice, remittance advice and sync event without anyone retyping it: { payments: [{ invoiceId, method, paymentDate, reference, note?, ...RecordPayment's currency and withholding fields }] }, 1-50 per call. Each payment follows RecordPayment's rules and is answered on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?, message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still refused. API key with the payments:record scope only, minted with a procurementRole that can edit invoices. */
+        /** [Buyer] Record payments your ERP or bank feed already made outside Pleaxy - wires, checks, ACH, card - so each supplier gets its payment notice, remittance advice and sync event without anyone retyping it: { payments: [{ invoiceId, method, paymentDate, reference, note?, ...RecordPayment's currency and withholding fields }] }, 1-50 per call. Each payment follows RecordPayment's rules and is answered on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?, message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still refused. Up to 500 payments per key per UTC day; past that each payment is refused with 429 RATE_LIMITED. Every call that records a payment raises a payments_recorded_by_key notification in the workspace naming the key and the invoices, so a payment nobody made is seen and withdrawn. API key with the payments:record scope only, minted with a procurementRole that can edit invoices. */
         post: operations["RecordPayments"];
         delete?: never;
         options?: never;
@@ -2141,7 +2141,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "po_store_order_problem" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap";
+            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "po_store_order_problem" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payments_recorded_by_key" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -6047,15 +6047,15 @@ export interface components {
         };
         RecordPaymentsResult: {
             results?: {
-                invoiceId?: string;
-                /** @enum {string} */
-                outcome?: "refused" | "recorded" | "already_recorded";
                 /** Format: double */
                 status?: number;
                 code?: string;
                 message?: string;
                 messageId?: string;
                 params?: components["schemas"]["ErrorParams"];
+                invoiceId?: string;
+                /** @enum {string} */
+                outcome?: "refused" | "recorded" | "already_recorded";
             }[];
             /** Format: double */
             recorded?: number;

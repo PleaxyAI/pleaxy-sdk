@@ -36,16 +36,36 @@ import ai.pleaxy.client.ApiClient;
  * RecordPaymentsResultResultsInner
  */
 @JsonPropertyOrder({
-  RecordPaymentsResultResultsInner.JSON_PROPERTY_INVOICE_ID,
-  RecordPaymentsResultResultsInner.JSON_PROPERTY_OUTCOME,
   RecordPaymentsResultResultsInner.JSON_PROPERTY_STATUS,
   RecordPaymentsResultResultsInner.JSON_PROPERTY_CODE,
   RecordPaymentsResultResultsInner.JSON_PROPERTY_MESSAGE,
   RecordPaymentsResultResultsInner.JSON_PROPERTY_MESSAGE_ID,
-  RecordPaymentsResultResultsInner.JSON_PROPERTY_PARAMS
+  RecordPaymentsResultResultsInner.JSON_PROPERTY_PARAMS,
+  RecordPaymentsResultResultsInner.JSON_PROPERTY_INVOICE_ID,
+  RecordPaymentsResultResultsInner.JSON_PROPERTY_OUTCOME
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class RecordPaymentsResultResultsInner {
+  public static final String JSON_PROPERTY_STATUS = "status";
+  @javax.annotation.Nullable
+  private Double status;
+
+  public static final String JSON_PROPERTY_CODE = "code";
+  @javax.annotation.Nullable
+  private String code;
+
+  public static final String JSON_PROPERTY_MESSAGE = "message";
+  @javax.annotation.Nullable
+  private String message;
+
+  public static final String JSON_PROPERTY_MESSAGE_ID = "messageId";
+  @javax.annotation.Nullable
+  private String messageId;
+
+  public static final String JSON_PROPERTY_PARAMS = "params";
+  @javax.annotation.Nullable
+  private Map<String, FeedAttemptParamsValue> params = new HashMap<>();
+
   public static final String JSON_PROPERTY_INVOICE_ID = "invoiceId";
   @javax.annotation.Nullable
   private String invoiceId;
@@ -91,76 +111,8 @@ public class RecordPaymentsResultResultsInner {
   @javax.annotation.Nullable
   private OutcomeEnum outcome;
 
-  public static final String JSON_PROPERTY_STATUS = "status";
-  @javax.annotation.Nullable
-  private Double status;
-
-  public static final String JSON_PROPERTY_CODE = "code";
-  @javax.annotation.Nullable
-  private String code;
-
-  public static final String JSON_PROPERTY_MESSAGE = "message";
-  @javax.annotation.Nullable
-  private String message;
-
-  public static final String JSON_PROPERTY_MESSAGE_ID = "messageId";
-  @javax.annotation.Nullable
-  private String messageId;
-
-  public static final String JSON_PROPERTY_PARAMS = "params";
-  @javax.annotation.Nullable
-  private Map<String, FeedAttemptParamsValue> params = new HashMap<>();
-
   public RecordPaymentsResultResultsInner() { 
   }
-
-  public RecordPaymentsResultResultsInner invoiceId(@javax.annotation.Nullable String invoiceId) {
-    this.invoiceId = invoiceId;
-    return this;
-  }
-
-  /**
-   * Get invoiceId
-   * @return invoiceId
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_INVOICE_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public String getInvoiceId() {
-    return invoiceId;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_INVOICE_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setInvoiceId(@javax.annotation.Nullable String invoiceId) {
-    this.invoiceId = invoiceId;
-  }
-
-
-  public RecordPaymentsResultResultsInner outcome(@javax.annotation.Nullable OutcomeEnum outcome) {
-    this.outcome = outcome;
-    return this;
-  }
-
-  /**
-   * Get outcome
-   * @return outcome
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_OUTCOME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public OutcomeEnum getOutcome() {
-    return outcome;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_OUTCOME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOutcome(@javax.annotation.Nullable OutcomeEnum outcome) {
-    this.outcome = outcome;
-  }
-
 
   public RecordPaymentsResultResultsInner status(@javax.annotation.Nullable Double status) {
     this.status = status;
@@ -290,6 +242,54 @@ public class RecordPaymentsResultResultsInner {
   }
 
 
+  public RecordPaymentsResultResultsInner invoiceId(@javax.annotation.Nullable String invoiceId) {
+    this.invoiceId = invoiceId;
+    return this;
+  }
+
+  /**
+   * Get invoiceId
+   * @return invoiceId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_INVOICE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getInvoiceId() {
+    return invoiceId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_INVOICE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setInvoiceId(@javax.annotation.Nullable String invoiceId) {
+    this.invoiceId = invoiceId;
+  }
+
+
+  public RecordPaymentsResultResultsInner outcome(@javax.annotation.Nullable OutcomeEnum outcome) {
+    this.outcome = outcome;
+    return this;
+  }
+
+  /**
+   * Get outcome
+   * @return outcome
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_OUTCOME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public OutcomeEnum getOutcome() {
+    return outcome;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_OUTCOME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOutcome(@javax.annotation.Nullable OutcomeEnum outcome) {
+    this.outcome = outcome;
+  }
+
+
   /**
    * Return true if this RecordPaymentsResult_results_inner object is equal to o.
    */
@@ -302,31 +302,31 @@ public class RecordPaymentsResultResultsInner {
       return false;
     }
     RecordPaymentsResultResultsInner recordPaymentsResultResultsInner = (RecordPaymentsResultResultsInner) o;
-    return Objects.equals(this.invoiceId, recordPaymentsResultResultsInner.invoiceId) &&
-        Objects.equals(this.outcome, recordPaymentsResultResultsInner.outcome) &&
-        Objects.equals(this.status, recordPaymentsResultResultsInner.status) &&
+    return Objects.equals(this.status, recordPaymentsResultResultsInner.status) &&
         Objects.equals(this.code, recordPaymentsResultResultsInner.code) &&
         Objects.equals(this.message, recordPaymentsResultResultsInner.message) &&
         Objects.equals(this.messageId, recordPaymentsResultResultsInner.messageId) &&
-        Objects.equals(this.params, recordPaymentsResultResultsInner.params);
+        Objects.equals(this.params, recordPaymentsResultResultsInner.params) &&
+        Objects.equals(this.invoiceId, recordPaymentsResultResultsInner.invoiceId) &&
+        Objects.equals(this.outcome, recordPaymentsResultResultsInner.outcome);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(invoiceId, outcome, status, code, message, messageId, params);
+    return Objects.hash(status, code, message, messageId, params, invoiceId, outcome);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class RecordPaymentsResultResultsInner {\n");
-    sb.append("    invoiceId: ").append(toIndentedString(invoiceId)).append("\n");
-    sb.append("    outcome: ").append(toIndentedString(outcome)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("    messageId: ").append(toIndentedString(messageId)).append("\n");
     sb.append("    params: ").append(toIndentedString(params)).append("\n");
+    sb.append("    invoiceId: ").append(toIndentedString(invoiceId)).append("\n");
+    sb.append("    outcome: ").append(toIndentedString(outcome)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -374,16 +374,6 @@ public class RecordPaymentsResultResultsInner {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `invoiceId` to the URL query string
-    if (getInvoiceId() != null) {
-      joiner.add(String.format("%sinvoiceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInvoiceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `outcome` to the URL query string
-    if (getOutcome() != null) {
-      joiner.add(String.format("%soutcome%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOutcome()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
     // add `status` to the URL query string
     if (getStatus() != null) {
       joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -412,6 +402,16 @@ public class RecordPaymentsResultResultsInner {
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix))));
         }
       }
+    }
+
+    // add `invoiceId` to the URL query string
+    if (getInvoiceId() != null) {
+      joiner.add(String.format("%sinvoiceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInvoiceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `outcome` to the URL query string
+    if (getOutcome() != null) {
+      joiner.add(String.format("%soutcome%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOutcome()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

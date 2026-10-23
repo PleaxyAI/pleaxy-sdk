@@ -121,6 +121,8 @@ pub enum Type {
     InvoicePaid,
     #[serde(rename = "invoice_payment_withdrawn")]
     InvoicePaymentWithdrawn,
+    #[serde(rename = "payments_recorded_by_key")]
+    PaymentsRecordedByKey,
     #[serde(rename = "invoice_remittance_sent")]
     InvoiceRemittanceSent,
     #[serde(rename = "invoice_payment_failed")]

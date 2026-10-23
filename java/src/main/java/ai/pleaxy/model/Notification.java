@@ -139,6 +139,8 @@ public class Notification {
     
     INVOICE_PAYMENT_WITHDRAWN(String.valueOf("invoice_payment_withdrawn")),
     
+    PAYMENTS_RECORDED_BY_KEY(String.valueOf("payments_recorded_by_key")),
+    
     INVOICE_REMITTANCE_SENT(String.valueOf("invoice_remittance_sent")),
     
     INVOICE_PAYMENT_FAILED(String.valueOf("invoice_payment_failed")),

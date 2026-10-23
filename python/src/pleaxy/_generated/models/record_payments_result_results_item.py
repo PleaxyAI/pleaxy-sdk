@@ -20,31 +20,25 @@ T = TypeVar("T", bound="RecordPaymentsResultResultsItem")
 class RecordPaymentsResultResultsItem:
     """
     Attributes:
-        invoice_id (Union[Unset, str]):
-        outcome (Union[Unset, RecordPaymentsResultResultsItemOutcome]):
         status (Union[Unset, float]):
         code (Union[Unset, str]):
         message (Union[Unset, str]):
         message_id (Union[Unset, str]):
         params (Union[Unset, ErrorParams]):
+        invoice_id (Union[Unset, str]):
+        outcome (Union[Unset, RecordPaymentsResultResultsItemOutcome]):
     """
 
-    invoice_id: Union[Unset, str] = UNSET
-    outcome: Union[Unset, RecordPaymentsResultResultsItemOutcome] = UNSET
     status: Union[Unset, float] = UNSET
     code: Union[Unset, str] = UNSET
     message: Union[Unset, str] = UNSET
     message_id: Union[Unset, str] = UNSET
     params: Union[Unset, "ErrorParams"] = UNSET
+    invoice_id: Union[Unset, str] = UNSET
+    outcome: Union[Unset, RecordPaymentsResultResultsItemOutcome] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        invoice_id = self.invoice_id
-
-        outcome: Union[Unset, str] = UNSET
-        if not isinstance(self.outcome, Unset):
-            outcome = self.outcome
-
         status = self.status
 
         code = self.code
@@ -57,13 +51,15 @@ class RecordPaymentsResultResultsItem:
         if not isinstance(self.params, Unset):
             params = self.params.to_dict()
 
+        invoice_id = self.invoice_id
+
+        outcome: Union[Unset, str] = UNSET
+        if not isinstance(self.outcome, Unset):
+            outcome = self.outcome
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
-        if invoice_id is not UNSET:
-            field_dict["invoiceId"] = invoice_id
-        if outcome is not UNSET:
-            field_dict["outcome"] = outcome
         if status is not UNSET:
             field_dict["status"] = status
         if code is not UNSET:
@@ -74,6 +70,10 @@ class RecordPaymentsResultResultsItem:
             field_dict["messageId"] = message_id
         if params is not UNSET:
             field_dict["params"] = params
+        if invoice_id is not UNSET:
+            field_dict["invoiceId"] = invoice_id
+        if outcome is not UNSET:
+            field_dict["outcome"] = outcome
 
         return field_dict
 
@@ -82,15 +82,6 @@ class RecordPaymentsResultResultsItem:
         from ..models.error_params import ErrorParams
 
         d = src_dict.copy()
-        invoice_id = d.pop("invoiceId", UNSET)
-
-        _outcome = d.pop("outcome", UNSET)
-        outcome: Union[Unset, RecordPaymentsResultResultsItemOutcome]
-        if isinstance(_outcome, Unset):
-            outcome = UNSET
-        else:
-            outcome = check_record_payments_result_results_item_outcome(_outcome)
-
         status = d.pop("status", UNSET)
 
         code = d.pop("code", UNSET)
@@ -106,14 +97,23 @@ class RecordPaymentsResultResultsItem:
         else:
             params = ErrorParams.from_dict(_params)
 
+        invoice_id = d.pop("invoiceId", UNSET)
+
+        _outcome = d.pop("outcome", UNSET)
+        outcome: Union[Unset, RecordPaymentsResultResultsItemOutcome]
+        if isinstance(_outcome, Unset):
+            outcome = UNSET
+        else:
+            outcome = check_record_payments_result_results_item_outcome(_outcome)
+
         record_payments_result_results_item = cls(
-            invoice_id=invoice_id,
-            outcome=outcome,
             status=status,
             code=code,
             message=message,
             message_id=message_id,
             params=params,
+            invoice_id=invoice_id,
+            outcome=outcome,
         )
 
         record_payments_result_results_item.additional_properties = d

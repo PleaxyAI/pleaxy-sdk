@@ -15,10 +15,6 @@ require 'time'
 
 module Pleaxy
   class RecordPaymentsResultResultsInner
-    attr_accessor :invoice_id
-
-    attr_accessor :outcome
-
     attr_accessor :status
 
     attr_accessor :code
@@ -28,6 +24,10 @@ module Pleaxy
     attr_accessor :message_id
 
     attr_accessor :params
+
+    attr_accessor :invoice_id
+
+    attr_accessor :outcome
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -54,13 +54,13 @@ module Pleaxy
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'invoice_id' => :'invoiceId',
-        :'outcome' => :'outcome',
         :'status' => :'status',
         :'code' => :'code',
         :'message' => :'message',
         :'message_id' => :'messageId',
-        :'params' => :'params'
+        :'params' => :'params',
+        :'invoice_id' => :'invoiceId',
+        :'outcome' => :'outcome'
       }
     end
 
@@ -72,13 +72,13 @@ module Pleaxy
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'invoice_id' => :'String',
-        :'outcome' => :'String',
         :'status' => :'Float',
         :'code' => :'String',
         :'message' => :'String',
         :'message_id' => :'String',
-        :'params' => :'Hash<String, FeedAttemptParamsValue>'
+        :'params' => :'Hash<String, FeedAttemptParamsValue>',
+        :'invoice_id' => :'String',
+        :'outcome' => :'String'
       }
     end
 
@@ -103,14 +103,6 @@ module Pleaxy
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'invoice_id')
-        self.invoice_id = attributes[:'invoice_id']
-      end
-
-      if attributes.key?(:'outcome')
-        self.outcome = attributes[:'outcome']
-      end
-
       if attributes.key?(:'status')
         self.status = attributes[:'status']
       end
@@ -131,6 +123,14 @@ module Pleaxy
         if (value = attributes[:'params']).is_a?(Hash)
           self.params = value
         end
+      end
+
+      if attributes.key?(:'invoice_id')
+        self.invoice_id = attributes[:'invoice_id']
+      end
+
+      if attributes.key?(:'outcome')
+        self.outcome = attributes[:'outcome']
       end
     end
 
@@ -166,13 +166,13 @@ module Pleaxy
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          invoice_id == o.invoice_id &&
-          outcome == o.outcome &&
           status == o.status &&
           code == o.code &&
           message == o.message &&
           message_id == o.message_id &&
-          params == o.params
+          params == o.params &&
+          invoice_id == o.invoice_id &&
+          outcome == o.outcome
     end
 
     # @see the `==` method
@@ -184,7 +184,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [invoice_id, outcome, status, code, message, message_id, params].hash
+      [status, code, message, message_id, params, invoice_id, outcome].hash
     end
 
     # Builds the object from hash

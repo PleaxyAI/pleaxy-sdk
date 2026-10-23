@@ -2356,6 +2356,7 @@ const (
 	NotificationTypeInvoiceReminder                  NotificationType = "invoice_reminder"
 	NotificationTypeInvoiceRemittanceSent            NotificationType = "invoice_remittance_sent"
 	NotificationTypeInvoiceSubmitted                 NotificationType = "invoice_submitted"
+	NotificationTypePaymentsRecordedByKey            NotificationType = "payments_recorded_by_key"
 	NotificationTypePoApprovalRequested              NotificationType = "po_approval_requested"
 	NotificationTypePoApproved                       NotificationType = "po_approved"
 	NotificationTypePoCanceled                       NotificationType = "po_canceled"

@@ -13,10 +13,6 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct RecordPaymentsResultResultsInner {
-    #[serde(rename = "invoiceId", skip_serializing_if = "Option::is_none")]
-    pub invoice_id: Option<String>,
-    #[serde(rename = "outcome", skip_serializing_if = "Option::is_none")]
-    pub outcome: Option<Outcome>,
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<f64>,
     #[serde(rename = "code", skip_serializing_if = "Option::is_none")]
@@ -27,18 +23,22 @@ pub struct RecordPaymentsResultResultsInner {
     pub message_id: Option<String>,
     #[serde(rename = "params", skip_serializing_if = "Option::is_none")]
     pub params: Option<std::collections::HashMap<String, models::FeedAttemptParamsValue>>,
+    #[serde(rename = "invoiceId", skip_serializing_if = "Option::is_none")]
+    pub invoice_id: Option<String>,
+    #[serde(rename = "outcome", skip_serializing_if = "Option::is_none")]
+    pub outcome: Option<Outcome>,
 }
 
 impl RecordPaymentsResultResultsInner {
     pub fn new() -> RecordPaymentsResultResultsInner {
         RecordPaymentsResultResultsInner {
-            invoice_id: None,
-            outcome: None,
             status: None,
             code: None,
             message: None,
             message_id: None,
             params: None,
+            invoice_id: None,
+            outcome: None,
         }
     }
 }

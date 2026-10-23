@@ -66,8 +66,10 @@ def sync_detailed(
     on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?,
     message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is
     valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still
-    refused. API key with the payments:record scope only, minted with a procurementRole that can edit
-    invoices.
+    refused. Up to 500 payments per key per UTC day; past that each payment is refused with 429
+    RATE_LIMITED. Every call that records a payment raises a payments_recorded_by_key notification in
+    the workspace naming the key and the invoices, so a payment nobody made is seen and withdrawn. API
+    key with the payments:record scope only, minted with a procurementRole that can edit invoices.
 
     Args:
         body (RecordPaymentsBatchInput):
@@ -103,8 +105,10 @@ def sync(
     on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?,
     message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is
     valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still
-    refused. API key with the payments:record scope only, minted with a procurementRole that can edit
-    invoices.
+    refused. Up to 500 payments per key per UTC day; past that each payment is refused with 429
+    RATE_LIMITED. Every call that records a payment raises a payments_recorded_by_key notification in
+    the workspace naming the key and the invoices, so a payment nobody made is seen and withdrawn. API
+    key with the payments:record scope only, minted with a procurementRole that can edit invoices.
 
     Args:
         body (RecordPaymentsBatchInput):
@@ -135,8 +139,10 @@ async def asyncio_detailed(
     on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?,
     message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is
     valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still
-    refused. API key with the payments:record scope only, minted with a procurementRole that can edit
-    invoices.
+    refused. Up to 500 payments per key per UTC day; past that each payment is refused with 429
+    RATE_LIMITED. Every call that records a payment raises a payments_recorded_by_key notification in
+    the workspace naming the key and the invoices, so a payment nobody made is seen and withdrawn. API
+    key with the payments:record scope only, minted with a procurementRole that can edit invoices.
 
     Args:
         body (RecordPaymentsBatchInput):
@@ -170,8 +176,10 @@ async def asyncio(
     on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?,
     message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is
     valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still
-    refused. API key with the payments:record scope only, minted with a procurementRole that can edit
-    invoices.
+    refused. Up to 500 payments per key per UTC day; past that each payment is refused with 429
+    RATE_LIMITED. Every call that records a payment raises a payments_recorded_by_key notification in
+    the workspace naming the key and the invoices, so a payment nobody made is seen and withdrawn. API
+    key with the payments:record scope only, minted with a procurementRole that can edit invoices.
 
     Args:
         body (RecordPaymentsBatchInput):
