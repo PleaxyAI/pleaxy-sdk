@@ -3,6 +3,10 @@ from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.line_item_input_line_type import (
+    LineItemInputLineType,
+    check_line_item_input_line_type,
+)
 from ..models.line_item_input_rule_type import (
     LineItemInputRuleType,
     check_line_item_input_rule_type,
@@ -34,6 +38,9 @@ class LineItemInput:
         valid_from (str):
         valid_until (str):
         scope_id (Union[None, Unset, str]):
+        line_type (Union[Unset, LineItemInputLineType]): goods (delivered: shipped and confirmed on a goods receipt) or
+            service (performed: confirmed on a service entry sheet, never shipped). Defaults to the catalog item's type,
+            else to service for a service scope or a time unit and goods otherwise.
         currency (Union[Unset, str]): ISO 4217. Optional - the server writes the order's currency on every line. If
             sent, it must be the order's currency (any case); another currency is a 400, since Pleaxy doesn't convert
             currencies.
@@ -62,6 +69,7 @@ class LineItemInput:
     valid_from: str
     valid_until: str
     scope_id: Union[None, Unset, str] = UNSET
+    line_type: Union[Unset, LineItemInputLineType] = UNSET
     currency: Union[Unset, str] = UNSET
     payment_terms: Union[Unset, str] = UNSET
     due_date: Union[Unset, str] = UNSET
@@ -96,6 +104,10 @@ class LineItemInput:
         else:
             scope_id = self.scope_id
 
+        line_type: Union[Unset, str] = UNSET
+        if not isinstance(self.line_type, Unset):
+            line_type = self.line_type
+
         currency = self.currency
 
         payment_terms = self.payment_terms
@@ -129,6 +141,8 @@ class LineItemInput:
         )
         if scope_id is not UNSET:
             field_dict["scopeId"] = scope_id
+        if line_type is not UNSET:
+            field_dict["lineType"] = line_type
         if currency is not UNSET:
             field_dict["currency"] = currency
         if payment_terms is not UNSET:
@@ -178,6 +192,13 @@ class LineItemInput:
 
         scope_id = _parse_scope_id(d.pop("scopeId", UNSET))
 
+        _line_type = d.pop("lineType", UNSET)
+        line_type: Union[Unset, LineItemInputLineType]
+        if isinstance(_line_type, Unset):
+            line_type = UNSET
+        else:
+            line_type = check_line_item_input_line_type(_line_type)
+
         currency = d.pop("currency", UNSET)
 
         payment_terms = d.pop("paymentTerms", UNSET)
@@ -208,6 +229,7 @@ class LineItemInput:
             valid_from=valid_from,
             valid_until=valid_until,
             scope_id=scope_id,
+            line_type=line_type,
             currency=currency,
             payment_terms=payment_terms,
             due_date=due_date,

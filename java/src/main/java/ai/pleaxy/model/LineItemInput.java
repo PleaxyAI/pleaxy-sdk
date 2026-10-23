@@ -37,6 +37,7 @@ import ai.pleaxy.client.ApiClient;
   LineItemInput.JSON_PROPERTY_SCOPE_TYPE,
   LineItemInput.JSON_PROPERTY_SCOPE_ID,
   LineItemInput.JSON_PROPERTY_NAME,
+  LineItemInput.JSON_PROPERTY_LINE_TYPE,
   LineItemInput.JSON_PROPERTY_RULE_TYPE,
   LineItemInput.JSON_PROPERTY_UNIT,
   LineItemInput.JSON_PROPERTY_UNIT_PRICE,
@@ -104,6 +105,45 @@ public class LineItemInput {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nonnull
   private String name;
+
+  /**
+   * goods (delivered: shipped and confirmed on a goods receipt) or service (performed: confirmed on a service entry sheet, never shipped). Defaults to the catalog item&#39;s type, else to service for a service scope or a time unit and goods otherwise.
+   */
+  public enum LineTypeEnum {
+    GOODS(String.valueOf("goods")),
+    
+    SERVICE(String.valueOf("service"));
+
+    private String value;
+
+    LineTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static LineTypeEnum fromValue(String value) {
+      for (LineTypeEnum b : LineTypeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_LINE_TYPE = "lineType";
+  @javax.annotation.Nullable
+  private LineTypeEnum lineType;
 
   /**
    * Gets or Sets ruleType
@@ -268,6 +308,30 @@ public class LineItemInput {
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
+  }
+
+
+  public LineItemInput lineType(@javax.annotation.Nullable LineTypeEnum lineType) {
+    this.lineType = lineType;
+    return this;
+  }
+
+  /**
+   * goods (delivered: shipped and confirmed on a goods receipt) or service (performed: confirmed on a service entry sheet, never shipped). Defaults to the catalog item&#39;s type, else to service for a service scope or a time unit and goods otherwise.
+   * @return lineType
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_LINE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public LineTypeEnum getLineType() {
+    return lineType;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_LINE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setLineType(@javax.annotation.Nullable LineTypeEnum lineType) {
+    this.lineType = lineType;
   }
 
 
@@ -629,6 +693,7 @@ public class LineItemInput {
     return Objects.equals(this.scopeType, lineItemInput.scopeType) &&
         Objects.equals(this.scopeId, lineItemInput.scopeId) &&
         Objects.equals(this.name, lineItemInput.name) &&
+        Objects.equals(this.lineType, lineItemInput.lineType) &&
         Objects.equals(this.ruleType, lineItemInput.ruleType) &&
         Objects.equals(this.unit, lineItemInput.unit) &&
         Objects.equals(this.unitPrice, lineItemInput.unitPrice) &&
@@ -647,7 +712,7 @@ public class LineItemInput {
 
   @Override
   public int hashCode() {
-    return Objects.hash(scopeType, scopeId, name, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, dueDate, customerLineNo, quoteLineNo, sowLineNo, punchoutRef);
+    return Objects.hash(scopeType, scopeId, name, lineType, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, dueDate, customerLineNo, quoteLineNo, sowLineNo, punchoutRef);
   }
 
   @Override
@@ -657,6 +722,7 @@ public class LineItemInput {
     sb.append("    scopeType: ").append(toIndentedString(scopeType)).append("\n");
     sb.append("    scopeId: ").append(toIndentedString(scopeId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    lineType: ").append(toIndentedString(lineType)).append("\n");
     sb.append("    ruleType: ").append(toIndentedString(ruleType)).append("\n");
     sb.append("    unit: ").append(toIndentedString(unit)).append("\n");
     sb.append("    unitPrice: ").append(toIndentedString(unitPrice)).append("\n");
@@ -731,6 +797,11 @@ public class LineItemInput {
     // add `name` to the URL query string
     if (getName() != null) {
       joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `lineType` to the URL query string
+    if (getLineType() != null) {
+      joiner.add(String.format("%slineType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLineType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `ruleType` to the URL query string
