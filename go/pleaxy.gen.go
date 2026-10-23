@@ -1999,6 +1999,12 @@ const (
 	UkLatePaymentAct       LateFeeTermsStatute = "uk_late_payment_act"
 )
 
+// Defines values for LineItemLineType.
+const (
+	LineItemLineTypeGoods   LineItemLineType = "goods"
+	LineItemLineTypeService LineItemLineType = "service"
+)
+
 // Defines values for LineItemPriceSource.
 const (
 	LineItemPriceSourceContract LineItemPriceSource = "contract"
@@ -2018,6 +2024,12 @@ const (
 	LineItemScopeTypeCustom  LineItemScopeType = "custom"
 	LineItemScopeTypeService LineItemScopeType = "service"
 	LineItemScopeTypeSku     LineItemScopeType = "sku"
+)
+
+// Defines values for LineItemInputLineType.
+const (
+	LineItemInputLineTypeGoods   LineItemInputLineType = "goods"
+	LineItemInputLineTypeService LineItemInputLineType = "service"
 )
 
 // Defines values for LineItemInputRuleType.
@@ -2534,6 +2546,12 @@ const (
 	OrderConfirmationLineInputStatusBackordered OrderConfirmationLineInputStatus = "backordered"
 	OrderConfirmationLineInputStatusChange      OrderConfirmationLineInputStatus = "change"
 	OrderConfirmationLineInputStatusReject      OrderConfirmationLineInputStatus = "reject"
+)
+
+// Defines values for OrderConfirmationSubstituteLineType.
+const (
+	Goods   OrderConfirmationSubstituteLineType = "goods"
+	Service OrderConfirmationSubstituteLineType = "service"
 )
 
 // Defines values for OrgProfileRole.
@@ -7497,6 +7515,7 @@ type LineItem struct {
 	CustomerLineNo *string              `json:"customerLineNo,omitempty"`
 	DueDate        *string              `json:"dueDate,omitempty"`
 	LineNo         *float64             `json:"lineNo,omitempty"`
+	LineType       *LineItemLineType    `json:"lineType,omitempty"`
 	Name           *string              `json:"name,omitempty"`
 	NteAmount      *float64             `json:"nteAmount,omitempty"`
 	Origin         *PunchoutLineOrigin  `json:"origin,omitempty"`
@@ -7519,6 +7538,9 @@ type LineItem struct {
 	ValidUntil  *string            `json:"validUntil,omitempty"`
 }
 
+// LineItemLineType defines model for LineItem.LineType.
+type LineItemLineType string
+
 // LineItemPriceSource defines model for LineItem.PriceSource.
 type LineItemPriceSource string
 
@@ -7537,9 +7559,12 @@ type LineItemInput struct {
 	CustomerLineNo *string `json:"customerLineNo,omitempty"`
 
 	// DueDate When the goods or the work on this line are due (YYYY-MM-DD), e.g. a statement-of-work milestone. On a 3-way order, its receiver is reminded when it passes with nothing received.
-	DueDate   *string `json:"dueDate,omitempty"`
-	Name      string  `json:"name"`
-	NteAmount float64 `json:"nteAmount"`
+	DueDate *string `json:"dueDate,omitempty"`
+
+	// LineType goods (delivered: shipped and confirmed on a goods receipt) or service (performed: confirmed on a service entry sheet, never shipped). Defaults to the catalog item's type, else to service for a service scope or a time unit and goods otherwise.
+	LineType  *LineItemInputLineType `json:"lineType,omitempty"`
+	Name      string                 `json:"name"`
+	NteAmount float64                `json:"nteAmount"`
 
 	// PaymentTerms The line's payment terms, e.g. "Net 30". Optional: left out (or blank), the line takes the default payment terms of the contract it was priced from or the order names (contractId), else the catalog item's, else "Net 30".
 	PaymentTerms *string `json:"paymentTerms,omitempty"`
@@ -7561,6 +7586,9 @@ type LineItemInput struct {
 	ValidFrom  string   `json:"validFrom"`
 	ValidUntil string   `json:"validUntil"`
 }
+
+// LineItemInputLineType goods (delivered: shipped and confirmed on a goods receipt) or service (performed: confirmed on a service entry sheet, never shipped). Defaults to the catalog item's type, else to service for a service scope or a time unit and goods otherwise.
+type LineItemInputLineType string
 
 // LineItemInputRuleType defines model for LineItemInput.RuleType.
 type LineItemInputRuleType string
@@ -8272,11 +8300,15 @@ type OrderConfirmationLineInputStatus string
 
 // OrderConfirmationSubstitute defines model for OrderConfirmationSubstitute.
 type OrderConfirmationSubstitute struct {
-	CatalogItemId  *string `json:"catalogItemId,omitempty"`
-	Name           *string `json:"name,omitempty"`
-	SupplierPartId *string `json:"supplierPartId,omitempty"`
-	Unit           *string `json:"unit,omitempty"`
+	CatalogItemId  *string                              `json:"catalogItemId,omitempty"`
+	LineType       *OrderConfirmationSubstituteLineType `json:"lineType,omitempty"`
+	Name           *string                              `json:"name,omitempty"`
+	SupplierPartId *string                              `json:"supplierPartId,omitempty"`
+	Unit           *string                              `json:"unit,omitempty"`
 }
+
+// OrderConfirmationSubstituteLineType defines model for OrderConfirmationSubstitute.LineType.
+type OrderConfirmationSubstituteLineType string
 
 // OrgProfile defines model for OrgProfile.
 type OrgProfile struct {

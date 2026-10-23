@@ -1269,7 +1269,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only lines ordered by quantity ship. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope. */
+        /** [Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only goods lines (lineType goods) ordered by quantity ship; a service line is confirmed with a service entry sheet. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope. */
         post: operations["SendShipNotice"];
         delete?: never;
         options?: never;
@@ -1657,6 +1657,11 @@ export interface components {
             scopeType: "sku" | "service" | "account" | "custom";
             scopeId?: string | null;
             name: string;
+            /**
+             * @description goods (delivered: shipped and confirmed on a goods receipt) or service (performed: confirmed on a service entry sheet, never shipped). Defaults to the catalog item's type, else to service for a service scope or a time unit and goods otherwise.
+             * @enum {string}
+             */
+            lineType?: "goods" | "service";
             /** @enum {string} */
             ruleType: "quantity" | "amount";
             unit: string;
@@ -2875,7 +2880,9 @@ export interface components {
             /** Format: double */
             lineNo?: number;
             /** @enum {string} */
-            scopeType?: "custom" | "sku" | "service" | "account";
+            lineType?: "goods" | "service";
+            /** @enum {string} */
+            scopeType?: "custom" | "service" | "sku" | "account";
             scopeId?: string | null;
             name?: string;
             /** @enum {string} */
@@ -4440,6 +4447,8 @@ export interface components {
             name?: string;
             catalogItemId?: string;
             unit?: string;
+            /** @enum {string} */
+            lineType?: "goods" | "service";
         };
         OrderConfirmationDecision: {
             /** @enum {string} */

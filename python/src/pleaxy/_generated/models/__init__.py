@@ -939,8 +939,10 @@ from .late_fee_terms_interest_per import LateFeeTermsInterestPer
 from .late_fee_terms_statute import LateFeeTermsStatute
 from .line_item import LineItem
 from .line_item_input import LineItemInput
+from .line_item_input_line_type import LineItemInputLineType
 from .line_item_input_rule_type import LineItemInputRuleType
 from .line_item_input_scope_type import LineItemInputScopeType
+from .line_item_line_type import LineItemLineType
 from .line_item_price_source import LineItemPriceSource
 from .line_item_punchout_ref import LineItemPunchoutRef
 from .line_item_rule_type import LineItemRuleType
@@ -1188,6 +1190,7 @@ from .order_confirmation_operation import OrderConfirmationOperation
 from .order_confirmation_outcome import OrderConfirmationOutcome
 from .order_confirmation_source import OrderConfirmationSource
 from .order_confirmation_substitute import OrderConfirmationSubstitute
+from .order_confirmation_substitute_line_type import OrderConfirmationSubstituteLineType
 from .org_profile import OrgProfile
 from .org_profile_role import OrgProfileRole
 from .payer_account_ref import PayerAccountRef
@@ -2124,8 +2127,10 @@ __all__ = (
     "LateFeeTermsStatute",
     "LineItem",
     "LineItemInput",
+    "LineItemInputLineType",
     "LineItemInputRuleType",
     "LineItemInputScopeType",
+    "LineItemLineType",
     "LineItemPriceSource",
     "LineItemPunchoutRef",
     "LineItemRuleType",
@@ -2233,6 +2238,7 @@ __all__ = (
     "OrderConfirmationOutcome",
     "OrderConfirmationSource",
     "OrderConfirmationSubstitute",
+    "OrderConfirmationSubstituteLineType",
     "OrgProfile",
     "OrgProfileRole",
     "PayerAccountRef",

@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.line_item_line_type import LineItemLineType, check_line_item_line_type
 from ..models.line_item_price_source import (
     LineItemPriceSource,
     check_line_item_price_source,
@@ -24,6 +25,7 @@ class LineItem:
     """
     Attributes:
         line_no (Union[Unset, float]):
+        line_type (Union[Unset, LineItemLineType]):
         scope_type (Union[Unset, LineItemScopeType]):
         scope_id (Union[None, Unset, str]):
         name (Union[Unset, str]):
@@ -50,6 +52,7 @@ class LineItem:
     """
 
     line_no: Union[Unset, float] = UNSET
+    line_type: Union[Unset, LineItemLineType] = UNSET
     scope_type: Union[Unset, LineItemScopeType] = UNSET
     scope_id: Union[None, Unset, str] = UNSET
     name: Union[Unset, str] = UNSET
@@ -77,6 +80,10 @@ class LineItem:
 
     def to_dict(self) -> Dict[str, Any]:
         line_no = self.line_no
+
+        line_type: Union[Unset, str] = UNSET
+        if not isinstance(self.line_type, Unset):
+            line_type = self.line_type
 
         scope_type: Union[Unset, str] = UNSET
         if not isinstance(self.scope_type, Unset):
@@ -143,6 +150,8 @@ class LineItem:
         field_dict.update({})
         if line_no is not UNSET:
             field_dict["lineNo"] = line_no
+        if line_type is not UNSET:
+            field_dict["lineType"] = line_type
         if scope_type is not UNSET:
             field_dict["scopeType"] = scope_type
         if scope_id is not UNSET:
@@ -199,6 +208,13 @@ class LineItem:
 
         d = src_dict.copy()
         line_no = d.pop("lineNo", UNSET)
+
+        _line_type = d.pop("lineType", UNSET)
+        line_type: Union[Unset, LineItemLineType]
+        if isinstance(_line_type, Unset):
+            line_type = UNSET
+        else:
+            line_type = check_line_item_line_type(_line_type)
 
         _scope_type = d.pop("scopeType", UNSET)
         scope_type: Union[Unset, LineItemScopeType]
@@ -280,6 +296,7 @@ class LineItem:
 
         line_item = cls(
             line_no=line_no,
+            line_type=line_type,
             scope_type=scope_type,
             scope_id=scope_id,
             name=name,
