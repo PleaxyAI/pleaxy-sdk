@@ -74,14 +74,16 @@ def sync_detailed(
 ) -> Response[OrderConfirmation]:
     """[Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type:
     accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status:
-    accept|backordered|reject, qty?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and
-    reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as
-    ordered. Answers the stored confirmation with its outcome: accepted, backordered, partial (some
-    lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes,
-    and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused
-    order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409
-    ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the
-    orders:fulfill scope.
+    accept|backordered|change|reject, qty?, unitPrice?, shipmentDate?, deliveryDate?, reason? }] }.
+    accept, backordered and reject speak for the whole order; detail names its lines, and a line it
+    leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the
+    line) or unit price (in the order's currency) on a line ordered by quantity; one that matches the
+    order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered,
+    changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines
+    refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the
+    buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is
+    the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN
+    otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
 
     Args:
         po_id (str):
@@ -118,14 +120,16 @@ def sync(
 ) -> Optional[OrderConfirmation]:
     """[Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type:
     accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status:
-    accept|backordered|reject, qty?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and
-    reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as
-    ordered. Answers the stored confirmation with its outcome: accepted, backordered, partial (some
-    lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes,
-    and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused
-    order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409
-    ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the
-    orders:fulfill scope.
+    accept|backordered|change|reject, qty?, unitPrice?, shipmentDate?, deliveryDate?, reason? }] }.
+    accept, backordered and reject speak for the whole order; detail names its lines, and a line it
+    leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the
+    line) or unit price (in the order's currency) on a line ordered by quantity; one that matches the
+    order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered,
+    changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines
+    refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the
+    buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is
+    the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN
+    otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
 
     Args:
         po_id (str):
@@ -157,14 +161,16 @@ async def asyncio_detailed(
 ) -> Response[OrderConfirmation]:
     """[Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type:
     accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status:
-    accept|backordered|reject, qty?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and
-    reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as
-    ordered. Answers the stored confirmation with its outcome: accepted, backordered, partial (some
-    lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes,
-    and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused
-    order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409
-    ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the
-    orders:fulfill scope.
+    accept|backordered|change|reject, qty?, unitPrice?, shipmentDate?, deliveryDate?, reason? }] }.
+    accept, backordered and reject speak for the whole order; detail names its lines, and a line it
+    leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the
+    line) or unit price (in the order's currency) on a line ordered by quantity; one that matches the
+    order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered,
+    changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines
+    refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the
+    buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is
+    the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN
+    otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
 
     Args:
         po_id (str):
@@ -199,14 +205,16 @@ async def asyncio(
 ) -> Optional[OrderConfirmation]:
     """[Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type:
     accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status:
-    accept|backordered|reject, qty?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and
-    reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as
-    ordered. Answers the stored confirmation with its outcome: accepted, backordered, partial (some
-    lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes,
-    and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused
-    order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409
-    ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the
-    orders:fulfill scope.
+    accept|backordered|change|reject, qty?, unitPrice?, shipmentDate?, deliveryDate?, reason? }] }.
+    accept, backordered and reject speak for the whole order; detail names its lines, and a line it
+    leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the
+    line) or unit price (in the order's currency) on a line ordered by quantity; one that matches the
+    order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered,
+    changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines
+    refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the
+    buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is
+    the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN
+    otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
 
     Args:
         po_id (str):

@@ -65,15 +65,18 @@ def sync_detailed(
     documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets
     purchase_order.issued|changed|canceled|rejected,
     invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and
-    credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed,
-    credit_note.received, purchase_order.confirmed and purchase_order.shipped (the supplier confirmed or
-    shipped against an order: read GetPurchaseOrderFulfillment), and purchase_order.updated /
-    invoice.updated whenever one of its documents is decided or moves on. An event names the document
-    only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or
-    GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next
-    call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days
-    and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the
-    document types its procurement role can view.
+    credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier
+    sent one), invoice.updated (an approval step approved it, including an automatic approval, it was
+    rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was
+    recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded,
+    failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or
+    canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped
+    against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with
+    GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass
+    buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once
+    while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least
+    once; the newest 5 seconds wait for the next call. A buyer sees only the document types its
+    procurement role can view.
 
     Args:
         after (Union[Unset, str]):
@@ -109,15 +112,18 @@ def sync(
     documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets
     purchase_order.issued|changed|canceled|rejected,
     invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and
-    credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed,
-    credit_note.received, purchase_order.confirmed and purchase_order.shipped (the supplier confirmed or
-    shipped against an order: read GetPurchaseOrderFulfillment), and purchase_order.updated /
-    invoice.updated whenever one of its documents is decided or moves on. An event names the document
-    only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or
-    GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next
-    call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days
-    and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the
-    document types its procurement role can view.
+    credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier
+    sent one), invoice.updated (an approval step approved it, including an automatic approval, it was
+    rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was
+    recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded,
+    failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or
+    canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped
+    against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with
+    GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass
+    buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once
+    while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least
+    once; the newest 5 seconds wait for the next call. A buyer sees only the document types its
+    procurement role can view.
 
     Args:
         after (Union[Unset, str]):
@@ -148,15 +154,18 @@ async def asyncio_detailed(
     documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets
     purchase_order.issued|changed|canceled|rejected,
     invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and
-    credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed,
-    credit_note.received, purchase_order.confirmed and purchase_order.shipped (the supplier confirmed or
-    shipped against an order: read GetPurchaseOrderFulfillment), and purchase_order.updated /
-    invoice.updated whenever one of its documents is decided or moves on. An event names the document
-    only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or
-    GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next
-    call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days
-    and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the
-    document types its procurement role can view.
+    credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier
+    sent one), invoice.updated (an approval step approved it, including an automatic approval, it was
+    rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was
+    recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded,
+    failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or
+    canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped
+    against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with
+    GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass
+    buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once
+    while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least
+    once; the newest 5 seconds wait for the next call. A buyer sees only the document types its
+    procurement role can view.
 
     Args:
         after (Union[Unset, str]):
@@ -190,15 +199,18 @@ async def asyncio(
     documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets
     purchase_order.issued|changed|canceled|rejected,
     invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and
-    credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed,
-    credit_note.received, purchase_order.confirmed and purchase_order.shipped (the supplier confirmed or
-    shipped against an order: read GetPurchaseOrderFulfillment), and purchase_order.updated /
-    invoice.updated whenever one of its documents is decided or moves on. An event names the document
-    only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or
-    GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next
-    call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days
-    and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the
-    document types its procurement role can view.
+    credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier
+    sent one), invoice.updated (an approval step approved it, including an automatic approval, it was
+    rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was
+    recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded,
+    failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or
+    canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped
+    against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with
+    GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass
+    buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once
+    while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least
+    once; the newest 5 seconds wait for the next call. A buyer sees only the document types its
+    procurement role can view.
 
     Args:
         after (Union[Unset, str]):

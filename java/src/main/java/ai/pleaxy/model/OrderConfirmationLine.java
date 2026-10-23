@@ -36,6 +36,7 @@ import ai.pleaxy.client.ApiClient;
   OrderConfirmationLine.JSON_PROPERTY_LINE_NO,
   OrderConfirmationLine.JSON_PROPERTY_STATUS,
   OrderConfirmationLine.JSON_PROPERTY_QTY,
+  OrderConfirmationLine.JSON_PROPERTY_UNIT_PRICE,
   OrderConfirmationLine.JSON_PROPERTY_SHIPMENT_DATE,
   OrderConfirmationLine.JSON_PROPERTY_DELIVERY_DATE,
   OrderConfirmationLine.JSON_PROPERTY_REASON
@@ -54,7 +55,9 @@ public class OrderConfirmationLine {
     
     REJECT(String.valueOf("reject")),
     
-    BACKORDERED(String.valueOf("backordered"));
+    BACKORDERED(String.valueOf("backordered")),
+    
+    CHANGE(String.valueOf("change"));
 
     private String value;
 
@@ -90,6 +93,10 @@ public class OrderConfirmationLine {
   public static final String JSON_PROPERTY_QTY = "qty";
   @javax.annotation.Nullable
   private Double qty;
+
+  public static final String JSON_PROPERTY_UNIT_PRICE = "unitPrice";
+  @javax.annotation.Nullable
+  private Double unitPrice;
 
   public static final String JSON_PROPERTY_SHIPMENT_DATE = "shipmentDate";
   @javax.annotation.Nullable
@@ -175,6 +182,30 @@ public class OrderConfirmationLine {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setQty(@javax.annotation.Nullable Double qty) {
     this.qty = qty;
+  }
+
+
+  public OrderConfirmationLine unitPrice(@javax.annotation.Nullable Double unitPrice) {
+    this.unitPrice = unitPrice;
+    return this;
+  }
+
+  /**
+   * Get unitPrice
+   * @return unitPrice
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_UNIT_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getUnitPrice() {
+    return unitPrice;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_UNIT_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUnitPrice(@javax.annotation.Nullable Double unitPrice) {
+    this.unitPrice = unitPrice;
   }
 
 
@@ -265,6 +296,7 @@ public class OrderConfirmationLine {
     return Objects.equals(this.lineNo, orderConfirmationLine.lineNo) &&
         Objects.equals(this.status, orderConfirmationLine.status) &&
         Objects.equals(this.qty, orderConfirmationLine.qty) &&
+        Objects.equals(this.unitPrice, orderConfirmationLine.unitPrice) &&
         Objects.equals(this.shipmentDate, orderConfirmationLine.shipmentDate) &&
         Objects.equals(this.deliveryDate, orderConfirmationLine.deliveryDate) &&
         Objects.equals(this.reason, orderConfirmationLine.reason);
@@ -272,7 +304,7 @@ public class OrderConfirmationLine {
 
   @Override
   public int hashCode() {
-    return Objects.hash(lineNo, status, qty, shipmentDate, deliveryDate, reason);
+    return Objects.hash(lineNo, status, qty, unitPrice, shipmentDate, deliveryDate, reason);
   }
 
   @Override
@@ -282,6 +314,7 @@ public class OrderConfirmationLine {
     sb.append("    lineNo: ").append(toIndentedString(lineNo)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    qty: ").append(toIndentedString(qty)).append("\n");
+    sb.append("    unitPrice: ").append(toIndentedString(unitPrice)).append("\n");
     sb.append("    shipmentDate: ").append(toIndentedString(shipmentDate)).append("\n");
     sb.append("    deliveryDate: ").append(toIndentedString(deliveryDate)).append("\n");
     sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
@@ -345,6 +378,11 @@ public class OrderConfirmationLine {
     // add `qty` to the URL query string
     if (getQty() != null) {
       joiner.add(String.format("%sqty%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQty()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `unitPrice` to the URL query string
+    if (getUnitPrice() != null) {
+      joiner.add(String.format("%sunitPrice%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUnitPrice()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `shipmentDate` to the URL query string

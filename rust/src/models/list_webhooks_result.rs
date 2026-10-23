@@ -54,8 +54,8 @@ pub enum EventTypes {
     InvoicePeriodPaid,
     #[serde(rename = "invoice.payment_withdrawn")]
     InvoicePeriodPaymentWithdrawn,
-    #[serde(rename = "invoice.payment_failed")]
-    InvoicePeriodPaymentFailed,
+    #[serde(rename = "invoice.payment")]
+    InvoicePeriodPayment,
     #[serde(rename = "invoice.remittance_sent")]
     InvoicePeriodRemittanceSent,
     #[serde(rename = "invoice.credit_applied")]

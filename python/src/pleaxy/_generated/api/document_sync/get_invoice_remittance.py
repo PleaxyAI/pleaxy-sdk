@@ -62,10 +62,11 @@ def sync_detailed(
     buyer: Union[Unset, str] = UNSET,
 ) -> Response[RemittanceView]:
     """[Both] The payment signal for an invoice, for the supplier's cash application: status
-    unpaid|recorded|processing|paid_through_pleaxy|withdrawn, and once paid the method (ach, wire,
-    check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference,
-    adviceVersion, what was withheld, netPaid, a payment in another currency, and the remittances the
-    buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL:
+    unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller
+    only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card,
+    other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion,
+    what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent
+    (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL:
     GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as
     GetInvoice.
 
@@ -100,10 +101,11 @@ def sync(
     buyer: Union[Unset, str] = UNSET,
 ) -> Optional[RemittanceView]:
     """[Both] The payment signal for an invoice, for the supplier's cash application: status
-    unpaid|recorded|processing|paid_through_pleaxy|withdrawn, and once paid the method (ach, wire,
-    check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference,
-    adviceVersion, what was withheld, netPaid, a payment in another currency, and the remittances the
-    buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL:
+    unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller
+    only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card,
+    other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion,
+    what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent
+    (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL:
     GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as
     GetInvoice.
 
@@ -133,10 +135,11 @@ async def asyncio_detailed(
     buyer: Union[Unset, str] = UNSET,
 ) -> Response[RemittanceView]:
     """[Both] The payment signal for an invoice, for the supplier's cash application: status
-    unpaid|recorded|processing|paid_through_pleaxy|withdrawn, and once paid the method (ach, wire,
-    check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference,
-    adviceVersion, what was withheld, netPaid, a payment in another currency, and the remittances the
-    buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL:
+    unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller
+    only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card,
+    other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion,
+    what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent
+    (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL:
     GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as
     GetInvoice.
 
@@ -169,10 +172,11 @@ async def asyncio(
     buyer: Union[Unset, str] = UNSET,
 ) -> Optional[RemittanceView]:
     """[Both] The payment signal for an invoice, for the supplier's cash application: status
-    unpaid|recorded|processing|paid_through_pleaxy|withdrawn, and once paid the method (ach, wire,
-    check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference,
-    adviceVersion, what was withheld, netPaid, a payment in another currency, and the remittances the
-    buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL:
+    unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller
+    only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card,
+    other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion,
+    what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent
+    (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL:
     GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as
     GetInvoice.
 

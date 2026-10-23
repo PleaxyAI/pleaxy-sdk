@@ -19,6 +19,8 @@ pub struct OrderConfirmationLineInput {
     pub status: Status,
     #[serde(rename = "qty", skip_serializing_if = "Option::is_none")]
     pub qty: Option<f64>,
+    #[serde(rename = "unitPrice", skip_serializing_if = "Option::is_none")]
+    pub unit_price: Option<f64>,
     #[serde(rename = "shipmentDate", skip_serializing_if = "Option::is_none")]
     pub shipment_date: Option<String>,
     #[serde(rename = "deliveryDate", skip_serializing_if = "Option::is_none")]
@@ -33,6 +35,7 @@ impl OrderConfirmationLineInput {
             line_no,
             status,
             qty: None,
+            unit_price: None,
             shipment_date: None,
             delivery_date: None,
             reason: None,
@@ -46,6 +49,8 @@ pub enum Status {
     Accept,
     #[serde(rename = "backordered")]
     Backordered,
+    #[serde(rename = "change")]
+    Change,
     #[serde(rename = "reject")]
     Reject,
 }

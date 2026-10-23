@@ -18,8 +18,10 @@ import ai.pleaxy.client.ApiResponse;
 import ai.pleaxy.client.Pair;
 
 import ai.pleaxy.model.ApiError;
+import ai.pleaxy.model.ApplyConfirmationChangesResult;
 import ai.pleaxy.model.CreateOrderConfirmationInput;
 import ai.pleaxy.model.CreateShipNoticeInput;
+import ai.pleaxy.model.DeclineConfirmationChangesInput;
 import ai.pleaxy.model.OrderConfirmation;
 import ai.pleaxy.model.PurchaseOrderFulfillment;
 import ai.pleaxy.model.ShipNotice;
@@ -87,7 +89,87 @@ public class FulfillmentApi {
   }
 
   /**
-   * [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|reject, qty?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. Answers the stored confirmation with its outcome: accepted, backordered, partial (some lines refused) or rejected. The buyer&#39;s requester and receiver are told when the outcome changes, and the buyer&#39;s sync feed gets purchase_order.confirmed. The order itself doesn&#39;t change: a refused order is the buyer&#39;s to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer&#x3D; as GetPurchaseOrder. An API key needs the orders:fulfill scope.
+   * [Buyer] Take the new quantities and unit prices in the supplier&#39;s latest confirmation (outcome changed) into the order: { purchaseOrder, confirmation }. An ordinary line edit, as UpdatePurchaseOrder: the order gets a new version, goes back to approval when its rules say so, and the supplier hears po_changed. 409 CONFIRMATION_SUPERSEDED when the supplier confirmed again since, CONFIRMATION_DECIDED when it was already applied or declined, NO_CHANGES, or ORDER_NOT_OPEN.
+   * 
+   * @param poId  (required)
+   * @param confirmationId  (required)
+   * @return ApplyConfirmationChangesResult
+   * @throws ApiException if fails to make API call
+   */
+  public ApplyConfirmationChangesResult applyConfirmationChanges(String poId, String confirmationId) throws ApiException {
+    ApiResponse<ApplyConfirmationChangesResult> localVarResponse = applyConfirmationChangesWithHttpInfo(poId, confirmationId);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Take the new quantities and unit prices in the supplier&#39;s latest confirmation (outcome changed) into the order: { purchaseOrder, confirmation }. An ordinary line edit, as UpdatePurchaseOrder: the order gets a new version, goes back to approval when its rules say so, and the supplier hears po_changed. 409 CONFIRMATION_SUPERSEDED when the supplier confirmed again since, CONFIRMATION_DECIDED when it was already applied or declined, NO_CHANGES, or ORDER_NOT_OPEN.
+   * 
+   * @param poId  (required)
+   * @param confirmationId  (required)
+   * @return ApiResponse&lt;ApplyConfirmationChangesResult&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<ApplyConfirmationChangesResult> applyConfirmationChangesWithHttpInfo(String poId, String confirmationId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = applyConfirmationChangesRequestBuilder(poId, confirmationId);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("applyConfirmationChanges", localVarResponse);
+        }
+        return new ApiResponse<ApplyConfirmationChangesResult>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ApplyConfirmationChangesResult>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder applyConfirmationChangesRequestBuilder(String poId, String confirmationId) throws ApiException {
+    // verify the required parameter 'poId' is set
+    if (poId == null) {
+      throw new ApiException(400, "Missing the required parameter 'poId' when calling applyConfirmationChanges");
+    }
+    // verify the required parameter 'confirmationId' is set
+    if (confirmationId == null) {
+      throw new ApiException(400, "Missing the required parameter 'confirmationId' when calling applyConfirmationChanges");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/purchase-orders/{poId}/confirmations/{confirmationId}/apply"
+        .replace("{poId}", ApiClient.urlEncode(poId.toString()))
+        .replace("{confirmationId}", ApiClient.urlEncode(confirmationId.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line) or unit price (in the order&#39;s currency) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer&#39;s requester and receiver are told when the outcome changes, and the buyer&#39;s sync feed gets purchase_order.confirmed. The order itself doesn&#39;t change: a refused order is the buyer&#39;s to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer&#x3D; as GetPurchaseOrder. An API key needs the orders:fulfill scope.
    * 
    * @param poId  (required)
    * @param createOrderConfirmationInput  (required)
@@ -101,7 +183,7 @@ public class FulfillmentApi {
   }
 
   /**
-   * [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|reject, qty?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. Answers the stored confirmation with its outcome: accepted, backordered, partial (some lines refused) or rejected. The buyer&#39;s requester and receiver are told when the outcome changes, and the buyer&#39;s sync feed gets purchase_order.confirmed. The order itself doesn&#39;t change: a refused order is the buyer&#39;s to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer&#x3D; as GetPurchaseOrder. An API key needs the orders:fulfill scope.
+   * [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line) or unit price (in the order&#39;s currency) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer&#39;s requester and receiver are told when the outcome changes, and the buyer&#39;s sync feed gets purchase_order.confirmed. The order itself doesn&#39;t change: a refused order is the buyer&#39;s to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer&#x3D; as GetPurchaseOrder. An API key needs the orders:fulfill scope.
    * 
    * @param poId  (required)
    * @param createOrderConfirmationInput  (required)
@@ -189,7 +271,99 @@ public class FulfillmentApi {
   }
 
   /**
-   * [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|partial|rejected, lines with status accept|backordered|reject, qty, dates and reason); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer&#x3D; as GetPurchaseOrder.
+   * [Buyer] Keep the order as it is instead of the supplier&#39;s new quantities and prices: { reason? } (500 characters, shown to the supplier). Answers the confirmation with its decision; the supplier is told (po_changes_declined). The same 409s as ApplyConfirmationChanges.
+   * 
+   * @param poId  (required)
+   * @param confirmationId  (required)
+   * @param declineConfirmationChangesInput  (required)
+   * @return OrderConfirmation
+   * @throws ApiException if fails to make API call
+   */
+  public OrderConfirmation declineConfirmationChanges(String poId, String confirmationId, DeclineConfirmationChangesInput declineConfirmationChangesInput) throws ApiException {
+    ApiResponse<OrderConfirmation> localVarResponse = declineConfirmationChangesWithHttpInfo(poId, confirmationId, declineConfirmationChangesInput);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Keep the order as it is instead of the supplier&#39;s new quantities and prices: { reason? } (500 characters, shown to the supplier). Answers the confirmation with its decision; the supplier is told (po_changes_declined). The same 409s as ApplyConfirmationChanges.
+   * 
+   * @param poId  (required)
+   * @param confirmationId  (required)
+   * @param declineConfirmationChangesInput  (required)
+   * @return ApiResponse&lt;OrderConfirmation&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<OrderConfirmation> declineConfirmationChangesWithHttpInfo(String poId, String confirmationId, DeclineConfirmationChangesInput declineConfirmationChangesInput) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = declineConfirmationChangesRequestBuilder(poId, confirmationId, declineConfirmationChangesInput);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("declineConfirmationChanges", localVarResponse);
+        }
+        return new ApiResponse<OrderConfirmation>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<OrderConfirmation>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder declineConfirmationChangesRequestBuilder(String poId, String confirmationId, DeclineConfirmationChangesInput declineConfirmationChangesInput) throws ApiException {
+    // verify the required parameter 'poId' is set
+    if (poId == null) {
+      throw new ApiException(400, "Missing the required parameter 'poId' when calling declineConfirmationChanges");
+    }
+    // verify the required parameter 'confirmationId' is set
+    if (confirmationId == null) {
+      throw new ApiException(400, "Missing the required parameter 'confirmationId' when calling declineConfirmationChanges");
+    }
+    // verify the required parameter 'declineConfirmationChangesInput' is set
+    if (declineConfirmationChangesInput == null) {
+      throw new ApiException(400, "Missing the required parameter 'declineConfirmationChangesInput' when calling declineConfirmationChanges");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/purchase-orders/{poId}/confirmations/{confirmationId}/decline"
+        .replace("{poId}", ApiClient.urlEncode(poId.toString()))
+        .replace("{confirmationId}", ApiClient.urlEncode(confirmationId.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(declineConfirmationChangesInput);
+      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject, qty, unitPrice, dates and reason, and the buyer&#39;s decision on a changed one: applied or declined); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer&#x3D; as GetPurchaseOrder.
    * 
    * @param poId  (required)
    * @param buyer  (optional)
@@ -202,7 +376,7 @@ public class FulfillmentApi {
   }
 
   /**
-   * [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|partial|rejected, lines with status accept|backordered|reject, qty, dates and reason); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer&#x3D; as GetPurchaseOrder.
+   * [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject, qty, unitPrice, dates and reason, and the buyer&#39;s decision on a changed one: applied or declined); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer&#x3D; as GetPurchaseOrder.
    * 
    * @param poId  (required)
    * @param buyer  (optional)

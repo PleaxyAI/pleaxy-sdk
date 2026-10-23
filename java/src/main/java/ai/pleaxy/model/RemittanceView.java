@@ -43,6 +43,7 @@ import ai.pleaxy.client.ApiClient;
   RemittanceView.JSON_PROPERTY_BUYER_WORKSPACE_ID,
   RemittanceView.JSON_PROPERTY_PURCHASE_ORDER_ID,
   RemittanceView.JSON_PROPERTY_STATUS,
+  RemittanceView.JSON_PROPERTY_FAILED_AT,
   RemittanceView.JSON_PROPERTY_PAID,
   RemittanceView.JSON_PROPERTY_PAID_AT,
   RemittanceView.JSON_PROPERTY_AMOUNT_DUE,
@@ -71,6 +72,8 @@ public class RemittanceView {
    * Gets or Sets status
    */
   public enum StatusEnum {
+    FAILED(String.valueOf("failed")),
+    
     RECORDED(String.valueOf("recorded")),
     
     PROCESSING(String.valueOf("processing")),
@@ -111,6 +114,10 @@ public class RemittanceView {
   public static final String JSON_PROPERTY_STATUS = "status";
   @javax.annotation.Nullable
   private StatusEnum status;
+
+  public static final String JSON_PROPERTY_FAILED_AT = "failedAt";
+  @javax.annotation.Nullable
+  private String failedAt;
 
   public static final String JSON_PROPERTY_PAID = "paid";
   @javax.annotation.Nullable
@@ -252,6 +259,30 @@ public class RemittanceView {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
+  }
+
+
+  public RemittanceView failedAt(@javax.annotation.Nullable String failedAt) {
+    this.failedAt = failedAt;
+    return this;
+  }
+
+  /**
+   * Get failedAt
+   * @return failedAt
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_FAILED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getFailedAt() {
+    return failedAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_FAILED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setFailedAt(@javax.annotation.Nullable String failedAt) {
+    this.failedAt = failedAt;
   }
 
 
@@ -400,6 +431,7 @@ public class RemittanceView {
         Objects.equals(this.buyerWorkspaceId, remittanceView.buyerWorkspaceId) &&
         Objects.equals(this.purchaseOrderId, remittanceView.purchaseOrderId) &&
         Objects.equals(this.status, remittanceView.status) &&
+        Objects.equals(this.failedAt, remittanceView.failedAt) &&
         Objects.equals(this.paid, remittanceView.paid) &&
         Objects.equals(this.paidAt, remittanceView.paidAt) &&
         Objects.equals(this.amountDue, remittanceView.amountDue) &&
@@ -409,7 +441,7 @@ public class RemittanceView {
 
   @Override
   public int hashCode() {
-    return Objects.hash(invoiceId, invoiceNumber, buyerWorkspaceId, purchaseOrderId, status, paid, paidAt, amountDue, payment, remittances);
+    return Objects.hash(invoiceId, invoiceNumber, buyerWorkspaceId, purchaseOrderId, status, failedAt, paid, paidAt, amountDue, payment, remittances);
   }
 
   @Override
@@ -421,6 +453,7 @@ public class RemittanceView {
     sb.append("    buyerWorkspaceId: ").append(toIndentedString(buyerWorkspaceId)).append("\n");
     sb.append("    purchaseOrderId: ").append(toIndentedString(purchaseOrderId)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    failedAt: ").append(toIndentedString(failedAt)).append("\n");
     sb.append("    paid: ").append(toIndentedString(paid)).append("\n");
     sb.append("    paidAt: ").append(toIndentedString(paidAt)).append("\n");
     sb.append("    amountDue: ").append(toIndentedString(amountDue)).append("\n");
@@ -496,6 +529,11 @@ public class RemittanceView {
     // add `status` to the URL query string
     if (getStatus() != null) {
       joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `failedAt` to the URL query string
+    if (getFailedAt() != null) {
+      joiner.add(String.format("%sfailedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFailedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `paid` to the URL query string

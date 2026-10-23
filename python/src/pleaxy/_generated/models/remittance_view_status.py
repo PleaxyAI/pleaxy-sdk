@@ -1,10 +1,11 @@
 from typing import Literal, Set, cast
 
 RemittanceViewStatus = Literal[
-    "paid_through_pleaxy", "processing", "recorded", "unpaid", "withdrawn"
+    "failed", "paid_through_pleaxy", "processing", "recorded", "unpaid", "withdrawn"
 ]
 
 REMITTANCE_VIEW_STATUS_VALUES: Set[RemittanceViewStatus] = {
+    "failed",
     "paid_through_pleaxy",
     "processing",
     "recorded",
