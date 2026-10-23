@@ -31,6 +31,10 @@ from ..models.add_invoice_replacement_links_result_match_status import (
     AddInvoiceReplacementLinksResultMatchStatus,
     check_add_invoice_replacement_links_result_match_status,
 )
+from ..models.add_invoice_replacement_links_result_match_type import (
+    AddInvoiceReplacementLinksResultMatchType,
+    check_add_invoice_replacement_links_result_match_type,
+)
 from ..models.add_invoice_replacement_links_result_source import (
     AddInvoiceReplacementLinksResultSource,
     check_add_invoice_replacement_links_result_source,
@@ -53,7 +57,14 @@ if TYPE_CHECKING:
     from ..models.add_invoice_replacement_links_result_party_details import (
         AddInvoiceReplacementLinksResultPartyDetails,
     )
+    from ..models.add_invoice_replacement_links_result_receipt_check_skipped import (
+        AddInvoiceReplacementLinksResultReceiptCheckSkipped,
+    )
+    from ..models.add_invoice_replacement_links_result_receipt_tolerance_applied import (
+        AddInvoiceReplacementLinksResultReceiptToleranceApplied,
+    )
     from ..models.approval_chain import ApprovalChain
+    from ..models.bank_details_confirmation import BankDetailsConfirmation
     from ..models.invoice_adjustment import InvoiceAdjustment
     from ..models.invoice_base_currency_amount import InvoiceBaseCurrencyAmount
     from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
@@ -61,6 +72,7 @@ if TYPE_CHECKING:
     from ..models.invoice_credit_application import InvoiceCreditApplication
     from ..models.invoice_currency_amount import InvoiceCurrencyAmount
     from ..models.invoice_deduction import InvoiceDeduction
+    from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
     from ..models.invoice_line_item import InvoiceLineItem
     from ..models.invoice_payment_record import InvoicePaymentRecord
     from ..models.invoice_rate_warning import InvoiceRateWarning
@@ -113,6 +125,9 @@ class AddInvoiceReplacementLinksResult:
         match_status (Union[Unset, AddInvoiceReplacementLinksResultMatchStatus]):
         unverified_reason (Union[Unset, AddInvoiceReplacementLinksResultUnverifiedReason]):
         match_basis (Union[Unset, AddInvoiceReplacementLinksResultMatchBasis]):
+        receipt_check_skipped (Union[Unset, AddInvoiceReplacementLinksResultReceiptCheckSkipped]):
+        receipt_tolerance_applied (Union[Unset, AddInvoiceReplacementLinksResultReceiptToleranceApplied]):
+        match_type (Union[Unset, AddInvoiceReplacementLinksResultMatchType]):
         discrepancy_reason (Union[Unset, AddInvoiceReplacementLinksResultDiscrepancyReason]):
         control_findings (Union[Unset, List['InvoiceControlFinding']]):
         paid (Union[Unset, bool]):
@@ -130,6 +145,9 @@ class AddInvoiceReplacementLinksResult:
         replaces_invoice_id (Union[Unset, str]):
         replaces_invoice_ids (Union[Unset, List[str]]):
         replaced_by_invoice_ids (Union[Unset, List[str]]):
+        possible_duplicates (Union[Unset, List['InvoiceDuplicateRef']]):
+        duplicates_checked (Union[Unset, bool]):
+        has_lookup_rows (Union[Unset, bool]):
         source (Union[Unset, AddInvoiceReplacementLinksResultSource]):
         entered_by (Union[Unset, AddInvoiceReplacementLinksResultEnteredBy]):
         invoice_date (Union[Unset, str]):
@@ -156,6 +174,7 @@ class AddInvoiceReplacementLinksResult:
         rate_warnings (Union[Unset, List['InvoiceRateWarning']]):
         remittance_instructions (Union[Unset, RemittanceInstructions]):
         remittance_check (Union[Unset, RemittanceCheck]):
+        bank_details_confirmation (Union[Unset, BankDetailsConfirmation]):
         source_document (Union[Unset, InvoiceSourceDocument]):
         has_original_pdf (Union[Unset, bool]):
         base_currency_amount (Union[Unset, InvoiceBaseCurrencyAmount]):
@@ -195,6 +214,13 @@ class AddInvoiceReplacementLinksResult:
         Unset, AddInvoiceReplacementLinksResultUnverifiedReason
     ] = UNSET
     match_basis: Union[Unset, AddInvoiceReplacementLinksResultMatchBasis] = UNSET
+    receipt_check_skipped: Union[
+        Unset, "AddInvoiceReplacementLinksResultReceiptCheckSkipped"
+    ] = UNSET
+    receipt_tolerance_applied: Union[
+        Unset, "AddInvoiceReplacementLinksResultReceiptToleranceApplied"
+    ] = UNSET
+    match_type: Union[Unset, AddInvoiceReplacementLinksResultMatchType] = UNSET
     discrepancy_reason: Union[
         Unset, AddInvoiceReplacementLinksResultDiscrepancyReason
     ] = UNSET
@@ -214,6 +240,9 @@ class AddInvoiceReplacementLinksResult:
     replaces_invoice_id: Union[Unset, str] = UNSET
     replaces_invoice_ids: Union[Unset, List[str]] = UNSET
     replaced_by_invoice_ids: Union[Unset, List[str]] = UNSET
+    possible_duplicates: Union[Unset, List["InvoiceDuplicateRef"]] = UNSET
+    duplicates_checked: Union[Unset, bool] = UNSET
+    has_lookup_rows: Union[Unset, bool] = UNSET
     source: Union[Unset, AddInvoiceReplacementLinksResultSource] = UNSET
     entered_by: Union[Unset, AddInvoiceReplacementLinksResultEnteredBy] = UNSET
     invoice_date: Union[Unset, str] = UNSET
@@ -242,6 +271,7 @@ class AddInvoiceReplacementLinksResult:
     rate_warnings: Union[Unset, List["InvoiceRateWarning"]] = UNSET
     remittance_instructions: Union[Unset, "RemittanceInstructions"] = UNSET
     remittance_check: Union[Unset, "RemittanceCheck"] = UNSET
+    bank_details_confirmation: Union[Unset, "BankDetailsConfirmation"] = UNSET
     source_document: Union[Unset, "InvoiceSourceDocument"] = UNSET
     has_original_pdf: Union[Unset, bool] = UNSET
     base_currency_amount: Union[Unset, "InvoiceBaseCurrencyAmount"] = UNSET
@@ -337,6 +367,18 @@ class AddInvoiceReplacementLinksResult:
         if not isinstance(self.match_basis, Unset):
             match_basis = self.match_basis
 
+        receipt_check_skipped: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.receipt_check_skipped, Unset):
+            receipt_check_skipped = self.receipt_check_skipped.to_dict()
+
+        receipt_tolerance_applied: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.receipt_tolerance_applied, Unset):
+            receipt_tolerance_applied = self.receipt_tolerance_applied.to_dict()
+
+        match_type: Union[Unset, str] = UNSET
+        if not isinstance(self.match_type, Unset):
+            match_type = self.match_type
+
         discrepancy_reason: Union[Unset, str] = UNSET
         if not isinstance(self.discrepancy_reason, Unset):
             discrepancy_reason = self.discrepancy_reason
@@ -397,6 +439,17 @@ class AddInvoiceReplacementLinksResult:
         replaced_by_invoice_ids: Union[Unset, List[str]] = UNSET
         if not isinstance(self.replaced_by_invoice_ids, Unset):
             replaced_by_invoice_ids = self.replaced_by_invoice_ids
+
+        possible_duplicates: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.possible_duplicates, Unset):
+            possible_duplicates = []
+            for possible_duplicates_item_data in self.possible_duplicates:
+                possible_duplicates_item = possible_duplicates_item_data.to_dict()
+                possible_duplicates.append(possible_duplicates_item)
+
+        duplicates_checked = self.duplicates_checked
+
+        has_lookup_rows = self.has_lookup_rows
 
         source: Union[Unset, str] = UNSET
         if not isinstance(self.source, Unset):
@@ -504,6 +557,10 @@ class AddInvoiceReplacementLinksResult:
         if not isinstance(self.remittance_check, Unset):
             remittance_check = self.remittance_check.to_dict()
 
+        bank_details_confirmation: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.bank_details_confirmation, Unset):
+            bank_details_confirmation = self.bank_details_confirmation.to_dict()
+
         source_document: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.source_document, Unset):
             source_document = self.source_document.to_dict()
@@ -585,6 +642,12 @@ class AddInvoiceReplacementLinksResult:
             field_dict["unverifiedReason"] = unverified_reason
         if match_basis is not UNSET:
             field_dict["matchBasis"] = match_basis
+        if receipt_check_skipped is not UNSET:
+            field_dict["receiptCheckSkipped"] = receipt_check_skipped
+        if receipt_tolerance_applied is not UNSET:
+            field_dict["receiptToleranceApplied"] = receipt_tolerance_applied
+        if match_type is not UNSET:
+            field_dict["matchType"] = match_type
         if discrepancy_reason is not UNSET:
             field_dict["discrepancyReason"] = discrepancy_reason
         if control_findings is not UNSET:
@@ -619,6 +682,12 @@ class AddInvoiceReplacementLinksResult:
             field_dict["replacesInvoiceIds"] = replaces_invoice_ids
         if replaced_by_invoice_ids is not UNSET:
             field_dict["replacedByInvoiceIds"] = replaced_by_invoice_ids
+        if possible_duplicates is not UNSET:
+            field_dict["possibleDuplicates"] = possible_duplicates
+        if duplicates_checked is not UNSET:
+            field_dict["duplicatesChecked"] = duplicates_checked
+        if has_lookup_rows is not UNSET:
+            field_dict["hasLookupRows"] = has_lookup_rows
         if source is not UNSET:
             field_dict["source"] = source
         if entered_by is not UNSET:
@@ -671,6 +740,8 @@ class AddInvoiceReplacementLinksResult:
             field_dict["remittanceInstructions"] = remittance_instructions
         if remittance_check is not UNSET:
             field_dict["remittanceCheck"] = remittance_check
+        if bank_details_confirmation is not UNSET:
+            field_dict["bankDetailsConfirmation"] = bank_details_confirmation
         if source_document is not UNSET:
             field_dict["sourceDocument"] = source_document
         if has_original_pdf is not UNSET:
@@ -687,7 +758,14 @@ class AddInvoiceReplacementLinksResult:
         from ..models.add_invoice_replacement_links_result_party_details import (
             AddInvoiceReplacementLinksResultPartyDetails,
         )
+        from ..models.add_invoice_replacement_links_result_receipt_check_skipped import (
+            AddInvoiceReplacementLinksResultReceiptCheckSkipped,
+        )
+        from ..models.add_invoice_replacement_links_result_receipt_tolerance_applied import (
+            AddInvoiceReplacementLinksResultReceiptToleranceApplied,
+        )
         from ..models.approval_chain import ApprovalChain
+        from ..models.bank_details_confirmation import BankDetailsConfirmation
         from ..models.invoice_adjustment import InvoiceAdjustment
         from ..models.invoice_base_currency_amount import InvoiceBaseCurrencyAmount
         from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
@@ -695,6 +773,7 @@ class AddInvoiceReplacementLinksResult:
         from ..models.invoice_credit_application import InvoiceCreditApplication
         from ..models.invoice_currency_amount import InvoiceCurrencyAmount
         from ..models.invoice_deduction import InvoiceDeduction
+        from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
         from ..models.invoice_line_item import InvoiceLineItem
         from ..models.invoice_payment_record import InvoicePaymentRecord
         from ..models.invoice_rate_warning import InvoiceRateWarning
@@ -837,6 +916,41 @@ class AddInvoiceReplacementLinksResult:
                 _match_basis
             )
 
+        _receipt_check_skipped = d.pop("receiptCheckSkipped", UNSET)
+        receipt_check_skipped: Union[
+            Unset, AddInvoiceReplacementLinksResultReceiptCheckSkipped
+        ]
+        if isinstance(_receipt_check_skipped, Unset):
+            receipt_check_skipped = UNSET
+        else:
+            receipt_check_skipped = (
+                AddInvoiceReplacementLinksResultReceiptCheckSkipped.from_dict(
+                    _receipt_check_skipped
+                )
+            )
+
+        _receipt_tolerance_applied = d.pop("receiptToleranceApplied", UNSET)
+        receipt_tolerance_applied: Union[
+            Unset, AddInvoiceReplacementLinksResultReceiptToleranceApplied
+        ]
+        if isinstance(_receipt_tolerance_applied, Unset):
+            receipt_tolerance_applied = UNSET
+        else:
+            receipt_tolerance_applied = (
+                AddInvoiceReplacementLinksResultReceiptToleranceApplied.from_dict(
+                    _receipt_tolerance_applied
+                )
+            )
+
+        _match_type = d.pop("matchType", UNSET)
+        match_type: Union[Unset, AddInvoiceReplacementLinksResultMatchType]
+        if isinstance(_match_type, Unset):
+            match_type = UNSET
+        else:
+            match_type = check_add_invoice_replacement_links_result_match_type(
+                _match_type
+            )
+
         _discrepancy_reason = d.pop("discrepancyReason", UNSET)
         discrepancy_reason: Union[
             Unset, AddInvoiceReplacementLinksResultDiscrepancyReason
@@ -919,6 +1033,19 @@ class AddInvoiceReplacementLinksResult:
         replaces_invoice_ids = cast(List[str], d.pop("replacesInvoiceIds", UNSET))
 
         replaced_by_invoice_ids = cast(List[str], d.pop("replacedByInvoiceIds", UNSET))
+
+        possible_duplicates = []
+        _possible_duplicates = d.pop("possibleDuplicates", UNSET)
+        for possible_duplicates_item_data in _possible_duplicates or []:
+            possible_duplicates_item = InvoiceDuplicateRef.from_dict(
+                possible_duplicates_item_data
+            )
+
+            possible_duplicates.append(possible_duplicates_item)
+
+        duplicates_checked = d.pop("duplicatesChecked", UNSET)
+
+        has_lookup_rows = d.pop("hasLookupRows", UNSET)
 
         _source = d.pop("source", UNSET)
         source: Union[Unset, AddInvoiceReplacementLinksResultSource]
@@ -1065,6 +1192,15 @@ class AddInvoiceReplacementLinksResult:
         else:
             remittance_check = RemittanceCheck.from_dict(_remittance_check)
 
+        _bank_details_confirmation = d.pop("bankDetailsConfirmation", UNSET)
+        bank_details_confirmation: Union[Unset, BankDetailsConfirmation]
+        if isinstance(_bank_details_confirmation, Unset):
+            bank_details_confirmation = UNSET
+        else:
+            bank_details_confirmation = BankDetailsConfirmation.from_dict(
+                _bank_details_confirmation
+            )
+
         _source_document = d.pop("sourceDocument", UNSET)
         source_document: Union[Unset, InvoiceSourceDocument]
         if isinstance(_source_document, Unset):
@@ -1117,6 +1253,9 @@ class AddInvoiceReplacementLinksResult:
             match_status=match_status,
             unverified_reason=unverified_reason,
             match_basis=match_basis,
+            receipt_check_skipped=receipt_check_skipped,
+            receipt_tolerance_applied=receipt_tolerance_applied,
+            match_type=match_type,
             discrepancy_reason=discrepancy_reason,
             control_findings=control_findings,
             paid=paid,
@@ -1134,6 +1273,9 @@ class AddInvoiceReplacementLinksResult:
             replaces_invoice_id=replaces_invoice_id,
             replaces_invoice_ids=replaces_invoice_ids,
             replaced_by_invoice_ids=replaced_by_invoice_ids,
+            possible_duplicates=possible_duplicates,
+            duplicates_checked=duplicates_checked,
+            has_lookup_rows=has_lookup_rows,
             source=source,
             entered_by=entered_by,
             invoice_date=invoice_date,
@@ -1160,6 +1302,7 @@ class AddInvoiceReplacementLinksResult:
             rate_warnings=rate_warnings,
             remittance_instructions=remittance_instructions,
             remittance_check=remittance_check,
+            bank_details_confirmation=bank_details_confirmation,
             source_document=source_document,
             has_original_pdf=has_original_pdf,
             base_currency_amount=base_currency_amount,

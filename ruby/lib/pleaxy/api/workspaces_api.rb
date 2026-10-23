@@ -19,20 +19,22 @@ module Pleaxy
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # [Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from=&to=
+    # [Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from=&to=. ?lists=none returns purchaseOrders and invoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage), and the rest as usual. ?lists=active returns only the ones still in play - not canceled, closed, rejected or paid POs; unpaid invoices, and ones rejected in the last 30 days and not yet replaced - with recentPurchaseOrders and recentInvoices, the newest 10 of each.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :from ISO 8601 date/timestamp - only items created on or after this are returned.
     # @option opts [String] :to ISO 8601 date/timestamp - only items created on or before this are returned.
+    # @option opts [String] :lists 
     # @return [GetBuyerWorkspaceResult]
     def get_buyer_workspace(opts = {})
       data, _status_code, _headers = get_buyer_workspace_with_http_info(opts)
       data
     end
 
-    # [Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;
+    # [Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;. ?lists&#x3D;none returns purchaseOrders and invoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage), and the rest as usual. ?lists&#x3D;active returns only the ones still in play - not canceled, closed, rejected or paid POs; unpaid invoices, and ones rejected in the last 30 days and not yet replaced - with recentPurchaseOrders and recentInvoices, the newest 10 of each.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :from ISO 8601 date/timestamp - only items created on or after this are returned.
     # @option opts [String] :to ISO 8601 date/timestamp - only items created on or before this are returned.
+    # @option opts [String] :lists 
     # @return [Array<(GetBuyerWorkspaceResult, Integer, Hash)>] GetBuyerWorkspaceResult data, response status code and response headers
     def get_buyer_workspace_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -45,6 +47,7 @@ module Pleaxy
       query_params = opts[:query_params] || {}
       query_params[:'from'] = opts[:'from'] if !opts[:'from'].nil?
       query_params[:'to'] = opts[:'to'] if !opts[:'to'].nil?
+      query_params[:'lists'] = opts[:'lists'] if !opts[:'lists'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -80,20 +83,22 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from=&to=
+    # [Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from=&to=. ?lists=none returns incomingPOs and supplierInvoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage). ?lists=active returns only the ones still in play (as GetBuyerWorkspace), with recentIncomingPOs and recentSupplierInvoices, the newest 10 of each.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :from ISO 8601 date/timestamp - only items created on or after this are returned.
     # @option opts [String] :to ISO 8601 date/timestamp - only items created on or before this are returned.
+    # @option opts [String] :lists 
     # @return [GetSupplierWorkspaceResult]
     def get_supplier_workspace(opts = {})
       data, _status_code, _headers = get_supplier_workspace_with_http_info(opts)
       data
     end
 
-    # [Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;
+    # [Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;. ?lists&#x3D;none returns incomingPOs and supplierInvoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage). ?lists&#x3D;active returns only the ones still in play (as GetBuyerWorkspace), with recentIncomingPOs and recentSupplierInvoices, the newest 10 of each.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :from ISO 8601 date/timestamp - only items created on or after this are returned.
     # @option opts [String] :to ISO 8601 date/timestamp - only items created on or before this are returned.
+    # @option opts [String] :lists 
     # @return [Array<(GetSupplierWorkspaceResult, Integer, Hash)>] GetSupplierWorkspaceResult data, response status code and response headers
     def get_supplier_workspace_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -106,6 +111,7 @@ module Pleaxy
       query_params = opts[:query_params] || {}
       query_params[:'from'] = opts[:'from'] if !opts[:'from'].nil?
       query_params[:'to'] = opts[:'to'] if !opts[:'to'].nil?
+      query_params[:'lists'] = opts[:'lists'] if !opts[:'lists'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}

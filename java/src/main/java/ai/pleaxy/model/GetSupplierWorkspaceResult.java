@@ -19,8 +19,8 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import ai.pleaxy.model.GetBuyerWorkspaceResultInvoicesInner;
-import ai.pleaxy.model.GetBuyerWorkspaceResultPurchaseOrdersInner;
+import ai.pleaxy.model.GetBuyerWorkspaceResultRecentInvoicesInner;
+import ai.pleaxy.model.GetBuyerWorkspaceResultRecentPurchaseOrdersInner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,28 +37,102 @@ import ai.pleaxy.client.ApiClient;
  * GetSupplierWorkspaceResult
  */
 @JsonPropertyOrder({
+  GetSupplierWorkspaceResult.JSON_PROPERTY_RECENT_INCOMING_P_OS,
+  GetSupplierWorkspaceResult.JSON_PROPERTY_RECENT_SUPPLIER_INVOICES,
   GetSupplierWorkspaceResult.JSON_PROPERTY_INCOMING_P_OS,
   GetSupplierWorkspaceResult.JSON_PROPERTY_SUPPLIER_INVOICES
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class GetSupplierWorkspaceResult {
+  public static final String JSON_PROPERTY_RECENT_INCOMING_P_OS = "recentIncomingPOs";
+  @javax.annotation.Nullable
+  private List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> recentIncomingPOs = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_RECENT_SUPPLIER_INVOICES = "recentSupplierInvoices";
+  @javax.annotation.Nullable
+  private List<GetBuyerWorkspaceResultRecentInvoicesInner> recentSupplierInvoices = new ArrayList<>();
+
   public static final String JSON_PROPERTY_INCOMING_P_OS = "incomingPOs";
   @javax.annotation.Nullable
-  private List<GetBuyerWorkspaceResultPurchaseOrdersInner> incomingPOs = new ArrayList<>();
+  private List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> incomingPOs = new ArrayList<>();
 
   public static final String JSON_PROPERTY_SUPPLIER_INVOICES = "supplierInvoices";
   @javax.annotation.Nullable
-  private List<GetBuyerWorkspaceResultInvoicesInner> supplierInvoices = new ArrayList<>();
+  private List<GetBuyerWorkspaceResultRecentInvoicesInner> supplierInvoices = new ArrayList<>();
 
   public GetSupplierWorkspaceResult() { 
   }
 
-  public GetSupplierWorkspaceResult incomingPOs(@javax.annotation.Nullable List<GetBuyerWorkspaceResultPurchaseOrdersInner> incomingPOs) {
+  public GetSupplierWorkspaceResult recentIncomingPOs(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> recentIncomingPOs) {
+    this.recentIncomingPOs = recentIncomingPOs;
+    return this;
+  }
+
+  public GetSupplierWorkspaceResult addRecentIncomingPOsItem(GetBuyerWorkspaceResultRecentPurchaseOrdersInner recentIncomingPOsItem) {
+    if (this.recentIncomingPOs == null) {
+      this.recentIncomingPOs = new ArrayList<>();
+    }
+    this.recentIncomingPOs.add(recentIncomingPOsItem);
+    return this;
+  }
+
+  /**
+   * Get recentIncomingPOs
+   * @return recentIncomingPOs
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECENT_INCOMING_P_OS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> getRecentIncomingPOs() {
+    return recentIncomingPOs;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECENT_INCOMING_P_OS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRecentIncomingPOs(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> recentIncomingPOs) {
+    this.recentIncomingPOs = recentIncomingPOs;
+  }
+
+
+  public GetSupplierWorkspaceResult recentSupplierInvoices(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentInvoicesInner> recentSupplierInvoices) {
+    this.recentSupplierInvoices = recentSupplierInvoices;
+    return this;
+  }
+
+  public GetSupplierWorkspaceResult addRecentSupplierInvoicesItem(GetBuyerWorkspaceResultRecentInvoicesInner recentSupplierInvoicesItem) {
+    if (this.recentSupplierInvoices == null) {
+      this.recentSupplierInvoices = new ArrayList<>();
+    }
+    this.recentSupplierInvoices.add(recentSupplierInvoicesItem);
+    return this;
+  }
+
+  /**
+   * Get recentSupplierInvoices
+   * @return recentSupplierInvoices
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECENT_SUPPLIER_INVOICES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<GetBuyerWorkspaceResultRecentInvoicesInner> getRecentSupplierInvoices() {
+    return recentSupplierInvoices;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECENT_SUPPLIER_INVOICES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRecentSupplierInvoices(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentInvoicesInner> recentSupplierInvoices) {
+    this.recentSupplierInvoices = recentSupplierInvoices;
+  }
+
+
+  public GetSupplierWorkspaceResult incomingPOs(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> incomingPOs) {
     this.incomingPOs = incomingPOs;
     return this;
   }
 
-  public GetSupplierWorkspaceResult addIncomingPOsItem(GetBuyerWorkspaceResultPurchaseOrdersInner incomingPOsItem) {
+  public GetSupplierWorkspaceResult addIncomingPOsItem(GetBuyerWorkspaceResultRecentPurchaseOrdersInner incomingPOsItem) {
     if (this.incomingPOs == null) {
       this.incomingPOs = new ArrayList<>();
     }
@@ -73,24 +147,24 @@ public class GetSupplierWorkspaceResult {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INCOMING_P_OS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public List<GetBuyerWorkspaceResultPurchaseOrdersInner> getIncomingPOs() {
+  public List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> getIncomingPOs() {
     return incomingPOs;
   }
 
 
   @JsonProperty(JSON_PROPERTY_INCOMING_P_OS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setIncomingPOs(@javax.annotation.Nullable List<GetBuyerWorkspaceResultPurchaseOrdersInner> incomingPOs) {
+  public void setIncomingPOs(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> incomingPOs) {
     this.incomingPOs = incomingPOs;
   }
 
 
-  public GetSupplierWorkspaceResult supplierInvoices(@javax.annotation.Nullable List<GetBuyerWorkspaceResultInvoicesInner> supplierInvoices) {
+  public GetSupplierWorkspaceResult supplierInvoices(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentInvoicesInner> supplierInvoices) {
     this.supplierInvoices = supplierInvoices;
     return this;
   }
 
-  public GetSupplierWorkspaceResult addSupplierInvoicesItem(GetBuyerWorkspaceResultInvoicesInner supplierInvoicesItem) {
+  public GetSupplierWorkspaceResult addSupplierInvoicesItem(GetBuyerWorkspaceResultRecentInvoicesInner supplierInvoicesItem) {
     if (this.supplierInvoices == null) {
       this.supplierInvoices = new ArrayList<>();
     }
@@ -105,14 +179,14 @@ public class GetSupplierWorkspaceResult {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SUPPLIER_INVOICES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public List<GetBuyerWorkspaceResultInvoicesInner> getSupplierInvoices() {
+  public List<GetBuyerWorkspaceResultRecentInvoicesInner> getSupplierInvoices() {
     return supplierInvoices;
   }
 
 
   @JsonProperty(JSON_PROPERTY_SUPPLIER_INVOICES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSupplierInvoices(@javax.annotation.Nullable List<GetBuyerWorkspaceResultInvoicesInner> supplierInvoices) {
+  public void setSupplierInvoices(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentInvoicesInner> supplierInvoices) {
     this.supplierInvoices = supplierInvoices;
   }
 
@@ -129,19 +203,23 @@ public class GetSupplierWorkspaceResult {
       return false;
     }
     GetSupplierWorkspaceResult getSupplierWorkspaceResult = (GetSupplierWorkspaceResult) o;
-    return Objects.equals(this.incomingPOs, getSupplierWorkspaceResult.incomingPOs) &&
+    return Objects.equals(this.recentIncomingPOs, getSupplierWorkspaceResult.recentIncomingPOs) &&
+        Objects.equals(this.recentSupplierInvoices, getSupplierWorkspaceResult.recentSupplierInvoices) &&
+        Objects.equals(this.incomingPOs, getSupplierWorkspaceResult.incomingPOs) &&
         Objects.equals(this.supplierInvoices, getSupplierWorkspaceResult.supplierInvoices);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(incomingPOs, supplierInvoices);
+    return Objects.hash(recentIncomingPOs, recentSupplierInvoices, incomingPOs, supplierInvoices);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class GetSupplierWorkspaceResult {\n");
+    sb.append("    recentIncomingPOs: ").append(toIndentedString(recentIncomingPOs)).append("\n");
+    sb.append("    recentSupplierInvoices: ").append(toIndentedString(recentSupplierInvoices)).append("\n");
     sb.append("    incomingPOs: ").append(toIndentedString(incomingPOs)).append("\n");
     sb.append("    supplierInvoices: ").append(toIndentedString(supplierInvoices)).append("\n");
     sb.append("}");
@@ -190,6 +268,26 @@ public class GetSupplierWorkspaceResult {
     }
 
     StringJoiner joiner = new StringJoiner("&");
+
+    // add `recentIncomingPOs` to the URL query string
+    if (getRecentIncomingPOs() != null) {
+      for (int i = 0; i < getRecentIncomingPOs().size(); i++) {
+        if (getRecentIncomingPOs().get(i) != null) {
+          joiner.add(getRecentIncomingPOs().get(i).toUrlQueryString(String.format("%srecentIncomingPOs%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `recentSupplierInvoices` to the URL query string
+    if (getRecentSupplierInvoices() != null) {
+      for (int i = 0; i < getRecentSupplierInvoices().size(); i++) {
+        if (getRecentSupplierInvoices().get(i) != null) {
+          joiner.add(getRecentSupplierInvoices().get(i).toUrlQueryString(String.format("%srecentSupplierInvoices%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
 
     // add `incomingPOs` to the URL query string
     if (getIncomingPOs() != null) {

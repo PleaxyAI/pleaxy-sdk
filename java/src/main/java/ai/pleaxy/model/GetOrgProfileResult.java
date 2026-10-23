@@ -22,6 +22,7 @@ import java.util.HashMap;
 import ai.pleaxy.model.Geography;
 import ai.pleaxy.model.PostalAddress;
 import ai.pleaxy.model.ProfileImages;
+import ai.pleaxy.model.SameDomainAcknowledgement;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -60,6 +61,7 @@ import ai.pleaxy.client.ApiClient;
   GetOrgProfileResult.JSON_PROPERTY_PRIMARY_CONTACT_NAME,
   GetOrgProfileResult.JSON_PROPERTY_PRIMARY_CONTACT_EMAIL,
   GetOrgProfileResult.JSON_PROPERTY_CREATED_AT,
+  GetOrgProfileResult.JSON_PROPERTY_SAME_DOMAIN_ACKNOWLEDGED,
   GetOrgProfileResult.JSON_PROPERTY_VERIFIED,
   GetOrgProfileResult.JSON_PROPERTY_LISTED_IN_DIRECTORY,
   GetOrgProfileResult.JSON_PROPERTY_DIRECTORY_ID
@@ -188,6 +190,10 @@ public class GetOrgProfileResult {
   public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nullable
   private String createdAt;
+
+  public static final String JSON_PROPERTY_SAME_DOMAIN_ACKNOWLEDGED = "sameDomainAcknowledged";
+  @javax.annotation.Nullable
+  private SameDomainAcknowledgement sameDomainAcknowledged;
 
   public static final String JSON_PROPERTY_VERIFIED = "verified";
   @javax.annotation.Nullable
@@ -756,6 +762,30 @@ public class GetOrgProfileResult {
   }
 
 
+  public GetOrgProfileResult sameDomainAcknowledged(@javax.annotation.Nullable SameDomainAcknowledgement sameDomainAcknowledged) {
+    this.sameDomainAcknowledged = sameDomainAcknowledged;
+    return this;
+  }
+
+  /**
+   * Get sameDomainAcknowledged
+   * @return sameDomainAcknowledged
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SAME_DOMAIN_ACKNOWLEDGED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SameDomainAcknowledgement getSameDomainAcknowledged() {
+    return sameDomainAcknowledged;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SAME_DOMAIN_ACKNOWLEDGED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSameDomainAcknowledged(@javax.annotation.Nullable SameDomainAcknowledgement sameDomainAcknowledged) {
+    this.sameDomainAcknowledged = sameDomainAcknowledged;
+  }
+
+
   public GetOrgProfileResult verified(@javax.annotation.Nullable Boolean verified) {
     this.verified = verified;
     return this;
@@ -862,6 +892,7 @@ public class GetOrgProfileResult {
         Objects.equals(this.primaryContactName, getOrgProfileResult.primaryContactName) &&
         Objects.equals(this.primaryContactEmail, getOrgProfileResult.primaryContactEmail) &&
         Objects.equals(this.createdAt, getOrgProfileResult.createdAt) &&
+        Objects.equals(this.sameDomainAcknowledged, getOrgProfileResult.sameDomainAcknowledged) &&
         Objects.equals(this.verified, getOrgProfileResult.verified) &&
         Objects.equals(this.listedInDirectory, getOrgProfileResult.listedInDirectory) &&
         Objects.equals(this.directoryId, getOrgProfileResult.directoryId);
@@ -869,7 +900,7 @@ public class GetOrgProfileResult {
 
   @Override
   public int hashCode() {
-    return Objects.hash(images, id, role, regionId, regionName, companyName, billingEmail, billingAddress, billingAddressParts, billingAddressLegacyText, billingAddressNeedsReview, taxId, currency, otherCurrencies, paymentCurrencies, fxWarningPct, countries, geography, timeZone, primaryContactName, primaryContactEmail, createdAt, verified, listedInDirectory, directoryId);
+    return Objects.hash(images, id, role, regionId, regionName, companyName, billingEmail, billingAddress, billingAddressParts, billingAddressLegacyText, billingAddressNeedsReview, taxId, currency, otherCurrencies, paymentCurrencies, fxWarningPct, countries, geography, timeZone, primaryContactName, primaryContactEmail, createdAt, sameDomainAcknowledged, verified, listedInDirectory, directoryId);
   }
 
   @Override
@@ -898,6 +929,7 @@ public class GetOrgProfileResult {
     sb.append("    primaryContactName: ").append(toIndentedString(primaryContactName)).append("\n");
     sb.append("    primaryContactEmail: ").append(toIndentedString(primaryContactEmail)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    sameDomainAcknowledged: ").append(toIndentedString(sameDomainAcknowledged)).append("\n");
     sb.append("    verified: ").append(toIndentedString(verified)).append("\n");
     sb.append("    listedInDirectory: ").append(toIndentedString(listedInDirectory)).append("\n");
     sb.append("    directoryId: ").append(toIndentedString(directoryId)).append("\n");
@@ -1068,6 +1100,11 @@ public class GetOrgProfileResult {
     // add `createdAt` to the URL query string
     if (getCreatedAt() != null) {
       joiner.add(String.format("%screatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `sameDomainAcknowledged` to the URL query string
+    if (getSameDomainAcknowledged() != null) {
+      joiner.add(getSameDomainAcknowledged().toUrlQueryString(prefix + "sameDomainAcknowledged" + suffix));
     }
 
     // add `verified` to the URL query string

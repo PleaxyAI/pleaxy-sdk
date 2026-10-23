@@ -1,12 +1,4 @@
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Dict,
-    List,
-    Type,
-    TypeVar,
-    Union,
-)
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -28,12 +20,21 @@ T = TypeVar("T", bound="GetBuyerWorkspaceResult")
 class GetBuyerWorkspaceResult:
     """
     Attributes:
+        viewer_is_sole_invoice_reviewer (Union[Unset, bool]):
+        recent_purchase_orders (Union[Unset, List[Union['PurchaseOrder', 'PurchaseOrderSupplierView']]]):
+        recent_invoices (Union[Unset, List[Union['InvoiceBuyerView', 'InvoiceSupplierView']]]):
         cloud_connections (Union[Unset, List['CloudConnection']]):
         purchase_orders (Union[Unset, List[Union['PurchaseOrder', 'PurchaseOrderSupplierView']]]):
         invoices (Union[Unset, List[Union['InvoiceBuyerView', 'InvoiceSupplierView']]]):
-        viewer_is_sole_invoice_reviewer (Union[Unset, bool]):
     """
 
+    viewer_is_sole_invoice_reviewer: Union[Unset, bool] = UNSET
+    recent_purchase_orders: Union[
+        Unset, List[Union["PurchaseOrder", "PurchaseOrderSupplierView"]]
+    ] = UNSET
+    recent_invoices: Union[
+        Unset, List[Union["InvoiceBuyerView", "InvoiceSupplierView"]]
+    ] = UNSET
     cloud_connections: Union[Unset, List["CloudConnection"]] = UNSET
     purchase_orders: Union[
         Unset, List[Union["PurchaseOrder", "PurchaseOrderSupplierView"]]
@@ -41,12 +42,41 @@ class GetBuyerWorkspaceResult:
     invoices: Union[Unset, List[Union["InvoiceBuyerView", "InvoiceSupplierView"]]] = (
         UNSET
     )
-    viewer_is_sole_invoice_reviewer: Union[Unset, bool] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         from ..models.invoice_buyer_view import InvoiceBuyerView
         from ..models.purchase_order import PurchaseOrder
+
+        viewer_is_sole_invoice_reviewer = self.viewer_is_sole_invoice_reviewer
+
+        recent_purchase_orders: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.recent_purchase_orders, Unset):
+            recent_purchase_orders = []
+            for recent_purchase_orders_item_data in self.recent_purchase_orders:
+                recent_purchase_orders_item: Dict[str, Any]
+                if isinstance(recent_purchase_orders_item_data, PurchaseOrder):
+                    recent_purchase_orders_item = (
+                        recent_purchase_orders_item_data.to_dict()
+                    )
+                else:
+                    recent_purchase_orders_item = (
+                        recent_purchase_orders_item_data.to_dict()
+                    )
+
+                recent_purchase_orders.append(recent_purchase_orders_item)
+
+        recent_invoices: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.recent_invoices, Unset):
+            recent_invoices = []
+            for recent_invoices_item_data in self.recent_invoices:
+                recent_invoices_item: Dict[str, Any]
+                if isinstance(recent_invoices_item_data, InvoiceBuyerView):
+                    recent_invoices_item = recent_invoices_item_data.to_dict()
+                else:
+                    recent_invoices_item = recent_invoices_item_data.to_dict()
+
+                recent_invoices.append(recent_invoices_item)
 
         cloud_connections: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.cloud_connections, Unset):
@@ -79,19 +109,21 @@ class GetBuyerWorkspaceResult:
 
                 invoices.append(invoices_item)
 
-        viewer_is_sole_invoice_reviewer = self.viewer_is_sole_invoice_reviewer
-
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
+        if viewer_is_sole_invoice_reviewer is not UNSET:
+            field_dict["viewerIsSoleInvoiceReviewer"] = viewer_is_sole_invoice_reviewer
+        if recent_purchase_orders is not UNSET:
+            field_dict["recentPurchaseOrders"] = recent_purchase_orders
+        if recent_invoices is not UNSET:
+            field_dict["recentInvoices"] = recent_invoices
         if cloud_connections is not UNSET:
             field_dict["cloudConnections"] = cloud_connections
         if purchase_orders is not UNSET:
             field_dict["purchaseOrders"] = purchase_orders
         if invoices is not UNSET:
             field_dict["invoices"] = invoices
-        if viewer_is_sole_invoice_reviewer is not UNSET:
-            field_dict["viewerIsSoleInvoiceReviewer"] = viewer_is_sole_invoice_reviewer
 
         return field_dict
 
@@ -104,6 +136,64 @@ class GetBuyerWorkspaceResult:
         from ..models.purchase_order_supplier_view import PurchaseOrderSupplierView
 
         d = src_dict.copy()
+        viewer_is_sole_invoice_reviewer = d.pop("viewerIsSoleInvoiceReviewer", UNSET)
+
+        recent_purchase_orders = []
+        _recent_purchase_orders = d.pop("recentPurchaseOrders", UNSET)
+        for recent_purchase_orders_item_data in _recent_purchase_orders or []:
+
+            def _parse_recent_purchase_orders_item(
+                data: object,
+            ) -> Union["PurchaseOrder", "PurchaseOrderSupplierView"]:
+                try:
+                    if not isinstance(data, dict):
+                        raise TypeError()
+                    recent_purchase_orders_item_type_0 = PurchaseOrder.from_dict(data)
+
+                    return recent_purchase_orders_item_type_0
+                except:  # noqa: E722
+                    pass
+                if not isinstance(data, dict):
+                    raise TypeError()
+                recent_purchase_orders_item_type_1 = (
+                    PurchaseOrderSupplierView.from_dict(data)
+                )
+
+                return recent_purchase_orders_item_type_1
+
+            recent_purchase_orders_item = _parse_recent_purchase_orders_item(
+                recent_purchase_orders_item_data
+            )
+
+            recent_purchase_orders.append(recent_purchase_orders_item)
+
+        recent_invoices = []
+        _recent_invoices = d.pop("recentInvoices", UNSET)
+        for recent_invoices_item_data in _recent_invoices or []:
+
+            def _parse_recent_invoices_item(
+                data: object,
+            ) -> Union["InvoiceBuyerView", "InvoiceSupplierView"]:
+                try:
+                    if not isinstance(data, dict):
+                        raise TypeError()
+                    recent_invoices_item_type_0 = InvoiceBuyerView.from_dict(data)
+
+                    return recent_invoices_item_type_0
+                except:  # noqa: E722
+                    pass
+                if not isinstance(data, dict):
+                    raise TypeError()
+                recent_invoices_item_type_1 = InvoiceSupplierView.from_dict(data)
+
+                return recent_invoices_item_type_1
+
+            recent_invoices_item = _parse_recent_invoices_item(
+                recent_invoices_item_data
+            )
+
+            recent_invoices.append(recent_invoices_item)
+
         cloud_connections = []
         _cloud_connections = d.pop("cloudConnections", UNSET)
         for cloud_connections_item_data in _cloud_connections or []:
@@ -165,13 +255,13 @@ class GetBuyerWorkspaceResult:
 
             invoices.append(invoices_item)
 
-        viewer_is_sole_invoice_reviewer = d.pop("viewerIsSoleInvoiceReviewer", UNSET)
-
         get_buyer_workspace_result = cls(
+            viewer_is_sole_invoice_reviewer=viewer_is_sole_invoice_reviewer,
+            recent_purchase_orders=recent_purchase_orders,
+            recent_invoices=recent_invoices,
             cloud_connections=cloud_connections,
             purchase_orders=purchase_orders,
             invoices=invoices,
-            viewer_is_sole_invoice_reviewer=viewer_is_sole_invoice_reviewer,
         )
 
         get_buyer_workspace_result.additional_properties = d

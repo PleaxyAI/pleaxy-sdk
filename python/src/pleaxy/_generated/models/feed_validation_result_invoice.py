@@ -60,12 +60,16 @@ if TYPE_CHECKING:
     from ..models.invoice_credit_application import InvoiceCreditApplication
     from ..models.invoice_currency_amount import InvoiceCurrencyAmount
     from ..models.invoice_deduction import InvoiceDeduction
+    from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
     from ..models.invoice_line_item import InvoiceLineItem
     from ..models.invoice_rejection import InvoiceRejection
     from ..models.invoice_source_document import InvoiceSourceDocument
     from ..models.late_fee_terms import LateFeeTerms
     from ..models.remittance_instructions import RemittanceInstructions
     from ..models.supplier_approval_view import SupplierApprovalView
+    from ..models.supplier_bank_details_confirmation_view import (
+        SupplierBankDetailsConfirmationView,
+    )
     from ..models.supplier_remittance_view import SupplierRemittanceView
 
 
@@ -106,6 +110,9 @@ class FeedValidationResultInvoice:
         replaces_invoice_id (Union[Unset, str]):
         replaces_invoice_ids (Union[Unset, List[str]]):
         replaced_by_invoice_ids (Union[Unset, List[str]]):
+        possible_duplicates (Union[Unset, List['InvoiceDuplicateRef']]):
+        duplicates_checked (Union[Unset, bool]):
+        has_lookup_rows (Union[Unset, bool]):
         entered_by (Union[Unset, FeedValidationResultInvoiceEnteredBy]):
         invoice_date (Union[Unset, str]):
         submitted_format (Union[Unset, FeedValidationResultInvoiceSubmittedFormat]):
@@ -126,6 +133,7 @@ class FeedValidationResultInvoice:
         payment_currency_amount (Union[Unset, InvoiceCurrencyAmount]):
         tax_currency_amount (Union[Unset, InvoiceCurrencyAmount]):
         remittance_instructions (Union[Unset, RemittanceInstructions]):
+        bank_details_confirmation (Union[Unset, SupplierBankDetailsConfirmationView]):
         source_document (Union[Unset, InvoiceSourceDocument]):
         has_original_pdf (Union[Unset, bool]):
         base_currency_amount (Union[Unset, InvoiceBaseCurrencyAmount]):
@@ -169,6 +177,9 @@ class FeedValidationResultInvoice:
     replaces_invoice_id: Union[Unset, str] = UNSET
     replaces_invoice_ids: Union[Unset, List[str]] = UNSET
     replaced_by_invoice_ids: Union[Unset, List[str]] = UNSET
+    possible_duplicates: Union[Unset, List["InvoiceDuplicateRef"]] = UNSET
+    duplicates_checked: Union[Unset, bool] = UNSET
+    has_lookup_rows: Union[Unset, bool] = UNSET
     entered_by: Union[Unset, FeedValidationResultInvoiceEnteredBy] = UNSET
     invoice_date: Union[Unset, str] = UNSET
     submitted_format: Union[Unset, FeedValidationResultInvoiceSubmittedFormat] = UNSET
@@ -189,6 +200,9 @@ class FeedValidationResultInvoice:
     payment_currency_amount: Union[Unset, "InvoiceCurrencyAmount"] = UNSET
     tax_currency_amount: Union[Unset, "InvoiceCurrencyAmount"] = UNSET
     remittance_instructions: Union[Unset, "RemittanceInstructions"] = UNSET
+    bank_details_confirmation: Union[Unset, "SupplierBankDetailsConfirmationView"] = (
+        UNSET
+    )
     source_document: Union[Unset, "InvoiceSourceDocument"] = UNSET
     has_original_pdf: Union[Unset, bool] = UNSET
     base_currency_amount: Union[Unset, "InvoiceBaseCurrencyAmount"] = UNSET
@@ -301,6 +315,17 @@ class FeedValidationResultInvoice:
         if not isinstance(self.replaced_by_invoice_ids, Unset):
             replaced_by_invoice_ids = self.replaced_by_invoice_ids
 
+        possible_duplicates: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.possible_duplicates, Unset):
+            possible_duplicates = []
+            for possible_duplicates_item_data in self.possible_duplicates:
+                possible_duplicates_item = possible_duplicates_item_data.to_dict()
+                possible_duplicates.append(possible_duplicates_item)
+
+        duplicates_checked = self.duplicates_checked
+
+        has_lookup_rows = self.has_lookup_rows
+
         entered_by: Union[Unset, str] = UNSET
         if not isinstance(self.entered_by, Unset):
             entered_by = self.entered_by
@@ -383,6 +408,10 @@ class FeedValidationResultInvoice:
         remittance_instructions: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.remittance_instructions, Unset):
             remittance_instructions = self.remittance_instructions.to_dict()
+
+        bank_details_confirmation: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.bank_details_confirmation, Unset):
+            bank_details_confirmation = self.bank_details_confirmation.to_dict()
 
         source_document: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.source_document, Unset):
@@ -471,6 +500,12 @@ class FeedValidationResultInvoice:
             field_dict["replacesInvoiceIds"] = replaces_invoice_ids
         if replaced_by_invoice_ids is not UNSET:
             field_dict["replacedByInvoiceIds"] = replaced_by_invoice_ids
+        if possible_duplicates is not UNSET:
+            field_dict["possibleDuplicates"] = possible_duplicates
+        if duplicates_checked is not UNSET:
+            field_dict["duplicatesChecked"] = duplicates_checked
+        if has_lookup_rows is not UNSET:
+            field_dict["hasLookupRows"] = has_lookup_rows
         if entered_by is not UNSET:
             field_dict["enteredBy"] = entered_by
         if invoice_date is not UNSET:
@@ -511,6 +546,8 @@ class FeedValidationResultInvoice:
             field_dict["taxCurrencyAmount"] = tax_currency_amount
         if remittance_instructions is not UNSET:
             field_dict["remittanceInstructions"] = remittance_instructions
+        if bank_details_confirmation is not UNSET:
+            field_dict["bankDetailsConfirmation"] = bank_details_confirmation
         if source_document is not UNSET:
             field_dict["sourceDocument"] = source_document
         if has_original_pdf is not UNSET:
@@ -549,12 +586,16 @@ class FeedValidationResultInvoice:
         from ..models.invoice_credit_application import InvoiceCreditApplication
         from ..models.invoice_currency_amount import InvoiceCurrencyAmount
         from ..models.invoice_deduction import InvoiceDeduction
+        from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
         from ..models.invoice_line_item import InvoiceLineItem
         from ..models.invoice_rejection import InvoiceRejection
         from ..models.invoice_source_document import InvoiceSourceDocument
         from ..models.late_fee_terms import LateFeeTerms
         from ..models.remittance_instructions import RemittanceInstructions
         from ..models.supplier_approval_view import SupplierApprovalView
+        from ..models.supplier_bank_details_confirmation_view import (
+            SupplierBankDetailsConfirmationView,
+        )
         from ..models.supplier_remittance_view import SupplierRemittanceView
 
         d = src_dict.copy()
@@ -687,6 +728,19 @@ class FeedValidationResultInvoice:
 
         replaced_by_invoice_ids = cast(List[str], d.pop("replacedByInvoiceIds", UNSET))
 
+        possible_duplicates = []
+        _possible_duplicates = d.pop("possibleDuplicates", UNSET)
+        for possible_duplicates_item_data in _possible_duplicates or []:
+            possible_duplicates_item = InvoiceDuplicateRef.from_dict(
+                possible_duplicates_item_data
+            )
+
+            possible_duplicates.append(possible_duplicates_item)
+
+        duplicates_checked = d.pop("duplicatesChecked", UNSET)
+
+        has_lookup_rows = d.pop("hasLookupRows", UNSET)
+
         _entered_by = d.pop("enteredBy", UNSET)
         entered_by: Union[Unset, FeedValidationResultInvoiceEnteredBy]
         if isinstance(_entered_by, Unset):
@@ -801,6 +855,15 @@ class FeedValidationResultInvoice:
                 _remittance_instructions
             )
 
+        _bank_details_confirmation = d.pop("bankDetailsConfirmation", UNSET)
+        bank_details_confirmation: Union[Unset, SupplierBankDetailsConfirmationView]
+        if isinstance(_bank_details_confirmation, Unset):
+            bank_details_confirmation = UNSET
+        else:
+            bank_details_confirmation = SupplierBankDetailsConfirmationView.from_dict(
+                _bank_details_confirmation
+            )
+
         _source_document = d.pop("sourceDocument", UNSET)
         source_document: Union[Unset, InvoiceSourceDocument]
         if isinstance(_source_document, Unset):
@@ -883,6 +946,9 @@ class FeedValidationResultInvoice:
             replaces_invoice_id=replaces_invoice_id,
             replaces_invoice_ids=replaces_invoice_ids,
             replaced_by_invoice_ids=replaced_by_invoice_ids,
+            possible_duplicates=possible_duplicates,
+            duplicates_checked=duplicates_checked,
+            has_lookup_rows=has_lookup_rows,
             entered_by=entered_by,
             invoice_date=invoice_date,
             submitted_format=submitted_format,
@@ -903,6 +969,7 @@ class FeedValidationResultInvoice:
             payment_currency_amount=payment_currency_amount,
             tax_currency_amount=tax_currency_amount,
             remittance_instructions=remittance_instructions,
+            bank_details_confirmation=bank_details_confirmation,
             source_document=source_document,
             has_original_pdf=has_original_pdf,
             base_currency_amount=base_currency_amount,

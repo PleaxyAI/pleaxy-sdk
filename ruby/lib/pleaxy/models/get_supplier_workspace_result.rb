@@ -15,6 +15,10 @@ require 'time'
 
 module Pleaxy
   class GetSupplierWorkspaceResult
+    attr_accessor :recent_incoming_pos
+
+    attr_accessor :recent_supplier_invoices
+
     attr_accessor :incoming_pos
 
     attr_accessor :supplier_invoices
@@ -22,6 +26,8 @@ module Pleaxy
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'recent_incoming_pos' => :'recentIncomingPOs',
+        :'recent_supplier_invoices' => :'recentSupplierInvoices',
         :'incoming_pos' => :'incomingPOs',
         :'supplier_invoices' => :'supplierInvoices'
       }
@@ -35,8 +41,10 @@ module Pleaxy
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'incoming_pos' => :'Array<GetBuyerWorkspaceResultPurchaseOrdersInner>',
-        :'supplier_invoices' => :'Array<GetBuyerWorkspaceResultInvoicesInner>'
+        :'recent_incoming_pos' => :'Array<GetBuyerWorkspaceResultRecentPurchaseOrdersInner>',
+        :'recent_supplier_invoices' => :'Array<GetBuyerWorkspaceResultRecentInvoicesInner>',
+        :'incoming_pos' => :'Array<GetBuyerWorkspaceResultRecentPurchaseOrdersInner>',
+        :'supplier_invoices' => :'Array<GetBuyerWorkspaceResultRecentInvoicesInner>'
       }
     end
 
@@ -60,6 +68,18 @@ module Pleaxy
         end
         h[k.to_sym] = v
       }
+
+      if attributes.key?(:'recent_incoming_pos')
+        if (value = attributes[:'recent_incoming_pos']).is_a?(Array)
+          self.recent_incoming_pos = value
+        end
+      end
+
+      if attributes.key?(:'recent_supplier_invoices')
+        if (value = attributes[:'recent_supplier_invoices']).is_a?(Array)
+          self.recent_supplier_invoices = value
+        end
+      end
 
       if attributes.key?(:'incoming_pos')
         if (value = attributes[:'incoming_pos']).is_a?(Array)
@@ -94,6 +114,8 @@ module Pleaxy
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
+          recent_incoming_pos == o.recent_incoming_pos &&
+          recent_supplier_invoices == o.recent_supplier_invoices &&
           incoming_pos == o.incoming_pos &&
           supplier_invoices == o.supplier_invoices
     end
@@ -107,7 +129,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [incoming_pos, supplier_invoices].hash
+      [recent_incoming_pos, recent_supplier_invoices, incoming_pos, supplier_invoices].hash
     end
 
     # Builds the object from hash

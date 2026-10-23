@@ -82,6 +82,18 @@ pub struct RecordPaymentResult {
     pub unverified_reason: Option<UnverifiedReason>,
     #[serde(rename = "matchBasis", skip_serializing_if = "Option::is_none")]
     pub match_basis: Option<MatchBasis>,
+    #[serde(
+        rename = "receiptCheckSkipped",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub receipt_check_skipped: Option<models::InvoiceBuyerViewReceiptCheckSkipped>,
+    #[serde(
+        rename = "receiptToleranceApplied",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub receipt_tolerance_applied: Option<models::InvoiceBuyerViewReceiptToleranceApplied>,
+    #[serde(rename = "matchType", skip_serializing_if = "Option::is_none")]
+    pub match_type: Option<MatchType>,
     #[serde(rename = "discrepancyReason", skip_serializing_if = "Option::is_none")]
     pub discrepancy_reason: Option<DiscrepancyReason>,
     #[serde(rename = "controlFindings", skip_serializing_if = "Option::is_none")]
@@ -122,6 +134,12 @@ pub struct RecordPaymentResult {
         skip_serializing_if = "Option::is_none"
     )]
     pub replaced_by_invoice_ids: Option<Vec<String>>,
+    #[serde(rename = "possibleDuplicates", skip_serializing_if = "Option::is_none")]
+    pub possible_duplicates: Option<Vec<models::InvoiceDuplicateRef>>,
+    #[serde(rename = "duplicatesChecked", skip_serializing_if = "Option::is_none")]
+    pub duplicates_checked: Option<bool>,
+    #[serde(rename = "hasLookupRows", skip_serializing_if = "Option::is_none")]
+    pub has_lookup_rows: Option<bool>,
     #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
     pub source: Option<Source>,
     #[serde(rename = "enteredBy", skip_serializing_if = "Option::is_none")]
@@ -186,6 +204,11 @@ pub struct RecordPaymentResult {
     pub remittance_instructions: Option<models::RemittanceInstructions>,
     #[serde(rename = "remittanceCheck", skip_serializing_if = "Option::is_none")]
     pub remittance_check: Option<models::RemittanceCheck>,
+    #[serde(
+        rename = "bankDetailsConfirmation",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub bank_details_confirmation: Option<models::BankDetailsConfirmation>,
     #[serde(rename = "sourceDocument", skip_serializing_if = "Option::is_none")]
     pub source_document: Option<models::InvoiceSourceDocument>,
     #[serde(rename = "hasOriginalPdf", skip_serializing_if = "Option::is_none")]
@@ -239,6 +262,9 @@ impl RecordPaymentResult {
             match_status: None,
             unverified_reason: None,
             match_basis: None,
+            receipt_check_skipped: None,
+            receipt_tolerance_applied: None,
+            match_type: None,
             discrepancy_reason: None,
             control_findings: None,
             paid: None,
@@ -256,6 +282,9 @@ impl RecordPaymentResult {
             replaces_invoice_id: None,
             replaces_invoice_ids: None,
             replaced_by_invoice_ids: None,
+            possible_duplicates: None,
+            duplicates_checked: None,
+            has_lookup_rows: None,
             source: None,
             entered_by: None,
             invoice_date: None,
@@ -282,6 +311,7 @@ impl RecordPaymentResult {
             rate_warnings: None,
             remittance_instructions: None,
             remittance_check: None,
+            bank_details_confirmation: None,
             source_document: None,
             has_original_pdf: None,
             base_currency_amount: None,
@@ -357,6 +387,22 @@ pub enum MatchBasis {
 impl Default for MatchBasis {
     fn default() -> MatchBasis {
         Self::PurchaseOrder
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum MatchType {
+    #[serde(rename = "two_way")]
+    TwoWay,
+    #[serde(rename = "three_way")]
+    ThreeWay,
+    #[serde(rename = "usage")]
+    Usage,
+}
+
+impl Default for MatchType {
+    fn default() -> MatchType {
+        Self::TwoWay
     }
 }
 ///

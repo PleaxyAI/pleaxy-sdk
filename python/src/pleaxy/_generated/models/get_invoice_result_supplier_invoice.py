@@ -64,6 +64,7 @@ if TYPE_CHECKING:
     from ..models.invoice_credit_application import InvoiceCreditApplication
     from ..models.invoice_currency_amount import InvoiceCurrencyAmount
     from ..models.invoice_deduction import InvoiceDeduction
+    from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
     from ..models.invoice_line_item import InvoiceLineItem
     from ..models.invoice_rejection import InvoiceRejection
     from ..models.invoice_replacement_check import InvoiceReplacementCheck
@@ -71,6 +72,9 @@ if TYPE_CHECKING:
     from ..models.late_fee_terms import LateFeeTerms
     from ..models.remittance_instructions import RemittanceInstructions
     from ..models.supplier_approval_view import SupplierApprovalView
+    from ..models.supplier_bank_details_confirmation_view import (
+        SupplierBankDetailsConfirmationView,
+    )
     from ..models.supplier_remittance_view import SupplierRemittanceView
     from ..models.uncredited_original import UncreditedOriginal
 
@@ -113,6 +117,9 @@ class GetInvoiceResultSupplierInvoice:
         replaces_invoice_id (Union[Unset, str]):
         replaces_invoice_ids (Union[Unset, List[str]]):
         replaced_by_invoice_ids (Union[Unset, List[str]]):
+        possible_duplicates (Union[Unset, List['InvoiceDuplicateRef']]):
+        duplicates_checked (Union[Unset, bool]):
+        has_lookup_rows (Union[Unset, bool]):
         source (Union[Unset, GetInvoiceResultSupplierInvoiceSource]):
         entered_by (Union[Unset, GetInvoiceResultSupplierInvoiceEnteredBy]):
         invoice_date (Union[Unset, str]):
@@ -136,6 +143,7 @@ class GetInvoiceResultSupplierInvoice:
         remittance_instructions (Union[Unset, RemittanceInstructions]):
         source_document (Union[Unset, InvoiceSourceDocument]):
         has_original_pdf (Union[Unset, bool]):
+        bank_details_confirmation (Union[Unset, SupplierBankDetailsConfirmationView]):
         base_currency_amount (Union[Unset, InvoiceBaseCurrencyAmount]):
         approval (Union[Unset, SupplierApprovalView]):
         payment (Union['GetInvoiceResultSupplierInvoicePaymentType0', 'GetInvoiceResultSupplierInvoicePaymentType1',
@@ -178,6 +186,9 @@ class GetInvoiceResultSupplierInvoice:
     replaces_invoice_id: Union[Unset, str] = UNSET
     replaces_invoice_ids: Union[Unset, List[str]] = UNSET
     replaced_by_invoice_ids: Union[Unset, List[str]] = UNSET
+    possible_duplicates: Union[Unset, List["InvoiceDuplicateRef"]] = UNSET
+    duplicates_checked: Union[Unset, bool] = UNSET
+    has_lookup_rows: Union[Unset, bool] = UNSET
     source: Union[Unset, GetInvoiceResultSupplierInvoiceSource] = UNSET
     entered_by: Union[Unset, GetInvoiceResultSupplierInvoiceEnteredBy] = UNSET
     invoice_date: Union[Unset, str] = UNSET
@@ -203,6 +214,9 @@ class GetInvoiceResultSupplierInvoice:
     remittance_instructions: Union[Unset, "RemittanceInstructions"] = UNSET
     source_document: Union[Unset, "InvoiceSourceDocument"] = UNSET
     has_original_pdf: Union[Unset, bool] = UNSET
+    bank_details_confirmation: Union[Unset, "SupplierBankDetailsConfirmationView"] = (
+        UNSET
+    )
     base_currency_amount: Union[Unset, "InvoiceBaseCurrencyAmount"] = UNSET
     approval: Union[Unset, "SupplierApprovalView"] = UNSET
     payment: Union[
@@ -316,6 +330,17 @@ class GetInvoiceResultSupplierInvoice:
         if not isinstance(self.replaced_by_invoice_ids, Unset):
             replaced_by_invoice_ids = self.replaced_by_invoice_ids
 
+        possible_duplicates: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.possible_duplicates, Unset):
+            possible_duplicates = []
+            for possible_duplicates_item_data in self.possible_duplicates:
+                possible_duplicates_item = possible_duplicates_item_data.to_dict()
+                possible_duplicates.append(possible_duplicates_item)
+
+        duplicates_checked = self.duplicates_checked
+
+        has_lookup_rows = self.has_lookup_rows
+
         source: Union[Unset, str] = UNSET
         if not isinstance(self.source, Unset):
             source = self.source
@@ -408,6 +433,10 @@ class GetInvoiceResultSupplierInvoice:
             source_document = self.source_document.to_dict()
 
         has_original_pdf = self.has_original_pdf
+
+        bank_details_confirmation: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.bank_details_confirmation, Unset):
+            bank_details_confirmation = self.bank_details_confirmation.to_dict()
 
         base_currency_amount: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.base_currency_amount, Unset):
@@ -513,6 +542,12 @@ class GetInvoiceResultSupplierInvoice:
             field_dict["replacesInvoiceIds"] = replaces_invoice_ids
         if replaced_by_invoice_ids is not UNSET:
             field_dict["replacedByInvoiceIds"] = replaced_by_invoice_ids
+        if possible_duplicates is not UNSET:
+            field_dict["possibleDuplicates"] = possible_duplicates
+        if duplicates_checked is not UNSET:
+            field_dict["duplicatesChecked"] = duplicates_checked
+        if has_lookup_rows is not UNSET:
+            field_dict["hasLookupRows"] = has_lookup_rows
         if source is not UNSET:
             field_dict["source"] = source
         if entered_by is not UNSET:
@@ -559,6 +594,8 @@ class GetInvoiceResultSupplierInvoice:
             field_dict["sourceDocument"] = source_document
         if has_original_pdf is not UNSET:
             field_dict["hasOriginalPdf"] = has_original_pdf
+        if bank_details_confirmation is not UNSET:
+            field_dict["bankDetailsConfirmation"] = bank_details_confirmation
         if base_currency_amount is not UNSET:
             field_dict["baseCurrencyAmount"] = base_currency_amount
         if approval is not UNSET:
@@ -599,6 +636,7 @@ class GetInvoiceResultSupplierInvoice:
         from ..models.invoice_credit_application import InvoiceCreditApplication
         from ..models.invoice_currency_amount import InvoiceCurrencyAmount
         from ..models.invoice_deduction import InvoiceDeduction
+        from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
         from ..models.invoice_line_item import InvoiceLineItem
         from ..models.invoice_rejection import InvoiceRejection
         from ..models.invoice_replacement_check import InvoiceReplacementCheck
@@ -606,6 +644,9 @@ class GetInvoiceResultSupplierInvoice:
         from ..models.late_fee_terms import LateFeeTerms
         from ..models.remittance_instructions import RemittanceInstructions
         from ..models.supplier_approval_view import SupplierApprovalView
+        from ..models.supplier_bank_details_confirmation_view import (
+            SupplierBankDetailsConfirmationView,
+        )
         from ..models.supplier_remittance_view import SupplierRemittanceView
         from ..models.uncredited_original import UncreditedOriginal
 
@@ -719,6 +760,19 @@ class GetInvoiceResultSupplierInvoice:
         replaces_invoice_ids = cast(List[str], d.pop("replacesInvoiceIds", UNSET))
 
         replaced_by_invoice_ids = cast(List[str], d.pop("replacedByInvoiceIds", UNSET))
+
+        possible_duplicates = []
+        _possible_duplicates = d.pop("possibleDuplicates", UNSET)
+        for possible_duplicates_item_data in _possible_duplicates or []:
+            possible_duplicates_item = InvoiceDuplicateRef.from_dict(
+                possible_duplicates_item_data
+            )
+
+            possible_duplicates.append(possible_duplicates_item)
+
+        duplicates_checked = d.pop("duplicatesChecked", UNSET)
+
+        has_lookup_rows = d.pop("hasLookupRows", UNSET)
 
         _source = d.pop("source", UNSET)
         source: Union[Unset, GetInvoiceResultSupplierInvoiceSource]
@@ -854,6 +908,15 @@ class GetInvoiceResultSupplierInvoice:
 
         has_original_pdf = d.pop("hasOriginalPdf", UNSET)
 
+        _bank_details_confirmation = d.pop("bankDetailsConfirmation", UNSET)
+        bank_details_confirmation: Union[Unset, SupplierBankDetailsConfirmationView]
+        if isinstance(_bank_details_confirmation, Unset):
+            bank_details_confirmation = UNSET
+        else:
+            bank_details_confirmation = SupplierBankDetailsConfirmationView.from_dict(
+                _bank_details_confirmation
+            )
+
         _base_currency_amount = d.pop("baseCurrencyAmount", UNSET)
         base_currency_amount: Union[Unset, InvoiceBaseCurrencyAmount]
         if isinstance(_base_currency_amount, Unset):
@@ -969,6 +1032,9 @@ class GetInvoiceResultSupplierInvoice:
             replaces_invoice_id=replaces_invoice_id,
             replaces_invoice_ids=replaces_invoice_ids,
             replaced_by_invoice_ids=replaced_by_invoice_ids,
+            possible_duplicates=possible_duplicates,
+            duplicates_checked=duplicates_checked,
+            has_lookup_rows=has_lookup_rows,
             source=source,
             entered_by=entered_by,
             invoice_date=invoice_date,
@@ -992,6 +1058,7 @@ class GetInvoiceResultSupplierInvoice:
             remittance_instructions=remittance_instructions,
             source_document=source_document,
             has_original_pdf=has_original_pdf,
+            bank_details_confirmation=bank_details_confirmation,
             base_currency_amount=base_currency_amount,
             approval=approval,
             payment=payment,

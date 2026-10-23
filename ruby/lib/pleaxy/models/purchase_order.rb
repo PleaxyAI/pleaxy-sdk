@@ -81,6 +81,8 @@ module Pleaxy
 
     attr_accessor :quote_document
 
+    attr_accessor :sow_document
+
     attr_accessor :line_items
 
     attr_accessor :approval
@@ -110,6 +112,28 @@ module Pleaxy
     attr_accessor :ship_to
 
     attr_accessor :store_order
+
+    attr_accessor :matching
+
+    attr_accessor :matching_default
+
+    attr_accessor :matching_changes
+
+    attr_accessor :receiver_employee_key
+
+    attr_accessor :receiver_name
+
+    attr_accessor :received
+
+    attr_accessor :received_pending
+
+    attr_accessor :receipt_state
+
+    attr_accessor :receipt_required
+
+    attr_accessor :ready_to_invoice
+
+    attr_accessor :receipt_tolerance
 
     attr_accessor :created_at
 
@@ -171,6 +195,7 @@ module Pleaxy
         :'contract_id' => :'contractId',
         :'supplier_email' => :'supplierEmail',
         :'quote_document' => :'quoteDocument',
+        :'sow_document' => :'sowDocument',
         :'line_items' => :'lineItems',
         :'approval' => :'approval',
         :'approval_version' => :'approvalVersion',
@@ -186,6 +211,17 @@ module Pleaxy
         :'delivery_address_id' => :'deliveryAddressId',
         :'ship_to' => :'shipTo',
         :'store_order' => :'storeOrder',
+        :'matching' => :'matching',
+        :'matching_default' => :'matchingDefault',
+        :'matching_changes' => :'matchingChanges',
+        :'receiver_employee_key' => :'receiverEmployeeKey',
+        :'receiver_name' => :'receiverName',
+        :'received' => :'received',
+        :'received_pending' => :'receivedPending',
+        :'receipt_state' => :'receiptState',
+        :'receipt_required' => :'receiptRequired',
+        :'ready_to_invoice' => :'readyToInvoice',
+        :'receipt_tolerance' => :'receiptTolerance',
         :'created_at' => :'createdAt'
       }
     end
@@ -231,6 +267,7 @@ module Pleaxy
         :'contract_id' => :'String',
         :'supplier_email' => :'PurchaseOrderSupplierEmail',
         :'quote_document' => :'PurchaseOrderQuoteDocument',
+        :'sow_document' => :'PurchaseOrderQuoteDocument',
         :'line_items' => :'Array<LineItem>',
         :'approval' => :'ApprovalChain',
         :'approval_version' => :'Float',
@@ -246,6 +283,17 @@ module Pleaxy
         :'delivery_address_id' => :'String',
         :'ship_to' => :'PurchaseOrderShipTo',
         :'store_order' => :'StoreOrder',
+        :'matching' => :'String',
+        :'matching_default' => :'String',
+        :'matching_changes' => :'Array<PurchaseOrderMatchingChange>',
+        :'receiver_employee_key' => :'String',
+        :'receiver_name' => :'String',
+        :'received' => :'Array<PurchaseOrderReceivedLine>',
+        :'received_pending' => :'Array<PurchaseOrderReceivedLine>',
+        :'receipt_state' => :'String',
+        :'receipt_required' => :'Boolean',
+        :'ready_to_invoice' => :'Float',
+        :'receipt_tolerance' => :'PurchaseOrderReceiptTolerance',
         :'created_at' => :'String'
       }
     end
@@ -411,6 +459,10 @@ module Pleaxy
         self.quote_document = attributes[:'quote_document']
       end
 
+      if attributes.key?(:'sow_document')
+        self.sow_document = attributes[:'sow_document']
+      end
+
       if attributes.key?(:'line_items')
         if (value = attributes[:'line_items']).is_a?(Array)
           self.line_items = value
@@ -473,6 +525,56 @@ module Pleaxy
         self.store_order = attributes[:'store_order']
       end
 
+      if attributes.key?(:'matching')
+        self.matching = attributes[:'matching']
+      end
+
+      if attributes.key?(:'matching_default')
+        self.matching_default = attributes[:'matching_default']
+      end
+
+      if attributes.key?(:'matching_changes')
+        if (value = attributes[:'matching_changes']).is_a?(Array)
+          self.matching_changes = value
+        end
+      end
+
+      if attributes.key?(:'receiver_employee_key')
+        self.receiver_employee_key = attributes[:'receiver_employee_key']
+      end
+
+      if attributes.key?(:'receiver_name')
+        self.receiver_name = attributes[:'receiver_name']
+      end
+
+      if attributes.key?(:'received')
+        if (value = attributes[:'received']).is_a?(Array)
+          self.received = value
+        end
+      end
+
+      if attributes.key?(:'received_pending')
+        if (value = attributes[:'received_pending']).is_a?(Array)
+          self.received_pending = value
+        end
+      end
+
+      if attributes.key?(:'receipt_state')
+        self.receipt_state = attributes[:'receipt_state']
+      end
+
+      if attributes.key?(:'receipt_required')
+        self.receipt_required = attributes[:'receipt_required']
+      end
+
+      if attributes.key?(:'ready_to_invoice')
+        self.ready_to_invoice = attributes[:'ready_to_invoice']
+      end
+
+      if attributes.key?(:'receipt_tolerance')
+        self.receipt_tolerance = attributes[:'receipt_tolerance']
+      end
+
       if attributes.key?(:'created_at')
         self.created_at = attributes[:'created_at']
       end
@@ -499,6 +601,12 @@ module Pleaxy
       return false unless status_validator.valid?(@status)
       provider_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci"])
       return false unless provider_validator.valid?(@provider)
+      matching_validator = EnumAttributeValidator.new('String', ["two_way", "three_way"])
+      return false unless matching_validator.valid?(@matching)
+      matching_default_validator = EnumAttributeValidator.new('String', ["two_way", "three_way"])
+      return false unless matching_default_validator.valid?(@matching_default)
+      receipt_state_validator = EnumAttributeValidator.new('String', ["none", "partial", "full"])
+      return false unless receipt_state_validator.valid?(@receipt_state)
       true
     end
 
@@ -520,6 +628,36 @@ module Pleaxy
         fail ArgumentError, "invalid value for \"provider\", must be one of #{validator.allowable_values}."
       end
       @provider = provider
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] matching Object to be assigned
+    def matching=(matching)
+      validator = EnumAttributeValidator.new('String', ["two_way", "three_way"])
+      unless validator.valid?(matching)
+        fail ArgumentError, "invalid value for \"matching\", must be one of #{validator.allowable_values}."
+      end
+      @matching = matching
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] matching_default Object to be assigned
+    def matching_default=(matching_default)
+      validator = EnumAttributeValidator.new('String', ["two_way", "three_way"])
+      unless validator.valid?(matching_default)
+        fail ArgumentError, "invalid value for \"matching_default\", must be one of #{validator.allowable_values}."
+      end
+      @matching_default = matching_default
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] receipt_state Object to be assigned
+    def receipt_state=(receipt_state)
+      validator = EnumAttributeValidator.new('String', ["none", "partial", "full"])
+      unless validator.valid?(receipt_state)
+        fail ArgumentError, "invalid value for \"receipt_state\", must be one of #{validator.allowable_values}."
+      end
+      @receipt_state = receipt_state
     end
 
     # Checks equality by comparing each attribute.
@@ -560,6 +698,7 @@ module Pleaxy
           contract_id == o.contract_id &&
           supplier_email == o.supplier_email &&
           quote_document == o.quote_document &&
+          sow_document == o.sow_document &&
           line_items == o.line_items &&
           approval == o.approval &&
           approval_version == o.approval_version &&
@@ -575,6 +714,17 @@ module Pleaxy
           delivery_address_id == o.delivery_address_id &&
           ship_to == o.ship_to &&
           store_order == o.store_order &&
+          matching == o.matching &&
+          matching_default == o.matching_default &&
+          matching_changes == o.matching_changes &&
+          receiver_employee_key == o.receiver_employee_key &&
+          receiver_name == o.receiver_name &&
+          received == o.received &&
+          received_pending == o.received_pending &&
+          receipt_state == o.receipt_state &&
+          receipt_required == o.receipt_required &&
+          ready_to_invoice == o.ready_to_invoice &&
+          receipt_tolerance == o.receipt_tolerance &&
           created_at == o.created_at
     end
 
@@ -587,7 +737,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, buyer_org_id, supplier_org_id, supplier, amount, currency, status, invoice_id, invoice_ids, invoiced_amount, prior_invoiced, rejected_invoice_count, last_rejected_invoice_id, last_replaced_invoice_id, provider, payer_accounts, bill_to, bill_to_party, cost_center, cost_center_changes, budget_owner, buyer_name, buyer_org_name, buyer_region_name, supplier_region_name, supplier_site, supplier_contact_email, supplier_invite, supplier_connection_id, notes, contract_id, supplier_email, quote_document, line_items, approval, approval_version, ever_spend_limit_gated, spend_limit_gated_at, updated_by, updated_at, version, last_change, approval_amount, punchout, store_id, delivery_address_id, ship_to, store_order, created_at].hash
+      [id, buyer_org_id, supplier_org_id, supplier, amount, currency, status, invoice_id, invoice_ids, invoiced_amount, prior_invoiced, rejected_invoice_count, last_rejected_invoice_id, last_replaced_invoice_id, provider, payer_accounts, bill_to, bill_to_party, cost_center, cost_center_changes, budget_owner, buyer_name, buyer_org_name, buyer_region_name, supplier_region_name, supplier_site, supplier_contact_email, supplier_invite, supplier_connection_id, notes, contract_id, supplier_email, quote_document, sow_document, line_items, approval, approval_version, ever_spend_limit_gated, spend_limit_gated_at, updated_by, updated_at, version, last_change, approval_amount, punchout, store_id, delivery_address_id, ship_to, store_order, matching, matching_default, matching_changes, receiver_employee_key, receiver_name, received, received_pending, receipt_state, receipt_required, ready_to_invoice, receipt_tolerance, created_at].hash
     end
 
     # Builds the object from hash

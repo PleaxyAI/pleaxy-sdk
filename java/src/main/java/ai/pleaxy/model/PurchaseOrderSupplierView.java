@@ -22,6 +22,8 @@ import java.util.HashMap;
 import ai.pleaxy.model.LineItem;
 import ai.pleaxy.model.PayerAccountRef;
 import ai.pleaxy.model.PurchaseOrderBillTo;
+import ai.pleaxy.model.PurchaseOrderReceiptTolerance;
+import ai.pleaxy.model.PurchaseOrderReceivedLine;
 import ai.pleaxy.model.PurchaseOrderShipTo;
 import ai.pleaxy.model.PurchaseOrderSupplierEmail;
 import ai.pleaxy.model.PurchaseOrderSupplierViewPriorInvoiced;
@@ -74,9 +76,17 @@ import ai.pleaxy.client.ApiClient;
   PurchaseOrderSupplierView.JSON_PROPERTY_DELIVERY_ADDRESS_ID,
   PurchaseOrderSupplierView.JSON_PROPERTY_SHIP_TO,
   PurchaseOrderSupplierView.JSON_PROPERTY_STORE_ORDER,
+  PurchaseOrderSupplierView.JSON_PROPERTY_MATCHING,
+  PurchaseOrderSupplierView.JSON_PROPERTY_RECEIVED,
+  PurchaseOrderSupplierView.JSON_PROPERTY_RECEIVED_PENDING,
+  PurchaseOrderSupplierView.JSON_PROPERTY_RECEIPT_STATE,
+  PurchaseOrderSupplierView.JSON_PROPERTY_RECEIPT_REQUIRED,
+  PurchaseOrderSupplierView.JSON_PROPERTY_READY_TO_INVOICE,
+  PurchaseOrderSupplierView.JSON_PROPERTY_RECEIPT_TOLERANCE,
   PurchaseOrderSupplierView.JSON_PROPERTY_APPROVAL,
   PurchaseOrderSupplierView.JSON_PROPERTY_PRIOR_INVOICED,
   PurchaseOrderSupplierView.JSON_PROPERTY_QUOTE_DOCUMENT,
+  PurchaseOrderSupplierView.JSON_PROPERTY_SOW_DOCUMENT,
   PurchaseOrderSupplierView.JSON_PROPERTY_BUYER_WORKSPACE_ID
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -289,6 +299,106 @@ public class PurchaseOrderSupplierView {
   @javax.annotation.Nullable
   private StoreOrder storeOrder;
 
+  /**
+   * Gets or Sets matching
+   */
+  public enum MatchingEnum {
+    TWO_WAY(String.valueOf("two_way")),
+    
+    THREE_WAY(String.valueOf("three_way"));
+
+    private String value;
+
+    MatchingEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static MatchingEnum fromValue(String value) {
+      for (MatchingEnum b : MatchingEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_MATCHING = "matching";
+  @javax.annotation.Nullable
+  private MatchingEnum matching;
+
+  public static final String JSON_PROPERTY_RECEIVED = "received";
+  @javax.annotation.Nullable
+  private List<PurchaseOrderReceivedLine> received = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_RECEIVED_PENDING = "receivedPending";
+  @javax.annotation.Nullable
+  private List<PurchaseOrderReceivedLine> receivedPending = new ArrayList<>();
+
+  /**
+   * Gets or Sets receiptState
+   */
+  public enum ReceiptStateEnum {
+    NONE(String.valueOf("none")),
+    
+    PARTIAL(String.valueOf("partial")),
+    
+    FULL(String.valueOf("full"));
+
+    private String value;
+
+    ReceiptStateEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ReceiptStateEnum fromValue(String value) {
+      for (ReceiptStateEnum b : ReceiptStateEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_RECEIPT_STATE = "receiptState";
+  @javax.annotation.Nullable
+  private ReceiptStateEnum receiptState;
+
+  public static final String JSON_PROPERTY_RECEIPT_REQUIRED = "receiptRequired";
+  @javax.annotation.Nullable
+  private Boolean receiptRequired;
+
+  public static final String JSON_PROPERTY_READY_TO_INVOICE = "readyToInvoice";
+  @javax.annotation.Nullable
+  private Double readyToInvoice;
+
+  public static final String JSON_PROPERTY_RECEIPT_TOLERANCE = "receiptTolerance";
+  @javax.annotation.Nullable
+  private PurchaseOrderReceiptTolerance receiptTolerance;
+
   public static final String JSON_PROPERTY_APPROVAL = "approval";
   @javax.annotation.Nullable
   private SupplierApprovalView approval;
@@ -300,6 +410,10 @@ public class PurchaseOrderSupplierView {
   public static final String JSON_PROPERTY_QUOTE_DOCUMENT = "quoteDocument";
   @javax.annotation.Nullable
   private PurchaseOrderSupplierViewQuoteDocument quoteDocument;
+
+  public static final String JSON_PROPERTY_SOW_DOCUMENT = "sowDocument";
+  @javax.annotation.Nullable
+  private PurchaseOrderSupplierViewQuoteDocument sowDocument;
 
   public static final String JSON_PROPERTY_BUYER_WORKSPACE_ID = "buyerWorkspaceId";
   @javax.annotation.Nullable
@@ -1052,6 +1166,190 @@ public class PurchaseOrderSupplierView {
   }
 
 
+  public PurchaseOrderSupplierView matching(@javax.annotation.Nullable MatchingEnum matching) {
+    this.matching = matching;
+    return this;
+  }
+
+  /**
+   * Get matching
+   * @return matching
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MATCHING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public MatchingEnum getMatching() {
+    return matching;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MATCHING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMatching(@javax.annotation.Nullable MatchingEnum matching) {
+    this.matching = matching;
+  }
+
+
+  public PurchaseOrderSupplierView received(@javax.annotation.Nullable List<PurchaseOrderReceivedLine> received) {
+    this.received = received;
+    return this;
+  }
+
+  public PurchaseOrderSupplierView addReceivedItem(PurchaseOrderReceivedLine receivedItem) {
+    if (this.received == null) {
+      this.received = new ArrayList<>();
+    }
+    this.received.add(receivedItem);
+    return this;
+  }
+
+  /**
+   * Get received
+   * @return received
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIVED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<PurchaseOrderReceivedLine> getReceived() {
+    return received;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIVED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceived(@javax.annotation.Nullable List<PurchaseOrderReceivedLine> received) {
+    this.received = received;
+  }
+
+
+  public PurchaseOrderSupplierView receivedPending(@javax.annotation.Nullable List<PurchaseOrderReceivedLine> receivedPending) {
+    this.receivedPending = receivedPending;
+    return this;
+  }
+
+  public PurchaseOrderSupplierView addReceivedPendingItem(PurchaseOrderReceivedLine receivedPendingItem) {
+    if (this.receivedPending == null) {
+      this.receivedPending = new ArrayList<>();
+    }
+    this.receivedPending.add(receivedPendingItem);
+    return this;
+  }
+
+  /**
+   * Get receivedPending
+   * @return receivedPending
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIVED_PENDING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<PurchaseOrderReceivedLine> getReceivedPending() {
+    return receivedPending;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIVED_PENDING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceivedPending(@javax.annotation.Nullable List<PurchaseOrderReceivedLine> receivedPending) {
+    this.receivedPending = receivedPending;
+  }
+
+
+  public PurchaseOrderSupplierView receiptState(@javax.annotation.Nullable ReceiptStateEnum receiptState) {
+    this.receiptState = receiptState;
+    return this;
+  }
+
+  /**
+   * Get receiptState
+   * @return receiptState
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIPT_STATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public ReceiptStateEnum getReceiptState() {
+    return receiptState;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIPT_STATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceiptState(@javax.annotation.Nullable ReceiptStateEnum receiptState) {
+    this.receiptState = receiptState;
+  }
+
+
+  public PurchaseOrderSupplierView receiptRequired(@javax.annotation.Nullable Boolean receiptRequired) {
+    this.receiptRequired = receiptRequired;
+    return this;
+  }
+
+  /**
+   * Get receiptRequired
+   * @return receiptRequired
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIPT_REQUIRED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getReceiptRequired() {
+    return receiptRequired;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIPT_REQUIRED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceiptRequired(@javax.annotation.Nullable Boolean receiptRequired) {
+    this.receiptRequired = receiptRequired;
+  }
+
+
+  public PurchaseOrderSupplierView readyToInvoice(@javax.annotation.Nullable Double readyToInvoice) {
+    this.readyToInvoice = readyToInvoice;
+    return this;
+  }
+
+  /**
+   * Get readyToInvoice
+   * @return readyToInvoice
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_READY_TO_INVOICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getReadyToInvoice() {
+    return readyToInvoice;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_READY_TO_INVOICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReadyToInvoice(@javax.annotation.Nullable Double readyToInvoice) {
+    this.readyToInvoice = readyToInvoice;
+  }
+
+
+  public PurchaseOrderSupplierView receiptTolerance(@javax.annotation.Nullable PurchaseOrderReceiptTolerance receiptTolerance) {
+    this.receiptTolerance = receiptTolerance;
+    return this;
+  }
+
+  /**
+   * Get receiptTolerance
+   * @return receiptTolerance
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIPT_TOLERANCE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PurchaseOrderReceiptTolerance getReceiptTolerance() {
+    return receiptTolerance;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIPT_TOLERANCE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceiptTolerance(@javax.annotation.Nullable PurchaseOrderReceiptTolerance receiptTolerance) {
+    this.receiptTolerance = receiptTolerance;
+  }
+
+
   public PurchaseOrderSupplierView approval(@javax.annotation.Nullable SupplierApprovalView approval) {
     this.approval = approval;
     return this;
@@ -1124,6 +1422,30 @@ public class PurchaseOrderSupplierView {
   }
 
 
+  public PurchaseOrderSupplierView sowDocument(@javax.annotation.Nullable PurchaseOrderSupplierViewQuoteDocument sowDocument) {
+    this.sowDocument = sowDocument;
+    return this;
+  }
+
+  /**
+   * Get sowDocument
+   * @return sowDocument
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SOW_DOCUMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PurchaseOrderSupplierViewQuoteDocument getSowDocument() {
+    return sowDocument;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SOW_DOCUMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSowDocument(@javax.annotation.Nullable PurchaseOrderSupplierViewQuoteDocument sowDocument) {
+    this.sowDocument = sowDocument;
+  }
+
+
   public PurchaseOrderSupplierView buyerWorkspaceId(@javax.annotation.Nullable String buyerWorkspaceId) {
     this.buyerWorkspaceId = buyerWorkspaceId;
     return this;
@@ -1190,15 +1512,23 @@ public class PurchaseOrderSupplierView {
         Objects.equals(this.deliveryAddressId, purchaseOrderSupplierView.deliveryAddressId) &&
         Objects.equals(this.shipTo, purchaseOrderSupplierView.shipTo) &&
         Objects.equals(this.storeOrder, purchaseOrderSupplierView.storeOrder) &&
+        Objects.equals(this.matching, purchaseOrderSupplierView.matching) &&
+        Objects.equals(this.received, purchaseOrderSupplierView.received) &&
+        Objects.equals(this.receivedPending, purchaseOrderSupplierView.receivedPending) &&
+        Objects.equals(this.receiptState, purchaseOrderSupplierView.receiptState) &&
+        Objects.equals(this.receiptRequired, purchaseOrderSupplierView.receiptRequired) &&
+        Objects.equals(this.readyToInvoice, purchaseOrderSupplierView.readyToInvoice) &&
+        Objects.equals(this.receiptTolerance, purchaseOrderSupplierView.receiptTolerance) &&
         Objects.equals(this.approval, purchaseOrderSupplierView.approval) &&
         Objects.equals(this.priorInvoiced, purchaseOrderSupplierView.priorInvoiced) &&
         Objects.equals(this.quoteDocument, purchaseOrderSupplierView.quoteDocument) &&
+        Objects.equals(this.sowDocument, purchaseOrderSupplierView.sowDocument) &&
         Objects.equals(this.buyerWorkspaceId, purchaseOrderSupplierView.buyerWorkspaceId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, provider, id, buyerOrgId, supplierOrgId, status, createdAt, amount, currency, invoiceId, invoiceIds, invoicedAmount, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, payerAccounts, billTo, billToParty, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, contractId, supplierEmail, lineItems, version, storeId, deliveryAddressId, shipTo, storeOrder, approval, priorInvoiced, quoteDocument, buyerWorkspaceId);
+    return Objects.hash(supplier, provider, id, buyerOrgId, supplierOrgId, status, createdAt, amount, currency, invoiceId, invoiceIds, invoicedAmount, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, payerAccounts, billTo, billToParty, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, contractId, supplierEmail, lineItems, version, storeId, deliveryAddressId, shipTo, storeOrder, matching, received, receivedPending, receiptState, receiptRequired, readyToInvoice, receiptTolerance, approval, priorInvoiced, quoteDocument, sowDocument, buyerWorkspaceId);
   }
 
   @Override
@@ -1235,9 +1565,17 @@ public class PurchaseOrderSupplierView {
     sb.append("    deliveryAddressId: ").append(toIndentedString(deliveryAddressId)).append("\n");
     sb.append("    shipTo: ").append(toIndentedString(shipTo)).append("\n");
     sb.append("    storeOrder: ").append(toIndentedString(storeOrder)).append("\n");
+    sb.append("    matching: ").append(toIndentedString(matching)).append("\n");
+    sb.append("    received: ").append(toIndentedString(received)).append("\n");
+    sb.append("    receivedPending: ").append(toIndentedString(receivedPending)).append("\n");
+    sb.append("    receiptState: ").append(toIndentedString(receiptState)).append("\n");
+    sb.append("    receiptRequired: ").append(toIndentedString(receiptRequired)).append("\n");
+    sb.append("    readyToInvoice: ").append(toIndentedString(readyToInvoice)).append("\n");
+    sb.append("    receiptTolerance: ").append(toIndentedString(receiptTolerance)).append("\n");
     sb.append("    approval: ").append(toIndentedString(approval)).append("\n");
     sb.append("    priorInvoiced: ").append(toIndentedString(priorInvoiced)).append("\n");
     sb.append("    quoteDocument: ").append(toIndentedString(quoteDocument)).append("\n");
+    sb.append("    sowDocument: ").append(toIndentedString(sowDocument)).append("\n");
     sb.append("    buyerWorkspaceId: ").append(toIndentedString(buyerWorkspaceId)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -1450,6 +1788,51 @@ public class PurchaseOrderSupplierView {
       joiner.add(getStoreOrder().toUrlQueryString(prefix + "storeOrder" + suffix));
     }
 
+    // add `matching` to the URL query string
+    if (getMatching() != null) {
+      joiner.add(String.format("%smatching%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMatching()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `received` to the URL query string
+    if (getReceived() != null) {
+      for (int i = 0; i < getReceived().size(); i++) {
+        if (getReceived().get(i) != null) {
+          joiner.add(getReceived().get(i).toUrlQueryString(String.format("%sreceived%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `receivedPending` to the URL query string
+    if (getReceivedPending() != null) {
+      for (int i = 0; i < getReceivedPending().size(); i++) {
+        if (getReceivedPending().get(i) != null) {
+          joiner.add(getReceivedPending().get(i).toUrlQueryString(String.format("%sreceivedPending%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `receiptState` to the URL query string
+    if (getReceiptState() != null) {
+      joiner.add(String.format("%sreceiptState%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReceiptState()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `receiptRequired` to the URL query string
+    if (getReceiptRequired() != null) {
+      joiner.add(String.format("%sreceiptRequired%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReceiptRequired()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `readyToInvoice` to the URL query string
+    if (getReadyToInvoice() != null) {
+      joiner.add(String.format("%sreadyToInvoice%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReadyToInvoice()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `receiptTolerance` to the URL query string
+    if (getReceiptTolerance() != null) {
+      joiner.add(getReceiptTolerance().toUrlQueryString(prefix + "receiptTolerance" + suffix));
+    }
+
     // add `approval` to the URL query string
     if (getApproval() != null) {
       joiner.add(getApproval().toUrlQueryString(prefix + "approval" + suffix));
@@ -1463,6 +1846,11 @@ public class PurchaseOrderSupplierView {
     // add `quoteDocument` to the URL query string
     if (getQuoteDocument() != null) {
       joiner.add(getQuoteDocument().toUrlQueryString(prefix + "quoteDocument" + suffix));
+    }
+
+    // add `sowDocument` to the URL query string
+    if (getSowDocument() != null) {
+      joiner.add(getSowDocument().toUrlQueryString(prefix + "sowDocument" + suffix));
     }
 
     // add `buyerWorkspaceId` to the URL query string

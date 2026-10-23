@@ -32,6 +32,11 @@ impl Client {
         CloudConnections(self)
     }
 
+    /// DocumentSync operations.
+    pub fn document_sync(&self) -> DocumentSync<'_> {
+        DocumentSync(self)
+    }
+
     /// Employees operations.
     pub fn employees(&self) -> Employees<'_> {
         Employees(self)
@@ -301,6 +306,196 @@ impl<'a> CloudConnections<'a> {
     }
 }
 
+/// DocumentSync operations: `client.document_sync()`.
+#[derive(Debug, Clone, Copy)]
+pub struct DocumentSync<'a>(&'a Client);
+
+impl<'a> DocumentSync<'a> {
+    pub async fn create_webhook(
+        &self,
+        create_webhook_input: crate::models::CreateWebhookInput,
+    ) -> Result<
+        crate::models::CreateWebhookResult,
+        crate::apis::Error<crate::apis::document_sync_api::CreateWebhookError>,
+    > {
+        crate::apis::document_sync_api::create_webhook(&self.0.config, create_webhook_input).await
+    }
+
+    pub async fn delete_webhook(
+        &self,
+        webhook_id: &str,
+    ) -> Result<(), crate::apis::Error<crate::apis::document_sync_api::DeleteWebhookError>> {
+        crate::apis::document_sync_api::delete_webhook(&self.0.config, webhook_id).await
+    }
+
+    pub async fn get_invoice_document(
+        &self,
+        invoice_id: &str,
+        format: Option<&str>,
+        buyer: Option<&str>,
+    ) -> Result<Vec<u8>, crate::apis::Error<crate::apis::document_sync_api::GetInvoiceDocumentError>>
+    {
+        self.0
+            .download(
+                reqwest::Method::GET,
+                &"/invoices/{invoiceId}/document"
+                    .replace("{invoiceId}", &crate::apis::urlencode(invoice_id)),
+                &[("format", format), ("buyer", buyer)],
+                None::<&()>,
+            )
+            .await
+    }
+
+    pub async fn get_invoice_remittance(
+        &self,
+        invoice_id: &str,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::RemittanceView,
+        crate::apis::Error<crate::apis::document_sync_api::GetInvoiceRemittanceError>,
+    > {
+        crate::apis::document_sync_api::get_invoice_remittance(&self.0.config, invoice_id, buyer)
+            .await
+    }
+
+    pub async fn get_invoice_remittance_document(
+        &self,
+        invoice_id: &str,
+        format: Option<&str>,
+        buyer: Option<&str>,
+    ) -> Result<
+        Vec<u8>,
+        crate::apis::Error<crate::apis::document_sync_api::GetInvoiceRemittanceDocumentError>,
+    > {
+        self.0
+            .download(
+                reqwest::Method::GET,
+                &"/invoices/{invoiceId}/remittance/document"
+                    .replace("{invoiceId}", &crate::apis::urlencode(invoice_id)),
+                &[("format", format), ("buyer", buyer)],
+                None::<&()>,
+            )
+            .await
+    }
+
+    pub async fn get_invoice_status(
+        &self,
+        invoice_id: &str,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::InvoiceStatusView,
+        crate::apis::Error<crate::apis::document_sync_api::GetInvoiceStatusError>,
+    > {
+        crate::apis::document_sync_api::get_invoice_status(&self.0.config, invoice_id, buyer).await
+    }
+
+    pub async fn get_invoice_status_document(
+        &self,
+        invoice_id: &str,
+        format: Option<&str>,
+        buyer: Option<&str>,
+    ) -> Result<
+        Vec<u8>,
+        crate::apis::Error<crate::apis::document_sync_api::GetInvoiceStatusDocumentError>,
+    > {
+        self.0
+            .download(
+                reqwest::Method::GET,
+                &"/invoices/{invoiceId}/status/document"
+                    .replace("{invoiceId}", &crate::apis::urlencode(invoice_id)),
+                &[("format", format), ("buyer", buyer)],
+                None::<&()>,
+            )
+            .await
+    }
+
+    pub async fn get_purchase_order_document(
+        &self,
+        po_id: &str,
+        format: Option<&str>,
+        buyer: Option<&str>,
+    ) -> Result<
+        Vec<u8>,
+        crate::apis::Error<crate::apis::document_sync_api::GetPurchaseOrderDocumentError>,
+    > {
+        self.0
+            .download(
+                reqwest::Method::GET,
+                &"/purchase-orders/{poId}/document"
+                    .replace("{poId}", &crate::apis::urlencode(po_id)),
+                &[("format", format), ("buyer", buyer)],
+                None::<&()>,
+            )
+            .await
+    }
+
+    pub async fn list_sync_events(
+        &self,
+        after: Option<&str>,
+        limit: Option<&str>,
+    ) -> Result<
+        crate::models::SyncEventPage,
+        crate::apis::Error<crate::apis::document_sync_api::ListSyncEventsError>,
+    > {
+        crate::apis::document_sync_api::list_sync_events(&self.0.config, after, limit).await
+    }
+
+    pub async fn list_webhook_deliveries(
+        &self,
+        webhook_id: &str,
+    ) -> Result<
+        crate::models::ListWebhookDeliveriesResult,
+        crate::apis::Error<crate::apis::document_sync_api::ListWebhookDeliveriesError>,
+    > {
+        crate::apis::document_sync_api::list_webhook_deliveries(&self.0.config, webhook_id).await
+    }
+
+    pub async fn list_webhooks(
+        &self,
+    ) -> Result<
+        crate::models::ListWebhooksResult,
+        crate::apis::Error<crate::apis::document_sync_api::ListWebhooksError>,
+    > {
+        crate::apis::document_sync_api::list_webhooks(&self.0.config).await
+    }
+
+    pub async fn rotate_webhook_secret(
+        &self,
+        webhook_id: &str,
+    ) -> Result<
+        crate::models::RotateWebhookSecretResult,
+        crate::apis::Error<crate::apis::document_sync_api::RotateWebhookSecretError>,
+    > {
+        crate::apis::document_sync_api::rotate_webhook_secret(&self.0.config, webhook_id).await
+    }
+
+    pub async fn test_webhook(
+        &self,
+        webhook_id: &str,
+    ) -> Result<
+        crate::models::TestWebhookResult,
+        crate::apis::Error<crate::apis::document_sync_api::TestWebhookError>,
+    > {
+        crate::apis::document_sync_api::test_webhook(&self.0.config, webhook_id).await
+    }
+
+    pub async fn update_webhook(
+        &self,
+        webhook_id: &str,
+        update_webhook_input: crate::models::UpdateWebhookInput,
+    ) -> Result<
+        crate::models::WebhookEndpointView,
+        crate::apis::Error<crate::apis::document_sync_api::UpdateWebhookError>,
+    > {
+        crate::apis::document_sync_api::update_webhook(
+            &self.0.config,
+            webhook_id,
+            update_webhook_input,
+        )
+        .await
+    }
+}
+
 /// Employees operations: `client.employees()`.
 #[derive(Debug, Clone, Copy)]
 pub struct Employees<'a>(&'a Client);
@@ -515,6 +710,17 @@ impl<'a> Invoices<'a> {
         crate::apis::Error<crate::apis::invoices_api::RecordPaymentError>,
     > {
         crate::apis::invoices_api::record_payment(&self.0.config, invoice_id, record_payment_input)
+            .await
+    }
+
+    pub async fn record_payments(
+        &self,
+        record_payments_batch_input: crate::models::RecordPaymentsBatchInput,
+    ) -> Result<
+        crate::models::RecordPaymentsResult,
+        crate::apis::Error<crate::apis::invoices_api::RecordPaymentsError>,
+    > {
+        crate::apis::invoices_api::record_payments(&self.0.config, record_payments_batch_input)
             .await
     }
 
@@ -994,21 +1200,23 @@ impl<'a> Workspaces<'a> {
         &self,
         from: Option<&str>,
         to: Option<&str>,
+        lists: Option<&str>,
     ) -> Result<
         crate::models::GetBuyerWorkspaceResult,
         crate::apis::Error<crate::apis::workspaces_api::GetBuyerWorkspaceError>,
     > {
-        crate::apis::workspaces_api::get_buyer_workspace(&self.0.config, from, to).await
+        crate::apis::workspaces_api::get_buyer_workspace(&self.0.config, from, to, lists).await
     }
 
     pub async fn get_supplier_workspace(
         &self,
         from: Option<&str>,
         to: Option<&str>,
+        lists: Option<&str>,
     ) -> Result<
         crate::models::GetSupplierWorkspaceResult,
         crate::apis::Error<crate::apis::workspaces_api::GetSupplierWorkspaceError>,
     > {
-        crate::apis::workspaces_api::get_supplier_workspace(&self.0.config, from, to).await
+        crate::apis::workspaces_api::get_supplier_workspace(&self.0.config, from, to, lists).await
     }
 }

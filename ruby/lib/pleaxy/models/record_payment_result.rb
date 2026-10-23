@@ -75,6 +75,12 @@ module Pleaxy
 
     attr_accessor :match_basis
 
+    attr_accessor :receipt_check_skipped
+
+    attr_accessor :receipt_tolerance_applied
+
+    attr_accessor :match_type
+
     attr_accessor :discrepancy_reason
 
     attr_accessor :control_findings
@@ -108,6 +114,12 @@ module Pleaxy
     attr_accessor :replaces_invoice_ids
 
     attr_accessor :replaced_by_invoice_ids
+
+    attr_accessor :possible_duplicates
+
+    attr_accessor :duplicates_checked
+
+    attr_accessor :has_lookup_rows
 
     attr_accessor :source
 
@@ -160,6 +172,8 @@ module Pleaxy
     attr_accessor :remittance_instructions
 
     attr_accessor :remittance_check
+
+    attr_accessor :bank_details_confirmation
 
     attr_accessor :source_document
 
@@ -228,6 +242,9 @@ module Pleaxy
         :'match_status' => :'matchStatus',
         :'unverified_reason' => :'unverifiedReason',
         :'match_basis' => :'matchBasis',
+        :'receipt_check_skipped' => :'receiptCheckSkipped',
+        :'receipt_tolerance_applied' => :'receiptToleranceApplied',
+        :'match_type' => :'matchType',
         :'discrepancy_reason' => :'discrepancyReason',
         :'control_findings' => :'controlFindings',
         :'paid' => :'paid',
@@ -245,6 +262,9 @@ module Pleaxy
         :'replaces_invoice_id' => :'replacesInvoiceId',
         :'replaces_invoice_ids' => :'replacesInvoiceIds',
         :'replaced_by_invoice_ids' => :'replacedByInvoiceIds',
+        :'possible_duplicates' => :'possibleDuplicates',
+        :'duplicates_checked' => :'duplicatesChecked',
+        :'has_lookup_rows' => :'hasLookupRows',
         :'source' => :'source',
         :'entered_by' => :'enteredBy',
         :'invoice_date' => :'invoiceDate',
@@ -271,6 +291,7 @@ module Pleaxy
         :'rate_warnings' => :'rateWarnings',
         :'remittance_instructions' => :'remittanceInstructions',
         :'remittance_check' => :'remittanceCheck',
+        :'bank_details_confirmation' => :'bankDetailsConfirmation',
         :'source_document' => :'sourceDocument',
         :'has_original_pdf' => :'hasOriginalPdf',
         :'base_currency_amount' => :'baseCurrencyAmount',
@@ -318,6 +339,9 @@ module Pleaxy
         :'match_status' => :'String',
         :'unverified_reason' => :'String',
         :'match_basis' => :'String',
+        :'receipt_check_skipped' => :'InvoiceBuyerViewReceiptCheckSkipped',
+        :'receipt_tolerance_applied' => :'InvoiceBuyerViewReceiptToleranceApplied',
+        :'match_type' => :'String',
         :'discrepancy_reason' => :'String',
         :'control_findings' => :'Array<InvoiceControlFinding>',
         :'paid' => :'Boolean',
@@ -335,6 +359,9 @@ module Pleaxy
         :'replaces_invoice_id' => :'String',
         :'replaces_invoice_ids' => :'Array<String>',
         :'replaced_by_invoice_ids' => :'Array<String>',
+        :'possible_duplicates' => :'Array<InvoiceDuplicateRef>',
+        :'duplicates_checked' => :'Boolean',
+        :'has_lookup_rows' => :'Boolean',
         :'source' => :'String',
         :'entered_by' => :'String',
         :'invoice_date' => :'String',
@@ -361,6 +388,7 @@ module Pleaxy
         :'rate_warnings' => :'Array<InvoiceRateWarning>',
         :'remittance_instructions' => :'RemittanceInstructions',
         :'remittance_check' => :'RemittanceCheck',
+        :'bank_details_confirmation' => :'BankDetailsConfirmation',
         :'source_document' => :'InvoiceSourceDocument',
         :'has_original_pdf' => :'Boolean',
         :'base_currency_amount' => :'InvoiceBaseCurrencyAmount',
@@ -515,6 +543,18 @@ module Pleaxy
         self.match_basis = attributes[:'match_basis']
       end
 
+      if attributes.key?(:'receipt_check_skipped')
+        self.receipt_check_skipped = attributes[:'receipt_check_skipped']
+      end
+
+      if attributes.key?(:'receipt_tolerance_applied')
+        self.receipt_tolerance_applied = attributes[:'receipt_tolerance_applied']
+      end
+
+      if attributes.key?(:'match_type')
+        self.match_type = attributes[:'match_type']
+      end
+
       if attributes.key?(:'discrepancy_reason')
         self.discrepancy_reason = attributes[:'discrepancy_reason']
       end
@@ -591,6 +631,20 @@ module Pleaxy
         if (value = attributes[:'replaced_by_invoice_ids']).is_a?(Array)
           self.replaced_by_invoice_ids = value
         end
+      end
+
+      if attributes.key?(:'possible_duplicates')
+        if (value = attributes[:'possible_duplicates']).is_a?(Array)
+          self.possible_duplicates = value
+        end
+      end
+
+      if attributes.key?(:'duplicates_checked')
+        self.duplicates_checked = attributes[:'duplicates_checked']
+      end
+
+      if attributes.key?(:'has_lookup_rows')
+        self.has_lookup_rows = attributes[:'has_lookup_rows']
       end
 
       if attributes.key?(:'source')
@@ -715,6 +769,10 @@ module Pleaxy
         self.remittance_check = attributes[:'remittance_check']
       end
 
+      if attributes.key?(:'bank_details_confirmation')
+        self.bank_details_confirmation = attributes[:'bank_details_confirmation']
+      end
+
       if attributes.key?(:'source_document')
         self.source_document = attributes[:'source_document']
       end
@@ -767,6 +825,8 @@ module Pleaxy
       return false unless unverified_reason_validator.valid?(@unverified_reason)
       match_basis_validator = EnumAttributeValidator.new('String', ["purchase_order"])
       return false unless match_basis_validator.valid?(@match_basis)
+      match_type_validator = EnumAttributeValidator.new('String', ["two_way", "three_way", "usage"])
+      return false unless match_type_validator.valid?(@match_type)
       discrepancy_reason_validator = EnumAttributeValidator.new('String', ["amount", "currency", "controls"])
       return false unless discrepancy_reason_validator.valid?(@discrepancy_reason)
       due_date_source_validator = EnumAttributeValidator.new('String', ["default", "stated"])
@@ -822,6 +882,16 @@ module Pleaxy
         fail ArgumentError, "invalid value for \"match_basis\", must be one of #{validator.allowable_values}."
       end
       @match_basis = match_basis
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] match_type Object to be assigned
+    def match_type=(match_type)
+      validator = EnumAttributeValidator.new('String', ["two_way", "three_way", "usage"])
+      unless validator.valid?(match_type)
+        fail ArgumentError, "invalid value for \"match_type\", must be one of #{validator.allowable_values}."
+      end
+      @match_type = match_type
     end
 
     # Custom attribute writer method checking allowed values (enum).
@@ -929,6 +999,9 @@ module Pleaxy
           match_status == o.match_status &&
           unverified_reason == o.unverified_reason &&
           match_basis == o.match_basis &&
+          receipt_check_skipped == o.receipt_check_skipped &&
+          receipt_tolerance_applied == o.receipt_tolerance_applied &&
+          match_type == o.match_type &&
           discrepancy_reason == o.discrepancy_reason &&
           control_findings == o.control_findings &&
           paid == o.paid &&
@@ -946,6 +1019,9 @@ module Pleaxy
           replaces_invoice_id == o.replaces_invoice_id &&
           replaces_invoice_ids == o.replaces_invoice_ids &&
           replaced_by_invoice_ids == o.replaced_by_invoice_ids &&
+          possible_duplicates == o.possible_duplicates &&
+          duplicates_checked == o.duplicates_checked &&
+          has_lookup_rows == o.has_lookup_rows &&
           source == o.source &&
           entered_by == o.entered_by &&
           invoice_date == o.invoice_date &&
@@ -972,6 +1048,7 @@ module Pleaxy
           rate_warnings == o.rate_warnings &&
           remittance_instructions == o.remittance_instructions &&
           remittance_check == o.remittance_check &&
+          bank_details_confirmation == o.bank_details_confirmation &&
           source_document == o.source_document &&
           has_original_pdf == o.has_original_pdf &&
           base_currency_amount == o.base_currency_amount &&
@@ -989,7 +1066,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [already_recorded, supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, approval_version, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, usage_amount, usage_amount_simulated, usage_simulated_after_disconnect, usage_currency, usage_source, tolerance_pct, match_status, unverified_reason, match_basis, discrepancy_reason, control_findings, paid, due_in_days, due_date, paid_at, payment, remittances, payment_history, export_available_from, previous_exported_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, source, entered_by, invoice_date, sod_excluded_keys, submitted_format, submitted_by, feed_payload_hash, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, rate_warnings, remittance_instructions, remittance_check, source_document, has_original_pdf, base_currency_amount, viewer_is_supplier_member, replacement, uncredited_originals].hash
+      [already_recorded, supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, approval_version, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, usage_amount, usage_amount_simulated, usage_simulated_after_disconnect, usage_currency, usage_source, tolerance_pct, match_status, unverified_reason, match_basis, receipt_check_skipped, receipt_tolerance_applied, match_type, discrepancy_reason, control_findings, paid, due_in_days, due_date, paid_at, payment, remittances, payment_history, export_available_from, previous_exported_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, sod_excluded_keys, submitted_format, submitted_by, feed_payload_hash, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, rate_warnings, remittance_instructions, remittance_check, bank_details_confirmation, source_document, has_original_pdf, base_currency_amount, viewer_is_supplier_member, replacement, uncredited_originals].hash
     end
 
     # Builds the object from hash

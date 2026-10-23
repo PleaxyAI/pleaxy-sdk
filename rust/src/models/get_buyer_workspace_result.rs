@@ -13,26 +13,36 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct GetBuyerWorkspaceResult {
-    #[serde(rename = "cloudConnections", skip_serializing_if = "Option::is_none")]
-    pub cloud_connections: Option<Vec<models::CloudConnection>>,
-    #[serde(rename = "purchaseOrders", skip_serializing_if = "Option::is_none")]
-    pub purchase_orders: Option<Vec<models::GetBuyerWorkspaceResultPurchaseOrdersInner>>,
-    #[serde(rename = "invoices", skip_serializing_if = "Option::is_none")]
-    pub invoices: Option<Vec<models::GetBuyerWorkspaceResultInvoicesInner>>,
     #[serde(
         rename = "viewerIsSoleInvoiceReviewer",
         skip_serializing_if = "Option::is_none"
     )]
     pub viewer_is_sole_invoice_reviewer: Option<bool>,
+    #[serde(
+        rename = "recentPurchaseOrders",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub recent_purchase_orders:
+        Option<Vec<models::GetBuyerWorkspaceResultRecentPurchaseOrdersInner>>,
+    #[serde(rename = "recentInvoices", skip_serializing_if = "Option::is_none")]
+    pub recent_invoices: Option<Vec<models::GetBuyerWorkspaceResultRecentInvoicesInner>>,
+    #[serde(rename = "cloudConnections", skip_serializing_if = "Option::is_none")]
+    pub cloud_connections: Option<Vec<models::CloudConnection>>,
+    #[serde(rename = "purchaseOrders", skip_serializing_if = "Option::is_none")]
+    pub purchase_orders: Option<Vec<models::GetBuyerWorkspaceResultRecentPurchaseOrdersInner>>,
+    #[serde(rename = "invoices", skip_serializing_if = "Option::is_none")]
+    pub invoices: Option<Vec<models::GetBuyerWorkspaceResultRecentInvoicesInner>>,
 }
 
 impl GetBuyerWorkspaceResult {
     pub fn new() -> GetBuyerWorkspaceResult {
         GetBuyerWorkspaceResult {
+            viewer_is_sole_invoice_reviewer: None,
+            recent_purchase_orders: None,
+            recent_invoices: None,
             cloud_connections: None,
             purchase_orders: None,
             invoices: None,
-            viewer_is_sole_invoice_reviewer: None,
         }
     }
 }

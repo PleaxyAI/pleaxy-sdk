@@ -22,6 +22,7 @@ if TYPE_CHECKING:
     from ..models.billing_summary_available_plans_item import (
         BillingSummaryAvailablePlansItem,
     )
+    from ..models.billing_summary_aws_marketplace import BillingSummaryAwsMarketplace
     from ..models.price_amount import PriceAmount
 
 
@@ -35,12 +36,14 @@ class BillingSummary:
         billing_enabled (Union[Unset, bool]):
         plan (Union[Unset, BillingSummaryPlan]):
         managed_by (Union[Unset, BillingSummaryManagedBy]):
+        aws_marketplace (Union[Unset, BillingSummaryAwsMarketplace]):
         has_billing_account (Union[Unset, bool]):
         subscription_status (Union[Unset, BillingSummarySubscriptionStatus]):
         current_period_end (Union[Unset, str]):
         cancel_at_period_end (Union[Unset, bool]):
         past_due_since (Union[Unset, str]):
         buyer_region_count (Union[Unset, float]):
+        supplier_region_count (Union[Unset, float]):
         interval (Union[Unset, BillingSummaryInterval]):
         available_plans (Union[Unset, List['BillingSummaryAvailablePlansItem']]):
         current_price_label (Union[Unset, str]):
@@ -52,12 +55,14 @@ class BillingSummary:
     billing_enabled: Union[Unset, bool] = UNSET
     plan: Union[Unset, BillingSummaryPlan] = UNSET
     managed_by: Union[Unset, BillingSummaryManagedBy] = UNSET
+    aws_marketplace: Union[Unset, "BillingSummaryAwsMarketplace"] = UNSET
     has_billing_account: Union[Unset, bool] = UNSET
     subscription_status: Union[Unset, BillingSummarySubscriptionStatus] = UNSET
     current_period_end: Union[Unset, str] = UNSET
     cancel_at_period_end: Union[Unset, bool] = UNSET
     past_due_since: Union[Unset, str] = UNSET
     buyer_region_count: Union[Unset, float] = UNSET
+    supplier_region_count: Union[Unset, float] = UNSET
     interval: Union[Unset, BillingSummaryInterval] = UNSET
     available_plans: Union[Unset, List["BillingSummaryAvailablePlansItem"]] = UNSET
     current_price_label: Union[Unset, str] = UNSET
@@ -77,6 +82,10 @@ class BillingSummary:
         if not isinstance(self.managed_by, Unset):
             managed_by = self.managed_by
 
+        aws_marketplace: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.aws_marketplace, Unset):
+            aws_marketplace = self.aws_marketplace.to_dict()
+
         has_billing_account = self.has_billing_account
 
         subscription_status: Union[Unset, str] = UNSET
@@ -90,6 +99,8 @@ class BillingSummary:
         past_due_since = self.past_due_since
 
         buyer_region_count = self.buyer_region_count
+
+        supplier_region_count = self.supplier_region_count
 
         interval: Union[Unset, str] = UNSET
         if not isinstance(self.interval, Unset):
@@ -123,6 +134,8 @@ class BillingSummary:
             field_dict["plan"] = plan
         if managed_by is not UNSET:
             field_dict["managedBy"] = managed_by
+        if aws_marketplace is not UNSET:
+            field_dict["awsMarketplace"] = aws_marketplace
         if has_billing_account is not UNSET:
             field_dict["hasBillingAccount"] = has_billing_account
         if subscription_status is not UNSET:
@@ -135,6 +148,8 @@ class BillingSummary:
             field_dict["pastDueSince"] = past_due_since
         if buyer_region_count is not UNSET:
             field_dict["buyerRegionCount"] = buyer_region_count
+        if supplier_region_count is not UNSET:
+            field_dict["supplierRegionCount"] = supplier_region_count
         if interval is not UNSET:
             field_dict["interval"] = interval
         if available_plans is not UNSET:
@@ -155,6 +170,9 @@ class BillingSummary:
         from ..models.billing_summary_available_plans_item import (
             BillingSummaryAvailablePlansItem,
         )
+        from ..models.billing_summary_aws_marketplace import (
+            BillingSummaryAwsMarketplace,
+        )
         from ..models.price_amount import PriceAmount
 
         d = src_dict.copy()
@@ -174,6 +192,13 @@ class BillingSummary:
         else:
             managed_by = check_billing_summary_managed_by(_managed_by)
 
+        _aws_marketplace = d.pop("awsMarketplace", UNSET)
+        aws_marketplace: Union[Unset, BillingSummaryAwsMarketplace]
+        if isinstance(_aws_marketplace, Unset):
+            aws_marketplace = UNSET
+        else:
+            aws_marketplace = BillingSummaryAwsMarketplace.from_dict(_aws_marketplace)
+
         has_billing_account = d.pop("hasBillingAccount", UNSET)
 
         _subscription_status = d.pop("subscriptionStatus", UNSET)
@@ -192,6 +217,8 @@ class BillingSummary:
         past_due_since = d.pop("pastDueSince", UNSET)
 
         buyer_region_count = d.pop("buyerRegionCount", UNSET)
+
+        supplier_region_count = d.pop("supplierRegionCount", UNSET)
 
         _interval = d.pop("interval", UNSET)
         interval: Union[Unset, BillingSummaryInterval]
@@ -231,12 +258,14 @@ class BillingSummary:
             billing_enabled=billing_enabled,
             plan=plan,
             managed_by=managed_by,
+            aws_marketplace=aws_marketplace,
             has_billing_account=has_billing_account,
             subscription_status=subscription_status,
             current_period_end=current_period_end,
             cancel_at_period_end=cancel_at_period_end,
             past_due_since=past_due_since,
             buyer_region_count=buyer_region_count,
+            supplier_region_count=supplier_region_count,
             interval=interval,
             available_plans=available_plans,
             current_price_label=current_price_label,

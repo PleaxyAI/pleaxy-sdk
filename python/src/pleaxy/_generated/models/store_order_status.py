@@ -1,13 +1,26 @@
 from typing import Literal, Set, cast
 
 StoreOrderStatus = Literal[
-    "expired", "failed", "manual", "queued", "refused", "retrying", "sending", "sent"
-]
-
-STORE_ORDER_STATUS_VALUES: Set[StoreOrderStatus] = {
+    "cancelled",
+    "confirmed",
     "expired",
     "failed",
     "manual",
+    "partial",
+    "queued",
+    "refused",
+    "retrying",
+    "sending",
+    "sent",
+]
+
+STORE_ORDER_STATUS_VALUES: Set[StoreOrderStatus] = {
+    "cancelled",
+    "confirmed",
+    "expired",
+    "failed",
+    "manual",
+    "partial",
     "queued",
     "refused",
     "retrying",

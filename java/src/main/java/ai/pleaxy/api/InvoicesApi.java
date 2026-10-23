@@ -33,6 +33,8 @@ import ai.pleaxy.model.PaymentExportInput;
 import ai.pleaxy.model.ReassignApprovalStageInput;
 import ai.pleaxy.model.RecordPaymentInput;
 import ai.pleaxy.model.RecordPaymentResult;
+import ai.pleaxy.model.RecordPaymentsBatchInput;
+import ai.pleaxy.model.RecordPaymentsResult;
 import ai.pleaxy.model.RejectInvoiceInput;
 import ai.pleaxy.model.RemoveInvoiceReplacementLinkResult;
 import ai.pleaxy.model.StartStripePaymentResult;
@@ -1083,6 +1085,84 @@ public class InvoicesApi {
   }
 
   /**
+   * [Buyer] Record payments your ERP or bank feed already made outside Pleaxy - wires, checks, ACH, card - so each supplier gets its payment notice, remittance advice and sync event without anyone retyping it: { payments: [{ invoiceId, method, paymentDate, reference, note?, ...RecordPayment&#39;s currency and withholding fields }] }, 1-50 per call. Each payment follows RecordPayment&#39;s rules and is answered on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?, message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still refused. Up to 500 payments per key per UTC day; past that each payment is refused with 429 RATE_LIMITED. Every call that records a payment raises a payments_recorded_by_key notification in the workspace naming the key and the invoices, so a payment nobody made is seen and withdrawn. API key with the payments:record scope only, minted with a procurementRole that can edit invoices.
+   * 
+   * @param recordPaymentsBatchInput  (required)
+   * @return RecordPaymentsResult
+   * @throws ApiException if fails to make API call
+   */
+  public RecordPaymentsResult recordPayments(RecordPaymentsBatchInput recordPaymentsBatchInput) throws ApiException {
+    ApiResponse<RecordPaymentsResult> localVarResponse = recordPaymentsWithHttpInfo(recordPaymentsBatchInput);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Record payments your ERP or bank feed already made outside Pleaxy - wires, checks, ACH, card - so each supplier gets its payment notice, remittance advice and sync event without anyone retyping it: { payments: [{ invoiceId, method, paymentDate, reference, note?, ...RecordPayment&#39;s currency and withholding fields }] }, 1-50 per call. Each payment follows RecordPayment&#39;s rules and is answered on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?, message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still refused. Up to 500 payments per key per UTC day; past that each payment is refused with 429 RATE_LIMITED. Every call that records a payment raises a payments_recorded_by_key notification in the workspace naming the key and the invoices, so a payment nobody made is seen and withdrawn. API key with the payments:record scope only, minted with a procurementRole that can edit invoices.
+   * 
+   * @param recordPaymentsBatchInput  (required)
+   * @return ApiResponse&lt;RecordPaymentsResult&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<RecordPaymentsResult> recordPaymentsWithHttpInfo(RecordPaymentsBatchInput recordPaymentsBatchInput) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = recordPaymentsRequestBuilder(recordPaymentsBatchInput);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("recordPayments", localVarResponse);
+        }
+        return new ApiResponse<RecordPaymentsResult>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<RecordPaymentsResult>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder recordPaymentsRequestBuilder(RecordPaymentsBatchInput recordPaymentsBatchInput) throws ApiException {
+    // verify the required parameter 'recordPaymentsBatchInput' is set
+    if (recordPaymentsBatchInput == null) {
+      throw new ApiException(400, "Missing the required parameter 'recordPaymentsBatchInput' when calling recordPayments");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/invoices/payment-records";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(recordPaymentsBatchInput);
+      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
    * [Buyer] Reject an invoice with a reason the supplier sees - only the current stage&#39;s assigned approver may call this, or, for an unverified/discrepancy invoice with no approval chain yet, any buyer with invoices:edit. Human session only: an API key gets 403 HUMAN_APPROVAL_REQUIRED. Rejecting a PO-backed invoice reopens its purchase order for a corrected invoice.
    * 
    * @param invoiceId  (required)
@@ -1411,7 +1491,7 @@ public class InvoicesApi {
   }
 
   /**
-   * [Buyer] Run 3-way matching on an invoice. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
+   * [Buyer] Match an invoice: against the provider&#39;s usage for a cloud provider&#39;s order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
    * 
    * @param invoiceId  (required)
    * @return InvoiceBuyerView
@@ -1423,7 +1503,7 @@ public class InvoicesApi {
   }
 
   /**
-   * [Buyer] Run 3-way matching on an invoice. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
+   * [Buyer] Match an invoice: against the provider&#39;s usage for a cloud provider&#39;s order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
    * 
    * @param invoiceId  (required)
    * @return ApiResponse&lt;InvoiceBuyerView&gt;

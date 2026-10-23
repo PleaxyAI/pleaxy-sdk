@@ -29,6 +29,8 @@ module Pleaxy
 
     attr_accessor :valid_until
 
+    attr_accessor :document_type
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -60,7 +62,8 @@ module Pleaxy
         :'added_at' => :'addedAt',
         :'added_by' => :'addedBy',
         :'quote_number' => :'quoteNumber',
-        :'valid_until' => :'validUntil'
+        :'valid_until' => :'validUntil',
+        :'document_type' => :'documentType'
       }
     end
 
@@ -78,7 +81,8 @@ module Pleaxy
         :'added_at' => :'String',
         :'added_by' => :'String',
         :'quote_number' => :'String',
-        :'valid_until' => :'String'
+        :'valid_until' => :'String',
+        :'document_type' => :'String'
       }
     end
 
@@ -130,6 +134,10 @@ module Pleaxy
       if attributes.key?(:'valid_until')
         self.valid_until = attributes[:'valid_until']
       end
+
+      if attributes.key?(:'document_type')
+        self.document_type = attributes[:'document_type']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -146,6 +154,8 @@ module Pleaxy
       warn '[DEPRECATED] the `valid?` method is obsolete'
       content_type_validator = EnumAttributeValidator.new('String', ["application/pdf", "image/png", "image/jpeg"])
       return false unless content_type_validator.valid?(@content_type)
+      document_type_validator = EnumAttributeValidator.new('String', ["quote", "order_form", "proforma", "sow", "contract", "invoice", "other"])
+      return false unless document_type_validator.valid?(@document_type)
       true
     end
 
@@ -159,6 +169,16 @@ module Pleaxy
       @content_type = content_type
     end
 
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] document_type Object to be assigned
+    def document_type=(document_type)
+      validator = EnumAttributeValidator.new('String', ["quote", "order_form", "proforma", "sow", "contract", "invoice", "other"])
+      unless validator.valid?(document_type)
+        fail ArgumentError, "invalid value for \"document_type\", must be one of #{validator.allowable_values}."
+      end
+      @document_type = document_type
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
@@ -170,7 +190,8 @@ module Pleaxy
           added_at == o.added_at &&
           added_by == o.added_by &&
           quote_number == o.quote_number &&
-          valid_until == o.valid_until
+          valid_until == o.valid_until &&
+          document_type == o.document_type
     end
 
     # @see the `==` method
@@ -182,7 +203,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [import_id, file_name, content_type, added_at, added_by, quote_number, valid_until].hash
+      [import_id, file_name, content_type, added_at, added_by, quote_number, valid_until, document_type].hash
     end
 
     # Builds the object from hash

@@ -52,7 +52,9 @@ public class ApprovalChainSettings {
   public enum ProcessEnum {
     PURCHASE_ORDER(String.valueOf("purchase_order")),
     
-    INVOICE_PAYMENT(String.valueOf("invoice_payment"));
+    INVOICE_PAYMENT(String.valueOf("invoice_payment")),
+    
+    SERVICE_ENTRY_SHEET(String.valueOf("service_entry_sheet"));
 
     private String value;
 

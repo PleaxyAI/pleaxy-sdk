@@ -144,6 +144,108 @@ export class CloudConnectionsResource {
   }
 }
 
+export class DocumentSyncResource {
+  constructor(private readonly transport: Transport) {}
+
+  /**
+   * [Both, admin] Add an endpoint: { url, description?, events? }. Every event of those types (all of your side's when events is left out) is POSTed to it as JSON - ListSyncEvents' event plus workspaceId and documentPath - signed in the Pleaxy-Signature header (t=<unix seconds>,v1=<hex HMAC-SHA256 of "<t>.<body>">) with the secret returned here, once. A 2xx within 10 seconds is delivered; anything else is retried after 1 min, 5 min, 30 min, 2 h, 6 h, 12 h and 24 h, then given up. Up to 5 per side. Signed-in administrators only.
+   */
+  createWebhook(body: RequestBody<"CreateWebhook">, options?: RequestOptions): Promise<ResponseBody<"CreateWebhook">> {
+    return this.transport.request("post", "/webhooks", { path: undefined, body, options }) as Promise<ResponseBody<"CreateWebhook">>;
+  }
+
+  /**
+   * [Both, admin] Remove an endpoint. Deliveries still waiting for it are given up.
+   */
+  deleteWebhook(webhookId: string, options?: RequestOptions): Promise<ResponseBody<"DeleteWebhook">> {
+    return this.transport.request("delete", "/webhooks/{webhookId}", { path: { webhookId }, options }) as Promise<ResponseBody<"DeleteWebhook">>;
+  }
+
+  /**
+   * [Both] An invoice as a UBL 2.1 Invoice (?format=ubl, the default and only format), for the buyer's ERP to book or the supplier's archive: the lines, document-level discounts and charges, tax and withholdings, prepayments, the supplier's payment instructions, the PO and contract it bills. The supplier's view whoever asks: no matching, findings or approvals. Takes the same ?buyer= as GetInvoice.
+   */
+  getInvoiceDocument(invoiceId: string, query?: QueryParams<"GetInvoiceDocument">, options?: RequestOptions): Promise<ArrayBuffer> {
+    return this.transport.request("get", "/invoices/{invoiceId}/document", { path: { invoiceId }, query, parseAs: "arrayBuffer", options }) as Promise<ArrayBuffer>;
+  }
+
+  /**
+   * [Both] The payment signal for an invoice, for the supplier's cash application: status unpaid|recorded|processing|paid_through_pleaxy|withdrawn, and once paid the method (ach, wire, check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion, what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as GetInvoice.
+   */
+  getInvoiceRemittance(invoiceId: string, query?: QueryParams<"GetInvoiceRemittance">, options?: RequestOptions): Promise<ResponseBody<"GetInvoiceRemittance">> {
+    return this.transport.request("get", "/invoices/{invoiceId}/remittance", { path: { invoiceId }, query, options }) as Promise<ResponseBody<"GetInvoiceRemittance">>;
+  }
+
+  /**
+   * [Both] GetInvoiceRemittance as a document: ?format=cxml (the default: a cXML PaymentRemittanceRequest) or ?format=ubl (a UBL 2.1 RemittanceAdvice). 409 NO_PAYMENT until a payment is recorded or has gone through. Takes the same ?buyer= as GetInvoice.
+   */
+  getInvoiceRemittanceDocument(invoiceId: string, query?: QueryParams<"GetInvoiceRemittanceDocument">, options?: RequestOptions): Promise<ArrayBuffer> {
+    return this.transport.request("get", "/invoices/{invoiceId}/remittance/document", { path: { invoiceId }, query, parseAs: "arrayBuffer", options }) as Promise<ArrayBuffer>;
+  }
+
+  /**
+   * [Both] Where an invoice stands, for the system that sent it or the one that pays it: status received|in_process|under_query|approved|payment_in_progress|paid|rejected|duplicate, with responseCode (UNCL4343: AB, IP, UQ, AP, RE, PD), cxmlStatus, queryReason, the rejection's reason, amountDue and dueDate. The same as cXML or UBL: GetInvoiceStatusDocument. The supplier's view whoever asks. Takes the same ?buyer= as GetInvoice.
+   */
+  getInvoiceStatus(invoiceId: string, query?: QueryParams<"GetInvoiceStatus">, options?: RequestOptions): Promise<ResponseBody<"GetInvoiceStatus">> {
+    return this.transport.request("get", "/invoices/{invoiceId}/status", { path: { invoiceId }, query, options }) as Promise<ResponseBody<"GetInvoiceStatus">>;
+  }
+
+  /**
+   * [Both] GetInvoiceStatus as a document: ?format=cxml (the default: a cXML StatusUpdateRequest with an InvoiceStatus) or ?format=ubl (a UBL 2.1 ApplicationResponse with the Peppol Invoice Response codes). Takes the same ?buyer= as GetInvoice.
+   */
+  getInvoiceStatusDocument(invoiceId: string, query?: QueryParams<"GetInvoiceStatusDocument">, options?: RequestOptions): Promise<ArrayBuffer> {
+    return this.transport.request("get", "/invoices/{invoiceId}/status/document", { path: { invoiceId }, query, parseAs: "arrayBuffer", options }) as Promise<ArrayBuffer>;
+  }
+
+  /**
+   * [Both] An issued purchase order as a document another system takes in: ?format=cxml (the default: a cXML OrderRequest, type new, update from version 2, delete once canceled) or ?format=ubl (a UBL 2.1 Order, or an OrderCancellation once canceled). The supplier's copy whoever asks, as GetPurchaseOrderPdf. Takes the same ?buyer= as GetPurchaseOrder. 409 ORDER_NOT_ISSUED for a draft, an order in approval or a rejected one.
+   */
+  getPurchaseOrderDocument(poId: string, query?: QueryParams<"GetPurchaseOrderDocument">, options?: RequestOptions): Promise<ArrayBuffer> {
+    return this.transport.request("get", "/purchase-orders/{poId}/document", { path: { poId }, query, parseAs: "arrayBuffer", options }) as Promise<ArrayBuffer>;
+  }
+
+  /**
+   * [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.
+   */
+  listSyncEvents(query?: QueryParams<"ListSyncEvents">, options?: RequestOptions): Promise<ResponseBody<"ListSyncEvents">> {
+    return this.transport.request("get", "/sync/events", { path: undefined, query, options }) as Promise<ResponseBody<"ListSyncEvents">>;
+  }
+
+  /**
+   * [Both, admin] An endpoint's last 50 deliveries, newest first: { deliveries: [{ eventId, type, status: pending|delivered|failed, attempts, createdAt, nextAttemptAt, lastAttemptAt, lastStatus, lastErrorCode, deliveredAt }] }. Kept 30 days.
+   */
+  listWebhookDeliveries(webhookId: string, options?: RequestOptions): Promise<ResponseBody<"ListWebhookDeliveries">> {
+    return this.transport.request("get", "/webhooks/{webhookId}/deliveries", { path: { webhookId }, options }) as Promise<ResponseBody<"ListWebhookDeliveries">>;
+  }
+
+  /**
+   * [Both, admin] Your side's webhook endpoints and the event types they can take: { endpoints: [{ id, url, description, events, enabled, secretHint, lastAttemptAt, lastStatus, lastErrorCode, lastSuccessAt, failedDeliveries }], eventTypes }. Never the signing secret.
+   */
+  listWebhooks(options?: RequestOptions): Promise<ResponseBody<"ListWebhooks">> {
+    return this.transport.request("get", "/webhooks", { path: undefined, options }) as Promise<ResponseBody<"ListWebhooks">>;
+  }
+
+  /**
+   * [Both, admin] A new signing secret for an endpoint, returned this once; the old one stops signing at once.
+   */
+  rotateWebhookSecret(webhookId: string, options?: RequestOptions): Promise<ResponseBody<"RotateWebhookSecret">> {
+    return this.transport.request("post", "/webhooks/{webhookId}/secret", { path: { webhookId }, options }) as Promise<ResponseBody<"RotateWebhookSecret">>;
+  }
+
+  /**
+   * [Both, admin] Send the endpoint a signed ping now, once: { ok, status?, errorCode?, durationMs }.
+   */
+  testWebhook(webhookId: string, options?: RequestOptions): Promise<ResponseBody<"TestWebhook">> {
+    return this.transport.request("post", "/webhooks/{webhookId}/test", { path: { webhookId }, options }) as Promise<ResponseBody<"TestWebhook">>;
+  }
+
+  /**
+   * [Both, admin] Change an endpoint's url, description or events, or pause and resume it with enabled. Resuming clears its count of failed deliveries.
+   */
+  updateWebhook(webhookId: string, body: RequestBody<"UpdateWebhook">, options?: RequestOptions): Promise<ResponseBody<"UpdateWebhook">> {
+    return this.transport.request("patch", "/webhooks/{webhookId}", { path: { webhookId }, body, options }) as Promise<ResponseBody<"UpdateWebhook">>;
+  }
+}
+
 export class EmployeesResource {
   constructor(private readonly transport: Transport) {}
 
@@ -268,6 +370,13 @@ export class InvoicesResource {
   }
 
   /**
+   * [Buyer] Record payments your ERP or bank feed already made outside Pleaxy - wires, checks, ACH, card - so each supplier gets its payment notice, remittance advice and sync event without anyone retyping it: { payments: [{ invoiceId, method, paymentDate, reference, note?, ...RecordPayment's currency and withholding fields }] }, 1-50 per call. Each payment follows RecordPayment's rules and is answered on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?, message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still refused. Up to 500 payments per key per UTC day; past that each payment is refused with 429 RATE_LIMITED. Every call that records a payment raises a payments_recorded_by_key notification in the workspace naming the key and the invoices, so a payment nobody made is seen and withdrawn. API key with the payments:record scope only, minted with a procurementRole that can edit invoices.
+   */
+  recordPayments(body: RequestBody<"RecordPayments">, options?: RequestOptions): Promise<ResponseBody<"RecordPayments">> {
+    return this.transport.request("post", "/invoices/payment-records", { path: undefined, body, options }) as Promise<ResponseBody<"RecordPayments">>;
+  }
+
+  /**
    * [Buyer] Reject an invoice with a reason the supplier sees - only the current stage's assigned approver may call this, or, for an unverified/discrepancy invoice with no approval chain yet, any buyer with invoices:edit. Human session only: an API key gets 403 HUMAN_APPROVAL_REQUIRED. Rejecting a PO-backed invoice reopens its purchase order for a corrected invoice.
    */
   rejectInvoice(invoiceId: string, body: RequestBody<"RejectInvoice">, options?: RequestOptions): Promise<ResponseBody<"RejectInvoice">> {
@@ -296,7 +405,7 @@ export class InvoicesResource {
   }
 
   /**
-   * [Buyer] Run 3-way matching on an invoice. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
+   * [Buyer] Match an invoice: against the provider's usage for a cloud provider's order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
    */
   runInvoiceMatch(invoiceId: string, options?: RequestOptions): Promise<ResponseBody<"RunInvoiceMatch">> {
     return this.transport.request("post", "/invoices/{invoiceId}/run-match", { path: { invoiceId }, options }) as Promise<ResponseBody<"RunInvoiceMatch">>;
@@ -530,14 +639,14 @@ export class WorkspacesResource {
   constructor(private readonly transport: Transport) {}
 
   /**
-   * [Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from=&to=
+   * [Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from=&to=. ?lists=none returns purchaseOrders and invoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage), and the rest as usual. ?lists=active returns only the ones still in play - not canceled, closed, rejected or paid POs; unpaid invoices, and ones rejected in the last 30 days and not yet replaced - with recentPurchaseOrders and recentInvoices, the newest 10 of each.
    */
   getBuyerWorkspace(query?: QueryParams<"GetBuyerWorkspace">, options?: RequestOptions): Promise<ResponseBody<"GetBuyerWorkspace">> {
     return this.transport.request("get", "/buyer", { path: undefined, query, options }) as Promise<ResponseBody<"GetBuyerWorkspace">>;
   }
 
   /**
-   * [Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from=&to=
+   * [Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from=&to=. ?lists=none returns incomingPOs and supplierInvoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage). ?lists=active returns only the ones still in play (as GetBuyerWorkspace), with recentIncomingPOs and recentSupplierInvoices, the newest 10 of each.
    */
   getSupplierWorkspace(query?: QueryParams<"GetSupplierWorkspace">, options?: RequestOptions): Promise<ResponseBody<"GetSupplierWorkspace">> {
     return this.transport.request("get", "/supplier", { path: undefined, query, options }) as Promise<ResponseBody<"GetSupplierWorkspace">>;
@@ -552,6 +661,7 @@ export class Resources {
   readonly automationRules: AutomationRulesResource;
   readonly billing: BillingResource;
   readonly cloudConnections: CloudConnectionsResource;
+  readonly documentSync: DocumentSyncResource;
   readonly employees: EmployeesResource;
   readonly exchangeRates: ExchangeRatesResource;
   readonly invoices: InvoicesResource;
@@ -569,6 +679,7 @@ export class Resources {
     this.automationRules = new AutomationRulesResource(transport);
     this.billing = new BillingResource(transport);
     this.cloudConnections = new CloudConnectionsResource(transport);
+    this.documentSync = new DocumentSyncResource(transport);
     this.employees = new EmployeesResource(transport);
     this.exchangeRates = new ExchangeRatesResource(transport);
     this.invoices = new InvoicesResource(transport);

@@ -796,6 +796,72 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Buyer] Record payments your ERP or bank feed already made outside Pleaxy - wires, checks, ACH, card - so each supplier gets its payment notice, remittance advice and sync event without anyone retyping it: { payments: [{ invoiceId, method, paymentDate, reference, note?, ...RecordPayment's currency and withholding fields }] }, 1-50 per call. Each payment follows RecordPayment's rules and is answered on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?, message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still refused. Up to 500 payments per key per UTC day; past that each payment is refused with 429 RATE_LIMITED. Every call that records a payment raises a payments_recorded_by_key notification in the workspace naming the key and the invoices, so a payment nobody made is seen and withdrawn. API key with the payments:record scope only, minted with a procurementRole that can edit invoices.
+    # @param record_payments_batch_input [RecordPaymentsBatchInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [RecordPaymentsResult]
+    def record_payments(record_payments_batch_input, opts = {})
+      data, _status_code, _headers = record_payments_with_http_info(record_payments_batch_input, opts)
+      data
+    end
+
+    # [Buyer] Record payments your ERP or bank feed already made outside Pleaxy - wires, checks, ACH, card - so each supplier gets its payment notice, remittance advice and sync event without anyone retyping it: { payments: [{ invoiceId, method, paymentDate, reference, note?, ...RecordPayment&#39;s currency and withholding fields }] }, 1-50 per call. Each payment follows RecordPayment&#39;s rules and is answered on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?, message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still refused. Up to 500 payments per key per UTC day; past that each payment is refused with 429 RATE_LIMITED. Every call that records a payment raises a payments_recorded_by_key notification in the workspace naming the key and the invoices, so a payment nobody made is seen and withdrawn. API key with the payments:record scope only, minted with a procurementRole that can edit invoices.
+    # @param record_payments_batch_input [RecordPaymentsBatchInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(RecordPaymentsResult, Integer, Hash)>] RecordPaymentsResult data, response status code and response headers
+    def record_payments_with_http_info(record_payments_batch_input, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: InvoicesApi.record_payments ...'
+      end
+      # verify the required parameter 'record_payments_batch_input' is set
+      if @api_client.config.client_side_validation && record_payments_batch_input.nil?
+        fail ArgumentError, "Missing the required parameter 'record_payments_batch_input' when calling InvoicesApi.record_payments"
+      end
+      # resource path
+      local_var_path = '/invoices/payment-records'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(record_payments_batch_input)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'RecordPaymentsResult'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"InvoicesApi.record_payments",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: InvoicesApi#record_payments\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] Reject an invoice with a reason the supplier sees - only the current stage's assigned approver may call this, or, for an unverified/discrepancy invoice with no approval chain yet, any buyer with invoices:edit. Human session only: an API key gets 403 HUMAN_APPROVAL_REQUIRED. Rejecting a PO-backed invoice reopens its purchase order for a corrected invoice.
     # @param invoice_id [String] 
     # @param reject_invoice_input [RejectInvoiceInput] 
@@ -1060,7 +1126,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] Run 3-way matching on an invoice. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
+    # [Buyer] Match an invoice: against the provider's usage for a cloud provider's order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
     # @param invoice_id [String] 
     # @param [Hash] opts the optional parameters
     # @return [InvoiceBuyerView]
@@ -1069,7 +1135,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] Run 3-way matching on an invoice. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
+    # [Buyer] Match an invoice: against the provider&#39;s usage for a cloud provider&#39;s order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
     # @param invoice_id [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(InvoiceBuyerView, Integer, Hash)>] InvoiceBuyerView data, response status code and response headers

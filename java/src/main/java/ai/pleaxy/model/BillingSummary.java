@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.BillingSummaryAvailablePlansInner;
+import ai.pleaxy.model.BillingSummaryAwsMarketplace;
 import ai.pleaxy.model.PriceAmount;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -40,12 +41,14 @@ import ai.pleaxy.client.ApiClient;
   BillingSummary.JSON_PROPERTY_BILLING_ENABLED,
   BillingSummary.JSON_PROPERTY_PLAN,
   BillingSummary.JSON_PROPERTY_MANAGED_BY,
+  BillingSummary.JSON_PROPERTY_AWS_MARKETPLACE,
   BillingSummary.JSON_PROPERTY_HAS_BILLING_ACCOUNT,
   BillingSummary.JSON_PROPERTY_SUBSCRIPTION_STATUS,
   BillingSummary.JSON_PROPERTY_CURRENT_PERIOD_END,
   BillingSummary.JSON_PROPERTY_CANCEL_AT_PERIOD_END,
   BillingSummary.JSON_PROPERTY_PAST_DUE_SINCE,
   BillingSummary.JSON_PROPERTY_BUYER_REGION_COUNT,
+  BillingSummary.JSON_PROPERTY_SUPPLIER_REGION_COUNT,
   BillingSummary.JSON_PROPERTY_INTERVAL,
   BillingSummary.JSON_PROPERTY_AVAILABLE_PLANS,
   BillingSummary.JSON_PROPERTY_CURRENT_PRICE_LABEL,
@@ -114,7 +117,9 @@ public class BillingSummary {
   public enum ManagedByEnum {
     SELF_SERVE(String.valueOf("self-serve")),
     
-    PLATFORM(String.valueOf("platform"));
+    PLATFORM(String.valueOf("platform")),
+    
+    AWS_MARKETPLACE(String.valueOf("aws-marketplace"));
 
     private String value;
 
@@ -147,6 +152,10 @@ public class BillingSummary {
   @javax.annotation.Nullable
   private ManagedByEnum managedBy;
 
+  public static final String JSON_PROPERTY_AWS_MARKETPLACE = "awsMarketplace";
+  @javax.annotation.Nullable
+  private BillingSummaryAwsMarketplace awsMarketplace;
+
   public static final String JSON_PROPERTY_HAS_BILLING_ACCOUNT = "hasBillingAccount";
   @javax.annotation.Nullable
   private Boolean hasBillingAccount;
@@ -155,15 +164,15 @@ public class BillingSummary {
    * Gets or Sets subscriptionStatus
    */
   public enum SubscriptionStatusEnum {
+    ACTIVE(String.valueOf("active")),
+    
     CANCELED(String.valueOf("canceled")),
+    
+    UNPAID(String.valueOf("unpaid")),
     
     TRIALING(String.valueOf("trialing")),
     
-    ACTIVE(String.valueOf("active")),
-    
     PAST_DUE(String.valueOf("past_due")),
-    
-    UNPAID(String.valueOf("unpaid")),
     
     INCOMPLETE(String.valueOf("incomplete")),
     
@@ -217,6 +226,10 @@ public class BillingSummary {
   public static final String JSON_PROPERTY_BUYER_REGION_COUNT = "buyerRegionCount";
   @javax.annotation.Nullable
   private Double buyerRegionCount;
+
+  public static final String JSON_PROPERTY_SUPPLIER_REGION_COUNT = "supplierRegionCount";
+  @javax.annotation.Nullable
+  private Double supplierRegionCount;
 
   /**
    * Gets or Sets interval
@@ -349,6 +362,30 @@ public class BillingSummary {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setManagedBy(@javax.annotation.Nullable ManagedByEnum managedBy) {
     this.managedBy = managedBy;
+  }
+
+
+  public BillingSummary awsMarketplace(@javax.annotation.Nullable BillingSummaryAwsMarketplace awsMarketplace) {
+    this.awsMarketplace = awsMarketplace;
+    return this;
+  }
+
+  /**
+   * Get awsMarketplace
+   * @return awsMarketplace
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AWS_MARKETPLACE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public BillingSummaryAwsMarketplace getAwsMarketplace() {
+    return awsMarketplace;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AWS_MARKETPLACE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAwsMarketplace(@javax.annotation.Nullable BillingSummaryAwsMarketplace awsMarketplace) {
+    this.awsMarketplace = awsMarketplace;
   }
 
 
@@ -493,6 +530,30 @@ public class BillingSummary {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBuyerRegionCount(@javax.annotation.Nullable Double buyerRegionCount) {
     this.buyerRegionCount = buyerRegionCount;
+  }
+
+
+  public BillingSummary supplierRegionCount(@javax.annotation.Nullable Double supplierRegionCount) {
+    this.supplierRegionCount = supplierRegionCount;
+    return this;
+  }
+
+  /**
+   * Get supplierRegionCount
+   * @return supplierRegionCount
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_REGION_COUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getSupplierRegionCount() {
+    return supplierRegionCount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_REGION_COUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSupplierRegionCount(@javax.annotation.Nullable Double supplierRegionCount) {
+    this.supplierRegionCount = supplierRegionCount;
   }
 
 
@@ -663,12 +724,14 @@ public class BillingSummary {
     return Objects.equals(this.billingEnabled, billingSummary.billingEnabled) &&
         Objects.equals(this.plan, billingSummary.plan) &&
         Objects.equals(this.managedBy, billingSummary.managedBy) &&
+        Objects.equals(this.awsMarketplace, billingSummary.awsMarketplace) &&
         Objects.equals(this.hasBillingAccount, billingSummary.hasBillingAccount) &&
         Objects.equals(this.subscriptionStatus, billingSummary.subscriptionStatus) &&
         Objects.equals(this.currentPeriodEnd, billingSummary.currentPeriodEnd) &&
         Objects.equals(this.cancelAtPeriodEnd, billingSummary.cancelAtPeriodEnd) &&
         Objects.equals(this.pastDueSince, billingSummary.pastDueSince) &&
         Objects.equals(this.buyerRegionCount, billingSummary.buyerRegionCount) &&
+        Objects.equals(this.supplierRegionCount, billingSummary.supplierRegionCount) &&
         Objects.equals(this.interval, billingSummary.interval) &&
         Objects.equals(this.availablePlans, billingSummary.availablePlans) &&
         Objects.equals(this.currentPriceLabel, billingSummary.currentPriceLabel) &&
@@ -679,7 +742,7 @@ public class BillingSummary {
 
   @Override
   public int hashCode() {
-    return Objects.hash(billingEnabled, plan, managedBy, hasBillingAccount, subscriptionStatus, currentPeriodEnd, cancelAtPeriodEnd, pastDueSince, buyerRegionCount, interval, availablePlans, currentPriceLabel, currentPrice, currentTotalLabel, currentTotal);
+    return Objects.hash(billingEnabled, plan, managedBy, awsMarketplace, hasBillingAccount, subscriptionStatus, currentPeriodEnd, cancelAtPeriodEnd, pastDueSince, buyerRegionCount, supplierRegionCount, interval, availablePlans, currentPriceLabel, currentPrice, currentTotalLabel, currentTotal);
   }
 
   @Override
@@ -689,12 +752,14 @@ public class BillingSummary {
     sb.append("    billingEnabled: ").append(toIndentedString(billingEnabled)).append("\n");
     sb.append("    plan: ").append(toIndentedString(plan)).append("\n");
     sb.append("    managedBy: ").append(toIndentedString(managedBy)).append("\n");
+    sb.append("    awsMarketplace: ").append(toIndentedString(awsMarketplace)).append("\n");
     sb.append("    hasBillingAccount: ").append(toIndentedString(hasBillingAccount)).append("\n");
     sb.append("    subscriptionStatus: ").append(toIndentedString(subscriptionStatus)).append("\n");
     sb.append("    currentPeriodEnd: ").append(toIndentedString(currentPeriodEnd)).append("\n");
     sb.append("    cancelAtPeriodEnd: ").append(toIndentedString(cancelAtPeriodEnd)).append("\n");
     sb.append("    pastDueSince: ").append(toIndentedString(pastDueSince)).append("\n");
     sb.append("    buyerRegionCount: ").append(toIndentedString(buyerRegionCount)).append("\n");
+    sb.append("    supplierRegionCount: ").append(toIndentedString(supplierRegionCount)).append("\n");
     sb.append("    interval: ").append(toIndentedString(interval)).append("\n");
     sb.append("    availablePlans: ").append(toIndentedString(availablePlans)).append("\n");
     sb.append("    currentPriceLabel: ").append(toIndentedString(currentPriceLabel)).append("\n");
@@ -763,6 +828,11 @@ public class BillingSummary {
       joiner.add(String.format("%smanagedBy%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getManagedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `awsMarketplace` to the URL query string
+    if (getAwsMarketplace() != null) {
+      joiner.add(getAwsMarketplace().toUrlQueryString(prefix + "awsMarketplace" + suffix));
+    }
+
     // add `hasBillingAccount` to the URL query string
     if (getHasBillingAccount() != null) {
       joiner.add(String.format("%shasBillingAccount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHasBillingAccount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -791,6 +861,11 @@ public class BillingSummary {
     // add `buyerRegionCount` to the URL query string
     if (getBuyerRegionCount() != null) {
       joiner.add(String.format("%sbuyerRegionCount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBuyerRegionCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `supplierRegionCount` to the URL query string
+    if (getSupplierRegionCount() != null) {
+      joiner.add(String.format("%ssupplierRegionCount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSupplierRegionCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `interval` to the URL query string

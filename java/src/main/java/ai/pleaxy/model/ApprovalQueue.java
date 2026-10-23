@@ -22,6 +22,7 @@ import java.util.HashMap;
 import ai.pleaxy.model.ApprovalQueueNeedsAssignment;
 import ai.pleaxy.model.InvoiceBuyerView;
 import ai.pleaxy.model.PurchaseOrder;
+import ai.pleaxy.model.ServiceEntrySheetQueueItem;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -40,6 +41,7 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   ApprovalQueue.JSON_PROPERTY_PURCHASE_ORDERS,
   ApprovalQueue.JSON_PROPERTY_INVOICES,
+  ApprovalQueue.JSON_PROPERTY_SERVICE_ENTRY_SHEETS,
   ApprovalQueue.JSON_PROPERTY_NEEDS_ASSIGNMENT,
   ApprovalQueue.JSON_PROPERTY_DECIDED
 })
@@ -52,6 +54,10 @@ public class ApprovalQueue {
   public static final String JSON_PROPERTY_INVOICES = "invoices";
   @javax.annotation.Nullable
   private List<InvoiceBuyerView> invoices = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_SERVICE_ENTRY_SHEETS = "serviceEntrySheets";
+  @javax.annotation.Nullable
+  private List<ServiceEntrySheetQueueItem> serviceEntrySheets = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NEEDS_ASSIGNMENT = "needsAssignment";
   @javax.annotation.Nullable
@@ -128,6 +134,38 @@ public class ApprovalQueue {
   }
 
 
+  public ApprovalQueue serviceEntrySheets(@javax.annotation.Nullable List<ServiceEntrySheetQueueItem> serviceEntrySheets) {
+    this.serviceEntrySheets = serviceEntrySheets;
+    return this;
+  }
+
+  public ApprovalQueue addServiceEntrySheetsItem(ServiceEntrySheetQueueItem serviceEntrySheetsItem) {
+    if (this.serviceEntrySheets == null) {
+      this.serviceEntrySheets = new ArrayList<>();
+    }
+    this.serviceEntrySheets.add(serviceEntrySheetsItem);
+    return this;
+  }
+
+  /**
+   * Get serviceEntrySheets
+   * @return serviceEntrySheets
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SERVICE_ENTRY_SHEETS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<ServiceEntrySheetQueueItem> getServiceEntrySheets() {
+    return serviceEntrySheets;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SERVICE_ENTRY_SHEETS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setServiceEntrySheets(@javax.annotation.Nullable List<ServiceEntrySheetQueueItem> serviceEntrySheets) {
+    this.serviceEntrySheets = serviceEntrySheets;
+  }
+
+
   public ApprovalQueue needsAssignment(@javax.annotation.Nullable ApprovalQueueNeedsAssignment needsAssignment) {
     this.needsAssignment = needsAssignment;
     return this;
@@ -190,13 +228,14 @@ public class ApprovalQueue {
     ApprovalQueue approvalQueue = (ApprovalQueue) o;
     return Objects.equals(this.purchaseOrders, approvalQueue.purchaseOrders) &&
         Objects.equals(this.invoices, approvalQueue.invoices) &&
+        Objects.equals(this.serviceEntrySheets, approvalQueue.serviceEntrySheets) &&
         Objects.equals(this.needsAssignment, approvalQueue.needsAssignment) &&
         Objects.equals(this.decided, approvalQueue.decided);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(purchaseOrders, invoices, needsAssignment, decided);
+    return Objects.hash(purchaseOrders, invoices, serviceEntrySheets, needsAssignment, decided);
   }
 
   @Override
@@ -205,6 +244,7 @@ public class ApprovalQueue {
     sb.append("class ApprovalQueue {\n");
     sb.append("    purchaseOrders: ").append(toIndentedString(purchaseOrders)).append("\n");
     sb.append("    invoices: ").append(toIndentedString(invoices)).append("\n");
+    sb.append("    serviceEntrySheets: ").append(toIndentedString(serviceEntrySheets)).append("\n");
     sb.append("    needsAssignment: ").append(toIndentedString(needsAssignment)).append("\n");
     sb.append("    decided: ").append(toIndentedString(decided)).append("\n");
     sb.append("}");
@@ -269,6 +309,16 @@ public class ApprovalQueue {
       for (int i = 0; i < getInvoices().size(); i++) {
         if (getInvoices().get(i) != null) {
           joiner.add(getInvoices().get(i).toUrlQueryString(String.format("%sinvoices%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `serviceEntrySheets` to the URL query string
+    if (getServiceEntrySheets() != null) {
+      for (int i = 0; i < getServiceEntrySheets().size(); i++) {
+        if (getServiceEntrySheets().get(i) != null) {
+          joiner.add(getServiceEntrySheets().get(i).toUrlQueryString(String.format("%sserviceEntrySheets%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }

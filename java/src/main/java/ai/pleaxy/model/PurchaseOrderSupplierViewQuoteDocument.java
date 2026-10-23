@@ -33,6 +33,7 @@ import ai.pleaxy.client.ApiClient;
  * PurchaseOrderSupplierViewQuoteDocument
  */
 @JsonPropertyOrder({
+  PurchaseOrderSupplierViewQuoteDocument.JSON_PROPERTY_DOCUMENT_TYPE,
   PurchaseOrderSupplierViewQuoteDocument.JSON_PROPERTY_IMPORT_ID,
   PurchaseOrderSupplierViewQuoteDocument.JSON_PROPERTY_FILE_NAME,
   PurchaseOrderSupplierViewQuoteDocument.JSON_PROPERTY_CONTENT_TYPE,
@@ -42,6 +43,55 @@ import ai.pleaxy.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class PurchaseOrderSupplierViewQuoteDocument {
+  /**
+   * Gets or Sets documentType
+   */
+  public enum DocumentTypeEnum {
+    QUOTE(String.valueOf("quote")),
+    
+    ORDER_FORM(String.valueOf("order_form")),
+    
+    PROFORMA(String.valueOf("proforma")),
+    
+    SOW(String.valueOf("sow")),
+    
+    CONTRACT(String.valueOf("contract")),
+    
+    INVOICE(String.valueOf("invoice")),
+    
+    OTHER(String.valueOf("other"));
+
+    private String value;
+
+    DocumentTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static DocumentTypeEnum fromValue(String value) {
+      for (DocumentTypeEnum b : DocumentTypeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_DOCUMENT_TYPE = "documentType";
+  @javax.annotation.Nullable
+  private DocumentTypeEnum documentType;
+
   public static final String JSON_PROPERTY_IMPORT_ID = "importId";
   @javax.annotation.Nullable
   private String importId;
@@ -105,6 +155,30 @@ public class PurchaseOrderSupplierViewQuoteDocument {
 
   public PurchaseOrderSupplierViewQuoteDocument() { 
   }
+
+  public PurchaseOrderSupplierViewQuoteDocument documentType(@javax.annotation.Nullable DocumentTypeEnum documentType) {
+    this.documentType = documentType;
+    return this;
+  }
+
+  /**
+   * Get documentType
+   * @return documentType
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DOCUMENT_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public DocumentTypeEnum getDocumentType() {
+    return documentType;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DOCUMENT_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDocumentType(@javax.annotation.Nullable DocumentTypeEnum documentType) {
+    this.documentType = documentType;
+  }
+
 
   public PurchaseOrderSupplierViewQuoteDocument importId(@javax.annotation.Nullable String importId) {
     this.importId = importId;
@@ -262,7 +336,8 @@ public class PurchaseOrderSupplierViewQuoteDocument {
       return false;
     }
     PurchaseOrderSupplierViewQuoteDocument purchaseOrderSupplierViewQuoteDocument = (PurchaseOrderSupplierViewQuoteDocument) o;
-    return Objects.equals(this.importId, purchaseOrderSupplierViewQuoteDocument.importId) &&
+    return Objects.equals(this.documentType, purchaseOrderSupplierViewQuoteDocument.documentType) &&
+        Objects.equals(this.importId, purchaseOrderSupplierViewQuoteDocument.importId) &&
         Objects.equals(this.fileName, purchaseOrderSupplierViewQuoteDocument.fileName) &&
         Objects.equals(this.contentType, purchaseOrderSupplierViewQuoteDocument.contentType) &&
         Objects.equals(this.addedAt, purchaseOrderSupplierViewQuoteDocument.addedAt) &&
@@ -272,13 +347,14 @@ public class PurchaseOrderSupplierViewQuoteDocument {
 
   @Override
   public int hashCode() {
-    return Objects.hash(importId, fileName, contentType, addedAt, quoteNumber, validUntil);
+    return Objects.hash(documentType, importId, fileName, contentType, addedAt, quoteNumber, validUntil);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PurchaseOrderSupplierViewQuoteDocument {\n");
+    sb.append("    documentType: ").append(toIndentedString(documentType)).append("\n");
     sb.append("    importId: ").append(toIndentedString(importId)).append("\n");
     sb.append("    fileName: ").append(toIndentedString(fileName)).append("\n");
     sb.append("    contentType: ").append(toIndentedString(contentType)).append("\n");
@@ -331,6 +407,11 @@ public class PurchaseOrderSupplierViewQuoteDocument {
     }
 
     StringJoiner joiner = new StringJoiner("&");
+
+    // add `documentType` to the URL query string
+    if (getDocumentType() != null) {
+      joiner.add(String.format("%sdocumentType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDocumentType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
 
     // add `importId` to the URL query string
     if (getImportId() != null) {

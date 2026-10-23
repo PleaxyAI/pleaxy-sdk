@@ -10,6 +10,7 @@ if TYPE_CHECKING:
     from ..models.approval_queue_needs_assignment import ApprovalQueueNeedsAssignment
     from ..models.invoice_buyer_view import InvoiceBuyerView
     from ..models.purchase_order import PurchaseOrder
+    from ..models.service_entry_sheet_queue_item import ServiceEntrySheetQueueItem
 
 
 T = TypeVar("T", bound="ApprovalQueue")
@@ -21,12 +22,14 @@ class ApprovalQueue:
     Attributes:
         purchase_orders (Union[Unset, List['PurchaseOrder']]):
         invoices (Union[Unset, List['InvoiceBuyerView']]):
+        service_entry_sheets (Union[Unset, List['ServiceEntrySheetQueueItem']]):
         needs_assignment (Union[Unset, ApprovalQueueNeedsAssignment]):
         decided (Union[Unset, ApprovalQueueDecided]):
     """
 
     purchase_orders: Union[Unset, List["PurchaseOrder"]] = UNSET
     invoices: Union[Unset, List["InvoiceBuyerView"]] = UNSET
+    service_entry_sheets: Union[Unset, List["ServiceEntrySheetQueueItem"]] = UNSET
     needs_assignment: Union[Unset, "ApprovalQueueNeedsAssignment"] = UNSET
     decided: Union[Unset, "ApprovalQueueDecided"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -46,6 +49,13 @@ class ApprovalQueue:
                 invoices_item = invoices_item_data.to_dict()
                 invoices.append(invoices_item)
 
+        service_entry_sheets: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.service_entry_sheets, Unset):
+            service_entry_sheets = []
+            for service_entry_sheets_item_data in self.service_entry_sheets:
+                service_entry_sheets_item = service_entry_sheets_item_data.to_dict()
+                service_entry_sheets.append(service_entry_sheets_item)
+
         needs_assignment: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.needs_assignment, Unset):
             needs_assignment = self.needs_assignment.to_dict()
@@ -61,6 +71,8 @@ class ApprovalQueue:
             field_dict["purchaseOrders"] = purchase_orders
         if invoices is not UNSET:
             field_dict["invoices"] = invoices
+        if service_entry_sheets is not UNSET:
+            field_dict["serviceEntrySheets"] = service_entry_sheets
         if needs_assignment is not UNSET:
             field_dict["needsAssignment"] = needs_assignment
         if decided is not UNSET:
@@ -76,6 +88,7 @@ class ApprovalQueue:
         )
         from ..models.invoice_buyer_view import InvoiceBuyerView
         from ..models.purchase_order import PurchaseOrder
+        from ..models.service_entry_sheet_queue_item import ServiceEntrySheetQueueItem
 
         d = src_dict.copy()
         purchase_orders = []
@@ -91,6 +104,15 @@ class ApprovalQueue:
             invoices_item = InvoiceBuyerView.from_dict(invoices_item_data)
 
             invoices.append(invoices_item)
+
+        service_entry_sheets = []
+        _service_entry_sheets = d.pop("serviceEntrySheets", UNSET)
+        for service_entry_sheets_item_data in _service_entry_sheets or []:
+            service_entry_sheets_item = ServiceEntrySheetQueueItem.from_dict(
+                service_entry_sheets_item_data
+            )
+
+            service_entry_sheets.append(service_entry_sheets_item)
 
         _needs_assignment = d.pop("needsAssignment", UNSET)
         needs_assignment: Union[Unset, ApprovalQueueNeedsAssignment]
@@ -109,6 +131,7 @@ class ApprovalQueue:
         approval_queue = cls(
             purchase_orders=purchase_orders,
             invoices=invoices,
+            service_entry_sheets=service_entry_sheets,
             needs_assignment=needs_assignment,
             decided=decided,
         )

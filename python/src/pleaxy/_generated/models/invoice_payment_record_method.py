@@ -1,12 +1,15 @@
 from typing import Literal, Set, cast
 
-InvoicePaymentRecordMethod = Literal["ach", "card", "check", "credit", "other", "wire"]
+InvoicePaymentRecordMethod = Literal[
+    "ach", "card", "check", "credit", "nothing_due", "other", "wire"
+]
 
 INVOICE_PAYMENT_RECORD_METHOD_VALUES: Set[InvoicePaymentRecordMethod] = {
     "ach",
     "card",
     "check",
     "credit",
+    "nothing_due",
     "other",
     "wire",
 }

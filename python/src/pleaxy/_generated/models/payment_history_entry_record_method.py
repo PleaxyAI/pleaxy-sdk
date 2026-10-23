@@ -1,7 +1,7 @@
 from typing import Literal, Set, cast
 
 PaymentHistoryEntryRecordMethod = Literal[
-    "ach", "card", "check", "credit", "other", "wire"
+    "ach", "card", "check", "credit", "nothing_due", "other", "wire"
 ]
 
 PAYMENT_HISTORY_ENTRY_RECORD_METHOD_VALUES: Set[PaymentHistoryEntryRecordMethod] = {
@@ -9,6 +9,7 @@ PAYMENT_HISTORY_ENTRY_RECORD_METHOD_VALUES: Set[PaymentHistoryEntryRecordMethod]
     "card",
     "check",
     "credit",
+    "nothing_due",
     "other",
     "wire",
 }

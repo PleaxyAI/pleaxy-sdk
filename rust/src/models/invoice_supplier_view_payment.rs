@@ -57,6 +57,8 @@ impl InvoiceSupplierViewPayment {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Method {
+    #[serde(rename = "other")]
+    Other,
     #[serde(rename = "card")]
     Card,
     #[serde(rename = "ach")]
@@ -65,15 +67,15 @@ pub enum Method {
     Wire,
     #[serde(rename = "check")]
     Check,
-    #[serde(rename = "other")]
-    Other,
     #[serde(rename = "credit")]
     Credit,
+    #[serde(rename = "nothing_due")]
+    NothingDue,
 }
 
 impl Default for Method {
     fn default() -> Method {
-        Self::Card
+        Self::Other
     }
 }
 ///

@@ -1,7 +1,7 @@
 from typing import Literal, Set, cast
 
 GetInvoiceResultSupplierInvoicePaymentType0Method = Literal[
-    "ach", "card", "check", "credit", "other", "wire"
+    "ach", "card", "check", "credit", "nothing_due", "other", "wire"
 ]
 
 GET_INVOICE_RESULT_SUPPLIER_INVOICE_PAYMENT_TYPE_0_METHOD_VALUES: Set[
@@ -11,6 +11,7 @@ GET_INVOICE_RESULT_SUPPLIER_INVOICE_PAYMENT_TYPE_0_METHOD_VALUES: Set[
     "card",
     "check",
     "credit",
+    "nothing_due",
     "other",
     "wire",
 }

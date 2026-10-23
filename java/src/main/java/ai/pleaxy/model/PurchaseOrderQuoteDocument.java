@@ -39,7 +39,8 @@ import ai.pleaxy.client.ApiClient;
   PurchaseOrderQuoteDocument.JSON_PROPERTY_ADDED_AT,
   PurchaseOrderQuoteDocument.JSON_PROPERTY_ADDED_BY,
   PurchaseOrderQuoteDocument.JSON_PROPERTY_QUOTE_NUMBER,
-  PurchaseOrderQuoteDocument.JSON_PROPERTY_VALID_UNTIL
+  PurchaseOrderQuoteDocument.JSON_PROPERTY_VALID_UNTIL,
+  PurchaseOrderQuoteDocument.JSON_PROPERTY_DOCUMENT_TYPE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class PurchaseOrderQuoteDocument {
@@ -107,6 +108,55 @@ public class PurchaseOrderQuoteDocument {
   public static final String JSON_PROPERTY_VALID_UNTIL = "validUntil";
   @javax.annotation.Nullable
   private String validUntil;
+
+  /**
+   * Gets or Sets documentType
+   */
+  public enum DocumentTypeEnum {
+    QUOTE(String.valueOf("quote")),
+    
+    ORDER_FORM(String.valueOf("order_form")),
+    
+    PROFORMA(String.valueOf("proforma")),
+    
+    SOW(String.valueOf("sow")),
+    
+    CONTRACT(String.valueOf("contract")),
+    
+    INVOICE(String.valueOf("invoice")),
+    
+    OTHER(String.valueOf("other"));
+
+    private String value;
+
+    DocumentTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static DocumentTypeEnum fromValue(String value) {
+      for (DocumentTypeEnum b : DocumentTypeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_DOCUMENT_TYPE = "documentType";
+  @javax.annotation.Nullable
+  private DocumentTypeEnum documentType;
 
   public PurchaseOrderQuoteDocument() { 
   }
@@ -279,6 +329,30 @@ public class PurchaseOrderQuoteDocument {
   }
 
 
+  public PurchaseOrderQuoteDocument documentType(@javax.annotation.Nullable DocumentTypeEnum documentType) {
+    this.documentType = documentType;
+    return this;
+  }
+
+  /**
+   * Get documentType
+   * @return documentType
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DOCUMENT_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public DocumentTypeEnum getDocumentType() {
+    return documentType;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DOCUMENT_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDocumentType(@javax.annotation.Nullable DocumentTypeEnum documentType) {
+    this.documentType = documentType;
+  }
+
+
   /**
    * Return true if this PurchaseOrderQuoteDocument object is equal to o.
    */
@@ -297,12 +371,13 @@ public class PurchaseOrderQuoteDocument {
         Objects.equals(this.addedAt, purchaseOrderQuoteDocument.addedAt) &&
         Objects.equals(this.addedBy, purchaseOrderQuoteDocument.addedBy) &&
         Objects.equals(this.quoteNumber, purchaseOrderQuoteDocument.quoteNumber) &&
-        Objects.equals(this.validUntil, purchaseOrderQuoteDocument.validUntil);
+        Objects.equals(this.validUntil, purchaseOrderQuoteDocument.validUntil) &&
+        Objects.equals(this.documentType, purchaseOrderQuoteDocument.documentType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(importId, fileName, contentType, addedAt, addedBy, quoteNumber, validUntil);
+    return Objects.hash(importId, fileName, contentType, addedAt, addedBy, quoteNumber, validUntil, documentType);
   }
 
   @Override
@@ -316,6 +391,7 @@ public class PurchaseOrderQuoteDocument {
     sb.append("    addedBy: ").append(toIndentedString(addedBy)).append("\n");
     sb.append("    quoteNumber: ").append(toIndentedString(quoteNumber)).append("\n");
     sb.append("    validUntil: ").append(toIndentedString(validUntil)).append("\n");
+    sb.append("    documentType: ").append(toIndentedString(documentType)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -396,6 +472,11 @@ public class PurchaseOrderQuoteDocument {
     // add `validUntil` to the URL query string
     if (getValidUntil() != null) {
       joiner.add(String.format("%svalidUntil%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getValidUntil()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `documentType` to the URL query string
+    if (getDocumentType() != null) {
+      joiner.add(String.format("%sdocumentType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDocumentType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

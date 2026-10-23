@@ -13,12 +13,15 @@ def _get_kwargs(
     *,
     from_: Union[Unset, str] = UNSET,
     to: Union[Unset, str] = UNSET,
+    lists: Union[Unset, str] = UNSET,
 ) -> Dict[str, Any]:
     params: Dict[str, Any] = {}
 
     params["from"] = from_
 
     params["to"] = to
+
+    params["lists"] = lists
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -60,13 +63,18 @@ def sync_detailed(
     client: Union[AuthenticatedClient, Client],
     from_: Union[Unset, str] = UNSET,
     to: Union[Unset, str] = UNSET,
+    lists: Union[Unset, str] = UNSET,
 ) -> Response[GetSupplierWorkspaceResult]:
     """[Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via
-    ?from=&to=
+    ?from=&to=. ?lists=none returns incomingPOs and supplierInvoices empty, without reading them (page
+    them with ListPurchaseOrdersPage and ListInvoicesPage). ?lists=active returns only the ones still in
+    play (as GetBuyerWorkspace), with recentIncomingPOs and recentSupplierInvoices, the newest 10 of
+    each.
 
     Args:
         from_ (Union[Unset, str]):
         to (Union[Unset, str]):
+        lists (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -79,6 +87,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         from_=from_,
         to=to,
+        lists=lists,
     )
 
     response = client.get_httpx_client().request(
@@ -93,13 +102,18 @@ def sync(
     client: Union[AuthenticatedClient, Client],
     from_: Union[Unset, str] = UNSET,
     to: Union[Unset, str] = UNSET,
+    lists: Union[Unset, str] = UNSET,
 ) -> Optional[GetSupplierWorkspaceResult]:
     """[Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via
-    ?from=&to=
+    ?from=&to=. ?lists=none returns incomingPOs and supplierInvoices empty, without reading them (page
+    them with ListPurchaseOrdersPage and ListInvoicesPage). ?lists=active returns only the ones still in
+    play (as GetBuyerWorkspace), with recentIncomingPOs and recentSupplierInvoices, the newest 10 of
+    each.
 
     Args:
         from_ (Union[Unset, str]):
         to (Union[Unset, str]):
+        lists (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -113,6 +127,7 @@ def sync(
         client=client,
         from_=from_,
         to=to,
+        lists=lists,
     ).parsed
 
 
@@ -121,13 +136,18 @@ async def asyncio_detailed(
     client: Union[AuthenticatedClient, Client],
     from_: Union[Unset, str] = UNSET,
     to: Union[Unset, str] = UNSET,
+    lists: Union[Unset, str] = UNSET,
 ) -> Response[GetSupplierWorkspaceResult]:
     """[Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via
-    ?from=&to=
+    ?from=&to=. ?lists=none returns incomingPOs and supplierInvoices empty, without reading them (page
+    them with ListPurchaseOrdersPage and ListInvoicesPage). ?lists=active returns only the ones still in
+    play (as GetBuyerWorkspace), with recentIncomingPOs and recentSupplierInvoices, the newest 10 of
+    each.
 
     Args:
         from_ (Union[Unset, str]):
         to (Union[Unset, str]):
+        lists (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -140,6 +160,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         from_=from_,
         to=to,
+        lists=lists,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -152,13 +173,18 @@ async def asyncio(
     client: Union[AuthenticatedClient, Client],
     from_: Union[Unset, str] = UNSET,
     to: Union[Unset, str] = UNSET,
+    lists: Union[Unset, str] = UNSET,
 ) -> Optional[GetSupplierWorkspaceResult]:
     """[Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via
-    ?from=&to=
+    ?from=&to=. ?lists=none returns incomingPOs and supplierInvoices empty, without reading them (page
+    them with ListPurchaseOrdersPage and ListInvoicesPage). ?lists=active returns only the ones still in
+    play (as GetBuyerWorkspace), with recentIncomingPOs and recentSupplierInvoices, the newest 10 of
+    each.
 
     Args:
         from_ (Union[Unset, str]):
         to (Union[Unset, str]):
+        lists (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -173,5 +199,6 @@ async def asyncio(
             client=client,
             from_=from_,
             to=to,
+            lists=lists,
         )
     ).parsed

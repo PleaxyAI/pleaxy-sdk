@@ -78,6 +78,12 @@ pub enum Code {
     ContractNotActive,
     #[serde(rename = "contract_check_failed")]
     ContractCheckFailed,
+    #[serde(rename = "receipt_missing")]
+    ReceiptMissing,
+    #[serde(rename = "receipt_qty_exceeded")]
+    ReceiptQtyExceeded,
+    #[serde(rename = "receipt_amount_exceeded")]
+    ReceiptAmountExceeded,
 }
 
 impl Default for Code {

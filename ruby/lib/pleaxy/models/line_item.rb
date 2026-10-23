@@ -41,6 +41,8 @@ module Pleaxy
 
     attr_accessor :valid_until
 
+    attr_accessor :due_date
+
     attr_accessor :consumed
 
     attr_accessor :supplier_sku
@@ -54,6 +56,8 @@ module Pleaxy
     attr_accessor :contract_term_id
 
     attr_accessor :quote_line_no
+
+    attr_accessor :sow_line_no
 
     attr_accessor :origin
 
@@ -97,6 +101,7 @@ module Pleaxy
         :'payment_terms' => :'paymentTerms',
         :'valid_from' => :'validFrom',
         :'valid_until' => :'validUntil',
+        :'due_date' => :'dueDate',
         :'consumed' => :'consumed',
         :'supplier_sku' => :'supplierSku',
         :'price_source' => :'priceSource',
@@ -104,6 +109,7 @@ module Pleaxy
         :'contract_id' => :'contractId',
         :'contract_term_id' => :'contractTermId',
         :'quote_line_no' => :'quoteLineNo',
+        :'sow_line_no' => :'sowLineNo',
         :'origin' => :'origin',
         :'punchout_ref' => :'punchoutRef'
       }
@@ -130,6 +136,7 @@ module Pleaxy
         :'payment_terms' => :'String',
         :'valid_from' => :'String',
         :'valid_until' => :'String',
+        :'due_date' => :'String',
         :'consumed' => :'Float',
         :'supplier_sku' => :'String',
         :'price_source' => :'String',
@@ -137,6 +144,7 @@ module Pleaxy
         :'contract_id' => :'String',
         :'contract_term_id' => :'String',
         :'quote_line_no' => :'Float',
+        :'sow_line_no' => :'Float',
         :'origin' => :'PunchoutLineOrigin',
         :'punchout_ref' => :'LineItemPunchoutRef'
       }
@@ -216,6 +224,10 @@ module Pleaxy
         self.valid_until = attributes[:'valid_until']
       end
 
+      if attributes.key?(:'due_date')
+        self.due_date = attributes[:'due_date']
+      end
+
       if attributes.key?(:'consumed')
         self.consumed = attributes[:'consumed']
       end
@@ -242,6 +254,10 @@ module Pleaxy
 
       if attributes.key?(:'quote_line_no')
         self.quote_line_no = attributes[:'quote_line_no']
+      end
+
+      if attributes.key?(:'sow_line_no')
+        self.sow_line_no = attributes[:'sow_line_no']
       end
 
       if attributes.key?(:'origin')
@@ -322,6 +338,7 @@ module Pleaxy
           payment_terms == o.payment_terms &&
           valid_from == o.valid_from &&
           valid_until == o.valid_until &&
+          due_date == o.due_date &&
           consumed == o.consumed &&
           supplier_sku == o.supplier_sku &&
           price_source == o.price_source &&
@@ -329,6 +346,7 @@ module Pleaxy
           contract_id == o.contract_id &&
           contract_term_id == o.contract_term_id &&
           quote_line_no == o.quote_line_no &&
+          sow_line_no == o.sow_line_no &&
           origin == o.origin &&
           punchout_ref == o.punchout_ref
     end
@@ -342,7 +360,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [line_no, scope_type, scope_id, name, rule_type, unit, unit_price, qty, nte_amount, currency, payment_terms, valid_from, valid_until, consumed, supplier_sku, price_source, customer_line_no, contract_id, contract_term_id, quote_line_no, origin, punchout_ref].hash
+      [line_no, scope_type, scope_id, name, rule_type, unit, unit_price, qty, nte_amount, currency, payment_terms, valid_from, valid_until, due_date, consumed, supplier_sku, price_source, customer_line_no, contract_id, contract_term_id, quote_line_no, sow_line_no, origin, punchout_ref].hash
     end
 
     # Builds the object from hash

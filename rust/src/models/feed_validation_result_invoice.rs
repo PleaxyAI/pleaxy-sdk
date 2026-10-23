@@ -79,6 +79,12 @@ pub struct FeedValidationResultInvoice {
         skip_serializing_if = "Option::is_none"
     )]
     pub replaced_by_invoice_ids: Option<Vec<String>>,
+    #[serde(rename = "possibleDuplicates", skip_serializing_if = "Option::is_none")]
+    pub possible_duplicates: Option<Vec<models::InvoiceDuplicateRef>>,
+    #[serde(rename = "duplicatesChecked", skip_serializing_if = "Option::is_none")]
+    pub duplicates_checked: Option<bool>,
+    #[serde(rename = "hasLookupRows", skip_serializing_if = "Option::is_none")]
+    pub has_lookup_rows: Option<bool>,
     #[serde(rename = "enteredBy", skip_serializing_if = "Option::is_none")]
     pub entered_by: Option<EnteredBy>,
     #[serde(rename = "invoiceDate", skip_serializing_if = "Option::is_none")]
@@ -131,6 +137,11 @@ pub struct FeedValidationResultInvoice {
         skip_serializing_if = "Option::is_none"
     )]
     pub remittance_instructions: Option<models::RemittanceInstructions>,
+    #[serde(
+        rename = "bankDetailsConfirmation",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub bank_details_confirmation: Option<models::SupplierBankDetailsConfirmationView>,
     #[serde(rename = "sourceDocument", skip_serializing_if = "Option::is_none")]
     pub source_document: Option<models::InvoiceSourceDocument>,
     #[serde(rename = "hasOriginalPdf", skip_serializing_if = "Option::is_none")]
@@ -178,6 +189,9 @@ impl FeedValidationResultInvoice {
             replaces_invoice_id: None,
             replaces_invoice_ids: None,
             replaced_by_invoice_ids: None,
+            possible_duplicates: None,
+            duplicates_checked: None,
+            has_lookup_rows: None,
             entered_by: None,
             invoice_date: None,
             submitted_format: None,
@@ -198,6 +212,7 @@ impl FeedValidationResultInvoice {
             payment_currency_amount: None,
             tax_currency_amount: None,
             remittance_instructions: None,
+            bank_details_confirmation: None,
             source_document: None,
             has_original_pdf: None,
             base_currency_amount: None,

@@ -154,7 +154,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      method_validator = EnumAttributeValidator.new('String', ["card", "ach", "wire", "check", "other", "credit"])
+      method_validator = EnumAttributeValidator.new('String', ["other", "card", "ach", "wire", "check", "credit", "nothing_due"])
       return false unless method_validator.valid?(@method)
       status_validator = EnumAttributeValidator.new('String', ["recorded"])
       return false unless status_validator.valid?(@status)
@@ -164,7 +164,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] method Object to be assigned
     def method=(method)
-      validator = EnumAttributeValidator.new('String', ["card", "ach", "wire", "check", "other", "credit"])
+      validator = EnumAttributeValidator.new('String', ["other", "card", "ach", "wire", "check", "credit", "nothing_due"])
       unless validator.valid?(method)
         fail ArgumentError, "invalid value for \"method\", must be one of #{validator.allowable_values}."
       end

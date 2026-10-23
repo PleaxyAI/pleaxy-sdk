@@ -44,6 +44,9 @@ module Pleaxy
     # The quote import holding the supplier's quote this order is raised from; replaces the one attached, and `null` removes it. Bookkeeping, like `notes`.
     attr_accessor :quote_import_id
 
+    # The quote import holding the statement of work this order is for; replaces the one attached, and `null` removes it. Bookkeeping, like `notes`.
+    attr_accessor :sow_import_id
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -57,7 +60,8 @@ module Pleaxy
         :'buyer_name' => :'buyerName',
         :'notes' => :'notes',
         :'contract_id' => :'contractId',
-        :'quote_import_id' => :'quoteImportId'
+        :'quote_import_id' => :'quoteImportId',
+        :'sow_import_id' => :'sowImportId'
       }
     end
 
@@ -79,7 +83,8 @@ module Pleaxy
         :'buyer_name' => :'String',
         :'notes' => :'String',
         :'contract_id' => :'String',
-        :'quote_import_id' => :'String'
+        :'quote_import_id' => :'String',
+        :'sow_import_id' => :'String'
       }
     end
 
@@ -88,7 +93,8 @@ module Pleaxy
       Set.new([
         :'bill_to_party',
         :'contract_id',
-        :'quote_import_id'
+        :'quote_import_id',
+        :'sow_import_id'
       ])
     end
 
@@ -152,6 +158,10 @@ module Pleaxy
       if attributes.key?(:'quote_import_id')
         self.quote_import_id = attributes[:'quote_import_id']
       end
+
+      if attributes.key?(:'sow_import_id')
+        self.sow_import_id = attributes[:'sow_import_id']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -175,6 +185,10 @@ module Pleaxy
         invalid_properties.push('invalid value for "quote_import_id", the character length must be smaller than or equal to 20.')
       end
 
+      if !@sow_import_id.nil? && @sow_import_id.to_s.length > 20
+        invalid_properties.push('invalid value for "sow_import_id", the character length must be smaller than or equal to 20.')
+      end
+
       invalid_properties
     end
 
@@ -186,6 +200,7 @@ module Pleaxy
       return false if !@delivery_address_id.nil? && @delivery_address_id.to_s.length > 64
       return false if !@contract_id.nil? && @contract_id.to_s.length > 60
       return false if !@quote_import_id.nil? && @quote_import_id.to_s.length > 20
+      return false if !@sow_import_id.nil? && @sow_import_id.to_s.length > 20
       true
     end
 
@@ -237,6 +252,16 @@ module Pleaxy
       @quote_import_id = quote_import_id
     end
 
+    # Custom attribute writer method with validation
+    # @param [Object] sow_import_id Value to be assigned
+    def sow_import_id=(sow_import_id)
+      if !sow_import_id.nil? && sow_import_id.to_s.length > 20
+        fail ArgumentError, 'invalid value for "sow_import_id", the character length must be smaller than or equal to 20.'
+      end
+
+      @sow_import_id = sow_import_id
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
@@ -252,7 +277,8 @@ module Pleaxy
           buyer_name == o.buyer_name &&
           notes == o.notes &&
           contract_id == o.contract_id &&
-          quote_import_id == o.quote_import_id
+          quote_import_id == o.quote_import_id &&
+          sow_import_id == o.sow_import_id
     end
 
     # @see the `==` method
@@ -264,7 +290,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [currency, line_items, bill_to_party, bill_to, cost_center, delivery_address_id, budget_owner, buyer_name, notes, contract_id, quote_import_id].hash
+      [currency, line_items, bill_to_party, bill_to, cost_center, delivery_address_id, budget_owner, buyer_name, notes, contract_id, quote_import_id, sow_import_id].hash
     end
 
     # Builds the object from hash

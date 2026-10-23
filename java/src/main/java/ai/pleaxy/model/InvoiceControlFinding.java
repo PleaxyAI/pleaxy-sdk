@@ -75,7 +75,13 @@ public class InvoiceControlFinding {
     
     CONTRACT_NOT_ACTIVE(String.valueOf("contract_not_active")),
     
-    CONTRACT_CHECK_FAILED(String.valueOf("contract_check_failed"));
+    CONTRACT_CHECK_FAILED(String.valueOf("contract_check_failed")),
+    
+    RECEIPT_MISSING(String.valueOf("receipt_missing")),
+    
+    RECEIPT_QTY_EXCEEDED(String.valueOf("receipt_qty_exceeded")),
+    
+    RECEIPT_AMOUNT_EXCEEDED(String.valueOf("receipt_amount_exceeded"));
 
     private String value;
 

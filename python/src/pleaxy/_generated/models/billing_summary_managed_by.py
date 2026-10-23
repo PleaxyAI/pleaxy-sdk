@@ -1,8 +1,9 @@
 from typing import Literal, Set, cast
 
-BillingSummaryManagedBy = Literal["platform", "self-serve"]
+BillingSummaryManagedBy = Literal["aws-marketplace", "platform", "self-serve"]
 
 BILLING_SUMMARY_MANAGED_BY_VALUES: Set[BillingSummaryManagedBy] = {
+    "aws-marketplace",
     "platform",
     "self-serve",
 }

@@ -21,8 +21,17 @@ module Pleaxy
     # Supplier / counterparty name
     attr_accessor :supplier
 
+    # How the order's invoices are matched: two_way against the order and its contract; three_way also against what was received (goods receipts and service entry sheets). Defaults to what the workspace's matching setting suggests (GET .../matching-policy). Refused for a cloud provider's order, which is matched against usage, and, when the setting lets only administrators change it, for anything but the default from anyone else.
+    attr_accessor :matching
+
+    # Who confirms delivery: someone in this workspace, by employee key. Defaults to whoever raises the order. Used with three_way matching.
+    attr_accessor :receiver_employee_key
+
     # regionId of the onboarded supplier org this PO is issued to, if known. The buyer must hold an approved SupplierConnection to this supplier; the server rejects a region it isn't connected to. Links the PO to that org's real supplier workspace instead of just its free-text `supplier` name - see WorkspacesService.getSupplierWorkspace.
     attr_accessor :supplier_region_id
+
+    # The id of a supplier on your Suppliers list (not rejected, not a cloud provider) this PO is for - see GET .../suppliers. One approved with a Pleaxy account is treated as its supplierRegionId. Any other (not invited yet, invited, onboarding) is named by its record: its invoices match the PO by id, the PO is emailed to its contact, and sending it invites a supplier not invited yet. The record's name replaces `supplier`. Not with supplierRegionId, provider or supplierContactEmail.
+    attr_accessor :supplier_connection_id
 
     # ISO 4217: the currency the order is priced in. To a supplier with an account (supplierRegionId), one its region prices in, its main currency by default (400 PO_CURRENCY_NOT_OFFERED otherwise). To a cloud provider or a supplier not on Pleaxy yet, any code; by default that supplier's \"Bills in\" currency, else your workspace's. An order in a currency other than your workspace's goes through every approval step and is never auto-approved.
     attr_accessor :currency
@@ -57,6 +66,9 @@ module Pleaxy
     # The quote import (POST .../quote-imports) holding the supplier's quote this order is raised from. Its upload must have finished. Optional.
     attr_accessor :quote_import_id
 
+    # The quote import (POST .../quote-imports) holding the statement of work this order is for: its scope, milestones and acceptance. Its upload must have finished. Optional, and independent of quoteImportId.
+    attr_accessor :sow_import_id
+
     # Save as a draft instead of submitting for approval. Submit it later with SubmitPurchaseOrderDraft.
     attr_accessor :draft
 
@@ -89,7 +101,10 @@ module Pleaxy
       {
         :'po_number' => :'poNumber',
         :'supplier' => :'supplier',
+        :'matching' => :'matching',
+        :'receiver_employee_key' => :'receiverEmployeeKey',
         :'supplier_region_id' => :'supplierRegionId',
+        :'supplier_connection_id' => :'supplierConnectionId',
         :'currency' => :'currency',
         :'provider' => :'provider',
         :'payer_accounts' => :'payerAccounts',
@@ -103,6 +118,7 @@ module Pleaxy
         :'notes' => :'notes',
         :'contract_id' => :'contractId',
         :'quote_import_id' => :'quoteImportId',
+        :'sow_import_id' => :'sowImportId',
         :'draft' => :'draft',
         :'line_items' => :'lineItems'
       }
@@ -118,7 +134,10 @@ module Pleaxy
       {
         :'po_number' => :'String',
         :'supplier' => :'String',
+        :'matching' => :'String',
+        :'receiver_employee_key' => :'String',
         :'supplier_region_id' => :'String',
+        :'supplier_connection_id' => :'String',
         :'currency' => :'String',
         :'provider' => :'String',
         :'payer_accounts' => :'Array<PayerAccountRefInput>',
@@ -132,6 +151,7 @@ module Pleaxy
         :'notes' => :'String',
         :'contract_id' => :'String',
         :'quote_import_id' => :'String',
+        :'sow_import_id' => :'String',
         :'draft' => :'Boolean',
         :'line_items' => :'Array<LineItemInput>'
       }
@@ -168,8 +188,20 @@ module Pleaxy
         self.supplier = nil
       end
 
+      if attributes.key?(:'matching')
+        self.matching = attributes[:'matching']
+      end
+
+      if attributes.key?(:'receiver_employee_key')
+        self.receiver_employee_key = attributes[:'receiver_employee_key']
+      end
+
       if attributes.key?(:'supplier_region_id')
         self.supplier_region_id = attributes[:'supplier_region_id']
+      end
+
+      if attributes.key?(:'supplier_connection_id')
+        self.supplier_connection_id = attributes[:'supplier_connection_id']
       end
 
       if attributes.key?(:'currency')
@@ -226,6 +258,10 @@ module Pleaxy
         self.quote_import_id = attributes[:'quote_import_id']
       end
 
+      if attributes.key?(:'sow_import_id')
+        self.sow_import_id = attributes[:'sow_import_id']
+      end
+
       if attributes.key?(:'draft')
         self.draft = attributes[:'draft']
       end
@@ -253,6 +289,14 @@ module Pleaxy
         invalid_properties.push('invalid value for "supplier", supplier cannot be nil.')
       end
 
+      if !@receiver_employee_key.nil? && @receiver_employee_key.to_s.length > 100
+        invalid_properties.push('invalid value for "receiver_employee_key", the character length must be smaller than or equal to 100.')
+      end
+
+      if !@supplier_connection_id.nil? && @supplier_connection_id.to_s.length > 100
+        invalid_properties.push('invalid value for "supplier_connection_id", the character length must be smaller than or equal to 100.')
+      end
+
       if !@bill_to.nil? && @bill_to.to_s.length > 500
         invalid_properties.push('invalid value for "bill_to", the character length must be smaller than or equal to 500.')
       end
@@ -269,6 +313,10 @@ module Pleaxy
         invalid_properties.push('invalid value for "quote_import_id", the character length must be smaller than or equal to 20.')
       end
 
+      if !@sow_import_id.nil? && @sow_import_id.to_s.length > 20
+        invalid_properties.push('invalid value for "sow_import_id", the character length must be smaller than or equal to 20.')
+      end
+
       if @line_items.nil?
         invalid_properties.push('invalid value for "line_items", line_items cannot be nil.')
       end
@@ -282,12 +330,17 @@ module Pleaxy
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if !@po_number.nil? && @po_number !~ Regexp.new(/^[A-Za-z0-9._-]{1,40}$/)
       return false if @supplier.nil?
+      matching_validator = EnumAttributeValidator.new('String', ["two_way", "three_way"])
+      return false unless matching_validator.valid?(@matching)
+      return false if !@receiver_employee_key.nil? && @receiver_employee_key.to_s.length > 100
+      return false if !@supplier_connection_id.nil? && @supplier_connection_id.to_s.length > 100
       provider_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci"])
       return false unless provider_validator.valid?(@provider)
       return false if !@bill_to.nil? && @bill_to.to_s.length > 500
       return false if !@supplier_contact_email.nil? && @supplier_contact_email.to_s.length > 254
       return false if !@contract_id.nil? && @contract_id.to_s.length > 60
       return false if !@quote_import_id.nil? && @quote_import_id.to_s.length > 20
+      return false if !@sow_import_id.nil? && @sow_import_id.to_s.length > 20
       return false if @line_items.nil?
       true
     end
@@ -305,6 +358,44 @@ module Pleaxy
       end
 
       @po_number = po_number
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] matching Object to be assigned
+    def matching=(matching)
+      validator = EnumAttributeValidator.new('String', ["two_way", "three_way"])
+      unless validator.valid?(matching)
+        fail ArgumentError, "invalid value for \"matching\", must be one of #{validator.allowable_values}."
+      end
+      @matching = matching
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] receiver_employee_key Value to be assigned
+    def receiver_employee_key=(receiver_employee_key)
+      if receiver_employee_key.nil?
+        fail ArgumentError, 'receiver_employee_key cannot be nil'
+      end
+
+      if receiver_employee_key.to_s.length > 100
+        fail ArgumentError, 'invalid value for "receiver_employee_key", the character length must be smaller than or equal to 100.'
+      end
+
+      @receiver_employee_key = receiver_employee_key
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] supplier_connection_id Value to be assigned
+    def supplier_connection_id=(supplier_connection_id)
+      if supplier_connection_id.nil?
+        fail ArgumentError, 'supplier_connection_id cannot be nil'
+      end
+
+      if supplier_connection_id.to_s.length > 100
+        fail ArgumentError, 'invalid value for "supplier_connection_id", the character length must be smaller than or equal to 100.'
+      end
+
+      @supplier_connection_id = supplier_connection_id
     end
 
     # Custom attribute writer method checking allowed values (enum).
@@ -373,6 +464,20 @@ module Pleaxy
       @quote_import_id = quote_import_id
     end
 
+    # Custom attribute writer method with validation
+    # @param [Object] sow_import_id Value to be assigned
+    def sow_import_id=(sow_import_id)
+      if sow_import_id.nil?
+        fail ArgumentError, 'sow_import_id cannot be nil'
+      end
+
+      if sow_import_id.to_s.length > 20
+        fail ArgumentError, 'invalid value for "sow_import_id", the character length must be smaller than or equal to 20.'
+      end
+
+      @sow_import_id = sow_import_id
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
@@ -380,7 +485,10 @@ module Pleaxy
       self.class == o.class &&
           po_number == o.po_number &&
           supplier == o.supplier &&
+          matching == o.matching &&
+          receiver_employee_key == o.receiver_employee_key &&
           supplier_region_id == o.supplier_region_id &&
+          supplier_connection_id == o.supplier_connection_id &&
           currency == o.currency &&
           provider == o.provider &&
           payer_accounts == o.payer_accounts &&
@@ -394,6 +502,7 @@ module Pleaxy
           notes == o.notes &&
           contract_id == o.contract_id &&
           quote_import_id == o.quote_import_id &&
+          sow_import_id == o.sow_import_id &&
           draft == o.draft &&
           line_items == o.line_items
     end
@@ -407,7 +516,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [po_number, supplier, supplier_region_id, currency, provider, payer_accounts, bill_to_party, bill_to, cost_center, budget_owner, buyer_name, supplier_site, supplier_contact_email, notes, contract_id, quote_import_id, draft, line_items].hash
+      [po_number, supplier, matching, receiver_employee_key, supplier_region_id, supplier_connection_id, currency, provider, payer_accounts, bill_to_party, bill_to, cost_center, budget_owner, buyer_name, supplier_site, supplier_contact_email, notes, contract_id, quote_import_id, sow_import_id, draft, line_items].hash
     end
 
     # Builds the object from hash

@@ -107,6 +107,10 @@ public class Notification {
    * Gets or Sets type
    */
   public enum TypeEnum {
+    REPORT_READY(String.valueOf("report_ready")),
+    
+    COMPANY_REPORT_READY(String.valueOf("company_report_ready")),
+    
     PO_APPROVED(String.valueOf("po_approved")),
     
     PO_REJECTED(String.valueOf("po_rejected")),
@@ -135,6 +139,8 @@ public class Notification {
     
     INVOICE_PAYMENT_WITHDRAWN(String.valueOf("invoice_payment_withdrawn")),
     
+    PAYMENTS_RECORDED_BY_KEY(String.valueOf("payments_recorded_by_key")),
+    
     INVOICE_REMITTANCE_SENT(String.valueOf("invoice_remittance_sent")),
     
     INVOICE_PAYMENT_FAILED(String.valueOf("invoice_payment_failed")),
@@ -147,7 +153,35 @@ public class Notification {
     
     INVOICE_ENTERED_BY_BUYER(String.valueOf("invoice_entered_by_buyer")),
     
+    INVOICE_BANK_DETAILS_TO_CONFIRM(String.valueOf("invoice_bank_details_to_confirm")),
+    
+    INVOICE_BANK_DETAILS_CONFIRMED(String.valueOf("invoice_bank_details_confirmed")),
+    
+    INVOICE_BANK_DETAILS_DISPUTED(String.valueOf("invoice_bank_details_disputed")),
+    
+    INVOICE_BANK_DETAILS_CHANGED(String.valueOf("invoice_bank_details_changed")),
+    
     INVOICE_NEEDS_APPROVER(String.valueOf("invoice_needs_approver")),
+    
+    SES_APPROVAL_REQUESTED(String.valueOf("ses_approval_requested")),
+    
+    SES_AUTO_APPROVED(String.valueOf("ses_auto_approved")),
+    
+    SES_APPROVED(String.valueOf("ses_approved")),
+    
+    SES_REJECTED(String.valueOf("ses_rejected")),
+    
+    RECEIPT_RETURN_RECORDED(String.valueOf("receipt_return_recorded")),
+    
+    PO_LINE_DUE(String.valueOf("po_line_due")),
+    
+    PO_LINE_DUE_ASKED(String.valueOf("po_line_due_asked")),
+    
+    PO_RECEIPT_REQUESTED(String.valueOf("po_receipt_requested")),
+    
+    INVOICE_HELD_DUE_SOON(String.valueOf("invoice_held_due_soon")),
+    
+    SES_APPROVAL_OVERDUE(String.valueOf("ses_approval_overdue")),
     
     CREDIT_NOTE_RECEIVED(String.valueOf("credit_note_received")),
     
@@ -174,6 +208,8 @@ public class Notification {
     SUPPLIER_CONNECTION_REJECTED(String.valueOf("supplier_connection_rejected")),
     
     SUPPLIER_CONNECTION_REGION_MISMATCH(String.valueOf("supplier_connection_region_mismatch")),
+    
+    AGENT_REQUEST(String.valueOf("agent_request")),
     
     SUPPORT_CASE_OPENED(String.valueOf("support_case_opened")),
     

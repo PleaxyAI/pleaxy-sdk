@@ -15,6 +15,8 @@ require 'time'
 
 module Pleaxy
   class PurchaseOrderSupplierViewQuoteDocument
+    attr_accessor :document_type
+
     attr_accessor :import_id
 
     attr_accessor :file_name
@@ -52,6 +54,7 @@ module Pleaxy
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'document_type' => :'documentType',
         :'import_id' => :'importId',
         :'file_name' => :'fileName',
         :'content_type' => :'contentType',
@@ -69,6 +72,7 @@ module Pleaxy
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'document_type' => :'String',
         :'import_id' => :'String',
         :'file_name' => :'String',
         :'content_type' => :'String',
@@ -98,6 +102,10 @@ module Pleaxy
         end
         h[k.to_sym] = v
       }
+
+      if attributes.key?(:'document_type')
+        self.document_type = attributes[:'document_type']
+      end
 
       if attributes.key?(:'import_id')
         self.import_id = attributes[:'import_id']
@@ -136,9 +144,21 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
+      document_type_validator = EnumAttributeValidator.new('String', ["quote", "order_form", "proforma", "sow", "contract", "invoice", "other"])
+      return false unless document_type_validator.valid?(@document_type)
       content_type_validator = EnumAttributeValidator.new('String', ["application/pdf", "image/png", "image/jpeg"])
       return false unless content_type_validator.valid?(@content_type)
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] document_type Object to be assigned
+    def document_type=(document_type)
+      validator = EnumAttributeValidator.new('String', ["quote", "order_form", "proforma", "sow", "contract", "invoice", "other"])
+      unless validator.valid?(document_type)
+        fail ArgumentError, "invalid value for \"document_type\", must be one of #{validator.allowable_values}."
+      end
+      @document_type = document_type
     end
 
     # Custom attribute writer method checking allowed values (enum).
@@ -156,6 +176,7 @@ module Pleaxy
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
+          document_type == o.document_type &&
           import_id == o.import_id &&
           file_name == o.file_name &&
           content_type == o.content_type &&
@@ -173,7 +194,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [import_id, file_name, content_type, added_at, quote_number, valid_until].hash
+      [document_type, import_id, file_name, content_type, added_at, quote_number, valid_until].hash
     end
 
     # Builds the object from hash

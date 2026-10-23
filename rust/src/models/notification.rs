@@ -89,6 +89,10 @@ impl Default for Audience {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Type {
+    #[serde(rename = "report_ready")]
+    ReportReady,
+    #[serde(rename = "company_report_ready")]
+    CompanyReportReady,
     #[serde(rename = "po_approved")]
     PoApproved,
     #[serde(rename = "po_rejected")]
@@ -117,6 +121,8 @@ pub enum Type {
     InvoicePaid,
     #[serde(rename = "invoice_payment_withdrawn")]
     InvoicePaymentWithdrawn,
+    #[serde(rename = "payments_recorded_by_key")]
+    PaymentsRecordedByKey,
     #[serde(rename = "invoice_remittance_sent")]
     InvoiceRemittanceSent,
     #[serde(rename = "invoice_payment_failed")]
@@ -129,8 +135,36 @@ pub enum Type {
     InvoicePaymentReminder,
     #[serde(rename = "invoice_entered_by_buyer")]
     InvoiceEnteredByBuyer,
+    #[serde(rename = "invoice_bank_details_to_confirm")]
+    InvoiceBankDetailsToConfirm,
+    #[serde(rename = "invoice_bank_details_confirmed")]
+    InvoiceBankDetailsConfirmed,
+    #[serde(rename = "invoice_bank_details_disputed")]
+    InvoiceBankDetailsDisputed,
+    #[serde(rename = "invoice_bank_details_changed")]
+    InvoiceBankDetailsChanged,
     #[serde(rename = "invoice_needs_approver")]
     InvoiceNeedsApprover,
+    #[serde(rename = "ses_approval_requested")]
+    SesApprovalRequested,
+    #[serde(rename = "ses_auto_approved")]
+    SesAutoApproved,
+    #[serde(rename = "ses_approved")]
+    SesApproved,
+    #[serde(rename = "ses_rejected")]
+    SesRejected,
+    #[serde(rename = "receipt_return_recorded")]
+    ReceiptReturnRecorded,
+    #[serde(rename = "po_line_due")]
+    PoLineDue,
+    #[serde(rename = "po_line_due_asked")]
+    PoLineDueAsked,
+    #[serde(rename = "po_receipt_requested")]
+    PoReceiptRequested,
+    #[serde(rename = "invoice_held_due_soon")]
+    InvoiceHeldDueSoon,
+    #[serde(rename = "ses_approval_overdue")]
+    SesApprovalOverdue,
     #[serde(rename = "credit_note_received")]
     CreditNoteReceived,
     #[serde(rename = "credit_note_accepted")]
@@ -157,6 +191,8 @@ pub enum Type {
     SupplierConnectionRejected,
     #[serde(rename = "supplier_connection_region_mismatch")]
     SupplierConnectionRegionMismatch,
+    #[serde(rename = "agent_request")]
+    AgentRequest,
     #[serde(rename = "support_case_opened")]
     SupportCaseOpened,
     #[serde(rename = "support_case_updated")]
@@ -187,6 +223,6 @@ pub enum Type {
 
 impl Default for Type {
     fn default() -> Type {
-        Self::PoApproved
+        Self::ReportReady
     }
 }

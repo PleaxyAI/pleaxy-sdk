@@ -19,6 +19,8 @@ module Pleaxy
 
     attr_accessor :invoices
 
+    attr_accessor :service_entry_sheets
+
     attr_accessor :needs_assignment
 
     attr_accessor :decided
@@ -28,6 +30,7 @@ module Pleaxy
       {
         :'purchase_orders' => :'purchaseOrders',
         :'invoices' => :'invoices',
+        :'service_entry_sheets' => :'serviceEntrySheets',
         :'needs_assignment' => :'needsAssignment',
         :'decided' => :'decided'
       }
@@ -43,6 +46,7 @@ module Pleaxy
       {
         :'purchase_orders' => :'Array<PurchaseOrder>',
         :'invoices' => :'Array<InvoiceBuyerView>',
+        :'service_entry_sheets' => :'Array<ServiceEntrySheetQueueItem>',
         :'needs_assignment' => :'ApprovalQueueNeedsAssignment',
         :'decided' => :'ApprovalQueueNeedsAssignment'
       }
@@ -81,6 +85,12 @@ module Pleaxy
         end
       end
 
+      if attributes.key?(:'service_entry_sheets')
+        if (value = attributes[:'service_entry_sheets']).is_a?(Array)
+          self.service_entry_sheets = value
+        end
+      end
+
       if attributes.key?(:'needs_assignment')
         self.needs_assignment = attributes[:'needs_assignment']
       end
@@ -112,6 +122,7 @@ module Pleaxy
       self.class == o.class &&
           purchase_orders == o.purchase_orders &&
           invoices == o.invoices &&
+          service_entry_sheets == o.service_entry_sheets &&
           needs_assignment == o.needs_assignment &&
           decided == o.decided
     end
@@ -125,7 +136,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [purchase_orders, invoices, needs_assignment, decided].hash
+      [purchase_orders, invoices, service_entry_sheets, needs_assignment, decided].hash
     end
 
     # Builds the object from hash

@@ -27,6 +27,8 @@ pub struct PurchaseOrderQuoteDocument {
     pub quote_number: Option<String>,
     #[serde(rename = "validUntil", skip_serializing_if = "Option::is_none")]
     pub valid_until: Option<String>,
+    #[serde(rename = "documentType", skip_serializing_if = "Option::is_none")]
+    pub document_type: Option<DocumentType>,
 }
 
 impl PurchaseOrderQuoteDocument {
@@ -39,6 +41,7 @@ impl PurchaseOrderQuoteDocument {
             added_by: None,
             quote_number: None,
             valid_until: None,
+            document_type: None,
         }
     }
 }
@@ -56,5 +59,29 @@ pub enum ContentType {
 impl Default for ContentType {
     fn default() -> ContentType {
         Self::ApplicationSlashPdf
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum DocumentType {
+    #[serde(rename = "quote")]
+    Quote,
+    #[serde(rename = "order_form")]
+    OrderForm,
+    #[serde(rename = "proforma")]
+    Proforma,
+    #[serde(rename = "sow")]
+    Sow,
+    #[serde(rename = "contract")]
+    Contract,
+    #[serde(rename = "invoice")]
+    Invoice,
+    #[serde(rename = "other")]
+    Other,
+}
+
+impl Default for DocumentType {
+    fn default() -> DocumentType {
+        Self::Quote
     }
 }

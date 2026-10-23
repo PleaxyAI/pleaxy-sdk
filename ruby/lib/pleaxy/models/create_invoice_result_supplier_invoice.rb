@@ -73,6 +73,12 @@ module Pleaxy
 
     attr_accessor :replaced_by_invoice_ids
 
+    attr_accessor :possible_duplicates
+
+    attr_accessor :duplicates_checked
+
+    attr_accessor :has_lookup_rows
+
     attr_accessor :source
 
     attr_accessor :entered_by
@@ -118,6 +124,8 @@ module Pleaxy
     attr_accessor :source_document
 
     attr_accessor :has_original_pdf
+
+    attr_accessor :bank_details_confirmation
 
     attr_accessor :base_currency_amount
 
@@ -187,6 +195,9 @@ module Pleaxy
         :'replaces_invoice_id' => :'replacesInvoiceId',
         :'replaces_invoice_ids' => :'replacesInvoiceIds',
         :'replaced_by_invoice_ids' => :'replacedByInvoiceIds',
+        :'possible_duplicates' => :'possibleDuplicates',
+        :'duplicates_checked' => :'duplicatesChecked',
+        :'has_lookup_rows' => :'hasLookupRows',
         :'source' => :'source',
         :'entered_by' => :'enteredBy',
         :'invoice_date' => :'invoiceDate',
@@ -210,6 +221,7 @@ module Pleaxy
         :'remittance_instructions' => :'remittanceInstructions',
         :'source_document' => :'sourceDocument',
         :'has_original_pdf' => :'hasOriginalPdf',
+        :'bank_details_confirmation' => :'bankDetailsConfirmation',
         :'base_currency_amount' => :'baseCurrencyAmount',
         :'approval' => :'approval',
         :'payment' => :'payment',
@@ -257,6 +269,9 @@ module Pleaxy
         :'replaces_invoice_id' => :'String',
         :'replaces_invoice_ids' => :'Array<String>',
         :'replaced_by_invoice_ids' => :'Array<String>',
+        :'possible_duplicates' => :'Array<InvoiceDuplicateRef>',
+        :'duplicates_checked' => :'Boolean',
+        :'has_lookup_rows' => :'Boolean',
         :'source' => :'String',
         :'entered_by' => :'String',
         :'invoice_date' => :'String',
@@ -280,6 +295,7 @@ module Pleaxy
         :'remittance_instructions' => :'RemittanceInstructions',
         :'source_document' => :'InvoiceSourceDocument',
         :'has_original_pdf' => :'Boolean',
+        :'bank_details_confirmation' => :'SupplierBankDetailsConfirmationView',
         :'base_currency_amount' => :'InvoiceBaseCurrencyAmount',
         :'approval' => :'SupplierApprovalView',
         :'payment' => :'InvoiceSupplierViewPayment',
@@ -435,6 +451,20 @@ module Pleaxy
         end
       end
 
+      if attributes.key?(:'possible_duplicates')
+        if (value = attributes[:'possible_duplicates']).is_a?(Array)
+          self.possible_duplicates = value
+        end
+      end
+
+      if attributes.key?(:'duplicates_checked')
+        self.duplicates_checked = attributes[:'duplicates_checked']
+      end
+
+      if attributes.key?(:'has_lookup_rows')
+        self.has_lookup_rows = attributes[:'has_lookup_rows']
+      end
+
       if attributes.key?(:'source')
         self.source = attributes[:'source']
       end
@@ -541,6 +571,10 @@ module Pleaxy
         self.has_original_pdf = attributes[:'has_original_pdf']
       end
 
+      if attributes.key?(:'bank_details_confirmation')
+        self.bank_details_confirmation = attributes[:'bank_details_confirmation']
+      end
+
       if attributes.key?(:'base_currency_amount')
         self.base_currency_amount = attributes[:'base_currency_amount']
       end
@@ -599,7 +633,7 @@ module Pleaxy
       return false unless entered_by_validator.valid?(@entered_by)
       submitted_format_validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml"])
       return false unless submitted_format_validator.valid?(@submitted_format)
-      document_type_validator = EnumAttributeValidator.new('String', ["debit_note", "invoice"])
+      document_type_validator = EnumAttributeValidator.new('String', ["invoice", "debit_note"])
       return false unless document_type_validator.valid?(@document_type)
       invoice_kind_validator = EnumAttributeValidator.new('String', ["prepayment"])
       return false unless invoice_kind_validator.valid?(@invoice_kind)
@@ -659,7 +693,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] document_type Object to be assigned
     def document_type=(document_type)
-      validator = EnumAttributeValidator.new('String', ["debit_note", "invoice"])
+      validator = EnumAttributeValidator.new('String', ["invoice", "debit_note"])
       unless validator.valid?(document_type)
         fail ArgumentError, "invalid value for \"document_type\", must be one of #{validator.allowable_values}."
       end
@@ -710,6 +744,9 @@ module Pleaxy
           replaces_invoice_id == o.replaces_invoice_id &&
           replaces_invoice_ids == o.replaces_invoice_ids &&
           replaced_by_invoice_ids == o.replaced_by_invoice_ids &&
+          possible_duplicates == o.possible_duplicates &&
+          duplicates_checked == o.duplicates_checked &&
+          has_lookup_rows == o.has_lookup_rows &&
           source == o.source &&
           entered_by == o.entered_by &&
           invoice_date == o.invoice_date &&
@@ -733,6 +770,7 @@ module Pleaxy
           remittance_instructions == o.remittance_instructions &&
           source_document == o.source_document &&
           has_original_pdf == o.has_original_pdf &&
+          bank_details_confirmation == o.bank_details_confirmation &&
           base_currency_amount == o.base_currency_amount &&
           approval == o.approval &&
           payment == o.payment &&
@@ -751,7 +789,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, paid, due_in_days, due_date, paid_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, source, entered_by, invoice_date, submitted_format, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, source_document, has_original_pdf, base_currency_amount, approval, payment, withdrawn_payment, remittances, buyer_workspace_id, next_reminder_at].hash
+      [supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, paid, due_in_days, due_date, paid_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, submitted_format, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, source_document, has_original_pdf, bank_details_confirmation, base_currency_amount, approval, payment, withdrawn_payment, remittances, buyer_workspace_id, next_reminder_at].hash
     end
 
     # Builds the object from hash

@@ -124,6 +124,27 @@ func (c *Client) CreatePurchaseOrder(ctx context.Context, body CreatePurchaseOrd
 	return resp.JSON201, nil
 }
 
+// CreateWebhook - [Both, admin] Add an endpoint: { url, description?, events? }. Every event of those types (all of your side's when events is left out) is POSTed to it as JSON - ListSyncEvents' event plus workspaceId and documentPath - signed in the Pleaxy-Signature header (t=<unix seconds>,v1=<hex HMAC-SHA256 of "<t>.<body>">) with the secret returned here, once. A 2xx within 10 seconds is delivered; anything else is retried after 1 min, 5 min, 30 min, 2 h, 6 h, 12 h and 24 h, then given up. Up to 5 per side. Signed-in administrators only.
+func (c *Client) CreateWebhook(ctx context.Context, body CreateWebhookJSONRequestBody) (*CreateWebhookResult, error) {
+	resp, err := c.api.CreateWebhookWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
+// DeleteWebhook - [Both, admin] Remove an endpoint. Deliveries still waiting for it are given up.
+func (c *Client) DeleteWebhook(ctx context.Context, webhookId string) error {
+	resp, err := c.api.DeleteWebhookWithResponse(ctx, webhookId)
+	if err != nil {
+		return err
+	}
+	return checkStatus(resp.HTTPResponse, resp.Body)
+}
+
 // DisconnectCloudConnection - [Buyer] Disconnect a cloud account (logged-in users only, 'edit' on suppliers). Deletes the connection with everything Pleaxy stored for it (for Oracle Cloud, its encrypted API key) and records who disconnected it; for Oracle Cloud the response names the key fingerprint to delete from user pleaxy-billing. A setup still in progress can only be cancelled by the person who started it (403 otherwise).
 func (c *Client) DisconnectCloudConnection(ctx context.Context, id string) (*CloudConnectionDisconnected, error) {
 	resp, err := c.api.DisconnectCloudConnectionWithResponse(ctx, id)
@@ -220,7 +241,7 @@ func (c *Client) GetBilling(ctx context.Context) (*BillingSummary, error) {
 	return resp.JSON200, nil
 }
 
-// GetBuyerWorkspace - [Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from=&to=
+// GetBuyerWorkspace - [Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from=&to=. ?lists=none returns purchaseOrders and invoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage), and the rest as usual. ?lists=active returns only the ones still in play - not canceled, closed, rejected or paid POs; unpaid invoices, and ones rejected in the last 30 days and not yet replaced - with recentPurchaseOrders and recentInvoices, the newest 10 of each.
 func (c *Client) GetBuyerWorkspace(ctx context.Context, params *GetBuyerWorkspaceParams) (*GetBuyerWorkspaceResult, error) {
 	resp, err := c.api.GetBuyerWorkspaceWithResponse(ctx, params)
 	if err != nil {
@@ -254,6 +275,66 @@ func (c *Client) GetInvoice(ctx context.Context, invoiceId string, params *GetIn
 		return nil, err
 	}
 	return resp.JSON200, nil
+}
+
+// GetInvoiceDocument - [Both] An invoice as a UBL 2.1 Invoice (?format=ubl, the default and only format), for the buyer's ERP to book or the supplier's archive: the lines, document-level discounts and charges, tax and withholdings, prepayments, the supplier's payment instructions, the PO and contract it bills. The supplier's view whoever asks: no matching, findings or approvals. Takes the same ?buyer= as GetInvoice.
+func (c *Client) GetInvoiceDocument(ctx context.Context, invoiceId string, params *GetInvoiceDocumentParams) ([]byte, error) {
+	resp, err := c.api.GetInvoiceDocumentWithResponse(ctx, invoiceId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.Body, nil
+}
+
+// GetInvoiceRemittance - [Both] The payment signal for an invoice, for the supplier's cash application: status unpaid|recorded|processing|paid_through_pleaxy|withdrawn, and once paid the method (ach, wire, check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion, what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as GetInvoice.
+func (c *Client) GetInvoiceRemittance(ctx context.Context, invoiceId string, params *GetInvoiceRemittanceParams) (*RemittanceView, error) {
+	resp, err := c.api.GetInvoiceRemittanceWithResponse(ctx, invoiceId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// GetInvoiceRemittanceDocument - [Both] GetInvoiceRemittance as a document: ?format=cxml (the default: a cXML PaymentRemittanceRequest) or ?format=ubl (a UBL 2.1 RemittanceAdvice). 409 NO_PAYMENT until a payment is recorded or has gone through. Takes the same ?buyer= as GetInvoice.
+func (c *Client) GetInvoiceRemittanceDocument(ctx context.Context, invoiceId string, params *GetInvoiceRemittanceDocumentParams) ([]byte, error) {
+	resp, err := c.api.GetInvoiceRemittanceDocumentWithResponse(ctx, invoiceId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.Body, nil
+}
+
+// GetInvoiceStatus - [Both] Where an invoice stands, for the system that sent it or the one that pays it: status received|in_process|under_query|approved|payment_in_progress|paid|rejected|duplicate, with responseCode (UNCL4343: AB, IP, UQ, AP, RE, PD), cxmlStatus, queryReason, the rejection's reason, amountDue and dueDate. The same as cXML or UBL: GetInvoiceStatusDocument. The supplier's view whoever asks. Takes the same ?buyer= as GetInvoice.
+func (c *Client) GetInvoiceStatus(ctx context.Context, invoiceId string, params *GetInvoiceStatusParams) (*InvoiceStatusView, error) {
+	resp, err := c.api.GetInvoiceStatusWithResponse(ctx, invoiceId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// GetInvoiceStatusDocument - [Both] GetInvoiceStatus as a document: ?format=cxml (the default: a cXML StatusUpdateRequest with an InvoiceStatus) or ?format=ubl (a UBL 2.1 ApplicationResponse with the Peppol Invoice Response codes). Takes the same ?buyer= as GetInvoice.
+func (c *Client) GetInvoiceStatusDocument(ctx context.Context, invoiceId string, params *GetInvoiceStatusDocumentParams) ([]byte, error) {
+	resp, err := c.api.GetInvoiceStatusDocumentWithResponse(ctx, invoiceId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.Body, nil
 }
 
 // GetOrgProfile - [Both] Get your organization's profile
@@ -290,6 +371,18 @@ func (c *Client) GetPurchaseOrder(ctx context.Context, poId string, params *GetP
 		return nil, err
 	}
 	return resp.JSON200, nil
+}
+
+// GetPurchaseOrderDocument - [Both] An issued purchase order as a document another system takes in: ?format=cxml (the default: a cXML OrderRequest, type new, update from version 2, delete once canceled) or ?format=ubl (a UBL 2.1 Order, or an OrderCancellation once canceled). The supplier's copy whoever asks, as GetPurchaseOrderPdf. Takes the same ?buyer= as GetPurchaseOrder. 409 ORDER_NOT_ISSUED for a draft, an order in approval or a rejected one.
+func (c *Client) GetPurchaseOrderDocument(ctx context.Context, poId string, params *GetPurchaseOrderDocumentParams) ([]byte, error) {
+	resp, err := c.api.GetPurchaseOrderDocumentWithResponse(ctx, poId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.Body, nil
 }
 
 // GetReferenceRate - [Buyer, Supplier] The reference rate for 1 `from` in `to` on `date` (YYYY-MM-DD, default today), or the latest of the 3 days before it. Returns `{ reference }`, absent when there's no rate. A suggestion for the New invoice form only; the invoice records whatever rate is submitted. Signed-in session only. Rates By Exchange Rate API.
@@ -340,7 +433,7 @@ func (c *Client) GetStripePayment(ctx context.Context, invoiceId string) (*Strip
 	return resp.JSON200, nil
 }
 
-// GetSupplierWorkspace - [Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from=&to=
+// GetSupplierWorkspace - [Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from=&to=. ?lists=none returns incomingPOs and supplierInvoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage). ?lists=active returns only the ones still in play (as GetBuyerWorkspace), with recentIncomingPOs and recentSupplierInvoices, the newest 10 of each.
 func (c *Client) GetSupplierWorkspace(ctx context.Context, params *GetSupplierWorkspaceParams) (*GetSupplierWorkspaceResult, error) {
 	resp, err := c.api.GetSupplierWorkspaceWithResponse(ctx, params)
 	if err != nil {
@@ -496,6 +589,42 @@ func (c *Client) ListPurchaseOrders(ctx context.Context, params *ListPurchaseOrd
 	return resp.JSON200, nil
 }
 
+// ListSyncEvents - [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.
+func (c *Client) ListSyncEvents(ctx context.Context, params *ListSyncEventsParams) (*SyncEventPage, error) {
+	resp, err := c.api.ListSyncEventsWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// ListWebhookDeliveries - [Both, admin] An endpoint's last 50 deliveries, newest first: { deliveries: [{ eventId, type, status: pending|delivered|failed, attempts, createdAt, nextAttemptAt, lastAttemptAt, lastStatus, lastErrorCode, deliveredAt }] }. Kept 30 days.
+func (c *Client) ListWebhookDeliveries(ctx context.Context, webhookId string) (*ListWebhookDeliveriesResult, error) {
+	resp, err := c.api.ListWebhookDeliveriesWithResponse(ctx, webhookId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// ListWebhooks - [Both, admin] Your side's webhook endpoints and the event types they can take: { endpoints: [{ id, url, description, events, enabled, secretHint, lastAttemptAt, lastStatus, lastErrorCode, lastSuccessAt, failedDeliveries }], eventTypes }. Never the signing secret.
+func (c *Client) ListWebhooks(ctx context.Context) (*ListWebhooksResult, error) {
+	resp, err := c.api.ListWebhooksWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // MarkAllNotificationsRead - [Both] Mark all notifications as read
 func (c *Client) MarkAllNotificationsRead(ctx context.Context, params *MarkAllNotificationsReadParams) (*MarkAllNotificationsReadResult, error) {
 	resp, err := c.api.MarkAllNotificationsReadWithResponse(ctx, params)
@@ -551,6 +680,18 @@ func (c *Client) RecordPayment(ctx context.Context, invoiceId string, body Recor
 		return nil, err
 	}
 	return resp.JSON201, nil
+}
+
+// RecordPayments - [Buyer] Record payments your ERP or bank feed already made outside Pleaxy - wires, checks, ACH, card - so each supplier gets its payment notice, remittance advice and sync event without anyone retyping it: { payments: [{ invoiceId, method, paymentDate, reference, note?, ...RecordPayment's currency and withholding fields }] }, 1-50 per call. Each payment follows RecordPayment's rules and is answered on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?, message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still refused. Up to 500 payments per key per UTC day; past that each payment is refused with 429 RATE_LIMITED. Every call that records a payment raises a payments_recorded_by_key notification in the workspace naming the key and the invoices, so a payment nobody made is seen and withdrawn. API key with the payments:record scope only, minted with a procurementRole that can edit invoices.
+func (c *Client) RecordPayments(ctx context.Context, body RecordPaymentsJSONRequestBody) (*RecordPaymentsResult, error) {
+	resp, err := c.api.RecordPaymentsWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
 }
 
 // RejectInvoice - [Buyer] Reject an invoice with a reason the supplier sees - only the current stage's assigned approver may call this, or, for an unverified/discrepancy invoice with no approval chain yet, any buyer with invoices:edit. Human session only: an API key gets 403 HUMAN_APPROVAL_REQUIRED. Rejecting a PO-backed invoice reopens its purchase order for a corrected invoice.
@@ -622,7 +763,19 @@ func (c *Client) RevokeApiKey(ctx context.Context, keyId string) error {
 	return checkStatus(resp.HTTPResponse, resp.Body)
 }
 
-// RunInvoiceMatch - [Buyer] Run 3-way matching on an invoice. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
+// RotateWebhookSecret - [Both, admin] A new signing secret for an endpoint, returned this once; the old one stops signing at once.
+func (c *Client) RotateWebhookSecret(ctx context.Context, webhookId string) (*RotateWebhookSecretResult, error) {
+	resp, err := c.api.RotateWebhookSecretWithResponse(ctx, webhookId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// RunInvoiceMatch - [Buyer] Match an invoice: against the provider's usage for a cloud provider's order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
 func (c *Client) RunInvoiceMatch(ctx context.Context, invoiceId string) (*InvoiceBuyerView, error) {
 	resp, err := c.api.RunInvoiceMatchWithResponse(ctx, invoiceId)
 	if err != nil {
@@ -718,6 +871,18 @@ func (c *Client) SyncCloudConnection(ctx context.Context, id string) (*CloudConn
 	return resp.JSON201, nil
 }
 
+// TestWebhook - [Both, admin] Send the endpoint a signed ping now, once: { ok, status?, errorCode?, durationMs }.
+func (c *Client) TestWebhook(ctx context.Context, webhookId string) (*TestWebhookResult, error) {
+	resp, err := c.api.TestWebhookWithResponse(ctx, webhookId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // UpdateApprovalChainSettings - [Buyer] Configure the approval chain for a process - its stages, a link to another process's chain, or `useDefault: true` for the region-administrator default. Needs a signed-in session.
 func (c *Client) UpdateApprovalChainSettings(ctx context.Context, process string, body UpdateApprovalChainSettingsJSONRequestBody) (*ApprovalChainSettings, error) {
 	resp, err := c.api.UpdateApprovalChainSettingsWithResponse(ctx, process, body)
@@ -781,6 +946,18 @@ func (c *Client) UpdatePurchaseOrder(ctx context.Context, poId string, body Upda
 // UpdateReminderSettings - [Both] Update reminder settings
 func (c *Client) UpdateReminderSettings(ctx context.Context, body UpdateReminderSettingsJSONRequestBody) (*ReminderSettings, error) {
 	resp, err := c.api.UpdateReminderSettingsWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// UpdateWebhook - [Both, admin] Change an endpoint's url, description or events, or pause and resume it with enabled. Resuming clears its count of failed deliveries.
+func (c *Client) UpdateWebhook(ctx context.Context, webhookId string, body UpdateWebhookJSONRequestBody) (*WebhookEndpointView, error) {
+	resp, err := c.api.UpdateWebhookWithResponse(ctx, webhookId, body)
 	if err != nil {
 		return nil, err
 	}

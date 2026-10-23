@@ -59,6 +59,8 @@ module Pleaxy
 
     attr_accessor :created_at
 
+    attr_accessor :same_domain_acknowledged
+
     attr_accessor :verified
 
     attr_accessor :listed_in_directory
@@ -112,6 +114,7 @@ module Pleaxy
         :'primary_contact_name' => :'primaryContactName',
         :'primary_contact_email' => :'primaryContactEmail',
         :'created_at' => :'createdAt',
+        :'same_domain_acknowledged' => :'sameDomainAcknowledged',
         :'verified' => :'verified',
         :'listed_in_directory' => :'listedInDirectory',
         :'directory_id' => :'directoryId'
@@ -148,6 +151,7 @@ module Pleaxy
         :'primary_contact_name' => :'String',
         :'primary_contact_email' => :'String',
         :'created_at' => :'String',
+        :'same_domain_acknowledged' => :'SameDomainAcknowledgement',
         :'verified' => :'Boolean',
         :'listed_in_directory' => :'Boolean',
         :'directory_id' => :'String'
@@ -271,6 +275,10 @@ module Pleaxy
         self.created_at = attributes[:'created_at']
       end
 
+      if attributes.key?(:'same_domain_acknowledged')
+        self.same_domain_acknowledged = attributes[:'same_domain_acknowledged']
+      end
+
       if attributes.key?(:'verified')
         self.verified = attributes[:'verified']
       end
@@ -343,6 +351,7 @@ module Pleaxy
           primary_contact_name == o.primary_contact_name &&
           primary_contact_email == o.primary_contact_email &&
           created_at == o.created_at &&
+          same_domain_acknowledged == o.same_domain_acknowledged &&
           verified == o.verified &&
           listed_in_directory == o.listed_in_directory &&
           directory_id == o.directory_id
@@ -357,7 +366,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [images, id, role, region_id, region_name, company_name, billing_email, billing_address, billing_address_parts, billing_address_legacy_text, billing_address_needs_review, tax_id, currency, other_currencies, payment_currencies, fx_warning_pct, countries, geography, time_zone, primary_contact_name, primary_contact_email, created_at, verified, listed_in_directory, directory_id].hash
+      [images, id, role, region_id, region_name, company_name, billing_email, billing_address, billing_address_parts, billing_address_legacy_text, billing_address_needs_review, tax_id, currency, other_currencies, payment_currencies, fx_warning_pct, countries, geography, time_zone, primary_contact_name, primary_contact_email, created_at, same_domain_acknowledged, verified, listed_in_directory, directory_id].hash
     end
 
     # Builds the object from hash

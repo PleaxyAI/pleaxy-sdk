@@ -31,6 +31,8 @@ pub struct StoreOrder {
     pub refusal: Option<models::StoreOrderRefusal>,
     #[serde(rename = "storeAnswer", skip_serializing_if = "Option::is_none")]
     pub store_answer: Option<models::StoreOrderRefusal>,
+    #[serde(rename = "confirmation", skip_serializing_if = "Option::is_none")]
+    pub confirmation: Option<models::StoreOrderConfirmation>,
     #[serde(rename = "deadline", skip_serializing_if = "Option::is_none")]
     pub deadline: Option<String>,
     #[serde(rename = "queueSk", skip_serializing_if = "Option::is_none")]
@@ -49,6 +51,7 @@ impl StoreOrder {
             sent_at: None,
             refusal: None,
             store_answer: None,
+            confirmation: None,
             deadline: None,
             queue_sk: None,
         }
@@ -73,6 +76,12 @@ pub enum Status {
     Retrying,
     #[serde(rename = "sent")]
     Sent,
+    #[serde(rename = "confirmed")]
+    Confirmed,
+    #[serde(rename = "cancelled")]
+    Cancelled,
+    #[serde(rename = "partial")]
+    Partial,
 }
 
 impl Default for Status {

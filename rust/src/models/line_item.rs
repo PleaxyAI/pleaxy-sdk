@@ -44,6 +44,8 @@ pub struct LineItem {
     pub valid_from: Option<String>,
     #[serde(rename = "validUntil", skip_serializing_if = "Option::is_none")]
     pub valid_until: Option<String>,
+    #[serde(rename = "dueDate", skip_serializing_if = "Option::is_none")]
+    pub due_date: Option<String>,
     #[serde(rename = "consumed", skip_serializing_if = "Option::is_none")]
     pub consumed: Option<f64>,
     #[serde(rename = "supplierSku", skip_serializing_if = "Option::is_none")]
@@ -58,6 +60,8 @@ pub struct LineItem {
     pub contract_term_id: Option<String>,
     #[serde(rename = "quoteLineNo", skip_serializing_if = "Option::is_none")]
     pub quote_line_no: Option<f64>,
+    #[serde(rename = "sowLineNo", skip_serializing_if = "Option::is_none")]
+    pub sow_line_no: Option<f64>,
     #[serde(rename = "origin", skip_serializing_if = "Option::is_none")]
     pub origin: Option<models::PunchoutLineOrigin>,
     #[serde(rename = "punchoutRef", skip_serializing_if = "Option::is_none")]
@@ -80,6 +84,7 @@ impl LineItem {
             payment_terms: None,
             valid_from: None,
             valid_until: None,
+            due_date: None,
             consumed: None,
             supplier_sku: None,
             price_source: None,
@@ -87,6 +92,7 @@ impl LineItem {
             contract_id: None,
             contract_term_id: None,
             quote_line_no: None,
+            sow_line_no: None,
             origin: None,
             punchout_ref: None,
         }

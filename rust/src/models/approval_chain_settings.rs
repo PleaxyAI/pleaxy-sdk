@@ -49,6 +49,8 @@ pub enum Process {
     PurchaseOrder,
     #[serde(rename = "invoice_payment")]
     InvoicePayment,
+    #[serde(rename = "service_entry_sheet")]
+    ServiceEntrySheet,
 }
 
 impl Default for Process {

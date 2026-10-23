@@ -50,13 +50,13 @@ public class RemittanceInstructions {
    * Gets or Sets method
    */
   public enum MethodEnum {
+    OTHER(String.valueOf("other")),
+    
     ACH(String.valueOf("ach")),
     
     WIRE(String.valueOf("wire")),
     
     CHECK(String.valueOf("check")),
-    
-    OTHER(String.valueOf("other")),
     
     BANK_TRANSFER(String.valueOf("bank_transfer"));
 

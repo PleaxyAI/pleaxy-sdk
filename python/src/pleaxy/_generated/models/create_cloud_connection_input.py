@@ -34,13 +34,14 @@ class CreateCloudConnectionInput:
         aws_connection_id (Union[Unset, str]): AWS only, required - the connectionId returned by POST .../cloud-
             connections/aws/init, linking this verify call back to the externalId generated server-side for that pending
             connection. Never the externalId itself - that's looked up server-side, never trusted from the client.
-        gcp_connection_id (Union[Unset, str]): GCP only, when its connector is on - the connectionId returned by POST
-            .../cloud-connections/gcp/init. The binding itself is looked up server-side, never taken from the client.
-        gcp_project_number (Union[Unset, str]): GCP only - the export project's number (digits).
-        gcp_service_account_email (Union[Unset, str]): GCP only - the service account the setup script created, in the
-            export project.
-        gcp_export_table (Union[Unset, str]): GCP only - project.dataset.gcp_billing_export_v1_XXXXXX_XXXXXX_XXXXXX
-            (standard usage cost export).
+        gcp_connection_id (Union[Unset, str]): Google Cloud only, when its connector is on - the connectionId returned
+            by POST .../cloud-connections/gcp/init. The binding itself is looked up server-side, never taken from the
+            client.
+        gcp_project_number (Union[Unset, str]): Google Cloud only - the export project's number (digits).
+        gcp_service_account_email (Union[Unset, str]): Google Cloud only - the service account the setup script created,
+            in the export project.
+        gcp_export_table (Union[Unset, str]): Google Cloud only -
+            project.dataset.gcp_billing_export_v1_XXXXXX_XXXXXX_XXXXXX (standard usage cost export).
         oci_connection_id (Union[Unset, str]): OCI only, when its connector is on - the connectionId returned by POST
             .../cloud-connections/oci/init. The key pair is looked up server-side, never taken from the client.
         oci_tenancy_ocid (Union[Unset, str]): OCI only - the tenancy OCID (ocid1.tenancy.oc1..…).

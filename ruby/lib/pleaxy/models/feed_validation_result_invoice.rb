@@ -75,6 +75,12 @@ module Pleaxy
 
     attr_accessor :replaced_by_invoice_ids
 
+    attr_accessor :possible_duplicates
+
+    attr_accessor :duplicates_checked
+
+    attr_accessor :has_lookup_rows
+
     attr_accessor :entered_by
 
     attr_accessor :invoice_date
@@ -114,6 +120,8 @@ module Pleaxy
     attr_accessor :tax_currency_amount
 
     attr_accessor :remittance_instructions
+
+    attr_accessor :bank_details_confirmation
 
     attr_accessor :source_document
 
@@ -182,6 +190,9 @@ module Pleaxy
         :'replaces_invoice_id' => :'replacesInvoiceId',
         :'replaces_invoice_ids' => :'replacesInvoiceIds',
         :'replaced_by_invoice_ids' => :'replacedByInvoiceIds',
+        :'possible_duplicates' => :'possibleDuplicates',
+        :'duplicates_checked' => :'duplicatesChecked',
+        :'has_lookup_rows' => :'hasLookupRows',
         :'entered_by' => :'enteredBy',
         :'invoice_date' => :'invoiceDate',
         :'submitted_format' => :'submittedFormat',
@@ -202,6 +213,7 @@ module Pleaxy
         :'payment_currency_amount' => :'paymentCurrencyAmount',
         :'tax_currency_amount' => :'taxCurrencyAmount',
         :'remittance_instructions' => :'remittanceInstructions',
+        :'bank_details_confirmation' => :'bankDetailsConfirmation',
         :'source_document' => :'sourceDocument',
         :'has_original_pdf' => :'hasOriginalPdf',
         :'base_currency_amount' => :'baseCurrencyAmount',
@@ -249,6 +261,9 @@ module Pleaxy
         :'replaces_invoice_id' => :'String',
         :'replaces_invoice_ids' => :'Array<String>',
         :'replaced_by_invoice_ids' => :'Array<String>',
+        :'possible_duplicates' => :'Array<InvoiceDuplicateRef>',
+        :'duplicates_checked' => :'Boolean',
+        :'has_lookup_rows' => :'Boolean',
         :'entered_by' => :'String',
         :'invoice_date' => :'String',
         :'submitted_format' => :'String',
@@ -269,6 +284,7 @@ module Pleaxy
         :'payment_currency_amount' => :'InvoiceCurrencyAmount',
         :'tax_currency_amount' => :'InvoiceCurrencyAmount',
         :'remittance_instructions' => :'RemittanceInstructions',
+        :'bank_details_confirmation' => :'SupplierBankDetailsConfirmationView',
         :'source_document' => :'InvoiceSourceDocument',
         :'has_original_pdf' => :'Boolean',
         :'base_currency_amount' => :'InvoiceBaseCurrencyAmount',
@@ -427,6 +443,20 @@ module Pleaxy
         end
       end
 
+      if attributes.key?(:'possible_duplicates')
+        if (value = attributes[:'possible_duplicates']).is_a?(Array)
+          self.possible_duplicates = value
+        end
+      end
+
+      if attributes.key?(:'duplicates_checked')
+        self.duplicates_checked = attributes[:'duplicates_checked']
+      end
+
+      if attributes.key?(:'has_lookup_rows')
+        self.has_lookup_rows = attributes[:'has_lookup_rows']
+      end
+
       if attributes.key?(:'entered_by')
         self.entered_by = attributes[:'entered_by']
       end
@@ -519,6 +549,10 @@ module Pleaxy
 
       if attributes.key?(:'remittance_instructions')
         self.remittance_instructions = attributes[:'remittance_instructions']
+      end
+
+      if attributes.key?(:'bank_details_confirmation')
+        self.bank_details_confirmation = attributes[:'bank_details_confirmation']
       end
 
       if attributes.key?(:'source_document')
@@ -668,6 +702,9 @@ module Pleaxy
           replaces_invoice_id == o.replaces_invoice_id &&
           replaces_invoice_ids == o.replaces_invoice_ids &&
           replaced_by_invoice_ids == o.replaced_by_invoice_ids &&
+          possible_duplicates == o.possible_duplicates &&
+          duplicates_checked == o.duplicates_checked &&
+          has_lookup_rows == o.has_lookup_rows &&
           entered_by == o.entered_by &&
           invoice_date == o.invoice_date &&
           submitted_format == o.submitted_format &&
@@ -688,6 +725,7 @@ module Pleaxy
           payment_currency_amount == o.payment_currency_amount &&
           tax_currency_amount == o.tax_currency_amount &&
           remittance_instructions == o.remittance_instructions &&
+          bank_details_confirmation == o.bank_details_confirmation &&
           source_document == o.source_document &&
           has_original_pdf == o.has_original_pdf &&
           base_currency_amount == o.base_currency_amount &&
@@ -705,7 +743,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier, buyer_org_id, supplier_org_id, late_fee_terms, amount, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, paid, due_in_days, due_date, paid_at, payment, remittances, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, entered_by, invoice_date, submitted_format, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, source_document, has_original_pdf, base_currency_amount, withdrawn_payment, buyer_workspace_id, next_reminder_at].hash
+      [supplier, buyer_org_id, supplier_org_id, late_fee_terms, amount, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, paid, due_in_days, due_date, paid_at, payment, remittances, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, entered_by, invoice_date, submitted_format, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, bank_details_confirmation, source_document, has_original_pdf, base_currency_amount, withdrawn_payment, buyer_workspace_id, next_reminder_at].hash
     end
 
     # Builds the object from hash

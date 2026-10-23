@@ -464,7 +464,7 @@ public class CreateCloudConnectionInput {
   }
 
   /**
-   * GCP only, when its connector is on - the connectionId returned by POST .../cloud-connections/gcp/init. The binding itself is looked up server-side, never taken from the client.
+   * Google Cloud only, when its connector is on - the connectionId returned by POST .../cloud-connections/gcp/init. The binding itself is looked up server-side, never taken from the client.
    * @return gcpConnectionId
    */
   @javax.annotation.Nullable
@@ -488,7 +488,7 @@ public class CreateCloudConnectionInput {
   }
 
   /**
-   * GCP only - the export project&#39;s number (digits).
+   * Google Cloud only - the export project&#39;s number (digits).
    * @return gcpProjectNumber
    */
   @javax.annotation.Nullable
@@ -512,7 +512,7 @@ public class CreateCloudConnectionInput {
   }
 
   /**
-   * GCP only - the service account the setup script created, in the export project.
+   * Google Cloud only - the service account the setup script created, in the export project.
    * @return gcpServiceAccountEmail
    */
   @javax.annotation.Nullable
@@ -536,7 +536,7 @@ public class CreateCloudConnectionInput {
   }
 
   /**
-   * GCP only - project.dataset.gcp_billing_export_v1_XXXXXX_XXXXXX_XXXXXX (standard usage cost export).
+   * Google Cloud only - project.dataset.gcp_billing_export_v1_XXXXXX_XXXXXX_XXXXXX (standard usage cost export).
    * @return gcpExportTable
    */
   @javax.annotation.Nullable
