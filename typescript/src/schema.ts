@@ -1166,7 +1166,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line) or unit price (in the order's currency) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope. */
+        /** [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, substitute?: { supplierPartId, name }, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line), unit price (in the order's currency) or item (substitute: a part number in your published catalog makes it that catalog item) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope. */
         post: operations["ConfirmPurchaseOrder"];
         delete?: never;
         options?: never;
@@ -1941,6 +1941,10 @@ export interface components {
             description?: string;
             events?: string[];
         };
+        SubstituteItemInput: {
+            supplierPartId: string;
+            name: string;
+        };
         OrderConfirmationLineInput: {
             /** Format: double */
             lineNo: number;
@@ -1950,6 +1954,7 @@ export interface components {
             qty?: number;
             /** Format: double */
             unitPrice?: number;
+            substitute?: components["schemas"]["SubstituteItemInput"];
             shipmentDate?: string;
             deliveryDate?: string;
             reason?: string;
@@ -4015,9 +4020,16 @@ export interface components {
             qty?: number;
             /** Format: double */
             unitPrice?: number;
+            substitute?: components["schemas"]["OrderConfirmationSubstitute"];
             shipmentDate?: string;
             deliveryDate?: string;
             reason?: string;
+        };
+        OrderConfirmationSubstitute: {
+            supplierPartId?: string;
+            name?: string;
+            catalogItemId?: string;
+            unit?: string;
         };
         OrderConfirmationDecision: {
             /** @enum {string} */
@@ -4043,6 +4055,10 @@ export interface components {
             source?: "cxml" | "portal" | "api";
             createdAt?: string;
             updatedAt?: string;
+            receipts?: {
+                id: string;
+                receivedAt?: string;
+            }[];
         };
         ShipNoticeLine: {
             /** Format: double */
@@ -4161,6 +4177,7 @@ export interface components {
             amount?: number;
             currency?: string;
             note?: string;
+            shipmentId?: string;
             attachment?: components["schemas"]["ReceiptAttachment"];
             /** @enum {string} */
             source?: "supplier" | "api" | "app" | "assistant" | "import";

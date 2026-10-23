@@ -21,6 +21,8 @@ pub struct OrderConfirmationLine {
     pub qty: Option<f64>,
     #[serde(rename = "unitPrice", skip_serializing_if = "Option::is_none")]
     pub unit_price: Option<f64>,
+    #[serde(rename = "substitute", skip_serializing_if = "Option::is_none")]
+    pub substitute: Option<models::OrderConfirmationSubstitute>,
     #[serde(rename = "shipmentDate", skip_serializing_if = "Option::is_none")]
     pub shipment_date: Option<String>,
     #[serde(rename = "deliveryDate", skip_serializing_if = "Option::is_none")]
@@ -36,6 +38,7 @@ impl OrderConfirmationLine {
             status: None,
             qty: None,
             unit_price: None,
+            substitute: None,
             shipment_date: None,
             delivery_date: None,
             reason: None,

@@ -3680,7 +3680,7 @@
     "/purchase-orders/{poId}/confirmations": {
       "post": {
         "operationId": "ConfirmPurchaseOrder",
-        "summary": "[Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line) or unit price (in the order's currency) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.",
+        "summary": "[Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, substitute?: { supplierPartId, name }, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line), unit price (in the order's currency) or item (substitute: a part number in your published catalog makes it that catalog item) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.",
         "parameters": [
           {
             "name": "poId",
@@ -6010,6 +6010,23 @@
           }
         }
       },
+      "SubstituteItemInput": {
+        "type": "object",
+        "properties": {
+          "supplierPartId": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "supplierPartId",
+          "name"
+        ]
+      },
       "OrderConfirmationLineInput": {
         "type": "object",
         "properties": {
@@ -6034,6 +6051,9 @@
           "unitPrice": {
             "type": "number",
             "format": "double"
+          },
+          "substitute": {
+            "$ref": "#/components/schemas/SubstituteItemInput"
           },
           "shipmentDate": {
             "type": "string"
@@ -12808,6 +12828,9 @@
             "type": "number",
             "format": "double"
           },
+          "substitute": {
+            "$ref": "#/components/schemas/OrderConfirmationSubstitute"
+          },
           "shipmentDate": {
             "type": "string"
           },
@@ -12815,6 +12838,23 @@
             "type": "string"
           },
           "reason": {
+            "type": "string"
+          }
+        }
+      },
+      "OrderConfirmationSubstitute": {
+        "type": "object",
+        "properties": {
+          "supplierPartId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "catalogItemId": {
+            "type": "string"
+          },
+          "unit": {
             "type": "string"
           }
         }
@@ -12895,6 +12935,23 @@
           },
           "updatedAt": {
             "type": "string"
+          },
+          "receipts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "receivedAt": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ]
+            }
           }
         }
       },
@@ -13281,6 +13338,9 @@
             "type": "string"
           },
           "note": {
+            "type": "string"
+          },
+          "shipmentId": {
             "type": "string"
           },
           "attachment": {

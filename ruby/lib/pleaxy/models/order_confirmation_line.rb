@@ -23,6 +23,8 @@ module Pleaxy
 
     attr_accessor :unit_price
 
+    attr_accessor :substitute
+
     attr_accessor :shipment_date
 
     attr_accessor :delivery_date
@@ -58,6 +60,7 @@ module Pleaxy
         :'status' => :'status',
         :'qty' => :'qty',
         :'unit_price' => :'unitPrice',
+        :'substitute' => :'substitute',
         :'shipment_date' => :'shipmentDate',
         :'delivery_date' => :'deliveryDate',
         :'reason' => :'reason'
@@ -76,6 +79,7 @@ module Pleaxy
         :'status' => :'String',
         :'qty' => :'Float',
         :'unit_price' => :'Float',
+        :'substitute' => :'OrderConfirmationSubstitute',
         :'shipment_date' => :'String',
         :'delivery_date' => :'String',
         :'reason' => :'String'
@@ -117,6 +121,10 @@ module Pleaxy
 
       if attributes.key?(:'unit_price')
         self.unit_price = attributes[:'unit_price']
+      end
+
+      if attributes.key?(:'substitute')
+        self.substitute = attributes[:'substitute']
       end
 
       if attributes.key?(:'shipment_date')
@@ -168,6 +176,7 @@ module Pleaxy
           status == o.status &&
           qty == o.qty &&
           unit_price == o.unit_price &&
+          substitute == o.substitute &&
           shipment_date == o.shipment_date &&
           delivery_date == o.delivery_date &&
           reason == o.reason
@@ -182,7 +191,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [line_no, status, qty, unit_price, shipment_date, delivery_date, reason].hash
+      [line_no, status, qty, unit_price, substitute, shipment_date, delivery_date, reason].hash
     end
 
     # Builds the object from hash

@@ -35,6 +35,7 @@ class Receipt:
         amount (Union[Unset, float]):
         currency (Union[Unset, str]):
         note (Union[Unset, str]):
+        shipment_id (Union[Unset, str]):
         attachment (Union[Unset, ReceiptAttachment]):
         source (Union[Unset, ReceiptSource]):
         created_by (Union[Unset, str]):
@@ -61,6 +62,7 @@ class Receipt:
     amount: Union[Unset, float] = UNSET
     currency: Union[Unset, str] = UNSET
     note: Union[Unset, str] = UNSET
+    shipment_id: Union[Unset, str] = UNSET
     attachment: Union[Unset, "ReceiptAttachment"] = UNSET
     source: Union[Unset, ReceiptSource] = UNSET
     created_by: Union[Unset, str] = UNSET
@@ -107,6 +109,8 @@ class Receipt:
         currency = self.currency
 
         note = self.note
+
+        shipment_id = self.shipment_id
 
         attachment: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.attachment, Unset):
@@ -176,6 +180,8 @@ class Receipt:
             field_dict["currency"] = currency
         if note is not UNSET:
             field_dict["note"] = note
+        if shipment_id is not UNSET:
+            field_dict["shipmentId"] = shipment_id
         if attachment is not UNSET:
             field_dict["attachment"] = attachment
         if source is not UNSET:
@@ -252,6 +258,8 @@ class Receipt:
 
         note = d.pop("note", UNSET)
 
+        shipment_id = d.pop("shipmentId", UNSET)
+
         _attachment = d.pop("attachment", UNSET)
         attachment: Union[Unset, ReceiptAttachment]
         if isinstance(_attachment, Unset):
@@ -320,6 +328,7 @@ class Receipt:
             amount=amount,
             currency=currency,
             note=note,
+            shipment_id=shipment_id,
             attachment=attachment,
             source=source,
             created_by=created_by,
