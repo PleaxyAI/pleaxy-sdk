@@ -68,6 +68,7 @@ from .api_key_summary_role import ApiKeySummaryRole
 from .api_key_summary_scopes_item import ApiKeySummaryScopesItem
 from .apply_confirmation_changes_result import ApplyConfirmationChangesResult
 from .approval_chain import ApprovalChain
+from .approval_chain_from_request import ApprovalChainFromRequest
 from .approval_chain_settings import ApprovalChainSettings
 from .approval_chain_settings_linked_to import ApprovalChainSettingsLinkedTo
 from .approval_chain_settings_process import ApprovalChainSettingsProcess
@@ -107,6 +108,7 @@ from .approval_step_condition_input import ApprovalStepConditionInput
 from .approval_step_condition_input_field import ApprovalStepConditionInputField
 from .approval_step_condition_input_operator import ApprovalStepConditionInputOperator
 from .approval_step_condition_operator import ApprovalStepConditionOperator
+from .approve_purchase_request_input import ApprovePurchaseRequestInput
 from .automation_rule import AutomationRule
 from .automation_rule_condition import AutomationRuleCondition
 from .automation_rule_condition_input import AutomationRuleConditionInput
@@ -141,6 +143,20 @@ from .billing_summary_plan import BillingSummaryPlan
 from .billing_summary_subscription_status import BillingSummarySubscriptionStatus
 from .breakdown_entry_input import BreakdownEntryInput
 from .breakdown_group_input import BreakdownGroupInput
+from .budget_check import BudgetCheck
+from .budget_check_input import BudgetCheckInput
+from .budget_check_mode import BudgetCheckMode
+from .budget_check_outcome import BudgetCheckOutcome
+from .budget_check_period import BudgetCheckPeriod
+from .budget_check_period_kind import BudgetCheckPeriodKind
+from .budget_control_settings import BudgetControlSettings
+from .budget_control_settings_mode import BudgetControlSettingsMode
+from .budget_control_settings_period import BudgetControlSettingsPeriod
+from .budget_period import BudgetPeriod
+from .budget_period_kind import BudgetPeriodKind
+from .budget_status import BudgetStatus
+from .budget_status_period import BudgetStatusPeriod
+from .budget_status_period_kind import BudgetStatusPeriodKind
 from .cancel_purchase_order_input import CancelPurchaseOrderInput
 from .cloud_bulk_account_view import CloudBulkAccountView
 from .cloud_bulk_account_view_source import CloudBulkAccountViewSource
@@ -179,6 +195,10 @@ from .cloud_connection_provider import CloudConnectionProvider
 from .cloud_connection_status import CloudConnectionStatus
 from .cloud_setup_view import CloudSetupView
 from .cloud_setup_view_state import CloudSetupViewState
+from .convert_purchase_request_input import ConvertPurchaseRequestInput
+from .convert_purchase_request_input_matching import ConvertPurchaseRequestInputMatching
+from .convert_purchase_request_input_provider import ConvertPurchaseRequestInputProvider
+from .convert_purchase_request_result import ConvertPurchaseRequestResult
 from .create_api_key_input import CreateApiKeyInput
 from .create_api_key_input_procurement_role import CreateApiKeyInputProcurementRole
 from .create_api_key_input_scopes_item import CreateApiKeyInputScopesItem
@@ -429,6 +449,7 @@ from .create_order_confirmation_input_type import CreateOrderConfirmationInputTy
 from .create_purchase_order_input import CreatePurchaseOrderInput
 from .create_purchase_order_input_matching import CreatePurchaseOrderInputMatching
 from .create_purchase_order_input_provider import CreatePurchaseOrderInputProvider
+from .create_purchase_request_input import CreatePurchaseRequestInput
 from .create_ship_notice_input import CreateShipNoticeInput
 from .create_ship_notice_input_status import CreateShipNoticeInputStatus
 from .create_webhook_input import CreateWebhookInput
@@ -540,6 +561,7 @@ from .feed_validation_warning import FeedValidationWarning
 from .feed_validation_warning_code import FeedValidationWarningCode
 from .geography import Geography
 from .geography_preset_id import GeographyPresetId
+from .get_budget_status_result import GetBudgetStatusResult
 from .get_buyer_workspace_result import GetBuyerWorkspaceResult
 from .get_invoice_document_format import GetInvoiceDocumentFormat
 from .get_invoice_remittance_document_format import GetInvoiceRemittanceDocumentFormat
@@ -917,10 +939,8 @@ from .late_fee_terms_interest_per import LateFeeTermsInterestPer
 from .late_fee_terms_statute import LateFeeTermsStatute
 from .line_item import LineItem
 from .line_item_input import LineItemInput
-from .line_item_input_line_type import LineItemInputLineType
 from .line_item_input_rule_type import LineItemInputRuleType
 from .line_item_input_scope_type import LineItemInputScopeType
-from .line_item_line_type import LineItemLineType
 from .line_item_price_source import LineItemPriceSource
 from .line_item_punchout_ref import LineItemPunchoutRef
 from .line_item_rule_type import LineItemRuleType
@@ -1144,6 +1164,7 @@ from .list_invoices_item_supplier_invoice_withdrawn_payment_type_1_status import
 )
 from .list_notifications_audience import ListNotificationsAudience
 from .list_notifications_page_audience import ListNotificationsPageAudience
+from .list_purchase_requests_status import ListPurchaseRequestsStatus
 from .list_webhook_deliveries_result import ListWebhookDeliveriesResult
 from .list_webhooks_result import ListWebhooksResult
 from .list_webhooks_result_event_types_item import ListWebhooksResultEventTypesItem
@@ -1167,7 +1188,6 @@ from .order_confirmation_operation import OrderConfirmationOperation
 from .order_confirmation_outcome import OrderConfirmationOutcome
 from .order_confirmation_source import OrderConfirmationSource
 from .order_confirmation_substitute import OrderConfirmationSubstitute
-from .order_confirmation_substitute_line_type import OrderConfirmationSubstituteLineType
 from .org_profile import OrgProfile
 from .org_profile_role import OrgProfileRole
 from .payer_account_ref import PayerAccountRef
@@ -1276,6 +1296,12 @@ from .purchase_order_supplier_view_status import PurchaseOrderSupplierViewStatus
 from .purchase_order_supplier_view_supplier_email import (
     PurchaseOrderSupplierViewSupplierEmail,
 )
+from .purchase_request import PurchaseRequest
+from .purchase_request_line import PurchaseRequestLine
+from .purchase_request_line_input import PurchaseRequestLineInput
+from .purchase_request_status import PurchaseRequestStatus
+from .purchase_request_supplier import PurchaseRequestSupplier
+from .purchase_request_supplier_input import PurchaseRequestSupplierInput
 from .question_condition import QuestionCondition
 from .question_option import QuestionOption
 from .questionnaire_field_def import QuestionnaireFieldDef
@@ -1340,6 +1366,7 @@ from .reference_rate_attribution import ReferenceRateAttribution
 from .region_tier_price import RegionTierPrice
 from .reject_invoice_input import RejectInvoiceInput
 from .reject_invoice_input_reason_code import RejectInvoiceInputReasonCode
+from .reject_purchase_request_input import RejectPurchaseRequestInput
 from .reminder_settings import ReminderSettings
 from .remittance_check import RemittanceCheck
 from .remittance_check_changed_fields_item import RemittanceCheckChangedFieldsItem
@@ -1565,11 +1592,15 @@ from .update_approval_chain_input import UpdateApprovalChainInput
 from .update_approval_chain_input_linked_to import UpdateApprovalChainInputLinkedTo
 from .update_automation_rules_input import UpdateAutomationRulesInput
 from .update_autonomy_settings_input import UpdateAutonomySettingsInput
+from .update_budget_control_input import UpdateBudgetControlInput
+from .update_budget_control_input_mode import UpdateBudgetControlInputMode
+from .update_budget_control_input_period import UpdateBudgetControlInputPeriod
 from .update_org_profile_input import UpdateOrgProfileInput
 from .update_org_profile_input_geography_preset_id import (
     UpdateOrgProfileInputGeographyPresetId,
 )
 from .update_purchase_order_input import UpdatePurchaseOrderInput
+from .update_purchase_request_input import UpdatePurchaseRequestInput
 from .update_reminder_settings_input import UpdateReminderSettingsInput
 from .update_webhook_input import UpdateWebhookInput
 from .validate_feed_invoice_result_credit_note import (
@@ -1632,6 +1663,7 @@ __all__ = (
     "ApiKeySummaryScopesItem",
     "ApplyConfirmationChangesResult",
     "ApprovalChain",
+    "ApprovalChainFromRequest",
     "ApprovalChainSettings",
     "ApprovalChainSettingsLinkedTo",
     "ApprovalChainSettingsProcess",
@@ -1669,6 +1701,7 @@ __all__ = (
     "ApprovalStepConditionInputField",
     "ApprovalStepConditionInputOperator",
     "ApprovalStepConditionOperator",
+    "ApprovePurchaseRequestInput",
     "AutomationRule",
     "AutomationRuleCondition",
     "AutomationRuleConditionInput",
@@ -1699,6 +1732,20 @@ __all__ = (
     "BillToPartyInput",
     "BreakdownEntryInput",
     "BreakdownGroupInput",
+    "BudgetCheck",
+    "BudgetCheckInput",
+    "BudgetCheckMode",
+    "BudgetCheckOutcome",
+    "BudgetCheckPeriod",
+    "BudgetCheckPeriodKind",
+    "BudgetControlSettings",
+    "BudgetControlSettingsMode",
+    "BudgetControlSettingsPeriod",
+    "BudgetPeriod",
+    "BudgetPeriodKind",
+    "BudgetStatus",
+    "BudgetStatusPeriod",
+    "BudgetStatusPeriodKind",
     "CancelPurchaseOrderInput",
     "CloudBulkAccountView",
     "CloudBulkAccountViewSource",
@@ -1725,6 +1772,10 @@ __all__ = (
     "CloudConnectionStatus",
     "CloudSetupView",
     "CloudSetupViewState",
+    "ConvertPurchaseRequestInput",
+    "ConvertPurchaseRequestInputMatching",
+    "ConvertPurchaseRequestInputProvider",
+    "ConvertPurchaseRequestResult",
     "CreateApiKeyInput",
     "CreateApiKeyInputProcurementRole",
     "CreateApiKeyInputScopesItem",
@@ -1823,6 +1874,7 @@ __all__ = (
     "CreatePurchaseOrderInput",
     "CreatePurchaseOrderInputMatching",
     "CreatePurchaseOrderInputProvider",
+    "CreatePurchaseRequestInput",
     "CreateShipNoticeInput",
     "CreateShipNoticeInputStatus",
     "CreateWebhookInput",
@@ -1882,6 +1934,7 @@ __all__ = (
     "FeedValidationWarningCode",
     "Geography",
     "GeographyPresetId",
+    "GetBudgetStatusResult",
     "GetBuyerWorkspaceResult",
     "GetInvoiceDocumentFormat",
     "GetInvoiceRemittanceDocumentFormat",
@@ -2071,10 +2124,8 @@ __all__ = (
     "LateFeeTermsStatute",
     "LineItem",
     "LineItemInput",
-    "LineItemInputLineType",
     "LineItemInputRuleType",
     "LineItemInputScopeType",
-    "LineItemLineType",
     "LineItemPriceSource",
     "LineItemPunchoutRef",
     "LineItemRuleType",
@@ -2158,6 +2209,7 @@ __all__ = (
     "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1Status",
     "ListNotificationsAudience",
     "ListNotificationsPageAudience",
+    "ListPurchaseRequestsStatus",
     "ListWebhookDeliveriesResult",
     "ListWebhooksResult",
     "ListWebhooksResultEventTypesItem",
@@ -2181,7 +2233,6 @@ __all__ = (
     "OrderConfirmationOutcome",
     "OrderConfirmationSource",
     "OrderConfirmationSubstitute",
-    "OrderConfirmationSubstituteLineType",
     "OrgProfile",
     "OrgProfileRole",
     "PayerAccountRef",
@@ -2250,6 +2301,12 @@ __all__ = (
     "PurchaseOrderSupplierViewSowDocumentDocumentType",
     "PurchaseOrderSupplierViewStatus",
     "PurchaseOrderSupplierViewSupplierEmail",
+    "PurchaseRequest",
+    "PurchaseRequestLine",
+    "PurchaseRequestLineInput",
+    "PurchaseRequestStatus",
+    "PurchaseRequestSupplier",
+    "PurchaseRequestSupplierInput",
     "QuestionCondition",
     "QuestionnaireFieldDef",
     "QuestionnaireFieldDefDocType",
@@ -2302,6 +2359,7 @@ __all__ = (
     "RegionTierPrice",
     "RejectInvoiceInput",
     "RejectInvoiceInputReasonCode",
+    "RejectPurchaseRequestInput",
     "ReminderSettings",
     "RemittanceCheck",
     "RemittanceCheckChangedFieldsItem",
@@ -2435,9 +2493,13 @@ __all__ = (
     "UpdateApprovalChainInputLinkedTo",
     "UpdateAutomationRulesInput",
     "UpdateAutonomySettingsInput",
+    "UpdateBudgetControlInput",
+    "UpdateBudgetControlInputMode",
+    "UpdateBudgetControlInputPeriod",
     "UpdateOrgProfileInput",
     "UpdateOrgProfileInputGeographyPresetId",
     "UpdatePurchaseOrderInput",
+    "UpdatePurchaseRequestInput",
     "UpdateReminderSettingsInput",
     "UpdateWebhookInput",
     "ValidateFeedInvoiceResultCreditNote",

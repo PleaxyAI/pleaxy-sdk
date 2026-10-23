@@ -48,7 +48,11 @@ public class ApprovalStepCondition {
     
     AMOUNT(String.valueOf("amount")),
     
-    REQUESTER(String.valueOf("requester"));
+    REQUESTER(String.valueOf("requester")),
+    
+    COST_CENTER(String.valueOf("costCenter")),
+    
+    GL_CODE(String.valueOf("glCode"));
 
     private String value;
 

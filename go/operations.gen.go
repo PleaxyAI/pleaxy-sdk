@@ -64,6 +64,18 @@ func (c *Client) ApprovePurchaseOrder(ctx context.Context, poId string) (*Purcha
 	return resp.JSON201, nil
 }
 
+// ApprovePurchaseRequest - [Buyer] Approve a purchase request - only the current step's approver, signed in
+func (c *Client) ApprovePurchaseRequest(ctx context.Context, requestId string, body ApprovePurchaseRequestJSONRequestBody) (*PurchaseRequest, error) {
+	resp, err := c.api.ApprovePurchaseRequestWithResponse(ctx, requestId, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // CancelPurchaseOrder - [Buyer] Cancel a purchase order
 func (c *Client) CancelPurchaseOrder(ctx context.Context, poId string, body CancelPurchaseOrderJSONRequestBody) (*PurchaseOrder, error) {
 	resp, err := c.api.CancelPurchaseOrderWithResponse(ctx, poId, body)
@@ -74,6 +86,30 @@ func (c *Client) CancelPurchaseOrder(ctx context.Context, poId string, body Canc
 		return nil, err
 	}
 	return resp.JSON201, nil
+}
+
+// CancelPurchaseRequest - [Buyer] The requester, or an administrator, withdraws a request until it is ordered
+func (c *Client) CancelPurchaseRequest(ctx context.Context, requestId string) (*PurchaseRequest, error) {
+	resp, err := c.api.CancelPurchaseRequestWithResponse(ctx, requestId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// CheckBudget - [Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or off. Writes nothing.
+func (c *Client) CheckBudget(ctx context.Context, body CheckBudgetJSONRequestBody) (*BudgetCheck, error) {
+	resp, err := c.api.CheckBudgetWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
 }
 
 // ClosePurchaseOrder - [Buyer] Manually close out a purchase order
@@ -91,6 +127,18 @@ func (c *Client) ClosePurchaseOrder(ctx context.Context, poId string) (*Purchase
 // ConfirmPurchaseOrder - [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, substitute?: { supplierPartId, name }, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line), unit price (in the order's currency) or item (substitute: a part number in your published catalog makes it that catalog item) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
 func (c *Client) ConfirmPurchaseOrder(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, body ConfirmPurchaseOrderJSONRequestBody) (*OrderConfirmation, error) {
 	resp, err := c.api.ConfirmPurchaseOrderWithResponse(ctx, poId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
+// ConvertPurchaseRequest - [Buyer] Order an approved request: a purchase order from its lines, supplier, cost center, GL account and quote, each overridable. Within what was approved it keeps the request's approval.
+func (c *Client) ConvertPurchaseRequest(ctx context.Context, requestId string, body ConvertPurchaseRequestJSONRequestBody) (*ConvertPurchaseRequestResult, error) {
+	resp, err := c.api.ConvertPurchaseRequestWithResponse(ctx, requestId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -139,6 +187,18 @@ func (c *Client) CreateInvoice(ctx context.Context, body CreateInvoiceJSONReques
 // CreatePurchaseOrder - [Buyer] Create a purchase order
 func (c *Client) CreatePurchaseOrder(ctx context.Context, body CreatePurchaseOrderJSONRequestBody) (*PurchaseOrder, error) {
 	resp, err := c.api.CreatePurchaseOrderWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
+// CreatePurchaseRequest - [Buyer] Ask for something: saved as a draft, or submitted for approval with `submit: true`. Any workspace member.
+func (c *Client) CreatePurchaseRequest(ctx context.Context, body CreatePurchaseRequestJSONRequestBody) (*PurchaseRequest, error) {
+	resp, err := c.api.CreatePurchaseRequestWithResponse(ctx, body)
 	if err != nil {
 		return nil, err
 	}
@@ -268,6 +328,30 @@ func (c *Client) GetAutonomySettings(ctx context.Context) (*AutonomySettings, er
 // GetBilling - [Buyer] Current plan, subscription state, and purchasable plans
 func (c *Client) GetBilling(ctx context.Context) (*BillingSummary, error) {
 	resp, err := c.api.GetBillingWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// GetBudgetControl - [Buyer] Whether budgets are checked (off, warn or block) and over what period (month, quarter or year)
+func (c *Client) GetBudgetControl(ctx context.Context) (*BudgetControlSettings, error) {
+	resp, err := c.api.GetBudgetControlWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// GetBudgetStatus - [Buyer] Budget, committed (approved orders not yet invoiced), actual (approved invoices) and remaining per cost center for the current period
+func (c *Client) GetBudgetStatus(ctx context.Context, params *GetBudgetStatusParams) (*GetBudgetStatusResult, error) {
+	resp, err := c.api.GetBudgetStatusWithResponse(ctx, params)
 	if err != nil {
 		return nil, err
 	}
@@ -424,6 +508,18 @@ func (c *Client) GetPurchaseOrderDocument(ctx context.Context, poId string, para
 // GetPurchaseOrderFulfillment - [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject, qty, unitPrice, dates and reason, and the buyer's decision on a changed one: applied or declined); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder.
 func (c *Client) GetPurchaseOrderFulfillment(ctx context.Context, poId string, params *GetPurchaseOrderFulfillmentParams) (*PurchaseOrderFulfillment, error) {
 	resp, err := c.api.GetPurchaseOrderFulfillmentWithResponse(ctx, poId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// GetPurchaseRequest - [Buyer] One purchase request, with its approval chain, budget check and the order it became
+func (c *Client) GetPurchaseRequest(ctx context.Context, requestId string) (*PurchaseRequest, error) {
+	resp, err := c.api.GetPurchaseRequestWithResponse(ctx, requestId)
 	if err != nil {
 		return nil, err
 	}
@@ -637,6 +733,18 @@ func (c *Client) ListPurchaseOrders(ctx context.Context, params *ListPurchaseOrd
 	return resp.JSON200, nil
 }
 
+// ListPurchaseRequests - [Buyer] Purchase requests the caller can see, newest first: their own, everyone's with purchase order access, and any waiting on them
+func (c *Client) ListPurchaseRequests(ctx context.Context, params *ListPurchaseRequestsParams) (*[]PurchaseRequest, error) {
+	resp, err := c.api.ListPurchaseRequestsWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // ListSyncEvents - [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier sent one), invoice.updated (an approval step approved it, including an automatic approval, it was rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded, failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.
 func (c *Client) ListSyncEvents(ctx context.Context, params *ListSyncEventsParams) (*SyncEventPage, error) {
 	resp, err := c.api.ListSyncEventsWithResponse(ctx, params)
@@ -766,6 +874,18 @@ func (c *Client) RejectPurchaseOrder(ctx context.Context, poId string) (*Purchas
 	return resp.JSON201, nil
 }
 
+// RejectPurchaseRequest - [Buyer] Reject a purchase request with a reason - only the current step's approver
+func (c *Client) RejectPurchaseRequest(ctx context.Context, requestId string, body RejectPurchaseRequestJSONRequestBody) (*PurchaseRequest, error) {
+	resp, err := c.api.RejectPurchaseRequestWithResponse(ctx, requestId, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // RemindInvoice - [Supplier] Send a reminder for an invoice waiting on approval, or a payment reminder for an approved, unpaid one. At most one a day per invoice. When two buyers issued the same invoice id, add ?buyer=<buyer Workspace ID> (409 INVOICE_ID_AMBIGUOUS otherwise).
 func (c *Client) RemindInvoice(ctx context.Context, invoiceId string, params *RemindInvoiceParams) (*InvoiceSupplierView, error) {
 	resp, err := c.api.RemindInvoiceWithResponse(ctx, invoiceId, params)
@@ -835,7 +955,7 @@ func (c *Client) RunInvoiceMatch(ctx context.Context, invoiceId string) (*Invoic
 	return resp.JSON201, nil
 }
 
-// SendShipNotice - [Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only goods lines (lineType goods) ordered by quantity ship; a service line is confirmed with a service entry sheet. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
+// SendShipNotice - [Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only lines ordered by quantity ship. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
 func (c *Client) SendShipNotice(ctx context.Context, poId string, params *SendShipNoticeParams, body SendShipNoticeJSONRequestBody) (*ShipNotice, error) {
 	resp, err := c.api.SendShipNoticeWithResponse(ctx, poId, params, body)
 	if err != nil {
@@ -919,6 +1039,18 @@ func (c *Client) SubmitPurchaseOrderDraft(ctx context.Context, poId string) (*Pu
 	return resp.JSON201, nil
 }
 
+// SubmitPurchaseRequest - [Buyer] The requester submits a draft for approval. Refused (409) over budget when budgets are enforced.
+func (c *Client) SubmitPurchaseRequest(ctx context.Context, requestId string) (*PurchaseRequest, error) {
+	resp, err := c.api.SubmitPurchaseRequestWithResponse(ctx, requestId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // SyncCloudConnection - [Buyer] Manually sync one connected cloud account's billing data now (rate-limited).
 func (c *Client) SyncCloudConnection(ctx context.Context, id string) (*CloudConnection, error) {
 	resp, err := c.api.SyncCloudConnectionWithResponse(ctx, id)
@@ -979,6 +1111,18 @@ func (c *Client) UpdateAutonomySettings(ctx context.Context, body UpdateAutonomy
 	return resp.JSON200, nil
 }
 
+// UpdateBudgetControl - [Buyer] Change budget control. Applies to orders and requests submitted or approved from now on. Needs a signed-in session.
+func (c *Client) UpdateBudgetControl(ctx context.Context, body UpdateBudgetControlJSONRequestBody) (*BudgetControlSettings, error) {
+	resp, err := c.api.UpdateBudgetControlWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // UpdateOrgProfile - [Both] Update your organization's profile (administrators only)
 func (c *Client) UpdateOrgProfile(ctx context.Context, body UpdateOrgProfileJSONRequestBody) (*OrgProfile, error) {
 	resp, err := c.api.UpdateOrgProfileWithResponse(ctx, body)
@@ -994,6 +1138,18 @@ func (c *Client) UpdateOrgProfile(ctx context.Context, body UpdateOrgProfileJSON
 // UpdatePurchaseOrder - [Buyer] Update a purchase order's bookkeeping metadata - not available once it's closed/canceled/paid
 func (c *Client) UpdatePurchaseOrder(ctx context.Context, poId string, body UpdatePurchaseOrderJSONRequestBody) (*PurchaseOrder, error) {
 	resp, err := c.api.UpdatePurchaseOrderWithResponse(ctx, poId, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// UpdatePurchaseRequest - [Buyer] The requester changes a draft, or a request waiting for approval (which sends it back through approval)
+func (c *Client) UpdatePurchaseRequest(ctx context.Context, requestId string, body UpdatePurchaseRequestJSONRequestBody) (*PurchaseRequest, error) {
+	resp, err := c.api.UpdatePurchaseRequestWithResponse(ctx, requestId, body)
 	if err != nil {
 		return nil, err
 	}

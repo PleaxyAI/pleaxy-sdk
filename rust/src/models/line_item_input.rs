@@ -24,9 +24,6 @@ pub struct LineItemInput {
     pub scope_id: Option<Option<String>>,
     #[serde(rename = "name")]
     pub name: String,
-    /// goods (delivered: shipped and confirmed on a goods receipt) or service (performed: confirmed on a service entry sheet, never shipped). Defaults to the catalog item's type, else to service for a service scope or a time unit and goods otherwise.
-    #[serde(rename = "lineType", skip_serializing_if = "Option::is_none")]
-    pub line_type: Option<LineType>,
     #[serde(rename = "ruleType")]
     pub rule_type: RuleType,
     #[serde(rename = "unit")]
@@ -80,7 +77,6 @@ impl LineItemInput {
             scope_type,
             scope_id: None,
             name,
-            line_type: None,
             rule_type,
             unit,
             unit_price,
@@ -114,20 +110,6 @@ pub enum ScopeType {
 impl Default for ScopeType {
     fn default() -> ScopeType {
         Self::Sku
-    }
-}
-/// goods (delivered: shipped and confirmed on a goods receipt) or service (performed: confirmed on a service entry sheet, never shipped). Defaults to the catalog item's type, else to service for a service scope or a time unit and goods otherwise.
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum LineType {
-    #[serde(rename = "goods")]
-    Goods,
-    #[serde(rename = "service")]
-    Service,
-}
-
-impl Default for LineType {
-    fn default() -> LineType {
-        Self::Goods
     }
 }
 ///

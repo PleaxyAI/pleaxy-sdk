@@ -36,8 +36,7 @@ import ai.pleaxy.client.ApiClient;
   OrderConfirmationSubstitute.JSON_PROPERTY_SUPPLIER_PART_ID,
   OrderConfirmationSubstitute.JSON_PROPERTY_NAME,
   OrderConfirmationSubstitute.JSON_PROPERTY_CATALOG_ITEM_ID,
-  OrderConfirmationSubstitute.JSON_PROPERTY_UNIT,
-  OrderConfirmationSubstitute.JSON_PROPERTY_LINE_TYPE
+  OrderConfirmationSubstitute.JSON_PROPERTY_UNIT
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class OrderConfirmationSubstitute {
@@ -56,45 +55,6 @@ public class OrderConfirmationSubstitute {
   public static final String JSON_PROPERTY_UNIT = "unit";
   @javax.annotation.Nullable
   private String unit;
-
-  /**
-   * Gets or Sets lineType
-   */
-  public enum LineTypeEnum {
-    GOODS(String.valueOf("goods")),
-    
-    SERVICE(String.valueOf("service"));
-
-    private String value;
-
-    LineTypeEnum(String value) {
-      this.value = value;
-    }
-
-    @JsonValue
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static LineTypeEnum fromValue(String value) {
-      for (LineTypeEnum b : LineTypeEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-  }
-
-  public static final String JSON_PROPERTY_LINE_TYPE = "lineType";
-  @javax.annotation.Nullable
-  private LineTypeEnum lineType;
 
   public OrderConfirmationSubstitute() { 
   }
@@ -195,30 +155,6 @@ public class OrderConfirmationSubstitute {
   }
 
 
-  public OrderConfirmationSubstitute lineType(@javax.annotation.Nullable LineTypeEnum lineType) {
-    this.lineType = lineType;
-    return this;
-  }
-
-  /**
-   * Get lineType
-   * @return lineType
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_LINE_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public LineTypeEnum getLineType() {
-    return lineType;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_LINE_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLineType(@javax.annotation.Nullable LineTypeEnum lineType) {
-    this.lineType = lineType;
-  }
-
-
   /**
    * Return true if this OrderConfirmationSubstitute object is equal to o.
    */
@@ -234,13 +170,12 @@ public class OrderConfirmationSubstitute {
     return Objects.equals(this.supplierPartId, orderConfirmationSubstitute.supplierPartId) &&
         Objects.equals(this.name, orderConfirmationSubstitute.name) &&
         Objects.equals(this.catalogItemId, orderConfirmationSubstitute.catalogItemId) &&
-        Objects.equals(this.unit, orderConfirmationSubstitute.unit) &&
-        Objects.equals(this.lineType, orderConfirmationSubstitute.lineType);
+        Objects.equals(this.unit, orderConfirmationSubstitute.unit);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplierPartId, name, catalogItemId, unit, lineType);
+    return Objects.hash(supplierPartId, name, catalogItemId, unit);
   }
 
   @Override
@@ -251,7 +186,6 @@ public class OrderConfirmationSubstitute {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    catalogItemId: ").append(toIndentedString(catalogItemId)).append("\n");
     sb.append("    unit: ").append(toIndentedString(unit)).append("\n");
-    sb.append("    lineType: ").append(toIndentedString(lineType)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -317,11 +251,6 @@ public class OrderConfirmationSubstitute {
     // add `unit` to the URL query string
     if (getUnit() != null) {
       joiner.add(String.format("%sunit%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUnit()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `lineType` to the URL query string
-    if (getLineType() != null) {
-      joiner.add(String.format("%slineType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLineType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

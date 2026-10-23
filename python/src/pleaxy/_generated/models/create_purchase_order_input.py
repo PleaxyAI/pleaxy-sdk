@@ -58,7 +58,10 @@ class CreatePurchaseOrderInput:
         bill_to_party (Union[Unset, BillToPartyInput]):
         bill_to (Union[Unset, str]): Use `billToParty`. A one-line bill-to address for the buyer's company, kept as
             typed; ignored when `billToParty` is sent.
-        cost_center (Union[Unset, str]):
+        cost_center (Union[Unset, str]): The cost center: when the workspace keeps a cost center list, a code or name on
+            it (stored as the list's code; a closed one is refused); otherwise free text. An empty string clears it.
+        gl_code (Union[Unset, str]): The GL account (spend category) the order books to, when it isn't its cost
+            center's. Approval steps can route by it. An empty string clears it.
         budget_owner (Union[Unset, str]):
         buyer_name (Union[Unset, str]):
         supplier_site (Union[Unset, str]):
@@ -90,6 +93,7 @@ class CreatePurchaseOrderInput:
     bill_to_party: Union[Unset, "BillToPartyInput"] = UNSET
     bill_to: Union[Unset, str] = UNSET
     cost_center: Union[Unset, str] = UNSET
+    gl_code: Union[Unset, str] = UNSET
     budget_owner: Union[Unset, str] = UNSET
     buyer_name: Union[Unset, str] = UNSET
     supplier_site: Union[Unset, str] = UNSET
@@ -142,6 +146,8 @@ class CreatePurchaseOrderInput:
 
         cost_center = self.cost_center
 
+        gl_code = self.gl_code
+
         budget_owner = self.budget_owner
 
         buyer_name = self.buyer_name
@@ -190,6 +196,8 @@ class CreatePurchaseOrderInput:
             field_dict["billTo"] = bill_to
         if cost_center is not UNSET:
             field_dict["costCenter"] = cost_center
+        if gl_code is not UNSET:
+            field_dict["glCode"] = gl_code
         if budget_owner is not UNSET:
             field_dict["budgetOwner"] = budget_owner
         if buyer_name is not UNSET:
@@ -271,6 +279,8 @@ class CreatePurchaseOrderInput:
 
         cost_center = d.pop("costCenter", UNSET)
 
+        gl_code = d.pop("glCode", UNSET)
+
         budget_owner = d.pop("budgetOwner", UNSET)
 
         buyer_name = d.pop("buyerName", UNSET)
@@ -303,6 +313,7 @@ class CreatePurchaseOrderInput:
             bill_to_party=bill_to_party,
             bill_to=bill_to,
             cost_center=cost_center,
+            gl_code=gl_code,
             budget_owner=budget_owner,
             buyer_name=buyer_name,
             supplier_site=supplier_site,

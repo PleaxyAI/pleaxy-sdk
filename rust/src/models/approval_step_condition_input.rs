@@ -16,7 +16,7 @@ pub struct ApprovalStepConditionInput {
     /// The document variable to test.
     #[serde(rename = "field")]
     pub field: Field,
-    /// gt/gte/lt/lte for amount; is/is_not for supplier and requester.
+    /// gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
     #[serde(rename = "operator")]
     pub operator: Operator,
     #[serde(rename = "value")]
@@ -45,6 +45,10 @@ pub enum Field {
     Supplier,
     #[serde(rename = "requester")]
     Requester,
+    #[serde(rename = "costCenter")]
+    CostCenter,
+    #[serde(rename = "glCode")]
+    GlCode,
 }
 
 impl Default for Field {
@@ -52,7 +56,7 @@ impl Default for Field {
         Self::Amount
     }
 }
-/// gt/gte/lt/lte for amount; is/is_not for supplier and requester.
+/// gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Operator {
     #[serde(rename = "gt")]

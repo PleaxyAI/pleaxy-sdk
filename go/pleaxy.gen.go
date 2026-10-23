@@ -168,6 +168,7 @@ const (
 const (
 	ApprovalChainSettingsProcessInvoicePayment    ApprovalChainSettingsProcess = "invoice_payment"
 	ApprovalChainSettingsProcessPurchaseOrder     ApprovalChainSettingsProcess = "purchase_order"
+	ApprovalChainSettingsProcessPurchaseRequest   ApprovalChainSettingsProcess = "purchase_request"
 	ApprovalChainSettingsProcessServiceEntrySheet ApprovalChainSettingsProcess = "service_entry_sheet"
 )
 
@@ -247,9 +248,11 @@ const (
 
 // Defines values for ApprovalStepConditionField.
 const (
-	ApprovalStepConditionFieldAmount    ApprovalStepConditionField = "amount"
-	ApprovalStepConditionFieldRequester ApprovalStepConditionField = "requester"
-	ApprovalStepConditionFieldSupplier  ApprovalStepConditionField = "supplier"
+	ApprovalStepConditionFieldAmount     ApprovalStepConditionField = "amount"
+	ApprovalStepConditionFieldCostCenter ApprovalStepConditionField = "costCenter"
+	ApprovalStepConditionFieldGlCode     ApprovalStepConditionField = "glCode"
+	ApprovalStepConditionFieldRequester  ApprovalStepConditionField = "requester"
+	ApprovalStepConditionFieldSupplier   ApprovalStepConditionField = "supplier"
 )
 
 // Defines values for ApprovalStepConditionOperator.
@@ -264,9 +267,11 @@ const (
 
 // Defines values for ApprovalStepConditionInputField.
 const (
-	ApprovalStepConditionInputFieldAmount    ApprovalStepConditionInputField = "amount"
-	ApprovalStepConditionInputFieldRequester ApprovalStepConditionInputField = "requester"
-	ApprovalStepConditionInputFieldSupplier  ApprovalStepConditionInputField = "supplier"
+	ApprovalStepConditionInputFieldAmount     ApprovalStepConditionInputField = "amount"
+	ApprovalStepConditionInputFieldCostCenter ApprovalStepConditionInputField = "costCenter"
+	ApprovalStepConditionInputFieldGlCode     ApprovalStepConditionInputField = "glCode"
+	ApprovalStepConditionInputFieldRequester  ApprovalStepConditionInputField = "requester"
+	ApprovalStepConditionInputFieldSupplier   ApprovalStepConditionInputField = "supplier"
 )
 
 // Defines values for ApprovalStepConditionInputOperator.
@@ -358,6 +363,57 @@ const (
 	BillingSummarySubscriptionStatusPaused            BillingSummarySubscriptionStatus = "paused"
 	BillingSummarySubscriptionStatusTrialing          BillingSummarySubscriptionStatus = "trialing"
 	BillingSummarySubscriptionStatusUnpaid            BillingSummarySubscriptionStatus = "unpaid"
+)
+
+// Defines values for BudgetCheckMode.
+const (
+	BudgetCheckModeBlock BudgetCheckMode = "block"
+	BudgetCheckModeOff   BudgetCheckMode = "off"
+	BudgetCheckModeWarn  BudgetCheckMode = "warn"
+)
+
+// Defines values for BudgetCheckOutcome.
+const (
+	BudgetCheckOutcomeNoBudget BudgetCheckOutcome = "no_budget"
+	BudgetCheckOutcomeNoRate   BudgetCheckOutcome = "no_rate"
+	BudgetCheckOutcomeOff      BudgetCheckOutcome = "off"
+	BudgetCheckOutcomeOver     BudgetCheckOutcome = "over"
+	BudgetCheckOutcomeWithin   BudgetCheckOutcome = "within"
+)
+
+// Defines values for BudgetCheckPeriodKind.
+const (
+	BudgetCheckPeriodKindMonth   BudgetCheckPeriodKind = "month"
+	BudgetCheckPeriodKindQuarter BudgetCheckPeriodKind = "quarter"
+	BudgetCheckPeriodKindYear    BudgetCheckPeriodKind = "year"
+)
+
+// Defines values for BudgetControlSettingsMode.
+const (
+	BudgetControlSettingsModeBlock BudgetControlSettingsMode = "block"
+	BudgetControlSettingsModeOff   BudgetControlSettingsMode = "off"
+	BudgetControlSettingsModeWarn  BudgetControlSettingsMode = "warn"
+)
+
+// Defines values for BudgetControlSettingsPeriod.
+const (
+	BudgetControlSettingsPeriodMonth   BudgetControlSettingsPeriod = "month"
+	BudgetControlSettingsPeriodQuarter BudgetControlSettingsPeriod = "quarter"
+	BudgetControlSettingsPeriodYear    BudgetControlSettingsPeriod = "year"
+)
+
+// Defines values for BudgetPeriodKind.
+const (
+	BudgetPeriodKindMonth   BudgetPeriodKind = "month"
+	BudgetPeriodKindQuarter BudgetPeriodKind = "quarter"
+	BudgetPeriodKindYear    BudgetPeriodKind = "year"
+)
+
+// Defines values for BudgetStatusPeriodKind.
+const (
+	BudgetStatusPeriodKindMonth   BudgetStatusPeriodKind = "month"
+	BudgetStatusPeriodKindQuarter BudgetStatusPeriodKind = "quarter"
+	BudgetStatusPeriodKindYear    BudgetStatusPeriodKind = "year"
 )
 
 // Defines values for CloudBulkAccountViewSource.
@@ -453,6 +509,20 @@ const (
 	CloudSetupViewStateStartedBySomeoneElse CloudSetupViewState = "started_by_someone_else"
 	CloudSetupViewStateUnavailable          CloudSetupViewState = "unavailable"
 	CloudSetupViewStateVerifying            CloudSetupViewState = "verifying"
+)
+
+// Defines values for ConvertPurchaseRequestInputMatching.
+const (
+	ConvertPurchaseRequestInputMatchingThreeWay ConvertPurchaseRequestInputMatching = "three_way"
+	ConvertPurchaseRequestInputMatchingTwoWay   ConvertPurchaseRequestInputMatching = "two_way"
+)
+
+// Defines values for ConvertPurchaseRequestInputProvider.
+const (
+	ConvertPurchaseRequestInputProviderAws   ConvertPurchaseRequestInputProvider = "aws"
+	ConvertPurchaseRequestInputProviderAzure ConvertPurchaseRequestInputProvider = "azure"
+	ConvertPurchaseRequestInputProviderGcp   ConvertPurchaseRequestInputProvider = "gcp"
+	ConvertPurchaseRequestInputProviderOci   ConvertPurchaseRequestInputProvider = "oci"
 )
 
 // Defines values for CreateApiKeyInputProcurementRole.
@@ -1929,12 +1999,6 @@ const (
 	UkLatePaymentAct       LateFeeTermsStatute = "uk_late_payment_act"
 )
 
-// Defines values for LineItemLineType.
-const (
-	LineItemLineTypeGoods   LineItemLineType = "goods"
-	LineItemLineTypeService LineItemLineType = "service"
-)
-
 // Defines values for LineItemPriceSource.
 const (
 	LineItemPriceSourceContract LineItemPriceSource = "contract"
@@ -1954,12 +2018,6 @@ const (
 	LineItemScopeTypeCustom  LineItemScopeType = "custom"
 	LineItemScopeTypeService LineItemScopeType = "service"
 	LineItemScopeTypeSku     LineItemScopeType = "sku"
-)
-
-// Defines values for LineItemInputLineType.
-const (
-	LineItemInputLineTypeGoods   LineItemInputLineType = "goods"
-	LineItemInputLineTypeService LineItemInputLineType = "service"
 )
 
 // Defines values for LineItemInputRuleType.
@@ -2408,6 +2466,10 @@ const (
 	NotificationTypePoSupplierException              NotificationType = "po_supplier_exception"
 	NotificationTypeReceiptReturnRecorded            NotificationType = "receipt_return_recorded"
 	NotificationTypeReportReady                      NotificationType = "report_ready"
+	NotificationTypeRequestApprovalRequested         NotificationType = "request_approval_requested"
+	NotificationTypeRequestApproved                  NotificationType = "request_approved"
+	NotificationTypeRequestOrdered                   NotificationType = "request_ordered"
+	NotificationTypeRequestRejected                  NotificationType = "request_rejected"
 	NotificationTypeSesApprovalOverdue               NotificationType = "ses_approval_overdue"
 	NotificationTypeSesApprovalRequested             NotificationType = "ses_approval_requested"
 	NotificationTypeSesApproved                      NotificationType = "ses_approved"
@@ -2474,12 +2536,6 @@ const (
 	OrderConfirmationLineInputStatusReject      OrderConfirmationLineInputStatus = "reject"
 )
 
-// Defines values for OrderConfirmationSubstituteLineType.
-const (
-	Goods   OrderConfirmationSubstituteLineType = "goods"
-	Service OrderConfirmationSubstituteLineType = "service"
-)
-
 // Defines values for OrgProfileRole.
 const (
 	OrgProfileRoleBuyer    OrgProfileRole = "buyer"
@@ -2514,8 +2570,8 @@ const (
 
 // Defines values for PriceAmountInterval.
 const (
-	Month PriceAmountInterval = "month"
-	Year  PriceAmountInterval = "year"
+	PriceAmountIntervalMonth PriceAmountInterval = "month"
+	PriceAmountIntervalYear  PriceAmountInterval = "year"
 )
 
 // Defines values for PunchoutLineOriginKind.
@@ -2715,6 +2771,16 @@ const (
 	PurchaseOrderSupplierViewStatusPaid                PurchaseOrderSupplierViewStatus = "paid"
 	PurchaseOrderSupplierViewStatusPendingApproval     PurchaseOrderSupplierViewStatus = "pending_approval"
 	PurchaseOrderSupplierViewStatusRejected            PurchaseOrderSupplierViewStatus = "rejected"
+)
+
+// Defines values for PurchaseRequestStatus.
+const (
+	PurchaseRequestStatusApproved        PurchaseRequestStatus = "approved"
+	PurchaseRequestStatusCanceled        PurchaseRequestStatus = "canceled"
+	PurchaseRequestStatusDraft           PurchaseRequestStatus = "draft"
+	PurchaseRequestStatusOrdered         PurchaseRequestStatus = "ordered"
+	PurchaseRequestStatusPendingApproval PurchaseRequestStatus = "pending_approval"
+	PurchaseRequestStatusRejected        PurchaseRequestStatus = "rejected"
 )
 
 // Defines values for QuestionnaireFieldDefDocType.
@@ -3021,9 +3087,9 @@ const (
 
 // Defines values for RemoveInvoiceReplacementLinkResultMatchType.
 const (
-	ThreeWay RemoveInvoiceReplacementLinkResultMatchType = "three_way"
-	TwoWay   RemoveInvoiceReplacementLinkResultMatchType = "two_way"
-	Usage    RemoveInvoiceReplacementLinkResultMatchType = "usage"
+	RemoveInvoiceReplacementLinkResultMatchTypeThreeWay RemoveInvoiceReplacementLinkResultMatchType = "three_way"
+	RemoveInvoiceReplacementLinkResultMatchTypeTwoWay   RemoveInvoiceReplacementLinkResultMatchType = "two_way"
+	RemoveInvoiceReplacementLinkResultMatchTypeUsage    RemoveInvoiceReplacementLinkResultMatchType = "usage"
 )
 
 // Defines values for RemoveInvoiceReplacementLinkResultReceiptCheckSkippedReason.
@@ -3148,12 +3214,12 @@ const (
 
 // Defines values for SetInvoiceFeedResult1FeedReadiness.
 const (
-	Live         SetInvoiceFeedResult1FeedReadiness = "live"
-	NoKey        SetInvoiceFeedResult1FeedReadiness = "no_key"
-	NotConnected SetInvoiceFeedResult1FeedReadiness = "not_connected"
-	Off          SetInvoiceFeedResult1FeedReadiness = "off"
-	Tested       SetInvoiceFeedResult1FeedReadiness = "tested"
-	Untested     SetInvoiceFeedResult1FeedReadiness = "untested"
+	SetInvoiceFeedResult1FeedReadinessLive         SetInvoiceFeedResult1FeedReadiness = "live"
+	SetInvoiceFeedResult1FeedReadinessNoKey        SetInvoiceFeedResult1FeedReadiness = "no_key"
+	SetInvoiceFeedResult1FeedReadinessNotConnected SetInvoiceFeedResult1FeedReadiness = "not_connected"
+	SetInvoiceFeedResult1FeedReadinessOff          SetInvoiceFeedResult1FeedReadiness = "off"
+	SetInvoiceFeedResult1FeedReadinessTested       SetInvoiceFeedResult1FeedReadiness = "tested"
+	SetInvoiceFeedResult1FeedReadinessUntested     SetInvoiceFeedResult1FeedReadiness = "untested"
 )
 
 // Defines values for SetInvoiceFeedResult1Status.
@@ -3211,9 +3277,9 @@ const (
 
 // Defines values for ShipNoticeStatus.
 const (
-	Canceled ShipNoticeStatus = "canceled"
-	Planned  ShipNoticeStatus = "planned"
-	Shipped  ShipNoticeStatus = "shipped"
+	ShipNoticeStatusCanceled ShipNoticeStatus = "canceled"
+	ShipNoticeStatusPlanned  ShipNoticeStatus = "planned"
+	ShipNoticeStatusShipped  ShipNoticeStatus = "shipped"
 )
 
 // Defines values for SpendLimitBreachSubject.
@@ -3329,10 +3395,10 @@ const (
 
 // Defines values for SupplierCreditNoteViewCloudProvider.
 const (
-	Aws   SupplierCreditNoteViewCloudProvider = "aws"
-	Azure SupplierCreditNoteViewCloudProvider = "azure"
-	Gcp   SupplierCreditNoteViewCloudProvider = "gcp"
-	Oci   SupplierCreditNoteViewCloudProvider = "oci"
+	SupplierCreditNoteViewCloudProviderAws   SupplierCreditNoteViewCloudProvider = "aws"
+	SupplierCreditNoteViewCloudProviderAzure SupplierCreditNoteViewCloudProvider = "azure"
+	SupplierCreditNoteViewCloudProviderGcp   SupplierCreditNoteViewCloudProvider = "gcp"
+	SupplierCreditNoteViewCloudProviderOci   SupplierCreditNoteViewCloudProvider = "oci"
 )
 
 // Defines values for SupplierCreditNoteViewEnteredBy.
@@ -3387,10 +3453,10 @@ const (
 
 // Defines values for SupplierCreditNoteViewStatus.
 const (
-	Accepted          SupplierCreditNoteViewStatus = "accepted"
-	PendingAcceptance SupplierCreditNoteViewStatus = "pending_acceptance"
-	Rejected          SupplierCreditNoteViewStatus = "rejected"
-	Void              SupplierCreditNoteViewStatus = "void"
+	SupplierCreditNoteViewStatusAccepted          SupplierCreditNoteViewStatus = "accepted"
+	SupplierCreditNoteViewStatusPendingAcceptance SupplierCreditNoteViewStatus = "pending_acceptance"
+	SupplierCreditNoteViewStatusRejected          SupplierCreditNoteViewStatus = "rejected"
+	SupplierCreditNoteViewStatusVoid              SupplierCreditNoteViewStatus = "void"
 )
 
 // Defines values for SupplierCreditNoteViewSubmittedFormat.
@@ -3458,6 +3524,20 @@ const (
 // Defines values for UpdateApprovalChainInputUseDefault.
 const (
 	True UpdateApprovalChainInputUseDefault = true
+)
+
+// Defines values for UpdateBudgetControlInputMode.
+const (
+	Block UpdateBudgetControlInputMode = "block"
+	Off   UpdateBudgetControlInputMode = "off"
+	Warn  UpdateBudgetControlInputMode = "warn"
+)
+
+// Defines values for UpdateBudgetControlInputPeriod.
+const (
+	UpdateBudgetControlInputPeriodMonth   UpdateBudgetControlInputPeriod = "month"
+	UpdateBudgetControlInputPeriodQuarter UpdateBudgetControlInputPeriod = "quarter"
+	UpdateBudgetControlInputPeriodYear    UpdateBudgetControlInputPeriod = "year"
 )
 
 // Defines values for UpdateOrgProfileInputGeographyPresetId.
@@ -3623,6 +3703,16 @@ const (
 const (
 	Cxml GetPurchaseOrderDocumentParamsFormat = "cxml"
 	Ubl  GetPurchaseOrderDocumentParamsFormat = "ubl"
+)
+
+// Defines values for ListPurchaseRequestsParamsStatus.
+const (
+	ListPurchaseRequestsParamsStatusApproved        ListPurchaseRequestsParamsStatus = "approved"
+	ListPurchaseRequestsParamsStatusCanceled        ListPurchaseRequestsParamsStatus = "canceled"
+	ListPurchaseRequestsParamsStatusDraft           ListPurchaseRequestsParamsStatus = "draft"
+	ListPurchaseRequestsParamsStatusOrdered         ListPurchaseRequestsParamsStatus = "ordered"
+	ListPurchaseRequestsParamsStatusPendingApproval ListPurchaseRequestsParamsStatus = "pending_approval"
+	ListPurchaseRequestsParamsStatusRejected        ListPurchaseRequestsParamsStatus = "rejected"
 )
 
 // AddCloudProviderAsSupplierResult defines model for AddCloudProviderAsSupplierResult.
@@ -3888,8 +3978,13 @@ type ApplyConfirmationChangesResult struct {
 
 // ApprovalChain defines model for ApprovalChain.
 type ApprovalChain struct {
-	Autonomy             *bool                         `json:"autonomy,omitempty"`
-	ExcludedEmployeeKeys *[]string                     `json:"excludedEmployeeKeys,omitempty"`
+	Autonomy             *bool     `json:"autonomy,omitempty"`
+	ExcludedEmployeeKeys *[]string `json:"excludedEmployeeKeys,omitempty"`
+	FromRequest          *struct {
+		Amount    *float64 `json:"amount,omitempty"`
+		Currency  *string  `json:"currency,omitempty"`
+		RequestId *string  `json:"requestId,omitempty"`
+	} `json:"fromRequest,omitempty"`
 	Fx                   *ApprovalFx                   `json:"fx,omitempty"`
 	GroupIndex           *float64                      `json:"groupIndex,omitempty"`
 	Groups               *[]ApprovalStageGroupInstance `json:"groups,omitempty"`
@@ -4104,17 +4199,17 @@ type ApprovalStepConditionInput struct {
 	// Field The document variable to test.
 	Field ApprovalStepConditionInputField `json:"field"`
 
-	// Operator gt/gte/lt/lte for amount; is/is_not for supplier and requester.
+	// Operator gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
 	Operator ApprovalStepConditionInputOperator `json:"operator"`
 
-	// Value A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester.
+	// Value A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for glCode (the order's own, else its cost center's).
 	Value ApprovalStepConditionInput_Value `json:"value"`
 }
 
 // ApprovalStepConditionInputField The document variable to test.
 type ApprovalStepConditionInputField string
 
-// ApprovalStepConditionInputOperator gt/gte/lt/lte for amount; is/is_not for supplier and requester.
+// ApprovalStepConditionInputOperator gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
 type ApprovalStepConditionInputOperator string
 
 // ApprovalStepConditionInputValue0 defines model for .
@@ -4123,9 +4218,15 @@ type ApprovalStepConditionInputValue0 = float64
 // ApprovalStepConditionInputValue1 defines model for .
 type ApprovalStepConditionInputValue1 = string
 
-// ApprovalStepConditionInput_Value A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester.
+// ApprovalStepConditionInput_Value A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for glCode (the order's own, else its cost center's).
 type ApprovalStepConditionInput_Value struct {
 	union json.RawMessage
+}
+
+// ApprovePurchaseRequestInput defines model for ApprovePurchaseRequestInput.
+type ApprovePurchaseRequestInput struct {
+	// ExpectedVersion The approval version the caller saw; refused with 409 if the request moved since.
+	ExpectedVersion *float64 `json:"expectedVersion,omitempty"`
 }
 
 // AutomationRule defines model for AutomationRule.
@@ -4318,6 +4419,96 @@ type BreakdownGroupInput struct {
 	TotalAmount float64                `json:"totalAmount"`
 }
 
+// BudgetCheck defines model for BudgetCheck.
+type BudgetCheck struct {
+	Actual     *float64            `json:"actual,omitempty"`
+	Amount     *float64            `json:"amount,omitempty"`
+	Budget     *float64            `json:"budget,omitempty"`
+	CheckedAt  *string             `json:"checkedAt,omitempty"`
+	Committed  *float64            `json:"committed,omitempty"`
+	CostCenter *string             `json:"costCenter,omitempty"`
+	Currency   *string             `json:"currency,omitempty"`
+	Mode       *BudgetCheckMode    `json:"mode,omitempty"`
+	Outcome    *BudgetCheckOutcome `json:"outcome,omitempty"`
+	OverBy     *float64            `json:"overBy,omitempty"`
+	Period     *struct {
+		End   *string                `json:"end,omitempty"`
+		Kind  *BudgetCheckPeriodKind `json:"kind,omitempty"`
+		Start *string                `json:"start,omitempty"`
+	} `json:"period,omitempty"`
+	Remaining *float64 `json:"remaining,omitempty"`
+}
+
+// BudgetCheckMode defines model for BudgetCheck.Mode.
+type BudgetCheckMode string
+
+// BudgetCheckOutcome defines model for BudgetCheck.Outcome.
+type BudgetCheckOutcome string
+
+// BudgetCheckPeriodKind defines model for BudgetCheck.Period.Kind.
+type BudgetCheckPeriodKind string
+
+// BudgetCheckInput defines model for BudgetCheckInput.
+type BudgetCheckInput struct {
+	// Amount The document's amount, in `currency`.
+	Amount float64 `json:"amount"`
+
+	// CostCenter The cost center code (or name) the document books to. Without one there is nothing to check (no_budget).
+	CostCenter *string `json:"costCenter,omitempty"`
+
+	// Currency ISO 4217 currency of `amount`.
+	Currency string `json:"currency"`
+
+	// ExcludeOrderId An existing order being edited, so it doesn't count against itself.
+	ExcludeOrderId *string `json:"excludeOrderId,omitempty"`
+}
+
+// BudgetControlSettings defines model for BudgetControlSettings.
+type BudgetControlSettings struct {
+	Mode      *BudgetControlSettingsMode   `json:"mode,omitempty"`
+	Period    *BudgetControlSettingsPeriod `json:"period,omitempty"`
+	UpdatedAt *string                      `json:"updatedAt,omitempty"`
+	UpdatedBy *string                      `json:"updatedBy,omitempty"`
+}
+
+// BudgetControlSettingsMode defines model for BudgetControlSettings.Mode.
+type BudgetControlSettingsMode string
+
+// BudgetControlSettingsPeriod defines model for BudgetControlSettings.Period.
+type BudgetControlSettingsPeriod string
+
+// BudgetPeriod defines model for BudgetPeriod.
+type BudgetPeriod struct {
+	End        *string           `json:"end,omitempty"`
+	FiscalYear *float64          `json:"fiscalYear,omitempty"`
+	Kind       *BudgetPeriodKind `json:"kind,omitempty"`
+	Start      *string           `json:"start,omitempty"`
+}
+
+// BudgetPeriodKind defines model for BudgetPeriod.Kind.
+type BudgetPeriodKind string
+
+// BudgetStatus defines model for BudgetStatus.
+type BudgetStatus struct {
+	Actual         *float64 `json:"actual,omitempty"`
+	Budget         *float64 `json:"budget,omitempty"`
+	Committed      *float64 `json:"committed,omitempty"`
+	CostCenter     *string  `json:"costCenter,omitempty"`
+	CostCenterName *string  `json:"costCenterName,omitempty"`
+	Currency       *string  `json:"currency,omitempty"`
+	Pending        *float64 `json:"pending,omitempty"`
+	Period         *struct {
+		End   *string                 `json:"end,omitempty"`
+		Kind  *BudgetStatusPeriodKind `json:"kind,omitempty"`
+		Start *string                 `json:"start,omitempty"`
+	} `json:"period,omitempty"`
+	Remaining   *float64 `json:"remaining,omitempty"`
+	Unconverted *float64 `json:"unconverted,omitempty"`
+}
+
+// BudgetStatusPeriodKind defines model for BudgetStatus.Period.Kind.
+type BudgetStatusPeriodKind string
+
 // CancelPurchaseOrderInput defines model for CancelPurchaseOrderInput.
 type CancelPurchaseOrderInput struct {
 	Reason *string `json:"reason,omitempty"`
@@ -4449,6 +4640,79 @@ type CloudSetupView struct {
 
 // CloudSetupViewState defines model for CloudSetupView.State.
 type CloudSetupViewState string
+
+// ConvertPurchaseRequestInput defines model for ConvertPurchaseRequestInput.
+type ConvertPurchaseRequestInput struct {
+	// BillTo Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; ignored when `billToParty` is sent.
+	// Deprecated:
+	BillTo *string `json:"billTo,omitempty"`
+
+	// BillToParty Who the supplier invoices, when it isn't the buyer's company profile billing details. Left out, the order copies those details as they are now (company name, billing address, tax id).
+	BillToParty *BillToPartyInput `json:"billToParty,omitempty"`
+	BudgetOwner *string           `json:"budgetOwner,omitempty"`
+	BuyerName   *string           `json:"buyerName,omitempty"`
+
+	// ContractId One of this workspace's contracts this order falls under: active, and with the order's supplier (400 otherwise). Optional. Invoices against the order are checked against it.
+	ContractId *string `json:"contractId,omitempty"`
+
+	// CostCenter The cost center: when the workspace keeps a cost center list, a code or name on it (stored as the list's code; a closed one is refused); otherwise free text. An empty string clears it.
+	CostCenter *string `json:"costCenter,omitempty"`
+
+	// Currency ISO 4217: the currency the order is priced in. To a supplier with an account (supplierRegionId), one its region prices in, its main currency by default (400 PO_CURRENCY_NOT_OFFERED otherwise). To a cloud provider or a supplier not on Pleaxy yet, any code; by default that supplier's "Bills in" currency, else your workspace's. An order in a currency other than your workspace's goes through every approval step and is never auto-approved.
+	Currency *string `json:"currency,omitempty"`
+
+	// Draft Save as a draft instead of submitting for approval. Submit it later with SubmitPurchaseOrderDraft.
+	Draft *bool `json:"draft,omitempty"`
+
+	// GlCode The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it.
+	GlCode    *string          `json:"glCode,omitempty"`
+	LineItems *[]LineItemInput `json:"lineItems,omitempty"`
+
+	// Matching How the order's invoices are matched: two_way against the order and its contract; three_way also against what was received (goods receipts and service entry sheets). Defaults to what the workspace's matching setting suggests (GET .../matching-policy). Refused for a cloud provider's order, which is matched against usage, and, when the setting lets only administrators change it, for anything but the default from anyone else.
+	Matching *ConvertPurchaseRequestInputMatching `json:"matching,omitempty"`
+	Notes    *string                              `json:"notes,omitempty"`
+
+	// PayerAccounts Only with `provider`: this region's cloud connections of that provider the PO applies to, by `id`. A connection still being set up is refused. The PO stores each connection's own label and detail; any sent here are ignored.
+	PayerAccounts *[]PayerAccountRefInput `json:"payerAccounts,omitempty"`
+
+	// PoNumber Custom PO number to use as this PO's id instead of an auto-generated one (e.g. 'PO-2026-0042'). Must be unique within the region.
+	PoNumber *string                              `json:"poNumber,omitempty"`
+	Provider *ConvertPurchaseRequestInputProvider `json:"provider,omitempty"`
+
+	// QuoteImportId The quote import (POST .../quote-imports) holding the supplier's quote this order is raised from. Its upload must have finished. Optional.
+	QuoteImportId *string `json:"quoteImportId,omitempty"`
+
+	// ReceiverEmployeeKey Who confirms delivery: someone in this workspace, by employee key. Defaults to whoever raises the order. Used with three_way matching.
+	ReceiverEmployeeKey *string `json:"receiverEmployeeKey,omitempty"`
+
+	// SowImportId The quote import (POST .../quote-imports) holding the statement of work this order is for: its scope, milestones and acceptance. Its upload must have finished. Optional, and independent of quoteImportId.
+	SowImportId *string `json:"sowImportId,omitempty"`
+
+	// Supplier Supplier / counterparty name
+	Supplier *string `json:"supplier,omitempty"`
+
+	// SupplierConnectionId The id of a supplier on your Suppliers list (not rejected, not a cloud provider) this PO is for - see GET .../suppliers. One approved with a Pleaxy account is treated as its supplierRegionId. Any other (not invited yet, invited, onboarding) is named by its record: its invoices match the PO by id, the PO is emailed to its contact, and sending it invites a supplier not invited yet. The record's name replaces `supplier`. Not with supplierRegionId, provider or supplierContactEmail.
+	SupplierConnectionId *string `json:"supplierConnectionId,omitempty"`
+
+	// SupplierContactEmail Only for a supplier not on Pleaxy (no supplierRegionId or provider): their contact email. When the PO is sent (now, or when a draft is submitted), Pleaxy invites them - or links the supplier this workspace already has.
+	SupplierContactEmail *string `json:"supplierContactEmail,omitempty"`
+
+	// SupplierRegionId regionId of the onboarded supplier org this PO is issued to, if known. The buyer must hold an approved SupplierConnection to this supplier; the server rejects a region it isn't connected to. Links the PO to that org's real supplier workspace instead of just its free-text `supplier` name - see WorkspacesService.getSupplierWorkspace.
+	SupplierRegionId *string `json:"supplierRegionId,omitempty"`
+	SupplierSite     *string `json:"supplierSite,omitempty"`
+}
+
+// ConvertPurchaseRequestInputMatching How the order's invoices are matched: two_way against the order and its contract; three_way also against what was received (goods receipts and service entry sheets). Defaults to what the workspace's matching setting suggests (GET .../matching-policy). Refused for a cloud provider's order, which is matched against usage, and, when the setting lets only administrators change it, for anything but the default from anyone else.
+type ConvertPurchaseRequestInputMatching string
+
+// ConvertPurchaseRequestInputProvider defines model for ConvertPurchaseRequestInput.Provider.
+type ConvertPurchaseRequestInputProvider string
+
+// ConvertPurchaseRequestResult defines model for ConvertPurchaseRequestResult.
+type ConvertPurchaseRequestResult struct {
+	PurchaseOrder *PurchaseOrder   `json:"purchaseOrder,omitempty"`
+	Request       *PurchaseRequest `json:"request,omitempty"`
+}
 
 // CreateApiKeyInput defines model for CreateApiKeyInput.
 type CreateApiKeyInput struct {
@@ -5304,13 +5568,18 @@ type CreatePurchaseOrderInput struct {
 
 	// ContractId One of this workspace's contracts this order falls under: active, and with the order's supplier (400 otherwise). Optional. Invoices against the order are checked against it.
 	ContractId *string `json:"contractId,omitempty"`
+
+	// CostCenter The cost center: when the workspace keeps a cost center list, a code or name on it (stored as the list's code; a closed one is refused); otherwise free text. An empty string clears it.
 	CostCenter *string `json:"costCenter,omitempty"`
 
 	// Currency ISO 4217: the currency the order is priced in. To a supplier with an account (supplierRegionId), one its region prices in, its main currency by default (400 PO_CURRENCY_NOT_OFFERED otherwise). To a cloud provider or a supplier not on Pleaxy yet, any code; by default that supplier's "Bills in" currency, else your workspace's. An order in a currency other than your workspace's goes through every approval step and is never auto-approved.
 	Currency *string `json:"currency,omitempty"`
 
 	// Draft Save as a draft instead of submitting for approval. Submit it later with SubmitPurchaseOrderDraft.
-	Draft     *bool           `json:"draft,omitempty"`
+	Draft *bool `json:"draft,omitempty"`
+
+	// GlCode The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it.
+	GlCode    *string         `json:"glCode,omitempty"`
 	LineItems []LineItemInput `json:"lineItems"`
 
 	// Matching How the order's invoices are matched: two_way against the order and its contract; three_way also against what was received (goods receipts and service entry sheets). Defaults to what the workspace's matching setting suggests (GET .../matching-policy). Refused for a cloud provider's order, which is matched against usage, and, when the setting lets only administrators change it, for anything but the default from anyone else.
@@ -5352,6 +5621,42 @@ type CreatePurchaseOrderInputMatching string
 
 // CreatePurchaseOrderInputProvider defines model for CreatePurchaseOrderInput.Provider.
 type CreatePurchaseOrderInputProvider string
+
+// CreatePurchaseRequestInput defines model for CreatePurchaseRequestInput.
+type CreatePurchaseRequestInput struct {
+	// CostCenter The cost center (a code or name on the workspace's list, stored as its code). Required to submit when the workspace keeps a list.
+	CostCenter *string `json:"costCenter,omitempty"`
+
+	// Currency ISO 4217; the workspace's currency when absent.
+	Currency *string `json:"currency,omitempty"`
+
+	// Description Why it is needed: the business reason. Required to submit.
+	Description *string `json:"description,omitempty"`
+
+	// GlCode The GL account (spend category), when it isn't the cost center's.
+	GlCode *string `json:"glCode,omitempty"`
+
+	// LineItems What is needed, line by line (one line is fine for an estimate).
+	LineItems []PurchaseRequestLineInput `json:"lineItems"`
+
+	// NeededBy When it's needed, YYYY-MM-DD.
+	NeededBy *string `json:"neededBy,omitempty"`
+
+	// Notes Anything procurement should know.
+	Notes *string `json:"notes,omitempty"`
+
+	// QuoteImportId A quote uploaded through the quote import, to attach.
+	QuoteImportId *string `json:"quoteImportId,omitempty"`
+
+	// Submit true submits it for approval straight away; otherwise it is saved as a draft.
+	Submit *bool `json:"submit,omitempty"`
+
+	// Supplier A supplier the requester suggests.
+	Supplier *PurchaseRequestSupplierInput `json:"supplier,omitempty"`
+
+	// Title What is needed, in a few words.
+	Title string `json:"title"`
+}
 
 // CreateShipNoticeInput defines model for CreateShipNoticeInput.
 type CreateShipNoticeInput struct {
@@ -5802,6 +6107,14 @@ type Geography struct {
 
 // GeographyPresetId defines model for Geography.PresetId.
 type GeographyPresetId string
+
+// GetBudgetStatusResult defines model for GetBudgetStatusResult.
+type GetBudgetStatusResult struct {
+	CostCenters *[]BudgetStatus        `json:"costCenters,omitempty"`
+	Currency    *string                `json:"currency,omitempty"`
+	Period      *BudgetPeriod          `json:"period,omitempty"`
+	Settings    *BudgetControlSettings `json:"settings,omitempty"`
+}
 
 // GetBuyerWorkspaceResult defines model for GetBuyerWorkspaceResult.
 type GetBuyerWorkspaceResult struct {
@@ -7184,7 +7497,6 @@ type LineItem struct {
 	CustomerLineNo *string              `json:"customerLineNo,omitempty"`
 	DueDate        *string              `json:"dueDate,omitempty"`
 	LineNo         *float64             `json:"lineNo,omitempty"`
-	LineType       *LineItemLineType    `json:"lineType,omitempty"`
 	Name           *string              `json:"name,omitempty"`
 	NteAmount      *float64             `json:"nteAmount,omitempty"`
 	Origin         *PunchoutLineOrigin  `json:"origin,omitempty"`
@@ -7207,9 +7519,6 @@ type LineItem struct {
 	ValidUntil  *string            `json:"validUntil,omitempty"`
 }
 
-// LineItemLineType defines model for LineItem.LineType.
-type LineItemLineType string
-
 // LineItemPriceSource defines model for LineItem.PriceSource.
 type LineItemPriceSource string
 
@@ -7228,12 +7537,9 @@ type LineItemInput struct {
 	CustomerLineNo *string `json:"customerLineNo,omitempty"`
 
 	// DueDate When the goods or the work on this line are due (YYYY-MM-DD), e.g. a statement-of-work milestone. On a 3-way order, its receiver is reminded when it passes with nothing received.
-	DueDate *string `json:"dueDate,omitempty"`
-
-	// LineType goods (delivered: shipped and confirmed on a goods receipt) or service (performed: confirmed on a service entry sheet, never shipped). Defaults to the catalog item's type, else to service for a service scope or a time unit and goods otherwise.
-	LineType  *LineItemInputLineType `json:"lineType,omitempty"`
-	Name      string                 `json:"name"`
-	NteAmount float64                `json:"nteAmount"`
+	DueDate   *string `json:"dueDate,omitempty"`
+	Name      string  `json:"name"`
+	NteAmount float64 `json:"nteAmount"`
 
 	// PaymentTerms The line's payment terms, e.g. "Net 30". Optional: left out (or blank), the line takes the default payment terms of the contract it was priced from or the order names (contractId), else the catalog item's, else "Net 30".
 	PaymentTerms *string `json:"paymentTerms,omitempty"`
@@ -7255,9 +7561,6 @@ type LineItemInput struct {
 	ValidFrom  string   `json:"validFrom"`
 	ValidUntil string   `json:"validUntil"`
 }
-
-// LineItemInputLineType goods (delivered: shipped and confirmed on a goods receipt) or service (performed: confirmed on a service entry sheet, never shipped). Defaults to the catalog item's type, else to service for a service scope or a time unit and goods otherwise.
-type LineItemInputLineType string
 
 // LineItemInputRuleType defines model for LineItemInput.RuleType.
 type LineItemInputRuleType string
@@ -7969,15 +8272,11 @@ type OrderConfirmationLineInputStatus string
 
 // OrderConfirmationSubstitute defines model for OrderConfirmationSubstitute.
 type OrderConfirmationSubstitute struct {
-	CatalogItemId  *string                              `json:"catalogItemId,omitempty"`
-	LineType       *OrderConfirmationSubstituteLineType `json:"lineType,omitempty"`
-	Name           *string                              `json:"name,omitempty"`
-	SupplierPartId *string                              `json:"supplierPartId,omitempty"`
-	Unit           *string                              `json:"unit,omitempty"`
+	CatalogItemId  *string `json:"catalogItemId,omitempty"`
+	Name           *string `json:"name,omitempty"`
+	SupplierPartId *string `json:"supplierPartId,omitempty"`
+	Unit           *string `json:"unit,omitempty"`
 }
-
-// OrderConfirmationSubstituteLineType defines model for OrderConfirmationSubstitute.LineType.
-type OrderConfirmationSubstituteLineType string
 
 // OrgProfile defines model for OrgProfile.
 type OrgProfile struct {
@@ -8134,6 +8433,7 @@ type PurchaseOrder struct {
 	ApprovalVersion       *float64                         `json:"approvalVersion,omitempty"`
 	BillTo                *string                          `json:"billTo,omitempty"`
 	BillToParty           *PurchaseOrderBillTo             `json:"billToParty,omitempty"`
+	BudgetCheck           *BudgetCheck                     `json:"budgetCheck,omitempty"`
 	BudgetOwner           *string                          `json:"budgetOwner,omitempty"`
 	BuyerName             *string                          `json:"buyerName,omitempty"`
 	BuyerOrgId            *string                          `json:"buyerOrgId,omitempty"`
@@ -8146,6 +8446,7 @@ type PurchaseOrder struct {
 	Currency              *string                          `json:"currency,omitempty"`
 	DeliveryAddressId     *string                          `json:"deliveryAddressId,omitempty"`
 	EverSpendLimitGated   *bool                            `json:"everSpendLimitGated,omitempty"`
+	GlCode                *string                          `json:"glCode,omitempty"`
 	Id                    string                           `json:"id"`
 	InvoiceId             *string                          `json:"invoiceId,omitempty"`
 	InvoiceIds            *[]string                        `json:"invoiceIds,omitempty"`
@@ -8175,12 +8476,14 @@ type PurchaseOrder struct {
 	ReceiverEmployeeKey  *string                      `json:"receiverEmployeeKey,omitempty"`
 	ReceiverName         *string                      `json:"receiverName,omitempty"`
 	RejectedInvoiceCount *float64                     `json:"rejectedInvoiceCount,omitempty"`
+	RequestId            *string                      `json:"requestId,omitempty"`
 	ShipTo               *PurchaseOrderShipTo         `json:"shipTo,omitempty"`
 	SowDocument          *PurchaseOrderQuoteDocument  `json:"sowDocument,omitempty"`
 	SpendLimitGatedAt    *string                      `json:"spendLimitGatedAt,omitempty"`
 	Status               *PurchaseOrderStatus         `json:"status,omitempty"`
 	StoreId              *string                      `json:"storeId,omitempty"`
 	StoreOrder           *StoreOrder                  `json:"storeOrder,omitempty"`
+	SubmittedAt          *string                      `json:"submittedAt,omitempty"`
 	Supplier             *string                      `json:"supplier,omitempty"`
 	SupplierConnectionId *string                      `json:"supplierConnectionId,omitempty"`
 	SupplierContactEmail *string                      `json:"supplierContactEmail,omitempty"`
@@ -8461,6 +8764,78 @@ type PurchaseOrderSupplierViewSowDocumentDocumentType string
 
 // PurchaseOrderSupplierViewStatus defines model for PurchaseOrderSupplierView.Status.
 type PurchaseOrderSupplierViewStatus string
+
+// PurchaseRequest defines model for PurchaseRequest.
+type PurchaseRequest struct {
+	Amount               *float64                    `json:"amount,omitempty"`
+	Approval             *ApprovalChain              `json:"approval,omitempty"`
+	ApprovalVersion      *float64                    `json:"approvalVersion,omitempty"`
+	BudgetCheck          *BudgetCheck                `json:"budgetCheck,omitempty"`
+	CanceledAt           *string                     `json:"canceledAt,omitempty"`
+	CanceledBy           *string                     `json:"canceledBy,omitempty"`
+	CostCenter           *string                     `json:"costCenter,omitempty"`
+	CreatedAt            *string                     `json:"createdAt,omitempty"`
+	Currency             *string                     `json:"currency,omitempty"`
+	DecidedAt            *string                     `json:"decidedAt,omitempty"`
+	Description          *string                     `json:"description,omitempty"`
+	GlCode               *string                     `json:"glCode,omitempty"`
+	Id                   string                      `json:"id"`
+	LineItems            *[]PurchaseRequestLine      `json:"lineItems,omitempty"`
+	NeededBy             *string                     `json:"neededBy,omitempty"`
+	Notes                *string                     `json:"notes,omitempty"`
+	PoId                 *string                     `json:"poId,omitempty"`
+	QuoteDocument        *PurchaseOrderQuoteDocument `json:"quoteDocument,omitempty"`
+	RejectionReason      *string                     `json:"rejectionReason,omitempty"`
+	RequesterEmployeeKey *string                     `json:"requesterEmployeeKey,omitempty"`
+	RequesterName        *string                     `json:"requesterName,omitempty"`
+	Status               *PurchaseRequestStatus      `json:"status,omitempty"`
+	SubmittedAt          *string                     `json:"submittedAt,omitempty"`
+	Supplier             *struct {
+		Name                 *string `json:"name,omitempty"`
+		SupplierConnectionId *string `json:"supplierConnectionId,omitempty"`
+		SupplierRegionId     *string `json:"supplierRegionId,omitempty"`
+	} `json:"supplier,omitempty"`
+	Title     *string `json:"title,omitempty"`
+	UpdatedAt *string `json:"updatedAt,omitempty"`
+}
+
+// PurchaseRequestStatus defines model for PurchaseRequest.Status.
+type PurchaseRequestStatus string
+
+// PurchaseRequestLine defines model for PurchaseRequestLine.
+type PurchaseRequestLine struct {
+	Name      *string  `json:"name,omitempty"`
+	Qty       *float64 `json:"qty,omitempty"`
+	Unit      *string  `json:"unit,omitempty"`
+	UnitPrice *float64 `json:"unitPrice,omitempty"`
+}
+
+// PurchaseRequestLineInput defines model for PurchaseRequestLineInput.
+type PurchaseRequestLineInput struct {
+	// Name What is needed, e.g. 27-inch monitor.
+	Name string `json:"name"`
+
+	// Qty How many.
+	Qty float64 `json:"qty"`
+
+	// Unit e.g. each, hour, month.
+	Unit *string `json:"unit,omitempty"`
+
+	// UnitPrice Roughly what one costs, in the request's currency.
+	UnitPrice float64 `json:"unitPrice"`
+}
+
+// PurchaseRequestSupplierInput defines model for PurchaseRequestSupplierInput.
+type PurchaseRequestSupplierInput struct {
+	// Name The supplier's name, as the requester knows it.
+	Name string `json:"name"`
+
+	// SupplierConnectionId A supplier on the workspace's supplier list.
+	SupplierConnectionId *string `json:"supplierConnectionId,omitempty"`
+
+	// SupplierRegionId A connected supplier's workspace region.
+	SupplierRegionId *string `json:"supplierRegionId,omitempty"`
+}
 
 // QuestionCondition defines model for QuestionCondition.
 type QuestionCondition struct {
@@ -8849,6 +9224,12 @@ type RejectInvoiceInput struct {
 
 // RejectInvoiceInputReasonCode defines model for RejectInvoiceInput.ReasonCode.
 type RejectInvoiceInputReasonCode string
+
+// RejectPurchaseRequestInput defines model for RejectPurchaseRequestInput.
+type RejectPurchaseRequestInput struct {
+	// Reason Why the request is rejected; the requester sees it.
+	Reason string `json:"reason"`
+}
 
 // ReminderSettings defines model for ReminderSettings.
 type ReminderSettings struct {
@@ -9866,6 +10247,21 @@ type UpdateAutonomySettingsInput struct {
 	MaxAutoApproveAmount *float64 `json:"maxAutoApproveAmount,omitempty"`
 }
 
+// UpdateBudgetControlInput defines model for UpdateBudgetControlInput.
+type UpdateBudgetControlInput struct {
+	// Mode off: no check. warn: an order over budget goes ahead, never auto-approved, with a warning. block: it is refused.
+	Mode *UpdateBudgetControlInputMode `json:"mode,omitempty"`
+
+	// Period The budget period a check uses: the fiscal month, quarter or year containing the day it runs.
+	Period *UpdateBudgetControlInputPeriod `json:"period,omitempty"`
+}
+
+// UpdateBudgetControlInputMode off: no check. warn: an order over budget goes ahead, never auto-approved, with a warning. block: it is refused.
+type UpdateBudgetControlInputMode string
+
+// UpdateBudgetControlInputPeriod The budget period a check uses: the fiscal month, quarter or year containing the day it runs.
+type UpdateBudgetControlInputPeriod string
+
 // UpdateOrgProfileInput defines model for UpdateOrgProfileInput.
 type UpdateOrgProfileInput struct {
 	BillingAddress      *string                                 `json:"billingAddress,omitempty"`
@@ -9901,6 +10297,8 @@ type UpdatePurchaseOrderInput struct {
 
 	// ContractId The contract this order falls under - one of this workspace's, active, with the order's supplier (400 otherwise); `null` removes it. Bookkeeping: never re-triggers approval.
 	ContractId *string `json:"contractId"`
+
+	// CostCenter The cost center: when the workspace keeps a cost center list, a code or name on it (stored as the list's code; a closed one is refused); otherwise free text. An empty string clears it.
 	CostCenter *string `json:"costCenter,omitempty"`
 
 	// Currency Drafts only, sent with lineItems: the currency the order is priced in. To a supplier with an account, one it prices in; otherwise any ISO 4217 code. A submitted PO keeps its currency.
@@ -9908,6 +10306,9 @@ type UpdatePurchaseOrderInput struct {
 
 	// DeliveryAddressId Drafts only: the workspace delivery address an online store order ships to, copied onto the order at submit. An empty string goes back to the workspace default.
 	DeliveryAddressId *string `json:"deliveryAddressId,omitempty"`
+
+	// GlCode The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it.
+	GlCode *string `json:"glCode,omitempty"`
 
 	// LineItems Replaces the PO's whole line-item set and recalculates its amount. The approval chain is rebuilt from scratch, discarding any sign-offs already collected.
 	LineItems *[]LineItemInput `json:"lineItems,omitempty"`
@@ -9918,6 +10319,39 @@ type UpdatePurchaseOrderInput struct {
 
 	// SowImportId The quote import holding the statement of work this order is for; replaces the one attached, and `null` removes it. Bookkeeping, like `notes`.
 	SowImportId *string `json:"sowImportId"`
+}
+
+// UpdatePurchaseRequestInput defines model for UpdatePurchaseRequestInput.
+type UpdatePurchaseRequestInput struct {
+	// CostCenter The cost center (a code or name on the workspace's list, stored as its code). Required to submit when the workspace keeps a list.
+	CostCenter *string `json:"costCenter,omitempty"`
+
+	// Currency ISO 4217; the workspace's currency when absent.
+	Currency *string `json:"currency,omitempty"`
+
+	// Description Why it is needed: the business reason. Required to submit.
+	Description *string `json:"description,omitempty"`
+
+	// GlCode The GL account (spend category), when it isn't the cost center's.
+	GlCode *string `json:"glCode,omitempty"`
+
+	// LineItems What is needed, line by line (one line is fine for an estimate).
+	LineItems *[]PurchaseRequestLineInput `json:"lineItems,omitempty"`
+
+	// NeededBy When it's needed, YYYY-MM-DD.
+	NeededBy *string `json:"neededBy,omitempty"`
+
+	// Notes Anything procurement should know.
+	Notes *string `json:"notes,omitempty"`
+
+	// QuoteImportId A quote uploaded through the quote import, to attach.
+	QuoteImportId *string `json:"quoteImportId,omitempty"`
+
+	// Supplier A supplier the requester suggests.
+	Supplier *PurchaseRequestSupplierInput `json:"supplier,omitempty"`
+
+	// Title What is needed, in a few words.
+	Title *string `json:"title,omitempty"`
 }
 
 // UpdateReminderSettingsInput defines model for UpdateReminderSettingsInput.
@@ -10027,6 +10461,15 @@ type WebhookEndpointViewEvents string
 
 // WebhookEndpointViewLastErrorCode defines model for WebhookEndpointView.LastErrorCode.
 type WebhookEndpointViewLastErrorCode string
+
+// GetBudgetStatusParams defines parameters for GetBudgetStatus.
+type GetBudgetStatusParams struct {
+	// CostCenter One cost center; every budgeted one when absent.
+	CostCenter *string `form:"costCenter,omitempty" json:"costCenter,omitempty"`
+
+	// Date A day (YYYY-MM-DD) in the period to report; today when absent.
+	Date *string `form:"date,omitempty" json:"date,omitempty"`
+}
 
 // GetBuyerWorkspaceParams defines parameters for GetBuyerWorkspace.
 type GetBuyerWorkspaceParams struct {
@@ -10206,6 +10649,20 @@ type SendShipNoticeParams struct {
 	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
 }
 
+// ListPurchaseRequestsParams defines parameters for ListPurchaseRequests.
+type ListPurchaseRequestsParams struct {
+	Status *ListPurchaseRequestsParamsStatus `form:"status,omitempty" json:"status,omitempty"`
+
+	// Mine true: only the caller's own requests.
+	Mine *bool `form:"mine,omitempty" json:"mine,omitempty"`
+
+	// AwaitingMe true: only the requests waiting on the caller's approval (the approvals queue).
+	AwaitingMe *bool `form:"awaitingMe,omitempty" json:"awaitingMe,omitempty"`
+}
+
+// ListPurchaseRequestsParamsStatus defines parameters for ListPurchaseRequests.
+type ListPurchaseRequestsParamsStatus string
+
 // GetReferenceRateParams defines parameters for GetReferenceRate.
 type GetReferenceRateParams struct {
 	Date *string `form:"date,omitempty" json:"date,omitempty"`
@@ -10242,6 +10699,12 @@ type UpdateApprovalChainSettingsJSONRequestBody = UpdateApprovalChainInput
 
 // UpdateAutomationRulesJSONRequestBody defines body for UpdateAutomationRules for application/json ContentType.
 type UpdateAutomationRulesJSONRequestBody = UpdateAutomationRulesInput
+
+// UpdateBudgetControlJSONRequestBody defines body for UpdateBudgetControl for application/json ContentType.
+type UpdateBudgetControlJSONRequestBody = UpdateBudgetControlInput
+
+// CheckBudgetJSONRequestBody defines body for CheckBudget for application/json ContentType.
+type CheckBudgetJSONRequestBody = BudgetCheckInput
 
 // CreateCloudConnectionJSONRequestBody defines body for CreateCloudConnection for application/json ContentType.
 type CreateCloudConnectionJSONRequestBody = CreateCloudConnectionInput
@@ -10305,6 +10768,21 @@ type DeclineConfirmationChangesJSONRequestBody = DeclineConfirmationChangesInput
 
 // SendShipNoticeJSONRequestBody defines body for SendShipNotice for application/json ContentType.
 type SendShipNoticeJSONRequestBody = CreateShipNoticeInput
+
+// CreatePurchaseRequestJSONRequestBody defines body for CreatePurchaseRequest for application/json ContentType.
+type CreatePurchaseRequestJSONRequestBody = CreatePurchaseRequestInput
+
+// UpdatePurchaseRequestJSONRequestBody defines body for UpdatePurchaseRequest for application/json ContentType.
+type UpdatePurchaseRequestJSONRequestBody = UpdatePurchaseRequestInput
+
+// ApprovePurchaseRequestJSONRequestBody defines body for ApprovePurchaseRequest for application/json ContentType.
+type ApprovePurchaseRequestJSONRequestBody = ApprovePurchaseRequestInput
+
+// ConvertPurchaseRequestJSONRequestBody defines body for ConvertPurchaseRequest for application/json ContentType.
+type ConvertPurchaseRequestJSONRequestBody = ConvertPurchaseRequestInput
+
+// RejectPurchaseRequestJSONRequestBody defines body for RejectPurchaseRequest for application/json ContentType.
+type RejectPurchaseRequestJSONRequestBody = RejectPurchaseRequestInput
 
 // UpdateAutonomySettingsJSONRequestBody defines body for UpdateAutonomySettings for application/json ContentType.
 type UpdateAutonomySettingsJSONRequestBody = UpdateAutonomySettingsInput
@@ -13226,6 +13704,22 @@ type ClientInterface interface {
 
 	UpdateAutomationRules(ctx context.Context, process string, body UpdateAutomationRulesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetBudgetControl request
+	GetBudgetControl(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UpdateBudgetControlWithBody request with any body
+	UpdateBudgetControlWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpdateBudgetControl(ctx context.Context, body UpdateBudgetControlJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CheckBudgetWithBody request with any body
+	CheckBudgetWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CheckBudget(ctx context.Context, body CheckBudgetJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetBudgetStatus request
+	GetBudgetStatus(ctx context.Context, params *GetBudgetStatusParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetBuyerWorkspace request
 	GetBuyerWorkspace(ctx context.Context, params *GetBuyerWorkspaceParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -13463,6 +13957,43 @@ type ClientInterface interface {
 	// SubmitPurchaseOrderDraft request
 	SubmitPurchaseOrderDraft(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ListPurchaseRequests request
+	ListPurchaseRequests(ctx context.Context, params *ListPurchaseRequestsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreatePurchaseRequestWithBody request with any body
+	CreatePurchaseRequestWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreatePurchaseRequest(ctx context.Context, body CreatePurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetPurchaseRequest request
+	GetPurchaseRequest(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UpdatePurchaseRequestWithBody request with any body
+	UpdatePurchaseRequestWithBody(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpdatePurchaseRequest(ctx context.Context, requestId string, body UpdatePurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ApprovePurchaseRequestWithBody request with any body
+	ApprovePurchaseRequestWithBody(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	ApprovePurchaseRequest(ctx context.Context, requestId string, body ApprovePurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CancelPurchaseRequest request
+	CancelPurchaseRequest(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ConvertPurchaseRequestWithBody request with any body
+	ConvertPurchaseRequestWithBody(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	ConvertPurchaseRequest(ctx context.Context, requestId string, body ConvertPurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// RejectPurchaseRequestWithBody request with any body
+	RejectPurchaseRequestWithBody(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	RejectPurchaseRequest(ctx context.Context, requestId string, body RejectPurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SubmitPurchaseRequest request
+	SubmitPurchaseRequest(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetReferenceRate request
 	GetReferenceRate(ctx context.Context, params *GetReferenceRateParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -13644,6 +14175,78 @@ func (c *RawClient) UpdateAutomationRulesWithBody(ctx context.Context, process s
 
 func (c *RawClient) UpdateAutomationRules(ctx context.Context, process string, body UpdateAutomationRulesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUpdateAutomationRulesRequest(c.Server, process, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetBudgetControl(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetBudgetControlRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) UpdateBudgetControlWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateBudgetControlRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) UpdateBudgetControl(ctx context.Context, body UpdateBudgetControlJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateBudgetControlRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CheckBudgetWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCheckBudgetRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CheckBudget(ctx context.Context, body CheckBudgetJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCheckBudgetRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetBudgetStatus(ctx context.Context, params *GetBudgetStatusParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetBudgetStatusRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -14686,6 +15289,174 @@ func (c *RawClient) SubmitPurchaseOrderDraft(ctx context.Context, poId string, r
 	return c.Client.Do(req)
 }
 
+func (c *RawClient) ListPurchaseRequests(ctx context.Context, params *ListPurchaseRequestsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListPurchaseRequestsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CreatePurchaseRequestWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreatePurchaseRequestRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CreatePurchaseRequest(ctx context.Context, body CreatePurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreatePurchaseRequestRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetPurchaseRequest(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetPurchaseRequestRequest(c.Server, requestId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) UpdatePurchaseRequestWithBody(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdatePurchaseRequestRequestWithBody(c.Server, requestId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) UpdatePurchaseRequest(ctx context.Context, requestId string, body UpdatePurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdatePurchaseRequestRequest(c.Server, requestId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ApprovePurchaseRequestWithBody(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewApprovePurchaseRequestRequestWithBody(c.Server, requestId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ApprovePurchaseRequest(ctx context.Context, requestId string, body ApprovePurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewApprovePurchaseRequestRequest(c.Server, requestId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CancelPurchaseRequest(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCancelPurchaseRequestRequest(c.Server, requestId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ConvertPurchaseRequestWithBody(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewConvertPurchaseRequestRequestWithBody(c.Server, requestId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ConvertPurchaseRequest(ctx context.Context, requestId string, body ConvertPurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewConvertPurchaseRequestRequest(c.Server, requestId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) RejectPurchaseRequestWithBody(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRejectPurchaseRequestRequestWithBody(c.Server, requestId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) RejectPurchaseRequest(ctx context.Context, requestId string, body RejectPurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRejectPurchaseRequestRequest(c.Server, requestId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SubmitPurchaseRequest(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSubmitPurchaseRequestRequest(c.Server, requestId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *RawClient) GetReferenceRate(ctx context.Context, params *GetReferenceRateParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetReferenceRateRequest(c.Server, params)
 	if err != nil {
@@ -15224,6 +15995,178 @@ func NewUpdateAutomationRulesRequestWithBody(server string, process string, cont
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetBudgetControlRequest generates requests for GetBudgetControl
+func NewGetBudgetControlRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/budget-control")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewUpdateBudgetControlRequest calls the generic UpdateBudgetControl builder with application/json body
+func NewUpdateBudgetControlRequest(server string, body UpdateBudgetControlJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpdateBudgetControlRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewUpdateBudgetControlRequestWithBody generates requests for UpdateBudgetControl with any type of body
+func NewUpdateBudgetControlRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/budget-control")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCheckBudgetRequest calls the generic CheckBudget builder with application/json body
+func NewCheckBudgetRequest(server string, body CheckBudgetJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCheckBudgetRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCheckBudgetRequestWithBody generates requests for CheckBudget with any type of body
+func NewCheckBudgetRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/budget-control/check")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetBudgetStatusRequest generates requests for GetBudgetStatus
+func NewGetBudgetStatusRequest(server string, params *GetBudgetStatusParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/budget-control/status")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.CostCenter != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "costCenter", runtime.ParamLocationQuery, *params.CostCenter); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Date != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "date", runtime.ParamLocationQuery, *params.Date); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -18320,6 +19263,417 @@ func NewSubmitPurchaseOrderDraftRequest(server string, poId string) (*http.Reque
 	return req, nil
 }
 
+// NewListPurchaseRequestsRequest generates requests for ListPurchaseRequests
+func NewListPurchaseRequestsRequest(server string, params *ListPurchaseRequestsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-requests")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Status != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "status", runtime.ParamLocationQuery, *params.Status); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Mine != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "mine", runtime.ParamLocationQuery, *params.Mine); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.AwaitingMe != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "awaitingMe", runtime.ParamLocationQuery, *params.AwaitingMe); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreatePurchaseRequestRequest calls the generic CreatePurchaseRequest builder with application/json body
+func NewCreatePurchaseRequestRequest(server string, body CreatePurchaseRequestJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreatePurchaseRequestRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreatePurchaseRequestRequestWithBody generates requests for CreatePurchaseRequest with any type of body
+func NewCreatePurchaseRequestRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-requests")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetPurchaseRequestRequest generates requests for GetPurchaseRequest
+func NewGetPurchaseRequestRequest(server string, requestId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "requestId", runtime.ParamLocationPath, requestId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-requests/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewUpdatePurchaseRequestRequest calls the generic UpdatePurchaseRequest builder with application/json body
+func NewUpdatePurchaseRequestRequest(server string, requestId string, body UpdatePurchaseRequestJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpdatePurchaseRequestRequestWithBody(server, requestId, "application/json", bodyReader)
+}
+
+// NewUpdatePurchaseRequestRequestWithBody generates requests for UpdatePurchaseRequest with any type of body
+func NewUpdatePurchaseRequestRequestWithBody(server string, requestId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "requestId", runtime.ParamLocationPath, requestId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-requests/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewApprovePurchaseRequestRequest calls the generic ApprovePurchaseRequest builder with application/json body
+func NewApprovePurchaseRequestRequest(server string, requestId string, body ApprovePurchaseRequestJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewApprovePurchaseRequestRequestWithBody(server, requestId, "application/json", bodyReader)
+}
+
+// NewApprovePurchaseRequestRequestWithBody generates requests for ApprovePurchaseRequest with any type of body
+func NewApprovePurchaseRequestRequestWithBody(server string, requestId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "requestId", runtime.ParamLocationPath, requestId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-requests/%s/approve", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCancelPurchaseRequestRequest generates requests for CancelPurchaseRequest
+func NewCancelPurchaseRequestRequest(server string, requestId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "requestId", runtime.ParamLocationPath, requestId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-requests/%s/cancel", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewConvertPurchaseRequestRequest calls the generic ConvertPurchaseRequest builder with application/json body
+func NewConvertPurchaseRequestRequest(server string, requestId string, body ConvertPurchaseRequestJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewConvertPurchaseRequestRequestWithBody(server, requestId, "application/json", bodyReader)
+}
+
+// NewConvertPurchaseRequestRequestWithBody generates requests for ConvertPurchaseRequest with any type of body
+func NewConvertPurchaseRequestRequestWithBody(server string, requestId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "requestId", runtime.ParamLocationPath, requestId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-requests/%s/convert", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewRejectPurchaseRequestRequest calls the generic RejectPurchaseRequest builder with application/json body
+func NewRejectPurchaseRequestRequest(server string, requestId string, body RejectPurchaseRequestJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewRejectPurchaseRequestRequestWithBody(server, requestId, "application/json", bodyReader)
+}
+
+// NewRejectPurchaseRequestRequestWithBody generates requests for RejectPurchaseRequest with any type of body
+func NewRejectPurchaseRequestRequestWithBody(server string, requestId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "requestId", runtime.ParamLocationPath, requestId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-requests/%s/reject", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewSubmitPurchaseRequestRequest generates requests for SubmitPurchaseRequest
+func NewSubmitPurchaseRequestRequest(server string, requestId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "requestId", runtime.ParamLocationPath, requestId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-requests/%s/submit", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetReferenceRateRequest generates requests for GetReferenceRate
 func NewGetReferenceRateRequest(server string, params *GetReferenceRateParams) (*http.Request, error) {
 	var err error
@@ -19114,6 +20468,22 @@ type ClientWithResponsesInterface interface {
 
 	UpdateAutomationRulesWithResponse(ctx context.Context, process string, body UpdateAutomationRulesJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateAutomationRulesResponse, error)
 
+	// GetBudgetControlWithResponse request
+	GetBudgetControlWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetBudgetControlResponse, error)
+
+	// UpdateBudgetControlWithBodyWithResponse request with any body
+	UpdateBudgetControlWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateBudgetControlResponse, error)
+
+	UpdateBudgetControlWithResponse(ctx context.Context, body UpdateBudgetControlJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateBudgetControlResponse, error)
+
+	// CheckBudgetWithBodyWithResponse request with any body
+	CheckBudgetWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CheckBudgetResponse, error)
+
+	CheckBudgetWithResponse(ctx context.Context, body CheckBudgetJSONRequestBody, reqEditors ...RequestEditorFn) (*CheckBudgetResponse, error)
+
+	// GetBudgetStatusWithResponse request
+	GetBudgetStatusWithResponse(ctx context.Context, params *GetBudgetStatusParams, reqEditors ...RequestEditorFn) (*GetBudgetStatusResponse, error)
+
 	// GetBuyerWorkspaceWithResponse request
 	GetBuyerWorkspaceWithResponse(ctx context.Context, params *GetBuyerWorkspaceParams, reqEditors ...RequestEditorFn) (*GetBuyerWorkspaceResponse, error)
 
@@ -19351,6 +20721,43 @@ type ClientWithResponsesInterface interface {
 	// SubmitPurchaseOrderDraftWithResponse request
 	SubmitPurchaseOrderDraftWithResponse(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*SubmitPurchaseOrderDraftResponse, error)
 
+	// ListPurchaseRequestsWithResponse request
+	ListPurchaseRequestsWithResponse(ctx context.Context, params *ListPurchaseRequestsParams, reqEditors ...RequestEditorFn) (*ListPurchaseRequestsResponse, error)
+
+	// CreatePurchaseRequestWithBodyWithResponse request with any body
+	CreatePurchaseRequestWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreatePurchaseRequestResponse, error)
+
+	CreatePurchaseRequestWithResponse(ctx context.Context, body CreatePurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*CreatePurchaseRequestResponse, error)
+
+	// GetPurchaseRequestWithResponse request
+	GetPurchaseRequestWithResponse(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*GetPurchaseRequestResponse, error)
+
+	// UpdatePurchaseRequestWithBodyWithResponse request with any body
+	UpdatePurchaseRequestWithBodyWithResponse(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdatePurchaseRequestResponse, error)
+
+	UpdatePurchaseRequestWithResponse(ctx context.Context, requestId string, body UpdatePurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdatePurchaseRequestResponse, error)
+
+	// ApprovePurchaseRequestWithBodyWithResponse request with any body
+	ApprovePurchaseRequestWithBodyWithResponse(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ApprovePurchaseRequestResponse, error)
+
+	ApprovePurchaseRequestWithResponse(ctx context.Context, requestId string, body ApprovePurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*ApprovePurchaseRequestResponse, error)
+
+	// CancelPurchaseRequestWithResponse request
+	CancelPurchaseRequestWithResponse(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*CancelPurchaseRequestResponse, error)
+
+	// ConvertPurchaseRequestWithBodyWithResponse request with any body
+	ConvertPurchaseRequestWithBodyWithResponse(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ConvertPurchaseRequestResponse, error)
+
+	ConvertPurchaseRequestWithResponse(ctx context.Context, requestId string, body ConvertPurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*ConvertPurchaseRequestResponse, error)
+
+	// RejectPurchaseRequestWithBodyWithResponse request with any body
+	RejectPurchaseRequestWithBodyWithResponse(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RejectPurchaseRequestResponse, error)
+
+	RejectPurchaseRequestWithResponse(ctx context.Context, requestId string, body RejectPurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*RejectPurchaseRequestResponse, error)
+
+	// SubmitPurchaseRequestWithResponse request
+	SubmitPurchaseRequestWithResponse(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*SubmitPurchaseRequestResponse, error)
+
 	// GetReferenceRateWithResponse request
 	GetReferenceRateWithResponse(ctx context.Context, params *GetReferenceRateParams, reqEditors ...RequestEditorFn) (*GetReferenceRateResponse, error)
 
@@ -19587,6 +20994,98 @@ func (r UpdateAutomationRulesResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r UpdateAutomationRulesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetBudgetControlResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *BudgetControlSettings
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetBudgetControlResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetBudgetControlResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UpdateBudgetControlResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *BudgetControlSettings
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r UpdateBudgetControlResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpdateBudgetControlResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CheckBudgetResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *BudgetCheck
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r CheckBudgetResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CheckBudgetResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetBudgetStatusResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *GetBudgetStatusResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetBudgetStatusResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetBudgetStatusResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -21084,6 +22583,213 @@ func (r SubmitPurchaseOrderDraftResponse) StatusCode() int {
 	return 0
 }
 
+type ListPurchaseRequestsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]PurchaseRequest
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListPurchaseRequestsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListPurchaseRequestsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreatePurchaseRequestResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *PurchaseRequest
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreatePurchaseRequestResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreatePurchaseRequestResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetPurchaseRequestResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PurchaseRequest
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetPurchaseRequestResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetPurchaseRequestResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UpdatePurchaseRequestResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PurchaseRequest
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r UpdatePurchaseRequestResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpdatePurchaseRequestResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ApprovePurchaseRequestResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PurchaseRequest
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ApprovePurchaseRequestResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ApprovePurchaseRequestResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CancelPurchaseRequestResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PurchaseRequest
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r CancelPurchaseRequestResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CancelPurchaseRequestResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ConvertPurchaseRequestResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *ConvertPurchaseRequestResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ConvertPurchaseRequestResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ConvertPurchaseRequestResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type RejectPurchaseRequestResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PurchaseRequest
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r RejectPurchaseRequestResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RejectPurchaseRequestResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SubmitPurchaseRequestResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PurchaseRequest
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r SubmitPurchaseRequestResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SubmitPurchaseRequestResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetReferenceRateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -21545,6 +23251,58 @@ func (c *ClientWithResponses) UpdateAutomationRulesWithResponse(ctx context.Cont
 		return nil, err
 	}
 	return ParseUpdateAutomationRulesResponse(rsp)
+}
+
+// GetBudgetControlWithResponse request returning *GetBudgetControlResponse
+func (c *ClientWithResponses) GetBudgetControlWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetBudgetControlResponse, error) {
+	rsp, err := c.GetBudgetControl(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetBudgetControlResponse(rsp)
+}
+
+// UpdateBudgetControlWithBodyWithResponse request with arbitrary body returning *UpdateBudgetControlResponse
+func (c *ClientWithResponses) UpdateBudgetControlWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateBudgetControlResponse, error) {
+	rsp, err := c.UpdateBudgetControlWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateBudgetControlResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpdateBudgetControlWithResponse(ctx context.Context, body UpdateBudgetControlJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateBudgetControlResponse, error) {
+	rsp, err := c.UpdateBudgetControl(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateBudgetControlResponse(rsp)
+}
+
+// CheckBudgetWithBodyWithResponse request with arbitrary body returning *CheckBudgetResponse
+func (c *ClientWithResponses) CheckBudgetWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CheckBudgetResponse, error) {
+	rsp, err := c.CheckBudgetWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCheckBudgetResponse(rsp)
+}
+
+func (c *ClientWithResponses) CheckBudgetWithResponse(ctx context.Context, body CheckBudgetJSONRequestBody, reqEditors ...RequestEditorFn) (*CheckBudgetResponse, error) {
+	rsp, err := c.CheckBudget(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCheckBudgetResponse(rsp)
+}
+
+// GetBudgetStatusWithResponse request returning *GetBudgetStatusResponse
+func (c *ClientWithResponses) GetBudgetStatusWithResponse(ctx context.Context, params *GetBudgetStatusParams, reqEditors ...RequestEditorFn) (*GetBudgetStatusResponse, error) {
+	rsp, err := c.GetBudgetStatus(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetBudgetStatusResponse(rsp)
 }
 
 // GetBuyerWorkspaceWithResponse request returning *GetBuyerWorkspaceResponse
@@ -22300,6 +24058,127 @@ func (c *ClientWithResponses) SubmitPurchaseOrderDraftWithResponse(ctx context.C
 	return ParseSubmitPurchaseOrderDraftResponse(rsp)
 }
 
+// ListPurchaseRequestsWithResponse request returning *ListPurchaseRequestsResponse
+func (c *ClientWithResponses) ListPurchaseRequestsWithResponse(ctx context.Context, params *ListPurchaseRequestsParams, reqEditors ...RequestEditorFn) (*ListPurchaseRequestsResponse, error) {
+	rsp, err := c.ListPurchaseRequests(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListPurchaseRequestsResponse(rsp)
+}
+
+// CreatePurchaseRequestWithBodyWithResponse request with arbitrary body returning *CreatePurchaseRequestResponse
+func (c *ClientWithResponses) CreatePurchaseRequestWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreatePurchaseRequestResponse, error) {
+	rsp, err := c.CreatePurchaseRequestWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreatePurchaseRequestResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreatePurchaseRequestWithResponse(ctx context.Context, body CreatePurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*CreatePurchaseRequestResponse, error) {
+	rsp, err := c.CreatePurchaseRequest(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreatePurchaseRequestResponse(rsp)
+}
+
+// GetPurchaseRequestWithResponse request returning *GetPurchaseRequestResponse
+func (c *ClientWithResponses) GetPurchaseRequestWithResponse(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*GetPurchaseRequestResponse, error) {
+	rsp, err := c.GetPurchaseRequest(ctx, requestId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetPurchaseRequestResponse(rsp)
+}
+
+// UpdatePurchaseRequestWithBodyWithResponse request with arbitrary body returning *UpdatePurchaseRequestResponse
+func (c *ClientWithResponses) UpdatePurchaseRequestWithBodyWithResponse(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdatePurchaseRequestResponse, error) {
+	rsp, err := c.UpdatePurchaseRequestWithBody(ctx, requestId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdatePurchaseRequestResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpdatePurchaseRequestWithResponse(ctx context.Context, requestId string, body UpdatePurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdatePurchaseRequestResponse, error) {
+	rsp, err := c.UpdatePurchaseRequest(ctx, requestId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdatePurchaseRequestResponse(rsp)
+}
+
+// ApprovePurchaseRequestWithBodyWithResponse request with arbitrary body returning *ApprovePurchaseRequestResponse
+func (c *ClientWithResponses) ApprovePurchaseRequestWithBodyWithResponse(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ApprovePurchaseRequestResponse, error) {
+	rsp, err := c.ApprovePurchaseRequestWithBody(ctx, requestId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseApprovePurchaseRequestResponse(rsp)
+}
+
+func (c *ClientWithResponses) ApprovePurchaseRequestWithResponse(ctx context.Context, requestId string, body ApprovePurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*ApprovePurchaseRequestResponse, error) {
+	rsp, err := c.ApprovePurchaseRequest(ctx, requestId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseApprovePurchaseRequestResponse(rsp)
+}
+
+// CancelPurchaseRequestWithResponse request returning *CancelPurchaseRequestResponse
+func (c *ClientWithResponses) CancelPurchaseRequestWithResponse(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*CancelPurchaseRequestResponse, error) {
+	rsp, err := c.CancelPurchaseRequest(ctx, requestId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCancelPurchaseRequestResponse(rsp)
+}
+
+// ConvertPurchaseRequestWithBodyWithResponse request with arbitrary body returning *ConvertPurchaseRequestResponse
+func (c *ClientWithResponses) ConvertPurchaseRequestWithBodyWithResponse(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ConvertPurchaseRequestResponse, error) {
+	rsp, err := c.ConvertPurchaseRequestWithBody(ctx, requestId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseConvertPurchaseRequestResponse(rsp)
+}
+
+func (c *ClientWithResponses) ConvertPurchaseRequestWithResponse(ctx context.Context, requestId string, body ConvertPurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*ConvertPurchaseRequestResponse, error) {
+	rsp, err := c.ConvertPurchaseRequest(ctx, requestId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseConvertPurchaseRequestResponse(rsp)
+}
+
+// RejectPurchaseRequestWithBodyWithResponse request with arbitrary body returning *RejectPurchaseRequestResponse
+func (c *ClientWithResponses) RejectPurchaseRequestWithBodyWithResponse(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RejectPurchaseRequestResponse, error) {
+	rsp, err := c.RejectPurchaseRequestWithBody(ctx, requestId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRejectPurchaseRequestResponse(rsp)
+}
+
+func (c *ClientWithResponses) RejectPurchaseRequestWithResponse(ctx context.Context, requestId string, body RejectPurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*RejectPurchaseRequestResponse, error) {
+	rsp, err := c.RejectPurchaseRequest(ctx, requestId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRejectPurchaseRequestResponse(rsp)
+}
+
+// SubmitPurchaseRequestWithResponse request returning *SubmitPurchaseRequestResponse
+func (c *ClientWithResponses) SubmitPurchaseRequestWithResponse(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*SubmitPurchaseRequestResponse, error) {
+	rsp, err := c.SubmitPurchaseRequest(ctx, requestId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSubmitPurchaseRequestResponse(rsp)
+}
+
 // GetReferenceRateWithResponse request returning *GetReferenceRateResponse
 func (c *ClientWithResponses) GetReferenceRateWithResponse(ctx context.Context, params *GetReferenceRateParams, reqEditors ...RequestEditorFn) (*GetReferenceRateResponse, error) {
 	rsp, err := c.GetReferenceRate(ctx, params, reqEditors...)
@@ -22724,6 +24603,138 @@ func ParseUpdateAutomationRulesResponse(rsp *http.Response) (*UpdateAutomationRu
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest AutomationRuleSet
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetBudgetControlResponse parses an HTTP response from a GetBudgetControlWithResponse call
+func ParseGetBudgetControlResponse(rsp *http.Response) (*GetBudgetControlResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetBudgetControlResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest BudgetControlSettings
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUpdateBudgetControlResponse parses an HTTP response from a UpdateBudgetControlWithResponse call
+func ParseUpdateBudgetControlResponse(rsp *http.Response) (*UpdateBudgetControlResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpdateBudgetControlResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest BudgetControlSettings
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCheckBudgetResponse parses an HTTP response from a CheckBudgetWithResponse call
+func ParseCheckBudgetResponse(rsp *http.Response) (*CheckBudgetResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CheckBudgetResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest BudgetCheck
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetBudgetStatusResponse parses an HTTP response from a GetBudgetStatusWithResponse call
+func ParseGetBudgetStatusResponse(rsp *http.Response) (*GetBudgetStatusResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetBudgetStatusResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetBudgetStatusResult
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -24845,6 +26856,303 @@ func ParseSubmitPurchaseOrderDraftResponse(rsp *http.Response) (*SubmitPurchaseO
 			return nil, err
 		}
 		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListPurchaseRequestsResponse parses an HTTP response from a ListPurchaseRequestsWithResponse call
+func ParseListPurchaseRequestsResponse(rsp *http.Response) (*ListPurchaseRequestsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListPurchaseRequestsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []PurchaseRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreatePurchaseRequestResponse parses an HTTP response from a CreatePurchaseRequestWithResponse call
+func ParseCreatePurchaseRequestResponse(rsp *http.Response) (*CreatePurchaseRequestResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreatePurchaseRequestResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest PurchaseRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetPurchaseRequestResponse parses an HTTP response from a GetPurchaseRequestWithResponse call
+func ParseGetPurchaseRequestResponse(rsp *http.Response) (*GetPurchaseRequestResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetPurchaseRequestResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PurchaseRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUpdatePurchaseRequestResponse parses an HTTP response from a UpdatePurchaseRequestWithResponse call
+func ParseUpdatePurchaseRequestResponse(rsp *http.Response) (*UpdatePurchaseRequestResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpdatePurchaseRequestResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PurchaseRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseApprovePurchaseRequestResponse parses an HTTP response from a ApprovePurchaseRequestWithResponse call
+func ParseApprovePurchaseRequestResponse(rsp *http.Response) (*ApprovePurchaseRequestResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ApprovePurchaseRequestResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PurchaseRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCancelPurchaseRequestResponse parses an HTTP response from a CancelPurchaseRequestWithResponse call
+func ParseCancelPurchaseRequestResponse(rsp *http.Response) (*CancelPurchaseRequestResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CancelPurchaseRequestResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PurchaseRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseConvertPurchaseRequestResponse parses an HTTP response from a ConvertPurchaseRequestWithResponse call
+func ParseConvertPurchaseRequestResponse(rsp *http.Response) (*ConvertPurchaseRequestResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ConvertPurchaseRequestResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest ConvertPurchaseRequestResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRejectPurchaseRequestResponse parses an HTTP response from a RejectPurchaseRequestWithResponse call
+func ParseRejectPurchaseRequestResponse(rsp *http.Response) (*RejectPurchaseRequestResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RejectPurchaseRequestResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PurchaseRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSubmitPurchaseRequestResponse parses an HTTP response from a SubmitPurchaseRequestWithResponse call
+func ParseSubmitPurchaseRequestResponse(rsp *http.Response) (*SubmitPurchaseRequestResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SubmitPurchaseRequestResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PurchaseRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest ApiError

@@ -62,6 +62,14 @@ pub struct ListPurchaseOrdersItem {
     pub cost_center: Option<String>,
     #[serde(rename = "costCenterChanges", skip_serializing_if = "Option::is_none")]
     pub cost_center_changes: Option<Vec<models::PurchaseOrderCostCenterChange>>,
+    #[serde(rename = "glCode", skip_serializing_if = "Option::is_none")]
+    pub gl_code: Option<String>,
+    #[serde(rename = "submittedAt", skip_serializing_if = "Option::is_none")]
+    pub submitted_at: Option<String>,
+    #[serde(rename = "budgetCheck", skip_serializing_if = "Option::is_none")]
+    pub budget_check: Option<models::BudgetCheck>,
+    #[serde(rename = "requestId", skip_serializing_if = "Option::is_none")]
+    pub request_id: Option<String>,
     #[serde(rename = "budgetOwner", skip_serializing_if = "Option::is_none")]
     pub budget_owner: Option<String>,
     #[serde(rename = "buyerName", skip_serializing_if = "Option::is_none")]
@@ -183,6 +191,10 @@ impl ListPurchaseOrdersItem {
             bill_to_party: None,
             cost_center: None,
             cost_center_changes: None,
+            gl_code: None,
+            submitted_at: None,
+            budget_check: None,
+            request_id: None,
             budget_owner: None,
             buyer_name: None,
             buyer_org_name: None,

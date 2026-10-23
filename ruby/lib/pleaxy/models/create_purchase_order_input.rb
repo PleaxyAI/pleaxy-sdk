@@ -47,7 +47,11 @@ module Pleaxy
     # Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; ignored when `billToParty` is sent.
     attr_accessor :bill_to
 
+    # The cost center: when the workspace keeps a cost center list, a code or name on it (stored as the list's code; a closed one is refused); otherwise free text. An empty string clears it.
     attr_accessor :cost_center
+
+    # The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it.
+    attr_accessor :gl_code
 
     attr_accessor :budget_owner
 
@@ -111,6 +115,7 @@ module Pleaxy
         :'bill_to_party' => :'billToParty',
         :'bill_to' => :'billTo',
         :'cost_center' => :'costCenter',
+        :'gl_code' => :'glCode',
         :'budget_owner' => :'budgetOwner',
         :'buyer_name' => :'buyerName',
         :'supplier_site' => :'supplierSite',
@@ -144,6 +149,7 @@ module Pleaxy
         :'bill_to_party' => :'BillToPartyInput',
         :'bill_to' => :'String',
         :'cost_center' => :'String',
+        :'gl_code' => :'String',
         :'budget_owner' => :'String',
         :'buyer_name' => :'String',
         :'supplier_site' => :'String',
@@ -230,6 +236,10 @@ module Pleaxy
         self.cost_center = attributes[:'cost_center']
       end
 
+      if attributes.key?(:'gl_code')
+        self.gl_code = attributes[:'gl_code']
+      end
+
       if attributes.key?(:'budget_owner')
         self.budget_owner = attributes[:'budget_owner']
       end
@@ -301,6 +311,14 @@ module Pleaxy
         invalid_properties.push('invalid value for "bill_to", the character length must be smaller than or equal to 500.')
       end
 
+      if !@cost_center.nil? && @cost_center.to_s.length > 200
+        invalid_properties.push('invalid value for "cost_center", the character length must be smaller than or equal to 200.')
+      end
+
+      if !@gl_code.nil? && @gl_code.to_s.length > 40
+        invalid_properties.push('invalid value for "gl_code", the character length must be smaller than or equal to 40.')
+      end
+
       if !@supplier_contact_email.nil? && @supplier_contact_email.to_s.length > 254
         invalid_properties.push('invalid value for "supplier_contact_email", the character length must be smaller than or equal to 254.')
       end
@@ -337,6 +355,8 @@ module Pleaxy
       provider_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci"])
       return false unless provider_validator.valid?(@provider)
       return false if !@bill_to.nil? && @bill_to.to_s.length > 500
+      return false if !@cost_center.nil? && @cost_center.to_s.length > 200
+      return false if !@gl_code.nil? && @gl_code.to_s.length > 40
       return false if !@supplier_contact_email.nil? && @supplier_contact_email.to_s.length > 254
       return false if !@contract_id.nil? && @contract_id.to_s.length > 60
       return false if !@quote_import_id.nil? && @quote_import_id.to_s.length > 20
@@ -423,6 +443,34 @@ module Pleaxy
     end
 
     # Custom attribute writer method with validation
+    # @param [Object] cost_center Value to be assigned
+    def cost_center=(cost_center)
+      if cost_center.nil?
+        fail ArgumentError, 'cost_center cannot be nil'
+      end
+
+      if cost_center.to_s.length > 200
+        fail ArgumentError, 'invalid value for "cost_center", the character length must be smaller than or equal to 200.'
+      end
+
+      @cost_center = cost_center
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] gl_code Value to be assigned
+    def gl_code=(gl_code)
+      if gl_code.nil?
+        fail ArgumentError, 'gl_code cannot be nil'
+      end
+
+      if gl_code.to_s.length > 40
+        fail ArgumentError, 'invalid value for "gl_code", the character length must be smaller than or equal to 40.'
+      end
+
+      @gl_code = gl_code
+    end
+
+    # Custom attribute writer method with validation
     # @param [Object] supplier_contact_email Value to be assigned
     def supplier_contact_email=(supplier_contact_email)
       if supplier_contact_email.nil?
@@ -495,6 +543,7 @@ module Pleaxy
           bill_to_party == o.bill_to_party &&
           bill_to == o.bill_to &&
           cost_center == o.cost_center &&
+          gl_code == o.gl_code &&
           budget_owner == o.budget_owner &&
           buyer_name == o.buyer_name &&
           supplier_site == o.supplier_site &&
@@ -516,7 +565,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [po_number, supplier, matching, receiver_employee_key, supplier_region_id, supplier_connection_id, currency, provider, payer_accounts, bill_to_party, bill_to, cost_center, budget_owner, buyer_name, supplier_site, supplier_contact_email, notes, contract_id, quote_import_id, sow_import_id, draft, line_items].hash
+      [po_number, supplier, matching, receiver_employee_key, supplier_region_id, supplier_connection_id, currency, provider, payer_accounts, bill_to_party, bill_to, cost_center, gl_code, budget_owner, buyer_name, supplier_site, supplier_contact_email, notes, contract_id, quote_import_id, sow_import_id, draft, line_items].hash
     end
 
     # Builds the object from hash

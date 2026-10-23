@@ -951,6 +951,58 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/budget-control": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Whether budgets are checked (off, warn or block) and over what period (month, quarter or year) */
+        get: operations["GetBudgetControl"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** [Buyer] Change budget control. Applies to orders and requests submitted or approved from now on. Needs a signed-in session. */
+        patch: operations["UpdateBudgetControl"];
+        trace?: never;
+    };
+    "/budget-control/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Budget, committed (approved orders not yet invoiced), actual (approved invoices) and remaining per cost center for the current period */
+        get: operations["GetBudgetStatus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/budget-control/check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or off. Writes nothing. */
+        post: operations["CheckBudget"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/sync/events": {
         parameters: {
             query?: never;
@@ -1217,7 +1269,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only goods lines (lineType goods) ordered by quantity ship; a service line is confirmed with a service entry sheet. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope. */
+        /** [Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only lines ordered by quantity ship. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope. */
         post: operations["SendShipNotice"];
         delete?: never;
         options?: never;
@@ -1236,6 +1288,127 @@ export interface paths {
         get: operations["GetBilling"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Purchase requests the caller can see, newest first: their own, everyone's with purchase order access, and any waiting on them */
+        get: operations["ListPurchaseRequests"];
+        put?: never;
+        /** [Buyer] Ask for something: saved as a draft, or submitted for approval with `submit: true`. Any workspace member. */
+        post: operations["CreatePurchaseRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-requests/{requestId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] One purchase request, with its approval chain, budget check and the order it became */
+        get: operations["GetPurchaseRequest"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** [Buyer] The requester changes a draft, or a request waiting for approval (which sends it back through approval) */
+        patch: operations["UpdatePurchaseRequest"];
+        trace?: never;
+    };
+    "/purchase-requests/{requestId}/submit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] The requester submits a draft for approval. Refused (409) over budget when budgets are enforced. */
+        post: operations["SubmitPurchaseRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-requests/{requestId}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Approve a purchase request - only the current step's approver, signed in */
+        post: operations["ApprovePurchaseRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-requests/{requestId}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Reject a purchase request with a reason - only the current step's approver */
+        post: operations["RejectPurchaseRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-requests/{requestId}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] The requester, or an administrator, withdraws a request until it is ordered */
+        post: operations["CancelPurchaseRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-requests/{requestId}/convert": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Order an approved request: a purchase order from its lines, supplier, cost center, GL account and quote, each overridable. Within what was approved it keeps the request's approval. */
+        post: operations["ConvertPurchaseRequest"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1366,13 +1539,13 @@ export interface components {
              * @description The document variable to test.
              * @enum {string}
              */
-            field: "amount" | "supplier" | "requester";
+            field: "amount" | "supplier" | "requester" | "costCenter" | "glCode";
             /**
-             * @description gt/gte/lt/lte for amount; is/is_not for supplier and requester.
+             * @description gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
              * @enum {string}
              */
             operator: "gt" | "gte" | "lt" | "lte" | "is" | "is_not";
-            /** @description A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester. */
+            /** @description A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for glCode (the order's own, else its cost center's). */
             value: number | string;
         };
         ApprovalStageGroupDefInput: {
@@ -1484,11 +1657,6 @@ export interface components {
             scopeType: "sku" | "service" | "account" | "custom";
             scopeId?: string | null;
             name: string;
-            /**
-             * @description goods (delivered: shipped and confirmed on a goods receipt) or service (performed: confirmed on a service entry sheet, never shipped). Defaults to the catalog item's type, else to service for a service scope or a time unit and goods otherwise.
-             * @enum {string}
-             */
-            lineType?: "goods" | "service";
             /** @enum {string} */
             ruleType: "quantity" | "amount";
             unit: string;
@@ -1550,7 +1718,10 @@ export interface components {
              * @description Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; ignored when `billToParty` is sent.
              */
             billTo?: string;
+            /** @description The cost center: when the workspace keeps a cost center list, a code or name on it (stored as the list's code; a closed one is refused); otherwise free text. An empty string clears it. */
             costCenter?: string;
+            /** @description The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it. */
+            glCode?: string;
             budgetOwner?: string;
             buyerName?: string;
             supplierSite?: string;
@@ -1579,7 +1750,10 @@ export interface components {
              * @description Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; an empty string copies the company profile's. Ignored when `billToParty` is sent.
              */
             billTo?: string;
+            /** @description The cost center: when the workspace keeps a cost center list, a code or name on it (stored as the list's code; a closed one is refused); otherwise free text. An empty string clears it. */
             costCenter?: string;
+            /** @description The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it. */
+            glCode?: string;
             /** @description Drafts only: the workspace delivery address an online store order ships to, copied onto the order at submit. An empty string goes back to the workspace default. */
             deliveryAddressId?: string;
             budgetOwner?: string;
@@ -1931,6 +2105,31 @@ export interface components {
             invoiceIds?: string[];
             confirmReplaced?: boolean;
         };
+        UpdateBudgetControlInput: {
+            /**
+             * @description off: no check. warn: an order over budget goes ahead, never auto-approved, with a warning. block: it is refused.
+             * @enum {string}
+             */
+            mode?: "off" | "warn" | "block";
+            /**
+             * @description The budget period a check uses: the fiscal month, quarter or year containing the day it runs.
+             * @enum {string}
+             */
+            period?: "month" | "quarter" | "year";
+        };
+        BudgetCheckInput: {
+            /** @description The cost center code (or name) the document books to. Without one there is nothing to check (no_budget). */
+            costCenter?: string;
+            /**
+             * Format: double
+             * @description The document's amount, in `currency`.
+             */
+            amount: number;
+            /** @description ISO 4217 currency of `amount`. */
+            currency: string;
+            /** @description An existing order being edited, so it doesn't count against itself. */
+            excludeOrderId?: string;
+        };
         CreateWebhookInput: {
             /** @description https:// address on a host name that answers a POST with a 2xx within 10 seconds. */
             url: string;
@@ -1992,6 +2191,136 @@ export interface components {
             trackingUrl?: string;
             note?: string;
             lines?: components["schemas"]["ShipNoticeLineInput"][];
+        };
+        PurchaseRequestSupplierInput: {
+            /** @description The supplier's name, as the requester knows it. */
+            name: string;
+            /** @description A supplier on the workspace's supplier list. */
+            supplierConnectionId?: string;
+            /** @description A connected supplier's workspace region. */
+            supplierRegionId?: string;
+        };
+        PurchaseRequestLineInput: {
+            /** @description What is needed, e.g. 27-inch monitor. */
+            name: string;
+            /**
+             * Format: double
+             * @description How many.
+             */
+            qty: number;
+            /** @description e.g. each, hour, month. */
+            unit?: string;
+            /**
+             * Format: double
+             * @description Roughly what one costs, in the request's currency.
+             */
+            unitPrice: number;
+        };
+        CreatePurchaseRequestInput: {
+            /** @description What is needed, in a few words. */
+            title: string;
+            /** @description Why it is needed: the business reason. Required to submit. */
+            description?: string;
+            /** @description The cost center (a code or name on the workspace's list, stored as its code). Required to submit when the workspace keeps a list. */
+            costCenter?: string;
+            /** @description The GL account (spend category), when it isn't the cost center's. */
+            glCode?: string;
+            /** @description A supplier the requester suggests. */
+            supplier?: components["schemas"]["PurchaseRequestSupplierInput"];
+            /** @description What is needed, line by line (one line is fine for an estimate). */
+            lineItems: components["schemas"]["PurchaseRequestLineInput"][];
+            /** @description ISO 4217; the workspace's currency when absent. */
+            currency?: string;
+            /** @description When it's needed, YYYY-MM-DD. */
+            neededBy?: string;
+            /** @description A quote uploaded through the quote import, to attach. */
+            quoteImportId?: string;
+            /** @description Anything procurement should know. */
+            notes?: string;
+            /** @description true submits it for approval straight away; otherwise it is saved as a draft. */
+            submit?: boolean;
+        };
+        UpdatePurchaseRequestInput: {
+            /** @description What is needed, in a few words. */
+            title?: string;
+            /** @description Why it is needed: the business reason. Required to submit. */
+            description?: string;
+            /** @description The cost center (a code or name on the workspace's list, stored as its code). Required to submit when the workspace keeps a list. */
+            costCenter?: string;
+            /** @description The GL account (spend category), when it isn't the cost center's. */
+            glCode?: string;
+            /** @description A supplier the requester suggests. */
+            supplier?: components["schemas"]["PurchaseRequestSupplierInput"];
+            /** @description What is needed, line by line (one line is fine for an estimate). */
+            lineItems?: components["schemas"]["PurchaseRequestLineInput"][];
+            /** @description ISO 4217; the workspace's currency when absent. */
+            currency?: string;
+            /** @description When it's needed, YYYY-MM-DD. */
+            neededBy?: string;
+            /** @description A quote uploaded through the quote import, to attach. */
+            quoteImportId?: string;
+            /** @description Anything procurement should know. */
+            notes?: string;
+        };
+        ApprovePurchaseRequestInput: {
+            /**
+             * Format: double
+             * @description The approval version the caller saw; refused with 409 if the request moved since.
+             */
+            expectedVersion?: number;
+        };
+        RejectPurchaseRequestInput: {
+            /** @description Why the request is rejected; the requester sees it. */
+            reason: string;
+        };
+        ConvertPurchaseRequestInput: {
+            /** @description Custom PO number to use as this PO's id instead of an auto-generated one (e.g. 'PO-2026-0042'). Must be unique within the region. */
+            poNumber?: string;
+            /** @description Supplier / counterparty name */
+            supplier?: string;
+            /**
+             * @description How the order's invoices are matched: two_way against the order and its contract; three_way also against what was received (goods receipts and service entry sheets). Defaults to what the workspace's matching setting suggests (GET .../matching-policy). Refused for a cloud provider's order, which is matched against usage, and, when the setting lets only administrators change it, for anything but the default from anyone else.
+             * @enum {string}
+             */
+            matching?: "two_way" | "three_way";
+            /** @description Who confirms delivery: someone in this workspace, by employee key. Defaults to whoever raises the order. Used with three_way matching. */
+            receiverEmployeeKey?: string;
+            /** @description regionId of the onboarded supplier org this PO is issued to, if known. The buyer must hold an approved SupplierConnection to this supplier; the server rejects a region it isn't connected to. Links the PO to that org's real supplier workspace instead of just its free-text `supplier` name - see WorkspacesService.getSupplierWorkspace. */
+            supplierRegionId?: string;
+            /** @description The id of a supplier on your Suppliers list (not rejected, not a cloud provider) this PO is for - see GET .../suppliers. One approved with a Pleaxy account is treated as its supplierRegionId. Any other (not invited yet, invited, onboarding) is named by its record: its invoices match the PO by id, the PO is emailed to its contact, and sending it invites a supplier not invited yet. The record's name replaces `supplier`. Not with supplierRegionId, provider or supplierContactEmail. */
+            supplierConnectionId?: string;
+            /** @description ISO 4217: the currency the order is priced in. To a supplier with an account (supplierRegionId), one its region prices in, its main currency by default (400 PO_CURRENCY_NOT_OFFERED otherwise). To a cloud provider or a supplier not on Pleaxy yet, any code; by default that supplier's "Bills in" currency, else your workspace's. An order in a currency other than your workspace's goes through every approval step and is never auto-approved. */
+            currency?: string;
+            /** @enum {string} */
+            provider?: "aws" | "gcp" | "azure" | "oci";
+            /** @description Only with `provider`: this region's cloud connections of that provider the PO applies to, by `id`. A connection still being set up is refused. The PO stores each connection's own label and detail; any sent here are ignored. */
+            payerAccounts?: components["schemas"]["PayerAccountRefInput"][];
+            /** @description Who the supplier invoices, when it isn't the buyer's company profile billing details. Left out, the order copies those details as they are now (company name, billing address, tax id). */
+            billToParty?: components["schemas"]["BillToPartyInput"];
+            /**
+             * @deprecated
+             * @description Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; ignored when `billToParty` is sent.
+             */
+            billTo?: string;
+            /** @description The cost center: when the workspace keeps a cost center list, a code or name on it (stored as the list's code; a closed one is refused); otherwise free text. An empty string clears it. */
+            costCenter?: string;
+            /** @description The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it. */
+            glCode?: string;
+            budgetOwner?: string;
+            buyerName?: string;
+            supplierSite?: string;
+            /** @description Only for a supplier not on Pleaxy (no supplierRegionId or provider): their contact email. When the PO is sent (now, or when a draft is submitted), Pleaxy invites them - or links the supplier this workspace already has. */
+            supplierContactEmail?: string;
+            notes?: string;
+            /** @description One of this workspace's contracts this order falls under: active, and with the order's supplier (400 otherwise). Optional. Invoices against the order are checked against it. */
+            contractId?: string;
+            /** @description The quote import (POST .../quote-imports) holding the supplier's quote this order is raised from. Its upload must have finished. Optional. */
+            quoteImportId?: string;
+            /** @description The quote import (POST .../quote-imports) holding the statement of work this order is for: its scope, milestones and acceptance. Its upload must have finished. Optional, and independent of quoteImportId. */
+            sowImportId?: string;
+            /** @description Save as a draft instead of submitting for approval. Submit it later with SubmitPurchaseOrderDraft. */
+            draft?: boolean;
+            lineItems?: components["schemas"]["LineItemInput"][];
         };
         EmployeeSummary: {
             key?: string;
@@ -2186,7 +2515,7 @@ export interface components {
         };
         ApprovalChainSettings: {
             /** @enum {string} */
-            process?: "purchase_order" | "invoice_payment" | "service_entry_sheet";
+            process?: "purchase_order" | "invoice_payment" | "service_entry_sheet" | "purchase_request";
             /** @enum {string} */
             linkedTo?: "purchase_order" | "invoice_payment";
             groups?: components["schemas"]["ApprovalStageGroupDef"][];
@@ -2216,7 +2545,7 @@ export interface components {
         };
         ApprovalStepCondition: {
             /** @enum {string} */
-            field?: "supplier" | "amount" | "requester";
+            field?: "supplier" | "amount" | "requester" | "costCenter" | "glCode";
             /** @enum {string} */
             operator?: "gt" | "gte" | "lt" | "lte" | "is" | "is_not";
             value?: string | number;
@@ -2278,7 +2607,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payments_recorded_by_key" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap";
+            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payments_recorded_by_key" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -2402,6 +2731,10 @@ export interface components {
             billToParty?: components["schemas"]["PurchaseOrderBillTo"];
             costCenter?: string;
             costCenterChanges?: components["schemas"]["PurchaseOrderCostCenterChange"][];
+            glCode?: string;
+            submittedAt?: string;
+            budgetCheck?: components["schemas"]["BudgetCheck"];
+            requestId?: string;
             budgetOwner?: string;
             buyerName?: string;
             buyerOrgName?: string;
@@ -2493,6 +2826,33 @@ export interface components {
             byName?: string;
             at?: string;
         };
+        BudgetCheck: {
+            /** @enum {string} */
+            outcome?: "off" | "within" | "over" | "no_budget" | "no_rate";
+            /** @enum {string} */
+            mode?: "off" | "warn" | "block";
+            period?: {
+                /** @enum {string} */
+                kind?: "month" | "year" | "quarter";
+                start?: string;
+                end?: string;
+            };
+            costCenter?: string;
+            currency?: string;
+            /** Format: double */
+            budget?: number;
+            /** Format: double */
+            committed?: number;
+            /** Format: double */
+            actual?: number;
+            /** Format: double */
+            remaining?: number;
+            /** Format: double */
+            amount?: number;
+            /** Format: double */
+            overBy?: number;
+            checkedAt?: string;
+        };
         PurchaseOrderSupplierInvite: {
             /** @enum {string} */
             status?: "failed" | "invited" | "existing" | "needs_permission";
@@ -2515,9 +2875,7 @@ export interface components {
             /** Format: double */
             lineNo?: number;
             /** @enum {string} */
-            lineType?: "goods" | "service";
-            /** @enum {string} */
-            scopeType?: "custom" | "service" | "sku" | "account";
+            scopeType?: "custom" | "sku" | "service" | "account";
             scopeId?: string | null;
             name?: string;
             /** @enum {string} */
@@ -2588,6 +2946,12 @@ export interface components {
             excludedEmployeeKeys?: string[];
             selfApproved?: boolean;
             fx?: components["schemas"]["ApprovalFx"];
+            fromRequest?: {
+                requestId?: string;
+                /** Format: double */
+                amount?: number;
+                currency?: string;
+            };
         };
         ApprovalStageGroupInstance: {
             id: string;
@@ -3900,6 +4264,45 @@ export interface components {
                 };
             }[];
         };
+        BudgetControlSettings: {
+            /** @enum {string} */
+            mode?: "off" | "warn" | "block";
+            /** @enum {string} */
+            period?: "month" | "year" | "quarter";
+            updatedAt?: string;
+            updatedBy?: string;
+        };
+        BudgetPeriod: {
+            /** @enum {string} */
+            kind?: "month" | "year" | "quarter";
+            start?: string;
+            end?: string;
+            /** Format: double */
+            fiscalYear?: number;
+        };
+        BudgetStatus: {
+            costCenter?: string;
+            costCenterName?: string;
+            period?: {
+                /** @enum {string} */
+                kind?: "month" | "year" | "quarter";
+                start?: string;
+                end?: string;
+            };
+            currency?: string;
+            /** Format: double */
+            budget?: number;
+            /** Format: double */
+            committed?: number;
+            /** Format: double */
+            actual?: number;
+            /** Format: double */
+            remaining?: number;
+            /** Format: double */
+            pending?: number;
+            /** Format: double */
+            unconverted?: number;
+        };
         SyncEventPage: {
             events?: components["schemas"]["SyncEvent"][];
             nextCursor?: string;
@@ -4037,8 +4440,6 @@ export interface components {
             name?: string;
             catalogItemId?: string;
             unit?: string;
-            /** @enum {string} */
-            lineType?: "goods" | "service";
         };
         OrderConfirmationDecision: {
             /** @enum {string} */
@@ -4126,6 +4527,49 @@ export interface components {
             /** Format: double */
             toRegion?: number | null;
             price?: components["schemas"]["PriceAmount"];
+        };
+        PurchaseRequest: {
+            id: string;
+            title?: string;
+            description?: string;
+            requesterEmployeeKey?: string;
+            requesterName?: string;
+            costCenter?: string;
+            glCode?: string;
+            supplier?: {
+                name?: string;
+                supplierConnectionId?: string;
+                supplierRegionId?: string;
+            };
+            lineItems?: components["schemas"]["PurchaseRequestLine"][];
+            /** Format: double */
+            amount?: number;
+            currency?: string;
+            neededBy?: string;
+            quoteDocument?: components["schemas"]["PurchaseOrderQuoteDocument"];
+            notes?: string;
+            /** @enum {string} */
+            status?: "approved" | "rejected" | "pending_approval" | "draft" | "canceled" | "ordered";
+            approval?: components["schemas"]["ApprovalChain"];
+            /** Format: double */
+            approvalVersion?: number;
+            budgetCheck?: components["schemas"]["BudgetCheck"];
+            poId?: string;
+            rejectionReason?: string;
+            createdAt?: string;
+            updatedAt?: string;
+            submittedAt?: string;
+            decidedAt?: string;
+            canceledAt?: string;
+            canceledBy?: string;
+        };
+        PurchaseRequestLine: {
+            name?: string;
+            /** Format: double */
+            qty?: number;
+            unit?: string;
+            /** Format: double */
+            unitPrice?: number;
         };
         StripePaymentStatus: {
             available?: boolean;
@@ -6290,6 +6734,12 @@ export interface components {
             /** Format: double */
             refused?: number;
         };
+        GetBudgetStatusResult: {
+            settings?: components["schemas"]["BudgetControlSettings"];
+            period?: components["schemas"]["BudgetPeriod"];
+            currency?: string;
+            costCenters?: components["schemas"]["BudgetStatus"][];
+        };
         ListWebhooksResult: {
             endpoints?: components["schemas"]["WebhookEndpointView"][];
             eventTypes?: ("purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "purchase_order.confirmed" | "purchase_order.shipped" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected")[];
@@ -6349,6 +6799,10 @@ export interface components {
         ApplyConfirmationChangesResult: {
             purchaseOrder?: components["schemas"]["PurchaseOrder"];
             confirmation?: components["schemas"]["OrderConfirmation"];
+        };
+        ConvertPurchaseRequestResult: {
+            request?: components["schemas"]["PurchaseRequest"];
+            purchaseOrder?: components["schemas"]["PurchaseOrder"];
         };
         StartStripePaymentResult: {
             url?: string;
@@ -8475,6 +8929,131 @@ export interface operations {
             };
         };
     };
+    GetBudgetControl: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BudgetControlSettings"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    UpdateBudgetControl: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateBudgetControlInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BudgetControlSettings"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetBudgetStatus: {
+        parameters: {
+            query?: {
+                /** @description One cost center; every budgeted one when absent. */
+                costCenter?: string;
+                /** @description A day (YYYY-MM-DD) in the period to report; today when absent. */
+                date?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetBudgetStatusResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CheckBudget: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BudgetCheckInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BudgetCheck"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     ListSyncEvents: {
         parameters: {
             query?: {
@@ -9067,6 +9646,298 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BillingSummary"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListPurchaseRequests: {
+        parameters: {
+            query?: {
+                status?: "draft" | "pending_approval" | "approved" | "ordered" | "rejected" | "canceled";
+                /** @description true: only the caller's own requests. */
+                mine?: boolean;
+                /** @description true: only the requests waiting on the caller's approval (the approvals queue). */
+                awaitingMe?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"][];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CreatePurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreatePurchaseRequestInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetPurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    UpdatePurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePurchaseRequestInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SubmitPurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ApprovePurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApprovePurchaseRequestInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    RejectPurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RejectPurchaseRequestInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CancelPurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ConvertPurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConvertPurchaseRequestInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConvertPurchaseRequestResult"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

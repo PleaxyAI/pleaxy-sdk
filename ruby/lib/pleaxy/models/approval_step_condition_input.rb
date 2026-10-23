@@ -18,7 +18,7 @@ module Pleaxy
     # The document variable to test.
     attr_accessor :field
 
-    # gt/gte/lt/lte for amount; is/is_not for supplier and requester.
+    # gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
     attr_accessor :operator
 
     attr_accessor :value
@@ -133,7 +133,7 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @field.nil?
-      field_validator = EnumAttributeValidator.new('String', ["amount", "supplier", "requester"])
+      field_validator = EnumAttributeValidator.new('String', ["amount", "supplier", "requester", "costCenter", "glCode"])
       return false unless field_validator.valid?(@field)
       return false if @operator.nil?
       operator_validator = EnumAttributeValidator.new('String', ["gt", "gte", "lt", "lte", "is", "is_not"])
@@ -145,7 +145,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] field Object to be assigned
     def field=(field)
-      validator = EnumAttributeValidator.new('String', ["amount", "supplier", "requester"])
+      validator = EnumAttributeValidator.new('String', ["amount", "supplier", "requester", "costCenter", "glCode"])
       unless validator.valid?(field)
         fail ArgumentError, "invalid value for \"field\", must be one of #{validator.allowable_values}."
       end

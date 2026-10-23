@@ -20,9 +20,11 @@ class ApprovalStepConditionInput:
     """
     Attributes:
         field (ApprovalStepConditionInputField): The document variable to test.
-        operator (ApprovalStepConditionInputOperator): gt/gte/lt/lte for amount; is/is_not for supplier and requester.
+        operator (ApprovalStepConditionInputOperator): gt/gte/lt/lte for amount; is/is_not for supplier, requester,
+            costCenter and glCode.
         value (Union[float, str]): A number for amount (in the region's currency), a supplier Workspace ID for supplier,
-            an employee key for requester.
+            an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for
+            glCode (the order's own, else its cost center's).
     """
 
     field: ApprovalStepConditionInputField

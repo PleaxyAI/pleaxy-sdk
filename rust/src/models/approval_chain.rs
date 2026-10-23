@@ -41,6 +41,8 @@ pub struct ApprovalChain {
     pub self_approved: Option<bool>,
     #[serde(rename = "fx", skip_serializing_if = "Option::is_none")]
     pub fx: Option<models::ApprovalFx>,
+    #[serde(rename = "fromRequest", skip_serializing_if = "Option::is_none")]
+    pub from_request: Option<models::ApprovalChainFromRequest>,
 }
 
 impl ApprovalChain {
@@ -57,6 +59,7 @@ impl ApprovalChain {
             excluded_employee_keys: None,
             self_approved: None,
             fx: None,
+            from_request: None,
         }
     }
 }

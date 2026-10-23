@@ -21,9 +21,6 @@ module Pleaxy
 
     attr_accessor :name
 
-    # goods (delivered: shipped and confirmed on a goods receipt) or service (performed: confirmed on a service entry sheet, never shipped). Defaults to the catalog item's type, else to service for a service scope or a time unit and goods otherwise.
-    attr_accessor :line_type
-
     attr_accessor :rule_type
 
     attr_accessor :unit
@@ -87,7 +84,6 @@ module Pleaxy
         :'scope_type' => :'scopeType',
         :'scope_id' => :'scopeId',
         :'name' => :'name',
-        :'line_type' => :'lineType',
         :'rule_type' => :'ruleType',
         :'unit' => :'unit',
         :'unit_price' => :'unitPrice',
@@ -116,7 +112,6 @@ module Pleaxy
         :'scope_type' => :'String',
         :'scope_id' => :'String',
         :'name' => :'String',
-        :'line_type' => :'String',
         :'rule_type' => :'String',
         :'unit' => :'String',
         :'unit_price' => :'Float',
@@ -170,10 +165,6 @@ module Pleaxy
         self.name = attributes[:'name']
       else
         self.name = nil
-      end
-
-      if attributes.key?(:'line_type')
-        self.line_type = attributes[:'line_type']
       end
 
       if attributes.key?(:'rule_type')
@@ -341,8 +332,6 @@ module Pleaxy
       scope_type_validator = EnumAttributeValidator.new('String', ["sku", "service", "account", "custom"])
       return false unless scope_type_validator.valid?(@scope_type)
       return false if @name.nil?
-      line_type_validator = EnumAttributeValidator.new('String', ["goods", "service"])
-      return false unless line_type_validator.valid?(@line_type)
       return false if @rule_type.nil?
       rule_type_validator = EnumAttributeValidator.new('String', ["quantity", "amount"])
       return false unless rule_type_validator.valid?(@rule_type)
@@ -373,16 +362,6 @@ module Pleaxy
         fail ArgumentError, "invalid value for \"scope_type\", must be one of #{validator.allowable_values}."
       end
       @scope_type = scope_type
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] line_type Object to be assigned
-    def line_type=(line_type)
-      validator = EnumAttributeValidator.new('String', ["goods", "service"])
-      unless validator.valid?(line_type)
-        fail ArgumentError, "invalid value for \"line_type\", must be one of #{validator.allowable_values}."
-      end
-      @line_type = line_type
     end
 
     # Custom attribute writer method checking allowed values (enum).
@@ -525,7 +504,6 @@ module Pleaxy
           scope_type == o.scope_type &&
           scope_id == o.scope_id &&
           name == o.name &&
-          line_type == o.line_type &&
           rule_type == o.rule_type &&
           unit == o.unit &&
           unit_price == o.unit_price &&
@@ -551,7 +529,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [scope_type, scope_id, name, line_type, rule_type, unit, unit_price, qty, nte_amount, currency, payment_terms, valid_from, valid_until, due_date, customer_line_no, quote_line_no, sow_line_no, punchout_ref].hash
+      [scope_type, scope_id, name, rule_type, unit, unit_price, qty, nte_amount, currency, payment_terms, valid_from, valid_until, due_date, customer_line_no, quote_line_no, sow_line_no, punchout_ref].hash
     end
 
     # Builds the object from hash

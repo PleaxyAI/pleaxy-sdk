@@ -10,6 +10,7 @@ from ..models.approval_chain_status import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.approval_chain_from_request import ApprovalChainFromRequest
     from ..models.approval_fx import ApprovalFx
     from ..models.approval_history_entry import ApprovalHistoryEntry
     from ..models.approval_stage_group_instance import ApprovalStageGroupInstance
@@ -34,6 +35,7 @@ class ApprovalChain:
         excluded_employee_keys (Union[Unset, List[str]]):
         self_approved (Union[Unset, bool]):
         fx (Union[Unset, ApprovalFx]):
+        from_request (Union[Unset, ApprovalChainFromRequest]):
     """
 
     requester: Union[Unset, str] = UNSET
@@ -47,6 +49,7 @@ class ApprovalChain:
     excluded_employee_keys: Union[Unset, List[str]] = UNSET
     self_approved: Union[Unset, bool] = UNSET
     fx: Union[Unset, "ApprovalFx"] = UNSET
+    from_request: Union[Unset, "ApprovalChainFromRequest"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -90,6 +93,10 @@ class ApprovalChain:
         if not isinstance(self.fx, Unset):
             fx = self.fx.to_dict()
 
+        from_request: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.from_request, Unset):
+            from_request = self.from_request.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -115,11 +122,14 @@ class ApprovalChain:
             field_dict["selfApproved"] = self_approved
         if fx is not UNSET:
             field_dict["fx"] = fx
+        if from_request is not UNSET:
+            field_dict["fromRequest"] = from_request
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.approval_chain_from_request import ApprovalChainFromRequest
         from ..models.approval_fx import ApprovalFx
         from ..models.approval_history_entry import ApprovalHistoryEntry
         from ..models.approval_stage_group_instance import ApprovalStageGroupInstance
@@ -173,6 +183,13 @@ class ApprovalChain:
         else:
             fx = ApprovalFx.from_dict(_fx)
 
+        _from_request = d.pop("fromRequest", UNSET)
+        from_request: Union[Unset, ApprovalChainFromRequest]
+        if isinstance(_from_request, Unset):
+            from_request = UNSET
+        else:
+            from_request = ApprovalChainFromRequest.from_dict(_from_request)
+
         approval_chain = cls(
             requester=requester,
             requester_employee_key=requester_employee_key,
@@ -185,6 +202,7 @@ class ApprovalChain:
             excluded_employee_keys=excluded_employee_keys,
             self_approved=self_approved,
             fx=fx,
+            from_request=from_request,
         )
 
         approval_chain.additional_properties = d

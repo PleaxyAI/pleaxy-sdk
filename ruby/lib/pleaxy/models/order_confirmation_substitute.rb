@@ -23,38 +23,13 @@ module Pleaxy
 
     attr_accessor :unit
 
-    attr_accessor :line_type
-
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'supplier_part_id' => :'supplierPartId',
         :'name' => :'name',
         :'catalog_item_id' => :'catalogItemId',
-        :'unit' => :'unit',
-        :'line_type' => :'lineType'
+        :'unit' => :'unit'
       }
     end
 
@@ -69,8 +44,7 @@ module Pleaxy
         :'supplier_part_id' => :'String',
         :'name' => :'String',
         :'catalog_item_id' => :'String',
-        :'unit' => :'String',
-        :'line_type' => :'String'
+        :'unit' => :'String'
       }
     end
 
@@ -110,10 +84,6 @@ module Pleaxy
       if attributes.key?(:'unit')
         self.unit = attributes[:'unit']
       end
-
-      if attributes.key?(:'line_type')
-        self.line_type = attributes[:'line_type']
-      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -128,19 +98,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      line_type_validator = EnumAttributeValidator.new('String', ["goods", "service"])
-      return false unless line_type_validator.valid?(@line_type)
       true
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] line_type Object to be assigned
-    def line_type=(line_type)
-      validator = EnumAttributeValidator.new('String', ["goods", "service"])
-      unless validator.valid?(line_type)
-        fail ArgumentError, "invalid value for \"line_type\", must be one of #{validator.allowable_values}."
-      end
-      @line_type = line_type
     end
 
     # Checks equality by comparing each attribute.
@@ -151,8 +109,7 @@ module Pleaxy
           supplier_part_id == o.supplier_part_id &&
           name == o.name &&
           catalog_item_id == o.catalog_item_id &&
-          unit == o.unit &&
-          line_type == o.line_type
+          unit == o.unit
     end
 
     # @see the `==` method
@@ -164,7 +121,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier_part_id, name, catalog_item_id, unit, line_type].hash
+      [supplier_part_id, name, catalog_item_id, unit].hash
     end
 
     # Builds the object from hash

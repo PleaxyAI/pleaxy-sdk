@@ -37,6 +37,8 @@ module Pleaxy
 
     attr_accessor :fx
 
+    attr_accessor :from_request
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -72,7 +74,8 @@ module Pleaxy
         :'spend_limit_gate' => :'spendLimitGate',
         :'excluded_employee_keys' => :'excludedEmployeeKeys',
         :'self_approved' => :'selfApproved',
-        :'fx' => :'fx'
+        :'fx' => :'fx',
+        :'from_request' => :'fromRequest'
       }
     end
 
@@ -94,7 +97,8 @@ module Pleaxy
         :'spend_limit_gate' => :'SpendLimitGate',
         :'excluded_employee_keys' => :'Array<String>',
         :'self_approved' => :'Boolean',
-        :'fx' => :'ApprovalFx'
+        :'fx' => :'ApprovalFx',
+        :'from_request' => :'ApprovalChainFromRequest'
       }
     end
 
@@ -168,6 +172,10 @@ module Pleaxy
       if attributes.key?(:'fx')
         self.fx = attributes[:'fx']
       end
+
+      if attributes.key?(:'from_request')
+        self.from_request = attributes[:'from_request']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -212,7 +220,8 @@ module Pleaxy
           spend_limit_gate == o.spend_limit_gate &&
           excluded_employee_keys == o.excluded_employee_keys &&
           self_approved == o.self_approved &&
-          fx == o.fx
+          fx == o.fx &&
+          from_request == o.from_request
     end
 
     # @see the `==` method
@@ -224,7 +233,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [requester, requester_employee_key, groups, group_index, status, history, autonomy, spend_limit_gate, excluded_employee_keys, self_approved, fx].hash
+      [requester, requester_employee_key, groups, group_index, status, history, autonomy, spend_limit_gate, excluded_employee_keys, self_approved, fx, from_request].hash
     end
 
     # Builds the object from hash

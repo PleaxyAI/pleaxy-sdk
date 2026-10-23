@@ -27,7 +27,11 @@ module Pleaxy
     # Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; an empty string copies the company profile's. Ignored when `billToParty` is sent.
     attr_accessor :bill_to
 
+    # The cost center: when the workspace keeps a cost center list, a code or name on it (stored as the list's code; a closed one is refused); otherwise free text. An empty string clears it.
     attr_accessor :cost_center
+
+    # The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it.
+    attr_accessor :gl_code
 
     # Drafts only: the workspace delivery address an online store order ships to, copied onto the order at submit. An empty string goes back to the workspace default.
     attr_accessor :delivery_address_id
@@ -55,6 +59,7 @@ module Pleaxy
         :'bill_to_party' => :'billToParty',
         :'bill_to' => :'billTo',
         :'cost_center' => :'costCenter',
+        :'gl_code' => :'glCode',
         :'delivery_address_id' => :'deliveryAddressId',
         :'budget_owner' => :'budgetOwner',
         :'buyer_name' => :'buyerName',
@@ -78,6 +83,7 @@ module Pleaxy
         :'bill_to_party' => :'BillToPartyInput',
         :'bill_to' => :'String',
         :'cost_center' => :'String',
+        :'gl_code' => :'String',
         :'delivery_address_id' => :'String',
         :'budget_owner' => :'String',
         :'buyer_name' => :'String',
@@ -135,6 +141,10 @@ module Pleaxy
         self.cost_center = attributes[:'cost_center']
       end
 
+      if attributes.key?(:'gl_code')
+        self.gl_code = attributes[:'gl_code']
+      end
+
       if attributes.key?(:'delivery_address_id')
         self.delivery_address_id = attributes[:'delivery_address_id']
       end
@@ -173,6 +183,14 @@ module Pleaxy
         invalid_properties.push('invalid value for "bill_to", the character length must be smaller than or equal to 500.')
       end
 
+      if !@cost_center.nil? && @cost_center.to_s.length > 200
+        invalid_properties.push('invalid value for "cost_center", the character length must be smaller than or equal to 200.')
+      end
+
+      if !@gl_code.nil? && @gl_code.to_s.length > 40
+        invalid_properties.push('invalid value for "gl_code", the character length must be smaller than or equal to 40.')
+      end
+
       if !@delivery_address_id.nil? && @delivery_address_id.to_s.length > 64
         invalid_properties.push('invalid value for "delivery_address_id", the character length must be smaller than or equal to 64.')
       end
@@ -197,6 +215,8 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if !@bill_to.nil? && @bill_to.to_s.length > 500
+      return false if !@cost_center.nil? && @cost_center.to_s.length > 200
+      return false if !@gl_code.nil? && @gl_code.to_s.length > 40
       return false if !@delivery_address_id.nil? && @delivery_address_id.to_s.length > 64
       return false if !@contract_id.nil? && @contract_id.to_s.length > 60
       return false if !@quote_import_id.nil? && @quote_import_id.to_s.length > 20
@@ -216,6 +236,34 @@ module Pleaxy
       end
 
       @bill_to = bill_to
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] cost_center Value to be assigned
+    def cost_center=(cost_center)
+      if cost_center.nil?
+        fail ArgumentError, 'cost_center cannot be nil'
+      end
+
+      if cost_center.to_s.length > 200
+        fail ArgumentError, 'invalid value for "cost_center", the character length must be smaller than or equal to 200.'
+      end
+
+      @cost_center = cost_center
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] gl_code Value to be assigned
+    def gl_code=(gl_code)
+      if gl_code.nil?
+        fail ArgumentError, 'gl_code cannot be nil'
+      end
+
+      if gl_code.to_s.length > 40
+        fail ArgumentError, 'invalid value for "gl_code", the character length must be smaller than or equal to 40.'
+      end
+
+      @gl_code = gl_code
     end
 
     # Custom attribute writer method with validation
@@ -272,6 +320,7 @@ module Pleaxy
           bill_to_party == o.bill_to_party &&
           bill_to == o.bill_to &&
           cost_center == o.cost_center &&
+          gl_code == o.gl_code &&
           delivery_address_id == o.delivery_address_id &&
           budget_owner == o.budget_owner &&
           buyer_name == o.buyer_name &&
@@ -290,7 +339,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [currency, line_items, bill_to_party, bill_to, cost_center, delivery_address_id, budget_owner, buyer_name, notes, contract_id, quote_import_id, sow_import_id].hash
+      [currency, line_items, bill_to_party, bill_to, cost_center, gl_code, delivery_address_id, budget_owner, buyer_name, notes, contract_id, quote_import_id, sow_import_id].hash
     end
 
     # Builds the object from hash

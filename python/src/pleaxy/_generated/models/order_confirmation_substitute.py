@@ -3,10 +3,6 @@ from typing import Any, Dict, List, Type, TypeVar, Union
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.order_confirmation_substitute_line_type import (
-    OrderConfirmationSubstituteLineType,
-    check_order_confirmation_substitute_line_type,
-)
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="OrderConfirmationSubstitute")
@@ -20,14 +16,12 @@ class OrderConfirmationSubstitute:
         name (Union[Unset, str]):
         catalog_item_id (Union[Unset, str]):
         unit (Union[Unset, str]):
-        line_type (Union[Unset, OrderConfirmationSubstituteLineType]):
     """
 
     supplier_part_id: Union[Unset, str] = UNSET
     name: Union[Unset, str] = UNSET
     catalog_item_id: Union[Unset, str] = UNSET
     unit: Union[Unset, str] = UNSET
-    line_type: Union[Unset, OrderConfirmationSubstituteLineType] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -38,10 +32,6 @@ class OrderConfirmationSubstitute:
         catalog_item_id = self.catalog_item_id
 
         unit = self.unit
-
-        line_type: Union[Unset, str] = UNSET
-        if not isinstance(self.line_type, Unset):
-            line_type = self.line_type
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -54,8 +44,6 @@ class OrderConfirmationSubstitute:
             field_dict["catalogItemId"] = catalog_item_id
         if unit is not UNSET:
             field_dict["unit"] = unit
-        if line_type is not UNSET:
-            field_dict["lineType"] = line_type
 
         return field_dict
 
@@ -70,19 +58,11 @@ class OrderConfirmationSubstitute:
 
         unit = d.pop("unit", UNSET)
 
-        _line_type = d.pop("lineType", UNSET)
-        line_type: Union[Unset, OrderConfirmationSubstituteLineType]
-        if isinstance(_line_type, Unset):
-            line_type = UNSET
-        else:
-            line_type = check_order_confirmation_substitute_line_type(_line_type)
-
         order_confirmation_substitute = cls(
             supplier_part_id=supplier_part_id,
             name=name,
             catalog_item_id=catalog_item_id,
             unit=unit,
-            line_type=line_type,
         )
 
         order_confirmation_substitute.additional_properties = d

@@ -39,6 +39,10 @@ pub enum Field {
     Amount,
     #[serde(rename = "requester")]
     Requester,
+    #[serde(rename = "costCenter")]
+    CostCenter,
+    #[serde(rename = "glCode")]
+    GlCode,
 }
 
 impl Default for Field {

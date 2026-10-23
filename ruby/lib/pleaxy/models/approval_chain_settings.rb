@@ -138,7 +138,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      process_validator = EnumAttributeValidator.new('String', ["purchase_order", "invoice_payment", "service_entry_sheet"])
+      process_validator = EnumAttributeValidator.new('String', ["purchase_order", "invoice_payment", "service_entry_sheet", "purchase_request"])
       return false unless process_validator.valid?(@process)
       linked_to_validator = EnumAttributeValidator.new('String', ["purchase_order", "invoice_payment"])
       return false unless linked_to_validator.valid?(@linked_to)
@@ -150,7 +150,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] process Object to be assigned
     def process=(process)
-      validator = EnumAttributeValidator.new('String', ["purchase_order", "invoice_payment", "service_entry_sheet"])
+      validator = EnumAttributeValidator.new('String', ["purchase_order", "invoice_payment", "service_entry_sheet", "purchase_request"])
       unless validator.valid?(process)
         fail ArgumentError, "invalid value for \"process\", must be one of #{validator.allowable_values}."
       end

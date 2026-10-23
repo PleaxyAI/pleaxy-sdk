@@ -121,6 +121,14 @@ public class Notification {
     
     PO_APPROVAL_REQUESTED(String.valueOf("po_approval_requested")),
     
+    REQUEST_APPROVAL_REQUESTED(String.valueOf("request_approval_requested")),
+    
+    REQUEST_APPROVED(String.valueOf("request_approved")),
+    
+    REQUEST_REJECTED(String.valueOf("request_rejected")),
+    
+    REQUEST_ORDERED(String.valueOf("request_ordered")),
+    
     PO_STORE_ORDER_PROBLEM(String.valueOf("po_store_order_problem")),
     
     PO_SUPPLIER_CONFIRMED(String.valueOf("po_supplier_confirmed")),

@@ -55,6 +55,14 @@ module Pleaxy
 
     attr_accessor :cost_center_changes
 
+    attr_accessor :gl_code
+
+    attr_accessor :submitted_at
+
+    attr_accessor :budget_check
+
+    attr_accessor :request_id
+
     attr_accessor :budget_owner
 
     attr_accessor :buyer_name
@@ -182,6 +190,10 @@ module Pleaxy
         :'bill_to_party' => :'billToParty',
         :'cost_center' => :'costCenter',
         :'cost_center_changes' => :'costCenterChanges',
+        :'gl_code' => :'glCode',
+        :'submitted_at' => :'submittedAt',
+        :'budget_check' => :'budgetCheck',
+        :'request_id' => :'requestId',
         :'budget_owner' => :'budgetOwner',
         :'buyer_name' => :'buyerName',
         :'buyer_org_name' => :'buyerOrgName',
@@ -254,6 +266,10 @@ module Pleaxy
         :'bill_to_party' => :'PurchaseOrderBillTo',
         :'cost_center' => :'String',
         :'cost_center_changes' => :'Array<PurchaseOrderCostCenterChange>',
+        :'gl_code' => :'String',
+        :'submitted_at' => :'String',
+        :'budget_check' => :'BudgetCheck',
+        :'request_id' => :'String',
         :'budget_owner' => :'String',
         :'buyer_name' => :'String',
         :'buyer_org_name' => :'String',
@@ -405,6 +421,22 @@ module Pleaxy
         if (value = attributes[:'cost_center_changes']).is_a?(Array)
           self.cost_center_changes = value
         end
+      end
+
+      if attributes.key?(:'gl_code')
+        self.gl_code = attributes[:'gl_code']
+      end
+
+      if attributes.key?(:'submitted_at')
+        self.submitted_at = attributes[:'submitted_at']
+      end
+
+      if attributes.key?(:'budget_check')
+        self.budget_check = attributes[:'budget_check']
+      end
+
+      if attributes.key?(:'request_id')
+        self.request_id = attributes[:'request_id']
       end
 
       if attributes.key?(:'budget_owner')
@@ -685,6 +717,10 @@ module Pleaxy
           bill_to_party == o.bill_to_party &&
           cost_center == o.cost_center &&
           cost_center_changes == o.cost_center_changes &&
+          gl_code == o.gl_code &&
+          submitted_at == o.submitted_at &&
+          budget_check == o.budget_check &&
+          request_id == o.request_id &&
           budget_owner == o.budget_owner &&
           buyer_name == o.buyer_name &&
           buyer_org_name == o.buyer_org_name &&
@@ -737,7 +773,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, buyer_org_id, supplier_org_id, supplier, amount, currency, status, invoice_id, invoice_ids, invoiced_amount, prior_invoiced, rejected_invoice_count, last_rejected_invoice_id, last_replaced_invoice_id, provider, payer_accounts, bill_to, bill_to_party, cost_center, cost_center_changes, budget_owner, buyer_name, buyer_org_name, buyer_region_name, supplier_region_name, supplier_site, supplier_contact_email, supplier_invite, supplier_connection_id, notes, contract_id, supplier_email, quote_document, sow_document, line_items, approval, approval_version, ever_spend_limit_gated, spend_limit_gated_at, updated_by, updated_at, version, last_change, approval_amount, punchout, store_id, delivery_address_id, ship_to, store_order, matching, matching_default, matching_changes, receiver_employee_key, receiver_name, received, received_pending, receipt_state, receipt_required, ready_to_invoice, receipt_tolerance, created_at].hash
+      [id, buyer_org_id, supplier_org_id, supplier, amount, currency, status, invoice_id, invoice_ids, invoiced_amount, prior_invoiced, rejected_invoice_count, last_rejected_invoice_id, last_replaced_invoice_id, provider, payer_accounts, bill_to, bill_to_party, cost_center, cost_center_changes, gl_code, submitted_at, budget_check, request_id, budget_owner, buyer_name, buyer_org_name, buyer_region_name, supplier_region_name, supplier_site, supplier_contact_email, supplier_invite, supplier_connection_id, notes, contract_id, supplier_email, quote_document, sow_document, line_items, approval, approval_version, ever_spend_limit_gated, spend_limit_gated_at, updated_by, updated_at, version, last_change, approval_amount, punchout, store_id, delivery_address_id, ship_to, store_order, matching, matching_default, matching_changes, receiver_employee_key, receiver_name, received, received_pending, receipt_state, receipt_required, ready_to_invoice, receipt_tolerance, created_at].hash
     end
 
     # Builds the object from hash

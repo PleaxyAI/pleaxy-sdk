@@ -84,6 +84,38 @@ export class BillingResource {
   }
 }
 
+export class BudgetControlResource {
+  constructor(private readonly transport: Transport) {}
+
+  /**
+   * [Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or off. Writes nothing.
+   */
+  checkBudget(body: RequestBody<"CheckBudget">, options?: RequestOptions): Promise<ResponseBody<"CheckBudget">> {
+    return this.transport.request("post", "/budget-control/check", { path: undefined, body, options }) as Promise<ResponseBody<"CheckBudget">>;
+  }
+
+  /**
+   * [Buyer] Whether budgets are checked (off, warn or block) and over what period (month, quarter or year)
+   */
+  getBudgetControl(options?: RequestOptions): Promise<ResponseBody<"GetBudgetControl">> {
+    return this.transport.request("get", "/budget-control", { path: undefined, options }) as Promise<ResponseBody<"GetBudgetControl">>;
+  }
+
+  /**
+   * [Buyer] Budget, committed (approved orders not yet invoiced), actual (approved invoices) and remaining per cost center for the current period
+   */
+  getBudgetStatus(query?: QueryParams<"GetBudgetStatus">, options?: RequestOptions): Promise<ResponseBody<"GetBudgetStatus">> {
+    return this.transport.request("get", "/budget-control/status", { path: undefined, query, options }) as Promise<ResponseBody<"GetBudgetStatus">>;
+  }
+
+  /**
+   * [Buyer] Change budget control. Applies to orders and requests submitted or approved from now on. Needs a signed-in session.
+   */
+  updateBudgetControl(body: RequestBody<"UpdateBudgetControl">, options?: RequestOptions): Promise<ResponseBody<"UpdateBudgetControl">> {
+    return this.transport.request("patch", "/budget-control", { path: undefined, body, options }) as Promise<ResponseBody<"UpdateBudgetControl">>;
+  }
+}
+
 export class CloudConnectionsResource {
   constructor(private readonly transport: Transport) {}
 
@@ -314,7 +346,7 @@ export class FulfillmentResource {
   }
 
   /**
-   * [Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only goods lines (lineType goods) ordered by quantity ship; a service line is confirmed with a service entry sheet. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
+   * [Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only lines ordered by quantity ship. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
    */
   sendShipNotice(poId: string, body: RequestBody<"SendShipNotice">, query?: QueryParams<"SendShipNotice">, options?: RequestOptions): Promise<ResponseBody<"SendShipNotice">> {
     return this.transport.request("post", "/purchase-orders/{poId}/ship-notices", { path: { poId }, query, body, options }) as Promise<ResponseBody<"SendShipNotice">>;
@@ -631,6 +663,73 @@ export class PurchaseOrdersResource {
   }
 }
 
+export class PurchaseRequestsResource {
+  constructor(private readonly transport: Transport) {}
+
+  /**
+   * [Buyer] Approve a purchase request - only the current step's approver, signed in
+   */
+  approvePurchaseRequest(requestId: string, body: RequestBody<"ApprovePurchaseRequest">, options?: RequestOptions): Promise<ResponseBody<"ApprovePurchaseRequest">> {
+    return this.transport.request("post", "/purchase-requests/{requestId}/approve", { path: { requestId }, body, options }) as Promise<ResponseBody<"ApprovePurchaseRequest">>;
+  }
+
+  /**
+   * [Buyer] The requester, or an administrator, withdraws a request until it is ordered
+   */
+  cancelPurchaseRequest(requestId: string, options?: RequestOptions): Promise<ResponseBody<"CancelPurchaseRequest">> {
+    return this.transport.request("post", "/purchase-requests/{requestId}/cancel", { path: { requestId }, options }) as Promise<ResponseBody<"CancelPurchaseRequest">>;
+  }
+
+  /**
+   * [Buyer] Order an approved request: a purchase order from its lines, supplier, cost center, GL account and quote, each overridable. Within what was approved it keeps the request's approval.
+   */
+  convertPurchaseRequest(requestId: string, body: RequestBody<"ConvertPurchaseRequest">, options?: RequestOptions): Promise<ResponseBody<"ConvertPurchaseRequest">> {
+    return this.transport.request("post", "/purchase-requests/{requestId}/convert", { path: { requestId }, body, options }) as Promise<ResponseBody<"ConvertPurchaseRequest">>;
+  }
+
+  /**
+   * [Buyer] Ask for something: saved as a draft, or submitted for approval with `submit: true`. Any workspace member.
+   */
+  createPurchaseRequest(body: RequestBody<"CreatePurchaseRequest">, options?: RequestOptions): Promise<ResponseBody<"CreatePurchaseRequest">> {
+    return this.transport.request("post", "/purchase-requests", { path: undefined, body, options }) as Promise<ResponseBody<"CreatePurchaseRequest">>;
+  }
+
+  /**
+   * [Buyer] One purchase request, with its approval chain, budget check and the order it became
+   */
+  getPurchaseRequest(requestId: string, options?: RequestOptions): Promise<ResponseBody<"GetPurchaseRequest">> {
+    return this.transport.request("get", "/purchase-requests/{requestId}", { path: { requestId }, options }) as Promise<ResponseBody<"GetPurchaseRequest">>;
+  }
+
+  /**
+   * [Buyer] Purchase requests the caller can see, newest first: their own, everyone's with purchase order access, and any waiting on them
+   */
+  listPurchaseRequests(query?: QueryParams<"ListPurchaseRequests">, options?: RequestOptions): Promise<ResponseBody<"ListPurchaseRequests">> {
+    return this.transport.request("get", "/purchase-requests", { path: undefined, query, options }) as Promise<ResponseBody<"ListPurchaseRequests">>;
+  }
+
+  /**
+   * [Buyer] Reject a purchase request with a reason - only the current step's approver
+   */
+  rejectPurchaseRequest(requestId: string, body: RequestBody<"RejectPurchaseRequest">, options?: RequestOptions): Promise<ResponseBody<"RejectPurchaseRequest">> {
+    return this.transport.request("post", "/purchase-requests/{requestId}/reject", { path: { requestId }, body, options }) as Promise<ResponseBody<"RejectPurchaseRequest">>;
+  }
+
+  /**
+   * [Buyer] The requester submits a draft for approval. Refused (409) over budget when budgets are enforced.
+   */
+  submitPurchaseRequest(requestId: string, options?: RequestOptions): Promise<ResponseBody<"SubmitPurchaseRequest">> {
+    return this.transport.request("post", "/purchase-requests/{requestId}/submit", { path: { requestId }, options }) as Promise<ResponseBody<"SubmitPurchaseRequest">>;
+  }
+
+  /**
+   * [Buyer] The requester changes a draft, or a request waiting for approval (which sends it back through approval)
+   */
+  updatePurchaseRequest(requestId: string, body: RequestBody<"UpdatePurchaseRequest">, options?: RequestOptions): Promise<ResponseBody<"UpdatePurchaseRequest">> {
+    return this.transport.request("patch", "/purchase-requests/{requestId}", { path: { requestId }, body, options }) as Promise<ResponseBody<"UpdatePurchaseRequest">>;
+  }
+}
+
 export class SettlementResource {
   constructor(private readonly transport: Transport) {}
 
@@ -699,6 +798,7 @@ export class Resources {
   readonly approvals: ApprovalsResource;
   readonly automationRules: AutomationRulesResource;
   readonly billing: BillingResource;
+  readonly budgetControl: BudgetControlResource;
   readonly cloudConnections: CloudConnectionsResource;
   readonly documentSync: DocumentSyncResource;
   readonly employees: EmployeesResource;
@@ -708,6 +808,7 @@ export class Resources {
   readonly notifications: NotificationsResource;
   readonly orgProfiles: OrgProfilesResource;
   readonly purchaseOrders: PurchaseOrdersResource;
+  readonly purchaseRequests: PurchaseRequestsResource;
   readonly settlement: SettlementResource;
   readonly supplierConnections: SupplierConnectionsResource;
   readonly workspaces: WorkspacesResource;
@@ -718,6 +819,7 @@ export class Resources {
     this.approvals = new ApprovalsResource(transport);
     this.automationRules = new AutomationRulesResource(transport);
     this.billing = new BillingResource(transport);
+    this.budgetControl = new BudgetControlResource(transport);
     this.cloudConnections = new CloudConnectionsResource(transport);
     this.documentSync = new DocumentSyncResource(transport);
     this.employees = new EmployeesResource(transport);
@@ -727,6 +829,7 @@ export class Resources {
     this.notifications = new NotificationsResource(transport);
     this.orgProfiles = new OrgProfilesResource(transport);
     this.purchaseOrders = new PurchaseOrdersResource(transport);
+    this.purchaseRequests = new PurchaseRequestsResource(transport);
     this.settlement = new SettlementResource(transport);
     this.supplierConnections = new SupplierConnectionsResource(transport);
     this.workspaces = new WorkspacesResource(transport);

@@ -10835,6 +10835,230 @@
         ]
       }
     },
+    "/v1/workspaces/{regionId}/budget-control": {
+      "get": {
+        "operationId": "GetBudgetControl",
+        "summary": "[Buyer] Whether budgets are checked (off, warn or block) and over what period (month, quarter or year)",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BudgetControlSettings"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "budget-control"
+        ]
+      },
+      "patch": {
+        "operationId": "UpdateBudgetControl",
+        "summary": "[Buyer] Change budget control. Applies to orders and requests submitted or approved from now on. Needs a signed-in session.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBudgetControlDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BudgetControlSettings"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "budget-control"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/budget-control/status": {
+      "get": {
+        "operationId": "GetBudgetStatus",
+        "summary": "[Buyer] Budget, committed (approved orders not yet invoiced), actual (approved invoices) and remaining per cost center for the current period",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "costCenter",
+            "required": false,
+            "in": "query",
+            "description": "One cost center; every budgeted one when absent.",
+            "schema": {
+              "maxLength": 200,
+              "type": "string"
+            }
+          },
+          {
+            "name": "date",
+            "required": false,
+            "in": "query",
+            "description": "A day (YYYY-MM-DD) in the period to report; today when absent.",
+            "schema": {
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "settings": {
+                      "$ref": "#/components/schemas/BudgetControlSettings"
+                    },
+                    "period": {
+                      "$ref": "#/components/schemas/BudgetPeriod"
+                    },
+                    "currency": {
+                      "type": "string"
+                    },
+                    "costCenters": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/BudgetStatus"
+                      }
+                    }
+                  },
+                  "required": [
+                    "settings",
+                    "period",
+                    "costCenters"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "budget-control"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/budget-control/check": {
+      "post": {
+        "operationId": "CheckBudget",
+        "summary": "[Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or off. Writes nothing.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BudgetCheckDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BudgetCheck"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "budget-control"
+        ]
+      }
+    },
     "/v1/workspaces/{regionId}/sync/events": {
       "get": {
         "operationId": "ListSyncEvents",
@@ -12087,7 +12311,7 @@
     "/v1/workspaces/{regionId}/purchase-orders/{poId}/ship-notices": {
       "post": {
         "operationId": "SendShipNotice",
-        "summary": "[Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only goods lines (lineType goods) ordered by quantity ship; a service line is confirmed with a service entry sheet. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.",
+        "summary": "[Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only lines ordered by quantity ship. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.",
         "parameters": [
           {
             "name": "regionId",
@@ -12189,6 +12413,526 @@
         },
         "tags": [
           "billing"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/purchase-requests": {
+      "get": {
+        "operationId": "ListPurchaseRequests",
+        "summary": "[Buyer] Purchase requests the caller can see, newest first: their own, everyone's with purchase order access, and any waiting on them",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "draft",
+                "pending_approval",
+                "approved",
+                "ordered",
+                "rejected",
+                "canceled"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "mine",
+            "required": false,
+            "in": "query",
+            "description": "true: only the caller's own requests.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "awaitingMe",
+            "required": false,
+            "in": "query",
+            "description": "true: only the requests waiting on the caller's approval (the approvals queue).",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PurchaseRequest"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "purchase-requests"
+        ]
+      },
+      "post": {
+        "operationId": "CreatePurchaseRequest",
+        "summary": "[Buyer] Ask for something: saved as a draft, or submitted for approval with `submit: true`. Any workspace member.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePurchaseRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseRequest"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "purchase-requests"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/purchase-requests/{requestId}": {
+      "get": {
+        "operationId": "GetPurchaseRequest",
+        "summary": "[Buyer] One purchase request, with its approval chain, budget check and the order it became",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "requestId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseRequest"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "purchase-requests"
+        ]
+      },
+      "patch": {
+        "operationId": "UpdatePurchaseRequest",
+        "summary": "[Buyer] The requester changes a draft, or a request waiting for approval (which sends it back through approval)",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "requestId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePurchaseRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseRequest"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "purchase-requests"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/purchase-requests/{requestId}/submit": {
+      "post": {
+        "operationId": "SubmitPurchaseRequest",
+        "summary": "[Buyer] The requester submits a draft for approval. Refused (409) over budget when budgets are enforced.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "requestId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseRequest"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "purchase-requests"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/purchase-requests/{requestId}/approve": {
+      "post": {
+        "operationId": "ApprovePurchaseRequest",
+        "summary": "[Buyer] Approve a purchase request - only the current step's approver, signed in",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "requestId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovePurchaseRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseRequest"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "purchase-requests"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/purchase-requests/{requestId}/reject": {
+      "post": {
+        "operationId": "RejectPurchaseRequest",
+        "summary": "[Buyer] Reject a purchase request with a reason - only the current step's approver",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "requestId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectPurchaseRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseRequest"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "purchase-requests"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/purchase-requests/{requestId}/cancel": {
+      "post": {
+        "operationId": "CancelPurchaseRequest",
+        "summary": "[Buyer] The requester, or an administrator, withdraws a request until it is ordered",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "requestId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseRequest"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "purchase-requests"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/purchase-requests/{requestId}/convert": {
+      "post": {
+        "operationId": "ConvertPurchaseRequest",
+        "summary": "[Buyer] Order an approved request: a purchase order from its lines, supplier, cost center, GL account and quote, each overridable. Within what was approved it keeps the request's approval.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "requestId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConvertPurchaseRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "request": {
+                      "$ref": "#/components/schemas/PurchaseRequest"
+                    },
+                    "purchaseOrder": {
+                      "$ref": "#/components/schemas/PurchaseOrder"
+                    }
+                  },
+                  "required": [
+                    "request",
+                    "purchaseOrder"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "purchase-requests"
         ]
       }
     },
@@ -12639,7 +13383,9 @@
             "enum": [
               "amount",
               "supplier",
-              "requester"
+              "requester",
+              "costCenter",
+              "glCode"
             ],
             "description": "The document variable to test."
           },
@@ -12653,10 +13399,10 @@
               "is",
               "is_not"
             ],
-            "description": "gt/gte/lt/lte for amount; is/is_not for supplier and requester."
+            "description": "gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode."
           },
           "value": {
-            "description": "A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester.",
+            "description": "A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for glCode (the order's own, else its cost center's).",
             "oneOf": [
               {
                 "type": "number"
@@ -13038,14 +13784,6 @@
           "name": {
             "type": "string"
           },
-          "lineType": {
-            "type": "string",
-            "enum": [
-              "goods",
-              "service"
-            ],
-            "description": "goods (delivered: shipped and confirmed on a goods receipt) or service (performed: confirmed on a service entry sheet, never shipped). Defaults to the catalog item's type, else to service for a service scope or a time unit and goods otherwise."
-          },
           "ruleType": {
             "type": "string",
             "enum": [
@@ -13195,7 +13933,14 @@
             "description": "Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; ignored when `billToParty` is sent."
           },
           "costCenter": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 200,
+            "description": "The cost center: when the workspace keeps a cost center list, a code or name on it (stored as the list's code; a closed one is refused); otherwise free text. An empty string clears it."
+          },
+          "glCode": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it."
           },
           "budgetOwner": {
             "type": "string"
@@ -13276,7 +14021,14 @@
             "description": "Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; an empty string copies the company profile's. Ignored when `billToParty` is sent."
           },
           "costCenter": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 200,
+            "description": "The cost center: when the workspace keeps a cost center list, a code or name on it (stored as the list's code; a closed one is refused); otherwise free text. An empty string clears it."
+          },
+          "glCode": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it."
           },
           "deliveryAddressId": {
             "type": "string",
@@ -14221,6 +14973,57 @@
           }
         }
       },
+      "UpdateBudgetControlDto": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "off",
+              "warn",
+              "block"
+            ],
+            "description": "off: no check. warn: an order over budget goes ahead, never auto-approved, with a warning. block: it is refused."
+          },
+          "period": {
+            "type": "string",
+            "enum": [
+              "month",
+              "quarter",
+              "year"
+            ],
+            "description": "The budget period a check uses: the fiscal month, quarter or year containing the day it runs."
+          }
+        }
+      },
+      "BudgetCheckDto": {
+        "type": "object",
+        "properties": {
+          "costCenter": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "The cost center code (or name) the document books to. Without one there is nothing to check (no_budget)."
+          },
+          "amount": {
+            "type": "number",
+            "minimum": 0,
+            "description": "The document's amount, in `currency`."
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO 4217 currency of `amount`."
+          },
+          "excludeOrderId": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "An existing order being edited, so it doesn't count against itself."
+          }
+        },
+        "required": [
+          "amount",
+          "currency"
+        ]
+      },
       "CreateWebhookDto": {
         "type": "object",
         "properties": {
@@ -14433,6 +15236,329 @@
         "required": [
           "shipmentId"
         ]
+      },
+      "PurchaseRequestSupplierDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "The supplier's name, as the requester knows it."
+          },
+          "supplierConnectionId": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "A supplier on the workspace's supplier list."
+          },
+          "supplierRegionId": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "A connected supplier's workspace region."
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "PurchaseRequestLineDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "What is needed, e.g. 27-inch monitor."
+          },
+          "qty": {
+            "type": "number",
+            "minimum": 0.0001,
+            "description": "How many."
+          },
+          "unit": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "e.g. each, hour, month."
+          },
+          "unitPrice": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Roughly what one costs, in the request's currency."
+          }
+        },
+        "required": [
+          "name",
+          "qty",
+          "unitPrice"
+        ]
+      },
+      "CreatePurchaseRequestDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "What is needed, in a few words."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 4000,
+            "description": "Why it is needed: the business reason. Required to submit."
+          },
+          "costCenter": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "The cost center (a code or name on the workspace's list, stored as its code). Required to submit when the workspace keeps a list."
+          },
+          "glCode": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The GL account (spend category), when it isn't the cost center's."
+          },
+          "supplier": {
+            "description": "A supplier the requester suggests.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PurchaseRequestSupplierDto"
+              }
+            ]
+          },
+          "lineItems": {
+            "description": "What is needed, line by line (one line is fine for an estimate).",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseRequestLineDto"
+            }
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO 4217; the workspace's currency when absent."
+          },
+          "neededBy": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "description": "When it's needed, YYYY-MM-DD."
+          },
+          "quoteImportId": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "A quote uploaded through the quote import, to attach."
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "Anything procurement should know."
+          },
+          "submit": {
+            "type": "boolean",
+            "description": "true submits it for approval straight away; otherwise it is saved as a draft."
+          }
+        },
+        "required": [
+          "title",
+          "lineItems"
+        ]
+      },
+      "UpdatePurchaseRequestDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "What is needed, in a few words."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 4000,
+            "description": "Why it is needed: the business reason. Required to submit."
+          },
+          "costCenter": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "The cost center (a code or name on the workspace's list, stored as its code). Required to submit when the workspace keeps a list."
+          },
+          "glCode": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The GL account (spend category), when it isn't the cost center's."
+          },
+          "supplier": {
+            "description": "A supplier the requester suggests.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PurchaseRequestSupplierDto"
+              }
+            ]
+          },
+          "lineItems": {
+            "description": "What is needed, line by line (one line is fine for an estimate).",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseRequestLineDto"
+            }
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO 4217; the workspace's currency when absent."
+          },
+          "neededBy": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "description": "When it's needed, YYYY-MM-DD."
+          },
+          "quoteImportId": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "A quote uploaded through the quote import, to attach."
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "Anything procurement should know."
+          }
+        }
+      },
+      "ApprovePurchaseRequestDto": {
+        "type": "object",
+        "properties": {
+          "expectedVersion": {
+            "type": "number",
+            "description": "The approval version the caller saw; refused with 409 if the request moved since."
+          }
+        }
+      },
+      "RejectPurchaseRequestDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "Why the request is rejected; the requester sees it."
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "ConvertPurchaseRequestDto": {
+        "type": "object",
+        "properties": {
+          "poNumber": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._-]{1,40}$",
+            "description": "Custom PO number to use as this PO's id instead of an auto-generated one (e.g. 'PO-2026-0042'). Must be unique within the region."
+          },
+          "supplier": {
+            "type": "string",
+            "description": "Supplier / counterparty name"
+          },
+          "matching": {
+            "type": "string",
+            "enum": [
+              "two_way",
+              "three_way"
+            ],
+            "description": "How the order's invoices are matched: two_way against the order and its contract; three_way also against what was received (goods receipts and service entry sheets). Defaults to what the workspace's matching setting suggests (GET .../matching-policy). Refused for a cloud provider's order, which is matched against usage, and, when the setting lets only administrators change it, for anything but the default from anyone else."
+          },
+          "receiverEmployeeKey": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Who confirms delivery: someone in this workspace, by employee key. Defaults to whoever raises the order. Used with three_way matching."
+          },
+          "supplierRegionId": {
+            "type": "string",
+            "description": "regionId of the onboarded supplier org this PO is issued to, if known. The buyer must hold an approved SupplierConnection to this supplier; the server rejects a region it isn't connected to. Links the PO to that org's real supplier workspace instead of just its free-text `supplier` name - see WorkspacesService.getSupplierWorkspace."
+          },
+          "supplierConnectionId": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "The id of a supplier on your Suppliers list (not rejected, not a cloud provider) this PO is for - see GET .../suppliers. One approved with a Pleaxy account is treated as its supplierRegionId. Any other (not invited yet, invited, onboarding) is named by its record: its invoices match the PO by id, the PO is emailed to its contact, and sending it invites a supplier not invited yet. The record's name replaces `supplier`. Not with supplierRegionId, provider or supplierContactEmail."
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO 4217: the currency the order is priced in. To a supplier with an account (supplierRegionId), one its region prices in, its main currency by default (400 PO_CURRENCY_NOT_OFFERED otherwise). To a cloud provider or a supplier not on Pleaxy yet, any code; by default that supplier's \"Bills in\" currency, else your workspace's. An order in a currency other than your workspace's goes through every approval step and is never auto-approved."
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "aws",
+              "gcp",
+              "azure",
+              "oci"
+            ]
+          },
+          "payerAccounts": {
+            "description": "Only with `provider`: this region's cloud connections of that provider the PO applies to, by `id`. A connection still being set up is refused. The PO stores each connection's own label and detail; any sent here are ignored.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PayerAccountRefDto"
+            }
+          },
+          "billToParty": {
+            "description": "Who the supplier invoices, when it isn't the buyer's company profile billing details. Left out, the order copies those details as they are now (company name, billing address, tax id).",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BillToPartyDto"
+              }
+            ]
+          },
+          "billTo": {
+            "type": "string",
+            "maxLength": 500,
+            "deprecated": true,
+            "description": "Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; ignored when `billToParty` is sent."
+          },
+          "costCenter": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "The cost center: when the workspace keeps a cost center list, a code or name on it (stored as the list's code; a closed one is refused); otherwise free text. An empty string clears it."
+          },
+          "glCode": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it."
+          },
+          "budgetOwner": {
+            "type": "string"
+          },
+          "buyerName": {
+            "type": "string"
+          },
+          "supplierSite": {
+            "type": "string"
+          },
+          "supplierContactEmail": {
+            "type": "string",
+            "maxLength": 254,
+            "description": "Only for a supplier not on Pleaxy (no supplierRegionId or provider): their contact email. When the PO is sent (now, or when a draft is submitted), Pleaxy invites them - or links the supplier this workspace already has."
+          },
+          "notes": {
+            "type": "string"
+          },
+          "contractId": {
+            "type": "string",
+            "maxLength": 60,
+            "description": "One of this workspace's contracts this order falls under: active, and with the order's supplier (400 otherwise). Optional. Invoices against the order are checked against it."
+          },
+          "quoteImportId": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "The quote import (POST .../quote-imports) holding the supplier's quote this order is raised from. Its upload must have finished. Optional."
+          },
+          "sowImportId": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "The quote import (POST .../quote-imports) holding the statement of work this order is for: its scope, milestones and acceptance. Its upload must have finished. Optional, and independent of quoteImportId."
+          },
+          "draft": {
+            "type": "boolean",
+            "description": "Save as a draft instead of submitting for approval. Submit it later with SubmitPurchaseOrderDraft."
+          },
+          "lineItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LineItemDto"
+            }
+          }
+        }
       },
       "EmployeeSummary": {
         "type": "object",
@@ -15145,7 +16271,8 @@
             "enum": [
               "purchase_order",
               "invoice_payment",
-              "service_entry_sheet"
+              "service_entry_sheet",
+              "purchase_request"
             ]
           },
           "linkedTo": {
@@ -15260,7 +16387,9 @@
             "enum": [
               "supplier",
               "amount",
-              "requester"
+              "requester",
+              "costCenter",
+              "glCode"
             ]
           },
           "operator": {
@@ -15511,6 +16640,10 @@
               "po_canceled",
               "po_changed",
               "po_approval_requested",
+              "request_approval_requested",
+              "request_approved",
+              "request_rejected",
+              "request_ordered",
               "po_store_order_problem",
               "po_supplier_confirmed",
               "po_supplier_exception",
@@ -16048,6 +17181,18 @@
               "$ref": "#/components/schemas/PurchaseOrderCostCenterChange"
             }
           },
+          "glCode": {
+            "type": "string"
+          },
+          "submittedAt": {
+            "type": "string"
+          },
+          "budgetCheck": {
+            "$ref": "#/components/schemas/BudgetCheck"
+          },
+          "requestId": {
+            "type": "string"
+          },
           "budgetOwner": {
             "type": "string"
           },
@@ -16357,6 +17502,85 @@
           "at"
         ]
       },
+      "BudgetCheck": {
+        "type": "object",
+        "properties": {
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "off",
+              "within",
+              "over",
+              "no_budget",
+              "no_rate"
+            ]
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "off",
+              "warn",
+              "block"
+            ]
+          },
+          "period": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "month",
+                  "year",
+                  "quarter"
+                ]
+              },
+              "start": {
+                "type": "string"
+              },
+              "end": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "kind",
+              "start",
+              "end"
+            ]
+          },
+          "costCenter": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "budget": {
+            "type": "number"
+          },
+          "committed": {
+            "type": "number"
+          },
+          "actual": {
+            "type": "number"
+          },
+          "remaining": {
+            "type": "number"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "overBy": {
+            "type": "number"
+          },
+          "checkedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "outcome",
+          "mode",
+          "checkedAt"
+        ]
+      },
       "PurchaseOrderSupplierInvite": {
         "type": "object",
         "properties": {
@@ -16436,19 +17660,12 @@
           "lineNo": {
             "type": "number"
           },
-          "lineType": {
-            "type": "string",
-            "enum": [
-              "goods",
-              "service"
-            ]
-          },
           "scopeType": {
             "type": "string",
             "enum": [
               "custom",
-              "service",
               "sku",
+              "service",
               "account"
             ]
           },
@@ -16672,6 +17889,25 @@
           },
           "fx": {
             "$ref": "#/components/schemas/ApprovalFx"
+          },
+          "fromRequest": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "number"
+              },
+              "currency": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "requestId",
+              "amount",
+              "currency"
+            ]
           }
         },
         "required": [
@@ -21259,6 +22495,132 @@
           "remittances"
         ]
       },
+      "BudgetControlSettings": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "off",
+              "warn",
+              "block"
+            ]
+          },
+          "period": {
+            "type": "string",
+            "enum": [
+              "month",
+              "year",
+              "quarter"
+            ]
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "mode",
+          "period"
+        ]
+      },
+      "BudgetPeriod": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "month",
+              "year",
+              "quarter"
+            ]
+          },
+          "start": {
+            "type": "string"
+          },
+          "end": {
+            "type": "string"
+          },
+          "fiscalYear": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "kind",
+          "start",
+          "end",
+          "fiscalYear"
+        ]
+      },
+      "BudgetStatus": {
+        "type": "object",
+        "properties": {
+          "costCenter": {
+            "type": "string"
+          },
+          "costCenterName": {
+            "type": "string"
+          },
+          "period": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "month",
+                  "year",
+                  "quarter"
+                ]
+              },
+              "start": {
+                "type": "string"
+              },
+              "end": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "kind",
+              "start",
+              "end"
+            ]
+          },
+          "currency": {
+            "type": "string"
+          },
+          "budget": {
+            "type": "number"
+          },
+          "committed": {
+            "type": "number"
+          },
+          "actual": {
+            "type": "number"
+          },
+          "remaining": {
+            "type": "number"
+          },
+          "pending": {
+            "type": "number"
+          },
+          "unconverted": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "costCenter",
+          "period",
+          "currency",
+          "budget",
+          "committed",
+          "actual",
+          "remaining",
+          "pending",
+          "unconverted"
+        ]
+      },
       "SyncEventPage": {
         "type": "object",
         "properties": {
@@ -21830,13 +23192,6 @@
           },
           "unit": {
             "type": "string"
-          },
-          "lineType": {
-            "type": "string",
-            "enum": [
-              "goods",
-              "service"
-            ]
           }
         },
         "required": [
@@ -22153,6 +23508,147 @@
           "fromRegion",
           "toRegion",
           "price"
+        ]
+      },
+      "PurchaseRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "requesterEmployeeKey": {
+            "type": "string"
+          },
+          "requesterName": {
+            "type": "string"
+          },
+          "costCenter": {
+            "type": "string"
+          },
+          "glCode": {
+            "type": "string"
+          },
+          "supplier": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "supplierConnectionId": {
+                "type": "string"
+              },
+              "supplierRegionId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "lineItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseRequestLine"
+            }
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "neededBy": {
+            "type": "string"
+          },
+          "quoteDocument": {
+            "$ref": "#/components/schemas/PurchaseOrderQuoteDocument"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "rejected",
+              "pending_approval",
+              "draft",
+              "canceled",
+              "ordered"
+            ]
+          },
+          "approval": {
+            "$ref": "#/components/schemas/ApprovalChain"
+          },
+          "approvalVersion": {
+            "type": "number"
+          },
+          "budgetCheck": {
+            "$ref": "#/components/schemas/BudgetCheck"
+          },
+          "poId": {
+            "type": "string"
+          },
+          "rejectionReason": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "submittedAt": {
+            "type": "string"
+          },
+          "decidedAt": {
+            "type": "string"
+          },
+          "canceledAt": {
+            "type": "string"
+          },
+          "canceledBy": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "requesterEmployeeKey",
+          "requesterName",
+          "lineItems",
+          "amount",
+          "currency",
+          "status",
+          "createdAt"
+        ]
+      },
+      "PurchaseRequestLine": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "qty": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "unitPrice": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "qty",
+          "unitPrice"
         ]
       },
       "StripePaymentStatus": {

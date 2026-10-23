@@ -54,7 +54,9 @@ public class ApprovalChainSettings {
     
     INVOICE_PAYMENT(String.valueOf("invoice_payment")),
     
-    SERVICE_ENTRY_SHEET(String.valueOf("service_entry_sheet"));
+    SERVICE_ENTRY_SHEET(String.valueOf("service_entry_sheet")),
+    
+    PURCHASE_REQUEST(String.valueOf("purchase_request"));
 
     private String value;
 

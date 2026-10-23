@@ -36,7 +36,6 @@ import ai.pleaxy.client.ApiClient;
  */
 @JsonPropertyOrder({
   LineItem.JSON_PROPERTY_LINE_NO,
-  LineItem.JSON_PROPERTY_LINE_TYPE,
   LineItem.JSON_PROPERTY_SCOPE_TYPE,
   LineItem.JSON_PROPERTY_SCOPE_ID,
   LineItem.JSON_PROPERTY_NAME,
@@ -68,53 +67,14 @@ public class LineItem {
   private Double lineNo;
 
   /**
-   * Gets or Sets lineType
-   */
-  public enum LineTypeEnum {
-    GOODS(String.valueOf("goods")),
-    
-    SERVICE(String.valueOf("service"));
-
-    private String value;
-
-    LineTypeEnum(String value) {
-      this.value = value;
-    }
-
-    @JsonValue
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static LineTypeEnum fromValue(String value) {
-      for (LineTypeEnum b : LineTypeEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-  }
-
-  public static final String JSON_PROPERTY_LINE_TYPE = "lineType";
-  @javax.annotation.Nullable
-  private LineTypeEnum lineType;
-
-  /**
    * Gets or Sets scopeType
    */
   public enum ScopeTypeEnum {
     CUSTOM(String.valueOf("custom")),
     
-    SERVICE(String.valueOf("service")),
-    
     SKU(String.valueOf("sku")),
+    
+    SERVICE(String.valueOf("service")),
     
     ACCOUNT(String.valueOf("account"));
 
@@ -333,30 +293,6 @@ public class LineItem {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setLineNo(@javax.annotation.Nullable Double lineNo) {
     this.lineNo = lineNo;
-  }
-
-
-  public LineItem lineType(@javax.annotation.Nullable LineTypeEnum lineType) {
-    this.lineType = lineType;
-    return this;
-  }
-
-  /**
-   * Get lineType
-   * @return lineType
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_LINE_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public LineTypeEnum getLineType() {
-    return lineType;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_LINE_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLineType(@javax.annotation.Nullable LineTypeEnum lineType) {
-    this.lineType = lineType;
   }
 
 
@@ -925,7 +861,6 @@ public class LineItem {
     }
     LineItem lineItem = (LineItem) o;
     return Objects.equals(this.lineNo, lineItem.lineNo) &&
-        Objects.equals(this.lineType, lineItem.lineType) &&
         Objects.equals(this.scopeType, lineItem.scopeType) &&
         Objects.equals(this.scopeId, lineItem.scopeId) &&
         Objects.equals(this.name, lineItem.name) &&
@@ -953,7 +888,7 @@ public class LineItem {
 
   @Override
   public int hashCode() {
-    return Objects.hash(lineNo, lineType, scopeType, scopeId, name, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, dueDate, consumed, supplierSku, priceSource, customerLineNo, contractId, contractTermId, quoteLineNo, sowLineNo, origin, punchoutRef);
+    return Objects.hash(lineNo, scopeType, scopeId, name, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, dueDate, consumed, supplierSku, priceSource, customerLineNo, contractId, contractTermId, quoteLineNo, sowLineNo, origin, punchoutRef);
   }
 
   @Override
@@ -961,7 +896,6 @@ public class LineItem {
     StringBuilder sb = new StringBuilder();
     sb.append("class LineItem {\n");
     sb.append("    lineNo: ").append(toIndentedString(lineNo)).append("\n");
-    sb.append("    lineType: ").append(toIndentedString(lineType)).append("\n");
     sb.append("    scopeType: ").append(toIndentedString(scopeType)).append("\n");
     sb.append("    scopeId: ").append(toIndentedString(scopeId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
@@ -1035,11 +969,6 @@ public class LineItem {
     // add `lineNo` to the URL query string
     if (getLineNo() != null) {
       joiner.add(String.format("%slineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `lineType` to the URL query string
-    if (getLineType() != null) {
-      joiner.add(String.format("%slineType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLineType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `scopeType` to the URL query string

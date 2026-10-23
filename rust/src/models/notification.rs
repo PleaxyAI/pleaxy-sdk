@@ -103,6 +103,14 @@ pub enum Type {
     PoChanged,
     #[serde(rename = "po_approval_requested")]
     PoApprovalRequested,
+    #[serde(rename = "request_approval_requested")]
+    RequestApprovalRequested,
+    #[serde(rename = "request_approved")]
+    RequestApproved,
+    #[serde(rename = "request_rejected")]
+    RequestRejected,
+    #[serde(rename = "request_ordered")]
+    RequestOrdered,
     #[serde(rename = "po_store_order_problem")]
     PoStoreOrderProblem,
     #[serde(rename = "po_supplier_confirmed")]

@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.ApprovalChainFromRequest;
 import ai.pleaxy.model.ApprovalFx;
 import ai.pleaxy.model.ApprovalHistoryEntry;
 import ai.pleaxy.model.ApprovalStageGroupInstance;
@@ -49,7 +50,8 @@ import ai.pleaxy.client.ApiClient;
   ApprovalChain.JSON_PROPERTY_SPEND_LIMIT_GATE,
   ApprovalChain.JSON_PROPERTY_EXCLUDED_EMPLOYEE_KEYS,
   ApprovalChain.JSON_PROPERTY_SELF_APPROVED,
-  ApprovalChain.JSON_PROPERTY_FX
+  ApprovalChain.JSON_PROPERTY_FX,
+  ApprovalChain.JSON_PROPERTY_FROM_REQUEST
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class ApprovalChain {
@@ -133,6 +135,10 @@ public class ApprovalChain {
   public static final String JSON_PROPERTY_FX = "fx";
   @javax.annotation.Nullable
   private ApprovalFx fx;
+
+  public static final String JSON_PROPERTY_FROM_REQUEST = "fromRequest";
+  @javax.annotation.Nullable
+  private ApprovalChainFromRequest fromRequest;
 
   public ApprovalChain() { 
   }
@@ -425,6 +431,30 @@ public class ApprovalChain {
   }
 
 
+  public ApprovalChain fromRequest(@javax.annotation.Nullable ApprovalChainFromRequest fromRequest) {
+    this.fromRequest = fromRequest;
+    return this;
+  }
+
+  /**
+   * Get fromRequest
+   * @return fromRequest
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_FROM_REQUEST)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public ApprovalChainFromRequest getFromRequest() {
+    return fromRequest;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_FROM_REQUEST)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setFromRequest(@javax.annotation.Nullable ApprovalChainFromRequest fromRequest) {
+    this.fromRequest = fromRequest;
+  }
+
+
   /**
    * Return true if this ApprovalChain object is equal to o.
    */
@@ -447,12 +477,13 @@ public class ApprovalChain {
         Objects.equals(this.spendLimitGate, approvalChain.spendLimitGate) &&
         Objects.equals(this.excludedEmployeeKeys, approvalChain.excludedEmployeeKeys) &&
         Objects.equals(this.selfApproved, approvalChain.selfApproved) &&
-        Objects.equals(this.fx, approvalChain.fx);
+        Objects.equals(this.fx, approvalChain.fx) &&
+        Objects.equals(this.fromRequest, approvalChain.fromRequest);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(requester, requesterEmployeeKey, groups, groupIndex, status, history, autonomy, spendLimitGate, excludedEmployeeKeys, selfApproved, fx);
+    return Objects.hash(requester, requesterEmployeeKey, groups, groupIndex, status, history, autonomy, spendLimitGate, excludedEmployeeKeys, selfApproved, fx, fromRequest);
   }
 
   @Override
@@ -470,6 +501,7 @@ public class ApprovalChain {
     sb.append("    excludedEmployeeKeys: ").append(toIndentedString(excludedEmployeeKeys)).append("\n");
     sb.append("    selfApproved: ").append(toIndentedString(selfApproved)).append("\n");
     sb.append("    fx: ").append(toIndentedString(fx)).append("\n");
+    sb.append("    fromRequest: ").append(toIndentedString(fromRequest)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -584,6 +616,11 @@ public class ApprovalChain {
     // add `fx` to the URL query string
     if (getFx() != null) {
       joiner.add(getFx().toUrlQueryString(prefix + "fx" + suffix));
+    }
+
+    // add `fromRequest` to the URL query string
+    if (getFromRequest() != null) {
+      joiner.add(getFromRequest().toUrlQueryString(prefix + "fromRequest" + suffix));
     }
 
     return joiner.toString();

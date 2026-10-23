@@ -21,8 +21,6 @@ pub struct OrderConfirmationSubstitute {
     pub catalog_item_id: Option<String>,
     #[serde(rename = "unit", skip_serializing_if = "Option::is_none")]
     pub unit: Option<String>,
-    #[serde(rename = "lineType", skip_serializing_if = "Option::is_none")]
-    pub line_type: Option<LineType>,
 }
 
 impl OrderConfirmationSubstitute {
@@ -32,21 +30,6 @@ impl OrderConfirmationSubstitute {
             name: None,
             catalog_item_id: None,
             unit: None,
-            line_type: None,
         }
-    }
-}
-///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum LineType {
-    #[serde(rename = "goods")]
-    Goods,
-    #[serde(rename = "service")]
-    Service,
-}
-
-impl Default for LineType {
-    fn default() -> LineType {
-        Self::Goods
     }
 }

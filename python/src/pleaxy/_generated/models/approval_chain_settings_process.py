@@ -1,12 +1,13 @@
 from typing import Literal, Set, cast
 
 ApprovalChainSettingsProcess = Literal[
-    "invoice_payment", "purchase_order", "service_entry_sheet"
+    "invoice_payment", "purchase_order", "purchase_request", "service_entry_sheet"
 ]
 
 APPROVAL_CHAIN_SETTINGS_PROCESS_VALUES: Set[ApprovalChainSettingsProcess] = {
     "invoice_payment",
     "purchase_order",
+    "purchase_request",
     "service_entry_sheet",
 }
 

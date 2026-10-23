@@ -94,6 +94,41 @@ class BillingResource:
         return self._transport.call("pleaxy._generated.api.billing.get_billing")
 
 
+class BudgetControlResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def check_budget(self, *, body: BudgetCheckInput) -> BudgetCheck:
+        """[Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or off. Writes nothing."""
+        return self._transport.call(
+            "pleaxy._generated.api.budget_control.check_budget", body=body
+        )
+
+    def get_budget_control(self) -> BudgetControlSettings:
+        """[Buyer] Whether budgets are checked (off, warn or block) and over what period (month, quarter or year)"""
+        return self._transport.call(
+            "pleaxy._generated.api.budget_control.get_budget_control"
+        )
+
+    def get_budget_status(
+        self, *, cost_center: Union[Unset, str] = UNSET, date: Union[Unset, str] = UNSET
+    ) -> GetBudgetStatusResult:
+        """[Buyer] Budget, committed (approved orders not yet invoiced), actual (approved invoices) and remaining per cost center for the current period"""
+        return self._transport.call(
+            "pleaxy._generated.api.budget_control.get_budget_status",
+            cost_center=cost_center,
+            date=date,
+        )
+
+    def update_budget_control(
+        self, *, body: UpdateBudgetControlInput
+    ) -> BudgetControlSettings:
+        """[Buyer] Change budget control. Applies to orders and requests submitted or approved from now on. Needs a signed-in session."""
+        return self._transport.call(
+            "pleaxy._generated.api.budget_control.update_budget_control", body=body
+        )
+
+
 class CloudConnectionsResource:
     def __init__(self, transport: Transport) -> None:
         self._transport = transport
@@ -407,7 +442,7 @@ class FulfillmentResource:
         body: CreateShipNoticeInput,
         buyer: Union[Unset, str] = UNSET,
     ) -> ShipNotice:
-        """[Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only goods lines (lineType goods) ordered by quantity ship; a service line is confirmed with a service entry sheet. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope."""
+        """[Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only lines ordered by quantity ship. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope."""
         return self._transport.call(
             "pleaxy._generated.api.fulfillment.send_ship_notice",
             po_id=po_id,
@@ -819,6 +854,95 @@ class PurchaseOrdersResource:
         )
 
 
+class PurchaseRequestsResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def approve_purchase_request(
+        self, request_id: str, *, body: ApprovePurchaseRequestInput
+    ) -> PurchaseRequest:
+        """[Buyer] Approve a purchase request - only the current step's approver, signed in"""
+        return self._transport.call(
+            "pleaxy._generated.api.purchase_requests.approve_purchase_request",
+            request_id=request_id,
+            body=body,
+        )
+
+    def cancel_purchase_request(self, request_id: str) -> PurchaseRequest:
+        """[Buyer] The requester, or an administrator, withdraws a request until it is ordered"""
+        return self._transport.call(
+            "pleaxy._generated.api.purchase_requests.cancel_purchase_request",
+            request_id=request_id,
+        )
+
+    def convert_purchase_request(
+        self, request_id: str, *, body: ConvertPurchaseRequestInput
+    ) -> ConvertPurchaseRequestResult:
+        """[Buyer] Order an approved request: a purchase order from its lines, supplier, cost center, GL account and quote, each overridable. Within what was approved it keeps the request's approval."""
+        return self._transport.call(
+            "pleaxy._generated.api.purchase_requests.convert_purchase_request",
+            request_id=request_id,
+            body=body,
+        )
+
+    def create_purchase_request(
+        self, *, body: CreatePurchaseRequestInput
+    ) -> PurchaseRequest:
+        """[Buyer] Ask for something: saved as a draft, or submitted for approval with `submit: true`. Any workspace member."""
+        return self._transport.call(
+            "pleaxy._generated.api.purchase_requests.create_purchase_request", body=body
+        )
+
+    def get_purchase_request(self, request_id: str) -> PurchaseRequest:
+        """[Buyer] One purchase request, with its approval chain, budget check and the order it became"""
+        return self._transport.call(
+            "pleaxy._generated.api.purchase_requests.get_purchase_request",
+            request_id=request_id,
+        )
+
+    def list_purchase_requests(
+        self,
+        *,
+        status: Union[Unset, ListPurchaseRequestsStatus] = UNSET,
+        mine: Union[Unset, bool] = UNSET,
+        awaiting_me: Union[Unset, bool] = UNSET,
+    ) -> List["PurchaseRequest"]:
+        """[Buyer] Purchase requests the caller can see, newest first: their own, everyone's with purchase order access, and any waiting on them"""
+        return self._transport.call(
+            "pleaxy._generated.api.purchase_requests.list_purchase_requests",
+            status=status,
+            mine=mine,
+            awaiting_me=awaiting_me,
+        )
+
+    def reject_purchase_request(
+        self, request_id: str, *, body: RejectPurchaseRequestInput
+    ) -> PurchaseRequest:
+        """[Buyer] Reject a purchase request with a reason - only the current step's approver"""
+        return self._transport.call(
+            "pleaxy._generated.api.purchase_requests.reject_purchase_request",
+            request_id=request_id,
+            body=body,
+        )
+
+    def submit_purchase_request(self, request_id: str) -> PurchaseRequest:
+        """[Buyer] The requester submits a draft for approval. Refused (409) over budget when budgets are enforced."""
+        return self._transport.call(
+            "pleaxy._generated.api.purchase_requests.submit_purchase_request",
+            request_id=request_id,
+        )
+
+    def update_purchase_request(
+        self, request_id: str, *, body: UpdatePurchaseRequestInput
+    ) -> PurchaseRequest:
+        """[Buyer] The requester changes a draft, or a request waiting for approval (which sends it back through approval)"""
+        return self._transport.call(
+            "pleaxy._generated.api.purchase_requests.update_purchase_request",
+            request_id=request_id,
+            body=body,
+        )
+
+
 class SettlementResource:
     def __init__(self, transport: Transport) -> None:
         self._transport = transport
@@ -917,6 +1041,7 @@ class Resources:
         self.approvals = ApprovalsResource(transport)
         self.automation_rules = AutomationRulesResource(transport)
         self.billing = BillingResource(transport)
+        self.budget_control = BudgetControlResource(transport)
         self.cloud_connections = CloudConnectionsResource(transport)
         self.document_sync = DocumentSyncResource(transport)
         self.employees = EmployeesResource(transport)
@@ -926,6 +1051,7 @@ class Resources:
         self.notifications = NotificationsResource(transport)
         self.org_profiles = OrgProfilesResource(transport)
         self.purchase_orders = PurchaseOrdersResource(transport)
+        self.purchase_requests = PurchaseRequestsResource(transport)
         self.settlement = SettlementResource(transport)
         self.supplier_connections = SupplierConnectionsResource(transport)
         self.workspaces = WorkspacesResource(transport)

@@ -27,6 +27,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.approval_chain import ApprovalChain
+    from ..models.budget_check import BudgetCheck
     from ..models.line_item import LineItem
     from ..models.payer_account_ref import PayerAccountRef
     from ..models.purchase_order_bill_to import PurchaseOrderBillTo
@@ -71,6 +72,10 @@ class PurchaseOrder:
         bill_to_party (Union[Unset, PurchaseOrderBillTo]):
         cost_center (Union[Unset, str]):
         cost_center_changes (Union[Unset, List['PurchaseOrderCostCenterChange']]):
+        gl_code (Union[Unset, str]):
+        submitted_at (Union[Unset, str]):
+        budget_check (Union[Unset, BudgetCheck]):
+        request_id (Union[Unset, str]):
         budget_owner (Union[Unset, str]):
         buyer_name (Union[Unset, str]):
         buyer_org_name (Union[Unset, str]):
@@ -134,6 +139,10 @@ class PurchaseOrder:
     bill_to_party: Union[Unset, "PurchaseOrderBillTo"] = UNSET
     cost_center: Union[Unset, str] = UNSET
     cost_center_changes: Union[Unset, List["PurchaseOrderCostCenterChange"]] = UNSET
+    gl_code: Union[Unset, str] = UNSET
+    submitted_at: Union[Unset, str] = UNSET
+    budget_check: Union[Unset, "BudgetCheck"] = UNSET
+    request_id: Union[Unset, str] = UNSET
     budget_owner: Union[Unset, str] = UNSET
     buyer_name: Union[Unset, str] = UNSET
     buyer_org_name: Union[Unset, str] = UNSET
@@ -237,6 +246,16 @@ class PurchaseOrder:
             for cost_center_changes_item_data in self.cost_center_changes:
                 cost_center_changes_item = cost_center_changes_item_data.to_dict()
                 cost_center_changes.append(cost_center_changes_item)
+
+        gl_code = self.gl_code
+
+        submitted_at = self.submitted_at
+
+        budget_check: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.budget_check, Unset):
+            budget_check = self.budget_check.to_dict()
+
+        request_id = self.request_id
 
         budget_owner = self.budget_owner
 
@@ -411,6 +430,14 @@ class PurchaseOrder:
             field_dict["costCenter"] = cost_center
         if cost_center_changes is not UNSET:
             field_dict["costCenterChanges"] = cost_center_changes
+        if gl_code is not UNSET:
+            field_dict["glCode"] = gl_code
+        if submitted_at is not UNSET:
+            field_dict["submittedAt"] = submitted_at
+        if budget_check is not UNSET:
+            field_dict["budgetCheck"] = budget_check
+        if request_id is not UNSET:
+            field_dict["requestId"] = request_id
         if budget_owner is not UNSET:
             field_dict["budgetOwner"] = budget_owner
         if buyer_name is not UNSET:
@@ -499,6 +526,7 @@ class PurchaseOrder:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.approval_chain import ApprovalChain
+        from ..models.budget_check import BudgetCheck
         from ..models.line_item import LineItem
         from ..models.payer_account_ref import PayerAccountRef
         from ..models.purchase_order_bill_to import PurchaseOrderBillTo
@@ -591,6 +619,19 @@ class PurchaseOrder:
             )
 
             cost_center_changes.append(cost_center_changes_item)
+
+        gl_code = d.pop("glCode", UNSET)
+
+        submitted_at = d.pop("submittedAt", UNSET)
+
+        _budget_check = d.pop("budgetCheck", UNSET)
+        budget_check: Union[Unset, BudgetCheck]
+        if isinstance(_budget_check, Unset):
+            budget_check = UNSET
+        else:
+            budget_check = BudgetCheck.from_dict(_budget_check)
+
+        request_id = d.pop("requestId", UNSET)
 
         budget_owner = d.pop("budgetOwner", UNSET)
 
@@ -786,6 +827,10 @@ class PurchaseOrder:
             bill_to_party=bill_to_party,
             cost_center=cost_center,
             cost_center_changes=cost_center_changes,
+            gl_code=gl_code,
+            submitted_at=submitted_at,
+            budget_check=budget_check,
+            request_id=request_id,
             budget_owner=budget_owner,
             buyer_name=buyer_name,
             buyer_org_name=buyer_org_name,

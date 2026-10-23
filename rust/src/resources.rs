@@ -27,6 +27,11 @@ impl Client {
         Billing(self)
     }
 
+    /// BudgetControl operations.
+    pub fn budget_control(&self) -> BudgetControl<'_> {
+        BudgetControl(self)
+    }
+
     /// CloudConnections operations.
     pub fn cloud_connections(&self) -> CloudConnections<'_> {
         CloudConnections(self)
@@ -70,6 +75,11 @@ impl Client {
     /// PurchaseOrders operations.
     pub fn purchase_orders(&self) -> PurchaseOrders<'_> {
         PurchaseOrders(self)
+    }
+
+    /// PurchaseRequests operations.
+    pub fn purchase_requests(&self) -> PurchaseRequests<'_> {
+        PurchaseRequests(self)
     }
 
     /// Settlement operations.
@@ -212,6 +222,56 @@ impl<'a> Billing<'a> {
         crate::apis::Error<crate::apis::billing_api::GetBillingError>,
     > {
         crate::apis::billing_api::get_billing(&self.0.config).await
+    }
+}
+
+/// BudgetControl operations: `client.budget_control()`.
+#[derive(Debug, Clone, Copy)]
+pub struct BudgetControl<'a>(&'a Client);
+
+impl<'a> BudgetControl<'a> {
+    pub async fn check_budget(
+        &self,
+        budget_check_input: crate::models::BudgetCheckInput,
+    ) -> Result<
+        crate::models::BudgetCheck,
+        crate::apis::Error<crate::apis::budget_control_api::CheckBudgetError>,
+    > {
+        crate::apis::budget_control_api::check_budget(&self.0.config, budget_check_input).await
+    }
+
+    pub async fn get_budget_control(
+        &self,
+    ) -> Result<
+        crate::models::BudgetControlSettings,
+        crate::apis::Error<crate::apis::budget_control_api::GetBudgetControlError>,
+    > {
+        crate::apis::budget_control_api::get_budget_control(&self.0.config).await
+    }
+
+    pub async fn get_budget_status(
+        &self,
+        cost_center: Option<&str>,
+        date: Option<&str>,
+    ) -> Result<
+        crate::models::GetBudgetStatusResult,
+        crate::apis::Error<crate::apis::budget_control_api::GetBudgetStatusError>,
+    > {
+        crate::apis::budget_control_api::get_budget_status(&self.0.config, cost_center, date).await
+    }
+
+    pub async fn update_budget_control(
+        &self,
+        update_budget_control_input: crate::models::UpdateBudgetControlInput,
+    ) -> Result<
+        crate::models::BudgetControlSettings,
+        crate::apis::Error<crate::apis::budget_control_api::UpdateBudgetControlError>,
+    > {
+        crate::apis::budget_control_api::update_budget_control(
+            &self.0.config,
+            update_budget_control_input,
+        )
+        .await
     }
 }
 
@@ -1196,6 +1256,140 @@ impl<'a> PurchaseOrders<'a> {
             &self.0.config,
             po_id,
             update_purchase_order_input,
+        )
+        .await
+    }
+}
+
+/// PurchaseRequests operations: `client.purchase_requests()`.
+#[derive(Debug, Clone, Copy)]
+pub struct PurchaseRequests<'a>(&'a Client);
+
+impl<'a> PurchaseRequests<'a> {
+    pub async fn approve_purchase_request(
+        &self,
+        request_id: &str,
+        approve_purchase_request_input: crate::models::ApprovePurchaseRequestInput,
+    ) -> Result<
+        crate::models::PurchaseRequest,
+        crate::apis::Error<crate::apis::purchase_requests_api::ApprovePurchaseRequestError>,
+    > {
+        crate::apis::purchase_requests_api::approve_purchase_request(
+            &self.0.config,
+            request_id,
+            approve_purchase_request_input,
+        )
+        .await
+    }
+
+    pub async fn cancel_purchase_request(
+        &self,
+        request_id: &str,
+    ) -> Result<
+        crate::models::PurchaseRequest,
+        crate::apis::Error<crate::apis::purchase_requests_api::CancelPurchaseRequestError>,
+    > {
+        crate::apis::purchase_requests_api::cancel_purchase_request(&self.0.config, request_id)
+            .await
+    }
+
+    pub async fn convert_purchase_request(
+        &self,
+        request_id: &str,
+        convert_purchase_request_input: crate::models::ConvertPurchaseRequestInput,
+    ) -> Result<
+        crate::models::ConvertPurchaseRequestResult,
+        crate::apis::Error<crate::apis::purchase_requests_api::ConvertPurchaseRequestError>,
+    > {
+        crate::apis::purchase_requests_api::convert_purchase_request(
+            &self.0.config,
+            request_id,
+            convert_purchase_request_input,
+        )
+        .await
+    }
+
+    pub async fn create_purchase_request(
+        &self,
+        create_purchase_request_input: crate::models::CreatePurchaseRequestInput,
+    ) -> Result<
+        crate::models::PurchaseRequest,
+        crate::apis::Error<crate::apis::purchase_requests_api::CreatePurchaseRequestError>,
+    > {
+        crate::apis::purchase_requests_api::create_purchase_request(
+            &self.0.config,
+            create_purchase_request_input,
+        )
+        .await
+    }
+
+    pub async fn get_purchase_request(
+        &self,
+        request_id: &str,
+    ) -> Result<
+        crate::models::PurchaseRequest,
+        crate::apis::Error<crate::apis::purchase_requests_api::GetPurchaseRequestError>,
+    > {
+        crate::apis::purchase_requests_api::get_purchase_request(&self.0.config, request_id).await
+    }
+
+    pub async fn list_purchase_requests(
+        &self,
+        status: Option<&str>,
+        mine: Option<bool>,
+        awaiting_me: Option<bool>,
+    ) -> Result<
+        Vec<crate::models::PurchaseRequest>,
+        crate::apis::Error<crate::apis::purchase_requests_api::ListPurchaseRequestsError>,
+    > {
+        crate::apis::purchase_requests_api::list_purchase_requests(
+            &self.0.config,
+            status,
+            mine,
+            awaiting_me,
+        )
+        .await
+    }
+
+    pub async fn reject_purchase_request(
+        &self,
+        request_id: &str,
+        reject_purchase_request_input: crate::models::RejectPurchaseRequestInput,
+    ) -> Result<
+        crate::models::PurchaseRequest,
+        crate::apis::Error<crate::apis::purchase_requests_api::RejectPurchaseRequestError>,
+    > {
+        crate::apis::purchase_requests_api::reject_purchase_request(
+            &self.0.config,
+            request_id,
+            reject_purchase_request_input,
+        )
+        .await
+    }
+
+    pub async fn submit_purchase_request(
+        &self,
+        request_id: &str,
+    ) -> Result<
+        crate::models::PurchaseRequest,
+        crate::apis::Error<crate::apis::purchase_requests_api::SubmitPurchaseRequestError>,
+    > {
+        crate::apis::purchase_requests_api::submit_purchase_request(&self.0.config, request_id)
+            .await
+    }
+
+    pub async fn update_purchase_request(
+        &self,
+        request_id: &str,
+        update_purchase_request_input: crate::models::UpdatePurchaseRequestInput,
+    ) -> Result<
+        crate::models::PurchaseRequest,
+        crate::apis::Error<crate::apis::purchase_requests_api::UpdatePurchaseRequestError>,
+    > {
+        crate::apis::purchase_requests_api::update_purchase_request(
+            &self.0.config,
+            request_id,
+            update_purchase_request_input,
         )
         .await
     }

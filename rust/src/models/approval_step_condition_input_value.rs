@@ -11,8 +11,8 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-/// ApprovalStepConditionInputValue : A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester.
-/// A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester.
+/// ApprovalStepConditionInputValue : A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for glCode (the order's own, else its cost center's).
+/// A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for glCode (the order's own, else its cost center's).
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ApprovalStepConditionInputValue {

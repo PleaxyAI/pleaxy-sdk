@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.ApprovalChain;
+import ai.pleaxy.model.BudgetCheck;
 import ai.pleaxy.model.LineItem;
 import ai.pleaxy.model.PayerAccountRef;
 import ai.pleaxy.model.PurchaseOrderBillTo;
@@ -71,6 +72,10 @@ import ai.pleaxy.client.ApiClient;
   PurchaseOrder.JSON_PROPERTY_BILL_TO_PARTY,
   PurchaseOrder.JSON_PROPERTY_COST_CENTER,
   PurchaseOrder.JSON_PROPERTY_COST_CENTER_CHANGES,
+  PurchaseOrder.JSON_PROPERTY_GL_CODE,
+  PurchaseOrder.JSON_PROPERTY_SUBMITTED_AT,
+  PurchaseOrder.JSON_PROPERTY_BUDGET_CHECK,
+  PurchaseOrder.JSON_PROPERTY_REQUEST_ID,
   PurchaseOrder.JSON_PROPERTY_BUDGET_OWNER,
   PurchaseOrder.JSON_PROPERTY_BUYER_NAME,
   PurchaseOrder.JSON_PROPERTY_BUYER_ORG_NAME,
@@ -282,6 +287,22 @@ public class PurchaseOrder {
   public static final String JSON_PROPERTY_COST_CENTER_CHANGES = "costCenterChanges";
   @javax.annotation.Nullable
   private List<PurchaseOrderCostCenterChange> costCenterChanges = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_GL_CODE = "glCode";
+  @javax.annotation.Nullable
+  private String glCode;
+
+  public static final String JSON_PROPERTY_SUBMITTED_AT = "submittedAt";
+  @javax.annotation.Nullable
+  private String submittedAt;
+
+  public static final String JSON_PROPERTY_BUDGET_CHECK = "budgetCheck";
+  @javax.annotation.Nullable
+  private BudgetCheck budgetCheck;
+
+  public static final String JSON_PROPERTY_REQUEST_ID = "requestId";
+  @javax.annotation.Nullable
+  private String requestId;
 
   public static final String JSON_PROPERTY_BUDGET_OWNER = "budgetOwner";
   @javax.annotation.Nullable
@@ -1058,6 +1079,102 @@ public class PurchaseOrder {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCostCenterChanges(@javax.annotation.Nullable List<PurchaseOrderCostCenterChange> costCenterChanges) {
     this.costCenterChanges = costCenterChanges;
+  }
+
+
+  public PurchaseOrder glCode(@javax.annotation.Nullable String glCode) {
+    this.glCode = glCode;
+    return this;
+  }
+
+  /**
+   * Get glCode
+   * @return glCode
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_GL_CODE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getGlCode() {
+    return glCode;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_GL_CODE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setGlCode(@javax.annotation.Nullable String glCode) {
+    this.glCode = glCode;
+  }
+
+
+  public PurchaseOrder submittedAt(@javax.annotation.Nullable String submittedAt) {
+    this.submittedAt = submittedAt;
+    return this;
+  }
+
+  /**
+   * Get submittedAt
+   * @return submittedAt
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SUBMITTED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getSubmittedAt() {
+    return submittedAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SUBMITTED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSubmittedAt(@javax.annotation.Nullable String submittedAt) {
+    this.submittedAt = submittedAt;
+  }
+
+
+  public PurchaseOrder budgetCheck(@javax.annotation.Nullable BudgetCheck budgetCheck) {
+    this.budgetCheck = budgetCheck;
+    return this;
+  }
+
+  /**
+   * Get budgetCheck
+   * @return budgetCheck
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BUDGET_CHECK)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public BudgetCheck getBudgetCheck() {
+    return budgetCheck;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BUDGET_CHECK)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBudgetCheck(@javax.annotation.Nullable BudgetCheck budgetCheck) {
+    this.budgetCheck = budgetCheck;
+  }
+
+
+  public PurchaseOrder requestId(@javax.annotation.Nullable String requestId) {
+    this.requestId = requestId;
+    return this;
+  }
+
+  /**
+   * Get requestId
+   * @return requestId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REQUEST_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getRequestId() {
+    return requestId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REQUEST_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRequestId(@javax.annotation.Nullable String requestId) {
+    this.requestId = requestId;
   }
 
 
@@ -2109,6 +2226,10 @@ public class PurchaseOrder {
         Objects.equals(this.billToParty, purchaseOrder.billToParty) &&
         Objects.equals(this.costCenter, purchaseOrder.costCenter) &&
         Objects.equals(this.costCenterChanges, purchaseOrder.costCenterChanges) &&
+        Objects.equals(this.glCode, purchaseOrder.glCode) &&
+        Objects.equals(this.submittedAt, purchaseOrder.submittedAt) &&
+        Objects.equals(this.budgetCheck, purchaseOrder.budgetCheck) &&
+        Objects.equals(this.requestId, purchaseOrder.requestId) &&
         Objects.equals(this.budgetOwner, purchaseOrder.budgetOwner) &&
         Objects.equals(this.buyerName, purchaseOrder.buyerName) &&
         Objects.equals(this.buyerOrgName, purchaseOrder.buyerOrgName) &&
@@ -2154,7 +2275,7 @@ public class PurchaseOrder {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, buyerOrgId, supplierOrgId, supplier, amount, currency, status, invoiceId, invoiceIds, invoicedAmount, priorInvoiced, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, provider, payerAccounts, billTo, billToParty, costCenter, costCenterChanges, budgetOwner, buyerName, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, supplierContactEmail, supplierInvite, supplierConnectionId, notes, contractId, supplierEmail, quoteDocument, sowDocument, lineItems, approval, approvalVersion, everSpendLimitGated, spendLimitGatedAt, updatedBy, updatedAt, version, lastChange, approvalAmount, punchout, storeId, deliveryAddressId, shipTo, storeOrder, matching, matchingDefault, matchingChanges, receiverEmployeeKey, receiverName, received, receivedPending, receiptState, receiptRequired, readyToInvoice, receiptTolerance, createdAt);
+    return Objects.hash(id, buyerOrgId, supplierOrgId, supplier, amount, currency, status, invoiceId, invoiceIds, invoicedAmount, priorInvoiced, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, provider, payerAccounts, billTo, billToParty, costCenter, costCenterChanges, glCode, submittedAt, budgetCheck, requestId, budgetOwner, buyerName, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, supplierContactEmail, supplierInvite, supplierConnectionId, notes, contractId, supplierEmail, quoteDocument, sowDocument, lineItems, approval, approvalVersion, everSpendLimitGated, spendLimitGatedAt, updatedBy, updatedAt, version, lastChange, approvalAmount, punchout, storeId, deliveryAddressId, shipTo, storeOrder, matching, matchingDefault, matchingChanges, receiverEmployeeKey, receiverName, received, receivedPending, receiptState, receiptRequired, readyToInvoice, receiptTolerance, createdAt);
   }
 
   @Override
@@ -2181,6 +2302,10 @@ public class PurchaseOrder {
     sb.append("    billToParty: ").append(toIndentedString(billToParty)).append("\n");
     sb.append("    costCenter: ").append(toIndentedString(costCenter)).append("\n");
     sb.append("    costCenterChanges: ").append(toIndentedString(costCenterChanges)).append("\n");
+    sb.append("    glCode: ").append(toIndentedString(glCode)).append("\n");
+    sb.append("    submittedAt: ").append(toIndentedString(submittedAt)).append("\n");
+    sb.append("    budgetCheck: ").append(toIndentedString(budgetCheck)).append("\n");
+    sb.append("    requestId: ").append(toIndentedString(requestId)).append("\n");
     sb.append("    budgetOwner: ").append(toIndentedString(budgetOwner)).append("\n");
     sb.append("    buyerName: ").append(toIndentedString(buyerName)).append("\n");
     sb.append("    buyerOrgName: ").append(toIndentedString(buyerOrgName)).append("\n");
@@ -2381,6 +2506,26 @@ public class PurchaseOrder {
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
+    }
+
+    // add `glCode` to the URL query string
+    if (getGlCode() != null) {
+      joiner.add(String.format("%sglCode%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getGlCode()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `submittedAt` to the URL query string
+    if (getSubmittedAt() != null) {
+      joiner.add(String.format("%ssubmittedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSubmittedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `budgetCheck` to the URL query string
+    if (getBudgetCheck() != null) {
+      joiner.add(getBudgetCheck().toUrlQueryString(prefix + "budgetCheck" + suffix));
+    }
+
+    // add `requestId` to the URL query string
+    if (getRequestId() != null) {
+      joiner.add(String.format("%srequestId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRequestId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `budgetOwner` to the URL query string

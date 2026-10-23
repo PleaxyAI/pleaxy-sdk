@@ -30,8 +30,12 @@ pub struct UpdatePurchaseOrderInput {
     /// Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; an empty string copies the company profile's. Ignored when `billToParty` is sent.
     #[serde(rename = "billTo", skip_serializing_if = "Option::is_none")]
     pub bill_to: Option<String>,
+    /// The cost center: when the workspace keeps a cost center list, a code or name on it (stored as the list's code; a closed one is refused); otherwise free text. An empty string clears it.
     #[serde(rename = "costCenter", skip_serializing_if = "Option::is_none")]
     pub cost_center: Option<String>,
+    /// The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it.
+    #[serde(rename = "glCode", skip_serializing_if = "Option::is_none")]
+    pub gl_code: Option<String>,
     /// Drafts only: the workspace delivery address an online store order ships to, copied onto the order at submit. An empty string goes back to the workspace default.
     #[serde(rename = "deliveryAddressId", skip_serializing_if = "Option::is_none")]
     pub delivery_address_id: Option<String>,
@@ -75,6 +79,7 @@ impl UpdatePurchaseOrderInput {
             bill_to_party: None,
             bill_to: None,
             cost_center: None,
+            gl_code: None,
             delivery_address_id: None,
             budget_owner: None,
             buyer_name: None,

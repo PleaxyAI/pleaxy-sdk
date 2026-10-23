@@ -48,7 +48,11 @@ public class ApprovalStepConditionInput {
     
     SUPPLIER(String.valueOf("supplier")),
     
-    REQUESTER(String.valueOf("requester"));
+    REQUESTER(String.valueOf("requester")),
+    
+    COST_CENTER(String.valueOf("costCenter")),
+    
+    GL_CODE(String.valueOf("glCode"));
 
     private String value;
 
@@ -82,7 +86,7 @@ public class ApprovalStepConditionInput {
   private FieldEnum field;
 
   /**
-   * gt/gte/lt/lte for amount; is/is_not for supplier and requester.
+   * gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
    */
   public enum OperatorEnum {
     GT(String.valueOf("gt")),
@@ -165,7 +169,7 @@ public class ApprovalStepConditionInput {
   }
 
   /**
-   * gt/gte/lt/lte for amount; is/is_not for supplier and requester.
+   * gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
    * @return operator
    */
   @javax.annotation.Nonnull

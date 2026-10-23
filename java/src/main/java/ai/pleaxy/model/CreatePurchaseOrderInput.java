@@ -50,6 +50,7 @@ import ai.pleaxy.client.ApiClient;
   CreatePurchaseOrderInput.JSON_PROPERTY_BILL_TO_PARTY,
   CreatePurchaseOrderInput.JSON_PROPERTY_BILL_TO,
   CreatePurchaseOrderInput.JSON_PROPERTY_COST_CENTER,
+  CreatePurchaseOrderInput.JSON_PROPERTY_GL_CODE,
   CreatePurchaseOrderInput.JSON_PROPERTY_BUDGET_OWNER,
   CreatePurchaseOrderInput.JSON_PROPERTY_BUYER_NAME,
   CreatePurchaseOrderInput.JSON_PROPERTY_SUPPLIER_SITE,
@@ -184,6 +185,10 @@ public class CreatePurchaseOrderInput {
   public static final String JSON_PROPERTY_COST_CENTER = "costCenter";
   @javax.annotation.Nullable
   private String costCenter;
+
+  public static final String JSON_PROPERTY_GL_CODE = "glCode";
+  @javax.annotation.Nullable
+  private String glCode;
 
   public static final String JSON_PROPERTY_BUDGET_OWNER = "budgetOwner";
   @javax.annotation.Nullable
@@ -508,7 +513,7 @@ public class CreatePurchaseOrderInput {
   }
 
   /**
-   * Get costCenter
+   * The cost center: when the workspace keeps a cost center list, a code or name on it (stored as the list&#39;s code; a closed one is refused); otherwise free text. An empty string clears it.
    * @return costCenter
    */
   @javax.annotation.Nullable
@@ -523,6 +528,30 @@ public class CreatePurchaseOrderInput {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCostCenter(@javax.annotation.Nullable String costCenter) {
     this.costCenter = costCenter;
+  }
+
+
+  public CreatePurchaseOrderInput glCode(@javax.annotation.Nullable String glCode) {
+    this.glCode = glCode;
+    return this;
+  }
+
+  /**
+   * The GL account (spend category) the order books to, when it isn&#39;t its cost center&#39;s. Approval steps can route by it. An empty string clears it.
+   * @return glCode
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_GL_CODE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getGlCode() {
+    return glCode;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_GL_CODE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setGlCode(@javax.annotation.Nullable String glCode) {
+    this.glCode = glCode;
   }
 
 
@@ -798,6 +827,7 @@ public class CreatePurchaseOrderInput {
         Objects.equals(this.billToParty, createPurchaseOrderInput.billToParty) &&
         Objects.equals(this.billTo, createPurchaseOrderInput.billTo) &&
         Objects.equals(this.costCenter, createPurchaseOrderInput.costCenter) &&
+        Objects.equals(this.glCode, createPurchaseOrderInput.glCode) &&
         Objects.equals(this.budgetOwner, createPurchaseOrderInput.budgetOwner) &&
         Objects.equals(this.buyerName, createPurchaseOrderInput.buyerName) &&
         Objects.equals(this.supplierSite, createPurchaseOrderInput.supplierSite) &&
@@ -812,7 +842,7 @@ public class CreatePurchaseOrderInput {
 
   @Override
   public int hashCode() {
-    return Objects.hash(poNumber, supplier, matching, receiverEmployeeKey, supplierRegionId, supplierConnectionId, currency, provider, payerAccounts, billToParty, billTo, costCenter, budgetOwner, buyerName, supplierSite, supplierContactEmail, notes, contractId, quoteImportId, sowImportId, draft, lineItems);
+    return Objects.hash(poNumber, supplier, matching, receiverEmployeeKey, supplierRegionId, supplierConnectionId, currency, provider, payerAccounts, billToParty, billTo, costCenter, glCode, budgetOwner, buyerName, supplierSite, supplierContactEmail, notes, contractId, quoteImportId, sowImportId, draft, lineItems);
   }
 
   @Override
@@ -831,6 +861,7 @@ public class CreatePurchaseOrderInput {
     sb.append("    billToParty: ").append(toIndentedString(billToParty)).append("\n");
     sb.append("    billTo: ").append(toIndentedString(billTo)).append("\n");
     sb.append("    costCenter: ").append(toIndentedString(costCenter)).append("\n");
+    sb.append("    glCode: ").append(toIndentedString(glCode)).append("\n");
     sb.append("    budgetOwner: ").append(toIndentedString(budgetOwner)).append("\n");
     sb.append("    buyerName: ").append(toIndentedString(buyerName)).append("\n");
     sb.append("    supplierSite: ").append(toIndentedString(supplierSite)).append("\n");
@@ -951,6 +982,11 @@ public class CreatePurchaseOrderInput {
     // add `costCenter` to the URL query string
     if (getCostCenter() != null) {
       joiner.add(String.format("%scostCenter%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCostCenter()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `glCode` to the URL query string
+    if (getGlCode() != null) {
+      joiner.add(String.format("%sglCode%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getGlCode()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `budgetOwner` to the URL query string

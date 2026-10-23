@@ -42,6 +42,7 @@ import ai.pleaxy.client.ApiClient;
   UpdatePurchaseOrderInput.JSON_PROPERTY_BILL_TO_PARTY,
   UpdatePurchaseOrderInput.JSON_PROPERTY_BILL_TO,
   UpdatePurchaseOrderInput.JSON_PROPERTY_COST_CENTER,
+  UpdatePurchaseOrderInput.JSON_PROPERTY_GL_CODE,
   UpdatePurchaseOrderInput.JSON_PROPERTY_DELIVERY_ADDRESS_ID,
   UpdatePurchaseOrderInput.JSON_PROPERTY_BUDGET_OWNER,
   UpdatePurchaseOrderInput.JSON_PROPERTY_BUYER_NAME,
@@ -71,6 +72,10 @@ public class UpdatePurchaseOrderInput {
   public static final String JSON_PROPERTY_COST_CENTER = "costCenter";
   @javax.annotation.Nullable
   private String costCenter;
+
+  public static final String JSON_PROPERTY_GL_CODE = "glCode";
+  @javax.annotation.Nullable
+  private String glCode;
 
   public static final String JSON_PROPERTY_DELIVERY_ADDRESS_ID = "deliveryAddressId";
   @javax.annotation.Nullable
@@ -215,7 +220,7 @@ public class UpdatePurchaseOrderInput {
   }
 
   /**
-   * Get costCenter
+   * The cost center: when the workspace keeps a cost center list, a code or name on it (stored as the list&#39;s code; a closed one is refused); otherwise free text. An empty string clears it.
    * @return costCenter
    */
   @javax.annotation.Nullable
@@ -230,6 +235,30 @@ public class UpdatePurchaseOrderInput {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCostCenter(@javax.annotation.Nullable String costCenter) {
     this.costCenter = costCenter;
+  }
+
+
+  public UpdatePurchaseOrderInput glCode(@javax.annotation.Nullable String glCode) {
+    this.glCode = glCode;
+    return this;
+  }
+
+  /**
+   * The GL account (spend category) the order books to, when it isn&#39;t its cost center&#39;s. Approval steps can route by it. An empty string clears it.
+   * @return glCode
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_GL_CODE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getGlCode() {
+    return glCode;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_GL_CODE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setGlCode(@javax.annotation.Nullable String glCode) {
+    this.glCode = glCode;
   }
 
 
@@ -418,6 +447,7 @@ public class UpdatePurchaseOrderInput {
         Objects.equals(this.billToParty, updatePurchaseOrderInput.billToParty) &&
         Objects.equals(this.billTo, updatePurchaseOrderInput.billTo) &&
         Objects.equals(this.costCenter, updatePurchaseOrderInput.costCenter) &&
+        Objects.equals(this.glCode, updatePurchaseOrderInput.glCode) &&
         Objects.equals(this.deliveryAddressId, updatePurchaseOrderInput.deliveryAddressId) &&
         Objects.equals(this.budgetOwner, updatePurchaseOrderInput.budgetOwner) &&
         Objects.equals(this.buyerName, updatePurchaseOrderInput.buyerName) &&
@@ -429,7 +459,7 @@ public class UpdatePurchaseOrderInput {
 
   @Override
   public int hashCode() {
-    return Objects.hash(currency, lineItems, billToParty, billTo, costCenter, deliveryAddressId, budgetOwner, buyerName, notes, contractId, quoteImportId, sowImportId);
+    return Objects.hash(currency, lineItems, billToParty, billTo, costCenter, glCode, deliveryAddressId, budgetOwner, buyerName, notes, contractId, quoteImportId, sowImportId);
   }
 
   @Override
@@ -441,6 +471,7 @@ public class UpdatePurchaseOrderInput {
     sb.append("    billToParty: ").append(toIndentedString(billToParty)).append("\n");
     sb.append("    billTo: ").append(toIndentedString(billTo)).append("\n");
     sb.append("    costCenter: ").append(toIndentedString(costCenter)).append("\n");
+    sb.append("    glCode: ").append(toIndentedString(glCode)).append("\n");
     sb.append("    deliveryAddressId: ").append(toIndentedString(deliveryAddressId)).append("\n");
     sb.append("    budgetOwner: ").append(toIndentedString(budgetOwner)).append("\n");
     sb.append("    buyerName: ").append(toIndentedString(buyerName)).append("\n");
@@ -523,6 +554,11 @@ public class UpdatePurchaseOrderInput {
     // add `costCenter` to the URL query string
     if (getCostCenter() != null) {
       joiner.add(String.format("%scostCenter%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCostCenter()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `glCode` to the URL query string
+    if (getGlCode() != null) {
+      joiner.add(String.format("%sglCode%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getGlCode()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `deliveryAddressId` to the URL query string

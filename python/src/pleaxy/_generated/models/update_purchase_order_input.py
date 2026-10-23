@@ -24,7 +24,10 @@ class UpdatePurchaseOrderInput:
         bill_to_party (Union[Unset, BillToPartyInput]):
         bill_to (Union[Unset, str]): Use `billToParty`. A one-line bill-to address for the buyer's company, kept as
             typed; an empty string copies the company profile's. Ignored when `billToParty` is sent.
-        cost_center (Union[Unset, str]):
+        cost_center (Union[Unset, str]): The cost center: when the workspace keeps a cost center list, a code or name on
+            it (stored as the list's code; a closed one is refused); otherwise free text. An empty string clears it.
+        gl_code (Union[Unset, str]): The GL account (spend category) the order books to, when it isn't its cost
+            center's. Approval steps can route by it. An empty string clears it.
         delivery_address_id (Union[Unset, str]): Drafts only: the workspace delivery address an online store order ships
             to, copied onto the order at submit. An empty string goes back to the workspace default.
         budget_owner (Union[Unset, str]):
@@ -43,6 +46,7 @@ class UpdatePurchaseOrderInput:
     bill_to_party: Union[Unset, "BillToPartyInput"] = UNSET
     bill_to: Union[Unset, str] = UNSET
     cost_center: Union[Unset, str] = UNSET
+    gl_code: Union[Unset, str] = UNSET
     delivery_address_id: Union[Unset, str] = UNSET
     budget_owner: Union[Unset, str] = UNSET
     buyer_name: Union[Unset, str] = UNSET
@@ -69,6 +73,8 @@ class UpdatePurchaseOrderInput:
         bill_to = self.bill_to
 
         cost_center = self.cost_center
+
+        gl_code = self.gl_code
 
         delivery_address_id = self.delivery_address_id
 
@@ -109,6 +115,8 @@ class UpdatePurchaseOrderInput:
             field_dict["billTo"] = bill_to
         if cost_center is not UNSET:
             field_dict["costCenter"] = cost_center
+        if gl_code is not UNSET:
+            field_dict["glCode"] = gl_code
         if delivery_address_id is not UNSET:
             field_dict["deliveryAddressId"] = delivery_address_id
         if budget_owner is not UNSET:
@@ -152,6 +160,8 @@ class UpdatePurchaseOrderInput:
 
         cost_center = d.pop("costCenter", UNSET)
 
+        gl_code = d.pop("glCode", UNSET)
+
         delivery_address_id = d.pop("deliveryAddressId", UNSET)
 
         budget_owner = d.pop("budgetOwner", UNSET)
@@ -193,6 +203,7 @@ class UpdatePurchaseOrderInput:
             bill_to_party=bill_to_party,
             bill_to=bill_to,
             cost_center=cost_center,
+            gl_code=gl_code,
             delivery_address_id=delivery_address_id,
             budget_owner=budget_owner,
             buyer_name=buyer_name,
