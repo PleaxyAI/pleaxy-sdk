@@ -143,7 +143,7 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @id.nil?
-      type_validator = EnumAttributeValidator.new('String', ["purchase_order.issued", "purchase_order.changed", "purchase_order.canceled", "purchase_order.rejected", "purchase_order.updated", "invoice.received", "invoice.approved", "invoice.rejected", "invoice.paid", "invoice.payment_withdrawn", "invoice.payment_failed", "invoice.remittance_sent", "invoice.credit_applied", "invoice.updated", "credit_note.received", "credit_note.accepted", "credit_note.rejected"])
+      type_validator = EnumAttributeValidator.new('String', ["purchase_order.issued", "purchase_order.changed", "purchase_order.canceled", "purchase_order.rejected", "purchase_order.updated", "purchase_order.confirmed", "purchase_order.shipped", "invoice.received", "invoice.approved", "invoice.rejected", "invoice.paid", "invoice.payment_withdrawn", "invoice.payment_failed", "invoice.remittance_sent", "invoice.credit_applied", "invoice.updated", "credit_note.received", "credit_note.accepted", "credit_note.rejected"])
       return false unless type_validator.valid?(@type)
       document_type_validator = EnumAttributeValidator.new('String', ["purchase_order", "invoice", "credit_note"])
       return false unless document_type_validator.valid?(@document_type)
@@ -153,7 +153,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] type Object to be assigned
     def type=(type)
-      validator = EnumAttributeValidator.new('String', ["purchase_order.issued", "purchase_order.changed", "purchase_order.canceled", "purchase_order.rejected", "purchase_order.updated", "invoice.received", "invoice.approved", "invoice.rejected", "invoice.paid", "invoice.payment_withdrawn", "invoice.payment_failed", "invoice.remittance_sent", "invoice.credit_applied", "invoice.updated", "credit_note.received", "credit_note.accepted", "credit_note.rejected"])
+      validator = EnumAttributeValidator.new('String', ["purchase_order.issued", "purchase_order.changed", "purchase_order.canceled", "purchase_order.rejected", "purchase_order.updated", "purchase_order.confirmed", "purchase_order.shipped", "invoice.received", "invoice.approved", "invoice.rejected", "invoice.paid", "invoice.payment_withdrawn", "invoice.payment_failed", "invoice.remittance_sent", "invoice.credit_applied", "invoice.updated", "credit_note.received", "credit_note.accepted", "credit_note.rejected"])
       unless validator.valid?(type)
         fail ArgumentError, "invalid value for \"type\", must be one of #{validator.allowable_values}."
       end

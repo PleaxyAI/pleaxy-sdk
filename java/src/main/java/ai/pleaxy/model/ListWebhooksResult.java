@@ -59,6 +59,10 @@ public class ListWebhooksResult {
     
     PURCHASE_ORDER_UPDATED(String.valueOf("purchase_order.updated")),
     
+    PURCHASE_ORDER_CONFIRMED(String.valueOf("purchase_order.confirmed")),
+    
+    PURCHASE_ORDER_SHIPPED(String.valueOf("purchase_order.shipped")),
+    
     INVOICE_RECEIVED(String.valueOf("invoice.received")),
     
     INVOICE_APPROVED(String.valueOf("invoice.approved")),

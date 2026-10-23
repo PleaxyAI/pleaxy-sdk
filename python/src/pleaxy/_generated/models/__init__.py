@@ -423,9 +423,13 @@ from .create_manual_invoice_input_invoice_kind import (
     CreateManualInvoiceInputInvoiceKind,
 )
 from .create_manual_invoice_line_item_input import CreateManualInvoiceLineItemInput
+from .create_order_confirmation_input import CreateOrderConfirmationInput
+from .create_order_confirmation_input_type import CreateOrderConfirmationInputType
 from .create_purchase_order_input import CreatePurchaseOrderInput
 from .create_purchase_order_input_matching import CreatePurchaseOrderInputMatching
 from .create_purchase_order_input_provider import CreatePurchaseOrderInputProvider
+from .create_ship_notice_input import CreateShipNoticeInput
+from .create_ship_notice_input_status import CreateShipNoticeInputStatus
 from .create_webhook_input import CreateWebhookInput
 from .create_webhook_result import CreateWebhookResult
 from .create_webhook_result_events_item import CreateWebhookResultEventsItem
@@ -1148,6 +1152,14 @@ from .notification_resolution import NotificationResolution
 from .notification_resolution_outcome import NotificationResolutionOutcome
 from .notification_type import NotificationType
 from .open_purchase_order_deposit import OpenPurchaseOrderDeposit
+from .order_confirmation import OrderConfirmation
+from .order_confirmation_line import OrderConfirmationLine
+from .order_confirmation_line_input import OrderConfirmationLineInput
+from .order_confirmation_line_input_status import OrderConfirmationLineInputStatus
+from .order_confirmation_line_status import OrderConfirmationLineStatus
+from .order_confirmation_operation import OrderConfirmationOperation
+from .order_confirmation_outcome import OrderConfirmationOutcome
+from .order_confirmation_source import OrderConfirmationSource
 from .org_profile import OrgProfile
 from .org_profile_role import OrgProfileRole
 from .payer_account_ref import PayerAccountRef
@@ -1175,6 +1187,10 @@ from .purchase_order_bill_to_source import PurchaseOrderBillToSource
 from .purchase_order_change_summary import PurchaseOrderChangeSummary
 from .purchase_order_change_summary_outcome import PurchaseOrderChangeSummaryOutcome
 from .purchase_order_cost_center_change import PurchaseOrderCostCenterChange
+from .purchase_order_fulfillment import PurchaseOrderFulfillment
+from .purchase_order_fulfillment_shipped_by_line_item import (
+    PurchaseOrderFulfillmentShippedByLineItem,
+)
 from .purchase_order_matching import PurchaseOrderMatching
 from .purchase_order_matching_change import PurchaseOrderMatchingChange
 from .purchase_order_matching_change_from import PurchaseOrderMatchingChangeFrom
@@ -1443,6 +1459,11 @@ from .set_supplier_currencies_result_type_1_status import (
     SetSupplierCurrenciesResultType1Status,
 )
 from .set_warning_pct_input import SetWarningPctInput
+from .ship_notice import ShipNotice
+from .ship_notice_line import ShipNoticeLine
+from .ship_notice_line_input import ShipNoticeLineInput
+from .ship_notice_source import ShipNoticeSource
+from .ship_notice_status import ShipNoticeStatus
 from .spend_limit_breach import SpendLimitBreach
 from .spend_limit_breach_subject import SpendLimitBreachSubject
 from .spend_limit_gate import SpendLimitGate
@@ -1786,9 +1807,13 @@ __all__ = (
     "CreateManualInvoiceInputDocumentType",
     "CreateManualInvoiceInputInvoiceKind",
     "CreateManualInvoiceLineItemInput",
+    "CreateOrderConfirmationInput",
+    "CreateOrderConfirmationInputType",
     "CreatePurchaseOrderInput",
     "CreatePurchaseOrderInputMatching",
     "CreatePurchaseOrderInputProvider",
+    "CreateShipNoticeInput",
+    "CreateShipNoticeInputStatus",
     "CreateWebhookInput",
     "CreateWebhookResult",
     "CreateWebhookResultEventsItem",
@@ -2131,6 +2156,14 @@ __all__ = (
     "NotificationResolutionOutcome",
     "NotificationType",
     "OpenPurchaseOrderDeposit",
+    "OrderConfirmation",
+    "OrderConfirmationLine",
+    "OrderConfirmationLineInput",
+    "OrderConfirmationLineInputStatus",
+    "OrderConfirmationLineStatus",
+    "OrderConfirmationOperation",
+    "OrderConfirmationOutcome",
+    "OrderConfirmationSource",
     "OrgProfile",
     "OrgProfileRole",
     "PayerAccountRef",
@@ -2156,6 +2189,8 @@ __all__ = (
     "PurchaseOrderChangeSummary",
     "PurchaseOrderChangeSummaryOutcome",
     "PurchaseOrderCostCenterChange",
+    "PurchaseOrderFulfillment",
+    "PurchaseOrderFulfillmentShippedByLineItem",
     "PurchaseOrderMatching",
     "PurchaseOrderMatchingChange",
     "PurchaseOrderMatchingChangeFrom",
@@ -2316,6 +2351,11 @@ __all__ = (
     "SetSupplierCurrenciesResultType1CloudProvider",
     "SetSupplierCurrenciesResultType1Status",
     "SetWarningPctInput",
+    "ShipNotice",
+    "ShipNoticeLine",
+    "ShipNoticeLineInput",
+    "ShipNoticeSource",
+    "ShipNoticeStatus",
     "SpendLimitBreach",
     "SpendLimitBreachSubject",
     "SpendLimitGate",

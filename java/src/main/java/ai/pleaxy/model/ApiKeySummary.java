@@ -147,7 +147,9 @@ public class ApiKeySummary {
   public enum ScopesEnum {
     INVOICES_FEED(String.valueOf("invoices:feed")),
     
-    PAYMENTS_RECORD(String.valueOf("payments:record"));
+    PAYMENTS_RECORD(String.valueOf("payments:record")),
+    
+    ORDERS_FULFILL(String.valueOf("orders:fulfill"));
 
     private String value;
 

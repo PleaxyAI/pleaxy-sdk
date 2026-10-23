@@ -67,6 +67,10 @@ pub enum Type {
     PurchaseOrderPeriodRejected,
     #[serde(rename = "purchase_order.updated")]
     PurchaseOrderPeriodUpdated,
+    #[serde(rename = "purchase_order.confirmed")]
+    PurchaseOrderPeriodConfirmed,
+    #[serde(rename = "purchase_order.shipped")]
+    PurchaseOrderPeriodShipped,
     #[serde(rename = "invoice.received")]
     InvoicePeriodReceived,
     #[serde(rename = "invoice.approved")]

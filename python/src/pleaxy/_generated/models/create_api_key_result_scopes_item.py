@@ -1,9 +1,12 @@
 from typing import Literal, Set, cast
 
-CreateApiKeyResultScopesItem = Literal["invoices:feed", "payments:record"]
+CreateApiKeyResultScopesItem = Literal[
+    "invoices:feed", "orders:fulfill", "payments:record"
+]
 
 CREATE_API_KEY_RESULT_SCOPES_ITEM_VALUES: Set[CreateApiKeyResultScopesItem] = {
     "invoices:feed",
+    "orders:fulfill",
     "payments:record",
 }
 

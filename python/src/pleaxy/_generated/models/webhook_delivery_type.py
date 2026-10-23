@@ -16,8 +16,10 @@ WebhookDeliveryType = Literal[
     "ping",
     "purchase_order.canceled",
     "purchase_order.changed",
+    "purchase_order.confirmed",
     "purchase_order.issued",
     "purchase_order.rejected",
+    "purchase_order.shipped",
     "purchase_order.updated",
 ]
 
@@ -37,8 +39,10 @@ WEBHOOK_DELIVERY_TYPE_VALUES: Set[WebhookDeliveryType] = {
     "ping",
     "purchase_order.canceled",
     "purchase_order.changed",
+    "purchase_order.confirmed",
     "purchase_order.issued",
     "purchase_order.rejected",
+    "purchase_order.shipped",
     "purchase_order.updated",
 }
 

@@ -47,6 +47,11 @@ impl Client {
         ExchangeRates(self)
     }
 
+    /// Fulfillment operations.
+    pub fn fulfillment(&self) -> Fulfillment<'_> {
+        Fulfillment(self)
+    }
+
     /// Invoices operations.
     pub fn invoices(&self) -> Invoices<'_> {
         Invoices(self)
@@ -549,6 +554,60 @@ impl<'a> ExchangeRates<'a> {
         crate::apis::exchange_rates_api::set_exchange_rate_warning(
             &self.0.config,
             set_warning_pct_input,
+        )
+        .await
+    }
+}
+
+/// Fulfillment operations: `client.fulfillment()`.
+#[derive(Debug, Clone, Copy)]
+pub struct Fulfillment<'a>(&'a Client);
+
+impl<'a> Fulfillment<'a> {
+    pub async fn confirm_purchase_order(
+        &self,
+        po_id: &str,
+        create_order_confirmation_input: crate::models::CreateOrderConfirmationInput,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::OrderConfirmation,
+        crate::apis::Error<crate::apis::fulfillment_api::ConfirmPurchaseOrderError>,
+    > {
+        crate::apis::fulfillment_api::confirm_purchase_order(
+            &self.0.config,
+            po_id,
+            create_order_confirmation_input,
+            buyer,
+        )
+        .await
+    }
+
+    pub async fn get_purchase_order_fulfillment(
+        &self,
+        po_id: &str,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::PurchaseOrderFulfillment,
+        crate::apis::Error<crate::apis::fulfillment_api::GetPurchaseOrderFulfillmentError>,
+    > {
+        crate::apis::fulfillment_api::get_purchase_order_fulfillment(&self.0.config, po_id, buyer)
+            .await
+    }
+
+    pub async fn send_ship_notice(
+        &self,
+        po_id: &str,
+        create_ship_notice_input: crate::models::CreateShipNoticeInput,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::ShipNotice,
+        crate::apis::Error<crate::apis::fulfillment_api::SendShipNoticeError>,
+    > {
+        crate::apis::fulfillment_api::send_ship_notice(
+            &self.0.config,
+            po_id,
+            create_ship_notice_input,
+            buyer,
         )
         .await
     }

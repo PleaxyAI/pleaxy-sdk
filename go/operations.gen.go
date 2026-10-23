@@ -76,6 +76,18 @@ func (c *Client) ClosePurchaseOrder(ctx context.Context, poId string) (*Purchase
 	return resp.JSON201, nil
 }
 
+// ConfirmPurchaseOrder - [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|reject, qty?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. Answers the stored confirmation with its outcome: accepted, backordered, partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
+func (c *Client) ConfirmPurchaseOrder(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, body ConfirmPurchaseOrderJSONRequestBody) (*OrderConfirmation, error) {
+	resp, err := c.api.ConfirmPurchaseOrderWithResponse(ctx, poId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
 // CreateApiKey - [Both, admin] Create an API key
 func (c *Client) CreateApiKey(ctx context.Context, body CreateApiKeyJSONRequestBody) (*CreateApiKeyResult, error) {
 	resp, err := c.api.CreateApiKeyWithResponse(ctx, body)
@@ -385,6 +397,18 @@ func (c *Client) GetPurchaseOrderDocument(ctx context.Context, poId string, para
 	return resp.Body, nil
 }
 
+// GetPurchaseOrderFulfillment - [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|partial|rejected, lines with status accept|backordered|reject, qty, dates and reason); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder.
+func (c *Client) GetPurchaseOrderFulfillment(ctx context.Context, poId string, params *GetPurchaseOrderFulfillmentParams) (*PurchaseOrderFulfillment, error) {
+	resp, err := c.api.GetPurchaseOrderFulfillmentWithResponse(ctx, poId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // GetReferenceRate - [Buyer, Supplier] The reference rate for 1 `from` in `to` on `date` (YYYY-MM-DD, default today), or the latest of the 3 days before it. Returns `{ reference }`, absent when there's no rate. A suggestion for the New invoice form only; the invoice records whatever rate is submitted. Signed-in session only. Rates By Exchange Rate API.
 func (c *Client) GetReferenceRate(ctx context.Context, params *GetReferenceRateParams) (*GetReferenceRateResult, error) {
 	resp, err := c.api.GetReferenceRateWithResponse(ctx, params)
@@ -589,7 +613,7 @@ func (c *Client) ListPurchaseOrders(ctx context.Context, params *ListPurchaseOrd
 	return resp.JSON200, nil
 }
 
-// ListSyncEvents - [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.
+// ListSyncEvents - [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received, purchase_order.confirmed and purchase_order.shipped (the supplier confirmed or shipped against an order: read GetPurchaseOrderFulfillment), and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.
 func (c *Client) ListSyncEvents(ctx context.Context, params *ListSyncEventsParams) (*SyncEventPage, error) {
 	resp, err := c.api.ListSyncEventsWithResponse(ctx, params)
 	if err != nil {
@@ -778,6 +802,18 @@ func (c *Client) RotateWebhookSecret(ctx context.Context, webhookId string) (*Ro
 // RunInvoiceMatch - [Buyer] Match an invoice: against the provider's usage for a cloud provider's order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
 func (c *Client) RunInvoiceMatch(ctx context.Context, invoiceId string) (*InvoiceBuyerView, error) {
 	resp, err := c.api.RunInvoiceMatchWithResponse(ctx, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
+// SendShipNotice - [Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only lines ordered by quantity ship. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
+func (c *Client) SendShipNotice(ctx context.Context, poId string, params *SendShipNoticeParams, body SendShipNoticeJSONRequestBody) (*ShipNotice, error) {
+	resp, err := c.api.SendShipNoticeWithResponse(ctx, poId, params, body)
 	if err != nil {
 		return nil, err
 	}

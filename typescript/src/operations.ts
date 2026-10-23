@@ -204,7 +204,7 @@ export class DocumentSyncResource {
   }
 
   /**
-   * [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.
+   * [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received, purchase_order.confirmed and purchase_order.shipped (the supplier confirmed or shipped against an order: read GetPurchaseOrderFulfillment), and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.
    */
   listSyncEvents(query?: QueryParams<"ListSyncEvents">, options?: RequestOptions): Promise<ResponseBody<"ListSyncEvents">> {
     return this.transport.request("get", "/sync/events", { path: undefined, query, options }) as Promise<ResponseBody<"ListSyncEvents">>;
@@ -279,6 +279,31 @@ export class ExchangeRatesResource {
    */
   setExchangeRateWarning(body: RequestBody<"SetExchangeRateWarning">, options?: RequestOptions): Promise<ResponseBody<"SetExchangeRateWarning">> {
     return this.transport.request("put", "/exchange-rates", { path: undefined, body, options }) as Promise<ResponseBody<"SetExchangeRateWarning">>;
+  }
+}
+
+export class FulfillmentResource {
+  constructor(private readonly transport: Transport) {}
+
+  /**
+   * [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|reject, qty?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. Answers the stored confirmation with its outcome: accepted, backordered, partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
+   */
+  confirmPurchaseOrder(poId: string, body: RequestBody<"ConfirmPurchaseOrder">, query?: QueryParams<"ConfirmPurchaseOrder">, options?: RequestOptions): Promise<ResponseBody<"ConfirmPurchaseOrder">> {
+    return this.transport.request("post", "/purchase-orders/{poId}/confirmations", { path: { poId }, query, body, options }) as Promise<ResponseBody<"ConfirmPurchaseOrder">>;
+  }
+
+  /**
+   * [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|partial|rejected, lines with status accept|backordered|reject, qty, dates and reason); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder.
+   */
+  getPurchaseOrderFulfillment(poId: string, query?: QueryParams<"GetPurchaseOrderFulfillment">, options?: RequestOptions): Promise<ResponseBody<"GetPurchaseOrderFulfillment">> {
+    return this.transport.request("get", "/purchase-orders/{poId}/fulfillment", { path: { poId }, query, options }) as Promise<ResponseBody<"GetPurchaseOrderFulfillment">>;
+  }
+
+  /**
+   * [Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only lines ordered by quantity ship. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
+   */
+  sendShipNotice(poId: string, body: RequestBody<"SendShipNotice">, query?: QueryParams<"SendShipNotice">, options?: RequestOptions): Promise<ResponseBody<"SendShipNotice">> {
+    return this.transport.request("post", "/purchase-orders/{poId}/ship-notices", { path: { poId }, query, body, options }) as Promise<ResponseBody<"SendShipNotice">>;
   }
 }
 
@@ -664,6 +689,7 @@ export class Resources {
   readonly documentSync: DocumentSyncResource;
   readonly employees: EmployeesResource;
   readonly exchangeRates: ExchangeRatesResource;
+  readonly fulfillment: FulfillmentResource;
   readonly invoices: InvoicesResource;
   readonly notifications: NotificationsResource;
   readonly orgProfiles: OrgProfilesResource;
@@ -682,6 +708,7 @@ export class Resources {
     this.documentSync = new DocumentSyncResource(transport);
     this.employees = new EmployeesResource(transport);
     this.exchangeRates = new ExchangeRatesResource(transport);
+    this.fulfillment = new FulfillmentResource(transport);
     this.invoices = new InvoicesResource(transport);
     this.notifications = new NotificationsResource(transport);
     this.orgProfiles = new OrgProfilesResource(transport);

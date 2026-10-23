@@ -21,7 +21,7 @@ module Pleaxy
     # Buyer-side procurement authority the key grants. Defaults to `read-only`. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys.
     attr_accessor :procurement_role
 
-    # Extra abilities, each for one side (the other side's scope is a 400). Supplier: `invoices:feed` lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId. Buyer: `payments:record` lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key.
+    # Extra abilities, each for one side (the other side's scope is a 400). Supplier: `invoices:feed` lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId; `orders:fulfill` lets it confirm orders and send ship notices, through POST .../purchase-orders/:poId/confirmations and .../ship-notices or as cXML to POST /v1/cxml/fulfillment. Buyer: `payments:record` lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key.
     attr_accessor :scopes
 
     class EnumAttributeValidator

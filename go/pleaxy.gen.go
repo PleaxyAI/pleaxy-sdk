@@ -147,6 +147,7 @@ const (
 // Defines values for ApiKeySummaryScopes.
 const (
 	ApiKeySummaryScopesInvoicesFeed   ApiKeySummaryScopes = "invoices:feed"
+	ApiKeySummaryScopesOrdersFulfill  ApiKeySummaryScopes = "orders:fulfill"
 	ApiKeySummaryScopesPaymentsRecord ApiKeySummaryScopes = "payments:record"
 )
 
@@ -467,6 +468,7 @@ const (
 // Defines values for CreateApiKeyInputScopes.
 const (
 	CreateApiKeyInputScopesInvoicesFeed   CreateApiKeyInputScopes = "invoices:feed"
+	CreateApiKeyInputScopesOrdersFulfill  CreateApiKeyInputScopes = "orders:fulfill"
 	CreateApiKeyInputScopesPaymentsRecord CreateApiKeyInputScopes = "payments:record"
 )
 
@@ -489,6 +491,7 @@ const (
 // Defines values for CreateApiKeyResultScopes.
 const (
 	InvoicesFeed   CreateApiKeyResultScopes = "invoices:feed"
+	OrdersFulfill  CreateApiKeyResultScopes = "orders:fulfill"
 	PaymentsRecord CreateApiKeyResultScopes = "payments:record"
 )
 
@@ -921,6 +924,14 @@ const (
 	CreateManualInvoiceInputInvoiceKindPrepayment CreateManualInvoiceInputInvoiceKind = "prepayment"
 )
 
+// Defines values for CreateOrderConfirmationInputType.
+const (
+	CreateOrderConfirmationInputTypeAccept      CreateOrderConfirmationInputType = "accept"
+	CreateOrderConfirmationInputTypeBackordered CreateOrderConfirmationInputType = "backordered"
+	CreateOrderConfirmationInputTypeDetail      CreateOrderConfirmationInputType = "detail"
+	CreateOrderConfirmationInputTypeReject      CreateOrderConfirmationInputType = "reject"
+)
+
 // Defines values for CreatePurchaseOrderInputMatching.
 const (
 	CreatePurchaseOrderInputMatchingThreeWay CreatePurchaseOrderInputMatching = "three_way"
@@ -933,6 +944,13 @@ const (
 	CreatePurchaseOrderInputProviderAzure CreatePurchaseOrderInputProvider = "azure"
 	CreatePurchaseOrderInputProviderGcp   CreatePurchaseOrderInputProvider = "gcp"
 	CreatePurchaseOrderInputProviderOci   CreatePurchaseOrderInputProvider = "oci"
+)
+
+// Defines values for CreateShipNoticeInputStatus.
+const (
+	CreateShipNoticeInputStatusCanceled CreateShipNoticeInputStatus = "canceled"
+	CreateShipNoticeInputStatusPlanned  CreateShipNoticeInputStatus = "planned"
+	CreateShipNoticeInputStatusShipped  CreateShipNoticeInputStatus = "shipped"
 )
 
 // Defines values for CreateWebhookResultEvents.
@@ -951,8 +969,10 @@ const (
 	CreateWebhookResultEventsInvoiceUpdated          CreateWebhookResultEvents = "invoice.updated"
 	CreateWebhookResultEventsPurchaseOrderCanceled   CreateWebhookResultEvents = "purchase_order.canceled"
 	CreateWebhookResultEventsPurchaseOrderChanged    CreateWebhookResultEvents = "purchase_order.changed"
+	CreateWebhookResultEventsPurchaseOrderConfirmed  CreateWebhookResultEvents = "purchase_order.confirmed"
 	CreateWebhookResultEventsPurchaseOrderIssued     CreateWebhookResultEvents = "purchase_order.issued"
 	CreateWebhookResultEventsPurchaseOrderRejected   CreateWebhookResultEvents = "purchase_order.rejected"
+	CreateWebhookResultEventsPurchaseOrderShipped    CreateWebhookResultEvents = "purchase_order.shipped"
 	CreateWebhookResultEventsPurchaseOrderUpdated    CreateWebhookResultEvents = "purchase_order.updated"
 )
 
@@ -2305,8 +2325,10 @@ const (
 	ListWebhooksResultEventTypesInvoiceUpdated          ListWebhooksResultEventTypes = "invoice.updated"
 	ListWebhooksResultEventTypesPurchaseOrderCanceled   ListWebhooksResultEventTypes = "purchase_order.canceled"
 	ListWebhooksResultEventTypesPurchaseOrderChanged    ListWebhooksResultEventTypes = "purchase_order.changed"
+	ListWebhooksResultEventTypesPurchaseOrderConfirmed  ListWebhooksResultEventTypes = "purchase_order.confirmed"
 	ListWebhooksResultEventTypesPurchaseOrderIssued     ListWebhooksResultEventTypes = "purchase_order.issued"
 	ListWebhooksResultEventTypesPurchaseOrderRejected   ListWebhooksResultEventTypes = "purchase_order.rejected"
+	ListWebhooksResultEventTypesPurchaseOrderShipped    ListWebhooksResultEventTypes = "purchase_order.shipped"
 	ListWebhooksResultEventTypesPurchaseOrderUpdated    ListWebhooksResultEventTypes = "purchase_order.updated"
 )
 
@@ -2367,7 +2389,10 @@ const (
 	NotificationTypePoNeedsApprover                  NotificationType = "po_needs_approver"
 	NotificationTypePoReceiptRequested               NotificationType = "po_receipt_requested"
 	NotificationTypePoRejected                       NotificationType = "po_rejected"
+	NotificationTypePoShipped                        NotificationType = "po_shipped"
 	NotificationTypePoStoreOrderProblem              NotificationType = "po_store_order_problem"
+	NotificationTypePoSupplierConfirmed              NotificationType = "po_supplier_confirmed"
+	NotificationTypePoSupplierException              NotificationType = "po_supplier_exception"
 	NotificationTypeReceiptReturnRecorded            NotificationType = "receipt_return_recorded"
 	NotificationTypeReportReady                      NotificationType = "report_ready"
 	NotificationTypeSesApprovalOverdue               NotificationType = "ses_approval_overdue"
@@ -2390,6 +2415,41 @@ const (
 	NoLongerNeeded NotificationResolutionOutcome = "no_longer_needed"
 	YouApproved    NotificationResolutionOutcome = "you_approved"
 	YouRejected    NotificationResolutionOutcome = "you_rejected"
+)
+
+// Defines values for OrderConfirmationOperation.
+const (
+	New    OrderConfirmationOperation = "new"
+	Update OrderConfirmationOperation = "update"
+)
+
+// Defines values for OrderConfirmationOutcome.
+const (
+	OrderConfirmationOutcomeAccepted    OrderConfirmationOutcome = "accepted"
+	OrderConfirmationOutcomeBackordered OrderConfirmationOutcome = "backordered"
+	OrderConfirmationOutcomePartial     OrderConfirmationOutcome = "partial"
+	OrderConfirmationOutcomeRejected    OrderConfirmationOutcome = "rejected"
+)
+
+// Defines values for OrderConfirmationSource.
+const (
+	OrderConfirmationSourceApi    OrderConfirmationSource = "api"
+	OrderConfirmationSourceCxml   OrderConfirmationSource = "cxml"
+	OrderConfirmationSourcePortal OrderConfirmationSource = "portal"
+)
+
+// Defines values for OrderConfirmationLineStatus.
+const (
+	OrderConfirmationLineStatusAccept      OrderConfirmationLineStatus = "accept"
+	OrderConfirmationLineStatusBackordered OrderConfirmationLineStatus = "backordered"
+	OrderConfirmationLineStatusReject      OrderConfirmationLineStatus = "reject"
+)
+
+// Defines values for OrderConfirmationLineInputStatus.
+const (
+	OrderConfirmationLineInputStatusAccept      OrderConfirmationLineInputStatus = "accept"
+	OrderConfirmationLineInputStatusBackordered OrderConfirmationLineInputStatus = "backordered"
+	OrderConfirmationLineInputStatusReject      OrderConfirmationLineInputStatus = "reject"
 )
 
 // Defines values for OrgProfileRole.
@@ -2990,8 +3050,10 @@ const (
 	RotateWebhookSecretResultEventsInvoiceUpdated          RotateWebhookSecretResultEvents = "invoice.updated"
 	RotateWebhookSecretResultEventsPurchaseOrderCanceled   RotateWebhookSecretResultEvents = "purchase_order.canceled"
 	RotateWebhookSecretResultEventsPurchaseOrderChanged    RotateWebhookSecretResultEvents = "purchase_order.changed"
+	RotateWebhookSecretResultEventsPurchaseOrderConfirmed  RotateWebhookSecretResultEvents = "purchase_order.confirmed"
 	RotateWebhookSecretResultEventsPurchaseOrderIssued     RotateWebhookSecretResultEvents = "purchase_order.issued"
 	RotateWebhookSecretResultEventsPurchaseOrderRejected   RotateWebhookSecretResultEvents = "purchase_order.rejected"
+	RotateWebhookSecretResultEventsPurchaseOrderShipped    RotateWebhookSecretResultEvents = "purchase_order.shipped"
 	RotateWebhookSecretResultEventsPurchaseOrderUpdated    RotateWebhookSecretResultEvents = "purchase_order.updated"
 )
 
@@ -3109,6 +3171,20 @@ const (
 	SetSupplierCurrenciesResult1StatusPendingInvite SetSupplierCurrenciesResult1Status = "pending_invite"
 	SetSupplierCurrenciesResult1StatusRejected      SetSupplierCurrenciesResult1Status = "rejected"
 	SetSupplierCurrenciesResult1StatusSubmitted     SetSupplierCurrenciesResult1Status = "submitted"
+)
+
+// Defines values for ShipNoticeSource.
+const (
+	ShipNoticeSourceApi    ShipNoticeSource = "api"
+	ShipNoticeSourceCxml   ShipNoticeSource = "cxml"
+	ShipNoticeSourcePortal ShipNoticeSource = "portal"
+)
+
+// Defines values for ShipNoticeStatus.
+const (
+	Canceled ShipNoticeStatus = "canceled"
+	Planned  ShipNoticeStatus = "planned"
+	Shipped  ShipNoticeStatus = "shipped"
 )
 
 // Defines values for SpendLimitBreachSubject.
@@ -3282,10 +3358,10 @@ const (
 
 // Defines values for SupplierCreditNoteViewStatus.
 const (
-	Accepted          SupplierCreditNoteViewStatus = "accepted"
-	PendingAcceptance SupplierCreditNoteViewStatus = "pending_acceptance"
-	Rejected          SupplierCreditNoteViewStatus = "rejected"
-	Void              SupplierCreditNoteViewStatus = "void"
+	SupplierCreditNoteViewStatusAccepted          SupplierCreditNoteViewStatus = "accepted"
+	SupplierCreditNoteViewStatusPendingAcceptance SupplierCreditNoteViewStatus = "pending_acceptance"
+	SupplierCreditNoteViewStatusRejected          SupplierCreditNoteViewStatus = "rejected"
+	SupplierCreditNoteViewStatusVoid              SupplierCreditNoteViewStatus = "void"
 )
 
 // Defines values for SupplierCreditNoteViewSubmittedFormat.
@@ -3325,8 +3401,10 @@ const (
 	SyncEventTypeInvoiceUpdated          SyncEventType = "invoice.updated"
 	SyncEventTypePurchaseOrderCanceled   SyncEventType = "purchase_order.canceled"
 	SyncEventTypePurchaseOrderChanged    SyncEventType = "purchase_order.changed"
+	SyncEventTypePurchaseOrderConfirmed  SyncEventType = "purchase_order.confirmed"
 	SyncEventTypePurchaseOrderIssued     SyncEventType = "purchase_order.issued"
 	SyncEventTypePurchaseOrderRejected   SyncEventType = "purchase_order.rejected"
+	SyncEventTypePurchaseOrderShipped    SyncEventType = "purchase_order.shipped"
 	SyncEventTypePurchaseOrderUpdated    SyncEventType = "purchase_order.updated"
 )
 
@@ -3429,8 +3507,10 @@ const (
 	WebhookDeliveryTypePing                    WebhookDeliveryType = "ping"
 	WebhookDeliveryTypePurchaseOrderCanceled   WebhookDeliveryType = "purchase_order.canceled"
 	WebhookDeliveryTypePurchaseOrderChanged    WebhookDeliveryType = "purchase_order.changed"
+	WebhookDeliveryTypePurchaseOrderConfirmed  WebhookDeliveryType = "purchase_order.confirmed"
 	WebhookDeliveryTypePurchaseOrderIssued     WebhookDeliveryType = "purchase_order.issued"
 	WebhookDeliveryTypePurchaseOrderRejected   WebhookDeliveryType = "purchase_order.rejected"
+	WebhookDeliveryTypePurchaseOrderShipped    WebhookDeliveryType = "purchase_order.shipped"
 	WebhookDeliveryTypePurchaseOrderUpdated    WebhookDeliveryType = "purchase_order.updated"
 )
 
@@ -3450,8 +3530,10 @@ const (
 	InvoiceUpdated          WebhookEndpointViewEvents = "invoice.updated"
 	PurchaseOrderCanceled   WebhookEndpointViewEvents = "purchase_order.canceled"
 	PurchaseOrderChanged    WebhookEndpointViewEvents = "purchase_order.changed"
+	PurchaseOrderConfirmed  WebhookEndpointViewEvents = "purchase_order.confirmed"
 	PurchaseOrderIssued     WebhookEndpointViewEvents = "purchase_order.issued"
 	PurchaseOrderRejected   WebhookEndpointViewEvents = "purchase_order.rejected"
+	PurchaseOrderShipped    WebhookEndpointViewEvents = "purchase_order.shipped"
 	PurchaseOrderUpdated    WebhookEndpointViewEvents = "purchase_order.updated"
 )
 
@@ -3504,14 +3586,14 @@ const (
 
 // Defines values for MarkAllNotificationsReadParamsAudience.
 const (
-	MarkAllNotificationsReadParamsAudienceBuyer    MarkAllNotificationsReadParamsAudience = "buyer"
-	MarkAllNotificationsReadParamsAudienceSupplier MarkAllNotificationsReadParamsAudience = "supplier"
+	Buyer    MarkAllNotificationsReadParamsAudience = "buyer"
+	Supplier MarkAllNotificationsReadParamsAudience = "supplier"
 )
 
 // Defines values for GetPurchaseOrderDocumentParamsFormat.
 const (
-	GetPurchaseOrderDocumentParamsFormatCxml GetPurchaseOrderDocumentParamsFormat = "cxml"
-	GetPurchaseOrderDocumentParamsFormatUbl  GetPurchaseOrderDocumentParamsFormat = "ubl"
+	Cxml GetPurchaseOrderDocumentParamsFormat = "cxml"
+	Ubl  GetPurchaseOrderDocumentParamsFormat = "ubl"
 )
 
 // AddCloudProviderAsSupplierResult defines model for AddCloudProviderAsSupplierResult.
@@ -4341,7 +4423,7 @@ type CreateApiKeyInput struct {
 	// ProcurementRole Buyer-side procurement authority the key grants. Defaults to `read-only`. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys.
 	ProcurementRole *CreateApiKeyInputProcurementRole `json:"procurementRole,omitempty"`
 
-	// Scopes Extra abilities, each for one side (the other side's scope is a 400). Supplier: `invoices:feed` lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId. Buyer: `payments:record` lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key.
+	// Scopes Extra abilities, each for one side (the other side's scope is a 400). Supplier: `invoices:feed` lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId; `orders:fulfill` lets it confirm orders and send ship notices, through POST .../purchase-orders/:poId/confirmations and .../ship-notices or as cXML to POST /v1/cxml/fulfillment. Buyer: `payments:record` lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key.
 	Scopes *[]CreateApiKeyInputScopes `json:"scopes,omitempty"`
 }
 
@@ -5162,6 +5244,18 @@ type CreateManualInvoiceLineItemInput struct {
 	UnitPrice float64 `json:"unitPrice"`
 }
 
+// CreateOrderConfirmationInput defines model for CreateOrderConfirmationInput.
+type CreateOrderConfirmationInput struct {
+	ConfirmId    *string                          `json:"confirmId,omitempty"`
+	DeliveryDate *string                          `json:"deliveryDate,omitempty"`
+	Lines        *[]OrderConfirmationLineInput    `json:"lines,omitempty"`
+	Note         *string                          `json:"note,omitempty"`
+	Type         CreateOrderConfirmationInputType `json:"type"`
+}
+
+// CreateOrderConfirmationInputType defines model for CreateOrderConfirmationInput.Type.
+type CreateOrderConfirmationInputType string
+
 // CreatePurchaseOrderInput defines model for CreatePurchaseOrderInput.
 type CreatePurchaseOrderInput struct {
 	// BillTo Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; ignored when `billToParty` is sent.
@@ -5223,6 +5317,22 @@ type CreatePurchaseOrderInputMatching string
 
 // CreatePurchaseOrderInputProvider defines model for CreatePurchaseOrderInput.Provider.
 type CreatePurchaseOrderInputProvider string
+
+// CreateShipNoticeInput defines model for CreateShipNoticeInput.
+type CreateShipNoticeInput struct {
+	Carrier        *string                      `json:"carrier,omitempty"`
+	DeliveryDate   *string                      `json:"deliveryDate,omitempty"`
+	Lines          *[]ShipNoticeLineInput       `json:"lines,omitempty"`
+	Note           *string                      `json:"note,omitempty"`
+	ShipmentDate   *string                      `json:"shipmentDate,omitempty"`
+	ShipmentId     string                       `json:"shipmentId"`
+	Status         *CreateShipNoticeInputStatus `json:"status,omitempty"`
+	TrackingNumber *string                      `json:"trackingNumber,omitempty"`
+	TrackingUrl    *string                      `json:"trackingUrl,omitempty"`
+}
+
+// CreateShipNoticeInputStatus defines model for CreateShipNoticeInput.Status.
+type CreateShipNoticeInputStatus string
 
 // CreateWebhookInput defines model for CreateWebhookInput.
 type CreateWebhookInput struct {
@@ -7742,6 +7852,55 @@ type OpenPurchaseOrderDeposit struct {
 	Reference             *string  `json:"reference,omitempty"`
 }
 
+// OrderConfirmation defines model for OrderConfirmation.
+type OrderConfirmation struct {
+	ConfirmId    *string                     `json:"confirmId,omitempty"`
+	CreatedAt    *string                     `json:"createdAt,omitempty"`
+	DeliveryDate *string                     `json:"deliveryDate,omitempty"`
+	Id           string                      `json:"id"`
+	Lines        *[]OrderConfirmationLine    `json:"lines,omitempty"`
+	Note         *string                     `json:"note,omitempty"`
+	Operation    *OrderConfirmationOperation `json:"operation,omitempty"`
+	Outcome      *OrderConfirmationOutcome   `json:"outcome,omitempty"`
+	PoId         *string                     `json:"poId,omitempty"`
+	Source       *OrderConfirmationSource    `json:"source,omitempty"`
+}
+
+// OrderConfirmationOperation defines model for OrderConfirmation.Operation.
+type OrderConfirmationOperation string
+
+// OrderConfirmationOutcome defines model for OrderConfirmation.Outcome.
+type OrderConfirmationOutcome string
+
+// OrderConfirmationSource defines model for OrderConfirmation.Source.
+type OrderConfirmationSource string
+
+// OrderConfirmationLine defines model for OrderConfirmationLine.
+type OrderConfirmationLine struct {
+	DeliveryDate *string                      `json:"deliveryDate,omitempty"`
+	LineNo       *float64                     `json:"lineNo,omitempty"`
+	Qty          *float64                     `json:"qty,omitempty"`
+	Reason       *string                      `json:"reason,omitempty"`
+	ShipmentDate *string                      `json:"shipmentDate,omitempty"`
+	Status       *OrderConfirmationLineStatus `json:"status,omitempty"`
+}
+
+// OrderConfirmationLineStatus defines model for OrderConfirmationLine.Status.
+type OrderConfirmationLineStatus string
+
+// OrderConfirmationLineInput defines model for OrderConfirmationLineInput.
+type OrderConfirmationLineInput struct {
+	DeliveryDate *string                          `json:"deliveryDate,omitempty"`
+	LineNo       float64                          `json:"lineNo"`
+	Qty          *float64                         `json:"qty,omitempty"`
+	Reason       *string                          `json:"reason,omitempty"`
+	ShipmentDate *string                          `json:"shipmentDate,omitempty"`
+	Status       OrderConfirmationLineInputStatus `json:"status"`
+}
+
+// OrderConfirmationLineInputStatus defines model for OrderConfirmationLineInput.Status.
+type OrderConfirmationLineInputStatus string
+
 // OrgProfile defines model for OrgProfile.
 type OrgProfile struct {
 	BillingAddress            *string                    `json:"billingAddress,omitempty"`
@@ -8013,6 +8172,18 @@ type PurchaseOrderCostCenterChange struct {
 	From   *string `json:"from,omitempty"`
 	Reason *string `json:"reason,omitempty"`
 	To     *string `json:"to,omitempty"`
+}
+
+// PurchaseOrderFulfillment defines model for PurchaseOrderFulfillment.
+type PurchaseOrderFulfillment struct {
+	Confirmation         *OrderConfirmation   `json:"confirmation,omitempty"`
+	Confirmations        *[]OrderConfirmation `json:"confirmations,omitempty"`
+	ExpectedDeliveryDate *string              `json:"expectedDeliveryDate,omitempty"`
+	ShipNotices          *[]ShipNotice        `json:"shipNotices,omitempty"`
+	ShippedByLine        *[]struct {
+		LineNo *float64 `json:"lineNo,omitempty"`
+		Qty    *float64 `json:"qty,omitempty"`
+	} `json:"shippedByLine,omitempty"`
 }
 
 // PurchaseOrderMatchingChange defines model for PurchaseOrderMatchingChange.
@@ -9198,6 +9369,41 @@ type SetWarningPctInput struct {
 	WarningPct float64 `json:"warningPct"`
 }
 
+// ShipNotice defines model for ShipNotice.
+type ShipNotice struct {
+	Carrier        *string           `json:"carrier,omitempty"`
+	CreatedAt      *string           `json:"createdAt,omitempty"`
+	DeliveryDate   *string           `json:"deliveryDate,omitempty"`
+	Lines          *[]ShipNoticeLine `json:"lines,omitempty"`
+	Note           *string           `json:"note,omitempty"`
+	PoId           *string           `json:"poId,omitempty"`
+	ShipmentDate   *string           `json:"shipmentDate,omitempty"`
+	ShipmentId     *string           `json:"shipmentId,omitempty"`
+	Source         *ShipNoticeSource `json:"source,omitempty"`
+	Status         *ShipNoticeStatus `json:"status,omitempty"`
+	TrackingNumber *string           `json:"trackingNumber,omitempty"`
+	TrackingUrl    *string           `json:"trackingUrl,omitempty"`
+	UpdatedAt      *string           `json:"updatedAt,omitempty"`
+}
+
+// ShipNoticeSource defines model for ShipNotice.Source.
+type ShipNoticeSource string
+
+// ShipNoticeStatus defines model for ShipNotice.Status.
+type ShipNoticeStatus string
+
+// ShipNoticeLine defines model for ShipNoticeLine.
+type ShipNoticeLine struct {
+	LineNo *float64 `json:"lineNo,omitempty"`
+	Qty    *float64 `json:"qty,omitempty"`
+}
+
+// ShipNoticeLineInput defines model for ShipNoticeLineInput.
+type ShipNoticeLineInput struct {
+	LineNo float64 `json:"lineNo"`
+	Qty    float64 `json:"qty"`
+}
+
 // SpendLimitBreach defines model for SpendLimitBreach.
 type SpendLimitBreach struct {
 	Applied       *bool                    `json:"applied,omitempty"`
@@ -9881,6 +10087,11 @@ type GetPurchaseOrderParams struct {
 	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
 }
 
+// ConfirmPurchaseOrderParams defines parameters for ConfirmPurchaseOrder.
+type ConfirmPurchaseOrderParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
+
 // GetPurchaseOrderDocumentParams defines parameters for GetPurchaseOrderDocument.
 type GetPurchaseOrderDocumentParams struct {
 	Format *GetPurchaseOrderDocumentParamsFormat `form:"format,omitempty" json:"format,omitempty"`
@@ -9892,6 +10103,16 @@ type GetPurchaseOrderDocumentParamsFormat string
 
 // FlipPurchaseOrderToInvoiceParams defines parameters for FlipPurchaseOrderToInvoice.
 type FlipPurchaseOrderToInvoiceParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
+
+// GetPurchaseOrderFulfillmentParams defines parameters for GetPurchaseOrderFulfillment.
+type GetPurchaseOrderFulfillmentParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
+
+// SendShipNoticeParams defines parameters for SendShipNotice.
+type SendShipNoticeParams struct {
 	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
 }
 
@@ -9985,6 +10206,12 @@ type ReassignPurchaseOrderApprovalStageJSONRequestBody = ReassignApprovalStageIn
 
 // CancelPurchaseOrderJSONRequestBody defines body for CancelPurchaseOrder for application/json ContentType.
 type CancelPurchaseOrderJSONRequestBody = CancelPurchaseOrderInput
+
+// ConfirmPurchaseOrderJSONRequestBody defines body for ConfirmPurchaseOrder for application/json ContentType.
+type ConfirmPurchaseOrderJSONRequestBody = CreateOrderConfirmationInput
+
+// SendShipNoticeJSONRequestBody defines body for SendShipNotice for application/json ContentType.
+type SendShipNoticeJSONRequestBody = CreateShipNoticeInput
 
 // UpdateAutonomySettingsJSONRequestBody defines body for UpdateAutonomySettings for application/json ContentType.
 type UpdateAutonomySettingsJSONRequestBody = UpdateAutonomySettingsInput
@@ -13110,14 +13337,27 @@ type ClientInterface interface {
 	// ClosePurchaseOrder request
 	ClosePurchaseOrder(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ConfirmPurchaseOrderWithBody request with any body
+	ConfirmPurchaseOrderWithBody(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	ConfirmPurchaseOrder(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, body ConfirmPurchaseOrderJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetPurchaseOrderDocument request
 	GetPurchaseOrderDocument(ctx context.Context, poId string, params *GetPurchaseOrderDocumentParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// FlipPurchaseOrderToInvoice request
 	FlipPurchaseOrderToInvoice(ctx context.Context, poId string, params *FlipPurchaseOrderToInvoiceParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetPurchaseOrderFulfillment request
+	GetPurchaseOrderFulfillment(ctx context.Context, poId string, params *GetPurchaseOrderFulfillmentParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// RejectPurchaseOrder request
 	RejectPurchaseOrder(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SendShipNoticeWithBody request with any body
+	SendShipNoticeWithBody(ctx context.Context, poId string, params *SendShipNoticeParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SendShipNotice(ctx context.Context, poId string, params *SendShipNoticeParams, body SendShipNoticeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// SubmitPurchaseOrderDraft request
 	SubmitPurchaseOrderDraft(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -14201,6 +14441,30 @@ func (c *RawClient) ClosePurchaseOrder(ctx context.Context, poId string, reqEdit
 	return c.Client.Do(req)
 }
 
+func (c *RawClient) ConfirmPurchaseOrderWithBody(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewConfirmPurchaseOrderRequestWithBody(c.Server, poId, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ConfirmPurchaseOrder(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, body ConfirmPurchaseOrderJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewConfirmPurchaseOrderRequest(c.Server, poId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *RawClient) GetPurchaseOrderDocument(ctx context.Context, poId string, params *GetPurchaseOrderDocumentParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetPurchaseOrderDocumentRequest(c.Server, poId, params)
 	if err != nil {
@@ -14225,8 +14489,44 @@ func (c *RawClient) FlipPurchaseOrderToInvoice(ctx context.Context, poId string,
 	return c.Client.Do(req)
 }
 
+func (c *RawClient) GetPurchaseOrderFulfillment(ctx context.Context, poId string, params *GetPurchaseOrderFulfillmentParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetPurchaseOrderFulfillmentRequest(c.Server, poId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *RawClient) RejectPurchaseOrder(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewRejectPurchaseOrderRequest(c.Server, poId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SendShipNoticeWithBody(ctx context.Context, poId string, params *SendShipNoticeParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSendShipNoticeRequestWithBody(c.Server, poId, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SendShipNotice(ctx context.Context, poId string, params *SendShipNoticeParams, body SendShipNoticeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSendShipNoticeRequest(c.Server, poId, params, body)
 	if err != nil {
 		return nil, err
 	}
@@ -17398,6 +17698,75 @@ func NewClosePurchaseOrderRequest(server string, poId string) (*http.Request, er
 	return req, nil
 }
 
+// NewConfirmPurchaseOrderRequest calls the generic ConfirmPurchaseOrder builder with application/json body
+func NewConfirmPurchaseOrderRequest(server string, poId string, params *ConfirmPurchaseOrderParams, body ConfirmPurchaseOrderJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewConfirmPurchaseOrderRequestWithBody(server, poId, params, "application/json", bodyReader)
+}
+
+// NewConfirmPurchaseOrderRequestWithBody generates requests for ConfirmPurchaseOrder with any type of body
+func NewConfirmPurchaseOrderRequestWithBody(server string, poId string, params *ConfirmPurchaseOrderParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-orders/%s/confirmations", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetPurchaseOrderDocumentRequest generates requests for GetPurchaseOrderDocument
 func NewGetPurchaseOrderDocumentRequest(server string, poId string, params *GetPurchaseOrderDocumentParams) (*http.Request, error) {
 	var err error
@@ -17526,6 +17895,62 @@ func NewFlipPurchaseOrderToInvoiceRequest(server string, poId string, params *Fl
 	return req, nil
 }
 
+// NewGetPurchaseOrderFulfillmentRequest generates requests for GetPurchaseOrderFulfillment
+func NewGetPurchaseOrderFulfillmentRequest(server string, poId string, params *GetPurchaseOrderFulfillmentParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-orders/%s/fulfillment", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewRejectPurchaseOrderRequest generates requests for RejectPurchaseOrder
 func NewRejectPurchaseOrderRequest(server string, poId string) (*http.Request, error) {
 	var err error
@@ -17556,6 +17981,75 @@ func NewRejectPurchaseOrderRequest(server string, poId string) (*http.Request, e
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewSendShipNoticeRequest calls the generic SendShipNotice builder with application/json body
+func NewSendShipNoticeRequest(server string, poId string, params *SendShipNoticeParams, body SendShipNoticeJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSendShipNoticeRequestWithBody(server, poId, params, "application/json", bodyReader)
+}
+
+// NewSendShipNoticeRequestWithBody generates requests for SendShipNotice with any type of body
+func NewSendShipNoticeRequestWithBody(server string, poId string, params *SendShipNoticeParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-orders/%s/ship-notices", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -18592,14 +19086,27 @@ type ClientWithResponsesInterface interface {
 	// ClosePurchaseOrderWithResponse request
 	ClosePurchaseOrderWithResponse(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*ClosePurchaseOrderResponse, error)
 
+	// ConfirmPurchaseOrderWithBodyWithResponse request with any body
+	ConfirmPurchaseOrderWithBodyWithResponse(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ConfirmPurchaseOrderResponse, error)
+
+	ConfirmPurchaseOrderWithResponse(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, body ConfirmPurchaseOrderJSONRequestBody, reqEditors ...RequestEditorFn) (*ConfirmPurchaseOrderResponse, error)
+
 	// GetPurchaseOrderDocumentWithResponse request
 	GetPurchaseOrderDocumentWithResponse(ctx context.Context, poId string, params *GetPurchaseOrderDocumentParams, reqEditors ...RequestEditorFn) (*GetPurchaseOrderDocumentResponse, error)
 
 	// FlipPurchaseOrderToInvoiceWithResponse request
 	FlipPurchaseOrderToInvoiceWithResponse(ctx context.Context, poId string, params *FlipPurchaseOrderToInvoiceParams, reqEditors ...RequestEditorFn) (*FlipPurchaseOrderToInvoiceResponse, error)
 
+	// GetPurchaseOrderFulfillmentWithResponse request
+	GetPurchaseOrderFulfillmentWithResponse(ctx context.Context, poId string, params *GetPurchaseOrderFulfillmentParams, reqEditors ...RequestEditorFn) (*GetPurchaseOrderFulfillmentResponse, error)
+
 	// RejectPurchaseOrderWithResponse request
 	RejectPurchaseOrderWithResponse(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*RejectPurchaseOrderResponse, error)
+
+	// SendShipNoticeWithBodyWithResponse request with any body
+	SendShipNoticeWithBodyWithResponse(ctx context.Context, poId string, params *SendShipNoticeParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SendShipNoticeResponse, error)
+
+	SendShipNoticeWithResponse(ctx context.Context, poId string, params *SendShipNoticeParams, body SendShipNoticeJSONRequestBody, reqEditors ...RequestEditorFn) (*SendShipNoticeResponse, error)
 
 	// SubmitPurchaseOrderDraftWithResponse request
 	SubmitPurchaseOrderDraftWithResponse(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*SubmitPurchaseOrderDraftResponse, error)
@@ -20130,6 +20637,29 @@ func (r ClosePurchaseOrderResponse) StatusCode() int {
 	return 0
 }
 
+type ConfirmPurchaseOrderResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *OrderConfirmation
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ConfirmPurchaseOrderResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ConfirmPurchaseOrderResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetPurchaseOrderDocumentResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -20176,6 +20706,29 @@ func (r FlipPurchaseOrderToInvoiceResponse) StatusCode() int {
 	return 0
 }
 
+type GetPurchaseOrderFulfillmentResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PurchaseOrderFulfillment
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetPurchaseOrderFulfillmentResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetPurchaseOrderFulfillmentResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type RejectPurchaseOrderResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -20193,6 +20746,29 @@ func (r RejectPurchaseOrderResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r RejectPurchaseOrderResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SendShipNoticeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *ShipNotice
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r SendShipNoticeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SendShipNoticeResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -21333,6 +21909,23 @@ func (c *ClientWithResponses) ClosePurchaseOrderWithResponse(ctx context.Context
 	return ParseClosePurchaseOrderResponse(rsp)
 }
 
+// ConfirmPurchaseOrderWithBodyWithResponse request with arbitrary body returning *ConfirmPurchaseOrderResponse
+func (c *ClientWithResponses) ConfirmPurchaseOrderWithBodyWithResponse(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ConfirmPurchaseOrderResponse, error) {
+	rsp, err := c.ConfirmPurchaseOrderWithBody(ctx, poId, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseConfirmPurchaseOrderResponse(rsp)
+}
+
+func (c *ClientWithResponses) ConfirmPurchaseOrderWithResponse(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, body ConfirmPurchaseOrderJSONRequestBody, reqEditors ...RequestEditorFn) (*ConfirmPurchaseOrderResponse, error) {
+	rsp, err := c.ConfirmPurchaseOrder(ctx, poId, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseConfirmPurchaseOrderResponse(rsp)
+}
+
 // GetPurchaseOrderDocumentWithResponse request returning *GetPurchaseOrderDocumentResponse
 func (c *ClientWithResponses) GetPurchaseOrderDocumentWithResponse(ctx context.Context, poId string, params *GetPurchaseOrderDocumentParams, reqEditors ...RequestEditorFn) (*GetPurchaseOrderDocumentResponse, error) {
 	rsp, err := c.GetPurchaseOrderDocument(ctx, poId, params, reqEditors...)
@@ -21351,6 +21944,15 @@ func (c *ClientWithResponses) FlipPurchaseOrderToInvoiceWithResponse(ctx context
 	return ParseFlipPurchaseOrderToInvoiceResponse(rsp)
 }
 
+// GetPurchaseOrderFulfillmentWithResponse request returning *GetPurchaseOrderFulfillmentResponse
+func (c *ClientWithResponses) GetPurchaseOrderFulfillmentWithResponse(ctx context.Context, poId string, params *GetPurchaseOrderFulfillmentParams, reqEditors ...RequestEditorFn) (*GetPurchaseOrderFulfillmentResponse, error) {
+	rsp, err := c.GetPurchaseOrderFulfillment(ctx, poId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetPurchaseOrderFulfillmentResponse(rsp)
+}
+
 // RejectPurchaseOrderWithResponse request returning *RejectPurchaseOrderResponse
 func (c *ClientWithResponses) RejectPurchaseOrderWithResponse(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*RejectPurchaseOrderResponse, error) {
 	rsp, err := c.RejectPurchaseOrder(ctx, poId, reqEditors...)
@@ -21358,6 +21960,23 @@ func (c *ClientWithResponses) RejectPurchaseOrderWithResponse(ctx context.Contex
 		return nil, err
 	}
 	return ParseRejectPurchaseOrderResponse(rsp)
+}
+
+// SendShipNoticeWithBodyWithResponse request with arbitrary body returning *SendShipNoticeResponse
+func (c *ClientWithResponses) SendShipNoticeWithBodyWithResponse(ctx context.Context, poId string, params *SendShipNoticeParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SendShipNoticeResponse, error) {
+	rsp, err := c.SendShipNoticeWithBody(ctx, poId, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSendShipNoticeResponse(rsp)
+}
+
+func (c *ClientWithResponses) SendShipNoticeWithResponse(ctx context.Context, poId string, params *SendShipNoticeParams, body SendShipNoticeJSONRequestBody, reqEditors ...RequestEditorFn) (*SendShipNoticeResponse, error) {
+	rsp, err := c.SendShipNotice(ctx, poId, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSendShipNoticeResponse(rsp)
 }
 
 // SubmitPurchaseOrderDraftWithResponse request returning *SubmitPurchaseOrderDraftResponse
@@ -23630,6 +24249,39 @@ func ParseClosePurchaseOrderResponse(rsp *http.Response) (*ClosePurchaseOrderRes
 	return response, nil
 }
 
+// ParseConfirmPurchaseOrderResponse parses an HTTP response from a ConfirmPurchaseOrderWithResponse call
+func ParseConfirmPurchaseOrderResponse(rsp *http.Response) (*ConfirmPurchaseOrderResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ConfirmPurchaseOrderResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest OrderConfirmation
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetPurchaseOrderDocumentResponse parses an HTTP response from a GetPurchaseOrderDocumentWithResponse call
 func ParseGetPurchaseOrderDocumentResponse(rsp *http.Response) (*GetPurchaseOrderDocumentResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -23696,6 +24348,39 @@ func ParseFlipPurchaseOrderToInvoiceResponse(rsp *http.Response) (*FlipPurchaseO
 	return response, nil
 }
 
+// ParseGetPurchaseOrderFulfillmentResponse parses an HTTP response from a GetPurchaseOrderFulfillmentWithResponse call
+func ParseGetPurchaseOrderFulfillmentResponse(rsp *http.Response) (*GetPurchaseOrderFulfillmentResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetPurchaseOrderFulfillmentResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PurchaseOrderFulfillment
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseRejectPurchaseOrderResponse parses an HTTP response from a RejectPurchaseOrderWithResponse call
 func ParseRejectPurchaseOrderResponse(rsp *http.Response) (*RejectPurchaseOrderResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -23712,6 +24397,39 @@ func ParseRejectPurchaseOrderResponse(rsp *http.Response) (*RejectPurchaseOrderR
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
 		var dest PurchaseOrder
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSendShipNoticeResponse parses an HTTP response from a SendShipNoticeWithResponse call
+func ParseSendShipNoticeResponse(rsp *http.Response) (*SendShipNoticeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SendShipNoticeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest ShipNotice
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

@@ -15,8 +15,10 @@ ListWebhooksResultEventTypesItem = Literal[
     "invoice.updated",
     "purchase_order.canceled",
     "purchase_order.changed",
+    "purchase_order.confirmed",
     "purchase_order.issued",
     "purchase_order.rejected",
+    "purchase_order.shipped",
     "purchase_order.updated",
 ]
 
@@ -35,8 +37,10 @@ LIST_WEBHOOKS_RESULT_EVENT_TYPES_ITEM_VALUES: Set[ListWebhooksResultEventTypesIt
     "invoice.updated",
     "purchase_order.canceled",
     "purchase_order.changed",
+    "purchase_order.confirmed",
     "purchase_order.issued",
     "purchase_order.rejected",
+    "purchase_order.shipped",
     "purchase_order.updated",
 }
 

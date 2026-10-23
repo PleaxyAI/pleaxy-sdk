@@ -123,6 +123,12 @@ public class Notification {
     
     PO_STORE_ORDER_PROBLEM(String.valueOf("po_store_order_problem")),
     
+    PO_SUPPLIER_CONFIRMED(String.valueOf("po_supplier_confirmed")),
+    
+    PO_SUPPLIER_EXCEPTION(String.valueOf("po_supplier_exception")),
+    
+    PO_SHIPPED(String.valueOf("po_shipped")),
+    
     PO_NEEDS_APPROVER(String.valueOf("po_needs_approver")),
     
     INVOICE_SUBMITTED(String.valueOf("invoice_submitted")),

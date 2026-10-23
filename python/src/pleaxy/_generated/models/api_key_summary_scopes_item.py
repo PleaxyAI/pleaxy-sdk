@@ -1,9 +1,10 @@
 from typing import Literal, Set, cast
 
-ApiKeySummaryScopesItem = Literal["invoices:feed", "payments:record"]
+ApiKeySummaryScopesItem = Literal["invoices:feed", "orders:fulfill", "payments:record"]
 
 API_KEY_SUMMARY_SCOPES_ITEM_VALUES: Set[ApiKeySummaryScopesItem] = {
     "invoices:feed",
+    "orders:fulfill",
     "payments:record",
 }
 
