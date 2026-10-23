@@ -9,6 +9,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.ship_notice_line import ShipNoticeLine
+    from ..models.ship_notice_receipts_item import ShipNoticeReceiptsItem
 
 
 T = TypeVar("T", bound="ShipNotice")
@@ -31,6 +32,7 @@ class ShipNotice:
         source (Union[Unset, ShipNoticeSource]):
         created_at (Union[Unset, str]):
         updated_at (Union[Unset, str]):
+        receipts (Union[Unset, List['ShipNoticeReceiptsItem']]):
     """
 
     shipment_id: Union[Unset, str] = UNSET
@@ -46,6 +48,7 @@ class ShipNotice:
     source: Union[Unset, ShipNoticeSource] = UNSET
     created_at: Union[Unset, str] = UNSET
     updated_at: Union[Unset, str] = UNSET
+    receipts: Union[Unset, List["ShipNoticeReceiptsItem"]] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -84,6 +87,13 @@ class ShipNotice:
 
         updated_at = self.updated_at
 
+        receipts: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.receipts, Unset):
+            receipts = []
+            for receipts_item_data in self.receipts:
+                receipts_item = receipts_item_data.to_dict()
+                receipts.append(receipts_item)
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -113,12 +123,15 @@ class ShipNotice:
             field_dict["createdAt"] = created_at
         if updated_at is not UNSET:
             field_dict["updatedAt"] = updated_at
+        if receipts is not UNSET:
+            field_dict["receipts"] = receipts
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.ship_notice_line import ShipNoticeLine
+        from ..models.ship_notice_receipts_item import ShipNoticeReceiptsItem
 
         d = src_dict.copy()
         shipment_id = d.pop("shipmentId", UNSET)
@@ -162,6 +175,13 @@ class ShipNotice:
 
         updated_at = d.pop("updatedAt", UNSET)
 
+        receipts = []
+        _receipts = d.pop("receipts", UNSET)
+        for receipts_item_data in _receipts or []:
+            receipts_item = ShipNoticeReceiptsItem.from_dict(receipts_item_data)
+
+            receipts.append(receipts_item)
+
         ship_notice = cls(
             shipment_id=shipment_id,
             po_id=po_id,
@@ -176,6 +196,7 @@ class ShipNotice:
             source=source,
             created_at=created_at,
             updated_at=updated_at,
+            receipts=receipts,
         )
 
         ship_notice.additional_properties = d

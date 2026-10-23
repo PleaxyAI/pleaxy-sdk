@@ -39,6 +39,8 @@ pub struct ShipNotice {
     pub created_at: Option<String>,
     #[serde(rename = "updatedAt", skip_serializing_if = "Option::is_none")]
     pub updated_at: Option<String>,
+    #[serde(rename = "receipts", skip_serializing_if = "Option::is_none")]
+    pub receipts: Option<Vec<models::ShipNoticeReceiptsInner>>,
 }
 
 impl ShipNotice {
@@ -57,6 +59,7 @@ impl ShipNotice {
             source: None,
             created_at: None,
             updated_at: None,
+            receipts: None,
         }
     }
 }

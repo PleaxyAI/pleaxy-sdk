@@ -37,6 +37,8 @@ module Pleaxy
 
     attr_accessor :note
 
+    attr_accessor :shipment_id
+
     attr_accessor :attachment
 
     attr_accessor :source
@@ -99,6 +101,7 @@ module Pleaxy
         :'amount' => :'amount',
         :'currency' => :'currency',
         :'note' => :'note',
+        :'shipment_id' => :'shipmentId',
         :'attachment' => :'attachment',
         :'source' => :'source',
         :'created_by' => :'createdBy',
@@ -134,6 +137,7 @@ module Pleaxy
         :'amount' => :'Float',
         :'currency' => :'String',
         :'note' => :'String',
+        :'shipment_id' => :'String',
         :'attachment' => :'ReceiptAttachment',
         :'source' => :'String',
         :'created_by' => :'String',
@@ -217,6 +221,10 @@ module Pleaxy
 
       if attributes.key?(:'note')
         self.note = attributes[:'note']
+      end
+
+      if attributes.key?(:'shipment_id')
+        self.shipment_id = attributes[:'shipment_id']
       end
 
       if attributes.key?(:'attachment')
@@ -346,6 +354,7 @@ module Pleaxy
           amount == o.amount &&
           currency == o.currency &&
           note == o.note &&
+          shipment_id == o.shipment_id &&
           attachment == o.attachment &&
           source == o.source &&
           created_by == o.created_by &&
@@ -370,7 +379,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, po_id, kind, status, received_at, period_from, period_to, lines, amount, currency, note, attachment, source, created_by, created_by_name, created_at, approved_by, approved_by_name, approved_at, reversal, approval, approval_version, rejection, returns].hash
+      [id, po_id, kind, status, received_at, period_from, period_to, lines, amount, currency, note, shipment_id, attachment, source, created_by, created_by_name, created_at, approved_by, approved_by_name, approved_at, reversal, approval, approval_version, rejection, returns].hash
     end
 
     # Builds the object from hash

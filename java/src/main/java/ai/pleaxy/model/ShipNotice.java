@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.ShipNoticeLine;
+import ai.pleaxy.model.ShipNoticeReceiptsInner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -48,7 +49,8 @@ import ai.pleaxy.client.ApiClient;
   ShipNotice.JSON_PROPERTY_NOTE,
   ShipNotice.JSON_PROPERTY_SOURCE,
   ShipNotice.JSON_PROPERTY_CREATED_AT,
-  ShipNotice.JSON_PROPERTY_UPDATED_AT
+  ShipNotice.JSON_PROPERTY_UPDATED_AT,
+  ShipNotice.JSON_PROPERTY_RECEIPTS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class ShipNotice {
@@ -177,6 +179,10 @@ public class ShipNotice {
   public static final String JSON_PROPERTY_UPDATED_AT = "updatedAt";
   @javax.annotation.Nullable
   private String updatedAt;
+
+  public static final String JSON_PROPERTY_RECEIPTS = "receipts";
+  @javax.annotation.Nullable
+  private List<ShipNoticeReceiptsInner> receipts = new ArrayList<>();
 
   public ShipNotice() { 
   }
@@ -501,6 +507,38 @@ public class ShipNotice {
   }
 
 
+  public ShipNotice receipts(@javax.annotation.Nullable List<ShipNoticeReceiptsInner> receipts) {
+    this.receipts = receipts;
+    return this;
+  }
+
+  public ShipNotice addReceiptsItem(ShipNoticeReceiptsInner receiptsItem) {
+    if (this.receipts == null) {
+      this.receipts = new ArrayList<>();
+    }
+    this.receipts.add(receiptsItem);
+    return this;
+  }
+
+  /**
+   * Get receipts
+   * @return receipts
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIPTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<ShipNoticeReceiptsInner> getReceipts() {
+    return receipts;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIPTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceipts(@javax.annotation.Nullable List<ShipNoticeReceiptsInner> receipts) {
+    this.receipts = receipts;
+  }
+
+
   /**
    * Return true if this ShipNotice object is equal to o.
    */
@@ -525,12 +563,13 @@ public class ShipNotice {
         Objects.equals(this.note, shipNotice.note) &&
         Objects.equals(this.source, shipNotice.source) &&
         Objects.equals(this.createdAt, shipNotice.createdAt) &&
-        Objects.equals(this.updatedAt, shipNotice.updatedAt);
+        Objects.equals(this.updatedAt, shipNotice.updatedAt) &&
+        Objects.equals(this.receipts, shipNotice.receipts);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(shipmentId, poId, status, shipmentDate, deliveryDate, carrier, trackingNumber, trackingUrl, lines, note, source, createdAt, updatedAt);
+    return Objects.hash(shipmentId, poId, status, shipmentDate, deliveryDate, carrier, trackingNumber, trackingUrl, lines, note, source, createdAt, updatedAt, receipts);
   }
 
   @Override
@@ -550,6 +589,7 @@ public class ShipNotice {
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
+    sb.append("    receipts: ").append(toIndentedString(receipts)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -665,6 +705,16 @@ public class ShipNotice {
     // add `updatedAt` to the URL query string
     if (getUpdatedAt() != null) {
       joiner.add(String.format("%supdatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUpdatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `receipts` to the URL query string
+    if (getReceipts() != null) {
+      for (int i = 0; i < getReceipts().size(); i++) {
+        if (getReceipts().get(i) != null) {
+          joiner.add(getReceipts().get(i).toUrlQueryString(String.format("%sreceipts%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
     }
 
     return joiner.toString();

@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -8,6 +8,10 @@ from ..models.order_confirmation_line_input_status import (
     check_order_confirmation_line_input_status,
 )
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.substitute_item_input import SubstituteItemInput
+
 
 T = TypeVar("T", bound="OrderConfirmationLineInput")
 
@@ -20,6 +24,7 @@ class OrderConfirmationLineInput:
         status (OrderConfirmationLineInputStatus):
         qty (Union[Unset, float]):
         unit_price (Union[Unset, float]):
+        substitute (Union[Unset, SubstituteItemInput]):
         shipment_date (Union[Unset, str]):
         delivery_date (Union[Unset, str]):
         reason (Union[Unset, str]):
@@ -29,6 +34,7 @@ class OrderConfirmationLineInput:
     status: OrderConfirmationLineInputStatus
     qty: Union[Unset, float] = UNSET
     unit_price: Union[Unset, float] = UNSET
+    substitute: Union[Unset, "SubstituteItemInput"] = UNSET
     shipment_date: Union[Unset, str] = UNSET
     delivery_date: Union[Unset, str] = UNSET
     reason: Union[Unset, str] = UNSET
@@ -42,6 +48,10 @@ class OrderConfirmationLineInput:
         qty = self.qty
 
         unit_price = self.unit_price
+
+        substitute: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.substitute, Unset):
+            substitute = self.substitute.to_dict()
 
         shipment_date = self.shipment_date
 
@@ -61,6 +71,8 @@ class OrderConfirmationLineInput:
             field_dict["qty"] = qty
         if unit_price is not UNSET:
             field_dict["unitPrice"] = unit_price
+        if substitute is not UNSET:
+            field_dict["substitute"] = substitute
         if shipment_date is not UNSET:
             field_dict["shipmentDate"] = shipment_date
         if delivery_date is not UNSET:
@@ -72,6 +84,8 @@ class OrderConfirmationLineInput:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.substitute_item_input import SubstituteItemInput
+
         d = src_dict.copy()
         line_no = d.pop("lineNo")
 
@@ -80,6 +94,13 @@ class OrderConfirmationLineInput:
         qty = d.pop("qty", UNSET)
 
         unit_price = d.pop("unitPrice", UNSET)
+
+        _substitute = d.pop("substitute", UNSET)
+        substitute: Union[Unset, SubstituteItemInput]
+        if isinstance(_substitute, Unset):
+            substitute = UNSET
+        else:
+            substitute = SubstituteItemInput.from_dict(_substitute)
 
         shipment_date = d.pop("shipmentDate", UNSET)
 
@@ -92,6 +113,7 @@ class OrderConfirmationLineInput:
             status=status,
             qty=qty,
             unit_price=unit_price,
+            substitute=substitute,
             shipment_date=shipment_date,
             delivery_date=delivery_date,
             reason=reason,

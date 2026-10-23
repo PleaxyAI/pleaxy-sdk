@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.SubstituteItemInput;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,6 +38,7 @@ import ai.pleaxy.client.ApiClient;
   OrderConfirmationLineInput.JSON_PROPERTY_STATUS,
   OrderConfirmationLineInput.JSON_PROPERTY_QTY,
   OrderConfirmationLineInput.JSON_PROPERTY_UNIT_PRICE,
+  OrderConfirmationLineInput.JSON_PROPERTY_SUBSTITUTE,
   OrderConfirmationLineInput.JSON_PROPERTY_SHIPMENT_DATE,
   OrderConfirmationLineInput.JSON_PROPERTY_DELIVERY_DATE,
   OrderConfirmationLineInput.JSON_PROPERTY_REASON
@@ -97,6 +99,10 @@ public class OrderConfirmationLineInput {
   public static final String JSON_PROPERTY_UNIT_PRICE = "unitPrice";
   @javax.annotation.Nullable
   private Double unitPrice;
+
+  public static final String JSON_PROPERTY_SUBSTITUTE = "substitute";
+  @javax.annotation.Nullable
+  private SubstituteItemInput substitute;
 
   public static final String JSON_PROPERTY_SHIPMENT_DATE = "shipmentDate";
   @javax.annotation.Nullable
@@ -210,6 +216,30 @@ public class OrderConfirmationLineInput {
   }
 
 
+  public OrderConfirmationLineInput substitute(@javax.annotation.Nullable SubstituteItemInput substitute) {
+    this.substitute = substitute;
+    return this;
+  }
+
+  /**
+   * Get substitute
+   * @return substitute
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SUBSTITUTE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SubstituteItemInput getSubstitute() {
+    return substitute;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SUBSTITUTE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSubstitute(@javax.annotation.Nullable SubstituteItemInput substitute) {
+    this.substitute = substitute;
+  }
+
+
   public OrderConfirmationLineInput shipmentDate(@javax.annotation.Nullable String shipmentDate) {
     this.shipmentDate = shipmentDate;
     return this;
@@ -298,6 +328,7 @@ public class OrderConfirmationLineInput {
         Objects.equals(this.status, orderConfirmationLineInput.status) &&
         Objects.equals(this.qty, orderConfirmationLineInput.qty) &&
         Objects.equals(this.unitPrice, orderConfirmationLineInput.unitPrice) &&
+        Objects.equals(this.substitute, orderConfirmationLineInput.substitute) &&
         Objects.equals(this.shipmentDate, orderConfirmationLineInput.shipmentDate) &&
         Objects.equals(this.deliveryDate, orderConfirmationLineInput.deliveryDate) &&
         Objects.equals(this.reason, orderConfirmationLineInput.reason);
@@ -305,7 +336,7 @@ public class OrderConfirmationLineInput {
 
   @Override
   public int hashCode() {
-    return Objects.hash(lineNo, status, qty, unitPrice, shipmentDate, deliveryDate, reason);
+    return Objects.hash(lineNo, status, qty, unitPrice, substitute, shipmentDate, deliveryDate, reason);
   }
 
   @Override
@@ -316,6 +347,7 @@ public class OrderConfirmationLineInput {
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    qty: ").append(toIndentedString(qty)).append("\n");
     sb.append("    unitPrice: ").append(toIndentedString(unitPrice)).append("\n");
+    sb.append("    substitute: ").append(toIndentedString(substitute)).append("\n");
     sb.append("    shipmentDate: ").append(toIndentedString(shipmentDate)).append("\n");
     sb.append("    deliveryDate: ").append(toIndentedString(deliveryDate)).append("\n");
     sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
@@ -384,6 +416,11 @@ public class OrderConfirmationLineInput {
     // add `unitPrice` to the URL query string
     if (getUnitPrice() != null) {
       joiner.add(String.format("%sunitPrice%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUnitPrice()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `substitute` to the URL query string
+    if (getSubstitute() != null) {
+      joiner.add(getSubstitute().toUrlQueryString(prefix + "substitute" + suffix));
     }
 
     // add `shipmentDate` to the URL query string

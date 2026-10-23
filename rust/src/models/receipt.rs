@@ -35,6 +35,8 @@ pub struct Receipt {
     pub currency: Option<String>,
     #[serde(rename = "note", skip_serializing_if = "Option::is_none")]
     pub note: Option<String>,
+    #[serde(rename = "shipmentId", skip_serializing_if = "Option::is_none")]
+    pub shipment_id: Option<String>,
     #[serde(rename = "attachment", skip_serializing_if = "Option::is_none")]
     pub attachment: Option<models::ReceiptAttachment>,
     #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
@@ -77,6 +79,7 @@ impl Receipt {
             amount: None,
             currency: None,
             note: None,
+            shipment_id: None,
             attachment: None,
             source: None,
             created_by: None,

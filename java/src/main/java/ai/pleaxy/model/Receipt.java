@@ -51,6 +51,7 @@ import ai.pleaxy.client.ApiClient;
   Receipt.JSON_PROPERTY_AMOUNT,
   Receipt.JSON_PROPERTY_CURRENCY,
   Receipt.JSON_PROPERTY_NOTE,
+  Receipt.JSON_PROPERTY_SHIPMENT_ID,
   Receipt.JSON_PROPERTY_ATTACHMENT,
   Receipt.JSON_PROPERTY_SOURCE,
   Receipt.JSON_PROPERTY_CREATED_BY,
@@ -184,6 +185,10 @@ public class Receipt {
   public static final String JSON_PROPERTY_NOTE = "note";
   @javax.annotation.Nullable
   private String note;
+
+  public static final String JSON_PROPERTY_SHIPMENT_ID = "shipmentId";
+  @javax.annotation.Nullable
+  private String shipmentId;
 
   public static final String JSON_PROPERTY_ATTACHMENT = "attachment";
   @javax.annotation.Nullable
@@ -553,6 +558,30 @@ public class Receipt {
   }
 
 
+  public Receipt shipmentId(@javax.annotation.Nullable String shipmentId) {
+    this.shipmentId = shipmentId;
+    return this;
+  }
+
+  /**
+   * Get shipmentId
+   * @return shipmentId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SHIPMENT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getShipmentId() {
+    return shipmentId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SHIPMENT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setShipmentId(@javax.annotation.Nullable String shipmentId) {
+    this.shipmentId = shipmentId;
+  }
+
+
   public Receipt attachment(@javax.annotation.Nullable ReceiptAttachment attachment) {
     this.attachment = attachment;
     return this;
@@ -896,6 +925,7 @@ public class Receipt {
         Objects.equals(this.amount, receipt.amount) &&
         Objects.equals(this.currency, receipt.currency) &&
         Objects.equals(this.note, receipt.note) &&
+        Objects.equals(this.shipmentId, receipt.shipmentId) &&
         Objects.equals(this.attachment, receipt.attachment) &&
         Objects.equals(this.source, receipt.source) &&
         Objects.equals(this.createdBy, receipt.createdBy) &&
@@ -913,7 +943,7 @@ public class Receipt {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, poId, kind, status, receivedAt, periodFrom, periodTo, lines, amount, currency, note, attachment, source, createdBy, createdByName, createdAt, approvedBy, approvedByName, approvedAt, reversal, approval, approvalVersion, rejection, returns);
+    return Objects.hash(id, poId, kind, status, receivedAt, periodFrom, periodTo, lines, amount, currency, note, shipmentId, attachment, source, createdBy, createdByName, createdAt, approvedBy, approvedByName, approvedAt, reversal, approval, approvalVersion, rejection, returns);
   }
 
   @Override
@@ -931,6 +961,7 @@ public class Receipt {
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    note: ").append(toIndentedString(note)).append("\n");
+    sb.append("    shipmentId: ").append(toIndentedString(shipmentId)).append("\n");
     sb.append("    attachment: ").append(toIndentedString(attachment)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
@@ -1049,6 +1080,11 @@ public class Receipt {
     // add `note` to the URL query string
     if (getNote() != null) {
       joiner.add(String.format("%snote%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNote()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `shipmentId` to the URL query string
+    if (getShipmentId() != null) {
+      joiner.add(String.format("%sshipmentId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getShipmentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `attachment` to the URL query string

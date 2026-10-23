@@ -7917,6 +7917,7 @@ type OrderConfirmationLine struct {
 	Reason       *string                      `json:"reason,omitempty"`
 	ShipmentDate *string                      `json:"shipmentDate,omitempty"`
 	Status       *OrderConfirmationLineStatus `json:"status,omitempty"`
+	Substitute   *OrderConfirmationSubstitute `json:"substitute,omitempty"`
 	UnitPrice    *float64                     `json:"unitPrice,omitempty"`
 }
 
@@ -7931,11 +7932,20 @@ type OrderConfirmationLineInput struct {
 	Reason       *string                          `json:"reason,omitempty"`
 	ShipmentDate *string                          `json:"shipmentDate,omitempty"`
 	Status       OrderConfirmationLineInputStatus `json:"status"`
+	Substitute   *SubstituteItemInput             `json:"substitute,omitempty"`
 	UnitPrice    *float64                         `json:"unitPrice,omitempty"`
 }
 
 // OrderConfirmationLineInputStatus defines model for OrderConfirmationLineInput.Status.
 type OrderConfirmationLineInputStatus string
+
+// OrderConfirmationSubstitute defines model for OrderConfirmationSubstitute.
+type OrderConfirmationSubstitute struct {
+	CatalogItemId  *string `json:"catalogItemId,omitempty"`
+	Name           *string `json:"name,omitempty"`
+	SupplierPartId *string `json:"supplierPartId,omitempty"`
+	Unit           *string `json:"unit,omitempty"`
+}
 
 // OrgProfile defines model for OrgProfile.
 type OrgProfile struct {
@@ -8524,8 +8534,9 @@ type Receipt struct {
 		ByName *string `json:"byName,omitempty"`
 		Reason *string `json:"reason,omitempty"`
 	} `json:"reversal,omitempty"`
-	Source *ReceiptSource `json:"source,omitempty"`
-	Status *ReceiptStatus `json:"status,omitempty"`
+	ShipmentId *string        `json:"shipmentId,omitempty"`
+	Source     *ReceiptSource `json:"source,omitempty"`
+	Status     *ReceiptStatus `json:"status,omitempty"`
 }
 
 // ReceiptKind defines model for Receipt.Kind.
@@ -9408,12 +9419,16 @@ type SetWarningPctInput struct {
 
 // ShipNotice defines model for ShipNotice.
 type ShipNotice struct {
-	Carrier        *string           `json:"carrier,omitempty"`
-	CreatedAt      *string           `json:"createdAt,omitempty"`
-	DeliveryDate   *string           `json:"deliveryDate,omitempty"`
-	Lines          *[]ShipNoticeLine `json:"lines,omitempty"`
-	Note           *string           `json:"note,omitempty"`
-	PoId           *string           `json:"poId,omitempty"`
+	Carrier      *string           `json:"carrier,omitempty"`
+	CreatedAt    *string           `json:"createdAt,omitempty"`
+	DeliveryDate *string           `json:"deliveryDate,omitempty"`
+	Lines        *[]ShipNoticeLine `json:"lines,omitempty"`
+	Note         *string           `json:"note,omitempty"`
+	PoId         *string           `json:"poId,omitempty"`
+	Receipts     *[]struct {
+		Id         string  `json:"id"`
+		ReceivedAt *string `json:"receivedAt,omitempty"`
+	} `json:"receipts,omitempty"`
 	ShipmentDate   *string           `json:"shipmentDate,omitempty"`
 	ShipmentId     *string           `json:"shipmentId,omitempty"`
 	Source         *ShipNoticeSource `json:"source,omitempty"`
@@ -9573,6 +9588,12 @@ type StripePaymentStatusState string
 // SubmitFeedInvoiceResult defines model for SubmitFeedInvoiceResult.
 type SubmitFeedInvoiceResult struct {
 	union json.RawMessage
+}
+
+// SubstituteItemInput defines model for SubstituteItemInput.
+type SubstituteItemInput struct {
+	Name           string `json:"name"`
+	SupplierPartId string `json:"supplierPartId"`
 }
 
 // SupplierApprovalView defines model for SupplierApprovalView.

@@ -1164,6 +1164,7 @@ from .order_confirmation_line_status import OrderConfirmationLineStatus
 from .order_confirmation_operation import OrderConfirmationOperation
 from .order_confirmation_outcome import OrderConfirmationOutcome
 from .order_confirmation_source import OrderConfirmationSource
+from .order_confirmation_substitute import OrderConfirmationSubstitute
 from .org_profile import OrgProfile
 from .org_profile_role import OrgProfileRole
 from .payer_account_ref import PayerAccountRef
@@ -1466,6 +1467,7 @@ from .set_warning_pct_input import SetWarningPctInput
 from .ship_notice import ShipNotice
 from .ship_notice_line import ShipNoticeLine
 from .ship_notice_line_input import ShipNoticeLineInput
+from .ship_notice_receipts_item import ShipNoticeReceiptsItem
 from .ship_notice_source import ShipNoticeSource
 from .ship_notice_status import ShipNoticeStatus
 from .spend_limit_breach import SpendLimitBreach
@@ -1492,6 +1494,7 @@ from .stripe_payment_status_quote import StripePaymentStatusQuote
 from .stripe_payment_status_quote_currency import StripePaymentStatusQuoteCurrency
 from .stripe_payment_status_reason import StripePaymentStatusReason
 from .stripe_payment_status_state import StripePaymentStatusState
+from .substitute_item_input import SubstituteItemInput
 from .supplier_approval_view import SupplierApprovalView
 from .supplier_approval_view_status import SupplierApprovalViewStatus
 from .supplier_bank_details_confirmation_view import SupplierBankDetailsConfirmationView
@@ -2172,6 +2175,7 @@ __all__ = (
     "OrderConfirmationOperation",
     "OrderConfirmationOutcome",
     "OrderConfirmationSource",
+    "OrderConfirmationSubstitute",
     "OrgProfile",
     "OrgProfileRole",
     "PayerAccountRef",
@@ -2362,6 +2366,7 @@ __all__ = (
     "ShipNotice",
     "ShipNoticeLine",
     "ShipNoticeLineInput",
+    "ShipNoticeReceiptsItem",
     "ShipNoticeSource",
     "ShipNoticeStatus",
     "SpendLimitBreach",
@@ -2384,6 +2389,7 @@ __all__ = (
     "StripePaymentStatusQuoteCurrency",
     "StripePaymentStatusReason",
     "StripePaymentStatusState",
+    "SubstituteItemInput",
     "SupplierApprovalView",
     "SupplierApprovalViewStatus",
     "SupplierBankDetailsConfirmationView",

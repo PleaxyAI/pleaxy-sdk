@@ -41,6 +41,8 @@ module Pleaxy
 
     attr_accessor :updated_at
 
+    attr_accessor :receipts
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -78,7 +80,8 @@ module Pleaxy
         :'note' => :'note',
         :'source' => :'source',
         :'created_at' => :'createdAt',
-        :'updated_at' => :'updatedAt'
+        :'updated_at' => :'updatedAt',
+        :'receipts' => :'receipts'
       }
     end
 
@@ -102,7 +105,8 @@ module Pleaxy
         :'note' => :'String',
         :'source' => :'String',
         :'created_at' => :'String',
-        :'updated_at' => :'String'
+        :'updated_at' => :'String',
+        :'receipts' => :'Array<ShipNoticeReceiptsInner>'
       }
     end
 
@@ -180,6 +184,12 @@ module Pleaxy
       if attributes.key?(:'updated_at')
         self.updated_at = attributes[:'updated_at']
       end
+
+      if attributes.key?(:'receipts')
+        if (value = attributes[:'receipts']).is_a?(Array)
+          self.receipts = value
+        end
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -238,7 +248,8 @@ module Pleaxy
           note == o.note &&
           source == o.source &&
           created_at == o.created_at &&
-          updated_at == o.updated_at
+          updated_at == o.updated_at &&
+          receipts == o.receipts
     end
 
     # @see the `==` method
@@ -250,7 +261,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [shipment_id, po_id, status, shipment_date, delivery_date, carrier, tracking_number, tracking_url, lines, note, source, created_at, updated_at].hash
+      [shipment_id, po_id, status, shipment_date, delivery_date, carrier, tracking_number, tracking_url, lines, note, source, created_at, updated_at, receipts].hash
     end
 
     # Builds the object from hash
