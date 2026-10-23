@@ -121,6 +121,8 @@ public class InvoicePaymentRecord {
    * Gets or Sets method
    */
   public enum MethodEnum {
+    OTHER(String.valueOf("other")),
+    
     CARD(String.valueOf("card")),
     
     ACH(String.valueOf("ach")),
@@ -129,9 +131,9 @@ public class InvoicePaymentRecord {
     
     CHECK(String.valueOf("check")),
     
-    OTHER(String.valueOf("other")),
+    CREDIT(String.valueOf("credit")),
     
-    CREDIT(String.valueOf("credit"));
+    NOTHING_DUE(String.valueOf("nothing_due"));
 
     private String value;
 

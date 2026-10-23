@@ -7,6 +7,10 @@ from ..models.purchase_order_supplier_view_quote_document_content_type import (
     PurchaseOrderSupplierViewQuoteDocumentContentType,
     check_purchase_order_supplier_view_quote_document_content_type,
 )
+from ..models.purchase_order_supplier_view_quote_document_document_type import (
+    PurchaseOrderSupplierViewQuoteDocumentDocumentType,
+    check_purchase_order_supplier_view_quote_document_document_type,
+)
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="PurchaseOrderSupplierViewQuoteDocument")
@@ -16,6 +20,7 @@ T = TypeVar("T", bound="PurchaseOrderSupplierViewQuoteDocument")
 class PurchaseOrderSupplierViewQuoteDocument:
     """
     Attributes:
+        document_type (Union[Unset, PurchaseOrderSupplierViewQuoteDocumentDocumentType]):
         import_id (Union[Unset, str]):
         file_name (Union[Unset, str]):
         content_type (Union[Unset, PurchaseOrderSupplierViewQuoteDocumentContentType]):
@@ -24,6 +29,9 @@ class PurchaseOrderSupplierViewQuoteDocument:
         valid_until (Union[Unset, str]):
     """
 
+    document_type: Union[Unset, PurchaseOrderSupplierViewQuoteDocumentDocumentType] = (
+        UNSET
+    )
     import_id: Union[Unset, str] = UNSET
     file_name: Union[Unset, str] = UNSET
     content_type: Union[Unset, PurchaseOrderSupplierViewQuoteDocumentContentType] = (
@@ -35,6 +43,10 @@ class PurchaseOrderSupplierViewQuoteDocument:
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
+        document_type: Union[Unset, str] = UNSET
+        if not isinstance(self.document_type, Unset):
+            document_type = self.document_type
+
         import_id = self.import_id
 
         file_name = self.file_name
@@ -52,6 +64,8 @@ class PurchaseOrderSupplierViewQuoteDocument:
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
+        if document_type is not UNSET:
+            field_dict["documentType"] = document_type
         if import_id is not UNSET:
             field_dict["importId"] = import_id
         if file_name is not UNSET:
@@ -70,6 +84,17 @@ class PurchaseOrderSupplierViewQuoteDocument:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
+        _document_type = d.pop("documentType", UNSET)
+        document_type: Union[Unset, PurchaseOrderSupplierViewQuoteDocumentDocumentType]
+        if isinstance(_document_type, Unset):
+            document_type = UNSET
+        else:
+            document_type = (
+                check_purchase_order_supplier_view_quote_document_document_type(
+                    _document_type
+                )
+            )
+
         import_id = d.pop("importId", UNSET)
 
         file_name = d.pop("fileName", UNSET)
@@ -92,6 +117,7 @@ class PurchaseOrderSupplierViewQuoteDocument:
         valid_until = d.pop("validUntil", UNSET)
 
         purchase_order_supplier_view_quote_document = cls(
+            document_type=document_type,
             import_id=import_id,
             file_name=file_name,
             content_type=content_type,

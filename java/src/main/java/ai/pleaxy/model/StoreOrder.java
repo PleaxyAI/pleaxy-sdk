@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.StoreOrderConfirmation;
 import ai.pleaxy.model.StoreOrderRefusal;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -43,6 +44,7 @@ import ai.pleaxy.client.ApiClient;
   StoreOrder.JSON_PROPERTY_SENT_AT,
   StoreOrder.JSON_PROPERTY_REFUSAL,
   StoreOrder.JSON_PROPERTY_STORE_ANSWER,
+  StoreOrder.JSON_PROPERTY_CONFIRMATION,
   StoreOrder.JSON_PROPERTY_DEADLINE,
   StoreOrder.JSON_PROPERTY_QUEUE_SK
 })
@@ -66,7 +68,13 @@ public class StoreOrder {
     
     RETRYING(String.valueOf("retrying")),
     
-    SENT(String.valueOf("sent"));
+    SENT(String.valueOf("sent")),
+    
+    CONFIRMED(String.valueOf("confirmed")),
+    
+    CANCELLED(String.valueOf("cancelled")),
+    
+    PARTIAL(String.valueOf("partial"));
 
     private String value;
 
@@ -130,6 +138,10 @@ public class StoreOrder {
   public static final String JSON_PROPERTY_STORE_ANSWER = "storeAnswer";
   @javax.annotation.Nullable
   private StoreOrderRefusal storeAnswer;
+
+  public static final String JSON_PROPERTY_CONFIRMATION = "confirmation";
+  @javax.annotation.Nullable
+  private StoreOrderConfirmation confirmation;
 
   public static final String JSON_PROPERTY_DEADLINE = "deadline";
   @javax.annotation.Nullable
@@ -358,6 +370,30 @@ public class StoreOrder {
   }
 
 
+  public StoreOrder confirmation(@javax.annotation.Nullable StoreOrderConfirmation confirmation) {
+    this.confirmation = confirmation;
+    return this;
+  }
+
+  /**
+   * Get confirmation
+   * @return confirmation
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CONFIRMATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public StoreOrderConfirmation getConfirmation() {
+    return confirmation;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CONFIRMATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setConfirmation(@javax.annotation.Nullable StoreOrderConfirmation confirmation) {
+    this.confirmation = confirmation;
+  }
+
+
   public StoreOrder deadline(@javax.annotation.Nullable String deadline) {
     this.deadline = deadline;
     return this;
@@ -427,13 +463,14 @@ public class StoreOrder {
         Objects.equals(this.sentAt, storeOrder.sentAt) &&
         Objects.equals(this.refusal, storeOrder.refusal) &&
         Objects.equals(this.storeAnswer, storeOrder.storeAnswer) &&
+        Objects.equals(this.confirmation, storeOrder.confirmation) &&
         Objects.equals(this.deadline, storeOrder.deadline) &&
         Objects.equals(this.queueSk, storeOrder.queueSk);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(status, payloadId, attempts, queuedAt, lastAttemptAt, nextAttemptAt, sentAt, refusal, storeAnswer, deadline, queueSk);
+    return Objects.hash(status, payloadId, attempts, queuedAt, lastAttemptAt, nextAttemptAt, sentAt, refusal, storeAnswer, confirmation, deadline, queueSk);
   }
 
   @Override
@@ -449,6 +486,7 @@ public class StoreOrder {
     sb.append("    sentAt: ").append(toIndentedString(sentAt)).append("\n");
     sb.append("    refusal: ").append(toIndentedString(refusal)).append("\n");
     sb.append("    storeAnswer: ").append(toIndentedString(storeAnswer)).append("\n");
+    sb.append("    confirmation: ").append(toIndentedString(confirmation)).append("\n");
     sb.append("    deadline: ").append(toIndentedString(deadline)).append("\n");
     sb.append("    queueSk: ").append(toIndentedString(queueSk)).append("\n");
     sb.append("}");
@@ -541,6 +579,11 @@ public class StoreOrder {
     // add `storeAnswer` to the URL query string
     if (getStoreAnswer() != null) {
       joiner.add(getStoreAnswer().toUrlQueryString(prefix + "storeAnswer" + suffix));
+    }
+
+    // add `confirmation` to the URL query string
+    if (getConfirmation() != null) {
+      joiner.add(getConfirmation().toUrlQueryString(prefix + "confirmation" + suffix));
     }
 
     // add `deadline` to the URL query string

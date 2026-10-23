@@ -46,8 +46,10 @@ import ai.pleaxy.client.ApiClient;
   LineItemInput.JSON_PROPERTY_PAYMENT_TERMS,
   LineItemInput.JSON_PROPERTY_VALID_FROM,
   LineItemInput.JSON_PROPERTY_VALID_UNTIL,
+  LineItemInput.JSON_PROPERTY_DUE_DATE,
   LineItemInput.JSON_PROPERTY_CUSTOMER_LINE_NO,
   LineItemInput.JSON_PROPERTY_QUOTE_LINE_NO,
+  LineItemInput.JSON_PROPERTY_SOW_LINE_NO,
   LineItemInput.JSON_PROPERTY_PUNCHOUT_REF
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -174,6 +176,10 @@ public class LineItemInput {
   @javax.annotation.Nonnull
   private String validUntil;
 
+  public static final String JSON_PROPERTY_DUE_DATE = "dueDate";
+  @javax.annotation.Nullable
+  private String dueDate;
+
   public static final String JSON_PROPERTY_CUSTOMER_LINE_NO = "customerLineNo";
   @javax.annotation.Nullable
   private String customerLineNo;
@@ -181,6 +187,10 @@ public class LineItemInput {
   public static final String JSON_PROPERTY_QUOTE_LINE_NO = "quoteLineNo";
   @javax.annotation.Nullable
   private Double quoteLineNo;
+
+  public static final String JSON_PROPERTY_SOW_LINE_NO = "sowLineNo";
+  @javax.annotation.Nullable
+  private Double sowLineNo;
 
   public static final String JSON_PROPERTY_PUNCHOUT_REF = "punchoutRef";
   @javax.annotation.Nullable
@@ -480,6 +490,30 @@ public class LineItemInput {
   }
 
 
+  public LineItemInput dueDate(@javax.annotation.Nullable String dueDate) {
+    this.dueDate = dueDate;
+    return this;
+  }
+
+  /**
+   * When the goods or the work on this line are due (YYYY-MM-DD), e.g. a statement-of-work milestone. On a 3-way order, its receiver is reminded when it passes with nothing received.
+   * @return dueDate
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DUE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getDueDate() {
+    return dueDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DUE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDueDate(@javax.annotation.Nullable String dueDate) {
+    this.dueDate = dueDate;
+  }
+
+
   public LineItemInput customerLineNo(@javax.annotation.Nullable String customerLineNo) {
     this.customerLineNo = customerLineNo;
     return this;
@@ -527,6 +561,32 @@ public class LineItemInput {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setQuoteLineNo(@javax.annotation.Nullable Double quoteLineNo) {
     this.quoteLineNo = quoteLineNo;
+  }
+
+
+  public LineItemInput sowLineNo(@javax.annotation.Nullable Double sowLineNo) {
+    this.sowLineNo = sowLineNo;
+    return this;
+  }
+
+  /**
+   * The milestone or deliverable of the order&#39;s statement of work (sowImportId) this line was filled from, when Pleaxy read the SOW. Kept on the line, provenance only, like quoteLineNo.
+   * minimum: 1
+   * maximum: 1000
+   * @return sowLineNo
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SOW_LINE_NO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getSowLineNo() {
+    return sowLineNo;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SOW_LINE_NO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSowLineNo(@javax.annotation.Nullable Double sowLineNo) {
+    this.sowLineNo = sowLineNo;
   }
 
 
@@ -578,14 +638,16 @@ public class LineItemInput {
         Objects.equals(this.paymentTerms, lineItemInput.paymentTerms) &&
         Objects.equals(this.validFrom, lineItemInput.validFrom) &&
         Objects.equals(this.validUntil, lineItemInput.validUntil) &&
+        Objects.equals(this.dueDate, lineItemInput.dueDate) &&
         Objects.equals(this.customerLineNo, lineItemInput.customerLineNo) &&
         Objects.equals(this.quoteLineNo, lineItemInput.quoteLineNo) &&
+        Objects.equals(this.sowLineNo, lineItemInput.sowLineNo) &&
         Objects.equals(this.punchoutRef, lineItemInput.punchoutRef);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(scopeType, scopeId, name, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, customerLineNo, quoteLineNo, punchoutRef);
+    return Objects.hash(scopeType, scopeId, name, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, dueDate, customerLineNo, quoteLineNo, sowLineNo, punchoutRef);
   }
 
   @Override
@@ -604,8 +666,10 @@ public class LineItemInput {
     sb.append("    paymentTerms: ").append(toIndentedString(paymentTerms)).append("\n");
     sb.append("    validFrom: ").append(toIndentedString(validFrom)).append("\n");
     sb.append("    validUntil: ").append(toIndentedString(validUntil)).append("\n");
+    sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
     sb.append("    customerLineNo: ").append(toIndentedString(customerLineNo)).append("\n");
     sb.append("    quoteLineNo: ").append(toIndentedString(quoteLineNo)).append("\n");
+    sb.append("    sowLineNo: ").append(toIndentedString(sowLineNo)).append("\n");
     sb.append("    punchoutRef: ").append(toIndentedString(punchoutRef)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -714,6 +778,11 @@ public class LineItemInput {
       joiner.add(String.format("%svalidUntil%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getValidUntil()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `dueDate` to the URL query string
+    if (getDueDate() != null) {
+      joiner.add(String.format("%sdueDate%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDueDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
     // add `customerLineNo` to the URL query string
     if (getCustomerLineNo() != null) {
       joiner.add(String.format("%scustomerLineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCustomerLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -722,6 +791,11 @@ public class LineItemInput {
     // add `quoteLineNo` to the URL query string
     if (getQuoteLineNo() != null) {
       joiner.add(String.format("%squoteLineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuoteLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `sowLineNo` to the URL query string
+    if (getSowLineNo() != null) {
+      joiner.add(String.format("%ssowLineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSowLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `punchoutRef` to the URL query string

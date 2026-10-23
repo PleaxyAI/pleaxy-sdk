@@ -28,16 +28,16 @@ module Pleaxy
     # AWS only, required - the connectionId returned by POST .../cloud-connections/aws/init, linking this verify call back to the externalId generated server-side for that pending connection. Never the externalId itself - that's looked up server-side, never trusted from the client.
     attr_accessor :aws_connection_id
 
-    # GCP only, when its connector is on - the connectionId returned by POST .../cloud-connections/gcp/init. The binding itself is looked up server-side, never taken from the client.
+    # Google Cloud only, when its connector is on - the connectionId returned by POST .../cloud-connections/gcp/init. The binding itself is looked up server-side, never taken from the client.
     attr_accessor :gcp_connection_id
 
-    # GCP only - the export project's number (digits).
+    # Google Cloud only - the export project's number (digits).
     attr_accessor :gcp_project_number
 
-    # GCP only - the service account the setup script created, in the export project.
+    # Google Cloud only - the service account the setup script created, in the export project.
     attr_accessor :gcp_service_account_email
 
-    # GCP only - project.dataset.gcp_billing_export_v1_XXXXXX_XXXXXX_XXXXXX (standard usage cost export).
+    # Google Cloud only - project.dataset.gcp_billing_export_v1_XXXXXX_XXXXXX_XXXXXX (standard usage cost export).
     attr_accessor :gcp_export_table
 
     # OCI only, when its connector is on - the connectionId returned by POST .../cloud-connections/oci/init. The key pair is looked up server-side, never taken from the client.

@@ -9,6 +9,7 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.geography import Geography
     from ..models.postal_address import PostalAddress
+    from ..models.same_domain_acknowledgement import SameDomainAcknowledgement
 
 
 T = TypeVar("T", bound="OrgProfile")
@@ -39,6 +40,7 @@ class OrgProfile:
         primary_contact_name (Union[Unset, str]):
         primary_contact_email (Union[Unset, str]):
         created_at (Union[Unset, str]):
+        same_domain_acknowledged (Union[Unset, SameDomainAcknowledgement]):
         verified (Union[Unset, bool]):
         listed_in_directory (Union[Unset, bool]):
         directory_id (Union[Unset, str]):
@@ -65,6 +67,7 @@ class OrgProfile:
     primary_contact_name: Union[Unset, str] = UNSET
     primary_contact_email: Union[Unset, str] = UNSET
     created_at: Union[Unset, str] = UNSET
+    same_domain_acknowledged: Union[Unset, "SameDomainAcknowledgement"] = UNSET
     verified: Union[Unset, bool] = UNSET
     listed_in_directory: Union[Unset, bool] = UNSET
     directory_id: Union[Unset, str] = UNSET
@@ -125,6 +128,10 @@ class OrgProfile:
 
         created_at = self.created_at
 
+        same_domain_acknowledged: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.same_domain_acknowledged, Unset):
+            same_domain_acknowledged = self.same_domain_acknowledged.to_dict()
+
         verified = self.verified
 
         listed_in_directory = self.listed_in_directory
@@ -178,6 +185,8 @@ class OrgProfile:
             field_dict["primaryContactEmail"] = primary_contact_email
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
+        if same_domain_acknowledged is not UNSET:
+            field_dict["sameDomainAcknowledged"] = same_domain_acknowledged
         if verified is not UNSET:
             field_dict["verified"] = verified
         if listed_in_directory is not UNSET:
@@ -191,6 +200,7 @@ class OrgProfile:
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.geography import Geography
         from ..models.postal_address import PostalAddress
+        from ..models.same_domain_acknowledgement import SameDomainAcknowledgement
 
         d = src_dict.copy()
         id = d.pop("id")
@@ -250,6 +260,15 @@ class OrgProfile:
 
         created_at = d.pop("createdAt", UNSET)
 
+        _same_domain_acknowledged = d.pop("sameDomainAcknowledged", UNSET)
+        same_domain_acknowledged: Union[Unset, SameDomainAcknowledgement]
+        if isinstance(_same_domain_acknowledged, Unset):
+            same_domain_acknowledged = UNSET
+        else:
+            same_domain_acknowledged = SameDomainAcknowledgement.from_dict(
+                _same_domain_acknowledged
+            )
+
         verified = d.pop("verified", UNSET)
 
         listed_in_directory = d.pop("listedInDirectory", UNSET)
@@ -278,6 +297,7 @@ class OrgProfile:
             primary_contact_name=primary_contact_name,
             primary_contact_email=primary_contact_email,
             created_at=created_at,
+            same_domain_acknowledged=same_domain_acknowledged,
             verified=verified,
             listed_in_directory=listed_in_directory,
             directory_id=directory_id,

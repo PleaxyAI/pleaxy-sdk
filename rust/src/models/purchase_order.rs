@@ -94,6 +94,8 @@ pub struct PurchaseOrder {
     pub supplier_email: Option<models::PurchaseOrderSupplierEmail>,
     #[serde(rename = "quoteDocument", skip_serializing_if = "Option::is_none")]
     pub quote_document: Option<models::PurchaseOrderQuoteDocument>,
+    #[serde(rename = "sowDocument", skip_serializing_if = "Option::is_none")]
+    pub sow_document: Option<models::PurchaseOrderQuoteDocument>,
     #[serde(rename = "lineItems", skip_serializing_if = "Option::is_none")]
     pub line_items: Option<Vec<models::LineItem>>,
     #[serde(rename = "approval", skip_serializing_if = "Option::is_none")]
@@ -127,6 +129,31 @@ pub struct PurchaseOrder {
     pub ship_to: Option<models::PurchaseOrderShipTo>,
     #[serde(rename = "storeOrder", skip_serializing_if = "Option::is_none")]
     pub store_order: Option<models::StoreOrder>,
+    #[serde(rename = "matching", skip_serializing_if = "Option::is_none")]
+    pub matching: Option<Matching>,
+    #[serde(rename = "matchingDefault", skip_serializing_if = "Option::is_none")]
+    pub matching_default: Option<MatchingDefault>,
+    #[serde(rename = "matchingChanges", skip_serializing_if = "Option::is_none")]
+    pub matching_changes: Option<Vec<models::PurchaseOrderMatchingChange>>,
+    #[serde(
+        rename = "receiverEmployeeKey",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub receiver_employee_key: Option<String>,
+    #[serde(rename = "receiverName", skip_serializing_if = "Option::is_none")]
+    pub receiver_name: Option<String>,
+    #[serde(rename = "received", skip_serializing_if = "Option::is_none")]
+    pub received: Option<Vec<models::PurchaseOrderReceivedLine>>,
+    #[serde(rename = "receivedPending", skip_serializing_if = "Option::is_none")]
+    pub received_pending: Option<Vec<models::PurchaseOrderReceivedLine>>,
+    #[serde(rename = "receiptState", skip_serializing_if = "Option::is_none")]
+    pub receipt_state: Option<ReceiptState>,
+    #[serde(rename = "receiptRequired", skip_serializing_if = "Option::is_none")]
+    pub receipt_required: Option<bool>,
+    #[serde(rename = "readyToInvoice", skip_serializing_if = "Option::is_none")]
+    pub ready_to_invoice: Option<f64>,
+    #[serde(rename = "receiptTolerance", skip_serializing_if = "Option::is_none")]
+    pub receipt_tolerance: Option<models::PurchaseOrderReceiptTolerance>,
     #[serde(rename = "createdAt", skip_serializing_if = "Option::is_none")]
     pub created_at: Option<String>,
 }
@@ -167,6 +194,7 @@ impl PurchaseOrder {
             contract_id: None,
             supplier_email: None,
             quote_document: None,
+            sow_document: None,
             line_items: None,
             approval: None,
             approval_version: None,
@@ -182,6 +210,17 @@ impl PurchaseOrder {
             delivery_address_id: None,
             ship_to: None,
             store_order: None,
+            matching: None,
+            matching_default: None,
+            matching_changes: None,
+            receiver_employee_key: None,
+            receiver_name: None,
+            received: None,
+            received_pending: None,
+            receipt_state: None,
+            receipt_required: None,
+            ready_to_invoice: None,
+            receipt_tolerance: None,
             created_at: None,
         }
     }
@@ -230,5 +269,49 @@ pub enum Provider {
 impl Default for Provider {
     fn default() -> Provider {
         Self::Aws
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Matching {
+    #[serde(rename = "two_way")]
+    TwoWay,
+    #[serde(rename = "three_way")]
+    ThreeWay,
+}
+
+impl Default for Matching {
+    fn default() -> Matching {
+        Self::TwoWay
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum MatchingDefault {
+    #[serde(rename = "two_way")]
+    TwoWay,
+    #[serde(rename = "three_way")]
+    ThreeWay,
+}
+
+impl Default for MatchingDefault {
+    fn default() -> MatchingDefault {
+        Self::TwoWay
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum ReceiptState {
+    #[serde(rename = "none")]
+    None,
+    #[serde(rename = "partial")]
+    Partial,
+    #[serde(rename = "full")]
+    Full,
+}
+
+impl Default for ReceiptState {
+    fn default() -> ReceiptState {
+        Self::None
     }
 }

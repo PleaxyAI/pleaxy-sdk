@@ -20,14 +20,18 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.ApprovalChain;
+import ai.pleaxy.model.BankDetailsConfirmation;
 import ai.pleaxy.model.InvoiceAdjustment;
 import ai.pleaxy.model.InvoiceBaseCurrencyAmount;
 import ai.pleaxy.model.InvoiceBreakdownEntry;
 import ai.pleaxy.model.InvoiceBuyerViewPartyDetails;
+import ai.pleaxy.model.InvoiceBuyerViewReceiptCheckSkipped;
+import ai.pleaxy.model.InvoiceBuyerViewReceiptToleranceApplied;
 import ai.pleaxy.model.InvoiceControlFinding;
 import ai.pleaxy.model.InvoiceCreditApplication;
 import ai.pleaxy.model.InvoiceCurrencyAmount;
 import ai.pleaxy.model.InvoiceDeduction;
+import ai.pleaxy.model.InvoiceDuplicateRef;
 import ai.pleaxy.model.InvoiceLineItem;
 import ai.pleaxy.model.InvoicePaymentRecord;
 import ai.pleaxy.model.InvoiceRateWarning;
@@ -85,6 +89,9 @@ import ai.pleaxy.client.ApiClient;
   InvoiceBuyerView.JSON_PROPERTY_MATCH_STATUS,
   InvoiceBuyerView.JSON_PROPERTY_UNVERIFIED_REASON,
   InvoiceBuyerView.JSON_PROPERTY_MATCH_BASIS,
+  InvoiceBuyerView.JSON_PROPERTY_RECEIPT_CHECK_SKIPPED,
+  InvoiceBuyerView.JSON_PROPERTY_RECEIPT_TOLERANCE_APPLIED,
+  InvoiceBuyerView.JSON_PROPERTY_MATCH_TYPE,
   InvoiceBuyerView.JSON_PROPERTY_DISCREPANCY_REASON,
   InvoiceBuyerView.JSON_PROPERTY_CONTROL_FINDINGS,
   InvoiceBuyerView.JSON_PROPERTY_PAID,
@@ -102,6 +109,9 @@ import ai.pleaxy.client.ApiClient;
   InvoiceBuyerView.JSON_PROPERTY_REPLACES_INVOICE_ID,
   InvoiceBuyerView.JSON_PROPERTY_REPLACES_INVOICE_IDS,
   InvoiceBuyerView.JSON_PROPERTY_REPLACED_BY_INVOICE_IDS,
+  InvoiceBuyerView.JSON_PROPERTY_POSSIBLE_DUPLICATES,
+  InvoiceBuyerView.JSON_PROPERTY_DUPLICATES_CHECKED,
+  InvoiceBuyerView.JSON_PROPERTY_HAS_LOOKUP_ROWS,
   InvoiceBuyerView.JSON_PROPERTY_SOURCE,
   InvoiceBuyerView.JSON_PROPERTY_ENTERED_BY,
   InvoiceBuyerView.JSON_PROPERTY_INVOICE_DATE,
@@ -128,6 +138,7 @@ import ai.pleaxy.client.ApiClient;
   InvoiceBuyerView.JSON_PROPERTY_RATE_WARNINGS,
   InvoiceBuyerView.JSON_PROPERTY_REMITTANCE_INSTRUCTIONS,
   InvoiceBuyerView.JSON_PROPERTY_REMITTANCE_CHECK,
+  InvoiceBuyerView.JSON_PROPERTY_BANK_DETAILS_CONFIRMATION,
   InvoiceBuyerView.JSON_PROPERTY_SOURCE_DOCUMENT,
   InvoiceBuyerView.JSON_PROPERTY_HAS_ORIGINAL_PDF,
   InvoiceBuyerView.JSON_PROPERTY_BASE_CURRENCY_AMOUNT,
@@ -405,6 +416,55 @@ public class InvoiceBuyerView {
   @javax.annotation.Nullable
   private MatchBasisEnum matchBasis;
 
+  public static final String JSON_PROPERTY_RECEIPT_CHECK_SKIPPED = "receiptCheckSkipped";
+  @javax.annotation.Nullable
+  private InvoiceBuyerViewReceiptCheckSkipped receiptCheckSkipped;
+
+  public static final String JSON_PROPERTY_RECEIPT_TOLERANCE_APPLIED = "receiptToleranceApplied";
+  @javax.annotation.Nullable
+  private InvoiceBuyerViewReceiptToleranceApplied receiptToleranceApplied;
+
+  /**
+   * Gets or Sets matchType
+   */
+  public enum MatchTypeEnum {
+    TWO_WAY(String.valueOf("two_way")),
+    
+    THREE_WAY(String.valueOf("three_way")),
+    
+    USAGE(String.valueOf("usage"));
+
+    private String value;
+
+    MatchTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static MatchTypeEnum fromValue(String value) {
+      for (MatchTypeEnum b : MatchTypeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_MATCH_TYPE = "matchType";
+  @javax.annotation.Nullable
+  private MatchTypeEnum matchType;
+
   /**
    * Gets or Sets discrepancyReason
    */
@@ -544,6 +604,18 @@ public class InvoiceBuyerView {
   public static final String JSON_PROPERTY_REPLACED_BY_INVOICE_IDS = "replacedByInvoiceIds";
   @javax.annotation.Nullable
   private List<String> replacedByInvoiceIds = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_POSSIBLE_DUPLICATES = "possibleDuplicates";
+  @javax.annotation.Nullable
+  private List<InvoiceDuplicateRef> possibleDuplicates = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_DUPLICATES_CHECKED = "duplicatesChecked";
+  @javax.annotation.Nullable
+  private Boolean duplicatesChecked;
+
+  public static final String JSON_PROPERTY_HAS_LOOKUP_ROWS = "hasLookupRows";
+  @javax.annotation.Nullable
+  private Boolean hasLookupRows;
 
   /**
    * Gets or Sets source
@@ -825,6 +897,10 @@ public class InvoiceBuyerView {
   public static final String JSON_PROPERTY_REMITTANCE_CHECK = "remittanceCheck";
   @javax.annotation.Nullable
   private RemittanceCheck remittanceCheck;
+
+  public static final String JSON_PROPERTY_BANK_DETAILS_CONFIRMATION = "bankDetailsConfirmation";
+  @javax.annotation.Nullable
+  private BankDetailsConfirmation bankDetailsConfirmation;
 
   public static final String JSON_PROPERTY_SOURCE_DOCUMENT = "sourceDocument";
   @javax.annotation.Nullable
@@ -1557,6 +1633,78 @@ public class InvoiceBuyerView {
   }
 
 
+  public InvoiceBuyerView receiptCheckSkipped(@javax.annotation.Nullable InvoiceBuyerViewReceiptCheckSkipped receiptCheckSkipped) {
+    this.receiptCheckSkipped = receiptCheckSkipped;
+    return this;
+  }
+
+  /**
+   * Get receiptCheckSkipped
+   * @return receiptCheckSkipped
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIPT_CHECK_SKIPPED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceBuyerViewReceiptCheckSkipped getReceiptCheckSkipped() {
+    return receiptCheckSkipped;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIPT_CHECK_SKIPPED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceiptCheckSkipped(@javax.annotation.Nullable InvoiceBuyerViewReceiptCheckSkipped receiptCheckSkipped) {
+    this.receiptCheckSkipped = receiptCheckSkipped;
+  }
+
+
+  public InvoiceBuyerView receiptToleranceApplied(@javax.annotation.Nullable InvoiceBuyerViewReceiptToleranceApplied receiptToleranceApplied) {
+    this.receiptToleranceApplied = receiptToleranceApplied;
+    return this;
+  }
+
+  /**
+   * Get receiptToleranceApplied
+   * @return receiptToleranceApplied
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIPT_TOLERANCE_APPLIED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceBuyerViewReceiptToleranceApplied getReceiptToleranceApplied() {
+    return receiptToleranceApplied;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIPT_TOLERANCE_APPLIED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceiptToleranceApplied(@javax.annotation.Nullable InvoiceBuyerViewReceiptToleranceApplied receiptToleranceApplied) {
+    this.receiptToleranceApplied = receiptToleranceApplied;
+  }
+
+
+  public InvoiceBuyerView matchType(@javax.annotation.Nullable MatchTypeEnum matchType) {
+    this.matchType = matchType;
+    return this;
+  }
+
+  /**
+   * Get matchType
+   * @return matchType
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MATCH_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public MatchTypeEnum getMatchType() {
+    return matchType;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MATCH_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMatchType(@javax.annotation.Nullable MatchTypeEnum matchType) {
+    this.matchType = matchType;
+  }
+
+
   public InvoiceBuyerView discrepancyReason(@javax.annotation.Nullable DiscrepancyReasonEnum discrepancyReason) {
     this.discrepancyReason = discrepancyReason;
     return this;
@@ -2002,6 +2150,86 @@ public class InvoiceBuyerView {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setReplacedByInvoiceIds(@javax.annotation.Nullable List<String> replacedByInvoiceIds) {
     this.replacedByInvoiceIds = replacedByInvoiceIds;
+  }
+
+
+  public InvoiceBuyerView possibleDuplicates(@javax.annotation.Nullable List<InvoiceDuplicateRef> possibleDuplicates) {
+    this.possibleDuplicates = possibleDuplicates;
+    return this;
+  }
+
+  public InvoiceBuyerView addPossibleDuplicatesItem(InvoiceDuplicateRef possibleDuplicatesItem) {
+    if (this.possibleDuplicates == null) {
+      this.possibleDuplicates = new ArrayList<>();
+    }
+    this.possibleDuplicates.add(possibleDuplicatesItem);
+    return this;
+  }
+
+  /**
+   * Get possibleDuplicates
+   * @return possibleDuplicates
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_POSSIBLE_DUPLICATES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<InvoiceDuplicateRef> getPossibleDuplicates() {
+    return possibleDuplicates;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_POSSIBLE_DUPLICATES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPossibleDuplicates(@javax.annotation.Nullable List<InvoiceDuplicateRef> possibleDuplicates) {
+    this.possibleDuplicates = possibleDuplicates;
+  }
+
+
+  public InvoiceBuyerView duplicatesChecked(@javax.annotation.Nullable Boolean duplicatesChecked) {
+    this.duplicatesChecked = duplicatesChecked;
+    return this;
+  }
+
+  /**
+   * Get duplicatesChecked
+   * @return duplicatesChecked
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DUPLICATES_CHECKED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getDuplicatesChecked() {
+    return duplicatesChecked;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DUPLICATES_CHECKED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDuplicatesChecked(@javax.annotation.Nullable Boolean duplicatesChecked) {
+    this.duplicatesChecked = duplicatesChecked;
+  }
+
+
+  public InvoiceBuyerView hasLookupRows(@javax.annotation.Nullable Boolean hasLookupRows) {
+    this.hasLookupRows = hasLookupRows;
+    return this;
+  }
+
+  /**
+   * Get hasLookupRows
+   * @return hasLookupRows
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_HAS_LOOKUP_ROWS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getHasLookupRows() {
+    return hasLookupRows;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_HAS_LOOKUP_ROWS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setHasLookupRows(@javax.annotation.Nullable Boolean hasLookupRows) {
+    this.hasLookupRows = hasLookupRows;
   }
 
 
@@ -2701,6 +2929,30 @@ public class InvoiceBuyerView {
   }
 
 
+  public InvoiceBuyerView bankDetailsConfirmation(@javax.annotation.Nullable BankDetailsConfirmation bankDetailsConfirmation) {
+    this.bankDetailsConfirmation = bankDetailsConfirmation;
+    return this;
+  }
+
+  /**
+   * Get bankDetailsConfirmation
+   * @return bankDetailsConfirmation
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BANK_DETAILS_CONFIRMATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public BankDetailsConfirmation getBankDetailsConfirmation() {
+    return bankDetailsConfirmation;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BANK_DETAILS_CONFIRMATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBankDetailsConfirmation(@javax.annotation.Nullable BankDetailsConfirmation bankDetailsConfirmation) {
+    this.bankDetailsConfirmation = bankDetailsConfirmation;
+  }
+
+
   public InvoiceBuyerView sourceDocument(@javax.annotation.Nullable InvoiceSourceDocument sourceDocument) {
     this.sourceDocument = sourceDocument;
     return this;
@@ -2894,6 +3146,9 @@ public class InvoiceBuyerView {
         Objects.equals(this.matchStatus, invoiceBuyerView.matchStatus) &&
         Objects.equals(this.unverifiedReason, invoiceBuyerView.unverifiedReason) &&
         Objects.equals(this.matchBasis, invoiceBuyerView.matchBasis) &&
+        Objects.equals(this.receiptCheckSkipped, invoiceBuyerView.receiptCheckSkipped) &&
+        Objects.equals(this.receiptToleranceApplied, invoiceBuyerView.receiptToleranceApplied) &&
+        Objects.equals(this.matchType, invoiceBuyerView.matchType) &&
         Objects.equals(this.discrepancyReason, invoiceBuyerView.discrepancyReason) &&
         Objects.equals(this.controlFindings, invoiceBuyerView.controlFindings) &&
         Objects.equals(this.paid, invoiceBuyerView.paid) &&
@@ -2911,6 +3166,9 @@ public class InvoiceBuyerView {
         Objects.equals(this.replacesInvoiceId, invoiceBuyerView.replacesInvoiceId) &&
         Objects.equals(this.replacesInvoiceIds, invoiceBuyerView.replacesInvoiceIds) &&
         Objects.equals(this.replacedByInvoiceIds, invoiceBuyerView.replacedByInvoiceIds) &&
+        Objects.equals(this.possibleDuplicates, invoiceBuyerView.possibleDuplicates) &&
+        Objects.equals(this.duplicatesChecked, invoiceBuyerView.duplicatesChecked) &&
+        Objects.equals(this.hasLookupRows, invoiceBuyerView.hasLookupRows) &&
         Objects.equals(this.source, invoiceBuyerView.source) &&
         Objects.equals(this.enteredBy, invoiceBuyerView.enteredBy) &&
         Objects.equals(this.invoiceDate, invoiceBuyerView.invoiceDate) &&
@@ -2937,6 +3195,7 @@ public class InvoiceBuyerView {
         Objects.equals(this.rateWarnings, invoiceBuyerView.rateWarnings) &&
         Objects.equals(this.remittanceInstructions, invoiceBuyerView.remittanceInstructions) &&
         Objects.equals(this.remittanceCheck, invoiceBuyerView.remittanceCheck) &&
+        Objects.equals(this.bankDetailsConfirmation, invoiceBuyerView.bankDetailsConfirmation) &&
         Objects.equals(this.sourceDocument, invoiceBuyerView.sourceDocument) &&
         Objects.equals(this.hasOriginalPdf, invoiceBuyerView.hasOriginalPdf) &&
         Objects.equals(this.baseCurrencyAmount, invoiceBuyerView.baseCurrencyAmount) &&
@@ -2947,7 +3206,7 @@ public class InvoiceBuyerView {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, approvalVersion, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, usageAmount, usageAmountSimulated, usageSimulatedAfterDisconnect, usageCurrency, usageSource, tolerancePct, matchStatus, unverifiedReason, matchBasis, discrepancyReason, controlFindings, paid, dueInDays, dueDate, paidAt, payment, remittances, paymentHistory, exportAvailableFrom, previousExportedAt, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, source, enteredBy, invoiceDate, sodExcludedKeys, submittedFormat, submittedBy, feedPayloadHash, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, rateWarnings, remittanceInstructions, remittanceCheck, sourceDocument, hasOriginalPdf, baseCurrencyAmount, viewerIsSupplierMember, replacement, uncreditedOriginals);
+    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, approvalVersion, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, usageAmount, usageAmountSimulated, usageSimulatedAfterDisconnect, usageCurrency, usageSource, tolerancePct, matchStatus, unverifiedReason, matchBasis, receiptCheckSkipped, receiptToleranceApplied, matchType, discrepancyReason, controlFindings, paid, dueInDays, dueDate, paidAt, payment, remittances, paymentHistory, exportAvailableFrom, previousExportedAt, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, sodExcludedKeys, submittedFormat, submittedBy, feedPayloadHash, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, rateWarnings, remittanceInstructions, remittanceCheck, bankDetailsConfirmation, sourceDocument, hasOriginalPdf, baseCurrencyAmount, viewerIsSupplierMember, replacement, uncreditedOriginals);
   }
 
   @Override
@@ -2983,6 +3242,9 @@ public class InvoiceBuyerView {
     sb.append("    matchStatus: ").append(toIndentedString(matchStatus)).append("\n");
     sb.append("    unverifiedReason: ").append(toIndentedString(unverifiedReason)).append("\n");
     sb.append("    matchBasis: ").append(toIndentedString(matchBasis)).append("\n");
+    sb.append("    receiptCheckSkipped: ").append(toIndentedString(receiptCheckSkipped)).append("\n");
+    sb.append("    receiptToleranceApplied: ").append(toIndentedString(receiptToleranceApplied)).append("\n");
+    sb.append("    matchType: ").append(toIndentedString(matchType)).append("\n");
     sb.append("    discrepancyReason: ").append(toIndentedString(discrepancyReason)).append("\n");
     sb.append("    controlFindings: ").append(toIndentedString(controlFindings)).append("\n");
     sb.append("    paid: ").append(toIndentedString(paid)).append("\n");
@@ -3000,6 +3262,9 @@ public class InvoiceBuyerView {
     sb.append("    replacesInvoiceId: ").append(toIndentedString(replacesInvoiceId)).append("\n");
     sb.append("    replacesInvoiceIds: ").append(toIndentedString(replacesInvoiceIds)).append("\n");
     sb.append("    replacedByInvoiceIds: ").append(toIndentedString(replacedByInvoiceIds)).append("\n");
+    sb.append("    possibleDuplicates: ").append(toIndentedString(possibleDuplicates)).append("\n");
+    sb.append("    duplicatesChecked: ").append(toIndentedString(duplicatesChecked)).append("\n");
+    sb.append("    hasLookupRows: ").append(toIndentedString(hasLookupRows)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    enteredBy: ").append(toIndentedString(enteredBy)).append("\n");
     sb.append("    invoiceDate: ").append(toIndentedString(invoiceDate)).append("\n");
@@ -3026,6 +3291,7 @@ public class InvoiceBuyerView {
     sb.append("    rateWarnings: ").append(toIndentedString(rateWarnings)).append("\n");
     sb.append("    remittanceInstructions: ").append(toIndentedString(remittanceInstructions)).append("\n");
     sb.append("    remittanceCheck: ").append(toIndentedString(remittanceCheck)).append("\n");
+    sb.append("    bankDetailsConfirmation: ").append(toIndentedString(bankDetailsConfirmation)).append("\n");
     sb.append("    sourceDocument: ").append(toIndentedString(sourceDocument)).append("\n");
     sb.append("    hasOriginalPdf: ").append(toIndentedString(hasOriginalPdf)).append("\n");
     sb.append("    baseCurrencyAmount: ").append(toIndentedString(baseCurrencyAmount)).append("\n");
@@ -3229,6 +3495,21 @@ public class InvoiceBuyerView {
       joiner.add(String.format("%smatchBasis%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMatchBasis()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `receiptCheckSkipped` to the URL query string
+    if (getReceiptCheckSkipped() != null) {
+      joiner.add(getReceiptCheckSkipped().toUrlQueryString(prefix + "receiptCheckSkipped" + suffix));
+    }
+
+    // add `receiptToleranceApplied` to the URL query string
+    if (getReceiptToleranceApplied() != null) {
+      joiner.add(getReceiptToleranceApplied().toUrlQueryString(prefix + "receiptToleranceApplied" + suffix));
+    }
+
+    // add `matchType` to the URL query string
+    if (getMatchType() != null) {
+      joiner.add(String.format("%smatchType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMatchType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
     // add `discrepancyReason` to the URL query string
     if (getDiscrepancyReason() != null) {
       joiner.add(String.format("%sdiscrepancyReason%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDiscrepancyReason()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -3335,6 +3616,26 @@ public class InvoiceBuyerView {
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getReplacedByInvoiceIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
+    }
+
+    // add `possibleDuplicates` to the URL query string
+    if (getPossibleDuplicates() != null) {
+      for (int i = 0; i < getPossibleDuplicates().size(); i++) {
+        if (getPossibleDuplicates().get(i) != null) {
+          joiner.add(getPossibleDuplicates().get(i).toUrlQueryString(String.format("%spossibleDuplicates%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `duplicatesChecked` to the URL query string
+    if (getDuplicatesChecked() != null) {
+      joiner.add(String.format("%sduplicatesChecked%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDuplicatesChecked()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `hasLookupRows` to the URL query string
+    if (getHasLookupRows() != null) {
+      joiner.add(String.format("%shasLookupRows%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHasLookupRows()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `source` to the URL query string
@@ -3507,6 +3808,11 @@ public class InvoiceBuyerView {
     // add `remittanceCheck` to the URL query string
     if (getRemittanceCheck() != null) {
       joiner.add(getRemittanceCheck().toUrlQueryString(prefix + "remittanceCheck" + suffix));
+    }
+
+    // add `bankDetailsConfirmation` to the URL query string
+    if (getBankDetailsConfirmation() != null) {
+      joiner.add(getBankDetailsConfirmation().toUrlQueryString(prefix + "bankDetailsConfirmation" + suffix));
     }
 
     // add `sourceDocument` to the URL query string

@@ -40,7 +40,10 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   CreatePurchaseOrderInput.JSON_PROPERTY_PO_NUMBER,
   CreatePurchaseOrderInput.JSON_PROPERTY_SUPPLIER,
+  CreatePurchaseOrderInput.JSON_PROPERTY_MATCHING,
+  CreatePurchaseOrderInput.JSON_PROPERTY_RECEIVER_EMPLOYEE_KEY,
   CreatePurchaseOrderInput.JSON_PROPERTY_SUPPLIER_REGION_ID,
+  CreatePurchaseOrderInput.JSON_PROPERTY_SUPPLIER_CONNECTION_ID,
   CreatePurchaseOrderInput.JSON_PROPERTY_CURRENCY,
   CreatePurchaseOrderInput.JSON_PROPERTY_PROVIDER,
   CreatePurchaseOrderInput.JSON_PROPERTY_PAYER_ACCOUNTS,
@@ -54,6 +57,7 @@ import ai.pleaxy.client.ApiClient;
   CreatePurchaseOrderInput.JSON_PROPERTY_NOTES,
   CreatePurchaseOrderInput.JSON_PROPERTY_CONTRACT_ID,
   CreatePurchaseOrderInput.JSON_PROPERTY_QUOTE_IMPORT_ID,
+  CreatePurchaseOrderInput.JSON_PROPERTY_SOW_IMPORT_ID,
   CreatePurchaseOrderInput.JSON_PROPERTY_DRAFT,
   CreatePurchaseOrderInput.JSON_PROPERTY_LINE_ITEMS
 })
@@ -67,9 +71,56 @@ public class CreatePurchaseOrderInput {
   @javax.annotation.Nonnull
   private String supplier;
 
+  /**
+   * How the order&#39;s invoices are matched: two_way against the order and its contract; three_way also against what was received (goods receipts and service entry sheets). Defaults to what the workspace&#39;s matching setting suggests (GET .../matching-policy). Refused for a cloud provider&#39;s order, which is matched against usage, and, when the setting lets only administrators change it, for anything but the default from anyone else.
+   */
+  public enum MatchingEnum {
+    TWO_WAY(String.valueOf("two_way")),
+    
+    THREE_WAY(String.valueOf("three_way"));
+
+    private String value;
+
+    MatchingEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static MatchingEnum fromValue(String value) {
+      for (MatchingEnum b : MatchingEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_MATCHING = "matching";
+  @javax.annotation.Nullable
+  private MatchingEnum matching;
+
+  public static final String JSON_PROPERTY_RECEIVER_EMPLOYEE_KEY = "receiverEmployeeKey";
+  @javax.annotation.Nullable
+  private String receiverEmployeeKey;
+
   public static final String JSON_PROPERTY_SUPPLIER_REGION_ID = "supplierRegionId";
   @javax.annotation.Nullable
   private String supplierRegionId;
+
+  public static final String JSON_PROPERTY_SUPPLIER_CONNECTION_ID = "supplierConnectionId";
+  @javax.annotation.Nullable
+  private String supplierConnectionId;
 
   public static final String JSON_PROPERTY_CURRENCY = "currency";
   @javax.annotation.Nullable
@@ -162,6 +213,10 @@ public class CreatePurchaseOrderInput {
   @javax.annotation.Nullable
   private String quoteImportId;
 
+  public static final String JSON_PROPERTY_SOW_IMPORT_ID = "sowImportId";
+  @javax.annotation.Nullable
+  private String sowImportId;
+
   public static final String JSON_PROPERTY_DRAFT = "draft";
   @javax.annotation.Nullable
   private Boolean draft;
@@ -221,6 +276,54 @@ public class CreatePurchaseOrderInput {
   }
 
 
+  public CreatePurchaseOrderInput matching(@javax.annotation.Nullable MatchingEnum matching) {
+    this.matching = matching;
+    return this;
+  }
+
+  /**
+   * How the order&#39;s invoices are matched: two_way against the order and its contract; three_way also against what was received (goods receipts and service entry sheets). Defaults to what the workspace&#39;s matching setting suggests (GET .../matching-policy). Refused for a cloud provider&#39;s order, which is matched against usage, and, when the setting lets only administrators change it, for anything but the default from anyone else.
+   * @return matching
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MATCHING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public MatchingEnum getMatching() {
+    return matching;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MATCHING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMatching(@javax.annotation.Nullable MatchingEnum matching) {
+    this.matching = matching;
+  }
+
+
+  public CreatePurchaseOrderInput receiverEmployeeKey(@javax.annotation.Nullable String receiverEmployeeKey) {
+    this.receiverEmployeeKey = receiverEmployeeKey;
+    return this;
+  }
+
+  /**
+   * Who confirms delivery: someone in this workspace, by employee key. Defaults to whoever raises the order. Used with three_way matching.
+   * @return receiverEmployeeKey
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIVER_EMPLOYEE_KEY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getReceiverEmployeeKey() {
+    return receiverEmployeeKey;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIVER_EMPLOYEE_KEY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceiverEmployeeKey(@javax.annotation.Nullable String receiverEmployeeKey) {
+    this.receiverEmployeeKey = receiverEmployeeKey;
+  }
+
+
   public CreatePurchaseOrderInput supplierRegionId(@javax.annotation.Nullable String supplierRegionId) {
     this.supplierRegionId = supplierRegionId;
     return this;
@@ -242,6 +345,30 @@ public class CreatePurchaseOrderInput {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSupplierRegionId(@javax.annotation.Nullable String supplierRegionId) {
     this.supplierRegionId = supplierRegionId;
+  }
+
+
+  public CreatePurchaseOrderInput supplierConnectionId(@javax.annotation.Nullable String supplierConnectionId) {
+    this.supplierConnectionId = supplierConnectionId;
+    return this;
+  }
+
+  /**
+   * The id of a supplier on your Suppliers list (not rejected, not a cloud provider) this PO is for - see GET .../suppliers. One approved with a Pleaxy account is treated as its supplierRegionId. Any other (not invited yet, invited, onboarding) is named by its record: its invoices match the PO by id, the PO is emailed to its contact, and sending it invites a supplier not invited yet. The record&#39;s name replaces &#x60;supplier&#x60;. Not with supplierRegionId, provider or supplierContactEmail.
+   * @return supplierConnectionId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_CONNECTION_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getSupplierConnectionId() {
+    return supplierConnectionId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_CONNECTION_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSupplierConnectionId(@javax.annotation.Nullable String supplierConnectionId) {
+    this.supplierConnectionId = supplierConnectionId;
   }
 
 
@@ -567,6 +694,30 @@ public class CreatePurchaseOrderInput {
   }
 
 
+  public CreatePurchaseOrderInput sowImportId(@javax.annotation.Nullable String sowImportId) {
+    this.sowImportId = sowImportId;
+    return this;
+  }
+
+  /**
+   * The quote import (POST .../quote-imports) holding the statement of work this order is for: its scope, milestones and acceptance. Its upload must have finished. Optional, and independent of quoteImportId.
+   * @return sowImportId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SOW_IMPORT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getSowImportId() {
+    return sowImportId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SOW_IMPORT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSowImportId(@javax.annotation.Nullable String sowImportId) {
+    this.sowImportId = sowImportId;
+  }
+
+
   public CreatePurchaseOrderInput draft(@javax.annotation.Nullable Boolean draft) {
     this.draft = draft;
     return this;
@@ -637,7 +788,10 @@ public class CreatePurchaseOrderInput {
     CreatePurchaseOrderInput createPurchaseOrderInput = (CreatePurchaseOrderInput) o;
     return Objects.equals(this.poNumber, createPurchaseOrderInput.poNumber) &&
         Objects.equals(this.supplier, createPurchaseOrderInput.supplier) &&
+        Objects.equals(this.matching, createPurchaseOrderInput.matching) &&
+        Objects.equals(this.receiverEmployeeKey, createPurchaseOrderInput.receiverEmployeeKey) &&
         Objects.equals(this.supplierRegionId, createPurchaseOrderInput.supplierRegionId) &&
+        Objects.equals(this.supplierConnectionId, createPurchaseOrderInput.supplierConnectionId) &&
         Objects.equals(this.currency, createPurchaseOrderInput.currency) &&
         Objects.equals(this.provider, createPurchaseOrderInput.provider) &&
         Objects.equals(this.payerAccounts, createPurchaseOrderInput.payerAccounts) &&
@@ -651,13 +805,14 @@ public class CreatePurchaseOrderInput {
         Objects.equals(this.notes, createPurchaseOrderInput.notes) &&
         Objects.equals(this.contractId, createPurchaseOrderInput.contractId) &&
         Objects.equals(this.quoteImportId, createPurchaseOrderInput.quoteImportId) &&
+        Objects.equals(this.sowImportId, createPurchaseOrderInput.sowImportId) &&
         Objects.equals(this.draft, createPurchaseOrderInput.draft) &&
         Objects.equals(this.lineItems, createPurchaseOrderInput.lineItems);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(poNumber, supplier, supplierRegionId, currency, provider, payerAccounts, billToParty, billTo, costCenter, budgetOwner, buyerName, supplierSite, supplierContactEmail, notes, contractId, quoteImportId, draft, lineItems);
+    return Objects.hash(poNumber, supplier, matching, receiverEmployeeKey, supplierRegionId, supplierConnectionId, currency, provider, payerAccounts, billToParty, billTo, costCenter, budgetOwner, buyerName, supplierSite, supplierContactEmail, notes, contractId, quoteImportId, sowImportId, draft, lineItems);
   }
 
   @Override
@@ -666,7 +821,10 @@ public class CreatePurchaseOrderInput {
     sb.append("class CreatePurchaseOrderInput {\n");
     sb.append("    poNumber: ").append(toIndentedString(poNumber)).append("\n");
     sb.append("    supplier: ").append(toIndentedString(supplier)).append("\n");
+    sb.append("    matching: ").append(toIndentedString(matching)).append("\n");
+    sb.append("    receiverEmployeeKey: ").append(toIndentedString(receiverEmployeeKey)).append("\n");
     sb.append("    supplierRegionId: ").append(toIndentedString(supplierRegionId)).append("\n");
+    sb.append("    supplierConnectionId: ").append(toIndentedString(supplierConnectionId)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    provider: ").append(toIndentedString(provider)).append("\n");
     sb.append("    payerAccounts: ").append(toIndentedString(payerAccounts)).append("\n");
@@ -680,6 +838,7 @@ public class CreatePurchaseOrderInput {
     sb.append("    notes: ").append(toIndentedString(notes)).append("\n");
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
     sb.append("    quoteImportId: ").append(toIndentedString(quoteImportId)).append("\n");
+    sb.append("    sowImportId: ").append(toIndentedString(sowImportId)).append("\n");
     sb.append("    draft: ").append(toIndentedString(draft)).append("\n");
     sb.append("    lineItems: ").append(toIndentedString(lineItems)).append("\n");
     sb.append("}");
@@ -739,9 +898,24 @@ public class CreatePurchaseOrderInput {
       joiner.add(String.format("%ssupplier%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSupplier()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `matching` to the URL query string
+    if (getMatching() != null) {
+      joiner.add(String.format("%smatching%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMatching()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `receiverEmployeeKey` to the URL query string
+    if (getReceiverEmployeeKey() != null) {
+      joiner.add(String.format("%sreceiverEmployeeKey%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReceiverEmployeeKey()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
     // add `supplierRegionId` to the URL query string
     if (getSupplierRegionId() != null) {
       joiner.add(String.format("%ssupplierRegionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSupplierRegionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `supplierConnectionId` to the URL query string
+    if (getSupplierConnectionId() != null) {
+      joiner.add(String.format("%ssupplierConnectionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSupplierConnectionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `currency` to the URL query string
@@ -812,6 +986,11 @@ public class CreatePurchaseOrderInput {
     // add `quoteImportId` to the URL query string
     if (getQuoteImportId() != null) {
       joiner.add(String.format("%squoteImportId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuoteImportId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `sowImportId` to the URL query string
+    if (getSowImportId() != null) {
+      joiner.add(String.format("%ssowImportId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSowImportId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `draft` to the URL query string

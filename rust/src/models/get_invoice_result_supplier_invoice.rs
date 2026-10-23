@@ -84,6 +84,12 @@ pub struct GetInvoiceResultSupplierInvoice {
         skip_serializing_if = "Option::is_none"
     )]
     pub replaced_by_invoice_ids: Option<Vec<String>>,
+    #[serde(rename = "possibleDuplicates", skip_serializing_if = "Option::is_none")]
+    pub possible_duplicates: Option<Vec<models::InvoiceDuplicateRef>>,
+    #[serde(rename = "duplicatesChecked", skip_serializing_if = "Option::is_none")]
+    pub duplicates_checked: Option<bool>,
+    #[serde(rename = "hasLookupRows", skip_serializing_if = "Option::is_none")]
+    pub has_lookup_rows: Option<bool>,
     #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
     pub source: Option<Source>,
     #[serde(rename = "enteredBy", skip_serializing_if = "Option::is_none")]
@@ -142,6 +148,11 @@ pub struct GetInvoiceResultSupplierInvoice {
     pub source_document: Option<models::InvoiceSourceDocument>,
     #[serde(rename = "hasOriginalPdf", skip_serializing_if = "Option::is_none")]
     pub has_original_pdf: Option<bool>,
+    #[serde(
+        rename = "bankDetailsConfirmation",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub bank_details_confirmation: Option<models::SupplierBankDetailsConfirmationView>,
     #[serde(rename = "baseCurrencyAmount", skip_serializing_if = "Option::is_none")]
     pub base_currency_amount: Option<models::InvoiceBaseCurrencyAmount>,
     #[serde(rename = "approval", skip_serializing_if = "Option::is_none")]
@@ -192,6 +203,9 @@ impl GetInvoiceResultSupplierInvoice {
             replaces_invoice_id: None,
             replaces_invoice_ids: None,
             replaced_by_invoice_ids: None,
+            possible_duplicates: None,
+            duplicates_checked: None,
+            has_lookup_rows: None,
             source: None,
             entered_by: None,
             invoice_date: None,
@@ -215,6 +229,7 @@ impl GetInvoiceResultSupplierInvoice {
             remittance_instructions: None,
             source_document: None,
             has_original_pdf: None,
+            bank_details_confirmation: None,
             base_currency_amount: None,
             approval: None,
             payment: None,
@@ -308,15 +323,15 @@ impl Default for SubmittedFormat {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum DocumentType {
-    #[serde(rename = "debit_note")]
-    DebitNote,
     #[serde(rename = "invoice")]
     Invoice,
+    #[serde(rename = "debit_note")]
+    DebitNote,
 }
 
 impl Default for DocumentType {
     fn default() -> DocumentType {
-        Self::DebitNote
+        Self::Invoice
     }
 }
 ///

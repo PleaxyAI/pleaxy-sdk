@@ -54,6 +54,8 @@ public class StripePaymentStatus {
     
     NOT_APPROVED(String.valueOf("not_approved")),
     
+    BANK_DETAILS_HELD(String.valueOf("bank_details_held")),
+    
     PAYMENT_LOCKED(String.valueOf("payment_locked")),
     
     SUPPLIER_NOT_ON_PLEAXY(String.valueOf("supplier_not_on_pleaxy")),

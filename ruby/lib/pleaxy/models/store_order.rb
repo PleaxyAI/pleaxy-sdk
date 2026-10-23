@@ -33,6 +33,8 @@ module Pleaxy
 
     attr_accessor :store_answer
 
+    attr_accessor :confirmation
+
     attr_accessor :deadline
 
     attr_accessor :queue_sk
@@ -71,6 +73,7 @@ module Pleaxy
         :'sent_at' => :'sentAt',
         :'refusal' => :'refusal',
         :'store_answer' => :'storeAnswer',
+        :'confirmation' => :'confirmation',
         :'deadline' => :'deadline',
         :'queue_sk' => :'queueSk'
       }
@@ -93,6 +96,7 @@ module Pleaxy
         :'sent_at' => :'String',
         :'refusal' => :'StoreOrderRefusal',
         :'store_answer' => :'StoreOrderRefusal',
+        :'confirmation' => :'StoreOrderConfirmation',
         :'deadline' => :'String',
         :'queue_sk' => :'String'
       }
@@ -155,6 +159,10 @@ module Pleaxy
         self.store_answer = attributes[:'store_answer']
       end
 
+      if attributes.key?(:'confirmation')
+        self.confirmation = attributes[:'confirmation']
+      end
+
       if attributes.key?(:'deadline')
         self.deadline = attributes[:'deadline']
       end
@@ -176,7 +184,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      status_validator = EnumAttributeValidator.new('String', ["failed", "manual", "refused", "expired", "queued", "sending", "retrying", "sent"])
+      status_validator = EnumAttributeValidator.new('String', ["failed", "manual", "refused", "expired", "queued", "sending", "retrying", "sent", "confirmed", "cancelled", "partial"])
       return false unless status_validator.valid?(@status)
       true
     end
@@ -184,7 +192,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] status Object to be assigned
     def status=(status)
-      validator = EnumAttributeValidator.new('String', ["failed", "manual", "refused", "expired", "queued", "sending", "retrying", "sent"])
+      validator = EnumAttributeValidator.new('String', ["failed", "manual", "refused", "expired", "queued", "sending", "retrying", "sent", "confirmed", "cancelled", "partial"])
       unless validator.valid?(status)
         fail ArgumentError, "invalid value for \"status\", must be one of #{validator.allowable_values}."
       end
@@ -205,6 +213,7 @@ module Pleaxy
           sent_at == o.sent_at &&
           refusal == o.refusal &&
           store_answer == o.store_answer &&
+          confirmation == o.confirmation &&
           deadline == o.deadline &&
           queue_sk == o.queue_sk
     end
@@ -218,7 +227,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [status, payload_id, attempts, queued_at, last_attempt_at, next_attempt_at, sent_at, refusal, store_answer, deadline, queue_sk].hash
+      [status, payload_id, attempts, queued_at, last_attempt_at, next_attempt_at, sent_at, refusal, store_answer, confirmation, deadline, queue_sk].hash
     end
 
     # Builds the object from hash

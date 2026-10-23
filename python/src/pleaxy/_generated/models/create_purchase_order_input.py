@@ -3,6 +3,10 @@ from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.create_purchase_order_input_matching import (
+    CreatePurchaseOrderInputMatching,
+    check_create_purchase_order_input_matching,
+)
 from ..models.create_purchase_order_input_provider import (
     CreatePurchaseOrderInputProvider,
     check_create_purchase_order_input_provider,
@@ -26,10 +30,22 @@ class CreatePurchaseOrderInput:
         line_items (List['LineItemInput']):
         po_number (Union[Unset, str]): Custom PO number to use as this PO's id instead of an auto-generated one (e.g.
             'PO-2026-0042'). Must be unique within the region.
+        matching (Union[Unset, CreatePurchaseOrderInputMatching]): How the order's invoices are matched: two_way against
+            the order and its contract; three_way also against what was received (goods receipts and service entry sheets).
+            Defaults to what the workspace's matching setting suggests (GET .../matching-policy). Refused for a cloud
+            provider's order, which is matched against usage, and, when the setting lets only administrators change it, for
+            anything but the default from anyone else.
+        receiver_employee_key (Union[Unset, str]): Who confirms delivery: someone in this workspace, by employee key.
+            Defaults to whoever raises the order. Used with three_way matching.
         supplier_region_id (Union[Unset, str]): regionId of the onboarded supplier org this PO is issued to, if known.
             The buyer must hold an approved SupplierConnection to this supplier; the server rejects a region it isn't
             connected to. Links the PO to that org's real supplier workspace instead of just its free-text `supplier` name -
             see WorkspacesService.getSupplierWorkspace.
+        supplier_connection_id (Union[Unset, str]): The id of a supplier on your Suppliers list (not rejected, not a
+            cloud provider) this PO is for - see GET .../suppliers. One approved with a Pleaxy account is treated as its
+            supplierRegionId. Any other (not invited yet, invited, onboarding) is named by its record: its invoices match
+            the PO by id, the PO is emailed to its contact, and sending it invites a supplier not invited yet. The record's
+            name replaces `supplier`. Not with supplierRegionId, provider or supplierContactEmail.
         currency (Union[Unset, str]): ISO 4217: the currency the order is priced in. To a supplier with an account
             (supplierRegionId), one its region prices in, its main currency by default (400 PO_CURRENCY_NOT_OFFERED
             otherwise). To a cloud provider or a supplier not on Pleaxy yet, any code; by default that supplier's "Bills in"
@@ -54,6 +70,9 @@ class CreatePurchaseOrderInput:
             order's supplier (400 otherwise). Optional. Invoices against the order are checked against it.
         quote_import_id (Union[Unset, str]): The quote import (POST .../quote-imports) holding the supplier's quote this
             order is raised from. Its upload must have finished. Optional.
+        sow_import_id (Union[Unset, str]): The quote import (POST .../quote-imports) holding the statement of work this
+            order is for: its scope, milestones and acceptance. Its upload must have finished. Optional, and independent of
+            quoteImportId.
         draft (Union[Unset, bool]): Save as a draft instead of submitting for approval. Submit it later with
             SubmitPurchaseOrderDraft.
     """
@@ -61,7 +80,10 @@ class CreatePurchaseOrderInput:
     supplier: str
     line_items: List["LineItemInput"]
     po_number: Union[Unset, str] = UNSET
+    matching: Union[Unset, CreatePurchaseOrderInputMatching] = UNSET
+    receiver_employee_key: Union[Unset, str] = UNSET
     supplier_region_id: Union[Unset, str] = UNSET
+    supplier_connection_id: Union[Unset, str] = UNSET
     currency: Union[Unset, str] = UNSET
     provider: Union[Unset, CreatePurchaseOrderInputProvider] = UNSET
     payer_accounts: Union[Unset, List["PayerAccountRefInput"]] = UNSET
@@ -75,6 +97,7 @@ class CreatePurchaseOrderInput:
     notes: Union[Unset, str] = UNSET
     contract_id: Union[Unset, str] = UNSET
     quote_import_id: Union[Unset, str] = UNSET
+    sow_import_id: Union[Unset, str] = UNSET
     draft: Union[Unset, bool] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -88,7 +111,15 @@ class CreatePurchaseOrderInput:
 
         po_number = self.po_number
 
+        matching: Union[Unset, str] = UNSET
+        if not isinstance(self.matching, Unset):
+            matching = self.matching
+
+        receiver_employee_key = self.receiver_employee_key
+
         supplier_region_id = self.supplier_region_id
+
+        supplier_connection_id = self.supplier_connection_id
 
         currency = self.currency
 
@@ -125,6 +156,8 @@ class CreatePurchaseOrderInput:
 
         quote_import_id = self.quote_import_id
 
+        sow_import_id = self.sow_import_id
+
         draft = self.draft
 
         field_dict: Dict[str, Any] = {}
@@ -137,8 +170,14 @@ class CreatePurchaseOrderInput:
         )
         if po_number is not UNSET:
             field_dict["poNumber"] = po_number
+        if matching is not UNSET:
+            field_dict["matching"] = matching
+        if receiver_employee_key is not UNSET:
+            field_dict["receiverEmployeeKey"] = receiver_employee_key
         if supplier_region_id is not UNSET:
             field_dict["supplierRegionId"] = supplier_region_id
+        if supplier_connection_id is not UNSET:
+            field_dict["supplierConnectionId"] = supplier_connection_id
         if currency is not UNSET:
             field_dict["currency"] = currency
         if provider is not UNSET:
@@ -165,6 +204,8 @@ class CreatePurchaseOrderInput:
             field_dict["contractId"] = contract_id
         if quote_import_id is not UNSET:
             field_dict["quoteImportId"] = quote_import_id
+        if sow_import_id is not UNSET:
+            field_dict["sowImportId"] = sow_import_id
         if draft is not UNSET:
             field_dict["draft"] = draft
 
@@ -188,7 +229,18 @@ class CreatePurchaseOrderInput:
 
         po_number = d.pop("poNumber", UNSET)
 
+        _matching = d.pop("matching", UNSET)
+        matching: Union[Unset, CreatePurchaseOrderInputMatching]
+        if isinstance(_matching, Unset):
+            matching = UNSET
+        else:
+            matching = check_create_purchase_order_input_matching(_matching)
+
+        receiver_employee_key = d.pop("receiverEmployeeKey", UNSET)
+
         supplier_region_id = d.pop("supplierRegionId", UNSET)
+
+        supplier_connection_id = d.pop("supplierConnectionId", UNSET)
 
         currency = d.pop("currency", UNSET)
 
@@ -233,13 +285,18 @@ class CreatePurchaseOrderInput:
 
         quote_import_id = d.pop("quoteImportId", UNSET)
 
+        sow_import_id = d.pop("sowImportId", UNSET)
+
         draft = d.pop("draft", UNSET)
 
         create_purchase_order_input = cls(
             supplier=supplier,
             line_items=line_items,
             po_number=po_number,
+            matching=matching,
+            receiver_employee_key=receiver_employee_key,
             supplier_region_id=supplier_region_id,
+            supplier_connection_id=supplier_connection_id,
             currency=currency,
             provider=provider,
             payer_accounts=payer_accounts,
@@ -253,6 +310,7 @@ class CreatePurchaseOrderInput:
             notes=notes,
             contract_id=contract_id,
             quote_import_id=quote_import_id,
+            sow_import_id=sow_import_id,
             draft=draft,
         )
 

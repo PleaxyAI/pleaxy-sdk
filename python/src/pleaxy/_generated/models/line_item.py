@@ -36,6 +36,7 @@ class LineItem:
         payment_terms (Union[Unset, str]):
         valid_from (Union[Unset, str]):
         valid_until (Union[Unset, str]):
+        due_date (Union[Unset, str]):
         consumed (Union[Unset, float]):
         supplier_sku (Union[Unset, str]):
         price_source (Union[Unset, LineItemPriceSource]):
@@ -43,6 +44,7 @@ class LineItem:
         contract_id (Union[Unset, str]):
         contract_term_id (Union[Unset, str]):
         quote_line_no (Union[Unset, float]):
+        sow_line_no (Union[Unset, float]):
         origin (Union[Unset, PunchoutLineOrigin]):
         punchout_ref (Union[Unset, LineItemPunchoutRef]):
     """
@@ -60,6 +62,7 @@ class LineItem:
     payment_terms: Union[Unset, str] = UNSET
     valid_from: Union[Unset, str] = UNSET
     valid_until: Union[Unset, str] = UNSET
+    due_date: Union[Unset, str] = UNSET
     consumed: Union[Unset, float] = UNSET
     supplier_sku: Union[Unset, str] = UNSET
     price_source: Union[Unset, LineItemPriceSource] = UNSET
@@ -67,6 +70,7 @@ class LineItem:
     contract_id: Union[Unset, str] = UNSET
     contract_term_id: Union[Unset, str] = UNSET
     quote_line_no: Union[Unset, float] = UNSET
+    sow_line_no: Union[Unset, float] = UNSET
     origin: Union[Unset, "PunchoutLineOrigin"] = UNSET
     punchout_ref: Union[Unset, "LineItemPunchoutRef"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -106,6 +110,8 @@ class LineItem:
 
         valid_until = self.valid_until
 
+        due_date = self.due_date
+
         consumed = self.consumed
 
         supplier_sku = self.supplier_sku
@@ -121,6 +127,8 @@ class LineItem:
         contract_term_id = self.contract_term_id
 
         quote_line_no = self.quote_line_no
+
+        sow_line_no = self.sow_line_no
 
         origin: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.origin, Unset):
@@ -159,6 +167,8 @@ class LineItem:
             field_dict["validFrom"] = valid_from
         if valid_until is not UNSET:
             field_dict["validUntil"] = valid_until
+        if due_date is not UNSET:
+            field_dict["dueDate"] = due_date
         if consumed is not UNSET:
             field_dict["consumed"] = consumed
         if supplier_sku is not UNSET:
@@ -173,6 +183,8 @@ class LineItem:
             field_dict["contractTermId"] = contract_term_id
         if quote_line_no is not UNSET:
             field_dict["quoteLineNo"] = quote_line_no
+        if sow_line_no is not UNSET:
+            field_dict["sowLineNo"] = sow_line_no
         if origin is not UNSET:
             field_dict["origin"] = origin
         if punchout_ref is not UNSET:
@@ -229,6 +241,8 @@ class LineItem:
 
         valid_until = d.pop("validUntil", UNSET)
 
+        due_date = d.pop("dueDate", UNSET)
+
         consumed = d.pop("consumed", UNSET)
 
         supplier_sku = d.pop("supplierSku", UNSET)
@@ -247,6 +261,8 @@ class LineItem:
         contract_term_id = d.pop("contractTermId", UNSET)
 
         quote_line_no = d.pop("quoteLineNo", UNSET)
+
+        sow_line_no = d.pop("sowLineNo", UNSET)
 
         _origin = d.pop("origin", UNSET)
         origin: Union[Unset, PunchoutLineOrigin]
@@ -276,6 +292,7 @@ class LineItem:
             payment_terms=payment_terms,
             valid_from=valid_from,
             valid_until=valid_until,
+            due_date=due_date,
             consumed=consumed,
             supplier_sku=supplier_sku,
             price_source=price_source,
@@ -283,6 +300,7 @@ class LineItem:
             contract_id=contract_id,
             contract_term_id=contract_term_id,
             quote_line_no=quote_line_no,
+            sow_line_no=sow_line_no,
             origin=origin,
             punchout_ref=punchout_ref,
         )

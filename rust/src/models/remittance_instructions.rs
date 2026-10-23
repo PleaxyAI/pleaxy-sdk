@@ -54,20 +54,20 @@ impl RemittanceInstructions {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Method {
+    #[serde(rename = "other")]
+    Other,
     #[serde(rename = "ach")]
     Ach,
     #[serde(rename = "wire")]
     Wire,
     #[serde(rename = "check")]
     Check,
-    #[serde(rename = "other")]
-    Other,
     #[serde(rename = "bank_transfer")]
     BankTransfer,
 }
 
 impl Default for Method {
     fn default() -> Method {
-        Self::Ach
+        Self::Other
     }
 }

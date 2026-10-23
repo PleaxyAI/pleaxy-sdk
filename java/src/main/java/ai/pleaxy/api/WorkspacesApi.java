@@ -84,28 +84,30 @@ public class WorkspacesApi {
   }
 
   /**
-   * [Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;
+   * [Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;. ?lists&#x3D;none returns purchaseOrders and invoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage), and the rest as usual. ?lists&#x3D;active returns only the ones still in play - not canceled, closed, rejected or paid POs; unpaid invoices, and ones rejected in the last 30 days and not yet replaced - with recentPurchaseOrders and recentInvoices, the newest 10 of each.
    * 
    * @param from ISO 8601 date/timestamp - only items created on or after this are returned. (optional)
    * @param to ISO 8601 date/timestamp - only items created on or before this are returned. (optional)
+   * @param lists  (optional)
    * @return GetBuyerWorkspaceResult
    * @throws ApiException if fails to make API call
    */
-  public GetBuyerWorkspaceResult getBuyerWorkspace(String from, String to) throws ApiException {
-    ApiResponse<GetBuyerWorkspaceResult> localVarResponse = getBuyerWorkspaceWithHttpInfo(from, to);
+  public GetBuyerWorkspaceResult getBuyerWorkspace(String from, String to, String lists) throws ApiException {
+    ApiResponse<GetBuyerWorkspaceResult> localVarResponse = getBuyerWorkspaceWithHttpInfo(from, to, lists);
     return localVarResponse.getData();
   }
 
   /**
-   * [Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;
+   * [Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;. ?lists&#x3D;none returns purchaseOrders and invoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage), and the rest as usual. ?lists&#x3D;active returns only the ones still in play - not canceled, closed, rejected or paid POs; unpaid invoices, and ones rejected in the last 30 days and not yet replaced - with recentPurchaseOrders and recentInvoices, the newest 10 of each.
    * 
    * @param from ISO 8601 date/timestamp - only items created on or after this are returned. (optional)
    * @param to ISO 8601 date/timestamp - only items created on or before this are returned. (optional)
+   * @param lists  (optional)
    * @return ApiResponse&lt;GetBuyerWorkspaceResult&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<GetBuyerWorkspaceResult> getBuyerWorkspaceWithHttpInfo(String from, String to) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getBuyerWorkspaceRequestBuilder(from, to);
+  public ApiResponse<GetBuyerWorkspaceResult> getBuyerWorkspaceWithHttpInfo(String from, String to, String lists) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getBuyerWorkspaceRequestBuilder(from, to, lists);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -133,7 +135,7 @@ public class WorkspacesApi {
     }
   }
 
-  private HttpRequest.Builder getBuyerWorkspaceRequestBuilder(String from, String to) throws ApiException {
+  private HttpRequest.Builder getBuyerWorkspaceRequestBuilder(String from, String to, String lists) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -146,6 +148,8 @@ public class WorkspacesApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("from", from));
     localVarQueryParameterBaseName = "to";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("to", to));
+    localVarQueryParameterBaseName = "lists";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("lists", lists));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
@@ -171,28 +175,30 @@ public class WorkspacesApi {
   }
 
   /**
-   * [Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;
+   * [Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;. ?lists&#x3D;none returns incomingPOs and supplierInvoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage). ?lists&#x3D;active returns only the ones still in play (as GetBuyerWorkspace), with recentIncomingPOs and recentSupplierInvoices, the newest 10 of each.
    * 
    * @param from ISO 8601 date/timestamp - only items created on or after this are returned. (optional)
    * @param to ISO 8601 date/timestamp - only items created on or before this are returned. (optional)
+   * @param lists  (optional)
    * @return GetSupplierWorkspaceResult
    * @throws ApiException if fails to make API call
    */
-  public GetSupplierWorkspaceResult getSupplierWorkspace(String from, String to) throws ApiException {
-    ApiResponse<GetSupplierWorkspaceResult> localVarResponse = getSupplierWorkspaceWithHttpInfo(from, to);
+  public GetSupplierWorkspaceResult getSupplierWorkspace(String from, String to, String lists) throws ApiException {
+    ApiResponse<GetSupplierWorkspaceResult> localVarResponse = getSupplierWorkspaceWithHttpInfo(from, to, lists);
     return localVarResponse.getData();
   }
 
   /**
-   * [Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;
+   * [Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from&#x3D;&amp;to&#x3D;. ?lists&#x3D;none returns incomingPOs and supplierInvoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage). ?lists&#x3D;active returns only the ones still in play (as GetBuyerWorkspace), with recentIncomingPOs and recentSupplierInvoices, the newest 10 of each.
    * 
    * @param from ISO 8601 date/timestamp - only items created on or after this are returned. (optional)
    * @param to ISO 8601 date/timestamp - only items created on or before this are returned. (optional)
+   * @param lists  (optional)
    * @return ApiResponse&lt;GetSupplierWorkspaceResult&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<GetSupplierWorkspaceResult> getSupplierWorkspaceWithHttpInfo(String from, String to) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getSupplierWorkspaceRequestBuilder(from, to);
+  public ApiResponse<GetSupplierWorkspaceResult> getSupplierWorkspaceWithHttpInfo(String from, String to, String lists) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getSupplierWorkspaceRequestBuilder(from, to, lists);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -220,7 +226,7 @@ public class WorkspacesApi {
     }
   }
 
-  private HttpRequest.Builder getSupplierWorkspaceRequestBuilder(String from, String to) throws ApiException {
+  private HttpRequest.Builder getSupplierWorkspaceRequestBuilder(String from, String to, String lists) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -233,6 +239,8 @@ public class WorkspacesApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("from", from));
     localVarQueryParameterBaseName = "to";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("to", to));
+    localVarQueryParameterBaseName = "lists";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("lists", lists));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

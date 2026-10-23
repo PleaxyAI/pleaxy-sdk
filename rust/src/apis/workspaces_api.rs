@@ -33,6 +33,7 @@ pub async fn get_buyer_workspace(
     configuration: &configuration::Configuration,
     from: Option<&str>,
     to: Option<&str>,
+    lists: Option<&str>,
 ) -> Result<models::GetBuyerWorkspaceResult, Error<GetBuyerWorkspaceError>> {
     let local_var_configuration = configuration;
 
@@ -48,6 +49,10 @@ pub async fn get_buyer_workspace(
     }
     if let Some(ref local_var_str) = to {
         local_var_req_builder = local_var_req_builder.query(&[("to", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = lists {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("lists", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder =
@@ -89,6 +94,7 @@ pub async fn get_supplier_workspace(
     configuration: &configuration::Configuration,
     from: Option<&str>,
     to: Option<&str>,
+    lists: Option<&str>,
 ) -> Result<models::GetSupplierWorkspaceResult, Error<GetSupplierWorkspaceError>> {
     let local_var_configuration = configuration;
 
@@ -104,6 +110,10 @@ pub async fn get_supplier_workspace(
     }
     if let Some(ref local_var_str) = to {
         local_var_req_builder = local_var_req_builder.query(&[("to", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = lists {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("lists", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder =

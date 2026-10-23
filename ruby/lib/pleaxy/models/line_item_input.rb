@@ -41,11 +41,17 @@ module Pleaxy
 
     attr_accessor :valid_until
 
+    # When the goods or the work on this line are due (YYYY-MM-DD), e.g. a statement-of-work milestone. On a 3-way order, its receiver is reminded when it passes with nothing received.
+    attr_accessor :due_date
+
     # The buyer's own number for this line (e.g. from their ERP), up to 40 characters. Optional, like poNumber; stored and shown alongside the server's lineNo, never replacing it.
     attr_accessor :customer_line_no
 
     # The line of the order's quote (quoteImportId) this line was filled from, when Pleaxy read the quote. Kept on the line; the app shows the line as priced from the supplier's quote unless a contract rate priced it.
     attr_accessor :quote_line_no
+
+    # The milestone or deliverable of the order's statement of work (sowImportId) this line was filled from, when Pleaxy read the SOW. Kept on the line, provenance only, like quoteLineNo.
+    attr_accessor :sow_line_no
 
     # The online-store cart line this line came from (store punchout spec D4). The server reads that cart's evidence and sets what the line is - its name, unit and part numbers - from it; only qty and unitPrice are yours.
     attr_accessor :punchout_ref
@@ -87,8 +93,10 @@ module Pleaxy
         :'payment_terms' => :'paymentTerms',
         :'valid_from' => :'validFrom',
         :'valid_until' => :'validUntil',
+        :'due_date' => :'dueDate',
         :'customer_line_no' => :'customerLineNo',
         :'quote_line_no' => :'quoteLineNo',
+        :'sow_line_no' => :'sowLineNo',
         :'punchout_ref' => :'punchoutRef'
       }
     end
@@ -113,8 +121,10 @@ module Pleaxy
         :'payment_terms' => :'String',
         :'valid_from' => :'String',
         :'valid_until' => :'String',
+        :'due_date' => :'String',
         :'customer_line_no' => :'String',
         :'quote_line_no' => :'Float',
+        :'sow_line_no' => :'Float',
         :'punchout_ref' => :'PunchoutRefInput'
       }
     end
@@ -207,12 +217,20 @@ module Pleaxy
         self.valid_until = nil
       end
 
+      if attributes.key?(:'due_date')
+        self.due_date = attributes[:'due_date']
+      end
+
       if attributes.key?(:'customer_line_no')
         self.customer_line_no = attributes[:'customer_line_no']
       end
 
       if attributes.key?(:'quote_line_no')
         self.quote_line_no = attributes[:'quote_line_no']
+      end
+
+      if attributes.key?(:'sow_line_no')
+        self.sow_line_no = attributes[:'sow_line_no']
       end
 
       if attributes.key?(:'punchout_ref')
@@ -277,6 +295,11 @@ module Pleaxy
         invalid_properties.push('invalid value for "valid_until", valid_until cannot be nil.')
       end
 
+      pattern = Regexp.new(/^\d{4}-\d{2}-\d{2}$/)
+      if !@due_date.nil? && @due_date !~ pattern
+        invalid_properties.push("invalid value for \"due_date\", must conform to the pattern #{pattern}.")
+      end
+
       pattern = Regexp.new(/^[A-Za-z0-9._\-\/ ]{1,40}$/)
       if !@customer_line_no.nil? && @customer_line_no !~ pattern
         invalid_properties.push("invalid value for \"customer_line_no\", must conform to the pattern #{pattern}.")
@@ -288,6 +311,14 @@ module Pleaxy
 
       if !@quote_line_no.nil? && @quote_line_no < 1
         invalid_properties.push('invalid value for "quote_line_no", must be greater than or equal to 1.')
+      end
+
+      if !@sow_line_no.nil? && @sow_line_no > 1000
+        invalid_properties.push('invalid value for "sow_line_no", must be smaller than or equal to 1000.')
+      end
+
+      if !@sow_line_no.nil? && @sow_line_no < 1
+        invalid_properties.push('invalid value for "sow_line_no", must be greater than or equal to 1.')
       end
 
       invalid_properties
@@ -314,9 +345,12 @@ module Pleaxy
       return false if !@payment_terms.nil? && @payment_terms.to_s.length > 40
       return false if @valid_from.nil?
       return false if @valid_until.nil?
+      return false if !@due_date.nil? && @due_date !~ Regexp.new(/^\d{4}-\d{2}-\d{2}$/)
       return false if !@customer_line_no.nil? && @customer_line_no !~ Regexp.new(/^[A-Za-z0-9._\-\/ ]{1,40}$/)
       return false if !@quote_line_no.nil? && @quote_line_no > 1000
       return false if !@quote_line_no.nil? && @quote_line_no < 1
+      return false if !@sow_line_no.nil? && @sow_line_no > 1000
+      return false if !@sow_line_no.nil? && @sow_line_no < 1
       true
     end
 
@@ -397,6 +431,21 @@ module Pleaxy
     end
 
     # Custom attribute writer method with validation
+    # @param [Object] due_date Value to be assigned
+    def due_date=(due_date)
+      if due_date.nil?
+        fail ArgumentError, 'due_date cannot be nil'
+      end
+
+      pattern = Regexp.new(/^\d{4}-\d{2}-\d{2}$/)
+      if due_date !~ pattern
+        fail ArgumentError, "invalid value for \"due_date\", must conform to the pattern #{pattern}."
+      end
+
+      @due_date = due_date
+    end
+
+    # Custom attribute writer method with validation
     # @param [Object] customer_line_no Value to be assigned
     def customer_line_no=(customer_line_no)
       if customer_line_no.nil?
@@ -429,6 +478,24 @@ module Pleaxy
       @quote_line_no = quote_line_no
     end
 
+    # Custom attribute writer method with validation
+    # @param [Object] sow_line_no Value to be assigned
+    def sow_line_no=(sow_line_no)
+      if sow_line_no.nil?
+        fail ArgumentError, 'sow_line_no cannot be nil'
+      end
+
+      if sow_line_no > 1000
+        fail ArgumentError, 'invalid value for "sow_line_no", must be smaller than or equal to 1000.'
+      end
+
+      if sow_line_no < 1
+        fail ArgumentError, 'invalid value for "sow_line_no", must be greater than or equal to 1.'
+      end
+
+      @sow_line_no = sow_line_no
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
@@ -446,8 +513,10 @@ module Pleaxy
           payment_terms == o.payment_terms &&
           valid_from == o.valid_from &&
           valid_until == o.valid_until &&
+          due_date == o.due_date &&
           customer_line_no == o.customer_line_no &&
           quote_line_no == o.quote_line_no &&
+          sow_line_no == o.sow_line_no &&
           punchout_ref == o.punchout_ref
     end
 
@@ -460,7 +529,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [scope_type, scope_id, name, rule_type, unit, unit_price, qty, nte_amount, currency, payment_terms, valid_from, valid_until, customer_line_no, quote_line_no, punchout_ref].hash
+      [scope_type, scope_id, name, rule_type, unit, unit_price, qty, nte_amount, currency, payment_terms, valid_from, valid_until, due_date, customer_line_no, quote_line_no, sow_line_no, punchout_ref].hash
     end
 
     # Builds the object from hash

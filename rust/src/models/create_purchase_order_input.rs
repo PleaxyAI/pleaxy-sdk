@@ -19,9 +19,24 @@ pub struct CreatePurchaseOrderInput {
     /// Supplier / counterparty name
     #[serde(rename = "supplier")]
     pub supplier: String,
+    /// How the order's invoices are matched: two_way against the order and its contract; three_way also against what was received (goods receipts and service entry sheets). Defaults to what the workspace's matching setting suggests (GET .../matching-policy). Refused for a cloud provider's order, which is matched against usage, and, when the setting lets only administrators change it, for anything but the default from anyone else.
+    #[serde(rename = "matching", skip_serializing_if = "Option::is_none")]
+    pub matching: Option<Matching>,
+    /// Who confirms delivery: someone in this workspace, by employee key. Defaults to whoever raises the order. Used with three_way matching.
+    #[serde(
+        rename = "receiverEmployeeKey",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub receiver_employee_key: Option<String>,
     /// regionId of the onboarded supplier org this PO is issued to, if known. The buyer must hold an approved SupplierConnection to this supplier; the server rejects a region it isn't connected to. Links the PO to that org's real supplier workspace instead of just its free-text `supplier` name - see WorkspacesService.getSupplierWorkspace.
     #[serde(rename = "supplierRegionId", skip_serializing_if = "Option::is_none")]
     pub supplier_region_id: Option<String>,
+    /// The id of a supplier on your Suppliers list (not rejected, not a cloud provider) this PO is for - see GET .../suppliers. One approved with a Pleaxy account is treated as its supplierRegionId. Any other (not invited yet, invited, onboarding) is named by its record: its invoices match the PO by id, the PO is emailed to its contact, and sending it invites a supplier not invited yet. The record's name replaces `supplier`. Not with supplierRegionId, provider or supplierContactEmail.
+    #[serde(
+        rename = "supplierConnectionId",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub supplier_connection_id: Option<String>,
     /// ISO 4217: the currency the order is priced in. To a supplier with an account (supplierRegionId), one its region prices in, its main currency by default (400 PO_CURRENCY_NOT_OFFERED otherwise). To a cloud provider or a supplier not on Pleaxy yet, any code; by default that supplier's \"Bills in\" currency, else your workspace's. An order in a currency other than your workspace's goes through every approval step and is never auto-approved.
     #[serde(rename = "currency", skip_serializing_if = "Option::is_none")]
     pub currency: Option<String>,
@@ -58,6 +73,9 @@ pub struct CreatePurchaseOrderInput {
     /// The quote import (POST .../quote-imports) holding the supplier's quote this order is raised from. Its upload must have finished. Optional.
     #[serde(rename = "quoteImportId", skip_serializing_if = "Option::is_none")]
     pub quote_import_id: Option<String>,
+    /// The quote import (POST .../quote-imports) holding the statement of work this order is for: its scope, milestones and acceptance. Its upload must have finished. Optional, and independent of quoteImportId.
+    #[serde(rename = "sowImportId", skip_serializing_if = "Option::is_none")]
+    pub sow_import_id: Option<String>,
     /// Save as a draft instead of submitting for approval. Submit it later with SubmitPurchaseOrderDraft.
     #[serde(rename = "draft", skip_serializing_if = "Option::is_none")]
     pub draft: Option<bool>,
@@ -73,7 +91,10 @@ impl CreatePurchaseOrderInput {
         CreatePurchaseOrderInput {
             po_number: None,
             supplier,
+            matching: None,
+            receiver_employee_key: None,
             supplier_region_id: None,
+            supplier_connection_id: None,
             currency: None,
             provider: None,
             payer_accounts: None,
@@ -87,9 +108,24 @@ impl CreatePurchaseOrderInput {
             notes: None,
             contract_id: None,
             quote_import_id: None,
+            sow_import_id: None,
             draft: None,
             line_items,
         }
+    }
+}
+/// How the order's invoices are matched: two_way against the order and its contract; three_way also against what was received (goods receipts and service entry sheets). Defaults to what the workspace's matching setting suggests (GET .../matching-policy). Refused for a cloud provider's order, which is matched against usage, and, when the setting lets only administrators change it, for anything but the default from anyone else.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Matching {
+    #[serde(rename = "two_way")]
+    TwoWay,
+    #[serde(rename = "three_way")]
+    ThreeWay,
+}
+
+impl Default for Matching {
+    fn default() -> Matching {
+        Self::TwoWay
     }
 }
 ///

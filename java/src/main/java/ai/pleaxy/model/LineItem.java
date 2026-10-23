@@ -48,6 +48,7 @@ import ai.pleaxy.client.ApiClient;
   LineItem.JSON_PROPERTY_PAYMENT_TERMS,
   LineItem.JSON_PROPERTY_VALID_FROM,
   LineItem.JSON_PROPERTY_VALID_UNTIL,
+  LineItem.JSON_PROPERTY_DUE_DATE,
   LineItem.JSON_PROPERTY_CONSUMED,
   LineItem.JSON_PROPERTY_SUPPLIER_SKU,
   LineItem.JSON_PROPERTY_PRICE_SOURCE,
@@ -55,6 +56,7 @@ import ai.pleaxy.client.ApiClient;
   LineItem.JSON_PROPERTY_CONTRACT_ID,
   LineItem.JSON_PROPERTY_CONTRACT_TERM_ID,
   LineItem.JSON_PROPERTY_QUOTE_LINE_NO,
+  LineItem.JSON_PROPERTY_SOW_LINE_NO,
   LineItem.JSON_PROPERTY_ORIGIN,
   LineItem.JSON_PROPERTY_PUNCHOUT_REF
 })
@@ -186,6 +188,10 @@ public class LineItem {
   @javax.annotation.Nullable
   private String validUntil;
 
+  public static final String JSON_PROPERTY_DUE_DATE = "dueDate";
+  @javax.annotation.Nullable
+  private String dueDate;
+
   public static final String JSON_PROPERTY_CONSUMED = "consumed";
   @javax.annotation.Nullable
   private Double consumed;
@@ -250,6 +256,10 @@ public class LineItem {
   public static final String JSON_PROPERTY_QUOTE_LINE_NO = "quoteLineNo";
   @javax.annotation.Nullable
   private Double quoteLineNo;
+
+  public static final String JSON_PROPERTY_SOW_LINE_NO = "sowLineNo";
+  @javax.annotation.Nullable
+  private Double sowLineNo;
 
   public static final String JSON_PROPERTY_ORIGIN = "origin";
   @javax.annotation.Nullable
@@ -574,6 +584,30 @@ public class LineItem {
   }
 
 
+  public LineItem dueDate(@javax.annotation.Nullable String dueDate) {
+    this.dueDate = dueDate;
+    return this;
+  }
+
+  /**
+   * Get dueDate
+   * @return dueDate
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DUE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getDueDate() {
+    return dueDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DUE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDueDate(@javax.annotation.Nullable String dueDate) {
+    this.dueDate = dueDate;
+  }
+
+
   public LineItem consumed(@javax.annotation.Nullable Double consumed) {
     this.consumed = consumed;
     return this;
@@ -742,6 +776,30 @@ public class LineItem {
   }
 
 
+  public LineItem sowLineNo(@javax.annotation.Nullable Double sowLineNo) {
+    this.sowLineNo = sowLineNo;
+    return this;
+  }
+
+  /**
+   * Get sowLineNo
+   * @return sowLineNo
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SOW_LINE_NO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getSowLineNo() {
+    return sowLineNo;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SOW_LINE_NO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSowLineNo(@javax.annotation.Nullable Double sowLineNo) {
+    this.sowLineNo = sowLineNo;
+  }
+
+
   public LineItem origin(@javax.annotation.Nullable PunchoutLineOrigin origin) {
     this.origin = origin;
     return this;
@@ -815,6 +873,7 @@ public class LineItem {
         Objects.equals(this.paymentTerms, lineItem.paymentTerms) &&
         Objects.equals(this.validFrom, lineItem.validFrom) &&
         Objects.equals(this.validUntil, lineItem.validUntil) &&
+        Objects.equals(this.dueDate, lineItem.dueDate) &&
         Objects.equals(this.consumed, lineItem.consumed) &&
         Objects.equals(this.supplierSku, lineItem.supplierSku) &&
         Objects.equals(this.priceSource, lineItem.priceSource) &&
@@ -822,13 +881,14 @@ public class LineItem {
         Objects.equals(this.contractId, lineItem.contractId) &&
         Objects.equals(this.contractTermId, lineItem.contractTermId) &&
         Objects.equals(this.quoteLineNo, lineItem.quoteLineNo) &&
+        Objects.equals(this.sowLineNo, lineItem.sowLineNo) &&
         Objects.equals(this.origin, lineItem.origin) &&
         Objects.equals(this.punchoutRef, lineItem.punchoutRef);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(lineNo, scopeType, scopeId, name, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, consumed, supplierSku, priceSource, customerLineNo, contractId, contractTermId, quoteLineNo, origin, punchoutRef);
+    return Objects.hash(lineNo, scopeType, scopeId, name, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, dueDate, consumed, supplierSku, priceSource, customerLineNo, contractId, contractTermId, quoteLineNo, sowLineNo, origin, punchoutRef);
   }
 
   @Override
@@ -848,6 +908,7 @@ public class LineItem {
     sb.append("    paymentTerms: ").append(toIndentedString(paymentTerms)).append("\n");
     sb.append("    validFrom: ").append(toIndentedString(validFrom)).append("\n");
     sb.append("    validUntil: ").append(toIndentedString(validUntil)).append("\n");
+    sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
     sb.append("    consumed: ").append(toIndentedString(consumed)).append("\n");
     sb.append("    supplierSku: ").append(toIndentedString(supplierSku)).append("\n");
     sb.append("    priceSource: ").append(toIndentedString(priceSource)).append("\n");
@@ -855,6 +916,7 @@ public class LineItem {
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
     sb.append("    contractTermId: ").append(toIndentedString(contractTermId)).append("\n");
     sb.append("    quoteLineNo: ").append(toIndentedString(quoteLineNo)).append("\n");
+    sb.append("    sowLineNo: ").append(toIndentedString(sowLineNo)).append("\n");
     sb.append("    origin: ").append(toIndentedString(origin)).append("\n");
     sb.append("    punchoutRef: ").append(toIndentedString(punchoutRef)).append("\n");
     sb.append("}");
@@ -969,6 +1031,11 @@ public class LineItem {
       joiner.add(String.format("%svalidUntil%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getValidUntil()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `dueDate` to the URL query string
+    if (getDueDate() != null) {
+      joiner.add(String.format("%sdueDate%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDueDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
     // add `consumed` to the URL query string
     if (getConsumed() != null) {
       joiner.add(String.format("%sconsumed%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getConsumed()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -1002,6 +1069,11 @@ public class LineItem {
     // add `quoteLineNo` to the URL query string
     if (getQuoteLineNo() != null) {
       joiner.add(String.format("%squoteLineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuoteLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `sowLineNo` to the URL query string
+    if (getSowLineNo() != null) {
+      joiner.add(String.format("%ssowLineNo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSowLineNo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `origin` to the URL query string

@@ -150,7 +150,9 @@ public class CreateApiKeyResult {
    * Gets or Sets scopes
    */
   public enum ScopesEnum {
-    INVOICES_FEED(String.valueOf("invoices:feed"));
+    INVOICES_FEED(String.valueOf("invoices:feed")),
+    
+    PAYMENTS_RECORD(String.valueOf("payments:record"));
 
     private String value;
 

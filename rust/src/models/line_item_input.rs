@@ -44,12 +44,18 @@ pub struct LineItemInput {
     pub valid_from: String,
     #[serde(rename = "validUntil")]
     pub valid_until: String,
+    /// When the goods or the work on this line are due (YYYY-MM-DD), e.g. a statement-of-work milestone. On a 3-way order, its receiver is reminded when it passes with nothing received.
+    #[serde(rename = "dueDate", skip_serializing_if = "Option::is_none")]
+    pub due_date: Option<String>,
     /// The buyer's own number for this line (e.g. from their ERP), up to 40 characters. Optional, like poNumber; stored and shown alongside the server's lineNo, never replacing it.
     #[serde(rename = "customerLineNo", skip_serializing_if = "Option::is_none")]
     pub customer_line_no: Option<String>,
     /// The line of the order's quote (quoteImportId) this line was filled from, when Pleaxy read the quote. Kept on the line; the app shows the line as priced from the supplier's quote unless a contract rate priced it.
     #[serde(rename = "quoteLineNo", skip_serializing_if = "Option::is_none")]
     pub quote_line_no: Option<f64>,
+    /// The milestone or deliverable of the order's statement of work (sowImportId) this line was filled from, when Pleaxy read the SOW. Kept on the line, provenance only, like quoteLineNo.
+    #[serde(rename = "sowLineNo", skip_serializing_if = "Option::is_none")]
+    pub sow_line_no: Option<f64>,
     /// The online-store cart line this line came from (store punchout spec D4). The server reads that cart's evidence and sets what the line is - its name, unit and part numbers - from it; only qty and unitPrice are yours.
     #[serde(rename = "punchoutRef", skip_serializing_if = "Option::is_none")]
     pub punchout_ref: Option<models::PunchoutRefInput>,
@@ -80,8 +86,10 @@ impl LineItemInput {
             payment_terms: None,
             valid_from,
             valid_until,
+            due_date: None,
             customer_line_no: None,
             quote_line_no: None,
+            sow_line_no: None,
             punchout_ref: None,
         }
     }

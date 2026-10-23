@@ -7,6 +7,7 @@ from ..models.store_order_status import StoreOrderStatus, check_store_order_stat
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.store_order_confirmation import StoreOrderConfirmation
     from ..models.store_order_refusal import StoreOrderRefusal
     from ..models.store_order_store_answer import StoreOrderStoreAnswer
 
@@ -27,6 +28,7 @@ class StoreOrder:
         sent_at (Union[Unset, str]):
         refusal (Union[Unset, StoreOrderRefusal]):
         store_answer (Union[Unset, StoreOrderStoreAnswer]):
+        confirmation (Union[Unset, StoreOrderConfirmation]):
         deadline (Union[Unset, str]):
         queue_sk (Union[Unset, str]):
     """
@@ -40,6 +42,7 @@ class StoreOrder:
     sent_at: Union[Unset, str] = UNSET
     refusal: Union[Unset, "StoreOrderRefusal"] = UNSET
     store_answer: Union[Unset, "StoreOrderStoreAnswer"] = UNSET
+    confirmation: Union[Unset, "StoreOrderConfirmation"] = UNSET
     deadline: Union[Unset, str] = UNSET
     queue_sk: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -69,6 +72,10 @@ class StoreOrder:
         if not isinstance(self.store_answer, Unset):
             store_answer = self.store_answer.to_dict()
 
+        confirmation: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.confirmation, Unset):
+            confirmation = self.confirmation.to_dict()
+
         deadline = self.deadline
 
         queue_sk = self.queue_sk
@@ -94,6 +101,8 @@ class StoreOrder:
             field_dict["refusal"] = refusal
         if store_answer is not UNSET:
             field_dict["storeAnswer"] = store_answer
+        if confirmation is not UNSET:
+            field_dict["confirmation"] = confirmation
         if deadline is not UNSET:
             field_dict["deadline"] = deadline
         if queue_sk is not UNSET:
@@ -103,6 +112,7 @@ class StoreOrder:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.store_order_confirmation import StoreOrderConfirmation
         from ..models.store_order_refusal import StoreOrderRefusal
         from ..models.store_order_store_answer import StoreOrderStoreAnswer
 
@@ -140,6 +150,13 @@ class StoreOrder:
         else:
             store_answer = StoreOrderStoreAnswer.from_dict(_store_answer)
 
+        _confirmation = d.pop("confirmation", UNSET)
+        confirmation: Union[Unset, StoreOrderConfirmation]
+        if isinstance(_confirmation, Unset):
+            confirmation = UNSET
+        else:
+            confirmation = StoreOrderConfirmation.from_dict(_confirmation)
+
         deadline = d.pop("deadline", UNSET)
 
         queue_sk = d.pop("queueSk", UNSET)
@@ -154,6 +171,7 @@ class StoreOrder:
             sent_at=sent_at,
             refusal=refusal,
             store_answer=store_answer,
+            confirmation=confirmation,
             deadline=deadline,
             queue_sk=queue_sk,
         )

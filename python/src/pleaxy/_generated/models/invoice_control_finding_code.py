@@ -13,6 +13,9 @@ InvoiceControlFindingCode = Literal[
     "po_line_price_exceeded",
     "po_line_qty_exceeded",
     "po_line_unassigned",
+    "receipt_amount_exceeded",
+    "receipt_missing",
+    "receipt_qty_exceeded",
 ]
 
 INVOICE_CONTROL_FINDING_CODE_VALUES: Set[InvoiceControlFindingCode] = {
@@ -28,6 +31,9 @@ INVOICE_CONTROL_FINDING_CODE_VALUES: Set[InvoiceControlFindingCode] = {
     "po_line_price_exceeded",
     "po_line_qty_exceeded",
     "po_line_unassigned",
+    "receipt_amount_exceeded",
+    "receipt_missing",
+    "receipt_qty_exceeded",
 }
 
 

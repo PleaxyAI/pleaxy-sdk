@@ -472,9 +472,9 @@ public class ListInvoicesItemSupplierCreditNote {
    * Gets or Sets documentType
    */
   public enum DocumentTypeEnum {
-    DEBIT_NOTE(String.valueOf("debit_note")),
-    
     INVOICE(String.valueOf("invoice")),
+    
+    DEBIT_NOTE(String.valueOf("debit_note")),
     
     CREDIT_NOTE(String.valueOf("credit_note"));
 

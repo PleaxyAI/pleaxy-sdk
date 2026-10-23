@@ -21,6 +21,8 @@ module Pleaxy
 
     attr_accessor :managed_by
 
+    attr_accessor :aws_marketplace
+
     attr_accessor :has_billing_account
 
     attr_accessor :subscription_status
@@ -32,6 +34,8 @@ module Pleaxy
     attr_accessor :past_due_since
 
     attr_accessor :buyer_region_count
+
+    attr_accessor :supplier_region_count
 
     attr_accessor :interval
 
@@ -73,12 +77,14 @@ module Pleaxy
         :'billing_enabled' => :'billingEnabled',
         :'plan' => :'plan',
         :'managed_by' => :'managedBy',
+        :'aws_marketplace' => :'awsMarketplace',
         :'has_billing_account' => :'hasBillingAccount',
         :'subscription_status' => :'subscriptionStatus',
         :'current_period_end' => :'currentPeriodEnd',
         :'cancel_at_period_end' => :'cancelAtPeriodEnd',
         :'past_due_since' => :'pastDueSince',
         :'buyer_region_count' => :'buyerRegionCount',
+        :'supplier_region_count' => :'supplierRegionCount',
         :'interval' => :'interval',
         :'available_plans' => :'availablePlans',
         :'current_price_label' => :'currentPriceLabel',
@@ -99,12 +105,14 @@ module Pleaxy
         :'billing_enabled' => :'Boolean',
         :'plan' => :'String',
         :'managed_by' => :'String',
+        :'aws_marketplace' => :'BillingSummaryAwsMarketplace',
         :'has_billing_account' => :'Boolean',
         :'subscription_status' => :'String',
         :'current_period_end' => :'String',
         :'cancel_at_period_end' => :'Boolean',
         :'past_due_since' => :'String',
         :'buyer_region_count' => :'Float',
+        :'supplier_region_count' => :'Float',
         :'interval' => :'String',
         :'available_plans' => :'Array<BillingSummaryAvailablePlansInner>',
         :'current_price_label' => :'String',
@@ -147,6 +155,10 @@ module Pleaxy
         self.managed_by = attributes[:'managed_by']
       end
 
+      if attributes.key?(:'aws_marketplace')
+        self.aws_marketplace = attributes[:'aws_marketplace']
+      end
+
       if attributes.key?(:'has_billing_account')
         self.has_billing_account = attributes[:'has_billing_account']
       end
@@ -169,6 +181,10 @@ module Pleaxy
 
       if attributes.key?(:'buyer_region_count')
         self.buyer_region_count = attributes[:'buyer_region_count']
+      end
+
+      if attributes.key?(:'supplier_region_count')
+        self.supplier_region_count = attributes[:'supplier_region_count']
       end
 
       if attributes.key?(:'interval')
@@ -212,9 +228,9 @@ module Pleaxy
       warn '[DEPRECATED] the `valid?` method is obsolete'
       plan_validator = EnumAttributeValidator.new('String', ["assisted", "managed", "autonomous", "enterprise", "supplier-free", "supplier-plus", "supplier-enterprise"])
       return false unless plan_validator.valid?(@plan)
-      managed_by_validator = EnumAttributeValidator.new('String', ["self-serve", "platform"])
+      managed_by_validator = EnumAttributeValidator.new('String', ["self-serve", "platform", "aws-marketplace"])
       return false unless managed_by_validator.valid?(@managed_by)
-      subscription_status_validator = EnumAttributeValidator.new('String', ["canceled", "trialing", "active", "past_due", "unpaid", "incomplete", "incomplete_expired", "paused"])
+      subscription_status_validator = EnumAttributeValidator.new('String', ["active", "canceled", "unpaid", "trialing", "past_due", "incomplete", "incomplete_expired", "paused"])
       return false unless subscription_status_validator.valid?(@subscription_status)
       interval_validator = EnumAttributeValidator.new('String', ["month", "year"])
       return false unless interval_validator.valid?(@interval)
@@ -234,7 +250,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] managed_by Object to be assigned
     def managed_by=(managed_by)
-      validator = EnumAttributeValidator.new('String', ["self-serve", "platform"])
+      validator = EnumAttributeValidator.new('String', ["self-serve", "platform", "aws-marketplace"])
       unless validator.valid?(managed_by)
         fail ArgumentError, "invalid value for \"managed_by\", must be one of #{validator.allowable_values}."
       end
@@ -244,7 +260,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] subscription_status Object to be assigned
     def subscription_status=(subscription_status)
-      validator = EnumAttributeValidator.new('String', ["canceled", "trialing", "active", "past_due", "unpaid", "incomplete", "incomplete_expired", "paused"])
+      validator = EnumAttributeValidator.new('String', ["active", "canceled", "unpaid", "trialing", "past_due", "incomplete", "incomplete_expired", "paused"])
       unless validator.valid?(subscription_status)
         fail ArgumentError, "invalid value for \"subscription_status\", must be one of #{validator.allowable_values}."
       end
@@ -269,12 +285,14 @@ module Pleaxy
           billing_enabled == o.billing_enabled &&
           plan == o.plan &&
           managed_by == o.managed_by &&
+          aws_marketplace == o.aws_marketplace &&
           has_billing_account == o.has_billing_account &&
           subscription_status == o.subscription_status &&
           current_period_end == o.current_period_end &&
           cancel_at_period_end == o.cancel_at_period_end &&
           past_due_since == o.past_due_since &&
           buyer_region_count == o.buyer_region_count &&
+          supplier_region_count == o.supplier_region_count &&
           interval == o.interval &&
           available_plans == o.available_plans &&
           current_price_label == o.current_price_label &&
@@ -292,7 +310,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [billing_enabled, plan, managed_by, has_billing_account, subscription_status, current_period_end, cancel_at_period_end, past_due_since, buyer_region_count, interval, available_plans, current_price_label, current_price, current_total_label, current_total].hash
+      [billing_enabled, plan, managed_by, aws_marketplace, has_billing_account, subscription_status, current_period_end, cancel_at_period_end, past_due_since, buyer_region_count, supplier_region_count, interval, available_plans, current_price_label, current_price, current_total_label, current_total].hash
     end
 
     # Builds the object from hash

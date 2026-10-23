@@ -3,9 +3,21 @@ from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.purchase_order_matching import (
+    PurchaseOrderMatching,
+    check_purchase_order_matching,
+)
+from ..models.purchase_order_matching_default import (
+    PurchaseOrderMatchingDefault,
+    check_purchase_order_matching_default,
+)
 from ..models.purchase_order_provider import (
     PurchaseOrderProvider,
     check_purchase_order_provider,
+)
+from ..models.purchase_order_receipt_state import (
+    PurchaseOrderReceiptState,
+    check_purchase_order_receipt_state,
 )
 from ..models.purchase_order_status import (
     PurchaseOrderStatus,
@@ -20,9 +32,12 @@ if TYPE_CHECKING:
     from ..models.purchase_order_bill_to import PurchaseOrderBillTo
     from ..models.purchase_order_change_summary import PurchaseOrderChangeSummary
     from ..models.purchase_order_cost_center_change import PurchaseOrderCostCenterChange
+    from ..models.purchase_order_matching_change import PurchaseOrderMatchingChange
     from ..models.purchase_order_prior_invoiced import PurchaseOrderPriorInvoiced
     from ..models.purchase_order_punchout import PurchaseOrderPunchout
     from ..models.purchase_order_quote_document import PurchaseOrderQuoteDocument
+    from ..models.purchase_order_receipt_tolerance import PurchaseOrderReceiptTolerance
+    from ..models.purchase_order_received_line import PurchaseOrderReceivedLine
     from ..models.purchase_order_ship_to import PurchaseOrderShipTo
     from ..models.purchase_order_supplier_email import PurchaseOrderSupplierEmail
     from ..models.purchase_order_supplier_invite import PurchaseOrderSupplierInvite
@@ -69,6 +84,7 @@ class PurchaseOrder:
         contract_id (Union[Unset, str]):
         supplier_email (Union[Unset, PurchaseOrderSupplierEmail]):
         quote_document (Union[Unset, PurchaseOrderQuoteDocument]):
+        sow_document (Union[Unset, PurchaseOrderQuoteDocument]):
         line_items (Union[Unset, List['LineItem']]):
         approval (Union[Unset, ApprovalChain]):
         approval_version (Union[Unset, float]):
@@ -84,6 +100,17 @@ class PurchaseOrder:
         delivery_address_id (Union[Unset, str]):
         ship_to (Union[Unset, PurchaseOrderShipTo]):
         store_order (Union[Unset, StoreOrder]):
+        matching (Union[Unset, PurchaseOrderMatching]):
+        matching_default (Union[Unset, PurchaseOrderMatchingDefault]):
+        matching_changes (Union[Unset, List['PurchaseOrderMatchingChange']]):
+        receiver_employee_key (Union[Unset, str]):
+        receiver_name (Union[Unset, str]):
+        received (Union[Unset, List['PurchaseOrderReceivedLine']]):
+        received_pending (Union[Unset, List['PurchaseOrderReceivedLine']]):
+        receipt_state (Union[Unset, PurchaseOrderReceiptState]):
+        receipt_required (Union[Unset, bool]):
+        ready_to_invoice (Union[Unset, float]):
+        receipt_tolerance (Union[Unset, PurchaseOrderReceiptTolerance]):
         created_at (Union[Unset, str]):
     """
 
@@ -120,6 +147,7 @@ class PurchaseOrder:
     contract_id: Union[Unset, str] = UNSET
     supplier_email: Union[Unset, "PurchaseOrderSupplierEmail"] = UNSET
     quote_document: Union[Unset, "PurchaseOrderQuoteDocument"] = UNSET
+    sow_document: Union[Unset, "PurchaseOrderQuoteDocument"] = UNSET
     line_items: Union[Unset, List["LineItem"]] = UNSET
     approval: Union[Unset, "ApprovalChain"] = UNSET
     approval_version: Union[Unset, float] = UNSET
@@ -135,6 +163,17 @@ class PurchaseOrder:
     delivery_address_id: Union[Unset, str] = UNSET
     ship_to: Union[Unset, "PurchaseOrderShipTo"] = UNSET
     store_order: Union[Unset, "StoreOrder"] = UNSET
+    matching: Union[Unset, PurchaseOrderMatching] = UNSET
+    matching_default: Union[Unset, PurchaseOrderMatchingDefault] = UNSET
+    matching_changes: Union[Unset, List["PurchaseOrderMatchingChange"]] = UNSET
+    receiver_employee_key: Union[Unset, str] = UNSET
+    receiver_name: Union[Unset, str] = UNSET
+    received: Union[Unset, List["PurchaseOrderReceivedLine"]] = UNSET
+    received_pending: Union[Unset, List["PurchaseOrderReceivedLine"]] = UNSET
+    receipt_state: Union[Unset, PurchaseOrderReceiptState] = UNSET
+    receipt_required: Union[Unset, bool] = UNSET
+    ready_to_invoice: Union[Unset, float] = UNSET
+    receipt_tolerance: Union[Unset, "PurchaseOrderReceiptTolerance"] = UNSET
     created_at: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -231,6 +270,10 @@ class PurchaseOrder:
         if not isinstance(self.quote_document, Unset):
             quote_document = self.quote_document.to_dict()
 
+        sow_document: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.sow_document, Unset):
+            sow_document = self.sow_document.to_dict()
+
         line_items: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.line_items, Unset):
             line_items = []
@@ -275,6 +318,51 @@ class PurchaseOrder:
         store_order: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.store_order, Unset):
             store_order = self.store_order.to_dict()
+
+        matching: Union[Unset, str] = UNSET
+        if not isinstance(self.matching, Unset):
+            matching = self.matching
+
+        matching_default: Union[Unset, str] = UNSET
+        if not isinstance(self.matching_default, Unset):
+            matching_default = self.matching_default
+
+        matching_changes: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.matching_changes, Unset):
+            matching_changes = []
+            for matching_changes_item_data in self.matching_changes:
+                matching_changes_item = matching_changes_item_data.to_dict()
+                matching_changes.append(matching_changes_item)
+
+        receiver_employee_key = self.receiver_employee_key
+
+        receiver_name = self.receiver_name
+
+        received: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.received, Unset):
+            received = []
+            for received_item_data in self.received:
+                received_item = received_item_data.to_dict()
+                received.append(received_item)
+
+        received_pending: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.received_pending, Unset):
+            received_pending = []
+            for received_pending_item_data in self.received_pending:
+                received_pending_item = received_pending_item_data.to_dict()
+                received_pending.append(received_pending_item)
+
+        receipt_state: Union[Unset, str] = UNSET
+        if not isinstance(self.receipt_state, Unset):
+            receipt_state = self.receipt_state
+
+        receipt_required = self.receipt_required
+
+        ready_to_invoice = self.ready_to_invoice
+
+        receipt_tolerance: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.receipt_tolerance, Unset):
+            receipt_tolerance = self.receipt_tolerance.to_dict()
 
         created_at = self.created_at
 
@@ -349,6 +437,8 @@ class PurchaseOrder:
             field_dict["supplierEmail"] = supplier_email
         if quote_document is not UNSET:
             field_dict["quoteDocument"] = quote_document
+        if sow_document is not UNSET:
+            field_dict["sowDocument"] = sow_document
         if line_items is not UNSET:
             field_dict["lineItems"] = line_items
         if approval is not UNSET:
@@ -379,6 +469,28 @@ class PurchaseOrder:
             field_dict["shipTo"] = ship_to
         if store_order is not UNSET:
             field_dict["storeOrder"] = store_order
+        if matching is not UNSET:
+            field_dict["matching"] = matching
+        if matching_default is not UNSET:
+            field_dict["matchingDefault"] = matching_default
+        if matching_changes is not UNSET:
+            field_dict["matchingChanges"] = matching_changes
+        if receiver_employee_key is not UNSET:
+            field_dict["receiverEmployeeKey"] = receiver_employee_key
+        if receiver_name is not UNSET:
+            field_dict["receiverName"] = receiver_name
+        if received is not UNSET:
+            field_dict["received"] = received
+        if received_pending is not UNSET:
+            field_dict["receivedPending"] = received_pending
+        if receipt_state is not UNSET:
+            field_dict["receiptState"] = receipt_state
+        if receipt_required is not UNSET:
+            field_dict["receiptRequired"] = receipt_required
+        if ready_to_invoice is not UNSET:
+            field_dict["readyToInvoice"] = ready_to_invoice
+        if receipt_tolerance is not UNSET:
+            field_dict["receiptTolerance"] = receipt_tolerance
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
 
@@ -394,9 +506,14 @@ class PurchaseOrder:
         from ..models.purchase_order_cost_center_change import (
             PurchaseOrderCostCenterChange,
         )
+        from ..models.purchase_order_matching_change import PurchaseOrderMatchingChange
         from ..models.purchase_order_prior_invoiced import PurchaseOrderPriorInvoiced
         from ..models.purchase_order_punchout import PurchaseOrderPunchout
         from ..models.purchase_order_quote_document import PurchaseOrderQuoteDocument
+        from ..models.purchase_order_receipt_tolerance import (
+            PurchaseOrderReceiptTolerance,
+        )
+        from ..models.purchase_order_received_line import PurchaseOrderReceivedLine
         from ..models.purchase_order_ship_to import PurchaseOrderShipTo
         from ..models.purchase_order_supplier_email import PurchaseOrderSupplierEmail
         from ..models.purchase_order_supplier_invite import PurchaseOrderSupplierInvite
@@ -516,6 +633,13 @@ class PurchaseOrder:
         else:
             quote_document = PurchaseOrderQuoteDocument.from_dict(_quote_document)
 
+        _sow_document = d.pop("sowDocument", UNSET)
+        sow_document: Union[Unset, PurchaseOrderQuoteDocument]
+        if isinstance(_sow_document, Unset):
+            sow_document = UNSET
+        else:
+            sow_document = PurchaseOrderQuoteDocument.from_dict(_sow_document)
+
         line_items = []
         _line_items = d.pop("lineItems", UNSET)
         for line_items_item_data in _line_items or []:
@@ -576,6 +700,69 @@ class PurchaseOrder:
         else:
             store_order = StoreOrder.from_dict(_store_order)
 
+        _matching = d.pop("matching", UNSET)
+        matching: Union[Unset, PurchaseOrderMatching]
+        if isinstance(_matching, Unset):
+            matching = UNSET
+        else:
+            matching = check_purchase_order_matching(_matching)
+
+        _matching_default = d.pop("matchingDefault", UNSET)
+        matching_default: Union[Unset, PurchaseOrderMatchingDefault]
+        if isinstance(_matching_default, Unset):
+            matching_default = UNSET
+        else:
+            matching_default = check_purchase_order_matching_default(_matching_default)
+
+        matching_changes = []
+        _matching_changes = d.pop("matchingChanges", UNSET)
+        for matching_changes_item_data in _matching_changes or []:
+            matching_changes_item = PurchaseOrderMatchingChange.from_dict(
+                matching_changes_item_data
+            )
+
+            matching_changes.append(matching_changes_item)
+
+        receiver_employee_key = d.pop("receiverEmployeeKey", UNSET)
+
+        receiver_name = d.pop("receiverName", UNSET)
+
+        received = []
+        _received = d.pop("received", UNSET)
+        for received_item_data in _received or []:
+            received_item = PurchaseOrderReceivedLine.from_dict(received_item_data)
+
+            received.append(received_item)
+
+        received_pending = []
+        _received_pending = d.pop("receivedPending", UNSET)
+        for received_pending_item_data in _received_pending or []:
+            received_pending_item = PurchaseOrderReceivedLine.from_dict(
+                received_pending_item_data
+            )
+
+            received_pending.append(received_pending_item)
+
+        _receipt_state = d.pop("receiptState", UNSET)
+        receipt_state: Union[Unset, PurchaseOrderReceiptState]
+        if isinstance(_receipt_state, Unset):
+            receipt_state = UNSET
+        else:
+            receipt_state = check_purchase_order_receipt_state(_receipt_state)
+
+        receipt_required = d.pop("receiptRequired", UNSET)
+
+        ready_to_invoice = d.pop("readyToInvoice", UNSET)
+
+        _receipt_tolerance = d.pop("receiptTolerance", UNSET)
+        receipt_tolerance: Union[Unset, PurchaseOrderReceiptTolerance]
+        if isinstance(_receipt_tolerance, Unset):
+            receipt_tolerance = UNSET
+        else:
+            receipt_tolerance = PurchaseOrderReceiptTolerance.from_dict(
+                _receipt_tolerance
+            )
+
         created_at = d.pop("createdAt", UNSET)
 
         purchase_order = cls(
@@ -612,6 +799,7 @@ class PurchaseOrder:
             contract_id=contract_id,
             supplier_email=supplier_email,
             quote_document=quote_document,
+            sow_document=sow_document,
             line_items=line_items,
             approval=approval,
             approval_version=approval_version,
@@ -627,6 +815,17 @@ class PurchaseOrder:
             delivery_address_id=delivery_address_id,
             ship_to=ship_to,
             store_order=store_order,
+            matching=matching,
+            matching_default=matching_default,
+            matching_changes=matching_changes,
+            receiver_employee_key=receiver_employee_key,
+            receiver_name=receiver_name,
+            received=received,
+            received_pending=received_pending,
+            receipt_state=receipt_state,
+            receipt_required=receipt_required,
+            ready_to_invoice=ready_to_invoice,
+            receipt_tolerance=receipt_tolerance,
             created_at=created_at,
         )
 

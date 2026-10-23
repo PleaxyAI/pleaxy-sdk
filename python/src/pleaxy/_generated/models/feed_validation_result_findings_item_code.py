@@ -13,6 +13,9 @@ FeedValidationResultFindingsItemCode = Literal[
     "po_line_price_exceeded",
     "po_line_qty_exceeded",
     "po_line_unassigned",
+    "receipt_amount_exceeded",
+    "receipt_missing",
+    "receipt_qty_exceeded",
 ]
 
 FEED_VALIDATION_RESULT_FINDINGS_ITEM_CODE_VALUES: Set[
@@ -30,6 +33,9 @@ FEED_VALIDATION_RESULT_FINDINGS_ITEM_CODE_VALUES: Set[
     "po_line_price_exceeded",
     "po_line_qty_exceeded",
     "po_line_unassigned",
+    "receipt_amount_exceeded",
+    "receipt_missing",
+    "receipt_qty_exceeded",
 }
 
 

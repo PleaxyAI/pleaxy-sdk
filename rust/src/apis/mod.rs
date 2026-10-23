@@ -98,6 +98,7 @@ pub mod approvals_api;
 pub mod automation_rules_api;
 pub mod billing_api;
 pub mod cloud_connections_api;
+pub mod document_sync_api;
 pub mod employees_api;
 pub mod exchange_rates_api;
 pub mod invoices_api;

@@ -34,6 +34,8 @@ class UpdatePurchaseOrderInput:
             with the order's supplier (400 otherwise); `null` removes it. Bookkeeping: never re-triggers approval.
         quote_import_id (Union[None, Unset, str]): The quote import holding the supplier's quote this order is raised
             from; replaces the one attached, and `null` removes it. Bookkeeping, like `notes`.
+        sow_import_id (Union[None, Unset, str]): The quote import holding the statement of work this order is for;
+            replaces the one attached, and `null` removes it. Bookkeeping, like `notes`.
     """
 
     currency: Union[Unset, str] = UNSET
@@ -47,6 +49,7 @@ class UpdatePurchaseOrderInput:
     notes: Union[Unset, str] = UNSET
     contract_id: Union[None, Unset, str] = UNSET
     quote_import_id: Union[None, Unset, str] = UNSET
+    sow_import_id: Union[None, Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -87,6 +90,12 @@ class UpdatePurchaseOrderInput:
         else:
             quote_import_id = self.quote_import_id
 
+        sow_import_id: Union[None, Unset, str]
+        if isinstance(self.sow_import_id, Unset):
+            sow_import_id = UNSET
+        else:
+            sow_import_id = self.sow_import_id
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -112,6 +121,8 @@ class UpdatePurchaseOrderInput:
             field_dict["contractId"] = contract_id
         if quote_import_id is not UNSET:
             field_dict["quoteImportId"] = quote_import_id
+        if sow_import_id is not UNSET:
+            field_dict["sowImportId"] = sow_import_id
 
         return field_dict
 
@@ -167,6 +178,15 @@ class UpdatePurchaseOrderInput:
 
         quote_import_id = _parse_quote_import_id(d.pop("quoteImportId", UNSET))
 
+        def _parse_sow_import_id(data: object) -> Union[None, Unset, str]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, str], data)
+
+        sow_import_id = _parse_sow_import_id(d.pop("sowImportId", UNSET))
+
         update_purchase_order_input = cls(
             currency=currency,
             line_items=line_items,
@@ -179,6 +199,7 @@ class UpdatePurchaseOrderInput:
             notes=notes,
             contract_id=contract_id,
             quote_import_id=quote_import_id,
+            sow_import_id=sow_import_id,
         )
 
         update_purchase_order_input.additional_properties = d

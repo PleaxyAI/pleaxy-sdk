@@ -82,12 +82,28 @@ pub struct PurchaseOrderSupplierView {
     pub ship_to: Option<models::PurchaseOrderShipTo>,
     #[serde(rename = "storeOrder", skip_serializing_if = "Option::is_none")]
     pub store_order: Option<models::StoreOrder>,
+    #[serde(rename = "matching", skip_serializing_if = "Option::is_none")]
+    pub matching: Option<Matching>,
+    #[serde(rename = "received", skip_serializing_if = "Option::is_none")]
+    pub received: Option<Vec<models::PurchaseOrderReceivedLine>>,
+    #[serde(rename = "receivedPending", skip_serializing_if = "Option::is_none")]
+    pub received_pending: Option<Vec<models::PurchaseOrderReceivedLine>>,
+    #[serde(rename = "receiptState", skip_serializing_if = "Option::is_none")]
+    pub receipt_state: Option<ReceiptState>,
+    #[serde(rename = "receiptRequired", skip_serializing_if = "Option::is_none")]
+    pub receipt_required: Option<bool>,
+    #[serde(rename = "readyToInvoice", skip_serializing_if = "Option::is_none")]
+    pub ready_to_invoice: Option<f64>,
+    #[serde(rename = "receiptTolerance", skip_serializing_if = "Option::is_none")]
+    pub receipt_tolerance: Option<models::PurchaseOrderReceiptTolerance>,
     #[serde(rename = "approval", skip_serializing_if = "Option::is_none")]
     pub approval: Option<models::SupplierApprovalView>,
     #[serde(rename = "priorInvoiced", skip_serializing_if = "Option::is_none")]
     pub prior_invoiced: Option<models::PurchaseOrderSupplierViewPriorInvoiced>,
     #[serde(rename = "quoteDocument", skip_serializing_if = "Option::is_none")]
     pub quote_document: Option<models::PurchaseOrderSupplierViewQuoteDocument>,
+    #[serde(rename = "sowDocument", skip_serializing_if = "Option::is_none")]
+    pub sow_document: Option<models::PurchaseOrderSupplierViewQuoteDocument>,
     #[serde(rename = "buyerWorkspaceId", skip_serializing_if = "Option::is_none")]
     pub buyer_workspace_id: Option<String>,
 }
@@ -125,9 +141,17 @@ impl PurchaseOrderSupplierView {
             delivery_address_id: None,
             ship_to: None,
             store_order: None,
+            matching: None,
+            received: None,
+            received_pending: None,
+            receipt_state: None,
+            receipt_required: None,
+            ready_to_invoice: None,
+            receipt_tolerance: None,
             approval: None,
             prior_invoiced: None,
             quote_document: None,
+            sow_document: None,
             buyer_workspace_id: None,
         }
     }
@@ -176,5 +200,35 @@ pub enum Status {
 impl Default for Status {
     fn default() -> Status {
         Self::Rejected
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Matching {
+    #[serde(rename = "two_way")]
+    TwoWay,
+    #[serde(rename = "three_way")]
+    ThreeWay,
+}
+
+impl Default for Matching {
+    fn default() -> Matching {
+        Self::TwoWay
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum ReceiptState {
+    #[serde(rename = "none")]
+    None,
+    #[serde(rename = "partial")]
+    Partial,
+    #[serde(rename = "full")]
+    Full,
+}
+
+impl Default for ReceiptState {
+    fn default() -> ReceiptState {
+        Self::None
     }
 }

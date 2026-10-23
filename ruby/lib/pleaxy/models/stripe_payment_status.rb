@@ -128,7 +128,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      reason_validator = EnumAttributeValidator.new('String', ["not_configured", "not_approved", "payment_locked", "supplier_not_on_pleaxy", "supplier_not_connected", "unsupported_currency", "amount_too_small"])
+      reason_validator = EnumAttributeValidator.new('String', ["not_configured", "not_approved", "bank_details_held", "payment_locked", "supplier_not_on_pleaxy", "supplier_not_connected", "unsupported_currency", "amount_too_small"])
       return false unless reason_validator.valid?(@reason)
       state_validator = EnumAttributeValidator.new('String', ["checkout_open", "processing", "succeeded"])
       return false unless state_validator.valid?(@state)
@@ -140,7 +140,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] reason Object to be assigned
     def reason=(reason)
-      validator = EnumAttributeValidator.new('String', ["not_configured", "not_approved", "payment_locked", "supplier_not_on_pleaxy", "supplier_not_connected", "unsupported_currency", "amount_too_small"])
+      validator = EnumAttributeValidator.new('String', ["not_configured", "not_approved", "bank_details_held", "payment_locked", "supplier_not_on_pleaxy", "supplier_not_connected", "unsupported_currency", "amount_too_small"])
       unless validator.valid?(reason)
         fail ArgumentError, "invalid value for \"reason\", must be one of #{validator.allowable_values}."
       end

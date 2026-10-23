@@ -15,21 +15,27 @@ require 'time'
 
 module Pleaxy
   class GetBuyerWorkspaceResult
+    attr_accessor :viewer_is_sole_invoice_reviewer
+
+    attr_accessor :recent_purchase_orders
+
+    attr_accessor :recent_invoices
+
     attr_accessor :cloud_connections
 
     attr_accessor :purchase_orders
 
     attr_accessor :invoices
 
-    attr_accessor :viewer_is_sole_invoice_reviewer
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'viewer_is_sole_invoice_reviewer' => :'viewerIsSoleInvoiceReviewer',
+        :'recent_purchase_orders' => :'recentPurchaseOrders',
+        :'recent_invoices' => :'recentInvoices',
         :'cloud_connections' => :'cloudConnections',
         :'purchase_orders' => :'purchaseOrders',
-        :'invoices' => :'invoices',
-        :'viewer_is_sole_invoice_reviewer' => :'viewerIsSoleInvoiceReviewer'
+        :'invoices' => :'invoices'
       }
     end
 
@@ -41,10 +47,12 @@ module Pleaxy
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'viewer_is_sole_invoice_reviewer' => :'Boolean',
+        :'recent_purchase_orders' => :'Array<GetBuyerWorkspaceResultRecentPurchaseOrdersInner>',
+        :'recent_invoices' => :'Array<GetBuyerWorkspaceResultRecentInvoicesInner>',
         :'cloud_connections' => :'Array<CloudConnection>',
-        :'purchase_orders' => :'Array<GetBuyerWorkspaceResultPurchaseOrdersInner>',
-        :'invoices' => :'Array<GetBuyerWorkspaceResultInvoicesInner>',
-        :'viewer_is_sole_invoice_reviewer' => :'Boolean'
+        :'purchase_orders' => :'Array<GetBuyerWorkspaceResultRecentPurchaseOrdersInner>',
+        :'invoices' => :'Array<GetBuyerWorkspaceResultRecentInvoicesInner>'
       }
     end
 
@@ -69,6 +77,22 @@ module Pleaxy
         h[k.to_sym] = v
       }
 
+      if attributes.key?(:'viewer_is_sole_invoice_reviewer')
+        self.viewer_is_sole_invoice_reviewer = attributes[:'viewer_is_sole_invoice_reviewer']
+      end
+
+      if attributes.key?(:'recent_purchase_orders')
+        if (value = attributes[:'recent_purchase_orders']).is_a?(Array)
+          self.recent_purchase_orders = value
+        end
+      end
+
+      if attributes.key?(:'recent_invoices')
+        if (value = attributes[:'recent_invoices']).is_a?(Array)
+          self.recent_invoices = value
+        end
+      end
+
       if attributes.key?(:'cloud_connections')
         if (value = attributes[:'cloud_connections']).is_a?(Array)
           self.cloud_connections = value
@@ -85,10 +109,6 @@ module Pleaxy
         if (value = attributes[:'invoices']).is_a?(Array)
           self.invoices = value
         end
-      end
-
-      if attributes.key?(:'viewer_is_sole_invoice_reviewer')
-        self.viewer_is_sole_invoice_reviewer = attributes[:'viewer_is_sole_invoice_reviewer']
       end
     end
 
@@ -112,10 +132,12 @@ module Pleaxy
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
+          viewer_is_sole_invoice_reviewer == o.viewer_is_sole_invoice_reviewer &&
+          recent_purchase_orders == o.recent_purchase_orders &&
+          recent_invoices == o.recent_invoices &&
           cloud_connections == o.cloud_connections &&
           purchase_orders == o.purchase_orders &&
-          invoices == o.invoices &&
-          viewer_is_sole_invoice_reviewer == o.viewer_is_sole_invoice_reviewer
+          invoices == o.invoices
     end
 
     # @see the `==` method
@@ -127,7 +149,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [cloud_connections, purchase_orders, invoices, viewer_is_sole_invoice_reviewer].hash
+      [viewer_is_sole_invoice_reviewer, recent_purchase_orders, recent_invoices, cloud_connections, purchase_orders, invoices].hash
     end
 
     # Builds the object from hash

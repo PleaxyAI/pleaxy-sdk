@@ -47,7 +47,8 @@ import ai.pleaxy.client.ApiClient;
   UpdatePurchaseOrderInput.JSON_PROPERTY_BUYER_NAME,
   UpdatePurchaseOrderInput.JSON_PROPERTY_NOTES,
   UpdatePurchaseOrderInput.JSON_PROPERTY_CONTRACT_ID,
-  UpdatePurchaseOrderInput.JSON_PROPERTY_QUOTE_IMPORT_ID
+  UpdatePurchaseOrderInput.JSON_PROPERTY_QUOTE_IMPORT_ID,
+  UpdatePurchaseOrderInput.JSON_PROPERTY_SOW_IMPORT_ID
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class UpdatePurchaseOrderInput {
@@ -94,6 +95,10 @@ public class UpdatePurchaseOrderInput {
   public static final String JSON_PROPERTY_QUOTE_IMPORT_ID = "quoteImportId";
   @javax.annotation.Nullable
   private String quoteImportId;
+
+  public static final String JSON_PROPERTY_SOW_IMPORT_ID = "sowImportId";
+  @javax.annotation.Nullable
+  private String sowImportId;
 
   public UpdatePurchaseOrderInput() { 
   }
@@ -372,6 +377,30 @@ public class UpdatePurchaseOrderInput {
   }
 
 
+  public UpdatePurchaseOrderInput sowImportId(@javax.annotation.Nullable String sowImportId) {
+    this.sowImportId = sowImportId;
+    return this;
+  }
+
+  /**
+   * The quote import holding the statement of work this order is for; replaces the one attached, and &#x60;null&#x60; removes it. Bookkeeping, like &#x60;notes&#x60;.
+   * @return sowImportId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SOW_IMPORT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getSowImportId() {
+    return sowImportId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SOW_IMPORT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSowImportId(@javax.annotation.Nullable String sowImportId) {
+    this.sowImportId = sowImportId;
+  }
+
+
   /**
    * Return true if this UpdatePurchaseOrderInput object is equal to o.
    */
@@ -394,12 +423,13 @@ public class UpdatePurchaseOrderInput {
         Objects.equals(this.buyerName, updatePurchaseOrderInput.buyerName) &&
         Objects.equals(this.notes, updatePurchaseOrderInput.notes) &&
         Objects.equals(this.contractId, updatePurchaseOrderInput.contractId) &&
-        Objects.equals(this.quoteImportId, updatePurchaseOrderInput.quoteImportId);
+        Objects.equals(this.quoteImportId, updatePurchaseOrderInput.quoteImportId) &&
+        Objects.equals(this.sowImportId, updatePurchaseOrderInput.sowImportId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(currency, lineItems, billToParty, billTo, costCenter, deliveryAddressId, budgetOwner, buyerName, notes, contractId, quoteImportId);
+    return Objects.hash(currency, lineItems, billToParty, billTo, costCenter, deliveryAddressId, budgetOwner, buyerName, notes, contractId, quoteImportId, sowImportId);
   }
 
   @Override
@@ -417,6 +447,7 @@ public class UpdatePurchaseOrderInput {
     sb.append("    notes: ").append(toIndentedString(notes)).append("\n");
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
     sb.append("    quoteImportId: ").append(toIndentedString(quoteImportId)).append("\n");
+    sb.append("    sowImportId: ").append(toIndentedString(sowImportId)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -522,6 +553,11 @@ public class UpdatePurchaseOrderInput {
     // add `quoteImportId` to the URL query string
     if (getQuoteImportId() != null) {
       joiner.add(String.format("%squoteImportId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuoteImportId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `sowImportId` to the URL query string
+    if (getSowImportId() != null) {
+      joiner.add(String.format("%ssowImportId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSowImportId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

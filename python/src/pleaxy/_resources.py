@@ -158,6 +158,151 @@ class CloudConnectionsResource:
         )
 
 
+class DocumentSyncResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def create_webhook(self, *, body: CreateWebhookInput) -> CreateWebhookResult:
+        """[Both, admin] Add an endpoint: { url, description?, events? }. Every event of those types (all of your side's when events is left out) is POSTed to it as JSON - ListSyncEvents' event plus workspaceId and documentPath - signed in the Pleaxy-Signature header (t=<unix seconds>,v1=<hex HMAC-SHA256 of "<t>.<body>">) with the secret returned here, once. A 2xx within 10 seconds is delivered; anything else is retried after 1 min, 5 min, 30 min, 2 h, 6 h, 12 h and 24 h, then given up. Up to 5 per side. Signed-in administrators only."""
+        return self._transport.call(
+            "pleaxy._generated.api.document_sync.create_webhook", body=body
+        )
+
+    def delete_webhook(self, webhook_id: str) -> None:
+        """[Both, admin] Remove an endpoint. Deliveries still waiting for it are given up."""
+        return self._transport.call(
+            "pleaxy._generated.api.document_sync.delete_webhook", webhook_id=webhook_id
+        )
+
+    def get_invoice_document(
+        self,
+        invoice_id: str,
+        *,
+        format_: Union[Unset, GetInvoiceDocumentFormat] = UNSET,
+        buyer: Union[Unset, str] = UNSET,
+    ) -> bytes:
+        """[Both] An invoice as a UBL 2.1 Invoice (?format=ubl, the default and only format), for the buyer's ERP to book or the supplier's archive: the lines, document-level discounts and charges, tax and withholdings, prepayments, the supplier's payment instructions, the PO and contract it bills. The supplier's view whoever asks: no matching, findings or approvals. Takes the same ?buyer= as GetInvoice."""
+        return self._transport.call(
+            "pleaxy._generated.api.document_sync.get_invoice_document",
+            binary=True,
+            invoice_id=invoice_id,
+            format_=format_,
+            buyer=buyer,
+        )
+
+    def get_invoice_remittance(
+        self, invoice_id: str, *, buyer: Union[Unset, str] = UNSET
+    ) -> RemittanceView:
+        """[Both] The payment signal for an invoice, for the supplier's cash application: status unpaid|recorded|processing|paid_through_pleaxy|withdrawn, and once paid the method (ach, wire, check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion, what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as GetInvoice."""
+        return self._transport.call(
+            "pleaxy._generated.api.document_sync.get_invoice_remittance",
+            invoice_id=invoice_id,
+            buyer=buyer,
+        )
+
+    def get_invoice_remittance_document(
+        self,
+        invoice_id: str,
+        *,
+        format_: Union[Unset, GetInvoiceRemittanceDocumentFormat] = UNSET,
+        buyer: Union[Unset, str] = UNSET,
+    ) -> bytes:
+        """[Both] GetInvoiceRemittance as a document: ?format=cxml (the default: a cXML PaymentRemittanceRequest) or ?format=ubl (a UBL 2.1 RemittanceAdvice). 409 NO_PAYMENT until a payment is recorded or has gone through. Takes the same ?buyer= as GetInvoice."""
+        return self._transport.call(
+            "pleaxy._generated.api.document_sync.get_invoice_remittance_document",
+            binary=True,
+            invoice_id=invoice_id,
+            format_=format_,
+            buyer=buyer,
+        )
+
+    def get_invoice_status(
+        self, invoice_id: str, *, buyer: Union[Unset, str] = UNSET
+    ) -> InvoiceStatusView:
+        """[Both] Where an invoice stands, for the system that sent it or the one that pays it: status received|in_process|under_query|approved|payment_in_progress|paid|rejected|duplicate, with responseCode (UNCL4343: AB, IP, UQ, AP, RE, PD), cxmlStatus, queryReason, the rejection's reason, amountDue and dueDate. The same as cXML or UBL: GetInvoiceStatusDocument. The supplier's view whoever asks. Takes the same ?buyer= as GetInvoice."""
+        return self._transport.call(
+            "pleaxy._generated.api.document_sync.get_invoice_status",
+            invoice_id=invoice_id,
+            buyer=buyer,
+        )
+
+    def get_invoice_status_document(
+        self,
+        invoice_id: str,
+        *,
+        format_: Union[Unset, GetInvoiceStatusDocumentFormat] = UNSET,
+        buyer: Union[Unset, str] = UNSET,
+    ) -> bytes:
+        """[Both] GetInvoiceStatus as a document: ?format=cxml (the default: a cXML StatusUpdateRequest with an InvoiceStatus) or ?format=ubl (a UBL 2.1 ApplicationResponse with the Peppol Invoice Response codes). Takes the same ?buyer= as GetInvoice."""
+        return self._transport.call(
+            "pleaxy._generated.api.document_sync.get_invoice_status_document",
+            binary=True,
+            invoice_id=invoice_id,
+            format_=format_,
+            buyer=buyer,
+        )
+
+    def get_purchase_order_document(
+        self,
+        po_id: str,
+        *,
+        format_: Union[Unset, GetPurchaseOrderDocumentFormat] = UNSET,
+        buyer: Union[Unset, str] = UNSET,
+    ) -> bytes:
+        """[Both] An issued purchase order as a document another system takes in: ?format=cxml (the default: a cXML OrderRequest, type new, update from version 2, delete once canceled) or ?format=ubl (a UBL 2.1 Order, or an OrderCancellation once canceled). The supplier's copy whoever asks, as GetPurchaseOrderPdf. Takes the same ?buyer= as GetPurchaseOrder. 409 ORDER_NOT_ISSUED for a draft, an order in approval or a rejected one."""
+        return self._transport.call(
+            "pleaxy._generated.api.document_sync.get_purchase_order_document",
+            binary=True,
+            po_id=po_id,
+            format_=format_,
+            buyer=buyer,
+        )
+
+    def list_sync_events(
+        self, *, after: Union[Unset, str] = UNSET, limit: Union[Unset, str] = UNSET
+    ) -> SyncEventPage:
+        """[Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view."""
+        return self._transport.call(
+            "pleaxy._generated.api.document_sync.list_sync_events",
+            after=after,
+            limit=limit,
+        )
+
+    def list_webhook_deliveries(self, webhook_id: str) -> ListWebhookDeliveriesResult:
+        """[Both, admin] An endpoint's last 50 deliveries, newest first: { deliveries: [{ eventId, type, status: pending|delivered|failed, attempts, createdAt, nextAttemptAt, lastAttemptAt, lastStatus, lastErrorCode, deliveredAt }] }. Kept 30 days."""
+        return self._transport.call(
+            "pleaxy._generated.api.document_sync.list_webhook_deliveries",
+            webhook_id=webhook_id,
+        )
+
+    def list_webhooks(self) -> ListWebhooksResult:
+        """[Both, admin] Your side's webhook endpoints and the event types they can take: { endpoints: [{ id, url, description, events, enabled, secretHint, lastAttemptAt, lastStatus, lastErrorCode, lastSuccessAt, failedDeliveries }], eventTypes }. Never the signing secret."""
+        return self._transport.call("pleaxy._generated.api.document_sync.list_webhooks")
+
+    def rotate_webhook_secret(self, webhook_id: str) -> RotateWebhookSecretResult:
+        """[Both, admin] A new signing secret for an endpoint, returned this once; the old one stops signing at once."""
+        return self._transport.call(
+            "pleaxy._generated.api.document_sync.rotate_webhook_secret",
+            webhook_id=webhook_id,
+        )
+
+    def test_webhook(self, webhook_id: str) -> TestWebhookResult:
+        """[Both, admin] Send the endpoint a signed ping now, once: { ok, status?, errorCode?, durationMs }."""
+        return self._transport.call(
+            "pleaxy._generated.api.document_sync.test_webhook", webhook_id=webhook_id
+        )
+
+    def update_webhook(
+        self, webhook_id: str, *, body: UpdateWebhookInput
+    ) -> WebhookEndpointView:
+        """[Both, admin] Change an endpoint's url, description or events, or pause and resume it with enabled. Resuming clears its count of failed deliveries."""
+        return self._transport.call(
+            "pleaxy._generated.api.document_sync.update_webhook",
+            webhook_id=webhook_id,
+            body=body,
+        )
+
+
 class EmployeesResource:
     def __init__(self, transport: Transport) -> None:
         self._transport = transport
@@ -337,6 +482,14 @@ class InvoicesResource:
             body=body,
         )
 
+    def record_payments(
+        self, *, body: RecordPaymentsBatchInput
+    ) -> RecordPaymentsResult:
+        """[Buyer] Record payments your ERP or bank feed already made outside Pleaxy - wires, checks, ACH, card - so each supplier gets its payment notice, remittance advice and sync event without anyone retyping it: { payments: [{ invoiceId, method, paymentDate, reference, note?, ...RecordPayment's currency and withholding fields }] }, 1-50 per call. Each payment follows RecordPayment's rules and is answered on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?, message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still refused. API key with the payments:record scope only, minted with a procurementRole that can edit invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.invoices.record_payments", body=body
+        )
+
     def reject_invoice(
         self, invoice_id: str, *, body: RejectInvoiceInput
     ) -> InvoiceBuyerView:
@@ -375,7 +528,7 @@ class InvoicesResource:
         )
 
     def run_invoice_match(self, invoice_id: str) -> InvoiceBuyerView:
-        """[Buyer] Run 3-way matching on an invoice. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO."""
+        """[Buyer] Match an invoice: against the provider's usage for a cloud provider's order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO."""
         return self._transport.call(
             "pleaxy._generated.api.invoices.run_invoice_match", invoice_id=invoice_id
         )
@@ -659,21 +812,33 @@ class WorkspacesResource:
         self._transport = transport
 
     def get_buyer_workspace(
-        self, *, from_: Union[Unset, str] = UNSET, to: Union[Unset, str] = UNSET
+        self,
+        *,
+        from_: Union[Unset, str] = UNSET,
+        to: Union[Unset, str] = UNSET,
+        lists: Union[Unset, str] = UNSET,
     ) -> GetBuyerWorkspaceResult:
-        """[Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from=&to="""
+        """[Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from=&to=. ?lists=none returns purchaseOrders and invoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage), and the rest as usual. ?lists=active returns only the ones still in play - not canceled, closed, rejected or paid POs; unpaid invoices, and ones rejected in the last 30 days and not yet replaced - with recentPurchaseOrders and recentInvoices, the newest 10 of each."""
         return self._transport.call(
-            "pleaxy._generated.api.workspaces.get_buyer_workspace", from_=from_, to=to
+            "pleaxy._generated.api.workspaces.get_buyer_workspace",
+            from_=from_,
+            to=to,
+            lists=lists,
         )
 
     def get_supplier_workspace(
-        self, *, from_: Union[Unset, str] = UNSET, to: Union[Unset, str] = UNSET
+        self,
+        *,
+        from_: Union[Unset, str] = UNSET,
+        to: Union[Unset, str] = UNSET,
+        lists: Union[Unset, str] = UNSET,
     ) -> GetSupplierWorkspaceResult:
-        """[Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from=&to="""
+        """[Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from=&to=. ?lists=none returns incomingPOs and supplierInvoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage). ?lists=active returns only the ones still in play (as GetBuyerWorkspace), with recentIncomingPOs and recentSupplierInvoices, the newest 10 of each."""
         return self._transport.call(
             "pleaxy._generated.api.workspaces.get_supplier_workspace",
             from_=from_,
             to=to,
+            lists=lists,
         )
 
 
@@ -687,6 +852,7 @@ class Resources:
         self.automation_rules = AutomationRulesResource(transport)
         self.billing = BillingResource(transport)
         self.cloud_connections = CloudConnectionsResource(transport)
+        self.document_sync = DocumentSyncResource(transport)
         self.employees = EmployeesResource(transport)
         self.exchange_rates = ExchangeRatesResource(transport)
         self.invoices = InvoicesResource(transport)

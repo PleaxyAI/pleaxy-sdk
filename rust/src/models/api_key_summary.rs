@@ -89,6 +89,8 @@ impl Default for ProcurementRole {
 pub enum Scopes {
     #[serde(rename = "invoices:feed")]
     InvoicesColonFeed,
+    #[serde(rename = "payments:record")]
+    PaymentsColonRecord,
 }
 
 impl Default for Scopes {

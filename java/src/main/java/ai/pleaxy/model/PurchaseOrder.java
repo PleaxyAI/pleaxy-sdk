@@ -25,9 +25,12 @@ import ai.pleaxy.model.PayerAccountRef;
 import ai.pleaxy.model.PurchaseOrderBillTo;
 import ai.pleaxy.model.PurchaseOrderChangeSummary;
 import ai.pleaxy.model.PurchaseOrderCostCenterChange;
+import ai.pleaxy.model.PurchaseOrderMatchingChange;
 import ai.pleaxy.model.PurchaseOrderPriorInvoiced;
 import ai.pleaxy.model.PurchaseOrderPunchout;
 import ai.pleaxy.model.PurchaseOrderQuoteDocument;
+import ai.pleaxy.model.PurchaseOrderReceiptTolerance;
+import ai.pleaxy.model.PurchaseOrderReceivedLine;
 import ai.pleaxy.model.PurchaseOrderShipTo;
 import ai.pleaxy.model.PurchaseOrderSupplierEmail;
 import ai.pleaxy.model.PurchaseOrderSupplierInvite;
@@ -81,6 +84,7 @@ import ai.pleaxy.client.ApiClient;
   PurchaseOrder.JSON_PROPERTY_CONTRACT_ID,
   PurchaseOrder.JSON_PROPERTY_SUPPLIER_EMAIL,
   PurchaseOrder.JSON_PROPERTY_QUOTE_DOCUMENT,
+  PurchaseOrder.JSON_PROPERTY_SOW_DOCUMENT,
   PurchaseOrder.JSON_PROPERTY_LINE_ITEMS,
   PurchaseOrder.JSON_PROPERTY_APPROVAL,
   PurchaseOrder.JSON_PROPERTY_APPROVAL_VERSION,
@@ -96,6 +100,17 @@ import ai.pleaxy.client.ApiClient;
   PurchaseOrder.JSON_PROPERTY_DELIVERY_ADDRESS_ID,
   PurchaseOrder.JSON_PROPERTY_SHIP_TO,
   PurchaseOrder.JSON_PROPERTY_STORE_ORDER,
+  PurchaseOrder.JSON_PROPERTY_MATCHING,
+  PurchaseOrder.JSON_PROPERTY_MATCHING_DEFAULT,
+  PurchaseOrder.JSON_PROPERTY_MATCHING_CHANGES,
+  PurchaseOrder.JSON_PROPERTY_RECEIVER_EMPLOYEE_KEY,
+  PurchaseOrder.JSON_PROPERTY_RECEIVER_NAME,
+  PurchaseOrder.JSON_PROPERTY_RECEIVED,
+  PurchaseOrder.JSON_PROPERTY_RECEIVED_PENDING,
+  PurchaseOrder.JSON_PROPERTY_RECEIPT_STATE,
+  PurchaseOrder.JSON_PROPERTY_RECEIPT_REQUIRED,
+  PurchaseOrder.JSON_PROPERTY_READY_TO_INVOICE,
+  PurchaseOrder.JSON_PROPERTY_RECEIPT_TOLERANCE,
   PurchaseOrder.JSON_PROPERTY_CREATED_AT
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -320,6 +335,10 @@ public class PurchaseOrder {
   @javax.annotation.Nullable
   private PurchaseOrderQuoteDocument quoteDocument;
 
+  public static final String JSON_PROPERTY_SOW_DOCUMENT = "sowDocument";
+  @javax.annotation.Nullable
+  private PurchaseOrderQuoteDocument sowDocument;
+
   public static final String JSON_PROPERTY_LINE_ITEMS = "lineItems";
   @javax.annotation.Nullable
   private List<LineItem> lineItems = new ArrayList<>();
@@ -379,6 +398,157 @@ public class PurchaseOrder {
   public static final String JSON_PROPERTY_STORE_ORDER = "storeOrder";
   @javax.annotation.Nullable
   private StoreOrder storeOrder;
+
+  /**
+   * Gets or Sets matching
+   */
+  public enum MatchingEnum {
+    TWO_WAY(String.valueOf("two_way")),
+    
+    THREE_WAY(String.valueOf("three_way"));
+
+    private String value;
+
+    MatchingEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static MatchingEnum fromValue(String value) {
+      for (MatchingEnum b : MatchingEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_MATCHING = "matching";
+  @javax.annotation.Nullable
+  private MatchingEnum matching;
+
+  /**
+   * Gets or Sets matchingDefault
+   */
+  public enum MatchingDefaultEnum {
+    TWO_WAY(String.valueOf("two_way")),
+    
+    THREE_WAY(String.valueOf("three_way"));
+
+    private String value;
+
+    MatchingDefaultEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static MatchingDefaultEnum fromValue(String value) {
+      for (MatchingDefaultEnum b : MatchingDefaultEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_MATCHING_DEFAULT = "matchingDefault";
+  @javax.annotation.Nullable
+  private MatchingDefaultEnum matchingDefault;
+
+  public static final String JSON_PROPERTY_MATCHING_CHANGES = "matchingChanges";
+  @javax.annotation.Nullable
+  private List<PurchaseOrderMatchingChange> matchingChanges = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_RECEIVER_EMPLOYEE_KEY = "receiverEmployeeKey";
+  @javax.annotation.Nullable
+  private String receiverEmployeeKey;
+
+  public static final String JSON_PROPERTY_RECEIVER_NAME = "receiverName";
+  @javax.annotation.Nullable
+  private String receiverName;
+
+  public static final String JSON_PROPERTY_RECEIVED = "received";
+  @javax.annotation.Nullable
+  private List<PurchaseOrderReceivedLine> received = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_RECEIVED_PENDING = "receivedPending";
+  @javax.annotation.Nullable
+  private List<PurchaseOrderReceivedLine> receivedPending = new ArrayList<>();
+
+  /**
+   * Gets or Sets receiptState
+   */
+  public enum ReceiptStateEnum {
+    NONE(String.valueOf("none")),
+    
+    PARTIAL(String.valueOf("partial")),
+    
+    FULL(String.valueOf("full"));
+
+    private String value;
+
+    ReceiptStateEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ReceiptStateEnum fromValue(String value) {
+      for (ReceiptStateEnum b : ReceiptStateEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_RECEIPT_STATE = "receiptState";
+  @javax.annotation.Nullable
+  private ReceiptStateEnum receiptState;
+
+  public static final String JSON_PROPERTY_RECEIPT_REQUIRED = "receiptRequired";
+  @javax.annotation.Nullable
+  private Boolean receiptRequired;
+
+  public static final String JSON_PROPERTY_READY_TO_INVOICE = "readyToInvoice";
+  @javax.annotation.Nullable
+  private Double readyToInvoice;
+
+  public static final String JSON_PROPERTY_RECEIPT_TOLERANCE = "receiptTolerance";
+  @javax.annotation.Nullable
+  private PurchaseOrderReceiptTolerance receiptTolerance;
 
   public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nullable
@@ -1203,6 +1373,30 @@ public class PurchaseOrder {
   }
 
 
+  public PurchaseOrder sowDocument(@javax.annotation.Nullable PurchaseOrderQuoteDocument sowDocument) {
+    this.sowDocument = sowDocument;
+    return this;
+  }
+
+  /**
+   * Get sowDocument
+   * @return sowDocument
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SOW_DOCUMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PurchaseOrderQuoteDocument getSowDocument() {
+    return sowDocument;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SOW_DOCUMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSowDocument(@javax.annotation.Nullable PurchaseOrderQuoteDocument sowDocument) {
+    this.sowDocument = sowDocument;
+  }
+
+
   public PurchaseOrder lineItems(@javax.annotation.Nullable List<LineItem> lineItems) {
     this.lineItems = lineItems;
     return this;
@@ -1571,6 +1765,294 @@ public class PurchaseOrder {
   }
 
 
+  public PurchaseOrder matching(@javax.annotation.Nullable MatchingEnum matching) {
+    this.matching = matching;
+    return this;
+  }
+
+  /**
+   * Get matching
+   * @return matching
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MATCHING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public MatchingEnum getMatching() {
+    return matching;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MATCHING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMatching(@javax.annotation.Nullable MatchingEnum matching) {
+    this.matching = matching;
+  }
+
+
+  public PurchaseOrder matchingDefault(@javax.annotation.Nullable MatchingDefaultEnum matchingDefault) {
+    this.matchingDefault = matchingDefault;
+    return this;
+  }
+
+  /**
+   * Get matchingDefault
+   * @return matchingDefault
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MATCHING_DEFAULT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public MatchingDefaultEnum getMatchingDefault() {
+    return matchingDefault;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MATCHING_DEFAULT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMatchingDefault(@javax.annotation.Nullable MatchingDefaultEnum matchingDefault) {
+    this.matchingDefault = matchingDefault;
+  }
+
+
+  public PurchaseOrder matchingChanges(@javax.annotation.Nullable List<PurchaseOrderMatchingChange> matchingChanges) {
+    this.matchingChanges = matchingChanges;
+    return this;
+  }
+
+  public PurchaseOrder addMatchingChangesItem(PurchaseOrderMatchingChange matchingChangesItem) {
+    if (this.matchingChanges == null) {
+      this.matchingChanges = new ArrayList<>();
+    }
+    this.matchingChanges.add(matchingChangesItem);
+    return this;
+  }
+
+  /**
+   * Get matchingChanges
+   * @return matchingChanges
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MATCHING_CHANGES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<PurchaseOrderMatchingChange> getMatchingChanges() {
+    return matchingChanges;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MATCHING_CHANGES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMatchingChanges(@javax.annotation.Nullable List<PurchaseOrderMatchingChange> matchingChanges) {
+    this.matchingChanges = matchingChanges;
+  }
+
+
+  public PurchaseOrder receiverEmployeeKey(@javax.annotation.Nullable String receiverEmployeeKey) {
+    this.receiverEmployeeKey = receiverEmployeeKey;
+    return this;
+  }
+
+  /**
+   * Get receiverEmployeeKey
+   * @return receiverEmployeeKey
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIVER_EMPLOYEE_KEY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getReceiverEmployeeKey() {
+    return receiverEmployeeKey;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIVER_EMPLOYEE_KEY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceiverEmployeeKey(@javax.annotation.Nullable String receiverEmployeeKey) {
+    this.receiverEmployeeKey = receiverEmployeeKey;
+  }
+
+
+  public PurchaseOrder receiverName(@javax.annotation.Nullable String receiverName) {
+    this.receiverName = receiverName;
+    return this;
+  }
+
+  /**
+   * Get receiverName
+   * @return receiverName
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIVER_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getReceiverName() {
+    return receiverName;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIVER_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceiverName(@javax.annotation.Nullable String receiverName) {
+    this.receiverName = receiverName;
+  }
+
+
+  public PurchaseOrder received(@javax.annotation.Nullable List<PurchaseOrderReceivedLine> received) {
+    this.received = received;
+    return this;
+  }
+
+  public PurchaseOrder addReceivedItem(PurchaseOrderReceivedLine receivedItem) {
+    if (this.received == null) {
+      this.received = new ArrayList<>();
+    }
+    this.received.add(receivedItem);
+    return this;
+  }
+
+  /**
+   * Get received
+   * @return received
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIVED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<PurchaseOrderReceivedLine> getReceived() {
+    return received;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIVED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceived(@javax.annotation.Nullable List<PurchaseOrderReceivedLine> received) {
+    this.received = received;
+  }
+
+
+  public PurchaseOrder receivedPending(@javax.annotation.Nullable List<PurchaseOrderReceivedLine> receivedPending) {
+    this.receivedPending = receivedPending;
+    return this;
+  }
+
+  public PurchaseOrder addReceivedPendingItem(PurchaseOrderReceivedLine receivedPendingItem) {
+    if (this.receivedPending == null) {
+      this.receivedPending = new ArrayList<>();
+    }
+    this.receivedPending.add(receivedPendingItem);
+    return this;
+  }
+
+  /**
+   * Get receivedPending
+   * @return receivedPending
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIVED_PENDING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<PurchaseOrderReceivedLine> getReceivedPending() {
+    return receivedPending;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIVED_PENDING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceivedPending(@javax.annotation.Nullable List<PurchaseOrderReceivedLine> receivedPending) {
+    this.receivedPending = receivedPending;
+  }
+
+
+  public PurchaseOrder receiptState(@javax.annotation.Nullable ReceiptStateEnum receiptState) {
+    this.receiptState = receiptState;
+    return this;
+  }
+
+  /**
+   * Get receiptState
+   * @return receiptState
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIPT_STATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public ReceiptStateEnum getReceiptState() {
+    return receiptState;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIPT_STATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceiptState(@javax.annotation.Nullable ReceiptStateEnum receiptState) {
+    this.receiptState = receiptState;
+  }
+
+
+  public PurchaseOrder receiptRequired(@javax.annotation.Nullable Boolean receiptRequired) {
+    this.receiptRequired = receiptRequired;
+    return this;
+  }
+
+  /**
+   * Get receiptRequired
+   * @return receiptRequired
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIPT_REQUIRED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getReceiptRequired() {
+    return receiptRequired;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIPT_REQUIRED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceiptRequired(@javax.annotation.Nullable Boolean receiptRequired) {
+    this.receiptRequired = receiptRequired;
+  }
+
+
+  public PurchaseOrder readyToInvoice(@javax.annotation.Nullable Double readyToInvoice) {
+    this.readyToInvoice = readyToInvoice;
+    return this;
+  }
+
+  /**
+   * Get readyToInvoice
+   * @return readyToInvoice
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_READY_TO_INVOICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getReadyToInvoice() {
+    return readyToInvoice;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_READY_TO_INVOICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReadyToInvoice(@javax.annotation.Nullable Double readyToInvoice) {
+    this.readyToInvoice = readyToInvoice;
+  }
+
+
+  public PurchaseOrder receiptTolerance(@javax.annotation.Nullable PurchaseOrderReceiptTolerance receiptTolerance) {
+    this.receiptTolerance = receiptTolerance;
+    return this;
+  }
+
+  /**
+   * Get receiptTolerance
+   * @return receiptTolerance
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIPT_TOLERANCE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PurchaseOrderReceiptTolerance getReceiptTolerance() {
+    return receiptTolerance;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIPT_TOLERANCE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceiptTolerance(@javax.annotation.Nullable PurchaseOrderReceiptTolerance receiptTolerance) {
+    this.receiptTolerance = receiptTolerance;
+  }
+
+
   public PurchaseOrder createdAt(@javax.annotation.Nullable String createdAt) {
     this.createdAt = createdAt;
     return this;
@@ -1640,6 +2122,7 @@ public class PurchaseOrder {
         Objects.equals(this.contractId, purchaseOrder.contractId) &&
         Objects.equals(this.supplierEmail, purchaseOrder.supplierEmail) &&
         Objects.equals(this.quoteDocument, purchaseOrder.quoteDocument) &&
+        Objects.equals(this.sowDocument, purchaseOrder.sowDocument) &&
         Objects.equals(this.lineItems, purchaseOrder.lineItems) &&
         Objects.equals(this.approval, purchaseOrder.approval) &&
         Objects.equals(this.approvalVersion, purchaseOrder.approvalVersion) &&
@@ -1655,12 +2138,23 @@ public class PurchaseOrder {
         Objects.equals(this.deliveryAddressId, purchaseOrder.deliveryAddressId) &&
         Objects.equals(this.shipTo, purchaseOrder.shipTo) &&
         Objects.equals(this.storeOrder, purchaseOrder.storeOrder) &&
+        Objects.equals(this.matching, purchaseOrder.matching) &&
+        Objects.equals(this.matchingDefault, purchaseOrder.matchingDefault) &&
+        Objects.equals(this.matchingChanges, purchaseOrder.matchingChanges) &&
+        Objects.equals(this.receiverEmployeeKey, purchaseOrder.receiverEmployeeKey) &&
+        Objects.equals(this.receiverName, purchaseOrder.receiverName) &&
+        Objects.equals(this.received, purchaseOrder.received) &&
+        Objects.equals(this.receivedPending, purchaseOrder.receivedPending) &&
+        Objects.equals(this.receiptState, purchaseOrder.receiptState) &&
+        Objects.equals(this.receiptRequired, purchaseOrder.receiptRequired) &&
+        Objects.equals(this.readyToInvoice, purchaseOrder.readyToInvoice) &&
+        Objects.equals(this.receiptTolerance, purchaseOrder.receiptTolerance) &&
         Objects.equals(this.createdAt, purchaseOrder.createdAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, buyerOrgId, supplierOrgId, supplier, amount, currency, status, invoiceId, invoiceIds, invoicedAmount, priorInvoiced, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, provider, payerAccounts, billTo, billToParty, costCenter, costCenterChanges, budgetOwner, buyerName, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, supplierContactEmail, supplierInvite, supplierConnectionId, notes, contractId, supplierEmail, quoteDocument, lineItems, approval, approvalVersion, everSpendLimitGated, spendLimitGatedAt, updatedBy, updatedAt, version, lastChange, approvalAmount, punchout, storeId, deliveryAddressId, shipTo, storeOrder, createdAt);
+    return Objects.hash(id, buyerOrgId, supplierOrgId, supplier, amount, currency, status, invoiceId, invoiceIds, invoicedAmount, priorInvoiced, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, provider, payerAccounts, billTo, billToParty, costCenter, costCenterChanges, budgetOwner, buyerName, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, supplierContactEmail, supplierInvite, supplierConnectionId, notes, contractId, supplierEmail, quoteDocument, sowDocument, lineItems, approval, approvalVersion, everSpendLimitGated, spendLimitGatedAt, updatedBy, updatedAt, version, lastChange, approvalAmount, punchout, storeId, deliveryAddressId, shipTo, storeOrder, matching, matchingDefault, matchingChanges, receiverEmployeeKey, receiverName, received, receivedPending, receiptState, receiptRequired, readyToInvoice, receiptTolerance, createdAt);
   }
 
   @Override
@@ -1700,6 +2194,7 @@ public class PurchaseOrder {
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
     sb.append("    supplierEmail: ").append(toIndentedString(supplierEmail)).append("\n");
     sb.append("    quoteDocument: ").append(toIndentedString(quoteDocument)).append("\n");
+    sb.append("    sowDocument: ").append(toIndentedString(sowDocument)).append("\n");
     sb.append("    lineItems: ").append(toIndentedString(lineItems)).append("\n");
     sb.append("    approval: ").append(toIndentedString(approval)).append("\n");
     sb.append("    approvalVersion: ").append(toIndentedString(approvalVersion)).append("\n");
@@ -1715,6 +2210,17 @@ public class PurchaseOrder {
     sb.append("    deliveryAddressId: ").append(toIndentedString(deliveryAddressId)).append("\n");
     sb.append("    shipTo: ").append(toIndentedString(shipTo)).append("\n");
     sb.append("    storeOrder: ").append(toIndentedString(storeOrder)).append("\n");
+    sb.append("    matching: ").append(toIndentedString(matching)).append("\n");
+    sb.append("    matchingDefault: ").append(toIndentedString(matchingDefault)).append("\n");
+    sb.append("    matchingChanges: ").append(toIndentedString(matchingChanges)).append("\n");
+    sb.append("    receiverEmployeeKey: ").append(toIndentedString(receiverEmployeeKey)).append("\n");
+    sb.append("    receiverName: ").append(toIndentedString(receiverName)).append("\n");
+    sb.append("    received: ").append(toIndentedString(received)).append("\n");
+    sb.append("    receivedPending: ").append(toIndentedString(receivedPending)).append("\n");
+    sb.append("    receiptState: ").append(toIndentedString(receiptState)).append("\n");
+    sb.append("    receiptRequired: ").append(toIndentedString(receiptRequired)).append("\n");
+    sb.append("    readyToInvoice: ").append(toIndentedString(readyToInvoice)).append("\n");
+    sb.append("    receiptTolerance: ").append(toIndentedString(receiptTolerance)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -1942,6 +2448,11 @@ public class PurchaseOrder {
       joiner.add(getQuoteDocument().toUrlQueryString(prefix + "quoteDocument" + suffix));
     }
 
+    // add `sowDocument` to the URL query string
+    if (getSowDocument() != null) {
+      joiner.add(getSowDocument().toUrlQueryString(prefix + "sowDocument" + suffix));
+    }
+
     // add `lineItems` to the URL query string
     if (getLineItems() != null) {
       for (int i = 0; i < getLineItems().size(); i++) {
@@ -2020,6 +2531,76 @@ public class PurchaseOrder {
     // add `storeOrder` to the URL query string
     if (getStoreOrder() != null) {
       joiner.add(getStoreOrder().toUrlQueryString(prefix + "storeOrder" + suffix));
+    }
+
+    // add `matching` to the URL query string
+    if (getMatching() != null) {
+      joiner.add(String.format("%smatching%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMatching()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `matchingDefault` to the URL query string
+    if (getMatchingDefault() != null) {
+      joiner.add(String.format("%smatchingDefault%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMatchingDefault()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `matchingChanges` to the URL query string
+    if (getMatchingChanges() != null) {
+      for (int i = 0; i < getMatchingChanges().size(); i++) {
+        if (getMatchingChanges().get(i) != null) {
+          joiner.add(getMatchingChanges().get(i).toUrlQueryString(String.format("%smatchingChanges%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `receiverEmployeeKey` to the URL query string
+    if (getReceiverEmployeeKey() != null) {
+      joiner.add(String.format("%sreceiverEmployeeKey%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReceiverEmployeeKey()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `receiverName` to the URL query string
+    if (getReceiverName() != null) {
+      joiner.add(String.format("%sreceiverName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReceiverName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `received` to the URL query string
+    if (getReceived() != null) {
+      for (int i = 0; i < getReceived().size(); i++) {
+        if (getReceived().get(i) != null) {
+          joiner.add(getReceived().get(i).toUrlQueryString(String.format("%sreceived%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `receivedPending` to the URL query string
+    if (getReceivedPending() != null) {
+      for (int i = 0; i < getReceivedPending().size(); i++) {
+        if (getReceivedPending().get(i) != null) {
+          joiner.add(getReceivedPending().get(i).toUrlQueryString(String.format("%sreceivedPending%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `receiptState` to the URL query string
+    if (getReceiptState() != null) {
+      joiner.add(String.format("%sreceiptState%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReceiptState()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `receiptRequired` to the URL query string
+    if (getReceiptRequired() != null) {
+      joiner.add(String.format("%sreceiptRequired%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReceiptRequired()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `readyToInvoice` to the URL query string
+    if (getReadyToInvoice() != null) {
+      joiner.add(String.format("%sreadyToInvoice%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReadyToInvoice()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `receiptTolerance` to the URL query string
+    if (getReceiptTolerance() != null) {
+      joiner.add(getReceiptTolerance().toUrlQueryString(prefix + "receiptTolerance" + suffix));
     }
 
     // add `createdAt` to the URL query string

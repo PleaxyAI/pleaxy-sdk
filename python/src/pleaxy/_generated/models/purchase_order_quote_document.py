@@ -7,6 +7,10 @@ from ..models.purchase_order_quote_document_content_type import (
     PurchaseOrderQuoteDocumentContentType,
     check_purchase_order_quote_document_content_type,
 )
+from ..models.purchase_order_quote_document_document_type import (
+    PurchaseOrderQuoteDocumentDocumentType,
+    check_purchase_order_quote_document_document_type,
+)
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="PurchaseOrderQuoteDocument")
@@ -23,6 +27,7 @@ class PurchaseOrderQuoteDocument:
         added_by (Union[Unset, str]):
         quote_number (Union[Unset, str]):
         valid_until (Union[Unset, str]):
+        document_type (Union[Unset, PurchaseOrderQuoteDocumentDocumentType]):
     """
 
     import_id: Union[Unset, str] = UNSET
@@ -32,6 +37,7 @@ class PurchaseOrderQuoteDocument:
     added_by: Union[Unset, str] = UNSET
     quote_number: Union[Unset, str] = UNSET
     valid_until: Union[Unset, str] = UNSET
+    document_type: Union[Unset, PurchaseOrderQuoteDocumentDocumentType] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -51,6 +57,10 @@ class PurchaseOrderQuoteDocument:
 
         valid_until = self.valid_until
 
+        document_type: Union[Unset, str] = UNSET
+        if not isinstance(self.document_type, Unset):
+            document_type = self.document_type
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -68,6 +78,8 @@ class PurchaseOrderQuoteDocument:
             field_dict["quoteNumber"] = quote_number
         if valid_until is not UNSET:
             field_dict["validUntil"] = valid_until
+        if document_type is not UNSET:
+            field_dict["documentType"] = document_type
 
         return field_dict
 
@@ -95,6 +107,15 @@ class PurchaseOrderQuoteDocument:
 
         valid_until = d.pop("validUntil", UNSET)
 
+        _document_type = d.pop("documentType", UNSET)
+        document_type: Union[Unset, PurchaseOrderQuoteDocumentDocumentType]
+        if isinstance(_document_type, Unset):
+            document_type = UNSET
+        else:
+            document_type = check_purchase_order_quote_document_document_type(
+                _document_type
+            )
+
         purchase_order_quote_document = cls(
             import_id=import_id,
             file_name=file_name,
@@ -103,6 +124,7 @@ class PurchaseOrderQuoteDocument:
             added_by=added_by,
             quote_number=quote_number,
             valid_until=valid_until,
+            document_type=document_type,
         )
 
         purchase_order_quote_document.additional_properties = d

@@ -163,7 +163,8 @@
                       "items": {
                         "type": "string",
                         "enum": [
-                          "invoices:feed"
+                          "invoices:feed",
+                          "payments:record"
                         ]
                       }
                     },
@@ -2310,6 +2311,9 @@
                     "createdAt": {
                       "type": "string"
                     },
+                    "sameDomainAcknowledged": {
+                      "$ref": "#/components/schemas/SameDomainAcknowledgement"
+                    },
                     "verified": {
                       "type": "boolean"
                     },
@@ -2406,7 +2410,7 @@
     "/v1/workspaces/{regionId}/buyer": {
       "get": {
         "operationId": "GetBuyerWorkspace",
-        "summary": "[Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from=&to=",
+        "summary": "[Buyer] Get the buyer workspace snapshot - optionally scoped to a createdAt range via ?from=&to=. ?lists=none returns purchaseOrders and invoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage), and the rest as usual. ?lists=active returns only the ones still in play - not canceled, closed, rejected or paid POs; unpaid invoices, and ones rejected in the last 30 days and not yet replaced - with recentPurchaseOrders and recentInvoices, the newest 10 of each.",
         "parameters": [
           {
             "name": "regionId",
@@ -2433,6 +2437,14 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "lists",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -2443,6 +2455,35 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "viewerIsSoleInvoiceReviewer": {
+                      "type": "boolean"
+                    },
+                    "recentPurchaseOrders": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/PurchaseOrder"
+                          },
+                          {
+                            "$ref": "#/components/schemas/PurchaseOrderSupplierView"
+                          }
+                        ]
+                      }
+                    },
+                    "recentInvoices": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/InvoiceBuyerView"
+                          },
+                          {
+                            "$ref": "#/components/schemas/InvoiceSupplierView"
+                          }
+                        ]
+                      }
+                    },
                     "cloudConnections": {
                       "type": "array",
                       "items": {
@@ -2474,16 +2515,13 @@
                           }
                         ]
                       }
-                    },
-                    "viewerIsSoleInvoiceReviewer": {
-                      "type": "boolean"
                     }
                   },
                   "required": [
+                    "viewerIsSoleInvoiceReviewer",
                     "cloudConnections",
                     "purchaseOrders",
-                    "invoices",
-                    "viewerIsSoleInvoiceReviewer"
+                    "invoices"
                   ]
                 }
               }
@@ -2508,7 +2546,7 @@
     "/v1/workspaces/{regionId}/supplier": {
       "get": {
         "operationId": "GetSupplierWorkspace",
-        "summary": "[Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from=&to=",
+        "summary": "[Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from=&to=. ?lists=none returns incomingPOs and supplierInvoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage). ?lists=active returns only the ones still in play (as GetBuyerWorkspace), with recentIncomingPOs and recentSupplierInvoices, the newest 10 of each.",
         "parameters": [
           {
             "name": "regionId",
@@ -2535,6 +2573,14 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "lists",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -2545,6 +2591,32 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "recentIncomingPOs": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/PurchaseOrder"
+                          },
+                          {
+                            "$ref": "#/components/schemas/PurchaseOrderSupplierView"
+                          }
+                        ]
+                      }
+                    },
+                    "recentSupplierInvoices": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/InvoiceBuyerView"
+                          },
+                          {
+                            "$ref": "#/components/schemas/InvoiceSupplierView"
+                          }
+                        ]
+                      }
+                    },
                     "incomingPOs": {
                       "type": "array",
                       "items": {
@@ -3813,6 +3885,84 @@
                               "purchase_order"
                             ]
                           },
+                          "receiptCheckSkipped": {
+                            "type": "object",
+                            "properties": {
+                              "reason": {
+                                "type": "string",
+                                "enum": [
+                                  "small_invoice"
+                                ]
+                              },
+                              "at": {
+                                "type": "string"
+                              },
+                              "findings": {
+                                "type": "array",
+                                "items": {
+                                  "$ref": "#/components/schemas/InvoiceControlFinding"
+                                }
+                              }
+                            },
+                            "required": [
+                              "reason",
+                              "at",
+                              "findings"
+                            ]
+                          },
+                          "receiptToleranceApplied": {
+                            "type": "object",
+                            "properties": {
+                              "over": {
+                                "type": "number"
+                              },
+                              "received": {
+                                "type": "number"
+                              },
+                              "percent": {
+                                "type": "number"
+                              },
+                              "maxAmount": {
+                                "type": "number"
+                              },
+                              "lines": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "poLineNo": {
+                                      "type": "number"
+                                    },
+                                    "over": {
+                                      "type": "number"
+                                    }
+                                  },
+                                  "required": [
+                                    "over"
+                                  ]
+                                }
+                              },
+                              "at": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "over",
+                              "received",
+                              "percent",
+                              "maxAmount",
+                              "lines",
+                              "at"
+                            ]
+                          },
+                          "matchType": {
+                            "type": "string",
+                            "enum": [
+                              "two_way",
+                              "three_way",
+                              "usage"
+                            ]
+                          },
                           "discrepancyReason": {
                             "type": "string",
                             "enum": [
@@ -3887,6 +4037,18 @@
                             "items": {
                               "type": "string"
                             }
+                          },
+                          "possibleDuplicates": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/InvoiceDuplicateRef"
+                            }
+                          },
+                          "duplicatesChecked": {
+                            "type": "boolean"
+                          },
+                          "hasLookupRows": {
+                            "type": "boolean"
                           },
                           "source": {
                             "type": "string",
@@ -4013,6 +4175,9 @@
                           },
                           "remittanceCheck": {
                             "$ref": "#/components/schemas/RemittanceCheck"
+                          },
+                          "bankDetailsConfirmation": {
+                            "$ref": "#/components/schemas/BankDetailsConfirmation"
                           },
                           "sourceDocument": {
                             "$ref": "#/components/schemas/InvoiceSourceDocument"
@@ -4169,6 +4334,18 @@
                               "type": "string"
                             }
                           },
+                          "possibleDuplicates": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/InvoiceDuplicateRef"
+                            }
+                          },
+                          "duplicatesChecked": {
+                            "type": "boolean"
+                          },
+                          "hasLookupRows": {
+                            "type": "boolean"
+                          },
                           "source": {
                             "type": "string",
                             "enum": [
@@ -4280,6 +4457,9 @@
                           "hasOriginalPdf": {
                             "type": "boolean"
                           },
+                          "bankDetailsConfirmation": {
+                            "$ref": "#/components/schemas/SupplierBankDetailsConfirmationView"
+                          },
                           "baseCurrencyAmount": {
                             "$ref": "#/components/schemas/InvoiceBaseCurrencyAmount"
                           },
@@ -4300,12 +4480,13 @@
                                   "method": {
                                     "type": "string",
                                     "enum": [
+                                      "other",
                                       "card",
                                       "ach",
                                       "wire",
                                       "check",
-                                      "other",
-                                      "credit"
+                                      "credit",
+                                      "nothing_due"
                                     ]
                                   },
                                   "paymentDate": {
@@ -4402,12 +4583,13 @@
                                   "method": {
                                     "type": "string",
                                     "enum": [
+                                      "other",
                                       "card",
                                       "ach",
                                       "wire",
                                       "check",
-                                      "other",
-                                      "credit"
+                                      "credit",
+                                      "nothing_due"
                                     ]
                                   },
                                   "paymentDate": {
@@ -4798,8 +4980,8 @@
                           "documentType": {
                             "type": "string",
                             "enum": [
-                              "debit_note",
                               "invoice",
+                              "debit_note",
                               "credit_note"
                             ]
                           }
@@ -5086,8 +5268,8 @@
                           "documentType": {
                             "type": "string",
                             "enum": [
-                              "debit_note",
                               "invoice",
+                              "debit_note",
                               "credit_note"
                             ]
                           }
@@ -5878,6 +6060,84 @@
                             "purchase_order"
                           ]
                         },
+                        "receiptCheckSkipped": {
+                          "type": "object",
+                          "properties": {
+                            "reason": {
+                              "type": "string",
+                              "enum": [
+                                "small_invoice"
+                              ]
+                            },
+                            "at": {
+                              "type": "string"
+                            },
+                            "findings": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/InvoiceControlFinding"
+                              }
+                            }
+                          },
+                          "required": [
+                            "reason",
+                            "at",
+                            "findings"
+                          ]
+                        },
+                        "receiptToleranceApplied": {
+                          "type": "object",
+                          "properties": {
+                            "over": {
+                              "type": "number"
+                            },
+                            "received": {
+                              "type": "number"
+                            },
+                            "percent": {
+                              "type": "number"
+                            },
+                            "maxAmount": {
+                              "type": "number"
+                            },
+                            "lines": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "poLineNo": {
+                                    "type": "number"
+                                  },
+                                  "over": {
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "over"
+                                ]
+                              }
+                            },
+                            "at": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "over",
+                            "received",
+                            "percent",
+                            "maxAmount",
+                            "lines",
+                            "at"
+                          ]
+                        },
+                        "matchType": {
+                          "type": "string",
+                          "enum": [
+                            "two_way",
+                            "three_way",
+                            "usage"
+                          ]
+                        },
                         "discrepancyReason": {
                           "type": "string",
                           "enum": [
@@ -5953,6 +6213,18 @@
                             "type": "string"
                           }
                         },
+                        "possibleDuplicates": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/InvoiceDuplicateRef"
+                          }
+                        },
+                        "duplicatesChecked": {
+                          "type": "boolean"
+                        },
+                        "hasLookupRows": {
+                          "type": "boolean"
+                        },
                         "source": {
                           "type": "string",
                           "enum": [
@@ -6019,8 +6291,8 @@
                         "documentType": {
                           "type": "string",
                           "enum": [
-                            "debit_note",
-                            "invoice"
+                            "invoice",
+                            "debit_note"
                           ]
                         },
                         "amendsInvoiceId": {
@@ -6079,6 +6351,9 @@
                         },
                         "remittanceCheck": {
                           "$ref": "#/components/schemas/RemittanceCheck"
+                        },
+                        "bankDetailsConfirmation": {
+                          "$ref": "#/components/schemas/BankDetailsConfirmation"
                         },
                         "sourceDocument": {
                           "$ref": "#/components/schemas/InvoiceSourceDocument"
@@ -6235,6 +6510,18 @@
                             "type": "string"
                           }
                         },
+                        "possibleDuplicates": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/InvoiceDuplicateRef"
+                          }
+                        },
+                        "duplicatesChecked": {
+                          "type": "boolean"
+                        },
+                        "hasLookupRows": {
+                          "type": "boolean"
+                        },
                         "source": {
                           "type": "string",
                           "enum": [
@@ -6289,8 +6576,8 @@
                         "documentType": {
                           "type": "string",
                           "enum": [
-                            "debit_note",
-                            "invoice"
+                            "invoice",
+                            "debit_note"
                           ]
                         },
                         "amendsInvoiceId": {
@@ -6347,6 +6634,9 @@
                         "hasOriginalPdf": {
                           "type": "boolean"
                         },
+                        "bankDetailsConfirmation": {
+                          "$ref": "#/components/schemas/SupplierBankDetailsConfirmationView"
+                        },
                         "baseCurrencyAmount": {
                           "$ref": "#/components/schemas/InvoiceBaseCurrencyAmount"
                         },
@@ -6367,12 +6657,13 @@
                                 "method": {
                                   "type": "string",
                                   "enum": [
+                                    "other",
                                     "card",
                                     "ach",
                                     "wire",
                                     "check",
-                                    "other",
-                                    "credit"
+                                    "credit",
+                                    "nothing_due"
                                   ]
                                 },
                                 "paymentDate": {
@@ -6469,12 +6760,13 @@
                                 "method": {
                                   "type": "string",
                                   "enum": [
+                                    "other",
                                     "card",
                                     "ach",
                                     "wire",
                                     "check",
-                                    "other",
-                                    "credit"
+                                    "credit",
+                                    "nothing_due"
                                   ]
                                 },
                                 "paymentDate": {
@@ -7426,6 +7718,84 @@
                             "purchase_order"
                           ]
                         },
+                        "receiptCheckSkipped": {
+                          "type": "object",
+                          "properties": {
+                            "reason": {
+                              "type": "string",
+                              "enum": [
+                                "small_invoice"
+                              ]
+                            },
+                            "at": {
+                              "type": "string"
+                            },
+                            "findings": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/InvoiceControlFinding"
+                              }
+                            }
+                          },
+                          "required": [
+                            "reason",
+                            "at",
+                            "findings"
+                          ]
+                        },
+                        "receiptToleranceApplied": {
+                          "type": "object",
+                          "properties": {
+                            "over": {
+                              "type": "number"
+                            },
+                            "received": {
+                              "type": "number"
+                            },
+                            "percent": {
+                              "type": "number"
+                            },
+                            "maxAmount": {
+                              "type": "number"
+                            },
+                            "lines": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "poLineNo": {
+                                    "type": "number"
+                                  },
+                                  "over": {
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "over"
+                                ]
+                              }
+                            },
+                            "at": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "over",
+                            "received",
+                            "percent",
+                            "maxAmount",
+                            "lines",
+                            "at"
+                          ]
+                        },
+                        "matchType": {
+                          "type": "string",
+                          "enum": [
+                            "two_way",
+                            "three_way",
+                            "usage"
+                          ]
+                        },
                         "discrepancyReason": {
                           "type": "string",
                           "enum": [
@@ -7501,6 +7871,18 @@
                             "type": "string"
                           }
                         },
+                        "possibleDuplicates": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/InvoiceDuplicateRef"
+                          }
+                        },
+                        "duplicatesChecked": {
+                          "type": "boolean"
+                        },
+                        "hasLookupRows": {
+                          "type": "boolean"
+                        },
                         "source": {
                           "type": "string",
                           "enum": [
@@ -7567,8 +7949,8 @@
                         "documentType": {
                           "type": "string",
                           "enum": [
-                            "debit_note",
-                            "invoice"
+                            "invoice",
+                            "debit_note"
                           ]
                         },
                         "amendsInvoiceId": {
@@ -7627,6 +8009,9 @@
                         },
                         "remittanceCheck": {
                           "$ref": "#/components/schemas/RemittanceCheck"
+                        },
+                        "bankDetailsConfirmation": {
+                          "$ref": "#/components/schemas/BankDetailsConfirmation"
                         },
                         "sourceDocument": {
                           "$ref": "#/components/schemas/InvoiceSourceDocument"
@@ -7783,6 +8168,18 @@
                             "type": "string"
                           }
                         },
+                        "possibleDuplicates": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/InvoiceDuplicateRef"
+                          }
+                        },
+                        "duplicatesChecked": {
+                          "type": "boolean"
+                        },
+                        "hasLookupRows": {
+                          "type": "boolean"
+                        },
                         "source": {
                           "type": "string",
                           "enum": [
@@ -7837,8 +8234,8 @@
                         "documentType": {
                           "type": "string",
                           "enum": [
-                            "debit_note",
-                            "invoice"
+                            "invoice",
+                            "debit_note"
                           ]
                         },
                         "amendsInvoiceId": {
@@ -7895,6 +8292,9 @@
                         "hasOriginalPdf": {
                           "type": "boolean"
                         },
+                        "bankDetailsConfirmation": {
+                          "$ref": "#/components/schemas/SupplierBankDetailsConfirmationView"
+                        },
                         "baseCurrencyAmount": {
                           "$ref": "#/components/schemas/InvoiceBaseCurrencyAmount"
                         },
@@ -7915,12 +8315,13 @@
                                 "method": {
                                   "type": "string",
                                   "enum": [
+                                    "other",
                                     "card",
                                     "ach",
                                     "wire",
                                     "check",
-                                    "other",
-                                    "credit"
+                                    "credit",
+                                    "nothing_due"
                                   ]
                                 },
                                 "paymentDate": {
@@ -8017,12 +8418,13 @@
                                 "method": {
                                   "type": "string",
                                   "enum": [
+                                    "other",
                                     "card",
                                     "ach",
                                     "wire",
                                     "check",
-                                    "other",
-                                    "credit"
+                                    "credit",
+                                    "nothing_due"
                                   ]
                                 },
                                 "paymentDate": {
@@ -8323,6 +8725,84 @@
                         "purchase_order"
                       ]
                     },
+                    "receiptCheckSkipped": {
+                      "type": "object",
+                      "properties": {
+                        "reason": {
+                          "type": "string",
+                          "enum": [
+                            "small_invoice"
+                          ]
+                        },
+                        "at": {
+                          "type": "string"
+                        },
+                        "findings": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/InvoiceControlFinding"
+                          }
+                        }
+                      },
+                      "required": [
+                        "reason",
+                        "at",
+                        "findings"
+                      ]
+                    },
+                    "receiptToleranceApplied": {
+                      "type": "object",
+                      "properties": {
+                        "over": {
+                          "type": "number"
+                        },
+                        "received": {
+                          "type": "number"
+                        },
+                        "percent": {
+                          "type": "number"
+                        },
+                        "maxAmount": {
+                          "type": "number"
+                        },
+                        "lines": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "poLineNo": {
+                                "type": "number"
+                              },
+                              "over": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "over"
+                            ]
+                          }
+                        },
+                        "at": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "over",
+                        "received",
+                        "percent",
+                        "maxAmount",
+                        "lines",
+                        "at"
+                      ]
+                    },
+                    "matchType": {
+                      "type": "string",
+                      "enum": [
+                        "two_way",
+                        "three_way",
+                        "usage"
+                      ]
+                    },
                     "discrepancyReason": {
                       "type": "string",
                       "enum": [
@@ -8398,6 +8878,18 @@
                         "type": "string"
                       }
                     },
+                    "possibleDuplicates": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/InvoiceDuplicateRef"
+                      }
+                    },
+                    "duplicatesChecked": {
+                      "type": "boolean"
+                    },
+                    "hasLookupRows": {
+                      "type": "boolean"
+                    },
                     "source": {
                       "type": "string",
                       "enum": [
@@ -8464,8 +8956,8 @@
                     "documentType": {
                       "type": "string",
                       "enum": [
-                        "debit_note",
-                        "invoice"
+                        "invoice",
+                        "debit_note"
                       ]
                     },
                     "amendsInvoiceId": {
@@ -8524,6 +9016,9 @@
                     },
                     "remittanceCheck": {
                       "$ref": "#/components/schemas/RemittanceCheck"
+                    },
+                    "bankDetailsConfirmation": {
+                      "$ref": "#/components/schemas/BankDetailsConfirmation"
                     },
                     "sourceDocument": {
                       "$ref": "#/components/schemas/InvoiceSourceDocument"
@@ -8740,6 +9235,84 @@
                         "purchase_order"
                       ]
                     },
+                    "receiptCheckSkipped": {
+                      "type": "object",
+                      "properties": {
+                        "reason": {
+                          "type": "string",
+                          "enum": [
+                            "small_invoice"
+                          ]
+                        },
+                        "at": {
+                          "type": "string"
+                        },
+                        "findings": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/InvoiceControlFinding"
+                          }
+                        }
+                      },
+                      "required": [
+                        "reason",
+                        "at",
+                        "findings"
+                      ]
+                    },
+                    "receiptToleranceApplied": {
+                      "type": "object",
+                      "properties": {
+                        "over": {
+                          "type": "number"
+                        },
+                        "received": {
+                          "type": "number"
+                        },
+                        "percent": {
+                          "type": "number"
+                        },
+                        "maxAmount": {
+                          "type": "number"
+                        },
+                        "lines": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "poLineNo": {
+                                "type": "number"
+                              },
+                              "over": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "over"
+                            ]
+                          }
+                        },
+                        "at": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "over",
+                        "received",
+                        "percent",
+                        "maxAmount",
+                        "lines",
+                        "at"
+                      ]
+                    },
+                    "matchType": {
+                      "type": "string",
+                      "enum": [
+                        "two_way",
+                        "three_way",
+                        "usage"
+                      ]
+                    },
                     "discrepancyReason": {
                       "type": "string",
                       "enum": [
@@ -8815,6 +9388,18 @@
                         "type": "string"
                       }
                     },
+                    "possibleDuplicates": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/InvoiceDuplicateRef"
+                      }
+                    },
+                    "duplicatesChecked": {
+                      "type": "boolean"
+                    },
+                    "hasLookupRows": {
+                      "type": "boolean"
+                    },
                     "source": {
                       "type": "string",
                       "enum": [
@@ -8881,8 +9466,8 @@
                     "documentType": {
                       "type": "string",
                       "enum": [
-                        "debit_note",
-                        "invoice"
+                        "invoice",
+                        "debit_note"
                       ]
                     },
                     "amendsInvoiceId": {
@@ -8942,6 +9527,9 @@
                     "remittanceCheck": {
                       "$ref": "#/components/schemas/RemittanceCheck"
                     },
+                    "bankDetailsConfirmation": {
+                      "$ref": "#/components/schemas/BankDetailsConfirmation"
+                    },
                     "sourceDocument": {
                       "$ref": "#/components/schemas/InvoiceSourceDocument"
                     },
@@ -8993,7 +9581,7 @@
     "/v1/workspaces/{regionId}/invoices/{invoiceId}/run-match": {
       "post": {
         "operationId": "RunInvoiceMatch",
-        "summary": "[Buyer] Run 3-way matching on an invoice. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.",
+        "summary": "[Buyer] Match an invoice: against the provider's usage for a cloud provider's order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.",
         "parameters": [
           {
             "name": "regionId",
@@ -9418,6 +10006,84 @@
                         "purchase_order"
                       ]
                     },
+                    "receiptCheckSkipped": {
+                      "type": "object",
+                      "properties": {
+                        "reason": {
+                          "type": "string",
+                          "enum": [
+                            "small_invoice"
+                          ]
+                        },
+                        "at": {
+                          "type": "string"
+                        },
+                        "findings": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/InvoiceControlFinding"
+                          }
+                        }
+                      },
+                      "required": [
+                        "reason",
+                        "at",
+                        "findings"
+                      ]
+                    },
+                    "receiptToleranceApplied": {
+                      "type": "object",
+                      "properties": {
+                        "over": {
+                          "type": "number"
+                        },
+                        "received": {
+                          "type": "number"
+                        },
+                        "percent": {
+                          "type": "number"
+                        },
+                        "maxAmount": {
+                          "type": "number"
+                        },
+                        "lines": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "poLineNo": {
+                                "type": "number"
+                              },
+                              "over": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "over"
+                            ]
+                          }
+                        },
+                        "at": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "over",
+                        "received",
+                        "percent",
+                        "maxAmount",
+                        "lines",
+                        "at"
+                      ]
+                    },
+                    "matchType": {
+                      "type": "string",
+                      "enum": [
+                        "two_way",
+                        "three_way",
+                        "usage"
+                      ]
+                    },
                     "discrepancyReason": {
                       "type": "string",
                       "enum": [
@@ -9492,6 +10158,18 @@
                       "items": {
                         "type": "string"
                       }
+                    },
+                    "possibleDuplicates": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/InvoiceDuplicateRef"
+                      }
+                    },
+                    "duplicatesChecked": {
+                      "type": "boolean"
+                    },
+                    "hasLookupRows": {
+                      "type": "boolean"
                     },
                     "source": {
                       "type": "string",
@@ -9619,6 +10297,9 @@
                     "remittanceCheck": {
                       "$ref": "#/components/schemas/RemittanceCheck"
                     },
+                    "bankDetailsConfirmation": {
+                      "$ref": "#/components/schemas/BankDetailsConfirmation"
+                    },
                     "sourceDocument": {
                       "$ref": "#/components/schemas/InvoiceSourceDocument"
                     },
@@ -9703,6 +10384,112 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/InvoiceBuyerView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "invoices"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/invoices/payment-records": {
+      "post": {
+        "operationId": "RecordPayments",
+        "summary": "[Buyer] Record payments your ERP or bank feed already made outside Pleaxy - wires, checks, ACH, card - so each supplier gets its payment notice, remittance advice and sync event without anyone retyping it: { payments: [{ invoiceId, method, paymentDate, reference, note?, ...RecordPayment's currency and withholding fields }] }, 1-50 per call. Each payment follows RecordPayment's rules and is answered on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?, message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still refused. API key with the payments:record scope only, minted with a procurementRole that can edit invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordPaymentsBatchDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "invoiceId": {
+                            "type": "string"
+                          },
+                          "outcome": {
+                            "type": "string",
+                            "enum": [
+                              "refused",
+                              "recorded",
+                              "already_recorded"
+                            ]
+                          },
+                          "status": {
+                            "type": "number"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "message": {
+                            "type": "string"
+                          },
+                          "messageId": {
+                            "type": "string"
+                          },
+                          "params": {
+                            "$ref": "#/components/schemas/ErrorParams"
+                          }
+                        },
+                        "required": [
+                          "invoiceId",
+                          "outcome"
+                        ]
+                      }
+                    },
+                    "recorded": {
+                      "type": "number"
+                    },
+                    "alreadyRecorded": {
+                      "type": "number"
+                    },
+                    "refused": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "results",
+                    "recorded",
+                    "alreadyRecorded",
+                    "refused"
+                  ]
                 }
               }
             }
@@ -9932,6 +10719,63 @@
         ]
       }
     },
+    "/v1/workspaces/{regionId}/invoices/{invoiceId}/remittance": {
+      "get": {
+        "operationId": "GetInvoiceRemittance",
+        "summary": "[Both] The payment signal for an invoice, for the supplier's cash application: status unpaid|recorded|processing|paid_through_pleaxy|withdrawn, and once paid the method (ach, wire, check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion, what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as GetInvoice.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoiceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemittanceView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "document-sync"
+        ]
+      }
+    },
     "/v1/workspaces/{regionId}/invoices/{invoiceId}/remind": {
       "post": {
         "operationId": "RemindInvoice",
@@ -9986,6 +10830,989 @@
         },
         "tags": [
           "invoices"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/sync/events": {
+      "get": {
+        "operationId": "ListSyncEvents",
+        "summary": "[Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "after",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncEventPage"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "document-sync"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/purchase-orders/{poId}/document": {
+      "get": {
+        "operationId": "GetPurchaseOrderDocument",
+        "summary": "[Both] An issued purchase order as a document another system takes in: ?format=cxml (the default: a cXML OrderRequest, type new, update from version 2, delete once canceled) or ?format=ubl (a UBL 2.1 Order, or an OrderCancellation once canceled). The supplier's copy whoever asks, as GetPurchaseOrderPdf. Takes the same ?buyer= as GetPurchaseOrder. 409 ORDER_NOT_ISSUED for a draft, an order in approval or a rejected one.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ubl",
+                "cxml"
+              ]
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "document-sync"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/invoices/{invoiceId}/document": {
+      "get": {
+        "operationId": "GetInvoiceDocument",
+        "summary": "[Both] An invoice as a UBL 2.1 Invoice (?format=ubl, the default and only format), for the buyer's ERP to book or the supplier's archive: the lines, document-level discounts and charges, tax and withholdings, prepayments, the supplier's payment instructions, the PO and contract it bills. The supplier's view whoever asks: no matching, findings or approvals. Takes the same ?buyer= as GetInvoice.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoiceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ubl"
+              ]
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "document-sync"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/invoices/{invoiceId}/status": {
+      "get": {
+        "operationId": "GetInvoiceStatus",
+        "summary": "[Both] Where an invoice stands, for the system that sent it or the one that pays it: status received|in_process|under_query|approved|payment_in_progress|paid|rejected|duplicate, with responseCode (UNCL4343: AB, IP, UQ, AP, RE, PD), cxmlStatus, queryReason, the rejection's reason, amountDue and dueDate. The same as cXML or UBL: GetInvoiceStatusDocument. The supplier's view whoever asks. Takes the same ?buyer= as GetInvoice.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoiceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceStatusView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "document-sync"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/invoices/{invoiceId}/status/document": {
+      "get": {
+        "operationId": "GetInvoiceStatusDocument",
+        "summary": "[Both] GetInvoiceStatus as a document: ?format=cxml (the default: a cXML StatusUpdateRequest with an InvoiceStatus) or ?format=ubl (a UBL 2.1 ApplicationResponse with the Peppol Invoice Response codes). Takes the same ?buyer= as GetInvoice.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoiceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ubl",
+                "cxml"
+              ]
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "document-sync"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/invoices/{invoiceId}/remittance/document": {
+      "get": {
+        "operationId": "GetInvoiceRemittanceDocument",
+        "summary": "[Both] GetInvoiceRemittance as a document: ?format=cxml (the default: a cXML PaymentRemittanceRequest) or ?format=ubl (a UBL 2.1 RemittanceAdvice). 409 NO_PAYMENT until a payment is recorded or has gone through. Takes the same ?buyer= as GetInvoice.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoiceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ubl",
+                "cxml"
+              ]
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "document-sync"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/webhooks": {
+      "get": {
+        "operationId": "ListWebhooks",
+        "summary": "[Both, admin] Your side's webhook endpoints and the event types they can take: { endpoints: [{ id, url, description, events, enabled, secretHint, lastAttemptAt, lastStatus, lastErrorCode, lastSuccessAt, failedDeliveries }], eventTypes }. Never the signing secret.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "endpoints": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/WebhookEndpointView"
+                      }
+                    },
+                    "eventTypes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "purchase_order.issued",
+                          "purchase_order.changed",
+                          "purchase_order.canceled",
+                          "purchase_order.rejected",
+                          "purchase_order.updated",
+                          "invoice.received",
+                          "invoice.approved",
+                          "invoice.rejected",
+                          "invoice.paid",
+                          "invoice.payment_withdrawn",
+                          "invoice.payment_failed",
+                          "invoice.remittance_sent",
+                          "invoice.credit_applied",
+                          "invoice.updated",
+                          "credit_note.received",
+                          "credit_note.accepted",
+                          "credit_note.rejected"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "endpoints",
+                    "eventTypes"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "document-sync"
+        ]
+      },
+      "post": {
+        "operationId": "CreateWebhook",
+        "summary": "[Both, admin] Add an endpoint: { url, description?, events? }. Every event of those types (all of your side's when events is left out) is POSTed to it as JSON - ListSyncEvents' event plus workspaceId and documentPath - signed in the Pleaxy-Signature header (t=<unix seconds>,v1=<hex HMAC-SHA256 of \"<t>.<body>\">) with the secret returned here, once. A 2xx within 10 seconds is delivered; anything else is retried after 1 min, 5 min, 30 min, 2 h, 6 h, 12 h and 24 h, then given up. Up to 5 per side. Signed-in administrators only.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWebhookDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "purchase_order.issued",
+                          "purchase_order.changed",
+                          "purchase_order.canceled",
+                          "purchase_order.rejected",
+                          "purchase_order.updated",
+                          "invoice.received",
+                          "invoice.approved",
+                          "invoice.rejected",
+                          "invoice.paid",
+                          "invoice.payment_withdrawn",
+                          "invoice.payment_failed",
+                          "invoice.remittance_sent",
+                          "invoice.credit_applied",
+                          "invoice.updated",
+                          "credit_note.received",
+                          "credit_note.accepted",
+                          "credit_note.rejected"
+                        ]
+                      }
+                    },
+                    "enabled": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "createdBy": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "lastAttemptAt": {
+                      "type": "string"
+                    },
+                    "lastStatus": {
+                      "type": "number"
+                    },
+                    "lastErrorCode": {
+                      "type": "string",
+                      "enum": [
+                        "failed",
+                        "http_status",
+                        "blocked_address",
+                        "unreachable",
+                        "timeout",
+                        "redirect",
+                        "too_large",
+                        "endpoint_off"
+                      ]
+                    },
+                    "lastSuccessAt": {
+                      "type": "string"
+                    },
+                    "failedDeliveries": {
+                      "type": "number"
+                    },
+                    "secretHint": {
+                      "type": "string"
+                    },
+                    "secret": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "url",
+                    "events",
+                    "enabled",
+                    "createdAt",
+                    "createdBy",
+                    "secretHint",
+                    "secret"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "document-sync"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/webhooks/{webhookId}": {
+      "delete": {
+        "operationId": "DeleteWebhook",
+        "summary": "[Both, admin] Remove an endpoint. Deliveries still waiting for it are given up.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "webhookId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "document-sync"
+        ]
+      },
+      "patch": {
+        "operationId": "UpdateWebhook",
+        "summary": "[Both, admin] Change an endpoint's url, description or events, or pause and resume it with enabled. Resuming clears its count of failed deliveries.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "webhookId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateWebhookDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookEndpointView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "document-sync"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/webhooks/{webhookId}/secret": {
+      "post": {
+        "operationId": "RotateWebhookSecret",
+        "summary": "[Both, admin] A new signing secret for an endpoint, returned this once; the old one stops signing at once.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "webhookId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "purchase_order.issued",
+                          "purchase_order.changed",
+                          "purchase_order.canceled",
+                          "purchase_order.rejected",
+                          "purchase_order.updated",
+                          "invoice.received",
+                          "invoice.approved",
+                          "invoice.rejected",
+                          "invoice.paid",
+                          "invoice.payment_withdrawn",
+                          "invoice.payment_failed",
+                          "invoice.remittance_sent",
+                          "invoice.credit_applied",
+                          "invoice.updated",
+                          "credit_note.received",
+                          "credit_note.accepted",
+                          "credit_note.rejected"
+                        ]
+                      }
+                    },
+                    "enabled": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "createdBy": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "lastAttemptAt": {
+                      "type": "string"
+                    },
+                    "lastStatus": {
+                      "type": "number"
+                    },
+                    "lastErrorCode": {
+                      "type": "string",
+                      "enum": [
+                        "failed",
+                        "http_status",
+                        "blocked_address",
+                        "unreachable",
+                        "timeout",
+                        "redirect",
+                        "too_large",
+                        "endpoint_off"
+                      ]
+                    },
+                    "lastSuccessAt": {
+                      "type": "string"
+                    },
+                    "failedDeliveries": {
+                      "type": "number"
+                    },
+                    "secretHint": {
+                      "type": "string"
+                    },
+                    "secret": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "url",
+                    "events",
+                    "enabled",
+                    "createdAt",
+                    "createdBy",
+                    "secretHint",
+                    "secret"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "document-sync"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/webhooks/{webhookId}/test": {
+      "post": {
+        "operationId": "TestWebhook",
+        "summary": "[Both, admin] Send the endpoint a signed ping now, once: { ok, status?, errorCode?, durationMs }.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "webhookId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "type": "number"
+                    },
+                    "errorCode": {
+                      "type": "string",
+                      "enum": [
+                        "failed",
+                        "http_status",
+                        "blocked_address",
+                        "unreachable",
+                        "timeout",
+                        "redirect",
+                        "too_large",
+                        "endpoint_off"
+                      ]
+                    },
+                    "durationMs": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "durationMs"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "document-sync"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/webhooks/{webhookId}/deliveries": {
+      "get": {
+        "operationId": "ListWebhookDeliveries",
+        "summary": "[Both, admin] An endpoint's last 50 deliveries, newest first: { deliveries: [{ eventId, type, status: pending|delivered|failed, attempts, createdAt, nextAttemptAt, lastAttemptAt, lastStatus, lastErrorCode, deliveredAt }] }. Kept 30 days.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "webhookId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deliveries": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/WebhookDelivery"
+                      }
+                    }
+                  },
+                  "required": [
+                    "deliveries"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "document-sync"
         ]
       }
     },
@@ -10236,11 +12063,12 @@
           },
           "scopes": {
             "type": "array",
-            "description": "Supplier-side keys only (a buyer sending this gets 400). `invoices:feed` lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId; it keeps every other supplier-key ability. Only a supplier administrator can mint a scoped key.",
+            "description": "Extra abilities, each for one side (the other side's scope is a 400). Supplier: `invoices:feed` lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId. Buyer: `payments:record` lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key.",
             "items": {
               "type": "string",
               "enum": [
-                "invoices:feed"
+                "invoices:feed",
+                "payments:record"
               ]
             }
           }
@@ -10278,19 +12106,19 @@
           },
           "gcpConnectionId": {
             "type": "string",
-            "description": "GCP only, when its connector is on - the connectionId returned by POST .../cloud-connections/gcp/init. The binding itself is looked up server-side, never taken from the client."
+            "description": "Google Cloud only, when its connector is on - the connectionId returned by POST .../cloud-connections/gcp/init. The binding itself is looked up server-side, never taken from the client."
           },
           "gcpProjectNumber": {
             "type": "string",
-            "description": "GCP only - the export project's number (digits)."
+            "description": "Google Cloud only - the export project's number (digits)."
           },
           "gcpServiceAccountEmail": {
             "type": "string",
-            "description": "GCP only - the service account the setup script created, in the export project."
+            "description": "Google Cloud only - the service account the setup script created, in the export project."
           },
           "gcpExportTable": {
             "type": "string",
-            "description": "GCP only - project.dataset.gcp_billing_export_v1_XXXXXX_XXXXXX_XXXXXX (standard usage cost export)."
+            "description": "Google Cloud only - project.dataset.gcp_billing_export_v1_XXXXXX_XXXXXX_XXXXXX (standard usage cost export)."
           },
           "ociConnectionId": {
             "type": "string",
@@ -10911,6 +12739,11 @@
           "validUntil": {
             "type": "string"
           },
+          "dueDate": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "description": "When the goods or the work on this line are due (YYYY-MM-DD), e.g. a statement-of-work milestone. On a 3-way order, its receiver is reminded when it passes with nothing received."
+          },
           "customerLineNo": {
             "type": "string",
             "pattern": "^[A-Za-z0-9._\\-/ ]{1,40}$",
@@ -10921,6 +12754,12 @@
             "minimum": 1,
             "maximum": 1000,
             "description": "The line of the order's quote (quoteImportId) this line was filled from, when Pleaxy read the quote. Kept on the line; the app shows the line as priced from the supplier's quote unless a contract rate priced it."
+          },
+          "sowLineNo": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 1000,
+            "description": "The milestone or deliverable of the order's statement of work (sowImportId) this line was filled from, when Pleaxy read the SOW. Kept on the line, provenance only, like quoteLineNo."
           },
           "punchoutRef": {
             "description": "The online-store cart line this line came from (store punchout spec D4). The server reads that cart's evidence and sets what the line is - its name, unit and part numbers - from it; only qty and unitPrice are yours.",
@@ -10955,9 +12794,27 @@
             "type": "string",
             "description": "Supplier / counterparty name"
           },
+          "matching": {
+            "type": "string",
+            "enum": [
+              "two_way",
+              "three_way"
+            ],
+            "description": "How the order's invoices are matched: two_way against the order and its contract; three_way also against what was received (goods receipts and service entry sheets). Defaults to what the workspace's matching setting suggests (GET .../matching-policy). Refused for a cloud provider's order, which is matched against usage, and, when the setting lets only administrators change it, for anything but the default from anyone else."
+          },
+          "receiverEmployeeKey": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Who confirms delivery: someone in this workspace, by employee key. Defaults to whoever raises the order. Used with three_way matching."
+          },
           "supplierRegionId": {
             "type": "string",
             "description": "regionId of the onboarded supplier org this PO is issued to, if known. The buyer must hold an approved SupplierConnection to this supplier; the server rejects a region it isn't connected to. Links the PO to that org's real supplier workspace instead of just its free-text `supplier` name - see WorkspacesService.getSupplierWorkspace."
+          },
+          "supplierConnectionId": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "The id of a supplier on your Suppliers list (not rejected, not a cloud provider) this PO is for - see GET .../suppliers. One approved with a Pleaxy account is treated as its supplierRegionId. Any other (not invited yet, invited, onboarding) is named by its record: its invoices match the PO by id, the PO is emailed to its contact, and sending it invites a supplier not invited yet. The record's name replaces `supplier`. Not with supplierRegionId, provider or supplierContactEmail."
           },
           "currency": {
             "type": "string",
@@ -11022,6 +12879,11 @@
             "type": "string",
             "maxLength": 20,
             "description": "The quote import (POST .../quote-imports) holding the supplier's quote this order is raised from. Its upload must have finished. Optional."
+          },
+          "sowImportId": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "The quote import (POST .../quote-imports) holding the statement of work this order is for: its scope, milestones and acceptance. Its upload must have finished. Optional, and independent of quoteImportId."
           },
           "draft": {
             "type": "boolean",
@@ -11097,6 +12959,12 @@
             "nullable": true,
             "maxLength": 20,
             "description": "The quote import holding the supplier's quote this order is raised from; replaces the one attached, and `null` removes it. Bookkeeping, like `notes`."
+          },
+          "sowImportId": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 20,
+            "description": "The quote import holding the statement of work this order is for; replaces the one attached, and `null` removes it. Bookkeeping, like `notes`."
           }
         }
       },
@@ -11919,6 +13787,81 @@
           "reference"
         ]
       },
+      "RecordPaymentItemDto": {
+        "type": "object",
+        "properties": {
+          "invoiceId": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 4000
+          },
+          "method": {
+            "type": "string",
+            "enum": [
+              "ach",
+              "wire",
+              "check",
+              "card",
+              "other"
+            ]
+          },
+          "paymentDate": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "reference": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "amount": {
+            "type": "number",
+            "minimum": 0.01
+          },
+          "currency": {
+            "type": "string"
+          },
+          "rate": {
+            "type": "number",
+            "minimum": 1e-10
+          },
+          "rateDate": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "withholdings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BreakdownEntryDto"
+            }
+          },
+          "confirmReplaced": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "invoiceId",
+          "method",
+          "paymentDate",
+          "reference"
+        ]
+      },
+      "RecordPaymentsBatchDto": {
+        "type": "object",
+        "properties": {
+          "payments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecordPaymentItemDto"
+            }
+          }
+        },
+        "required": [
+          "payments"
+        ]
+      },
       "PaymentExportDto": {
         "type": "object",
         "properties": {
@@ -11931,6 +13874,54 @@
           },
           "confirmReplaced": {
             "type": "boolean"
+          }
+        }
+      },
+      "CreateWebhookDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "https:// address on a host name that answers a POST with a 2xx within 10 seconds."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 400,
+            "description": "Up to 100 characters, to tell endpoints apart."
+          },
+          "events": {
+            "description": "The event types to send (ListSyncEvents' types for your side). Leave out, or send [], for all of them.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "url"
+        ]
+      },
+      "UpdateWebhookDto": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "false pauses deliveries (nothing is queued while paused); true resumes them."
+          },
+          "url": {
+            "type": "string",
+            "maxLength": 2048
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 400
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -11995,7 +13986,8 @@
             "items": {
               "type": "string",
               "enum": [
-                "invoices:feed"
+                "invoices:feed",
+                "payments:record"
               ]
             }
           },
@@ -12642,7 +14634,8 @@
             "type": "string",
             "enum": [
               "purchase_order",
-              "invoice_payment"
+              "invoice_payment",
+              "service_entry_sheet"
             ]
           },
           "linkedTo": {
@@ -13001,6 +14994,8 @@
           "type": {
             "type": "string",
             "enum": [
+              "report_ready",
+              "company_report_ready",
               "po_approved",
               "po_rejected",
               "po_canceled",
@@ -13021,7 +15016,21 @@
               "invoice_rejected",
               "invoice_payment_reminder",
               "invoice_entered_by_buyer",
+              "invoice_bank_details_to_confirm",
+              "invoice_bank_details_confirmed",
+              "invoice_bank_details_disputed",
+              "invoice_bank_details_changed",
               "invoice_needs_approver",
+              "ses_approval_requested",
+              "ses_auto_approved",
+              "ses_approved",
+              "ses_rejected",
+              "receipt_return_recorded",
+              "po_line_due",
+              "po_line_due_asked",
+              "po_receipt_requested",
+              "invoice_held_due_soon",
+              "ses_approval_overdue",
               "credit_note_received",
               "credit_note_accepted",
               "credit_note_rejected",
@@ -13035,6 +15044,7 @@
               "supplier_connection_approved",
               "supplier_connection_rejected",
               "supplier_connection_region_mismatch",
+              "agent_request",
               "support_case_opened",
               "support_case_updated",
               "supplier_late_fee_terms_changed",
@@ -13306,6 +15316,28 @@
           "presetVersion"
         ]
       },
+      "SameDomainAcknowledgement": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string"
+          },
+          "companyIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "domain",
+          "companyIds",
+          "at"
+        ]
+      },
       "OrgProfile": {
         "type": "object",
         "properties": {
@@ -13384,6 +15416,9 @@
           },
           "createdAt": {
             "type": "string"
+          },
+          "sameDomainAcknowledged": {
+            "$ref": "#/components/schemas/SameDomainAcknowledgement"
           },
           "verified": {
             "type": "boolean"
@@ -13549,6 +15584,9 @@
           "quoteDocument": {
             "$ref": "#/components/schemas/PurchaseOrderQuoteDocument"
           },
+          "sowDocument": {
+            "$ref": "#/components/schemas/PurchaseOrderQuoteDocument"
+          },
           "lineItems": {
             "type": "array",
             "items": {
@@ -13596,6 +15634,73 @@
           },
           "storeOrder": {
             "$ref": "#/components/schemas/StoreOrder"
+          },
+          "matching": {
+            "type": "string",
+            "enum": [
+              "two_way",
+              "three_way"
+            ]
+          },
+          "matchingDefault": {
+            "type": "string",
+            "enum": [
+              "two_way",
+              "three_way"
+            ]
+          },
+          "matchingChanges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseOrderMatchingChange"
+            }
+          },
+          "receiverEmployeeKey": {
+            "type": "string"
+          },
+          "receiverName": {
+            "type": "string"
+          },
+          "received": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseOrderReceivedLine"
+            }
+          },
+          "receivedPending": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseOrderReceivedLine"
+            }
+          },
+          "receiptState": {
+            "type": "string",
+            "enum": [
+              "none",
+              "partial",
+              "full"
+            ]
+          },
+          "receiptRequired": {
+            "type": "boolean"
+          },
+          "readyToInvoice": {
+            "type": "number"
+          },
+          "receiptTolerance": {
+            "type": "object",
+            "properties": {
+              "percent": {
+                "type": "number"
+              },
+              "maxAmount": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "percent",
+              "maxAmount"
+            ]
           },
           "createdAt": {
             "type": "string"
@@ -13789,6 +15894,18 @@
           },
           "validUntil": {
             "type": "string"
+          },
+          "documentType": {
+            "type": "string",
+            "enum": [
+              "quote",
+              "order_form",
+              "proforma",
+              "sow",
+              "contract",
+              "invoice",
+              "other"
+            ]
           }
         },
         "required": [
@@ -13851,6 +15968,9 @@
           "validUntil": {
             "type": "string"
           },
+          "dueDate": {
+            "type": "string"
+          },
           "consumed": {
             "type": "number"
           },
@@ -13875,6 +15995,9 @@
             "type": "string"
           },
           "quoteLineNo": {
+            "type": "number"
+          },
+          "sowLineNo": {
             "type": "number"
           },
           "origin": {
@@ -14594,7 +16717,10 @@
               "queued",
               "sending",
               "retrying",
-              "sent"
+              "sent",
+              "confirmed",
+              "cancelled",
+              "partial"
             ]
           },
           "payloadId": {
@@ -14643,6 +16769,9 @@
               "code"
             ]
           },
+          "confirmation": {
+            "$ref": "#/components/schemas/StoreOrderConfirmation"
+          },
           "deadline": {
             "type": "string"
           },
@@ -14654,6 +16783,117 @@
           "status",
           "attempts",
           "queuedAt"
+        ]
+      },
+      "StoreOrderConfirmation": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "rejected",
+              "accepted",
+              "partial"
+            ]
+          },
+          "at": {
+            "type": "string"
+          },
+          "storeConfirmationId": {
+            "type": "string"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "lineNo": {
+                  "type": "number"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "accept",
+                    "reject",
+                    "backordered",
+                    "detail"
+                  ]
+                },
+                "quantity": {
+                  "type": "number"
+                },
+                "reason": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "lineNo",
+                "status"
+              ]
+            }
+          }
+        },
+        "required": [
+          "type",
+          "at",
+          "lines"
+        ]
+      },
+      "PurchaseOrderMatchingChange": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "enum": [
+              "two_way",
+              "three_way"
+            ]
+          },
+          "to": {
+            "type": "string",
+            "enum": [
+              "two_way",
+              "three_way"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "by": {
+            "type": "string"
+          },
+          "byName": {
+            "type": "string"
+          },
+          "at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "reason",
+          "by",
+          "byName",
+          "at"
+        ]
+      },
+      "PurchaseOrderReceivedLine": {
+        "type": "object",
+        "properties": {
+          "lineNo": {
+            "type": "number"
+          },
+          "qty": {
+            "type": "number"
+          },
+          "amount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "lineNo",
+          "amount"
         ]
       },
       "PurchaseOrderSupplierView": {
@@ -14787,6 +17027,54 @@
           "storeOrder": {
             "$ref": "#/components/schemas/StoreOrder"
           },
+          "matching": {
+            "type": "string",
+            "enum": [
+              "two_way",
+              "three_way"
+            ]
+          },
+          "received": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseOrderReceivedLine"
+            }
+          },
+          "receivedPending": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseOrderReceivedLine"
+            }
+          },
+          "receiptState": {
+            "type": "string",
+            "enum": [
+              "none",
+              "partial",
+              "full"
+            ]
+          },
+          "receiptRequired": {
+            "type": "boolean"
+          },
+          "readyToInvoice": {
+            "type": "number"
+          },
+          "receiptTolerance": {
+            "type": "object",
+            "properties": {
+              "percent": {
+                "type": "number"
+              },
+              "maxAmount": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "percent",
+              "maxAmount"
+            ]
+          },
           "approval": {
             "$ref": "#/components/schemas/SupplierApprovalView"
           },
@@ -14828,6 +17116,64 @@
           "quoteDocument": {
             "type": "object",
             "properties": {
+              "documentType": {
+                "type": "string",
+                "enum": [
+                  "quote",
+                  "order_form",
+                  "proforma",
+                  "sow",
+                  "contract",
+                  "invoice",
+                  "other"
+                ]
+              },
+              "importId": {
+                "type": "string"
+              },
+              "fileName": {
+                "type": "string"
+              },
+              "contentType": {
+                "type": "string",
+                "enum": [
+                  "application/pdf",
+                  "image/png",
+                  "image/jpeg"
+                ]
+              },
+              "addedAt": {
+                "type": "string"
+              },
+              "quoteNumber": {
+                "type": "string"
+              },
+              "validUntil": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "importId",
+              "fileName",
+              "contentType",
+              "addedAt"
+            ]
+          },
+          "sowDocument": {
+            "type": "object",
+            "properties": {
+              "documentType": {
+                "type": "string",
+                "enum": [
+                  "quote",
+                  "order_form",
+                  "proforma",
+                  "sow",
+                  "contract",
+                  "invoice",
+                  "other"
+                ]
+              },
               "importId": {
                 "type": "string"
               },
@@ -15014,6 +17360,84 @@
               "purchase_order"
             ]
           },
+          "receiptCheckSkipped": {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "small_invoice"
+                ]
+              },
+              "at": {
+                "type": "string"
+              },
+              "findings": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/InvoiceControlFinding"
+                }
+              }
+            },
+            "required": [
+              "reason",
+              "at",
+              "findings"
+            ]
+          },
+          "receiptToleranceApplied": {
+            "type": "object",
+            "properties": {
+              "over": {
+                "type": "number"
+              },
+              "received": {
+                "type": "number"
+              },
+              "percent": {
+                "type": "number"
+              },
+              "maxAmount": {
+                "type": "number"
+              },
+              "lines": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "poLineNo": {
+                      "type": "number"
+                    },
+                    "over": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "over"
+                  ]
+                }
+              },
+              "at": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "over",
+              "received",
+              "percent",
+              "maxAmount",
+              "lines",
+              "at"
+            ]
+          },
+          "matchType": {
+            "type": "string",
+            "enum": [
+              "two_way",
+              "three_way",
+              "usage"
+            ]
+          },
           "discrepancyReason": {
             "type": "string",
             "enum": [
@@ -15088,6 +17512,18 @@
             "items": {
               "type": "string"
             }
+          },
+          "possibleDuplicates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoiceDuplicateRef"
+            }
+          },
+          "duplicatesChecked": {
+            "type": "boolean"
+          },
+          "hasLookupRows": {
+            "type": "boolean"
           },
           "source": {
             "type": "string",
@@ -15215,6 +17651,9 @@
           "remittanceCheck": {
             "$ref": "#/components/schemas/RemittanceCheck"
           },
+          "bankDetailsConfirmation": {
+            "$ref": "#/components/schemas/BankDetailsConfirmation"
+          },
           "sourceDocument": {
             "$ref": "#/components/schemas/InvoiceSourceDocument"
           },
@@ -15319,7 +17758,10 @@
               "contract_outside_term",
               "contract_cap_exceeded",
               "contract_not_active",
-              "contract_check_failed"
+              "contract_check_failed",
+              "receipt_missing",
+              "receipt_qty_exceeded",
+              "receipt_amount_exceeded"
             ]
           },
           "message": {
@@ -15384,12 +17826,13 @@
           "method": {
             "type": "string",
             "enum": [
+              "other",
               "card",
               "ach",
               "wire",
               "check",
-              "other",
-              "credit"
+              "credit",
+              "nothing_due"
             ]
           },
           "paymentDate": {
@@ -15624,12 +18067,13 @@
               "method": {
                 "type": "string",
                 "enum": [
+                  "other",
                   "card",
                   "ach",
                   "wire",
                   "check",
-                  "other",
-                  "credit"
+                  "credit",
+                  "nothing_due"
                 ]
               },
               "paymentDate": {
@@ -15702,6 +18146,24 @@
           "reasonCode",
           "reason",
           "at"
+        ]
+      },
+      "InvoiceDuplicateRef": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "externalInvoiceNumber": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt"
         ]
       },
       "InvoiceAdjustment": {
@@ -15926,10 +18388,10 @@
           "method": {
             "type": "string",
             "enum": [
+              "other",
               "ach",
               "wire",
               "check",
-              "other",
               "bank_transfer"
             ]
           },
@@ -16002,6 +18464,120 @@
         },
         "required": [
           "status"
+        ]
+      },
+      "BankDetailsConfirmation": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "confirmed",
+              "disputed"
+            ]
+          },
+          "requestedAt": {
+            "type": "string"
+          },
+          "supplierCanConfirm": {
+            "type": "boolean"
+          },
+          "confirmedVia": {
+            "type": "string",
+            "enum": [
+              "supplier",
+              "phone"
+            ]
+          },
+          "confirmedAt": {
+            "type": "string"
+          },
+          "confirmedBy": {
+            "type": "object",
+            "properties": {
+              "sub": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "sub",
+              "name"
+            ]
+          },
+          "phone": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "other",
+                  "callback",
+                  "letter"
+                ]
+              },
+              "contactName": {
+                "type": "string"
+              },
+              "phoneNumber": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "method",
+              "contactName",
+              "phoneNumber"
+            ]
+          },
+          "dispute": {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "not_sent",
+                  "wrong_bank_details"
+                ]
+              },
+              "note": {
+                "type": "string"
+              },
+              "at": {
+                "type": "string"
+              },
+              "by": {
+                "type": "object",
+                "properties": {
+                  "sub": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "sub",
+                  "name"
+                ]
+              }
+            },
+            "required": [
+              "reason",
+              "at",
+              "by"
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "requestedAt",
+          "supplierCanConfirm"
         ]
       },
       "InvoiceSourceDocument": {
@@ -16220,6 +18796,18 @@
               "type": "string"
             }
           },
+          "possibleDuplicates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoiceDuplicateRef"
+            }
+          },
+          "duplicatesChecked": {
+            "type": "boolean"
+          },
+          "hasLookupRows": {
+            "type": "boolean"
+          },
           "source": {
             "type": "string",
             "enum": [
@@ -16331,6 +18919,9 @@
           "hasOriginalPdf": {
             "type": "boolean"
           },
+          "bankDetailsConfirmation": {
+            "$ref": "#/components/schemas/SupplierBankDetailsConfirmationView"
+          },
           "baseCurrencyAmount": {
             "$ref": "#/components/schemas/InvoiceBaseCurrencyAmount"
           },
@@ -16351,12 +18942,13 @@
                   "method": {
                     "type": "string",
                     "enum": [
+                      "other",
                       "card",
                       "ach",
                       "wire",
                       "check",
-                      "other",
-                      "credit"
+                      "credit",
+                      "nothing_due"
                     ]
                   },
                   "paymentDate": {
@@ -16453,12 +19045,13 @@
                   "method": {
                     "type": "string",
                     "enum": [
+                      "other",
                       "card",
                       "ach",
                       "wire",
                       "check",
-                      "other",
-                      "credit"
+                      "credit",
+                      "nothing_due"
                     ]
                   },
                   "paymentDate": {
@@ -16566,6 +19159,85 @@
           "source",
           "hasOriginalPdf",
           "baseCurrencyAmount"
+        ]
+      },
+      "SupplierBankDetailsConfirmationView": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "confirmed",
+              "disputed"
+            ]
+          },
+          "requestedAt": {
+            "type": "string"
+          },
+          "supplierCanConfirm": {
+            "type": "boolean"
+          },
+          "confirmedVia": {
+            "type": "string",
+            "enum": [
+              "supplier",
+              "phone"
+            ]
+          },
+          "confirmedAt": {
+            "type": "string"
+          },
+          "confirmedByName": {
+            "type": "string"
+          },
+          "dispute": {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "not_sent",
+                  "wrong_bank_details"
+                ]
+              },
+              "note": {
+                "type": "string"
+              },
+              "at": {
+                "type": "string"
+              },
+              "byName": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "reason",
+              "at",
+              "byName"
+            ]
+          },
+          "changedFields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "notes",
+                "method",
+                "payeeName",
+                "iban",
+                "accountNumber",
+                "bic",
+                "routingNumber",
+                "mailingAddress"
+              ]
+            }
+          }
+        },
+        "required": [
+          "status",
+          "requestedAt",
+          "supplierCanConfirm"
         ]
       },
       "SupplierRemittanceView": {
@@ -17172,12 +19844,13 @@
                       "method": {
                         "type": "string",
                         "enum": [
+                          "other",
                           "card",
                           "ach",
                           "wire",
                           "check",
-                          "other",
-                          "credit"
+                          "credit",
+                          "nothing_due"
                         ]
                       },
                       "paymentDate": {
@@ -17294,6 +19967,18 @@
                   "type": "string"
                 }
               },
+              "possibleDuplicates": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/InvoiceDuplicateRef"
+                }
+              },
+              "duplicatesChecked": {
+                "type": "boolean"
+              },
+              "hasLookupRows": {
+                "type": "boolean"
+              },
               "enteredBy": {
                 "type": "string",
                 "enum": [
@@ -17390,6 +20075,9 @@
               "remittanceInstructions": {
                 "$ref": "#/components/schemas/RemittanceInstructions"
               },
+              "bankDetailsConfirmation": {
+                "$ref": "#/components/schemas/SupplierBankDetailsConfirmationView"
+              },
               "sourceDocument": {
                 "$ref": "#/components/schemas/InvoiceSourceDocument"
               },
@@ -17413,12 +20101,13 @@
                       "method": {
                         "type": "string",
                         "enum": [
+                          "other",
                           "card",
                           "ach",
                           "wire",
                           "check",
-                          "other",
-                          "credit"
+                          "credit",
+                          "nothing_due"
                         ]
                       },
                       "paymentDate": {
@@ -17553,7 +20242,10 @@
                     "contract_outside_term",
                     "contract_cap_exceeded",
                     "contract_not_active",
-                    "contract_check_failed"
+                    "contract_check_failed",
+                    "receipt_missing",
+                    "receipt_qty_exceeded",
+                    "receipt_amount_exceeded"
                   ]
                 },
                 "message": {
@@ -17846,6 +20538,601 @@
           "available"
         ]
       },
+      "ErrorParams": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "RemittanceView": {
+        "type": "object",
+        "properties": {
+          "invoiceId": {
+            "type": "string"
+          },
+          "invoiceNumber": {
+            "type": "string"
+          },
+          "buyerWorkspaceId": {
+            "type": "string"
+          },
+          "purchaseOrderId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "recorded",
+              "processing",
+              "unpaid",
+              "paid_through_pleaxy",
+              "withdrawn"
+            ]
+          },
+          "paid": {
+            "type": "boolean"
+          },
+          "paidAt": {
+            "type": "string"
+          },
+          "amountDue": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "number"
+              },
+              "currency": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "amount",
+              "currency"
+            ]
+          },
+          "payment": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "other",
+                  "stripe",
+                  "card",
+                  "ach",
+                  "wire",
+                  "check",
+                  "credit",
+                  "nothing_due"
+                ]
+              },
+              "paymentDate": {
+                "type": "string"
+              },
+              "reference": {
+                "type": "string"
+              },
+              "recordedAt": {
+                "type": "string"
+              },
+              "adviceVersion": {
+                "type": "number"
+              },
+              "withheld": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/InvoiceBreakdownEntry"
+                }
+              },
+              "netPaid": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "number"
+                  },
+                  "currency": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "amount",
+                  "currency"
+                ]
+              },
+              "paidInOtherCurrency": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "number"
+                  },
+                  "currency": {
+                    "type": "string"
+                  },
+                  "rate": {
+                    "type": "number"
+                  },
+                  "rateDate": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "amount",
+                  "currency",
+                  "rate",
+                  "rateDate"
+                ]
+              }
+            },
+            "required": [
+              "method",
+              "netPaid"
+            ]
+          },
+          "remittances": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "sentAt": {
+                  "type": "string"
+                },
+                "note": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "object",
+                  "properties": {
+                    "fileName": {
+                      "type": "string"
+                    },
+                    "contentType": {
+                      "type": "string",
+                      "enum": [
+                        "application/pdf",
+                        "image/png",
+                        "image/jpeg"
+                      ]
+                    },
+                    "sizeBytes": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "fileName",
+                    "contentType",
+                    "sizeBytes"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "sentAt"
+              ]
+            }
+          }
+        },
+        "required": [
+          "invoiceId",
+          "status",
+          "paid",
+          "amountDue",
+          "remittances"
+        ]
+      },
+      "SyncEventPage": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SyncEvent"
+            }
+          },
+          "nextCursor": {
+            "type": "string"
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "events",
+          "hasMore"
+        ]
+      },
+      "SyncEvent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "at": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "purchase_order.issued",
+              "purchase_order.changed",
+              "purchase_order.canceled",
+              "purchase_order.rejected",
+              "purchase_order.updated",
+              "invoice.received",
+              "invoice.approved",
+              "invoice.rejected",
+              "invoice.paid",
+              "invoice.payment_withdrawn",
+              "invoice.payment_failed",
+              "invoice.remittance_sent",
+              "invoice.credit_applied",
+              "invoice.updated",
+              "credit_note.received",
+              "credit_note.accepted",
+              "credit_note.rejected"
+            ]
+          },
+          "documentType": {
+            "type": "string",
+            "enum": [
+              "purchase_order",
+              "invoice",
+              "credit_note"
+            ]
+          },
+          "documentId": {
+            "type": "string"
+          },
+          "buyerWorkspaceId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "at",
+          "type",
+          "documentType",
+          "documentId"
+        ]
+      },
+      "InvoiceStatusView": {
+        "type": "object",
+        "properties": {
+          "invoiceId": {
+            "type": "string"
+          },
+          "invoiceNumber": {
+            "type": "string"
+          },
+          "documentType": {
+            "type": "string",
+            "enum": [
+              "invoice",
+              "debit_note"
+            ]
+          },
+          "buyerWorkspaceId": {
+            "type": "string"
+          },
+          "purchaseOrderId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "rejected",
+              "received",
+              "paid",
+              "duplicate",
+              "in_process",
+              "under_query",
+              "payment_in_progress"
+            ]
+          },
+          "responseCode": {
+            "type": "string",
+            "enum": [
+              "AB",
+              "IP",
+              "UQ",
+              "AP",
+              "RE",
+              "PD"
+            ]
+          },
+          "cxmlStatus": {
+            "type": "string",
+            "enum": [
+              "rejected",
+              "paid",
+              "processing",
+              "reconciled",
+              "paying"
+            ]
+          },
+          "queryReason": {
+            "type": "string",
+            "enum": [
+              "discrepancy",
+              "bank_details_unconfirmed",
+              "bank_details_disputed"
+            ]
+          },
+          "rejection": {
+            "type": "object",
+            "properties": {
+              "reasonCode": {
+                "type": "string",
+                "enum": [
+                  "other",
+                  "amount_incorrect",
+                  "not_ordered_or_not_received",
+                  "duplicate",
+                  "missing_or_wrong_po",
+                  "wrong_billing_entity"
+                ]
+              },
+              "reason": {
+                "type": "string"
+              },
+              "at": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "reasonCode",
+              "reason",
+              "at"
+            ]
+          },
+          "replacedByInvoiceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "issueDate": {
+            "type": "string"
+          },
+          "receivedAt": {
+            "type": "string"
+          },
+          "dueDate": {
+            "type": "string"
+          },
+          "total": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "number"
+              },
+              "currency": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "amount",
+              "currency"
+            ]
+          },
+          "amountDue": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "number"
+              },
+              "currency": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "amount",
+              "currency"
+            ]
+          },
+          "paid": {
+            "type": "boolean"
+          },
+          "paidAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "invoiceId",
+          "documentType",
+          "status",
+          "responseCode",
+          "cxmlStatus",
+          "issueDate",
+          "receivedAt",
+          "total",
+          "amountDue",
+          "paid"
+        ]
+      },
+      "WebhookEndpointView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "purchase_order.issued",
+                "purchase_order.changed",
+                "purchase_order.canceled",
+                "purchase_order.rejected",
+                "purchase_order.updated",
+                "invoice.received",
+                "invoice.approved",
+                "invoice.rejected",
+                "invoice.paid",
+                "invoice.payment_withdrawn",
+                "invoice.payment_failed",
+                "invoice.remittance_sent",
+                "invoice.credit_applied",
+                "invoice.updated",
+                "credit_note.received",
+                "credit_note.accepted",
+                "credit_note.rejected"
+              ]
+            }
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "lastAttemptAt": {
+            "type": "string"
+          },
+          "lastStatus": {
+            "type": "number"
+          },
+          "lastErrorCode": {
+            "type": "string",
+            "enum": [
+              "failed",
+              "http_status",
+              "blocked_address",
+              "unreachable",
+              "timeout",
+              "redirect",
+              "too_large",
+              "endpoint_off"
+            ]
+          },
+          "lastSuccessAt": {
+            "type": "string"
+          },
+          "failedDeliveries": {
+            "type": "number"
+          },
+          "secretHint": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "url",
+          "events",
+          "enabled",
+          "createdAt",
+          "createdBy",
+          "secretHint"
+        ]
+      },
+      "WebhookDelivery": {
+        "type": "object",
+        "properties": {
+          "eventId": {
+            "type": "string"
+          },
+          "endpointId": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "purchase_order.issued",
+              "purchase_order.changed",
+              "purchase_order.canceled",
+              "purchase_order.rejected",
+              "purchase_order.updated",
+              "invoice.received",
+              "invoice.approved",
+              "invoice.rejected",
+              "invoice.paid",
+              "invoice.payment_withdrawn",
+              "invoice.payment_failed",
+              "invoice.remittance_sent",
+              "invoice.credit_applied",
+              "invoice.updated",
+              "credit_note.received",
+              "credit_note.accepted",
+              "credit_note.rejected",
+              "ping"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "failed",
+              "delivered"
+            ]
+          },
+          "attempts": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "nextAttemptAt": {
+            "type": "string"
+          },
+          "lastAttemptAt": {
+            "type": "string"
+          },
+          "lastStatus": {
+            "type": "number"
+          },
+          "lastErrorCode": {
+            "type": "string",
+            "enum": [
+              "failed",
+              "http_status",
+              "blocked_address",
+              "unreachable",
+              "timeout",
+              "redirect",
+              "too_large",
+              "endpoint_off"
+            ]
+          },
+          "deliveredAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "eventId",
+          "endpointId",
+          "type",
+          "status",
+          "attempts",
+          "createdAt"
+        ]
+      },
       "BillingSummary": {
         "type": "object",
         "properties": {
@@ -17868,7 +21155,22 @@
             "type": "string",
             "enum": [
               "self-serve",
-              "platform"
+              "platform",
+              "aws-marketplace"
+            ]
+          },
+          "awsMarketplace": {
+            "type": "object",
+            "properties": {
+              "regionsCovered": {
+                "type": "number"
+              },
+              "endsAt": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "regionsCovered"
             ]
           },
           "hasBillingAccount": {
@@ -17877,11 +21179,11 @@
           "subscriptionStatus": {
             "type": "string",
             "enum": [
-              "canceled",
-              "trialing",
               "active",
-              "past_due",
+              "canceled",
               "unpaid",
+              "trialing",
+              "past_due",
               "incomplete",
               "incomplete_expired",
               "paused"
@@ -17897,6 +21199,9 @@
             "type": "string"
           },
           "buyerRegionCount": {
+            "type": "number"
+          },
+          "supplierRegionCount": {
             "type": "number"
           },
           "interval": {
@@ -18026,6 +21331,7 @@
             "enum": [
               "not_configured",
               "not_approved",
+              "bank_details_held",
               "payment_locked",
               "supplier_not_on_pleaxy",
               "supplier_not_connected",
@@ -18094,6 +21400,12 @@
               "$ref": "#/components/schemas/InvoiceBuyerView"
             }
           },
+          "serviceEntrySheets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceEntrySheetQueueItem"
+            }
+          },
           "needsAssignment": {
             "type": "object",
             "properties": {
@@ -18140,8 +21452,307 @@
         "required": [
           "purchaseOrders",
           "invoices",
+          "serviceEntrySheets",
           "needsAssignment",
           "decided"
+        ]
+      },
+      "ServiceEntrySheetQueueItem": {
+        "type": "object",
+        "properties": {
+          "receipt": {
+            "$ref": "#/components/schemas/Receipt"
+          },
+          "supplier": {
+            "type": "string"
+          },
+          "supplierOrgId": {
+            "type": "string"
+          },
+          "releases": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "invoiceNumber": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "number"
+                },
+                "currency": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "amount",
+                "currency"
+              ]
+            }
+          }
+        },
+        "required": [
+          "receipt",
+          "supplier",
+          "releases"
+        ]
+      },
+      "Receipt": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "poId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "service_entry_sheet",
+              "goods_receipt"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "rejected",
+              "pending_approval",
+              "reversed"
+            ]
+          },
+          "receivedAt": {
+            "type": "string"
+          },
+          "periodFrom": {
+            "type": "string"
+          },
+          "periodTo": {
+            "type": "string"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReceiptLine"
+            }
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "attachment": {
+            "$ref": "#/components/schemas/ReceiptAttachment"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "supplier",
+              "app",
+              "assistant",
+              "api",
+              "import"
+            ]
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "createdByName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "approvedBy": {
+            "type": "string"
+          },
+          "approvedByName": {
+            "type": "string"
+          },
+          "approvedAt": {
+            "type": "string"
+          },
+          "reversal": {
+            "type": "object",
+            "properties": {
+              "by": {
+                "type": "string"
+              },
+              "byName": {
+                "type": "string"
+              },
+              "at": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "by",
+              "byName",
+              "at",
+              "reason"
+            ]
+          },
+          "approval": {
+            "$ref": "#/components/schemas/ApprovalChain"
+          },
+          "approvalVersion": {
+            "type": "number"
+          },
+          "rejection": {
+            "type": "object",
+            "properties": {
+              "by": {
+                "type": "string"
+              },
+              "byName": {
+                "type": "string"
+              },
+              "at": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "by",
+              "byName",
+              "at",
+              "reason"
+            ]
+          },
+          "returns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReceiptReturn"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "poId",
+          "kind",
+          "status",
+          "receivedAt",
+          "lines",
+          "amount",
+          "currency",
+          "source",
+          "createdBy",
+          "createdByName",
+          "createdAt"
+        ]
+      },
+      "ReceiptLine": {
+        "type": "object",
+        "properties": {
+          "lineNo": {
+            "type": "number"
+          },
+          "qty": {
+            "type": "number"
+          },
+          "amount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "lineNo",
+          "amount"
+        ]
+      },
+      "ReceiptAttachment": {
+        "type": "object",
+        "properties": {
+          "fileId": {
+            "type": "string"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string",
+            "enum": [
+              "application/pdf",
+              "image/png",
+              "image/jpeg"
+            ]
+          },
+          "sizeBytes": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "fileId",
+          "fileName",
+          "contentType",
+          "sizeBytes"
+        ]
+      },
+      "ReceiptReturn": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReceiptLine"
+            }
+          },
+          "amount": {
+            "type": "number"
+          },
+          "returnedAt": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "want": {
+            "type": "string",
+            "enum": [
+              "none",
+              "credit_note",
+              "replacement"
+            ]
+          },
+          "attachment": {
+            "$ref": "#/components/schemas/ReceiptAttachment"
+          },
+          "by": {
+            "type": "string"
+          },
+          "byName": {
+            "type": "string"
+          },
+          "at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "lines",
+          "amount",
+          "returnedAt",
+          "reason",
+          "want",
+          "by",
+          "byName",
+          "at"
         ]
       },
       "ApiError": {

@@ -3,9 +3,17 @@ from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.purchase_order_supplier_view_matching import (
+    PurchaseOrderSupplierViewMatching,
+    check_purchase_order_supplier_view_matching,
+)
 from ..models.purchase_order_supplier_view_provider import (
     PurchaseOrderSupplierViewProvider,
     check_purchase_order_supplier_view_provider,
+)
+from ..models.purchase_order_supplier_view_receipt_state import (
+    PurchaseOrderSupplierViewReceiptState,
+    check_purchase_order_supplier_view_receipt_state,
 )
 from ..models.purchase_order_supplier_view_status import (
     PurchaseOrderSupplierViewStatus,
@@ -17,12 +25,19 @@ if TYPE_CHECKING:
     from ..models.line_item import LineItem
     from ..models.payer_account_ref import PayerAccountRef
     from ..models.purchase_order_bill_to import PurchaseOrderBillTo
+    from ..models.purchase_order_received_line import PurchaseOrderReceivedLine
     from ..models.purchase_order_ship_to import PurchaseOrderShipTo
     from ..models.purchase_order_supplier_view_prior_invoiced import (
         PurchaseOrderSupplierViewPriorInvoiced,
     )
     from ..models.purchase_order_supplier_view_quote_document import (
         PurchaseOrderSupplierViewQuoteDocument,
+    )
+    from ..models.purchase_order_supplier_view_receipt_tolerance import (
+        PurchaseOrderSupplierViewReceiptTolerance,
+    )
+    from ..models.purchase_order_supplier_view_sow_document import (
+        PurchaseOrderSupplierViewSowDocument,
     )
     from ..models.purchase_order_supplier_view_supplier_email import (
         PurchaseOrderSupplierViewSupplierEmail,
@@ -68,9 +83,17 @@ class PurchaseOrderSupplierView:
         delivery_address_id (Union[Unset, str]):
         ship_to (Union[Unset, PurchaseOrderShipTo]):
         store_order (Union[Unset, StoreOrder]):
+        matching (Union[Unset, PurchaseOrderSupplierViewMatching]):
+        received (Union[Unset, List['PurchaseOrderReceivedLine']]):
+        received_pending (Union[Unset, List['PurchaseOrderReceivedLine']]):
+        receipt_state (Union[Unset, PurchaseOrderSupplierViewReceiptState]):
+        receipt_required (Union[Unset, bool]):
+        ready_to_invoice (Union[Unset, float]):
+        receipt_tolerance (Union[Unset, PurchaseOrderSupplierViewReceiptTolerance]):
         approval (Union[Unset, SupplierApprovalView]):
         prior_invoiced (Union[Unset, PurchaseOrderSupplierViewPriorInvoiced]):
         quote_document (Union[Unset, PurchaseOrderSupplierViewQuoteDocument]):
+        sow_document (Union[Unset, PurchaseOrderSupplierViewSowDocument]):
         buyer_workspace_id (Union[Unset, str]):
     """
 
@@ -104,9 +127,17 @@ class PurchaseOrderSupplierView:
     delivery_address_id: Union[Unset, str] = UNSET
     ship_to: Union[Unset, "PurchaseOrderShipTo"] = UNSET
     store_order: Union[Unset, "StoreOrder"] = UNSET
+    matching: Union[Unset, PurchaseOrderSupplierViewMatching] = UNSET
+    received: Union[Unset, List["PurchaseOrderReceivedLine"]] = UNSET
+    received_pending: Union[Unset, List["PurchaseOrderReceivedLine"]] = UNSET
+    receipt_state: Union[Unset, PurchaseOrderSupplierViewReceiptState] = UNSET
+    receipt_required: Union[Unset, bool] = UNSET
+    ready_to_invoice: Union[Unset, float] = UNSET
+    receipt_tolerance: Union[Unset, "PurchaseOrderSupplierViewReceiptTolerance"] = UNSET
     approval: Union[Unset, "SupplierApprovalView"] = UNSET
     prior_invoiced: Union[Unset, "PurchaseOrderSupplierViewPriorInvoiced"] = UNSET
     quote_document: Union[Unset, "PurchaseOrderSupplierViewQuoteDocument"] = UNSET
+    sow_document: Union[Unset, "PurchaseOrderSupplierViewSowDocument"] = UNSET
     buyer_workspace_id: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -195,6 +226,36 @@ class PurchaseOrderSupplierView:
         if not isinstance(self.store_order, Unset):
             store_order = self.store_order.to_dict()
 
+        matching: Union[Unset, str] = UNSET
+        if not isinstance(self.matching, Unset):
+            matching = self.matching
+
+        received: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.received, Unset):
+            received = []
+            for received_item_data in self.received:
+                received_item = received_item_data.to_dict()
+                received.append(received_item)
+
+        received_pending: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.received_pending, Unset):
+            received_pending = []
+            for received_pending_item_data in self.received_pending:
+                received_pending_item = received_pending_item_data.to_dict()
+                received_pending.append(received_pending_item)
+
+        receipt_state: Union[Unset, str] = UNSET
+        if not isinstance(self.receipt_state, Unset):
+            receipt_state = self.receipt_state
+
+        receipt_required = self.receipt_required
+
+        ready_to_invoice = self.ready_to_invoice
+
+        receipt_tolerance: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.receipt_tolerance, Unset):
+            receipt_tolerance = self.receipt_tolerance.to_dict()
+
         approval: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.approval, Unset):
             approval = self.approval.to_dict()
@@ -206,6 +267,10 @@ class PurchaseOrderSupplierView:
         quote_document: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.quote_document, Unset):
             quote_document = self.quote_document.to_dict()
+
+        sow_document: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.sow_document, Unset):
+            sow_document = self.sow_document.to_dict()
 
         buyer_workspace_id = self.buyer_workspace_id
 
@@ -274,12 +339,28 @@ class PurchaseOrderSupplierView:
             field_dict["shipTo"] = ship_to
         if store_order is not UNSET:
             field_dict["storeOrder"] = store_order
+        if matching is not UNSET:
+            field_dict["matching"] = matching
+        if received is not UNSET:
+            field_dict["received"] = received
+        if received_pending is not UNSET:
+            field_dict["receivedPending"] = received_pending
+        if receipt_state is not UNSET:
+            field_dict["receiptState"] = receipt_state
+        if receipt_required is not UNSET:
+            field_dict["receiptRequired"] = receipt_required
+        if ready_to_invoice is not UNSET:
+            field_dict["readyToInvoice"] = ready_to_invoice
+        if receipt_tolerance is not UNSET:
+            field_dict["receiptTolerance"] = receipt_tolerance
         if approval is not UNSET:
             field_dict["approval"] = approval
         if prior_invoiced is not UNSET:
             field_dict["priorInvoiced"] = prior_invoiced
         if quote_document is not UNSET:
             field_dict["quoteDocument"] = quote_document
+        if sow_document is not UNSET:
+            field_dict["sowDocument"] = sow_document
         if buyer_workspace_id is not UNSET:
             field_dict["buyerWorkspaceId"] = buyer_workspace_id
 
@@ -290,12 +371,19 @@ class PurchaseOrderSupplierView:
         from ..models.line_item import LineItem
         from ..models.payer_account_ref import PayerAccountRef
         from ..models.purchase_order_bill_to import PurchaseOrderBillTo
+        from ..models.purchase_order_received_line import PurchaseOrderReceivedLine
         from ..models.purchase_order_ship_to import PurchaseOrderShipTo
         from ..models.purchase_order_supplier_view_prior_invoiced import (
             PurchaseOrderSupplierViewPriorInvoiced,
         )
         from ..models.purchase_order_supplier_view_quote_document import (
             PurchaseOrderSupplierViewQuoteDocument,
+        )
+        from ..models.purchase_order_supplier_view_receipt_tolerance import (
+            PurchaseOrderSupplierViewReceiptTolerance,
+        )
+        from ..models.purchase_order_supplier_view_sow_document import (
+            PurchaseOrderSupplierViewSowDocument,
         )
         from ..models.purchase_order_supplier_view_supplier_email import (
             PurchaseOrderSupplierViewSupplierEmail,
@@ -406,6 +494,51 @@ class PurchaseOrderSupplierView:
         else:
             store_order = StoreOrder.from_dict(_store_order)
 
+        _matching = d.pop("matching", UNSET)
+        matching: Union[Unset, PurchaseOrderSupplierViewMatching]
+        if isinstance(_matching, Unset):
+            matching = UNSET
+        else:
+            matching = check_purchase_order_supplier_view_matching(_matching)
+
+        received = []
+        _received = d.pop("received", UNSET)
+        for received_item_data in _received or []:
+            received_item = PurchaseOrderReceivedLine.from_dict(received_item_data)
+
+            received.append(received_item)
+
+        received_pending = []
+        _received_pending = d.pop("receivedPending", UNSET)
+        for received_pending_item_data in _received_pending or []:
+            received_pending_item = PurchaseOrderReceivedLine.from_dict(
+                received_pending_item_data
+            )
+
+            received_pending.append(received_pending_item)
+
+        _receipt_state = d.pop("receiptState", UNSET)
+        receipt_state: Union[Unset, PurchaseOrderSupplierViewReceiptState]
+        if isinstance(_receipt_state, Unset):
+            receipt_state = UNSET
+        else:
+            receipt_state = check_purchase_order_supplier_view_receipt_state(
+                _receipt_state
+            )
+
+        receipt_required = d.pop("receiptRequired", UNSET)
+
+        ready_to_invoice = d.pop("readyToInvoice", UNSET)
+
+        _receipt_tolerance = d.pop("receiptTolerance", UNSET)
+        receipt_tolerance: Union[Unset, PurchaseOrderSupplierViewReceiptTolerance]
+        if isinstance(_receipt_tolerance, Unset):
+            receipt_tolerance = UNSET
+        else:
+            receipt_tolerance = PurchaseOrderSupplierViewReceiptTolerance.from_dict(
+                _receipt_tolerance
+            )
+
         _approval = d.pop("approval", UNSET)
         approval: Union[Unset, SupplierApprovalView]
         if isinstance(_approval, Unset):
@@ -430,6 +563,13 @@ class PurchaseOrderSupplierView:
             quote_document = PurchaseOrderSupplierViewQuoteDocument.from_dict(
                 _quote_document
             )
+
+        _sow_document = d.pop("sowDocument", UNSET)
+        sow_document: Union[Unset, PurchaseOrderSupplierViewSowDocument]
+        if isinstance(_sow_document, Unset):
+            sow_document = UNSET
+        else:
+            sow_document = PurchaseOrderSupplierViewSowDocument.from_dict(_sow_document)
 
         buyer_workspace_id = d.pop("buyerWorkspaceId", UNSET)
 
@@ -464,9 +604,17 @@ class PurchaseOrderSupplierView:
             delivery_address_id=delivery_address_id,
             ship_to=ship_to,
             store_order=store_order,
+            matching=matching,
+            received=received,
+            received_pending=received_pending,
+            receipt_state=receipt_state,
+            receipt_required=receipt_required,
+            ready_to_invoice=ready_to_invoice,
+            receipt_tolerance=receipt_tolerance,
             approval=approval,
             prior_invoiced=prior_invoiced,
             quote_document=quote_document,
+            sow_document=sow_document,
             buyer_workspace_id=buyer_workspace_id,
         )
 

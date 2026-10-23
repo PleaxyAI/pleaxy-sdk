@@ -69,6 +69,11 @@ pub struct GetOrgProfileResult {
     pub primary_contact_email: Option<String>,
     #[serde(rename = "createdAt", skip_serializing_if = "Option::is_none")]
     pub created_at: Option<String>,
+    #[serde(
+        rename = "sameDomainAcknowledged",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub same_domain_acknowledged: Option<models::SameDomainAcknowledgement>,
     #[serde(rename = "verified", skip_serializing_if = "Option::is_none")]
     pub verified: Option<bool>,
     #[serde(rename = "listedInDirectory", skip_serializing_if = "Option::is_none")]
@@ -102,6 +107,7 @@ impl GetOrgProfileResult {
             primary_contact_name: None,
             primary_contact_email: None,
             created_at: None,
+            same_domain_acknowledged: None,
             verified: None,
             listed_in_directory: None,
             directory_id: None,

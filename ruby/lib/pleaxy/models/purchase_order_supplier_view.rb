@@ -75,11 +75,27 @@ module Pleaxy
 
     attr_accessor :store_order
 
+    attr_accessor :matching
+
+    attr_accessor :received
+
+    attr_accessor :received_pending
+
+    attr_accessor :receipt_state
+
+    attr_accessor :receipt_required
+
+    attr_accessor :ready_to_invoice
+
+    attr_accessor :receipt_tolerance
+
     attr_accessor :approval
 
     attr_accessor :prior_invoiced
 
     attr_accessor :quote_document
+
+    attr_accessor :sow_document
 
     attr_accessor :buyer_workspace_id
 
@@ -138,9 +154,17 @@ module Pleaxy
         :'delivery_address_id' => :'deliveryAddressId',
         :'ship_to' => :'shipTo',
         :'store_order' => :'storeOrder',
+        :'matching' => :'matching',
+        :'received' => :'received',
+        :'received_pending' => :'receivedPending',
+        :'receipt_state' => :'receiptState',
+        :'receipt_required' => :'receiptRequired',
+        :'ready_to_invoice' => :'readyToInvoice',
+        :'receipt_tolerance' => :'receiptTolerance',
         :'approval' => :'approval',
         :'prior_invoiced' => :'priorInvoiced',
         :'quote_document' => :'quoteDocument',
+        :'sow_document' => :'sowDocument',
         :'buyer_workspace_id' => :'buyerWorkspaceId'
       }
     end
@@ -183,9 +207,17 @@ module Pleaxy
         :'delivery_address_id' => :'String',
         :'ship_to' => :'PurchaseOrderShipTo',
         :'store_order' => :'StoreOrder',
+        :'matching' => :'String',
+        :'received' => :'Array<PurchaseOrderReceivedLine>',
+        :'received_pending' => :'Array<PurchaseOrderReceivedLine>',
+        :'receipt_state' => :'String',
+        :'receipt_required' => :'Boolean',
+        :'ready_to_invoice' => :'Float',
+        :'receipt_tolerance' => :'PurchaseOrderReceiptTolerance',
         :'approval' => :'SupplierApprovalView',
         :'prior_invoiced' => :'PurchaseOrderSupplierViewPriorInvoiced',
         :'quote_document' => :'PurchaseOrderSupplierViewQuoteDocument',
+        :'sow_document' => :'PurchaseOrderSupplierViewQuoteDocument',
         :'buyer_workspace_id' => :'String'
       }
     end
@@ -339,6 +371,38 @@ module Pleaxy
         self.store_order = attributes[:'store_order']
       end
 
+      if attributes.key?(:'matching')
+        self.matching = attributes[:'matching']
+      end
+
+      if attributes.key?(:'received')
+        if (value = attributes[:'received']).is_a?(Array)
+          self.received = value
+        end
+      end
+
+      if attributes.key?(:'received_pending')
+        if (value = attributes[:'received_pending']).is_a?(Array)
+          self.received_pending = value
+        end
+      end
+
+      if attributes.key?(:'receipt_state')
+        self.receipt_state = attributes[:'receipt_state']
+      end
+
+      if attributes.key?(:'receipt_required')
+        self.receipt_required = attributes[:'receipt_required']
+      end
+
+      if attributes.key?(:'ready_to_invoice')
+        self.ready_to_invoice = attributes[:'ready_to_invoice']
+      end
+
+      if attributes.key?(:'receipt_tolerance')
+        self.receipt_tolerance = attributes[:'receipt_tolerance']
+      end
+
       if attributes.key?(:'approval')
         self.approval = attributes[:'approval']
       end
@@ -349,6 +413,10 @@ module Pleaxy
 
       if attributes.key?(:'quote_document')
         self.quote_document = attributes[:'quote_document']
+      end
+
+      if attributes.key?(:'sow_document')
+        self.sow_document = attributes[:'sow_document']
       end
 
       if attributes.key?(:'buyer_workspace_id')
@@ -377,6 +445,10 @@ module Pleaxy
       return false if @id.nil?
       status_validator = EnumAttributeValidator.new('String', ["rejected", "paid", "pending_approval", "awaiting_fulfillment", "invoiced", "draft", "canceled", "closed", "expired"])
       return false unless status_validator.valid?(@status)
+      matching_validator = EnumAttributeValidator.new('String', ["two_way", "three_way"])
+      return false unless matching_validator.valid?(@matching)
+      receipt_state_validator = EnumAttributeValidator.new('String', ["none", "partial", "full"])
+      return false unless receipt_state_validator.valid?(@receipt_state)
       true
     end
 
@@ -398,6 +470,26 @@ module Pleaxy
         fail ArgumentError, "invalid value for \"status\", must be one of #{validator.allowable_values}."
       end
       @status = status
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] matching Object to be assigned
+    def matching=(matching)
+      validator = EnumAttributeValidator.new('String', ["two_way", "three_way"])
+      unless validator.valid?(matching)
+        fail ArgumentError, "invalid value for \"matching\", must be one of #{validator.allowable_values}."
+      end
+      @matching = matching
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] receipt_state Object to be assigned
+    def receipt_state=(receipt_state)
+      validator = EnumAttributeValidator.new('String', ["none", "partial", "full"])
+      unless validator.valid?(receipt_state)
+        fail ArgumentError, "invalid value for \"receipt_state\", must be one of #{validator.allowable_values}."
+      end
+      @receipt_state = receipt_state
     end
 
     # Checks equality by comparing each attribute.
@@ -435,9 +527,17 @@ module Pleaxy
           delivery_address_id == o.delivery_address_id &&
           ship_to == o.ship_to &&
           store_order == o.store_order &&
+          matching == o.matching &&
+          received == o.received &&
+          received_pending == o.received_pending &&
+          receipt_state == o.receipt_state &&
+          receipt_required == o.receipt_required &&
+          ready_to_invoice == o.ready_to_invoice &&
+          receipt_tolerance == o.receipt_tolerance &&
           approval == o.approval &&
           prior_invoiced == o.prior_invoiced &&
           quote_document == o.quote_document &&
+          sow_document == o.sow_document &&
           buyer_workspace_id == o.buyer_workspace_id
     end
 
@@ -450,7 +550,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier, provider, id, buyer_org_id, supplier_org_id, status, created_at, amount, currency, invoice_id, invoice_ids, invoiced_amount, rejected_invoice_count, last_rejected_invoice_id, last_replaced_invoice_id, payer_accounts, bill_to, bill_to_party, buyer_org_name, buyer_region_name, supplier_region_name, supplier_site, contract_id, supplier_email, line_items, version, store_id, delivery_address_id, ship_to, store_order, approval, prior_invoiced, quote_document, buyer_workspace_id].hash
+      [supplier, provider, id, buyer_org_id, supplier_org_id, status, created_at, amount, currency, invoice_id, invoice_ids, invoiced_amount, rejected_invoice_count, last_rejected_invoice_id, last_replaced_invoice_id, payer_accounts, bill_to, bill_to_party, buyer_org_name, buyer_region_name, supplier_region_name, supplier_site, contract_id, supplier_email, line_items, version, store_id, delivery_address_id, ship_to, store_order, matching, received, received_pending, receipt_state, receipt_required, ready_to_invoice, receipt_tolerance, approval, prior_invoiced, quote_document, sow_document, buyer_workspace_id].hash
     end
 
     # Builds the object from hash

@@ -17,6 +17,8 @@ pub struct ApprovalQueue {
     pub purchase_orders: Option<Vec<models::PurchaseOrder>>,
     #[serde(rename = "invoices", skip_serializing_if = "Option::is_none")]
     pub invoices: Option<Vec<models::InvoiceBuyerView>>,
+    #[serde(rename = "serviceEntrySheets", skip_serializing_if = "Option::is_none")]
+    pub service_entry_sheets: Option<Vec<models::ServiceEntrySheetQueueItem>>,
     #[serde(rename = "needsAssignment", skip_serializing_if = "Option::is_none")]
     pub needs_assignment: Option<models::ApprovalQueueNeedsAssignment>,
     #[serde(rename = "decided", skip_serializing_if = "Option::is_none")]
@@ -28,6 +30,7 @@ impl ApprovalQueue {
         ApprovalQueue {
             purchase_orders: None,
             invoices: None,
+            service_entry_sheets: None,
             needs_assignment: None,
             decided: None,
         }

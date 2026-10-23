@@ -2,6 +2,7 @@ from typing import Literal, Set, cast
 
 StripePaymentStatusReason = Literal[
     "amount_too_small",
+    "bank_details_held",
     "not_approved",
     "not_configured",
     "payment_locked",
@@ -12,6 +13,7 @@ StripePaymentStatusReason = Literal[
 
 STRIPE_PAYMENT_STATUS_REASON_VALUES: Set[StripePaymentStatusReason] = {
     "amount_too_small",
+    "bank_details_held",
     "not_approved",
     "not_configured",
     "payment_locked",

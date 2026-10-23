@@ -253,16 +253,16 @@ impl Default for Reason {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum DocumentType {
-    #[serde(rename = "debit_note")]
-    DebitNote,
     #[serde(rename = "invoice")]
     Invoice,
+    #[serde(rename = "debit_note")]
+    DebitNote,
     #[serde(rename = "credit_note")]
     CreditNote,
 }
 
 impl Default for DocumentType {
     fn default() -> DocumentType {
-        Self::DebitNote
+        Self::Invoice
     }
 }

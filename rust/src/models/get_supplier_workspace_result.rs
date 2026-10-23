@@ -13,15 +13,24 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct GetSupplierWorkspaceResult {
+    #[serde(rename = "recentIncomingPOs", skip_serializing_if = "Option::is_none")]
+    pub recent_incoming_pos: Option<Vec<models::GetBuyerWorkspaceResultRecentPurchaseOrdersInner>>,
+    #[serde(
+        rename = "recentSupplierInvoices",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub recent_supplier_invoices: Option<Vec<models::GetBuyerWorkspaceResultRecentInvoicesInner>>,
     #[serde(rename = "incomingPOs", skip_serializing_if = "Option::is_none")]
-    pub incoming_pos: Option<Vec<models::GetBuyerWorkspaceResultPurchaseOrdersInner>>,
+    pub incoming_pos: Option<Vec<models::GetBuyerWorkspaceResultRecentPurchaseOrdersInner>>,
     #[serde(rename = "supplierInvoices", skip_serializing_if = "Option::is_none")]
-    pub supplier_invoices: Option<Vec<models::GetBuyerWorkspaceResultInvoicesInner>>,
+    pub supplier_invoices: Option<Vec<models::GetBuyerWorkspaceResultRecentInvoicesInner>>,
 }
 
 impl GetSupplierWorkspaceResult {
     pub fn new() -> GetSupplierWorkspaceResult {
         GetSupplierWorkspaceResult {
+            recent_incoming_pos: None,
+            recent_supplier_invoices: None,
             incoming_pos: None,
             supplier_invoices: None,
         }

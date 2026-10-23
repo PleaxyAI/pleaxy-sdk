@@ -43,6 +43,8 @@ pub enum Reason {
     NotConfigured,
     #[serde(rename = "not_approved")]
     NotApproved,
+    #[serde(rename = "bank_details_held")]
+    BankDetailsHeld,
     #[serde(rename = "payment_locked")]
     PaymentLocked,
     #[serde(rename = "supplier_not_on_pleaxy")]

@@ -13,6 +13,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PurchaseOrderSupplierViewQuoteDocument {
+    #[serde(rename = "documentType", skip_serializing_if = "Option::is_none")]
+    pub document_type: Option<DocumentType>,
     #[serde(rename = "importId", skip_serializing_if = "Option::is_none")]
     pub import_id: Option<String>,
     #[serde(rename = "fileName", skip_serializing_if = "Option::is_none")]
@@ -30,6 +32,7 @@ pub struct PurchaseOrderSupplierViewQuoteDocument {
 impl PurchaseOrderSupplierViewQuoteDocument {
     pub fn new() -> PurchaseOrderSupplierViewQuoteDocument {
         PurchaseOrderSupplierViewQuoteDocument {
+            document_type: None,
             import_id: None,
             file_name: None,
             content_type: None,
@@ -37,6 +40,30 @@ impl PurchaseOrderSupplierViewQuoteDocument {
             quote_number: None,
             valid_until: None,
         }
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum DocumentType {
+    #[serde(rename = "quote")]
+    Quote,
+    #[serde(rename = "order_form")]
+    OrderForm,
+    #[serde(rename = "proforma")]
+    Proforma,
+    #[serde(rename = "sow")]
+    Sow,
+    #[serde(rename = "contract")]
+    Contract,
+    #[serde(rename = "invoice")]
+    Invoice,
+    #[serde(rename = "other")]
+    Other,
+}
+
+impl Default for DocumentType {
+    fn default() -> DocumentType {
+        Self::Quote
     }
 }
 ///

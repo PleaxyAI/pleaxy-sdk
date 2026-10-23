@@ -20,8 +20,8 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.CloudConnection;
-import ai.pleaxy.model.GetBuyerWorkspaceResultInvoicesInner;
-import ai.pleaxy.model.GetBuyerWorkspaceResultPurchaseOrdersInner;
+import ai.pleaxy.model.GetBuyerWorkspaceResultRecentInvoicesInner;
+import ai.pleaxy.model.GetBuyerWorkspaceResultRecentPurchaseOrdersInner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,31 +38,129 @@ import ai.pleaxy.client.ApiClient;
  * GetBuyerWorkspaceResult
  */
 @JsonPropertyOrder({
+  GetBuyerWorkspaceResult.JSON_PROPERTY_VIEWER_IS_SOLE_INVOICE_REVIEWER,
+  GetBuyerWorkspaceResult.JSON_PROPERTY_RECENT_PURCHASE_ORDERS,
+  GetBuyerWorkspaceResult.JSON_PROPERTY_RECENT_INVOICES,
   GetBuyerWorkspaceResult.JSON_PROPERTY_CLOUD_CONNECTIONS,
   GetBuyerWorkspaceResult.JSON_PROPERTY_PURCHASE_ORDERS,
-  GetBuyerWorkspaceResult.JSON_PROPERTY_INVOICES,
-  GetBuyerWorkspaceResult.JSON_PROPERTY_VIEWER_IS_SOLE_INVOICE_REVIEWER
+  GetBuyerWorkspaceResult.JSON_PROPERTY_INVOICES
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class GetBuyerWorkspaceResult {
+  public static final String JSON_PROPERTY_VIEWER_IS_SOLE_INVOICE_REVIEWER = "viewerIsSoleInvoiceReviewer";
+  @javax.annotation.Nullable
+  private Boolean viewerIsSoleInvoiceReviewer;
+
+  public static final String JSON_PROPERTY_RECENT_PURCHASE_ORDERS = "recentPurchaseOrders";
+  @javax.annotation.Nullable
+  private List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> recentPurchaseOrders = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_RECENT_INVOICES = "recentInvoices";
+  @javax.annotation.Nullable
+  private List<GetBuyerWorkspaceResultRecentInvoicesInner> recentInvoices = new ArrayList<>();
+
   public static final String JSON_PROPERTY_CLOUD_CONNECTIONS = "cloudConnections";
   @javax.annotation.Nullable
   private List<CloudConnection> cloudConnections = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PURCHASE_ORDERS = "purchaseOrders";
   @javax.annotation.Nullable
-  private List<GetBuyerWorkspaceResultPurchaseOrdersInner> purchaseOrders = new ArrayList<>();
+  private List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> purchaseOrders = new ArrayList<>();
 
   public static final String JSON_PROPERTY_INVOICES = "invoices";
   @javax.annotation.Nullable
-  private List<GetBuyerWorkspaceResultInvoicesInner> invoices = new ArrayList<>();
-
-  public static final String JSON_PROPERTY_VIEWER_IS_SOLE_INVOICE_REVIEWER = "viewerIsSoleInvoiceReviewer";
-  @javax.annotation.Nullable
-  private Boolean viewerIsSoleInvoiceReviewer;
+  private List<GetBuyerWorkspaceResultRecentInvoicesInner> invoices = new ArrayList<>();
 
   public GetBuyerWorkspaceResult() { 
   }
+
+  public GetBuyerWorkspaceResult viewerIsSoleInvoiceReviewer(@javax.annotation.Nullable Boolean viewerIsSoleInvoiceReviewer) {
+    this.viewerIsSoleInvoiceReviewer = viewerIsSoleInvoiceReviewer;
+    return this;
+  }
+
+  /**
+   * Get viewerIsSoleInvoiceReviewer
+   * @return viewerIsSoleInvoiceReviewer
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_VIEWER_IS_SOLE_INVOICE_REVIEWER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getViewerIsSoleInvoiceReviewer() {
+    return viewerIsSoleInvoiceReviewer;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_VIEWER_IS_SOLE_INVOICE_REVIEWER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setViewerIsSoleInvoiceReviewer(@javax.annotation.Nullable Boolean viewerIsSoleInvoiceReviewer) {
+    this.viewerIsSoleInvoiceReviewer = viewerIsSoleInvoiceReviewer;
+  }
+
+
+  public GetBuyerWorkspaceResult recentPurchaseOrders(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> recentPurchaseOrders) {
+    this.recentPurchaseOrders = recentPurchaseOrders;
+    return this;
+  }
+
+  public GetBuyerWorkspaceResult addRecentPurchaseOrdersItem(GetBuyerWorkspaceResultRecentPurchaseOrdersInner recentPurchaseOrdersItem) {
+    if (this.recentPurchaseOrders == null) {
+      this.recentPurchaseOrders = new ArrayList<>();
+    }
+    this.recentPurchaseOrders.add(recentPurchaseOrdersItem);
+    return this;
+  }
+
+  /**
+   * Get recentPurchaseOrders
+   * @return recentPurchaseOrders
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECENT_PURCHASE_ORDERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> getRecentPurchaseOrders() {
+    return recentPurchaseOrders;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECENT_PURCHASE_ORDERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRecentPurchaseOrders(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> recentPurchaseOrders) {
+    this.recentPurchaseOrders = recentPurchaseOrders;
+  }
+
+
+  public GetBuyerWorkspaceResult recentInvoices(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentInvoicesInner> recentInvoices) {
+    this.recentInvoices = recentInvoices;
+    return this;
+  }
+
+  public GetBuyerWorkspaceResult addRecentInvoicesItem(GetBuyerWorkspaceResultRecentInvoicesInner recentInvoicesItem) {
+    if (this.recentInvoices == null) {
+      this.recentInvoices = new ArrayList<>();
+    }
+    this.recentInvoices.add(recentInvoicesItem);
+    return this;
+  }
+
+  /**
+   * Get recentInvoices
+   * @return recentInvoices
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECENT_INVOICES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<GetBuyerWorkspaceResultRecentInvoicesInner> getRecentInvoices() {
+    return recentInvoices;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECENT_INVOICES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRecentInvoices(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentInvoicesInner> recentInvoices) {
+    this.recentInvoices = recentInvoices;
+  }
+
 
   public GetBuyerWorkspaceResult cloudConnections(@javax.annotation.Nullable List<CloudConnection> cloudConnections) {
     this.cloudConnections = cloudConnections;
@@ -96,12 +194,12 @@ public class GetBuyerWorkspaceResult {
   }
 
 
-  public GetBuyerWorkspaceResult purchaseOrders(@javax.annotation.Nullable List<GetBuyerWorkspaceResultPurchaseOrdersInner> purchaseOrders) {
+  public GetBuyerWorkspaceResult purchaseOrders(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> purchaseOrders) {
     this.purchaseOrders = purchaseOrders;
     return this;
   }
 
-  public GetBuyerWorkspaceResult addPurchaseOrdersItem(GetBuyerWorkspaceResultPurchaseOrdersInner purchaseOrdersItem) {
+  public GetBuyerWorkspaceResult addPurchaseOrdersItem(GetBuyerWorkspaceResultRecentPurchaseOrdersInner purchaseOrdersItem) {
     if (this.purchaseOrders == null) {
       this.purchaseOrders = new ArrayList<>();
     }
@@ -116,24 +214,24 @@ public class GetBuyerWorkspaceResult {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PURCHASE_ORDERS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public List<GetBuyerWorkspaceResultPurchaseOrdersInner> getPurchaseOrders() {
+  public List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> getPurchaseOrders() {
     return purchaseOrders;
   }
 
 
   @JsonProperty(JSON_PROPERTY_PURCHASE_ORDERS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPurchaseOrders(@javax.annotation.Nullable List<GetBuyerWorkspaceResultPurchaseOrdersInner> purchaseOrders) {
+  public void setPurchaseOrders(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentPurchaseOrdersInner> purchaseOrders) {
     this.purchaseOrders = purchaseOrders;
   }
 
 
-  public GetBuyerWorkspaceResult invoices(@javax.annotation.Nullable List<GetBuyerWorkspaceResultInvoicesInner> invoices) {
+  public GetBuyerWorkspaceResult invoices(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentInvoicesInner> invoices) {
     this.invoices = invoices;
     return this;
   }
 
-  public GetBuyerWorkspaceResult addInvoicesItem(GetBuyerWorkspaceResultInvoicesInner invoicesItem) {
+  public GetBuyerWorkspaceResult addInvoicesItem(GetBuyerWorkspaceResultRecentInvoicesInner invoicesItem) {
     if (this.invoices == null) {
       this.invoices = new ArrayList<>();
     }
@@ -148,39 +246,15 @@ public class GetBuyerWorkspaceResult {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INVOICES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public List<GetBuyerWorkspaceResultInvoicesInner> getInvoices() {
+  public List<GetBuyerWorkspaceResultRecentInvoicesInner> getInvoices() {
     return invoices;
   }
 
 
   @JsonProperty(JSON_PROPERTY_INVOICES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setInvoices(@javax.annotation.Nullable List<GetBuyerWorkspaceResultInvoicesInner> invoices) {
+  public void setInvoices(@javax.annotation.Nullable List<GetBuyerWorkspaceResultRecentInvoicesInner> invoices) {
     this.invoices = invoices;
-  }
-
-
-  public GetBuyerWorkspaceResult viewerIsSoleInvoiceReviewer(@javax.annotation.Nullable Boolean viewerIsSoleInvoiceReviewer) {
-    this.viewerIsSoleInvoiceReviewer = viewerIsSoleInvoiceReviewer;
-    return this;
-  }
-
-  /**
-   * Get viewerIsSoleInvoiceReviewer
-   * @return viewerIsSoleInvoiceReviewer
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_VIEWER_IS_SOLE_INVOICE_REVIEWER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public Boolean getViewerIsSoleInvoiceReviewer() {
-    return viewerIsSoleInvoiceReviewer;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_VIEWER_IS_SOLE_INVOICE_REVIEWER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setViewerIsSoleInvoiceReviewer(@javax.annotation.Nullable Boolean viewerIsSoleInvoiceReviewer) {
-    this.viewerIsSoleInvoiceReviewer = viewerIsSoleInvoiceReviewer;
   }
 
 
@@ -196,25 +270,29 @@ public class GetBuyerWorkspaceResult {
       return false;
     }
     GetBuyerWorkspaceResult getBuyerWorkspaceResult = (GetBuyerWorkspaceResult) o;
-    return Objects.equals(this.cloudConnections, getBuyerWorkspaceResult.cloudConnections) &&
+    return Objects.equals(this.viewerIsSoleInvoiceReviewer, getBuyerWorkspaceResult.viewerIsSoleInvoiceReviewer) &&
+        Objects.equals(this.recentPurchaseOrders, getBuyerWorkspaceResult.recentPurchaseOrders) &&
+        Objects.equals(this.recentInvoices, getBuyerWorkspaceResult.recentInvoices) &&
+        Objects.equals(this.cloudConnections, getBuyerWorkspaceResult.cloudConnections) &&
         Objects.equals(this.purchaseOrders, getBuyerWorkspaceResult.purchaseOrders) &&
-        Objects.equals(this.invoices, getBuyerWorkspaceResult.invoices) &&
-        Objects.equals(this.viewerIsSoleInvoiceReviewer, getBuyerWorkspaceResult.viewerIsSoleInvoiceReviewer);
+        Objects.equals(this.invoices, getBuyerWorkspaceResult.invoices);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(cloudConnections, purchaseOrders, invoices, viewerIsSoleInvoiceReviewer);
+    return Objects.hash(viewerIsSoleInvoiceReviewer, recentPurchaseOrders, recentInvoices, cloudConnections, purchaseOrders, invoices);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class GetBuyerWorkspaceResult {\n");
+    sb.append("    viewerIsSoleInvoiceReviewer: ").append(toIndentedString(viewerIsSoleInvoiceReviewer)).append("\n");
+    sb.append("    recentPurchaseOrders: ").append(toIndentedString(recentPurchaseOrders)).append("\n");
+    sb.append("    recentInvoices: ").append(toIndentedString(recentInvoices)).append("\n");
     sb.append("    cloudConnections: ").append(toIndentedString(cloudConnections)).append("\n");
     sb.append("    purchaseOrders: ").append(toIndentedString(purchaseOrders)).append("\n");
     sb.append("    invoices: ").append(toIndentedString(invoices)).append("\n");
-    sb.append("    viewerIsSoleInvoiceReviewer: ").append(toIndentedString(viewerIsSoleInvoiceReviewer)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -262,6 +340,31 @@ public class GetBuyerWorkspaceResult {
 
     StringJoiner joiner = new StringJoiner("&");
 
+    // add `viewerIsSoleInvoiceReviewer` to the URL query string
+    if (getViewerIsSoleInvoiceReviewer() != null) {
+      joiner.add(String.format("%sviewerIsSoleInvoiceReviewer%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getViewerIsSoleInvoiceReviewer()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `recentPurchaseOrders` to the URL query string
+    if (getRecentPurchaseOrders() != null) {
+      for (int i = 0; i < getRecentPurchaseOrders().size(); i++) {
+        if (getRecentPurchaseOrders().get(i) != null) {
+          joiner.add(getRecentPurchaseOrders().get(i).toUrlQueryString(String.format("%srecentPurchaseOrders%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `recentInvoices` to the URL query string
+    if (getRecentInvoices() != null) {
+      for (int i = 0; i < getRecentInvoices().size(); i++) {
+        if (getRecentInvoices().get(i) != null) {
+          joiner.add(getRecentInvoices().get(i).toUrlQueryString(String.format("%srecentInvoices%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
     // add `cloudConnections` to the URL query string
     if (getCloudConnections() != null) {
       for (int i = 0; i < getCloudConnections().size(); i++) {
@@ -290,11 +393,6 @@ public class GetBuyerWorkspaceResult {
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
-    }
-
-    // add `viewerIsSoleInvoiceReviewer` to the URL query string
-    if (getViewerIsSoleInvoiceReviewer() != null) {
-      joiner.add(String.format("%sviewerIsSoleInvoiceReviewer%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getViewerIsSoleInvoiceReviewer()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

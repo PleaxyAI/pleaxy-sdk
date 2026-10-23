@@ -57,6 +57,14 @@ pub struct UpdatePurchaseOrderInput {
         skip_serializing_if = "Option::is_none"
     )]
     pub quote_import_id: Option<Option<String>>,
+    /// The quote import holding the statement of work this order is for; replaces the one attached, and `null` removes it. Bookkeeping, like `notes`.
+    #[serde(
+        rename = "sowImportId",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub sow_import_id: Option<Option<String>>,
 }
 
 impl UpdatePurchaseOrderInput {
@@ -73,6 +81,7 @@ impl UpdatePurchaseOrderInput {
             notes: None,
             contract_id: None,
             quote_import_id: None,
+            sow_import_id: None,
         }
     }
 }

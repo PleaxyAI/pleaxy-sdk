@@ -19,6 +19,8 @@ pub struct BillingSummary {
     pub plan: Option<Plan>,
     #[serde(rename = "managedBy", skip_serializing_if = "Option::is_none")]
     pub managed_by: Option<ManagedBy>,
+    #[serde(rename = "awsMarketplace", skip_serializing_if = "Option::is_none")]
+    pub aws_marketplace: Option<models::BillingSummaryAwsMarketplace>,
     #[serde(rename = "hasBillingAccount", skip_serializing_if = "Option::is_none")]
     pub has_billing_account: Option<bool>,
     #[serde(rename = "subscriptionStatus", skip_serializing_if = "Option::is_none")]
@@ -31,6 +33,11 @@ pub struct BillingSummary {
     pub past_due_since: Option<String>,
     #[serde(rename = "buyerRegionCount", skip_serializing_if = "Option::is_none")]
     pub buyer_region_count: Option<f64>,
+    #[serde(
+        rename = "supplierRegionCount",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub supplier_region_count: Option<f64>,
     #[serde(rename = "interval", skip_serializing_if = "Option::is_none")]
     pub interval: Option<Interval>,
     #[serde(rename = "availablePlans", skip_serializing_if = "Option::is_none")]
@@ -51,12 +58,14 @@ impl BillingSummary {
             billing_enabled: None,
             plan: None,
             managed_by: None,
+            aws_marketplace: None,
             has_billing_account: None,
             subscription_status: None,
             current_period_end: None,
             cancel_at_period_end: None,
             past_due_since: None,
             buyer_region_count: None,
+            supplier_region_count: None,
             interval: None,
             available_plans: None,
             current_price_label: None,
@@ -97,6 +106,8 @@ pub enum ManagedBy {
     SelfServe,
     #[serde(rename = "platform")]
     Platform,
+    #[serde(rename = "aws-marketplace")]
+    AwsMarketplace,
 }
 
 impl Default for ManagedBy {
@@ -107,16 +118,16 @@ impl Default for ManagedBy {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum SubscriptionStatus {
-    #[serde(rename = "canceled")]
-    Canceled,
-    #[serde(rename = "trialing")]
-    Trialing,
     #[serde(rename = "active")]
     Active,
-    #[serde(rename = "past_due")]
-    PastDue,
+    #[serde(rename = "canceled")]
+    Canceled,
     #[serde(rename = "unpaid")]
     Unpaid,
+    #[serde(rename = "trialing")]
+    Trialing,
+    #[serde(rename = "past_due")]
+    PastDue,
     #[serde(rename = "incomplete")]
     Incomplete,
     #[serde(rename = "incomplete_expired")]
@@ -127,7 +138,7 @@ pub enum SubscriptionStatus {
 
 impl Default for SubscriptionStatus {
     fn default() -> SubscriptionStatus {
-        Self::Canceled
+        Self::Active
     }
 }
 ///
