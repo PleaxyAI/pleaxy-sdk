@@ -9,7 +9,9 @@ echo "== typescript"
 (cd typescript && npm ci --silent && npm run -s generate)
 
 echo "== python"
-(cd python && pip install -q -r requirements-generate.txt && ./scripts/generate.sh)
+# The generator runs ruff on its output, so it gets the pinned ruff in its own venv (python/.venv, gitignored):
+# a newer ruff first on PATH rewrites or rejects the generated code.
+(cd python && { [ -x .venv/bin/python ] || python3 -m venv .venv; } && .venv/bin/pip install -q -r requirements-generate.txt && PATH="$PWD/.venv/bin:$PATH" ./scripts/generate.sh)
 
 echo "== go"
 (cd go && go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@v2.4.1 -config oapi-codegen.yaml ../openapi/pleaxy.json && node scripts/generate-operations.mjs && gofmt -w .)

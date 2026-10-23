@@ -16,7 +16,8 @@ echo "== java"
 (cd java && mvn -q -B verify)
 
 echo "== ruby"
-(cd ruby && bundle install --quiet && bundle exec rake)
+# Gem.bin_path finds rake whether or not the Ruby install's bin directory is on PATH.
+(cd ruby && bundle install --quiet && bundle exec ruby -e 'load Gem.bin_path("rake", "rake")')
 
 echo "== rust"
 (cd rust && cargo fmt --check && cargo test && cargo build --examples)
