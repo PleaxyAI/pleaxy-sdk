@@ -23,6 +23,8 @@ pub struct RemittanceView {
     pub purchase_order_id: Option<String>,
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<Status>,
+    #[serde(rename = "failedAt", skip_serializing_if = "Option::is_none")]
+    pub failed_at: Option<String>,
     #[serde(rename = "paid", skip_serializing_if = "Option::is_none")]
     pub paid: Option<bool>,
     #[serde(rename = "paidAt", skip_serializing_if = "Option::is_none")]
@@ -43,6 +45,7 @@ impl RemittanceView {
             buyer_workspace_id: None,
             purchase_order_id: None,
             status: None,
+            failed_at: None,
             paid: None,
             paid_at: None,
             amount_due: None,
@@ -54,6 +57,8 @@ impl RemittanceView {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Status {
+    #[serde(rename = "failed")]
+    Failed,
     #[serde(rename = "recorded")]
     Recorded,
     #[serde(rename = "processing")]
@@ -68,6 +73,6 @@ pub enum Status {
 
 impl Default for Status {
     fn default() -> Status {
-        Self::Recorded
+        Self::Failed
     }
 }

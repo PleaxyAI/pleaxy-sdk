@@ -564,6 +564,22 @@ impl<'a> ExchangeRates<'a> {
 pub struct Fulfillment<'a>(&'a Client);
 
 impl<'a> Fulfillment<'a> {
+    pub async fn apply_confirmation_changes(
+        &self,
+        po_id: &str,
+        confirmation_id: &str,
+    ) -> Result<
+        crate::models::ApplyConfirmationChangesResult,
+        crate::apis::Error<crate::apis::fulfillment_api::ApplyConfirmationChangesError>,
+    > {
+        crate::apis::fulfillment_api::apply_confirmation_changes(
+            &self.0.config,
+            po_id,
+            confirmation_id,
+        )
+        .await
+    }
+
     pub async fn confirm_purchase_order(
         &self,
         po_id: &str,
@@ -578,6 +594,24 @@ impl<'a> Fulfillment<'a> {
             po_id,
             create_order_confirmation_input,
             buyer,
+        )
+        .await
+    }
+
+    pub async fn decline_confirmation_changes(
+        &self,
+        po_id: &str,
+        confirmation_id: &str,
+        decline_confirmation_changes_input: crate::models::DeclineConfirmationChangesInput,
+    ) -> Result<
+        crate::models::OrderConfirmation,
+        crate::apis::Error<crate::apis::fulfillment_api::DeclineConfirmationChangesError>,
+    > {
+        crate::apis::fulfillment_api::decline_confirmation_changes(
+            &self.0.config,
+            po_id,
+            confirmation_id,
+            decline_confirmation_changes_input,
         )
         .await
     }

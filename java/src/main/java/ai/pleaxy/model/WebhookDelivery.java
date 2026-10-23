@@ -83,7 +83,7 @@ public class WebhookDelivery {
     
     INVOICE_PAYMENT_WITHDRAWN(String.valueOf("invoice.payment_withdrawn")),
     
-    INVOICE_PAYMENT_FAILED(String.valueOf("invoice.payment_failed")),
+    INVOICE_PAYMENT(String.valueOf("invoice.payment")),
     
     INVOICE_REMITTANCE_SENT(String.valueOf("invoice.remittance_sent")),
     

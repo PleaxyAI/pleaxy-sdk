@@ -176,7 +176,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      type_validator = EnumAttributeValidator.new('String', ["purchase_order.issued", "purchase_order.changed", "purchase_order.canceled", "purchase_order.rejected", "purchase_order.updated", "purchase_order.confirmed", "purchase_order.shipped", "invoice.received", "invoice.approved", "invoice.rejected", "invoice.paid", "invoice.payment_withdrawn", "invoice.payment_failed", "invoice.remittance_sent", "invoice.credit_applied", "invoice.updated", "credit_note.received", "credit_note.accepted", "credit_note.rejected", "ping"])
+      type_validator = EnumAttributeValidator.new('String', ["purchase_order.issued", "purchase_order.changed", "purchase_order.canceled", "purchase_order.rejected", "purchase_order.updated", "purchase_order.confirmed", "purchase_order.shipped", "invoice.received", "invoice.approved", "invoice.rejected", "invoice.paid", "invoice.payment_withdrawn", "invoice.payment", "invoice.remittance_sent", "invoice.credit_applied", "invoice.updated", "credit_note.received", "credit_note.accepted", "credit_note.rejected", "ping"])
       return false unless type_validator.valid?(@type)
       status_validator = EnumAttributeValidator.new('String', ["pending", "failed", "delivered"])
       return false unless status_validator.valid?(@status)
@@ -188,7 +188,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] type Object to be assigned
     def type=(type)
-      validator = EnumAttributeValidator.new('String', ["purchase_order.issued", "purchase_order.changed", "purchase_order.canceled", "purchase_order.rejected", "purchase_order.updated", "purchase_order.confirmed", "purchase_order.shipped", "invoice.received", "invoice.approved", "invoice.rejected", "invoice.paid", "invoice.payment_withdrawn", "invoice.payment_failed", "invoice.remittance_sent", "invoice.credit_applied", "invoice.updated", "credit_note.received", "credit_note.accepted", "credit_note.rejected", "ping"])
+      validator = EnumAttributeValidator.new('String', ["purchase_order.issued", "purchase_order.changed", "purchase_order.canceled", "purchase_order.rejected", "purchase_order.updated", "purchase_order.confirmed", "purchase_order.shipped", "invoice.received", "invoice.approved", "invoice.rejected", "invoice.paid", "invoice.payment_withdrawn", "invoice.payment", "invoice.remittance_sent", "invoice.credit_applied", "invoice.updated", "credit_note.received", "credit_note.accepted", "credit_note.rejected", "ping"])
       unless validator.valid?(type)
         fail ArgumentError, "invalid value for \"type\", must be one of #{validator.allowable_values}."
       end

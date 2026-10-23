@@ -25,6 +25,8 @@ module Pleaxy
 
     attr_accessor :status
 
+    attr_accessor :failed_at
+
     attr_accessor :paid
 
     attr_accessor :paid_at
@@ -65,6 +67,7 @@ module Pleaxy
         :'buyer_workspace_id' => :'buyerWorkspaceId',
         :'purchase_order_id' => :'purchaseOrderId',
         :'status' => :'status',
+        :'failed_at' => :'failedAt',
         :'paid' => :'paid',
         :'paid_at' => :'paidAt',
         :'amount_due' => :'amountDue',
@@ -86,6 +89,7 @@ module Pleaxy
         :'buyer_workspace_id' => :'String',
         :'purchase_order_id' => :'String',
         :'status' => :'String',
+        :'failed_at' => :'String',
         :'paid' => :'Boolean',
         :'paid_at' => :'String',
         :'amount_due' => :'RemittanceViewAmountDue',
@@ -135,6 +139,10 @@ module Pleaxy
         self.status = attributes[:'status']
       end
 
+      if attributes.key?(:'failed_at')
+        self.failed_at = attributes[:'failed_at']
+      end
+
       if attributes.key?(:'paid')
         self.paid = attributes[:'paid']
       end
@@ -170,7 +178,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      status_validator = EnumAttributeValidator.new('String', ["recorded", "processing", "unpaid", "paid_through_pleaxy", "withdrawn"])
+      status_validator = EnumAttributeValidator.new('String', ["failed", "recorded", "processing", "unpaid", "paid_through_pleaxy", "withdrawn"])
       return false unless status_validator.valid?(@status)
       true
     end
@@ -178,7 +186,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] status Object to be assigned
     def status=(status)
-      validator = EnumAttributeValidator.new('String', ["recorded", "processing", "unpaid", "paid_through_pleaxy", "withdrawn"])
+      validator = EnumAttributeValidator.new('String', ["failed", "recorded", "processing", "unpaid", "paid_through_pleaxy", "withdrawn"])
       unless validator.valid?(status)
         fail ArgumentError, "invalid value for \"status\", must be one of #{validator.allowable_values}."
       end
@@ -195,6 +203,7 @@ module Pleaxy
           buyer_workspace_id == o.buyer_workspace_id &&
           purchase_order_id == o.purchase_order_id &&
           status == o.status &&
+          failed_at == o.failed_at &&
           paid == o.paid &&
           paid_at == o.paid_at &&
           amount_due == o.amount_due &&
@@ -211,7 +220,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [invoice_id, invoice_number, buyer_workspace_id, purchase_order_id, status, paid, paid_at, amount_due, payment, remittances].hash
+      [invoice_id, invoice_number, buyer_workspace_id, purchase_order_id, status, failed_at, paid, paid_at, amount_due, payment, remittances].hash
     end
 
     # Builds the object from hash

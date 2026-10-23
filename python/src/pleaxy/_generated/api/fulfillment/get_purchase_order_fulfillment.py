@@ -63,8 +63,9 @@ def sync_detailed(
 ) -> Response[PurchaseOrderFulfillment]:
     """[Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices,
     shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome
-    accepted|backordered|partial|rejected, lines with status accept|backordered|reject, qty, dates and
-    reason); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber,
+    accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject,
+    qty, unitPrice, dates and reason, and the buyer's decision on a changed one: applied or declined);
+    shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber,
     trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A
     ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same
     ?buyer= as GetPurchaseOrder.
@@ -101,8 +102,9 @@ def sync(
 ) -> Optional[PurchaseOrderFulfillment]:
     """[Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices,
     shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome
-    accepted|backordered|partial|rejected, lines with status accept|backordered|reject, qty, dates and
-    reason); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber,
+    accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject,
+    qty, unitPrice, dates and reason, and the buyer's decision on a changed one: applied or declined);
+    shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber,
     trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A
     ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same
     ?buyer= as GetPurchaseOrder.
@@ -134,8 +136,9 @@ async def asyncio_detailed(
 ) -> Response[PurchaseOrderFulfillment]:
     """[Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices,
     shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome
-    accepted|backordered|partial|rejected, lines with status accept|backordered|reject, qty, dates and
-    reason); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber,
+    accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject,
+    qty, unitPrice, dates and reason, and the buyer's decision on a changed one: applied or declined);
+    shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber,
     trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A
     ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same
     ?buyer= as GetPurchaseOrder.
@@ -170,8 +173,9 @@ async def asyncio(
 ) -> Optional[PurchaseOrderFulfillment]:
     """[Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices,
     shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome
-    accepted|backordered|partial|rejected, lines with status accept|backordered|reject, qty, dates and
-    reason); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber,
+    accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject,
+    qty, unitPrice, dates and reason, and the buyer's decision on a changed one: applied or declined);
+    shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber,
     trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A
     ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same
     ?buyer= as GetPurchaseOrder.

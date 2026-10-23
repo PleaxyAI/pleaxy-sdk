@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.OrderConfirmationDecision;
 import ai.pleaxy.model.OrderConfirmationLine;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -45,7 +46,8 @@ import ai.pleaxy.client.ApiClient;
   OrderConfirmation.JSON_PROPERTY_NOTE,
   OrderConfirmation.JSON_PROPERTY_LINES,
   OrderConfirmation.JSON_PROPERTY_SOURCE,
-  OrderConfirmation.JSON_PROPERTY_CREATED_AT
+  OrderConfirmation.JSON_PROPERTY_CREATED_AT,
+  OrderConfirmation.JSON_PROPERTY_DECISION
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class OrderConfirmation {
@@ -67,7 +69,9 @@ public class OrderConfirmation {
     
     PARTIAL(String.valueOf("partial")),
     
-    BACKORDERED(String.valueOf("backordered"));
+    BACKORDERED(String.valueOf("backordered")),
+    
+    CHANGED(String.valueOf("changed"));
 
     private String value;
 
@@ -199,6 +203,10 @@ public class OrderConfirmation {
   public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nullable
   private String createdAt;
+
+  public static final String JSON_PROPERTY_DECISION = "decision";
+  @javax.annotation.Nullable
+  private OrderConfirmationDecision decision;
 
   public OrderConfirmation() { 
   }
@@ -451,6 +459,30 @@ public class OrderConfirmation {
   }
 
 
+  public OrderConfirmation decision(@javax.annotation.Nullable OrderConfirmationDecision decision) {
+    this.decision = decision;
+    return this;
+  }
+
+  /**
+   * Get decision
+   * @return decision
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DECISION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public OrderConfirmationDecision getDecision() {
+    return decision;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DECISION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDecision(@javax.annotation.Nullable OrderConfirmationDecision decision) {
+    this.decision = decision;
+  }
+
+
   /**
    * Return true if this OrderConfirmation object is equal to o.
    */
@@ -472,12 +504,13 @@ public class OrderConfirmation {
         Objects.equals(this.note, orderConfirmation.note) &&
         Objects.equals(this.lines, orderConfirmation.lines) &&
         Objects.equals(this.source, orderConfirmation.source) &&
-        Objects.equals(this.createdAt, orderConfirmation.createdAt);
+        Objects.equals(this.createdAt, orderConfirmation.createdAt) &&
+        Objects.equals(this.decision, orderConfirmation.decision);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, poId, outcome, confirmId, operation, deliveryDate, note, lines, source, createdAt);
+    return Objects.hash(id, poId, outcome, confirmId, operation, deliveryDate, note, lines, source, createdAt, decision);
   }
 
   @Override
@@ -494,6 +527,7 @@ public class OrderConfirmation {
     sb.append("    lines: ").append(toIndentedString(lines)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    decision: ").append(toIndentedString(decision)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -594,6 +628,11 @@ public class OrderConfirmation {
     // add `createdAt` to the URL query string
     if (getCreatedAt() != null) {
       joiner.add(String.format("%screatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `decision` to the URL query string
+    if (getDecision() != null) {
+      joiner.add(getDecision().toUrlQueryString(prefix + "decision" + suffix));
     }
 
     return joiner.toString();

@@ -961,7 +961,7 @@ const (
 	CreateWebhookResultEventsInvoiceApproved         CreateWebhookResultEvents = "invoice.approved"
 	CreateWebhookResultEventsInvoiceCreditApplied    CreateWebhookResultEvents = "invoice.credit_applied"
 	CreateWebhookResultEventsInvoicePaid             CreateWebhookResultEvents = "invoice.paid"
-	CreateWebhookResultEventsInvoicePaymentFailed    CreateWebhookResultEvents = "invoice.payment_failed"
+	CreateWebhookResultEventsInvoicePayment          CreateWebhookResultEvents = "invoice.payment"
 	CreateWebhookResultEventsInvoicePaymentWithdrawn CreateWebhookResultEvents = "invoice.payment_withdrawn"
 	CreateWebhookResultEventsInvoiceReceived         CreateWebhookResultEvents = "invoice.received"
 	CreateWebhookResultEventsInvoiceRejected         CreateWebhookResultEvents = "invoice.rejected"
@@ -2317,7 +2317,7 @@ const (
 	ListWebhooksResultEventTypesInvoiceApproved         ListWebhooksResultEventTypes = "invoice.approved"
 	ListWebhooksResultEventTypesInvoiceCreditApplied    ListWebhooksResultEventTypes = "invoice.credit_applied"
 	ListWebhooksResultEventTypesInvoicePaid             ListWebhooksResultEventTypes = "invoice.paid"
-	ListWebhooksResultEventTypesInvoicePaymentFailed    ListWebhooksResultEventTypes = "invoice.payment_failed"
+	ListWebhooksResultEventTypesInvoicePayment          ListWebhooksResultEventTypes = "invoice.payment"
 	ListWebhooksResultEventTypesInvoicePaymentWithdrawn ListWebhooksResultEventTypes = "invoice.payment_withdrawn"
 	ListWebhooksResultEventTypesInvoiceReceived         ListWebhooksResultEventTypes = "invoice.received"
 	ListWebhooksResultEventTypesInvoiceRejected         ListWebhooksResultEventTypes = "invoice.rejected"
@@ -2383,6 +2383,7 @@ const (
 	NotificationTypePoApproved                       NotificationType = "po_approved"
 	NotificationTypePoCanceled                       NotificationType = "po_canceled"
 	NotificationTypePoChanged                        NotificationType = "po_changed"
+	NotificationTypePoChangesDeclined                NotificationType = "po_changes_declined"
 	NotificationTypePoComment                        NotificationType = "po_comment"
 	NotificationTypePoLineDue                        NotificationType = "po_line_due"
 	NotificationTypePoLineDueAsked                   NotificationType = "po_line_due_asked"
@@ -2427,6 +2428,7 @@ const (
 const (
 	OrderConfirmationOutcomeAccepted    OrderConfirmationOutcome = "accepted"
 	OrderConfirmationOutcomeBackordered OrderConfirmationOutcome = "backordered"
+	OrderConfirmationOutcomeChanged     OrderConfirmationOutcome = "changed"
 	OrderConfirmationOutcomePartial     OrderConfirmationOutcome = "partial"
 	OrderConfirmationOutcomeRejected    OrderConfirmationOutcome = "rejected"
 )
@@ -2438,10 +2440,17 @@ const (
 	OrderConfirmationSourcePortal OrderConfirmationSource = "portal"
 )
 
+// Defines values for OrderConfirmationDecisionDecision.
+const (
+	OrderConfirmationDecisionDecisionApplied  OrderConfirmationDecisionDecision = "applied"
+	OrderConfirmationDecisionDecisionDeclined OrderConfirmationDecisionDecision = "declined"
+)
+
 // Defines values for OrderConfirmationLineStatus.
 const (
 	OrderConfirmationLineStatusAccept      OrderConfirmationLineStatus = "accept"
 	OrderConfirmationLineStatusBackordered OrderConfirmationLineStatus = "backordered"
+	OrderConfirmationLineStatusChange      OrderConfirmationLineStatus = "change"
 	OrderConfirmationLineStatusReject      OrderConfirmationLineStatus = "reject"
 )
 
@@ -2449,6 +2458,7 @@ const (
 const (
 	OrderConfirmationLineInputStatusAccept      OrderConfirmationLineInputStatus = "accept"
 	OrderConfirmationLineInputStatusBackordered OrderConfirmationLineInputStatus = "backordered"
+	OrderConfirmationLineInputStatusChange      OrderConfirmationLineInputStatus = "change"
 	OrderConfirmationLineInputStatusReject      OrderConfirmationLineInputStatus = "reject"
 )
 
@@ -2940,6 +2950,7 @@ const (
 
 // Defines values for RemittanceViewStatus.
 const (
+	RemittanceViewStatusFailed            RemittanceViewStatus = "failed"
 	RemittanceViewStatusPaidThroughPleaxy RemittanceViewStatus = "paid_through_pleaxy"
 	RemittanceViewStatusProcessing        RemittanceViewStatus = "processing"
 	RemittanceViewStatusRecorded          RemittanceViewStatus = "recorded"
@@ -3042,7 +3053,7 @@ const (
 	RotateWebhookSecretResultEventsInvoiceApproved         RotateWebhookSecretResultEvents = "invoice.approved"
 	RotateWebhookSecretResultEventsInvoiceCreditApplied    RotateWebhookSecretResultEvents = "invoice.credit_applied"
 	RotateWebhookSecretResultEventsInvoicePaid             RotateWebhookSecretResultEvents = "invoice.paid"
-	RotateWebhookSecretResultEventsInvoicePaymentFailed    RotateWebhookSecretResultEvents = "invoice.payment_failed"
+	RotateWebhookSecretResultEventsInvoicePayment          RotateWebhookSecretResultEvents = "invoice.payment"
 	RotateWebhookSecretResultEventsInvoicePaymentWithdrawn RotateWebhookSecretResultEvents = "invoice.payment_withdrawn"
 	RotateWebhookSecretResultEventsInvoiceReceived         RotateWebhookSecretResultEvents = "invoice.received"
 	RotateWebhookSecretResultEventsInvoiceRejected         RotateWebhookSecretResultEvents = "invoice.rejected"
@@ -3358,10 +3369,10 @@ const (
 
 // Defines values for SupplierCreditNoteViewStatus.
 const (
-	SupplierCreditNoteViewStatusAccepted          SupplierCreditNoteViewStatus = "accepted"
-	SupplierCreditNoteViewStatusPendingAcceptance SupplierCreditNoteViewStatus = "pending_acceptance"
-	SupplierCreditNoteViewStatusRejected          SupplierCreditNoteViewStatus = "rejected"
-	SupplierCreditNoteViewStatusVoid              SupplierCreditNoteViewStatus = "void"
+	Accepted          SupplierCreditNoteViewStatus = "accepted"
+	PendingAcceptance SupplierCreditNoteViewStatus = "pending_acceptance"
+	Rejected          SupplierCreditNoteViewStatus = "rejected"
+	Void              SupplierCreditNoteViewStatus = "void"
 )
 
 // Defines values for SupplierCreditNoteViewSubmittedFormat.
@@ -3393,7 +3404,7 @@ const (
 	SyncEventTypeInvoiceApproved         SyncEventType = "invoice.approved"
 	SyncEventTypeInvoiceCreditApplied    SyncEventType = "invoice.credit_applied"
 	SyncEventTypeInvoicePaid             SyncEventType = "invoice.paid"
-	SyncEventTypeInvoicePaymentFailed    SyncEventType = "invoice.payment_failed"
+	SyncEventTypeInvoicePayment          SyncEventType = "invoice.payment"
 	SyncEventTypeInvoicePaymentWithdrawn SyncEventType = "invoice.payment_withdrawn"
 	SyncEventTypeInvoiceReceived         SyncEventType = "invoice.received"
 	SyncEventTypeInvoiceRejected         SyncEventType = "invoice.rejected"
@@ -3498,7 +3509,7 @@ const (
 	WebhookDeliveryTypeInvoiceApproved         WebhookDeliveryType = "invoice.approved"
 	WebhookDeliveryTypeInvoiceCreditApplied    WebhookDeliveryType = "invoice.credit_applied"
 	WebhookDeliveryTypeInvoicePaid             WebhookDeliveryType = "invoice.paid"
-	WebhookDeliveryTypeInvoicePaymentFailed    WebhookDeliveryType = "invoice.payment_failed"
+	WebhookDeliveryTypeInvoicePayment          WebhookDeliveryType = "invoice.payment"
 	WebhookDeliveryTypeInvoicePaymentWithdrawn WebhookDeliveryType = "invoice.payment_withdrawn"
 	WebhookDeliveryTypeInvoiceReceived         WebhookDeliveryType = "invoice.received"
 	WebhookDeliveryTypeInvoiceRejected         WebhookDeliveryType = "invoice.rejected"
@@ -3516,25 +3527,25 @@ const (
 
 // Defines values for WebhookEndpointViewEvents.
 const (
-	CreditNoteAccepted      WebhookEndpointViewEvents = "credit_note.accepted"
-	CreditNoteReceived      WebhookEndpointViewEvents = "credit_note.received"
-	CreditNoteRejected      WebhookEndpointViewEvents = "credit_note.rejected"
-	InvoiceApproved         WebhookEndpointViewEvents = "invoice.approved"
-	InvoiceCreditApplied    WebhookEndpointViewEvents = "invoice.credit_applied"
-	InvoicePaid             WebhookEndpointViewEvents = "invoice.paid"
-	InvoicePaymentFailed    WebhookEndpointViewEvents = "invoice.payment_failed"
-	InvoicePaymentWithdrawn WebhookEndpointViewEvents = "invoice.payment_withdrawn"
-	InvoiceReceived         WebhookEndpointViewEvents = "invoice.received"
-	InvoiceRejected         WebhookEndpointViewEvents = "invoice.rejected"
-	InvoiceRemittanceSent   WebhookEndpointViewEvents = "invoice.remittance_sent"
-	InvoiceUpdated          WebhookEndpointViewEvents = "invoice.updated"
-	PurchaseOrderCanceled   WebhookEndpointViewEvents = "purchase_order.canceled"
-	PurchaseOrderChanged    WebhookEndpointViewEvents = "purchase_order.changed"
-	PurchaseOrderConfirmed  WebhookEndpointViewEvents = "purchase_order.confirmed"
-	PurchaseOrderIssued     WebhookEndpointViewEvents = "purchase_order.issued"
-	PurchaseOrderRejected   WebhookEndpointViewEvents = "purchase_order.rejected"
-	PurchaseOrderShipped    WebhookEndpointViewEvents = "purchase_order.shipped"
-	PurchaseOrderUpdated    WebhookEndpointViewEvents = "purchase_order.updated"
+	WebhookEndpointViewEventsCreditNoteAccepted      WebhookEndpointViewEvents = "credit_note.accepted"
+	WebhookEndpointViewEventsCreditNoteReceived      WebhookEndpointViewEvents = "credit_note.received"
+	WebhookEndpointViewEventsCreditNoteRejected      WebhookEndpointViewEvents = "credit_note.rejected"
+	WebhookEndpointViewEventsInvoiceApproved         WebhookEndpointViewEvents = "invoice.approved"
+	WebhookEndpointViewEventsInvoiceCreditApplied    WebhookEndpointViewEvents = "invoice.credit_applied"
+	WebhookEndpointViewEventsInvoicePaid             WebhookEndpointViewEvents = "invoice.paid"
+	WebhookEndpointViewEventsInvoicePayment          WebhookEndpointViewEvents = "invoice.payment"
+	WebhookEndpointViewEventsInvoicePaymentWithdrawn WebhookEndpointViewEvents = "invoice.payment_withdrawn"
+	WebhookEndpointViewEventsInvoiceReceived         WebhookEndpointViewEvents = "invoice.received"
+	WebhookEndpointViewEventsInvoiceRejected         WebhookEndpointViewEvents = "invoice.rejected"
+	WebhookEndpointViewEventsInvoiceRemittanceSent   WebhookEndpointViewEvents = "invoice.remittance_sent"
+	WebhookEndpointViewEventsInvoiceUpdated          WebhookEndpointViewEvents = "invoice.updated"
+	WebhookEndpointViewEventsPurchaseOrderCanceled   WebhookEndpointViewEvents = "purchase_order.canceled"
+	WebhookEndpointViewEventsPurchaseOrderChanged    WebhookEndpointViewEvents = "purchase_order.changed"
+	WebhookEndpointViewEventsPurchaseOrderConfirmed  WebhookEndpointViewEvents = "purchase_order.confirmed"
+	WebhookEndpointViewEventsPurchaseOrderIssued     WebhookEndpointViewEvents = "purchase_order.issued"
+	WebhookEndpointViewEventsPurchaseOrderRejected   WebhookEndpointViewEvents = "purchase_order.rejected"
+	WebhookEndpointViewEventsPurchaseOrderShipped    WebhookEndpointViewEvents = "purchase_order.shipped"
+	WebhookEndpointViewEventsPurchaseOrderUpdated    WebhookEndpointViewEvents = "purchase_order.updated"
 )
 
 // Defines values for WebhookEndpointViewLastErrorCode.
@@ -3850,6 +3861,12 @@ type ApiKeySummaryRole string
 
 // ApiKeySummaryScopes defines model for ApiKeySummary.Scopes.
 type ApiKeySummaryScopes string
+
+// ApplyConfirmationChangesResult defines model for ApplyConfirmationChangesResult.
+type ApplyConfirmationChangesResult struct {
+	Confirmation  *OrderConfirmation `json:"confirmation,omitempty"`
+	PurchaseOrder *PurchaseOrder     `json:"purchaseOrder,omitempty"`
+}
 
 // ApprovalChain defines model for ApprovalChain.
 type ApprovalChain struct {
@@ -5427,6 +5444,11 @@ type CurrencyExchangeDetailsInput struct {
 
 	// TargetCurrencyCode This object's currencyCode. Filled in when omitted.
 	TargetCurrencyCode *string `json:"targetCurrencyCode,omitempty"`
+}
+
+// DeclineConfirmationChangesInput defines model for DeclineConfirmationChangesInput.
+type DeclineConfirmationChangesInput struct {
+	Reason *string `json:"reason,omitempty"`
 }
 
 // DiscoverAzureScopesInput defines model for DiscoverAzureScopesInput.
@@ -7856,6 +7878,7 @@ type OpenPurchaseOrderDeposit struct {
 type OrderConfirmation struct {
 	ConfirmId    *string                     `json:"confirmId,omitempty"`
 	CreatedAt    *string                     `json:"createdAt,omitempty"`
+	Decision     *OrderConfirmationDecision  `json:"decision,omitempty"`
 	DeliveryDate *string                     `json:"deliveryDate,omitempty"`
 	Id           string                      `json:"id"`
 	Lines        *[]OrderConfirmationLine    `json:"lines,omitempty"`
@@ -7875,6 +7898,17 @@ type OrderConfirmationOutcome string
 // OrderConfirmationSource defines model for OrderConfirmation.Source.
 type OrderConfirmationSource string
 
+// OrderConfirmationDecision defines model for OrderConfirmationDecision.
+type OrderConfirmationDecision struct {
+	At       *string                            `json:"at,omitempty"`
+	Decision *OrderConfirmationDecisionDecision `json:"decision,omitempty"`
+	Reason   *string                            `json:"reason,omitempty"`
+	Version  *float64                           `json:"version,omitempty"`
+}
+
+// OrderConfirmationDecisionDecision defines model for OrderConfirmationDecision.Decision.
+type OrderConfirmationDecisionDecision string
+
 // OrderConfirmationLine defines model for OrderConfirmationLine.
 type OrderConfirmationLine struct {
 	DeliveryDate *string                      `json:"deliveryDate,omitempty"`
@@ -7883,6 +7917,7 @@ type OrderConfirmationLine struct {
 	Reason       *string                      `json:"reason,omitempty"`
 	ShipmentDate *string                      `json:"shipmentDate,omitempty"`
 	Status       *OrderConfirmationLineStatus `json:"status,omitempty"`
+	UnitPrice    *float64                     `json:"unitPrice,omitempty"`
 }
 
 // OrderConfirmationLineStatus defines model for OrderConfirmationLine.Status.
@@ -7896,6 +7931,7 @@ type OrderConfirmationLineInput struct {
 	Reason       *string                          `json:"reason,omitempty"`
 	ShipmentDate *string                          `json:"shipmentDate,omitempty"`
 	Status       OrderConfirmationLineInputStatus `json:"status"`
+	UnitPrice    *float64                         `json:"unitPrice,omitempty"`
 }
 
 // OrderConfirmationLineInputStatus defines model for OrderConfirmationLineInput.Status.
@@ -8857,6 +8893,7 @@ type RemittanceView struct {
 		Currency *string  `json:"currency,omitempty"`
 	} `json:"amountDue,omitempty"`
 	BuyerWorkspaceId *string `json:"buyerWorkspaceId,omitempty"`
+	FailedAt         *string `json:"failedAt,omitempty"`
 	InvoiceId        *string `json:"invoiceId,omitempty"`
 	InvoiceNumber    *string `json:"invoiceNumber,omitempty"`
 	Paid             *bool   `json:"paid,omitempty"`
@@ -10209,6 +10246,9 @@ type CancelPurchaseOrderJSONRequestBody = CancelPurchaseOrderInput
 
 // ConfirmPurchaseOrderJSONRequestBody defines body for ConfirmPurchaseOrder for application/json ContentType.
 type ConfirmPurchaseOrderJSONRequestBody = CreateOrderConfirmationInput
+
+// DeclineConfirmationChangesJSONRequestBody defines body for DeclineConfirmationChanges for application/json ContentType.
+type DeclineConfirmationChangesJSONRequestBody = DeclineConfirmationChangesInput
 
 // SendShipNoticeJSONRequestBody defines body for SendShipNotice for application/json ContentType.
 type SendShipNoticeJSONRequestBody = CreateShipNoticeInput
@@ -13342,6 +13382,14 @@ type ClientInterface interface {
 
 	ConfirmPurchaseOrder(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, body ConfirmPurchaseOrderJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ApplyConfirmationChanges request
+	ApplyConfirmationChanges(ctx context.Context, poId string, confirmationId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeclineConfirmationChangesWithBody request with any body
+	DeclineConfirmationChangesWithBody(ctx context.Context, poId string, confirmationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	DeclineConfirmationChanges(ctx context.Context, poId string, confirmationId string, body DeclineConfirmationChangesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetPurchaseOrderDocument request
 	GetPurchaseOrderDocument(ctx context.Context, poId string, params *GetPurchaseOrderDocumentParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -14455,6 +14503,42 @@ func (c *RawClient) ConfirmPurchaseOrderWithBody(ctx context.Context, poId strin
 
 func (c *RawClient) ConfirmPurchaseOrder(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, body ConfirmPurchaseOrderJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewConfirmPurchaseOrderRequest(c.Server, poId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ApplyConfirmationChanges(ctx context.Context, poId string, confirmationId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewApplyConfirmationChangesRequest(c.Server, poId, confirmationId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) DeclineConfirmationChangesWithBody(ctx context.Context, poId string, confirmationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeclineConfirmationChangesRequestWithBody(c.Server, poId, confirmationId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) DeclineConfirmationChanges(ctx context.Context, poId string, confirmationId string, body DeclineConfirmationChangesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeclineConfirmationChangesRequest(c.Server, poId, confirmationId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -17767,6 +17851,101 @@ func NewConfirmPurchaseOrderRequestWithBody(server string, poId string, params *
 	return req, nil
 }
 
+// NewApplyConfirmationChangesRequest generates requests for ApplyConfirmationChanges
+func NewApplyConfirmationChangesRequest(server string, poId string, confirmationId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "confirmationId", runtime.ParamLocationPath, confirmationId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-orders/%s/confirmations/%s/apply", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDeclineConfirmationChangesRequest calls the generic DeclineConfirmationChanges builder with application/json body
+func NewDeclineConfirmationChangesRequest(server string, poId string, confirmationId string, body DeclineConfirmationChangesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDeclineConfirmationChangesRequestWithBody(server, poId, confirmationId, "application/json", bodyReader)
+}
+
+// NewDeclineConfirmationChangesRequestWithBody generates requests for DeclineConfirmationChanges with any type of body
+func NewDeclineConfirmationChangesRequestWithBody(server string, poId string, confirmationId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "confirmationId", runtime.ParamLocationPath, confirmationId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-orders/%s/confirmations/%s/decline", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetPurchaseOrderDocumentRequest generates requests for GetPurchaseOrderDocument
 func NewGetPurchaseOrderDocumentRequest(server string, poId string, params *GetPurchaseOrderDocumentParams) (*http.Request, error) {
 	var err error
@@ -19090,6 +19269,14 @@ type ClientWithResponsesInterface interface {
 	ConfirmPurchaseOrderWithBodyWithResponse(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ConfirmPurchaseOrderResponse, error)
 
 	ConfirmPurchaseOrderWithResponse(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, body ConfirmPurchaseOrderJSONRequestBody, reqEditors ...RequestEditorFn) (*ConfirmPurchaseOrderResponse, error)
+
+	// ApplyConfirmationChangesWithResponse request
+	ApplyConfirmationChangesWithResponse(ctx context.Context, poId string, confirmationId string, reqEditors ...RequestEditorFn) (*ApplyConfirmationChangesResponse, error)
+
+	// DeclineConfirmationChangesWithBodyWithResponse request with any body
+	DeclineConfirmationChangesWithBodyWithResponse(ctx context.Context, poId string, confirmationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeclineConfirmationChangesResponse, error)
+
+	DeclineConfirmationChangesWithResponse(ctx context.Context, poId string, confirmationId string, body DeclineConfirmationChangesJSONRequestBody, reqEditors ...RequestEditorFn) (*DeclineConfirmationChangesResponse, error)
 
 	// GetPurchaseOrderDocumentWithResponse request
 	GetPurchaseOrderDocumentWithResponse(ctx context.Context, poId string, params *GetPurchaseOrderDocumentParams, reqEditors ...RequestEditorFn) (*GetPurchaseOrderDocumentResponse, error)
@@ -20660,6 +20847,52 @@ func (r ConfirmPurchaseOrderResponse) StatusCode() int {
 	return 0
 }
 
+type ApplyConfirmationChangesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *ApplyConfirmationChangesResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ApplyConfirmationChangesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ApplyConfirmationChangesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeclineConfirmationChangesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *OrderConfirmation
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r DeclineConfirmationChangesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeclineConfirmationChangesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetPurchaseOrderDocumentResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -21924,6 +22157,32 @@ func (c *ClientWithResponses) ConfirmPurchaseOrderWithResponse(ctx context.Conte
 		return nil, err
 	}
 	return ParseConfirmPurchaseOrderResponse(rsp)
+}
+
+// ApplyConfirmationChangesWithResponse request returning *ApplyConfirmationChangesResponse
+func (c *ClientWithResponses) ApplyConfirmationChangesWithResponse(ctx context.Context, poId string, confirmationId string, reqEditors ...RequestEditorFn) (*ApplyConfirmationChangesResponse, error) {
+	rsp, err := c.ApplyConfirmationChanges(ctx, poId, confirmationId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseApplyConfirmationChangesResponse(rsp)
+}
+
+// DeclineConfirmationChangesWithBodyWithResponse request with arbitrary body returning *DeclineConfirmationChangesResponse
+func (c *ClientWithResponses) DeclineConfirmationChangesWithBodyWithResponse(ctx context.Context, poId string, confirmationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeclineConfirmationChangesResponse, error) {
+	rsp, err := c.DeclineConfirmationChangesWithBody(ctx, poId, confirmationId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeclineConfirmationChangesResponse(rsp)
+}
+
+func (c *ClientWithResponses) DeclineConfirmationChangesWithResponse(ctx context.Context, poId string, confirmationId string, body DeclineConfirmationChangesJSONRequestBody, reqEditors ...RequestEditorFn) (*DeclineConfirmationChangesResponse, error) {
+	rsp, err := c.DeclineConfirmationChanges(ctx, poId, confirmationId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeclineConfirmationChangesResponse(rsp)
 }
 
 // GetPurchaseOrderDocumentWithResponse request returning *GetPurchaseOrderDocumentResponse
@@ -24269,6 +24528,72 @@ func ParseConfirmPurchaseOrderResponse(rsp *http.Response) (*ConfirmPurchaseOrde
 			return nil, err
 		}
 		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseApplyConfirmationChangesResponse parses an HTTP response from a ApplyConfirmationChangesWithResponse call
+func ParseApplyConfirmationChangesResponse(rsp *http.Response) (*ApplyConfirmationChangesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ApplyConfirmationChangesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest ApplyConfirmationChangesResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeclineConfirmationChangesResponse parses an HTTP response from a DeclineConfirmationChangesWithResponse call
+func ParseDeclineConfirmationChangesResponse(rsp *http.Response) (*DeclineConfirmationChangesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeclineConfirmationChangesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest OrderConfirmation
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest ApiError

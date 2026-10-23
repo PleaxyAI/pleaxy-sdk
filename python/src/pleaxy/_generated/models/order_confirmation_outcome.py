@@ -1,10 +1,13 @@
 from typing import Literal, Set, cast
 
-OrderConfirmationOutcome = Literal["accepted", "backordered", "partial", "rejected"]
+OrderConfirmationOutcome = Literal[
+    "accepted", "backordered", "changed", "partial", "rejected"
+]
 
 ORDER_CONFIRMATION_OUTCOME_VALUES: Set[OrderConfirmationOutcome] = {
     "accepted",
     "backordered",
+    "changed",
     "partial",
     "rejected",
 }

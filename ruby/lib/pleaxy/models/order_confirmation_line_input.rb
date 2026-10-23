@@ -21,6 +21,8 @@ module Pleaxy
 
     attr_accessor :qty
 
+    attr_accessor :unit_price
+
     attr_accessor :shipment_date
 
     attr_accessor :delivery_date
@@ -55,6 +57,7 @@ module Pleaxy
         :'line_no' => :'lineNo',
         :'status' => :'status',
         :'qty' => :'qty',
+        :'unit_price' => :'unitPrice',
         :'shipment_date' => :'shipmentDate',
         :'delivery_date' => :'deliveryDate',
         :'reason' => :'reason'
@@ -72,6 +75,7 @@ module Pleaxy
         :'line_no' => :'Float',
         :'status' => :'String',
         :'qty' => :'Float',
+        :'unit_price' => :'Float',
         :'shipment_date' => :'String',
         :'delivery_date' => :'String',
         :'reason' => :'String'
@@ -113,6 +117,10 @@ module Pleaxy
 
       if attributes.key?(:'qty')
         self.qty = attributes[:'qty']
+      end
+
+      if attributes.key?(:'unit_price')
+        self.unit_price = attributes[:'unit_price']
       end
 
       if attributes.key?(:'shipment_date')
@@ -159,7 +167,7 @@ module Pleaxy
       return false if @line_no.nil?
       return false if @line_no < 1
       return false if @status.nil?
-      status_validator = EnumAttributeValidator.new('String', ["accept", "backordered", "reject"])
+      status_validator = EnumAttributeValidator.new('String', ["accept", "backordered", "change", "reject"])
       return false unless status_validator.valid?(@status)
       return false if !@reason.nil? && @reason.to_s.length > 300
       true
@@ -182,7 +190,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] status Object to be assigned
     def status=(status)
-      validator = EnumAttributeValidator.new('String', ["accept", "backordered", "reject"])
+      validator = EnumAttributeValidator.new('String', ["accept", "backordered", "change", "reject"])
       unless validator.valid?(status)
         fail ArgumentError, "invalid value for \"status\", must be one of #{validator.allowable_values}."
       end
@@ -211,6 +219,7 @@ module Pleaxy
           line_no == o.line_no &&
           status == o.status &&
           qty == o.qty &&
+          unit_price == o.unit_price &&
           shipment_date == o.shipment_date &&
           delivery_date == o.delivery_date &&
           reason == o.reason
@@ -225,7 +234,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [line_no, status, qty, shipment_date, delivery_date, reason].hash
+      [line_no, status, qty, unit_price, shipment_date, delivery_date, reason].hash
     end
 
     # Builds the object from hash

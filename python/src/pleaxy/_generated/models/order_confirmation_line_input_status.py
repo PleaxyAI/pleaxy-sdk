@@ -1,10 +1,11 @@
 from typing import Literal, Set, cast
 
-OrderConfirmationLineInputStatus = Literal["accept", "backordered", "reject"]
+OrderConfirmationLineInputStatus = Literal["accept", "backordered", "change", "reject"]
 
 ORDER_CONFIRMATION_LINE_INPUT_STATUS_VALUES: Set[OrderConfirmationLineInputStatus] = {
     "accept",
     "backordered",
+    "change",
     "reject",
 }
 

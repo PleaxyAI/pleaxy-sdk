@@ -33,6 +33,8 @@ pub struct OrderConfirmation {
     pub source: Option<Source>,
     #[serde(rename = "createdAt", skip_serializing_if = "Option::is_none")]
     pub created_at: Option<String>,
+    #[serde(rename = "decision", skip_serializing_if = "Option::is_none")]
+    pub decision: Option<models::OrderConfirmationDecision>,
 }
 
 impl OrderConfirmation {
@@ -48,6 +50,7 @@ impl OrderConfirmation {
             lines: None,
             source: None,
             created_at: None,
+            decision: None,
         }
     }
 }
@@ -62,6 +65,8 @@ pub enum Outcome {
     Partial,
     #[serde(rename = "backordered")]
     Backordered,
+    #[serde(rename = "changed")]
+    Changed,
 }
 
 impl Default for Outcome {

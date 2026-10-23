@@ -28,6 +28,18 @@ func (c *Client) AddInvoiceReplacementLinks(ctx context.Context, invoiceId strin
 	return resp.JSON200, nil
 }
 
+// ApplyConfirmationChanges - [Buyer] Take the new quantities and unit prices in the supplier's latest confirmation (outcome changed) into the order: { purchaseOrder, confirmation }. An ordinary line edit, as UpdatePurchaseOrder: the order gets a new version, goes back to approval when its rules say so, and the supplier hears po_changed. 409 CONFIRMATION_SUPERSEDED when the supplier confirmed again since, CONFIRMATION_DECIDED when it was already applied or declined, NO_CHANGES, or ORDER_NOT_OPEN.
+func (c *Client) ApplyConfirmationChanges(ctx context.Context, poId string, confirmationId string) (*ApplyConfirmationChangesResult, error) {
+	resp, err := c.api.ApplyConfirmationChangesWithResponse(ctx, poId, confirmationId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
 // ApproveInvoice - [Buyer] Approve an invoice - only the current stage's assigned approver may call this
 func (c *Client) ApproveInvoice(ctx context.Context, invoiceId string) (*InvoiceBuyerView, error) {
 	resp, err := c.api.ApproveInvoiceWithResponse(ctx, invoiceId)
@@ -76,7 +88,7 @@ func (c *Client) ClosePurchaseOrder(ctx context.Context, poId string) (*Purchase
 	return resp.JSON201, nil
 }
 
-// ConfirmPurchaseOrder - [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|reject, qty?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. Answers the stored confirmation with its outcome: accepted, backordered, partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
+// ConfirmPurchaseOrder - [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line) or unit price (in the order's currency) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
 func (c *Client) ConfirmPurchaseOrder(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, body ConfirmPurchaseOrderJSONRequestBody) (*OrderConfirmation, error) {
 	resp, err := c.api.ConfirmPurchaseOrderWithResponse(ctx, poId, params, body)
 	if err != nil {
@@ -146,6 +158,18 @@ func (c *Client) CreateWebhook(ctx context.Context, body CreateWebhookJSONReques
 		return nil, err
 	}
 	return resp.JSON201, nil
+}
+
+// DeclineConfirmationChanges - [Buyer] Keep the order as it is instead of the supplier's new quantities and prices: { reason? } (500 characters, shown to the supplier). Answers the confirmation with its decision; the supplier is told (po_changes_declined). The same 409s as ApplyConfirmationChanges.
+func (c *Client) DeclineConfirmationChanges(ctx context.Context, poId string, confirmationId string, body DeclineConfirmationChangesJSONRequestBody) (*OrderConfirmation, error) {
+	resp, err := c.api.DeclineConfirmationChangesWithResponse(ctx, poId, confirmationId, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
 }
 
 // DeleteWebhook - [Both, admin] Remove an endpoint. Deliveries still waiting for it are given up.
@@ -301,7 +325,7 @@ func (c *Client) GetInvoiceDocument(ctx context.Context, invoiceId string, param
 	return resp.Body, nil
 }
 
-// GetInvoiceRemittance - [Both] The payment signal for an invoice, for the supplier's cash application: status unpaid|recorded|processing|paid_through_pleaxy|withdrawn, and once paid the method (ach, wire, check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion, what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as GetInvoice.
+// GetInvoiceRemittance - [Both] The payment signal for an invoice, for the supplier's cash application: status unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion, what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as GetInvoice.
 func (c *Client) GetInvoiceRemittance(ctx context.Context, invoiceId string, params *GetInvoiceRemittanceParams) (*RemittanceView, error) {
 	resp, err := c.api.GetInvoiceRemittanceWithResponse(ctx, invoiceId, params)
 	if err != nil {
@@ -397,7 +421,7 @@ func (c *Client) GetPurchaseOrderDocument(ctx context.Context, poId string, para
 	return resp.Body, nil
 }
 
-// GetPurchaseOrderFulfillment - [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|partial|rejected, lines with status accept|backordered|reject, qty, dates and reason); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder.
+// GetPurchaseOrderFulfillment - [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject, qty, unitPrice, dates and reason, and the buyer's decision on a changed one: applied or declined); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder.
 func (c *Client) GetPurchaseOrderFulfillment(ctx context.Context, poId string, params *GetPurchaseOrderFulfillmentParams) (*PurchaseOrderFulfillment, error) {
 	resp, err := c.api.GetPurchaseOrderFulfillmentWithResponse(ctx, poId, params)
 	if err != nil {
@@ -613,7 +637,7 @@ func (c *Client) ListPurchaseOrders(ctx context.Context, params *ListPurchaseOrd
 	return resp.JSON200, nil
 }
 
-// ListSyncEvents - [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received, purchase_order.confirmed and purchase_order.shipped (the supplier confirmed or shipped against an order: read GetPurchaseOrderFulfillment), and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.
+// ListSyncEvents - [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier sent one), invoice.updated (an approval step approved it, including an automatic approval, it was rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded, failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.
 func (c *Client) ListSyncEvents(ctx context.Context, params *ListSyncEventsParams) (*SyncEventPage, error) {
 	resp, err := c.api.ListSyncEventsWithResponse(ctx, params)
 	if err != nil {

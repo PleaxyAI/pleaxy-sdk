@@ -129,6 +129,8 @@ public class Notification {
     
     PO_SHIPPED(String.valueOf("po_shipped")),
     
+    PO_CHANGES_DECLINED(String.valueOf("po_changes_declined")),
+    
     PO_NEEDS_APPROVER(String.valueOf("po_needs_approver")),
     
     INVOICE_SUBMITTED(String.valueOf("invoice_submitted")),

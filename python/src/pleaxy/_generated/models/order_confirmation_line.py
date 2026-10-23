@@ -19,6 +19,7 @@ class OrderConfirmationLine:
         line_no (Union[Unset, float]):
         status (Union[Unset, OrderConfirmationLineStatus]):
         qty (Union[Unset, float]):
+        unit_price (Union[Unset, float]):
         shipment_date (Union[Unset, str]):
         delivery_date (Union[Unset, str]):
         reason (Union[Unset, str]):
@@ -27,6 +28,7 @@ class OrderConfirmationLine:
     line_no: Union[Unset, float] = UNSET
     status: Union[Unset, OrderConfirmationLineStatus] = UNSET
     qty: Union[Unset, float] = UNSET
+    unit_price: Union[Unset, float] = UNSET
     shipment_date: Union[Unset, str] = UNSET
     delivery_date: Union[Unset, str] = UNSET
     reason: Union[Unset, str] = UNSET
@@ -40,6 +42,8 @@ class OrderConfirmationLine:
             status = self.status
 
         qty = self.qty
+
+        unit_price = self.unit_price
 
         shipment_date = self.shipment_date
 
@@ -56,6 +60,8 @@ class OrderConfirmationLine:
             field_dict["status"] = status
         if qty is not UNSET:
             field_dict["qty"] = qty
+        if unit_price is not UNSET:
+            field_dict["unitPrice"] = unit_price
         if shipment_date is not UNSET:
             field_dict["shipmentDate"] = shipment_date
         if delivery_date is not UNSET:
@@ -79,6 +85,8 @@ class OrderConfirmationLine:
 
         qty = d.pop("qty", UNSET)
 
+        unit_price = d.pop("unitPrice", UNSET)
+
         shipment_date = d.pop("shipmentDate", UNSET)
 
         delivery_date = d.pop("deliveryDate", UNSET)
@@ -89,6 +97,7 @@ class OrderConfirmationLine:
             line_no=line_no,
             status=status,
             qty=qty,
+            unit_price=unit_price,
             shipment_date=shipment_date,
             delivery_date=delivery_date,
             reason=reason,

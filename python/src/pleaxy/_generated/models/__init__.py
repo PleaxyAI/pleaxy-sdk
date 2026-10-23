@@ -66,6 +66,7 @@ from .api_key_summary import ApiKeySummary
 from .api_key_summary_procurement_role import ApiKeySummaryProcurementRole
 from .api_key_summary_role import ApiKeySummaryRole
 from .api_key_summary_scopes_item import ApiKeySummaryScopesItem
+from .apply_confirmation_changes_result import ApplyConfirmationChangesResult
 from .approval_chain import ApprovalChain
 from .approval_chain_settings import ApprovalChainSettings
 from .approval_chain_settings_linked_to import ApprovalChainSettingsLinkedTo
@@ -439,6 +440,7 @@ from .credit_note_history_entry import CreditNoteHistoryEntry
 from .credit_note_history_entry_action import CreditNoteHistoryEntryAction
 from .currency_amount_input import CurrencyAmountInput
 from .currency_exchange_details_input import CurrencyExchangeDetailsInput
+from .decline_confirmation_changes_input import DeclineConfirmationChangesInput
 from .discover_azure_scopes_input import DiscoverAzureScopesInput
 from .employee_summary import EmployeeSummary
 from .error_params import ErrorParams
@@ -1153,6 +1155,8 @@ from .notification_resolution_outcome import NotificationResolutionOutcome
 from .notification_type import NotificationType
 from .open_purchase_order_deposit import OpenPurchaseOrderDeposit
 from .order_confirmation import OrderConfirmation
+from .order_confirmation_decision import OrderConfirmationDecision
+from .order_confirmation_decision_decision import OrderConfirmationDecisionDecision
 from .order_confirmation_line import OrderConfirmationLine
 from .order_confirmation_line_input import OrderConfirmationLineInput
 from .order_confirmation_line_input_status import OrderConfirmationLineInputStatus
@@ -1620,6 +1624,7 @@ __all__ = (
     "ApiKeySummaryProcurementRole",
     "ApiKeySummaryRole",
     "ApiKeySummaryScopesItem",
+    "ApplyConfirmationChangesResult",
     "ApprovalChain",
     "ApprovalChainSettings",
     "ApprovalChainSettingsLinkedTo",
@@ -1823,6 +1828,7 @@ __all__ = (
     "CreditNoteHistoryEntryAction",
     "CurrencyAmountInput",
     "CurrencyExchangeDetailsInput",
+    "DeclineConfirmationChangesInput",
     "DiscoverAzureScopesInput",
     "EmployeeSummary",
     "ErrorParams",
@@ -2157,6 +2163,8 @@ __all__ = (
     "NotificationType",
     "OpenPurchaseOrderDeposit",
     "OrderConfirmation",
+    "OrderConfirmationDecision",
+    "OrderConfirmationDecisionDecision",
     "OrderConfirmationLine",
     "OrderConfirmationLineInput",
     "OrderConfirmationLineInputStatus",

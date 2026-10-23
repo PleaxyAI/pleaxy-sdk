@@ -35,6 +35,8 @@ module Pleaxy
 
     attr_accessor :created_at
 
+    attr_accessor :decision
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -69,7 +71,8 @@ module Pleaxy
         :'note' => :'note',
         :'lines' => :'lines',
         :'source' => :'source',
-        :'created_at' => :'createdAt'
+        :'created_at' => :'createdAt',
+        :'decision' => :'decision'
       }
     end
 
@@ -90,7 +93,8 @@ module Pleaxy
         :'note' => :'String',
         :'lines' => :'Array<OrderConfirmationLine>',
         :'source' => :'String',
-        :'created_at' => :'String'
+        :'created_at' => :'String',
+        :'decision' => :'OrderConfirmationDecision'
       }
     end
 
@@ -158,6 +162,10 @@ module Pleaxy
       if attributes.key?(:'created_at')
         self.created_at = attributes[:'created_at']
       end
+
+      if attributes.key?(:'decision')
+        self.decision = attributes[:'decision']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -177,7 +185,7 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @id.nil?
-      outcome_validator = EnumAttributeValidator.new('String', ["rejected", "accepted", "partial", "backordered"])
+      outcome_validator = EnumAttributeValidator.new('String', ["rejected", "accepted", "partial", "backordered", "changed"])
       return false unless outcome_validator.valid?(@outcome)
       operation_validator = EnumAttributeValidator.new('String', ["new", "update"])
       return false unless operation_validator.valid?(@operation)
@@ -189,7 +197,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] outcome Object to be assigned
     def outcome=(outcome)
-      validator = EnumAttributeValidator.new('String', ["rejected", "accepted", "partial", "backordered"])
+      validator = EnumAttributeValidator.new('String', ["rejected", "accepted", "partial", "backordered", "changed"])
       unless validator.valid?(outcome)
         fail ArgumentError, "invalid value for \"outcome\", must be one of #{validator.allowable_values}."
       end
@@ -230,7 +238,8 @@ module Pleaxy
           note == o.note &&
           lines == o.lines &&
           source == o.source &&
-          created_at == o.created_at
+          created_at == o.created_at &&
+          decision == o.decision
     end
 
     # @see the `==` method
@@ -242,7 +251,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, po_id, outcome, confirm_id, operation, delivery_date, note, lines, source, created_at].hash
+      [id, po_id, outcome, confirm_id, operation, delivery_date, note, lines, source, created_at, decision].hash
     end
 
     # Builds the object from hash

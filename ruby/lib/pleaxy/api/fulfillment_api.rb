@@ -19,7 +19,74 @@ module Pleaxy
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|reject, qty?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. Answers the stored confirmation with its outcome: accepted, backordered, partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
+    # [Buyer] Take the new quantities and unit prices in the supplier's latest confirmation (outcome changed) into the order: { purchaseOrder, confirmation }. An ordinary line edit, as UpdatePurchaseOrder: the order gets a new version, goes back to approval when its rules say so, and the supplier hears po_changed. 409 CONFIRMATION_SUPERSEDED when the supplier confirmed again since, CONFIRMATION_DECIDED when it was already applied or declined, NO_CHANGES, or ORDER_NOT_OPEN.
+    # @param po_id [String] 
+    # @param confirmation_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [ApplyConfirmationChangesResult]
+    def apply_confirmation_changes(po_id, confirmation_id, opts = {})
+      data, _status_code, _headers = apply_confirmation_changes_with_http_info(po_id, confirmation_id, opts)
+      data
+    end
+
+    # [Buyer] Take the new quantities and unit prices in the supplier&#39;s latest confirmation (outcome changed) into the order: { purchaseOrder, confirmation }. An ordinary line edit, as UpdatePurchaseOrder: the order gets a new version, goes back to approval when its rules say so, and the supplier hears po_changed. 409 CONFIRMATION_SUPERSEDED when the supplier confirmed again since, CONFIRMATION_DECIDED when it was already applied or declined, NO_CHANGES, or ORDER_NOT_OPEN.
+    # @param po_id [String] 
+    # @param confirmation_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(ApplyConfirmationChangesResult, Integer, Hash)>] ApplyConfirmationChangesResult data, response status code and response headers
+    def apply_confirmation_changes_with_http_info(po_id, confirmation_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: FulfillmentApi.apply_confirmation_changes ...'
+      end
+      # verify the required parameter 'po_id' is set
+      if @api_client.config.client_side_validation && po_id.nil?
+        fail ArgumentError, "Missing the required parameter 'po_id' when calling FulfillmentApi.apply_confirmation_changes"
+      end
+      # verify the required parameter 'confirmation_id' is set
+      if @api_client.config.client_side_validation && confirmation_id.nil?
+        fail ArgumentError, "Missing the required parameter 'confirmation_id' when calling FulfillmentApi.apply_confirmation_changes"
+      end
+      # resource path
+      local_var_path = '/purchase-orders/{poId}/confirmations/{confirmationId}/apply'.sub('{' + 'poId' + '}', CGI.escape(po_id.to_s)).sub('{' + 'confirmationId' + '}', CGI.escape(confirmation_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'ApplyConfirmationChangesResult'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"FulfillmentApi.apply_confirmation_changes",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FulfillmentApi#apply_confirmation_changes\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line) or unit price (in the order's currency) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
     # @param po_id [String] 
     # @param create_order_confirmation_input [CreateOrderConfirmationInput] 
     # @param [Hash] opts the optional parameters
@@ -30,7 +97,7 @@ module Pleaxy
       data
     end
 
-    # [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|reject, qty?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. Answers the stored confirmation with its outcome: accepted, backordered, partial (some lines refused) or rejected. The buyer&#39;s requester and receiver are told when the outcome changes, and the buyer&#39;s sync feed gets purchase_order.confirmed. The order itself doesn&#39;t change: a refused order is the buyer&#39;s to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer&#x3D; as GetPurchaseOrder. An API key needs the orders:fulfill scope.
+    # [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line) or unit price (in the order&#39;s currency) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer&#39;s requester and receiver are told when the outcome changes, and the buyer&#39;s sync feed gets purchase_order.confirmed. The order itself doesn&#39;t change: a refused order is the buyer&#39;s to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer&#x3D; as GetPurchaseOrder. An API key needs the orders:fulfill scope.
     # @param po_id [String] 
     # @param create_order_confirmation_input [CreateOrderConfirmationInput] 
     # @param [Hash] opts the optional parameters
@@ -94,7 +161,85 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|partial|rejected, lines with status accept|backordered|reject, qty, dates and reason); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder.
+    # [Buyer] Keep the order as it is instead of the supplier's new quantities and prices: { reason? } (500 characters, shown to the supplier). Answers the confirmation with its decision; the supplier is told (po_changes_declined). The same 409s as ApplyConfirmationChanges.
+    # @param po_id [String] 
+    # @param confirmation_id [String] 
+    # @param decline_confirmation_changes_input [DeclineConfirmationChangesInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [OrderConfirmation]
+    def decline_confirmation_changes(po_id, confirmation_id, decline_confirmation_changes_input, opts = {})
+      data, _status_code, _headers = decline_confirmation_changes_with_http_info(po_id, confirmation_id, decline_confirmation_changes_input, opts)
+      data
+    end
+
+    # [Buyer] Keep the order as it is instead of the supplier&#39;s new quantities and prices: { reason? } (500 characters, shown to the supplier). Answers the confirmation with its decision; the supplier is told (po_changes_declined). The same 409s as ApplyConfirmationChanges.
+    # @param po_id [String] 
+    # @param confirmation_id [String] 
+    # @param decline_confirmation_changes_input [DeclineConfirmationChangesInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(OrderConfirmation, Integer, Hash)>] OrderConfirmation data, response status code and response headers
+    def decline_confirmation_changes_with_http_info(po_id, confirmation_id, decline_confirmation_changes_input, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: FulfillmentApi.decline_confirmation_changes ...'
+      end
+      # verify the required parameter 'po_id' is set
+      if @api_client.config.client_side_validation && po_id.nil?
+        fail ArgumentError, "Missing the required parameter 'po_id' when calling FulfillmentApi.decline_confirmation_changes"
+      end
+      # verify the required parameter 'confirmation_id' is set
+      if @api_client.config.client_side_validation && confirmation_id.nil?
+        fail ArgumentError, "Missing the required parameter 'confirmation_id' when calling FulfillmentApi.decline_confirmation_changes"
+      end
+      # verify the required parameter 'decline_confirmation_changes_input' is set
+      if @api_client.config.client_side_validation && decline_confirmation_changes_input.nil?
+        fail ArgumentError, "Missing the required parameter 'decline_confirmation_changes_input' when calling FulfillmentApi.decline_confirmation_changes"
+      end
+      # resource path
+      local_var_path = '/purchase-orders/{poId}/confirmations/{confirmationId}/decline'.sub('{' + 'poId' + '}', CGI.escape(po_id.to_s)).sub('{' + 'confirmationId' + '}', CGI.escape(confirmation_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(decline_confirmation_changes_input)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'OrderConfirmation'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"FulfillmentApi.decline_confirmation_changes",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FulfillmentApi#decline_confirmation_changes\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject, qty, unitPrice, dates and reason, and the buyer's decision on a changed one: applied or declined); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder.
     # @param po_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :buyer 
@@ -104,7 +249,7 @@ module Pleaxy
       data
     end
 
-    # [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|partial|rejected, lines with status accept|backordered|reject, qty, dates and reason); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer&#x3D; as GetPurchaseOrder.
+    # [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject, qty, unitPrice, dates and reason, and the buyer&#39;s decision on a changed one: applied or declined); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer&#x3D; as GetPurchaseOrder.
     # @param po_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :buyer 

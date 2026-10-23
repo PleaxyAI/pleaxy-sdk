@@ -18,6 +18,7 @@ from ..models.order_confirmation_source import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.order_confirmation_decision import OrderConfirmationDecision
     from ..models.order_confirmation_line import OrderConfirmationLine
 
 
@@ -38,6 +39,7 @@ class OrderConfirmation:
         lines (Union[Unset, List['OrderConfirmationLine']]):
         source (Union[Unset, OrderConfirmationSource]):
         created_at (Union[Unset, str]):
+        decision (Union[Unset, OrderConfirmationDecision]):
     """
 
     id: str
@@ -50,6 +52,7 @@ class OrderConfirmation:
     lines: Union[Unset, List["OrderConfirmationLine"]] = UNSET
     source: Union[Unset, OrderConfirmationSource] = UNSET
     created_at: Union[Unset, str] = UNSET
+    decision: Union[Unset, "OrderConfirmationDecision"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -84,6 +87,10 @@ class OrderConfirmation:
 
         created_at = self.created_at
 
+        decision: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.decision, Unset):
+            decision = self.decision.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -109,11 +116,14 @@ class OrderConfirmation:
             field_dict["source"] = source
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
+        if decision is not UNSET:
+            field_dict["decision"] = decision
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.order_confirmation_decision import OrderConfirmationDecision
         from ..models.order_confirmation_line import OrderConfirmationLine
 
         d = src_dict.copy()
@@ -157,6 +167,13 @@ class OrderConfirmation:
 
         created_at = d.pop("createdAt", UNSET)
 
+        _decision = d.pop("decision", UNSET)
+        decision: Union[Unset, OrderConfirmationDecision]
+        if isinstance(_decision, Unset):
+            decision = UNSET
+        else:
+            decision = OrderConfirmationDecision.from_dict(_decision)
+
         order_confirmation = cls(
             id=id,
             po_id=po_id,
@@ -168,6 +185,7 @@ class OrderConfirmation:
             lines=lines,
             source=source,
             created_at=created_at,
+            decision=decision,
         )
 
         order_confirmation.additional_properties = d

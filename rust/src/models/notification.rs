@@ -111,6 +111,8 @@ pub enum Type {
     PoSupplierException,
     #[serde(rename = "po_shipped")]
     PoShipped,
+    #[serde(rename = "po_changes_declined")]
+    PoChangesDeclined,
     #[serde(rename = "po_needs_approver")]
     PoNeedsApprover,
     #[serde(rename = "invoice_submitted")]

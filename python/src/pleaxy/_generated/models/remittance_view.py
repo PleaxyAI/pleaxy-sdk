@@ -27,6 +27,7 @@ class RemittanceView:
         buyer_workspace_id (Union[Unset, str]):
         purchase_order_id (Union[Unset, str]):
         status (Union[Unset, RemittanceViewStatus]):
+        failed_at (Union[Unset, str]):
         paid (Union[Unset, bool]):
         paid_at (Union[Unset, str]):
         amount_due (Union[Unset, RemittanceViewAmountDue]):
@@ -39,6 +40,7 @@ class RemittanceView:
     buyer_workspace_id: Union[Unset, str] = UNSET
     purchase_order_id: Union[Unset, str] = UNSET
     status: Union[Unset, RemittanceViewStatus] = UNSET
+    failed_at: Union[Unset, str] = UNSET
     paid: Union[Unset, bool] = UNSET
     paid_at: Union[Unset, str] = UNSET
     amount_due: Union[Unset, "RemittanceViewAmountDue"] = UNSET
@@ -58,6 +60,8 @@ class RemittanceView:
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
             status = self.status
+
+        failed_at = self.failed_at
 
         paid = self.paid
 
@@ -91,6 +95,8 @@ class RemittanceView:
             field_dict["purchaseOrderId"] = purchase_order_id
         if status is not UNSET:
             field_dict["status"] = status
+        if failed_at is not UNSET:
+            field_dict["failedAt"] = failed_at
         if paid is not UNSET:
             field_dict["paid"] = paid
         if paid_at is not UNSET:
@@ -128,6 +134,8 @@ class RemittanceView:
         else:
             status = check_remittance_view_status(_status)
 
+        failed_at = d.pop("failedAt", UNSET)
+
         paid = d.pop("paid", UNSET)
 
         paid_at = d.pop("paidAt", UNSET)
@@ -161,6 +169,7 @@ class RemittanceView:
             buyer_workspace_id=buyer_workspace_id,
             purchase_order_id=purchase_order_id,
             status=status,
+            failed_at=failed_at,
             paid=paid,
             paid_at=paid_at,
             amount_due=amount_due,
