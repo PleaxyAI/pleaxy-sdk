@@ -15,6 +15,8 @@ use serde::{Deserialize, Serialize};
 pub struct LineItem {
     #[serde(rename = "lineNo", skip_serializing_if = "Option::is_none")]
     pub line_no: Option<f64>,
+    #[serde(rename = "lineType", skip_serializing_if = "Option::is_none")]
+    pub line_type: Option<LineType>,
     #[serde(rename = "scopeType", skip_serializing_if = "Option::is_none")]
     pub scope_type: Option<ScopeType>,
     #[serde(
@@ -72,6 +74,7 @@ impl LineItem {
     pub fn new() -> LineItem {
         LineItem {
             line_no: None,
+            line_type: None,
             scope_type: None,
             scope_id: None,
             name: None,
@@ -100,13 +103,27 @@ impl LineItem {
 }
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum LineType {
+    #[serde(rename = "goods")]
+    Goods,
+    #[serde(rename = "service")]
+    Service,
+}
+
+impl Default for LineType {
+    fn default() -> LineType {
+        Self::Goods
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum ScopeType {
     #[serde(rename = "custom")]
     Custom,
-    #[serde(rename = "sku")]
-    Sku,
     #[serde(rename = "service")]
     Service,
+    #[serde(rename = "sku")]
+    Sku,
     #[serde(rename = "account")]
     Account,
 }
