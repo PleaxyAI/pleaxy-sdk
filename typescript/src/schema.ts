@@ -958,7 +958,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view. */
+        /** [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received, purchase_order.confirmed and purchase_order.shipped (the supplier confirmed or shipped against an order: read GetPurchaseOrderFulfillment), and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view. */
         get: operations["ListSyncEvents"];
         put?: never;
         post?: never;
@@ -1140,6 +1140,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/purchase-orders/{poId}/fulfillment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|partial|rejected, lines with status accept|backordered|reject, qty, dates and reason); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder. */
+        get: operations["GetPurchaseOrderFulfillment"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-orders/{poId}/confirmations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|reject, qty?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. Answers the stored confirmation with its outcome: accepted, backordered, partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope. */
+        post: operations["ConfirmPurchaseOrder"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-orders/{poId}/ship-notices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only lines ordered by quantity ship. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope. */
+        post: operations["SendShipNotice"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/settlement/billing": {
         parameters: {
             query?: never;
@@ -1204,8 +1255,8 @@ export interface components {
              * @enum {string}
              */
             procurementRole?: "administrator" | "read-only" | "contracts-and-suppliers" | "relationships" | "requisitions" | "finance";
-            /** @description Extra abilities, each for one side (the other side's scope is a 400). Supplier: `invoices:feed` lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId. Buyer: `payments:record` lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key. */
-            scopes?: ("invoices:feed" | "payments:record")[];
+            /** @description Extra abilities, each for one side (the other side's scope is a 400). Supplier: `invoices:feed` lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId; `orders:fulfill` lets it confirm orders and send ship notices, through POST .../purchase-orders/:poId/confirmations and .../ship-notices or as cXML to POST /v1/cxml/fulfillment. Buyer: `payments:record` lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key. */
+            scopes?: ("invoices:feed" | "payments:record" | "orders:fulfill")[];
         };
         CreateCloudConnectionInput: {
             /** @enum {string} */
@@ -1856,6 +1907,43 @@ export interface components {
             description?: string;
             events?: string[];
         };
+        OrderConfirmationLineInput: {
+            /** Format: double */
+            lineNo: number;
+            /** @enum {string} */
+            status: "accept" | "backordered" | "reject";
+            /** Format: double */
+            qty?: number;
+            shipmentDate?: string;
+            deliveryDate?: string;
+            reason?: string;
+        };
+        CreateOrderConfirmationInput: {
+            /** @enum {string} */
+            type: "accept" | "backordered" | "detail" | "reject";
+            confirmId?: string;
+            deliveryDate?: string;
+            note?: string;
+            lines?: components["schemas"]["OrderConfirmationLineInput"][];
+        };
+        ShipNoticeLineInput: {
+            /** Format: double */
+            lineNo: number;
+            /** Format: double */
+            qty: number;
+        };
+        CreateShipNoticeInput: {
+            shipmentId: string;
+            /** @enum {string} */
+            status?: "shipped" | "planned" | "canceled";
+            shipmentDate?: string;
+            deliveryDate?: string;
+            carrier?: string;
+            trackingNumber?: string;
+            trackingUrl?: string;
+            note?: string;
+            lines?: components["schemas"]["ShipNoticeLineInput"][];
+        };
         EmployeeSummary: {
             key?: string;
             name?: string;
@@ -1871,7 +1959,7 @@ export interface components {
             role?: "buyer" | "supplier";
             /** @enum {string} */
             procurementRole?: "administrator" | "read-only" | "contracts-and-suppliers" | "relationships" | "requisitions" | "finance";
-            scopes?: ("invoices:feed" | "payments:record")[];
+            scopes?: ("invoices:feed" | "payments:record" | "orders:fulfill")[];
             label?: string;
             createdAt?: string;
             createdBy?: string;
@@ -2141,7 +2229,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "po_store_order_problem" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payments_recorded_by_key" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap";
+            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payments_recorded_by_key" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -3769,7 +3857,7 @@ export interface components {
             id: string;
             at?: string;
             /** @enum {string} */
-            type?: "purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment_failed" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected";
+            type?: "purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "purchase_order.confirmed" | "purchase_order.shipped" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment_failed" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected";
             /** @enum {string} */
             documentType?: "purchase_order" | "invoice" | "credit_note";
             documentId?: string;
@@ -3817,7 +3905,7 @@ export interface components {
             id: string;
             url?: string;
             description?: string;
-            events?: ("purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment_failed" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected")[];
+            events?: ("purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "purchase_order.confirmed" | "purchase_order.shipped" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment_failed" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected")[];
             enabled?: boolean;
             createdAt?: string;
             createdBy?: string;
@@ -3836,7 +3924,7 @@ export interface components {
             eventId?: string;
             endpointId?: string;
             /** @enum {string} */
-            type?: "purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment_failed" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected" | "ping";
+            type?: "purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "purchase_order.confirmed" | "purchase_order.shipped" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment_failed" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected" | "ping";
             /** @enum {string} */
             status?: "pending" | "failed" | "delivered";
             /** Format: double */
@@ -3849,6 +3937,67 @@ export interface components {
             /** @enum {string} */
             lastErrorCode?: "failed" | "http_status" | "blocked_address" | "unreachable" | "timeout" | "redirect" | "too_large" | "endpoint_off";
             deliveredAt?: string;
+        };
+        PurchaseOrderFulfillment: {
+            confirmation?: components["schemas"]["OrderConfirmation"];
+            confirmations?: components["schemas"]["OrderConfirmation"][];
+            shipNotices?: components["schemas"]["ShipNotice"][];
+            shippedByLine?: {
+                /** Format: double */
+                lineNo?: number;
+                /** Format: double */
+                qty?: number;
+            }[];
+            expectedDeliveryDate?: string;
+        };
+        OrderConfirmation: {
+            id: string;
+            poId?: string;
+            /** @enum {string} */
+            outcome?: "rejected" | "accepted" | "partial" | "backordered";
+            confirmId?: string;
+            /** @enum {string} */
+            operation?: "new" | "update";
+            deliveryDate?: string;
+            note?: string;
+            lines?: components["schemas"]["OrderConfirmationLine"][];
+            /** @enum {string} */
+            source?: "cxml" | "portal" | "api";
+            createdAt?: string;
+        };
+        OrderConfirmationLine: {
+            /** Format: double */
+            lineNo?: number;
+            /** @enum {string} */
+            status?: "accept" | "reject" | "backordered";
+            /** Format: double */
+            qty?: number;
+            shipmentDate?: string;
+            deliveryDate?: string;
+            reason?: string;
+        };
+        ShipNotice: {
+            shipmentId?: string;
+            poId?: string;
+            /** @enum {string} */
+            status?: "canceled" | "planned" | "shipped";
+            shipmentDate?: string;
+            deliveryDate?: string;
+            carrier?: string;
+            trackingNumber?: string;
+            trackingUrl?: string;
+            lines?: components["schemas"]["ShipNoticeLine"][];
+            note?: string;
+            /** @enum {string} */
+            source?: "cxml" | "portal" | "api";
+            createdAt?: string;
+            updatedAt?: string;
+        };
+        ShipNoticeLine: {
+            /** Format: double */
+            lineNo?: number;
+            /** Format: double */
+            qty?: number;
         };
         BillingSummary: {
             billingEnabled?: boolean;
@@ -3963,7 +4112,7 @@ export interface components {
             note?: string;
             attachment?: components["schemas"]["ReceiptAttachment"];
             /** @enum {string} */
-            source?: "supplier" | "app" | "assistant" | "api" | "import";
+            source?: "supplier" | "api" | "app" | "assistant" | "import";
             createdBy?: string;
             createdByName?: string;
             createdAt?: string;
@@ -4035,7 +4184,7 @@ export interface components {
             role?: "buyer" | "supplier";
             /** @enum {string} */
             procurementRole?: "administrator" | "read-only" | "contracts-and-suppliers" | "relationships" | "requisitions" | "finance";
-            scopes?: ("invoices:feed" | "payments:record")[];
+            scopes?: ("invoices:feed" | "payments:record" | "orders:fulfill")[];
             label?: string;
             createdAt?: string;
             createdBy?: string;
@@ -6066,13 +6215,13 @@ export interface components {
         };
         ListWebhooksResult: {
             endpoints?: components["schemas"]["WebhookEndpointView"][];
-            eventTypes?: ("purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment_failed" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected")[];
+            eventTypes?: ("purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "purchase_order.confirmed" | "purchase_order.shipped" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment_failed" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected")[];
         };
         CreateWebhookResult: {
             id: string;
             url?: string;
             description?: string;
-            events?: ("purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment_failed" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected")[];
+            events?: ("purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "purchase_order.confirmed" | "purchase_order.shipped" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment_failed" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected")[];
             enabled?: boolean;
             createdAt?: string;
             createdBy?: string;
@@ -6092,7 +6241,7 @@ export interface components {
             id: string;
             url?: string;
             description?: string;
-            events?: ("purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment_failed" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected")[];
+            events?: ("purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "purchase_order.confirmed" | "purchase_order.shipped" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment_failed" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected")[];
             enabled?: boolean;
             createdAt?: string;
             createdBy?: string;
@@ -8639,6 +8788,110 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ListWebhookDeliveriesResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetPurchaseOrderFulfillment: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseOrderFulfillment"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ConfirmPurchaseOrder: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateOrderConfirmationInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderConfirmation"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SendShipNotice: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateShipNoticeInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShipNotice"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

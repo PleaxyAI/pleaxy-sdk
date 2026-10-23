@@ -94,6 +94,8 @@ pub enum Scopes {
     InvoicesColonFeed,
     #[serde(rename = "payments:record")]
     PaymentsColonRecord,
+    #[serde(rename = "orders:fulfill")]
+    OrdersColonFulfill,
 }
 
 impl Default for Scopes {

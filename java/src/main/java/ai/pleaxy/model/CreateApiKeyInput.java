@@ -98,7 +98,9 @@ public class CreateApiKeyInput {
   public enum ScopesEnum {
     INVOICES_FEED(String.valueOf("invoices:feed")),
     
-    PAYMENTS_RECORD(String.valueOf("payments:record"));
+    PAYMENTS_RECORD(String.valueOf("payments:record")),
+    
+    ORDERS_FULFILL(String.valueOf("orders:fulfill"));
 
     private String value;
 
@@ -196,7 +198,7 @@ public class CreateApiKeyInput {
   }
 
   /**
-   * Extra abilities, each for one side (the other side&#39;s scope is a 400). Supplier: &#x60;invoices:feed&#x60; lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId. Buyer: &#x60;payments:record&#x60; lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key.
+   * Extra abilities, each for one side (the other side&#39;s scope is a 400). Supplier: &#x60;invoices:feed&#x60; lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId; &#x60;orders:fulfill&#x60; lets it confirm orders and send ship notices, through POST .../purchase-orders/:poId/confirmations and .../ship-notices or as cXML to POST /v1/cxml/fulfillment. Buyer: &#x60;payments:record&#x60; lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key.
    * @return scopes
    */
   @javax.annotation.Nullable

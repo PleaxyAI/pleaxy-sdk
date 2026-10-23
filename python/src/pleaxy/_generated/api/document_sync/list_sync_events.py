@@ -66,12 +66,14 @@ def sync_detailed(
     purchase_order.issued|changed|canceled|rejected,
     invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and
     credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed,
-    credit_note.received and purchase_order.updated / invoice.updated whenever one of its documents is
-    decided or moves on. An event names the document only: read it with GetPurchaseOrder,
-    GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as
-    ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is
-    true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5
-    seconds wait for the next call. A buyer sees only the document types its procurement role can view.
+    credit_note.received, purchase_order.confirmed and purchase_order.shipped (the supplier confirmed or
+    shipped against an order: read GetPurchaseOrderFulfillment), and purchase_order.updated /
+    invoice.updated whenever one of its documents is decided or moves on. An event names the document
+    only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or
+    GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next
+    call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days
+    and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the
+    document types its procurement role can view.
 
     Args:
         after (Union[Unset, str]):
@@ -108,12 +110,14 @@ def sync(
     purchase_order.issued|changed|canceled|rejected,
     invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and
     credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed,
-    credit_note.received and purchase_order.updated / invoice.updated whenever one of its documents is
-    decided or moves on. An event names the document only: read it with GetPurchaseOrder,
-    GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as
-    ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is
-    true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5
-    seconds wait for the next call. A buyer sees only the document types its procurement role can view.
+    credit_note.received, purchase_order.confirmed and purchase_order.shipped (the supplier confirmed or
+    shipped against an order: read GetPurchaseOrderFulfillment), and purchase_order.updated /
+    invoice.updated whenever one of its documents is decided or moves on. An event names the document
+    only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or
+    GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next
+    call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days
+    and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the
+    document types its procurement role can view.
 
     Args:
         after (Union[Unset, str]):
@@ -145,12 +149,14 @@ async def asyncio_detailed(
     purchase_order.issued|changed|canceled|rejected,
     invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and
     credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed,
-    credit_note.received and purchase_order.updated / invoice.updated whenever one of its documents is
-    decided or moves on. An event names the document only: read it with GetPurchaseOrder,
-    GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as
-    ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is
-    true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5
-    seconds wait for the next call. A buyer sees only the document types its procurement role can view.
+    credit_note.received, purchase_order.confirmed and purchase_order.shipped (the supplier confirmed or
+    shipped against an order: read GetPurchaseOrderFulfillment), and purchase_order.updated /
+    invoice.updated whenever one of its documents is decided or moves on. An event names the document
+    only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or
+    GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next
+    call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days
+    and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the
+    document types its procurement role can view.
 
     Args:
         after (Union[Unset, str]):
@@ -185,12 +191,14 @@ async def asyncio(
     purchase_order.issued|changed|canceled|rejected,
     invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and
     credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed,
-    credit_note.received and purchase_order.updated / invoice.updated whenever one of its documents is
-    decided or moves on. An event names the document only: read it with GetPurchaseOrder,
-    GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as
-    ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is
-    true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5
-    seconds wait for the next call. A buyer sees only the document types its procurement role can view.
+    credit_note.received, purchase_order.confirmed and purchase_order.shipped (the supplier confirmed or
+    shipped against an order: read GetPurchaseOrderFulfillment), and purchase_order.updated /
+    invoice.updated whenever one of its documents is decided or moves on. An event names the document
+    only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or
+    GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next
+    call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days
+    and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the
+    document types its procurement role can view.
 
     Args:
         after (Union[Unset, str]):

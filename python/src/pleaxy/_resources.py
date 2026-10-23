@@ -261,7 +261,7 @@ class DocumentSyncResource:
     def list_sync_events(
         self, *, after: Union[Unset, str] = UNSET, limit: Union[Unset, str] = UNSET
     ) -> SyncEventPage:
-        """[Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view."""
+        """[Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received, purchase_order.confirmed and purchase_order.shipped (the supplier confirmed or shipped against an order: read GetPurchaseOrderFulfillment), and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view."""
         return self._transport.call(
             "pleaxy._generated.api.document_sync.list_sync_events",
             after=after,
@@ -347,6 +347,51 @@ class ExchangeRatesResource:
         """[Buyer] Set how far (percent, 0–100) an invoice's stated rate may be from the reference rate before the invoice is flagged. Default 5. Administrators only, signed-in session only."""
         return self._transport.call(
             "pleaxy._generated.api.exchange_rates.set_exchange_rate_warning", body=body
+        )
+
+
+class FulfillmentResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def confirm_purchase_order(
+        self,
+        po_id: str,
+        *,
+        body: CreateOrderConfirmationInput,
+        buyer: Union[Unset, str] = UNSET,
+    ) -> OrderConfirmation:
+        """[Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|reject, qty?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. Answers the stored confirmation with its outcome: accepted, backordered, partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope."""
+        return self._transport.call(
+            "pleaxy._generated.api.fulfillment.confirm_purchase_order",
+            po_id=po_id,
+            body=body,
+            buyer=buyer,
+        )
+
+    def get_purchase_order_fulfillment(
+        self, po_id: str, *, buyer: Union[Unset, str] = UNSET
+    ) -> PurchaseOrderFulfillment:
+        """[Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|partial|rejected, lines with status accept|backordered|reject, qty, dates and reason); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder."""
+        return self._transport.call(
+            "pleaxy._generated.api.fulfillment.get_purchase_order_fulfillment",
+            po_id=po_id,
+            buyer=buyer,
+        )
+
+    def send_ship_notice(
+        self,
+        po_id: str,
+        *,
+        body: CreateShipNoticeInput,
+        buyer: Union[Unset, str] = UNSET,
+    ) -> ShipNotice:
+        """[Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only lines ordered by quantity ship. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope."""
+        return self._transport.call(
+            "pleaxy._generated.api.fulfillment.send_ship_notice",
+            po_id=po_id,
+            body=body,
+            buyer=buyer,
         )
 
 
@@ -855,6 +900,7 @@ class Resources:
         self.document_sync = DocumentSyncResource(transport)
         self.employees = EmployeesResource(transport)
         self.exchange_rates = ExchangeRatesResource(transport)
+        self.fulfillment = FulfillmentResource(transport)
         self.invoices = InvoicesResource(transport)
         self.notifications = NotificationsResource(transport)
         self.org_profiles = OrgProfilesResource(transport)

@@ -7,6 +7,7 @@ import ai.pleaxy.api.AutomationRulesApi;
 import ai.pleaxy.api.BillingApi;
 import ai.pleaxy.api.CloudConnectionsApi;
 import ai.pleaxy.api.DocumentSyncApi;
+import ai.pleaxy.api.FulfillmentApi;
 import ai.pleaxy.api.EmployeesApi;
 import ai.pleaxy.api.ExchangeRatesApi;
 import ai.pleaxy.api.InvoicesApi;
@@ -53,6 +54,7 @@ public final class PleaxyClient {
   private final BillingApi billing;
   private final CloudConnectionsApi cloudConnections;
   private final DocumentSyncApi documentSync;
+  private final FulfillmentApi fulfillment;
   private final EmployeesApi employees;
   private final ExchangeRatesApi exchangeRates;
   private final InvoicesApi invoices;
@@ -95,6 +97,7 @@ public final class PleaxyClient {
     this.billing = new BillingApi(apiClient);
     this.cloudConnections = new CloudConnectionsApi(apiClient);
     this.documentSync = new DocumentSyncApi(apiClient);
+    this.fulfillment = new FulfillmentApi(apiClient);
     this.employees = new EmployeesApi(apiClient);
     this.exchangeRates = new ExchangeRatesApi(apiClient);
     this.invoices = new InvoicesApi(apiClient);
@@ -148,6 +151,11 @@ public final class PleaxyClient {
   /** DocumentSync operations. */
   public DocumentSyncApi documentSync() {
     return documentSync;
+  }
+
+  /** Fulfillment operations. */
+  public FulfillmentApi fulfillment() {
+    return fulfillment;
   }
 
   /** Employees operations. */

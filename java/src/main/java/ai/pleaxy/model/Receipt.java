@@ -195,11 +195,11 @@ public class Receipt {
   public enum SourceEnum {
     SUPPLIER(String.valueOf("supplier")),
     
+    API(String.valueOf("api")),
+    
     APP(String.valueOf("app")),
     
     ASSISTANT(String.valueOf("assistant")),
-    
-    API(String.valueOf("api")),
     
     IMPORT(String.valueOf("import"));
 

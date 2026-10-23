@@ -164,7 +164,8 @@
                         "type": "string",
                         "enum": [
                           "invoices:feed",
-                          "payments:record"
+                          "payments:record",
+                          "orders:fulfill"
                         ]
                       }
                     },
@@ -10837,7 +10838,7 @@
     "/v1/workspaces/{regionId}/sync/events": {
       "get": {
         "operationId": "ListSyncEvents",
-        "summary": "[Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.",
+        "summary": "[Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received, invoice.payment_failed, credit_note.received, purchase_order.confirmed and purchase_order.shipped (the supplier confirmed or shipped against an order: read GetPurchaseOrderFulfillment), and purchase_order.updated / invoice.updated whenever one of its documents is decided or moves on. An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.",
         "parameters": [
           {
             "name": "regionId",
@@ -11265,6 +11266,8 @@
                           "purchase_order.canceled",
                           "purchase_order.rejected",
                           "purchase_order.updated",
+                          "purchase_order.confirmed",
+                          "purchase_order.shipped",
                           "invoice.received",
                           "invoice.approved",
                           "invoice.rejected",
@@ -11354,6 +11357,8 @@
                           "purchase_order.canceled",
                           "purchase_order.rejected",
                           "purchase_order.updated",
+                          "purchase_order.confirmed",
+                          "purchase_order.shipped",
                           "invoice.received",
                           "invoice.approved",
                           "invoice.rejected",
@@ -11591,6 +11596,8 @@
                           "purchase_order.canceled",
                           "purchase_order.rejected",
                           "purchase_order.updated",
+                          "purchase_order.confirmed",
+                          "purchase_order.shipped",
                           "invoice.received",
                           "invoice.approved",
                           "invoice.rejected",
@@ -11814,6 +11821,197 @@
         },
         "tags": [
           "document-sync"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/purchase-orders/{poId}/fulfillment": {
+      "get": {
+        "operationId": "GetPurchaseOrderFulfillment",
+        "summary": "[Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|partial|rejected, lines with status accept|backordered|reject, qty, dates and reason); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseOrderFulfillment"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fulfillment"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/purchase-orders/{poId}/confirmations": {
+      "post": {
+        "operationId": "ConfirmPurchaseOrder",
+        "summary": "[Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|reject, qty?, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. Answers the stored confirmation with its outcome: accepted, backordered, partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderConfirmationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderConfirmation"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fulfillment"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/purchase-orders/{poId}/ship-notices": {
+      "post": {
+        "operationId": "SendShipNotice",
+        "summary": "[Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only lines ordered by quantity ship. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateShipNoticeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShipNotice"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fulfillment"
         ]
       }
     },
@@ -12064,12 +12262,13 @@
           },
           "scopes": {
             "type": "array",
-            "description": "Extra abilities, each for one side (the other side's scope is a 400). Supplier: `invoices:feed` lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId. Buyer: `payments:record` lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key.",
+            "description": "Extra abilities, each for one side (the other side's scope is a 400). Supplier: `invoices:feed` lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId; `orders:fulfill` lets it confirm orders and send ship notices, through POST .../purchase-orders/:poId/confirmations and .../ship-notices or as cXML to POST /v1/cxml/fulfillment. Buyer: `payments:record` lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key.",
             "items": {
               "type": "string",
               "enum": [
                 "invoices:feed",
-                "payments:record"
+                "payments:record",
+                "orders:fulfill"
               ]
             }
           }
@@ -13926,6 +14125,138 @@
           }
         }
       },
+      "OrderConfirmationLineDto": {
+        "type": "object",
+        "properties": {
+          "lineNo": {
+            "type": "number",
+            "minimum": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "accept",
+              "backordered",
+              "reject"
+            ]
+          },
+          "qty": {
+            "type": "number"
+          },
+          "shipmentDate": {
+            "type": "string"
+          },
+          "deliveryDate": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "lineNo",
+          "status"
+        ]
+      },
+      "CreateOrderConfirmationDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "accept",
+              "backordered",
+              "detail",
+              "reject"
+            ]
+          },
+          "confirmId": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "deliveryDate": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderConfirmationLineDto"
+            }
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "ShipNoticeLineDto": {
+        "type": "object",
+        "properties": {
+          "lineNo": {
+            "type": "number",
+            "minimum": 1
+          },
+          "qty": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "lineNo",
+          "qty"
+        ]
+      },
+      "CreateShipNoticeDto": {
+        "type": "object",
+        "properties": {
+          "shipmentId": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "shipped",
+              "planned",
+              "canceled"
+            ]
+          },
+          "shipmentDate": {
+            "type": "string"
+          },
+          "deliveryDate": {
+            "type": "string"
+          },
+          "carrier": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "trackingNumber": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "trackingUrl": {
+            "type": "string",
+            "maxLength": 2048
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShipNoticeLineDto"
+            }
+          }
+        },
+        "required": [
+          "shipmentId"
+        ]
+      },
       "EmployeeSummary": {
         "type": "object",
         "properties": {
@@ -13988,7 +14319,8 @@
               "type": "string",
               "enum": [
                 "invoices:feed",
-                "payments:record"
+                "payments:record",
+                "orders:fulfill"
               ]
             }
           },
@@ -15003,6 +15335,9 @@
               "po_changed",
               "po_approval_requested",
               "po_store_order_problem",
+              "po_supplier_confirmed",
+              "po_supplier_exception",
+              "po_shipped",
               "po_needs_approver",
               "invoice_submitted",
               "invoice_ready_for_approval",
@@ -20773,6 +21108,8 @@
               "purchase_order.canceled",
               "purchase_order.rejected",
               "purchase_order.updated",
+              "purchase_order.confirmed",
+              "purchase_order.shipped",
               "invoice.received",
               "invoice.approved",
               "invoice.rejected",
@@ -20988,6 +21325,8 @@
                 "purchase_order.canceled",
                 "purchase_order.rejected",
                 "purchase_order.updated",
+                "purchase_order.confirmed",
+                "purchase_order.shipped",
                 "invoice.received",
                 "invoice.approved",
                 "invoice.rejected",
@@ -21071,6 +21410,8 @@
               "purchase_order.canceled",
               "purchase_order.rejected",
               "purchase_order.updated",
+              "purchase_order.confirmed",
+              "purchase_order.shipped",
               "invoice.received",
               "invoice.approved",
               "invoice.rejected",
@@ -21133,6 +21474,227 @@
           "status",
           "attempts",
           "createdAt"
+        ]
+      },
+      "PurchaseOrderFulfillment": {
+        "type": "object",
+        "properties": {
+          "confirmation": {
+            "$ref": "#/components/schemas/OrderConfirmation"
+          },
+          "confirmations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderConfirmation"
+            }
+          },
+          "shipNotices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShipNotice"
+            }
+          },
+          "shippedByLine": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "lineNo": {
+                  "type": "number"
+                },
+                "qty": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "lineNo",
+                "qty"
+              ]
+            }
+          },
+          "expectedDeliveryDate": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "confirmations",
+          "shipNotices",
+          "shippedByLine"
+        ]
+      },
+      "OrderConfirmation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "poId": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "rejected",
+              "accepted",
+              "partial",
+              "backordered"
+            ]
+          },
+          "confirmId": {
+            "type": "string"
+          },
+          "operation": {
+            "type": "string",
+            "enum": [
+              "new",
+              "update"
+            ]
+          },
+          "deliveryDate": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderConfirmationLine"
+            }
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "cxml",
+              "portal",
+              "api"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "poId",
+          "outcome",
+          "operation",
+          "lines",
+          "source",
+          "createdAt"
+        ]
+      },
+      "OrderConfirmationLine": {
+        "type": "object",
+        "properties": {
+          "lineNo": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "accept",
+              "reject",
+              "backordered"
+            ]
+          },
+          "qty": {
+            "type": "number"
+          },
+          "shipmentDate": {
+            "type": "string"
+          },
+          "deliveryDate": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "lineNo",
+          "status"
+        ]
+      },
+      "ShipNotice": {
+        "type": "object",
+        "properties": {
+          "shipmentId": {
+            "type": "string"
+          },
+          "poId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "canceled",
+              "planned",
+              "shipped"
+            ]
+          },
+          "shipmentDate": {
+            "type": "string"
+          },
+          "deliveryDate": {
+            "type": "string"
+          },
+          "carrier": {
+            "type": "string"
+          },
+          "trackingNumber": {
+            "type": "string"
+          },
+          "trackingUrl": {
+            "type": "string"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShipNoticeLine"
+            }
+          },
+          "note": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "cxml",
+              "portal",
+              "api"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "shipmentId",
+          "poId",
+          "status",
+          "lines",
+          "source",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "ShipNoticeLine": {
+        "type": "object",
+        "properties": {
+          "lineNo": {
+            "type": "number"
+          },
+          "qty": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "lineNo",
+          "qty"
         ]
       },
       "BillingSummary": {
@@ -21559,9 +22121,9 @@
             "type": "string",
             "enum": [
               "supplier",
+              "api",
               "app",
               "assistant",
-              "api",
               "import"
             ]
           },

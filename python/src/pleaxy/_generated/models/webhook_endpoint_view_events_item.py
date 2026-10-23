@@ -15,8 +15,10 @@ WebhookEndpointViewEventsItem = Literal[
     "invoice.updated",
     "purchase_order.canceled",
     "purchase_order.changed",
+    "purchase_order.confirmed",
     "purchase_order.issued",
     "purchase_order.rejected",
+    "purchase_order.shipped",
     "purchase_order.updated",
 ]
 
@@ -35,8 +37,10 @@ WEBHOOK_ENDPOINT_VIEW_EVENTS_ITEM_VALUES: Set[WebhookEndpointViewEventsItem] = {
     "invoice.updated",
     "purchase_order.canceled",
     "purchase_order.changed",
+    "purchase_order.confirmed",
     "purchase_order.issued",
     "purchase_order.rejected",
+    "purchase_order.shipped",
     "purchase_order.updated",
 }
 

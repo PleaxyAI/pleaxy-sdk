@@ -130,12 +130,12 @@ impl Default for Status {
 pub enum Source {
     #[serde(rename = "supplier")]
     Supplier,
+    #[serde(rename = "api")]
+    Api,
     #[serde(rename = "app")]
     App,
     #[serde(rename = "assistant")]
     Assistant,
-    #[serde(rename = "api")]
-    Api,
     #[serde(rename = "import")]
     Import,
 }

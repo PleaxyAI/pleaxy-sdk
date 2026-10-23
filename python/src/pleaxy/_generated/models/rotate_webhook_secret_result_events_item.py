@@ -15,8 +15,10 @@ RotateWebhookSecretResultEventsItem = Literal[
     "invoice.updated",
     "purchase_order.canceled",
     "purchase_order.changed",
+    "purchase_order.confirmed",
     "purchase_order.issued",
     "purchase_order.rejected",
+    "purchase_order.shipped",
     "purchase_order.updated",
 ]
 
@@ -37,8 +39,10 @@ ROTATE_WEBHOOK_SECRET_RESULT_EVENTS_ITEM_VALUES: Set[
     "invoice.updated",
     "purchase_order.canceled",
     "purchase_order.changed",
+    "purchase_order.confirmed",
     "purchase_order.issued",
     "purchase_order.rejected",
+    "purchase_order.shipped",
     "purchase_order.updated",
 }
 
