@@ -1,12 +1,15 @@
 from typing import Literal, Set, cast
 
 InvoiceControlFindingCode = Literal[
+    "commitment_shortfall_overbilled",
     "contract_cap_exceeded",
     "contract_check_failed",
+    "contract_discount_missing",
     "contract_max_unit_price_exceeded",
     "contract_not_active",
     "contract_outside_term",
     "contract_rate_exceeded",
+    "fixed_discount_missing",
     "po_balance_exceeded",
     "po_line_amount_exceeded",
     "po_line_missing",
@@ -16,15 +19,19 @@ InvoiceControlFindingCode = Literal[
     "receipt_amount_exceeded",
     "receipt_missing",
     "receipt_qty_exceeded",
+    "tier_price_exceeded",
 ]
 
 INVOICE_CONTROL_FINDING_CODE_VALUES: Set[InvoiceControlFindingCode] = {
+    "commitment_shortfall_overbilled",
     "contract_cap_exceeded",
     "contract_check_failed",
+    "contract_discount_missing",
     "contract_max_unit_price_exceeded",
     "contract_not_active",
     "contract_outside_term",
     "contract_rate_exceeded",
+    "fixed_discount_missing",
     "po_balance_exceeded",
     "po_line_amount_exceeded",
     "po_line_missing",
@@ -34,6 +41,7 @@ INVOICE_CONTROL_FINDING_CODE_VALUES: Set[InvoiceControlFindingCode] = {
     "receipt_amount_exceeded",
     "receipt_missing",
     "receipt_qty_exceeded",
+    "tier_price_exceeded",
 }
 
 

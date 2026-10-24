@@ -88,6 +88,7 @@ import ai.pleaxy.client.ApiClient;
   PurchaseOrder.JSON_PROPERTY_NOTES,
   PurchaseOrder.JSON_PROPERTY_CONTRACT_ID,
   PurchaseOrder.JSON_PROPERTY_SUPPLIER_EMAIL,
+  PurchaseOrder.JSON_PROPERTY_MAILBOX_TOKEN,
   PurchaseOrder.JSON_PROPERTY_QUOTE_DOCUMENT,
   PurchaseOrder.JSON_PROPERTY_SOW_DOCUMENT,
   PurchaseOrder.JSON_PROPERTY_LINE_ITEMS,
@@ -351,6 +352,10 @@ public class PurchaseOrder {
   public static final String JSON_PROPERTY_SUPPLIER_EMAIL = "supplierEmail";
   @javax.annotation.Nullable
   private PurchaseOrderSupplierEmail supplierEmail;
+
+  public static final String JSON_PROPERTY_MAILBOX_TOKEN = "mailboxToken";
+  @javax.annotation.Nullable
+  private String mailboxToken;
 
   public static final String JSON_PROPERTY_QUOTE_DOCUMENT = "quoteDocument";
   @javax.annotation.Nullable
@@ -1466,6 +1471,30 @@ public class PurchaseOrder {
   }
 
 
+  public PurchaseOrder mailboxToken(@javax.annotation.Nullable String mailboxToken) {
+    this.mailboxToken = mailboxToken;
+    return this;
+  }
+
+  /**
+   * Get mailboxToken
+   * @return mailboxToken
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MAILBOX_TOKEN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getMailboxToken() {
+    return mailboxToken;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MAILBOX_TOKEN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMailboxToken(@javax.annotation.Nullable String mailboxToken) {
+    this.mailboxToken = mailboxToken;
+  }
+
+
   public PurchaseOrder quoteDocument(@javax.annotation.Nullable PurchaseOrderQuoteDocument quoteDocument) {
     this.quoteDocument = quoteDocument;
     return this;
@@ -2242,6 +2271,7 @@ public class PurchaseOrder {
         Objects.equals(this.notes, purchaseOrder.notes) &&
         Objects.equals(this.contractId, purchaseOrder.contractId) &&
         Objects.equals(this.supplierEmail, purchaseOrder.supplierEmail) &&
+        Objects.equals(this.mailboxToken, purchaseOrder.mailboxToken) &&
         Objects.equals(this.quoteDocument, purchaseOrder.quoteDocument) &&
         Objects.equals(this.sowDocument, purchaseOrder.sowDocument) &&
         Objects.equals(this.lineItems, purchaseOrder.lineItems) &&
@@ -2275,7 +2305,7 @@ public class PurchaseOrder {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, buyerOrgId, supplierOrgId, supplier, amount, currency, status, invoiceId, invoiceIds, invoicedAmount, priorInvoiced, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, provider, payerAccounts, billTo, billToParty, costCenter, costCenterChanges, glCode, submittedAt, budgetCheck, requestId, budgetOwner, buyerName, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, supplierContactEmail, supplierInvite, supplierConnectionId, notes, contractId, supplierEmail, quoteDocument, sowDocument, lineItems, approval, approvalVersion, everSpendLimitGated, spendLimitGatedAt, updatedBy, updatedAt, version, lastChange, approvalAmount, punchout, storeId, deliveryAddressId, shipTo, storeOrder, matching, matchingDefault, matchingChanges, receiverEmployeeKey, receiverName, received, receivedPending, receiptState, receiptRequired, readyToInvoice, receiptTolerance, createdAt);
+    return Objects.hash(id, buyerOrgId, supplierOrgId, supplier, amount, currency, status, invoiceId, invoiceIds, invoicedAmount, priorInvoiced, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, provider, payerAccounts, billTo, billToParty, costCenter, costCenterChanges, glCode, submittedAt, budgetCheck, requestId, budgetOwner, buyerName, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, supplierContactEmail, supplierInvite, supplierConnectionId, notes, contractId, supplierEmail, mailboxToken, quoteDocument, sowDocument, lineItems, approval, approvalVersion, everSpendLimitGated, spendLimitGatedAt, updatedBy, updatedAt, version, lastChange, approvalAmount, punchout, storeId, deliveryAddressId, shipTo, storeOrder, matching, matchingDefault, matchingChanges, receiverEmployeeKey, receiverName, received, receivedPending, receiptState, receiptRequired, readyToInvoice, receiptTolerance, createdAt);
   }
 
   @Override
@@ -2318,6 +2348,7 @@ public class PurchaseOrder {
     sb.append("    notes: ").append(toIndentedString(notes)).append("\n");
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
     sb.append("    supplierEmail: ").append(toIndentedString(supplierEmail)).append("\n");
+    sb.append("    mailboxToken: ").append(toIndentedString(mailboxToken)).append("\n");
     sb.append("    quoteDocument: ").append(toIndentedString(quoteDocument)).append("\n");
     sb.append("    sowDocument: ").append(toIndentedString(sowDocument)).append("\n");
     sb.append("    lineItems: ").append(toIndentedString(lineItems)).append("\n");
@@ -2586,6 +2617,11 @@ public class PurchaseOrder {
     // add `supplierEmail` to the URL query string
     if (getSupplierEmail() != null) {
       joiner.add(getSupplierEmail().toUrlQueryString(prefix + "supplierEmail" + suffix));
+    }
+
+    // add `mailboxToken` to the URL query string
+    if (getMailboxToken() != null) {
+      joiner.add(String.format("%smailboxToken%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMailboxToken()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `quoteDocument` to the URL query string

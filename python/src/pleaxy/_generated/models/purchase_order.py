@@ -88,6 +88,7 @@ class PurchaseOrder:
         notes (Union[Unset, str]):
         contract_id (Union[Unset, str]):
         supplier_email (Union[Unset, PurchaseOrderSupplierEmail]):
+        mailbox_token (Union[Unset, str]):
         quote_document (Union[Unset, PurchaseOrderQuoteDocument]):
         sow_document (Union[Unset, PurchaseOrderQuoteDocument]):
         line_items (Union[Unset, List['LineItem']]):
@@ -155,6 +156,7 @@ class PurchaseOrder:
     notes: Union[Unset, str] = UNSET
     contract_id: Union[Unset, str] = UNSET
     supplier_email: Union[Unset, "PurchaseOrderSupplierEmail"] = UNSET
+    mailbox_token: Union[Unset, str] = UNSET
     quote_document: Union[Unset, "PurchaseOrderQuoteDocument"] = UNSET
     sow_document: Union[Unset, "PurchaseOrderQuoteDocument"] = UNSET
     line_items: Union[Unset, List["LineItem"]] = UNSET
@@ -284,6 +286,8 @@ class PurchaseOrder:
         supplier_email: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.supplier_email, Unset):
             supplier_email = self.supplier_email.to_dict()
+
+        mailbox_token = self.mailbox_token
 
         quote_document: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.quote_document, Unset):
@@ -462,6 +466,8 @@ class PurchaseOrder:
             field_dict["contractId"] = contract_id
         if supplier_email is not UNSET:
             field_dict["supplierEmail"] = supplier_email
+        if mailbox_token is not UNSET:
+            field_dict["mailboxToken"] = mailbox_token
         if quote_document is not UNSET:
             field_dict["quoteDocument"] = quote_document
         if sow_document is not UNSET:
@@ -667,6 +673,8 @@ class PurchaseOrder:
         else:
             supplier_email = PurchaseOrderSupplierEmail.from_dict(_supplier_email)
 
+        mailbox_token = d.pop("mailboxToken", UNSET)
+
         _quote_document = d.pop("quoteDocument", UNSET)
         quote_document: Union[Unset, PurchaseOrderQuoteDocument]
         if isinstance(_quote_document, Unset):
@@ -843,6 +851,7 @@ class PurchaseOrder:
             notes=notes,
             contract_id=contract_id,
             supplier_email=supplier_email,
+            mailbox_token=mailbox_token,
             quote_document=quote_document,
             sow_document=sow_document,
             line_items=line_items,

@@ -137,6 +137,8 @@ public class Notification {
     
     PO_SHIPPED(String.valueOf("po_shipped")),
     
+    PO_SUPPLIER_EMAIL(String.valueOf("po_supplier_email")),
+    
     PO_CHANGES_DECLINED(String.valueOf("po_changes_declined")),
     
     PO_NEEDS_APPROVER(String.valueOf("po_needs_approver")),
@@ -156,6 +158,8 @@ public class Notification {
     INVOICE_PAYMENT_WITHDRAWN(String.valueOf("invoice_payment_withdrawn")),
     
     PAYMENTS_RECORDED_BY_KEY(String.valueOf("payments_recorded_by_key")),
+    
+    ACCOUNTING_SYNC_FAILED(String.valueOf("accounting_sync_failed")),
     
     INVOICE_REMITTANCE_SENT(String.valueOf("invoice_remittance_sent")),
     

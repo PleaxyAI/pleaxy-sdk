@@ -265,6 +265,18 @@ func (c *Client) DiscoverAzureBillingScopes(ctx context.Context, body DiscoverAz
 	return resp.JSON201, nil
 }
 
+// DismissPurchaseOrderEmail - [Both] Leave the order as it is instead of recording what an email asks. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed.
+func (c *Client) DismissPurchaseOrderEmail(ctx context.Context, poId string, emailId string, params *DismissPurchaseOrderEmailParams) (*InboundEmail, error) {
+	resp, err := c.api.DismissPurchaseOrderEmailWithResponse(ctx, poId, emailId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // ExportInvoicesForPayment - [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row's Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
 func (c *Client) ExportInvoicesForPayment(ctx context.Context, body ExportInvoicesForPaymentJSONRequestBody) ([]byte, error) {
 	resp, err := c.api.ExportInvoicesForPaymentWithResponse(ctx, body)
@@ -721,6 +733,18 @@ func (c *Client) ListNotificationsPage(ctx context.Context, params *ListNotifica
 	return resp.JSON200, nil
 }
 
+// ListPurchaseOrderEmails - [Both] The order's own email address and the emails that reached it, newest first: { address?, emails: [{ id, from, subject, receivedAt, trust: verified|unverified, kind: cxml|text, outcome: applied|draft|held|noAction|test|failed|ignored, reasonCode?, reason?, summary?, text?, attachments, draft?, result?, decision? }] }. A supplier replying to the order email, or its system sending a cXML ConfirmationRequest or ShipNoticeRequest, reaches this address. A verified sender's cXML document is recorded at once (applied); a plain email is read by the Pleaxy Assistant into a draft confirmation or ship notice, and an unverified sender's cXML document is held, both for someone to record with RecordPurchaseOrderEmail. address is absent until the order is issued, or when email-in is off. Takes the same ?buyer= as GetPurchaseOrder.
+func (c *Client) ListPurchaseOrderEmails(ctx context.Context, poId string, params *ListPurchaseOrderEmailsParams) (*PurchaseOrderEmails, error) {
+	resp, err := c.api.ListPurchaseOrderEmailsWithResponse(ctx, poId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // ListPurchaseOrders - [Both] List purchase orders - optionally scoped to a createdAt range via ?from=&to=. A Supplier caller gets a reduced view (see GetPurchaseOrder).
 func (c *Client) ListPurchaseOrders(ctx context.Context, params *ListPurchaseOrdersParams) (*[]ListPurchaseOrdersItem, error) {
 	resp, err := c.api.ListPurchaseOrdersWithResponse(ctx, params)
@@ -841,6 +865,18 @@ func (c *Client) RecordPayment(ctx context.Context, invoiceId string, body Recor
 // RecordPayments - [Buyer] Record payments your ERP or bank feed already made outside Pleaxy - wires, checks, ACH, card - so each supplier gets its payment notice, remittance advice and sync event without anyone retyping it: { payments: [{ invoiceId, method, paymentDate, reference, note?, ...RecordPayment's currency and withholding fields }] }, 1-50 per call. Each payment follows RecordPayment's rules and is answered on its own: { results: [{ invoiceId, outcome: recorded|already_recorded|refused, status, code?, message?, messageId?, params? }], recorded, alreadyRecorded, refused }, always 200 once the body is valid. Repeating a payment is safe (already_recorded). An invoice approved by an API key is still refused. Up to 500 payments per key per UTC day; past that each payment is refused with 429 RATE_LIMITED. Every call that records a payment raises a payments_recorded_by_key notification in the workspace naming the key and the invoices, so a payment nobody made is seen and withdrawn. API key with the payments:record scope only, minted with a procurementRole that can edit invoices.
 func (c *Client) RecordPayments(ctx context.Context, body RecordPaymentsJSONRequestBody) (*RecordPaymentsResult, error) {
 	resp, err := c.api.RecordPaymentsWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// RecordPurchaseOrderEmail - [Both] Record an email's draft (outcome draft or held) as the supplier's order confirmation or ship notice, from email, with the same checks as ConfirmPurchaseOrder and SendShipNotice. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed, NOTHING_TO_RECORD for any other outcome; the fulfillment refusals (ORDER_NOT_OPEN, an unknown line) as those routes give them.
+func (c *Client) RecordPurchaseOrderEmail(ctx context.Context, poId string, emailId string, params *RecordPurchaseOrderEmailParams) (*InboundEmail, error) {
+	resp, err := c.api.RecordPurchaseOrderEmailWithResponse(ctx, poId, emailId, params)
 	if err != nil {
 		return nil, err
 	}

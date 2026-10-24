@@ -100,6 +100,8 @@ pub struct ListPurchaseOrdersItem {
     pub contract_id: Option<String>,
     #[serde(rename = "supplierEmail", skip_serializing_if = "Option::is_none")]
     pub supplier_email: Option<models::PurchaseOrderSupplierEmail>,
+    #[serde(rename = "mailboxToken", skip_serializing_if = "Option::is_none")]
+    pub mailbox_token: Option<String>,
     #[serde(rename = "quoteDocument", skip_serializing_if = "Option::is_none")]
     pub quote_document: Option<models::PurchaseOrderSupplierViewQuoteDocument>,
     #[serde(rename = "sowDocument", skip_serializing_if = "Option::is_none")]
@@ -207,6 +209,7 @@ impl ListPurchaseOrdersItem {
             notes: None,
             contract_id: None,
             supplier_email: None,
+            mailbox_token: None,
             quote_document: None,
             sow_document: None,
             line_items: None,

@@ -239,6 +239,76 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Both] Leave the order as it is instead of recording what an email asks. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed.
+    # @param po_id [String] 
+    # @param email_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :buyer 
+    # @return [InboundEmail]
+    def dismiss_purchase_order_email(po_id, email_id, opts = {})
+      data, _status_code, _headers = dismiss_purchase_order_email_with_http_info(po_id, email_id, opts)
+      data
+    end
+
+    # [Both] Leave the order as it is instead of recording what an email asks. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed.
+    # @param po_id [String] 
+    # @param email_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :buyer 
+    # @return [Array<(InboundEmail, Integer, Hash)>] InboundEmail data, response status code and response headers
+    def dismiss_purchase_order_email_with_http_info(po_id, email_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: FulfillmentApi.dismiss_purchase_order_email ...'
+      end
+      # verify the required parameter 'po_id' is set
+      if @api_client.config.client_side_validation && po_id.nil?
+        fail ArgumentError, "Missing the required parameter 'po_id' when calling FulfillmentApi.dismiss_purchase_order_email"
+      end
+      # verify the required parameter 'email_id' is set
+      if @api_client.config.client_side_validation && email_id.nil?
+        fail ArgumentError, "Missing the required parameter 'email_id' when calling FulfillmentApi.dismiss_purchase_order_email"
+      end
+      # resource path
+      local_var_path = '/purchase-orders/{poId}/emails/{emailId}/dismiss'.sub('{' + 'poId' + '}', CGI.escape(po_id.to_s)).sub('{' + 'emailId' + '}', CGI.escape(email_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'buyer'] = opts[:'buyer'] if !opts[:'buyer'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'InboundEmail'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"FulfillmentApi.dismiss_purchase_order_email",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FulfillmentApi#dismiss_purchase_order_email\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject, qty, unitPrice, dates and reason, and the buyer's decision on a changed one: applied or declined); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder.
     # @param po_id [String] 
     # @param [Hash] opts the optional parameters
@@ -299,6 +369,140 @@ module Pleaxy
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FulfillmentApi#get_purchase_order_fulfillment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Both] The order's own email address and the emails that reached it, newest first: { address?, emails: [{ id, from, subject, receivedAt, trust: verified|unverified, kind: cxml|text, outcome: applied|draft|held|noAction|test|failed|ignored, reasonCode?, reason?, summary?, text?, attachments, draft?, result?, decision? }] }. A supplier replying to the order email, or its system sending a cXML ConfirmationRequest or ShipNoticeRequest, reaches this address. A verified sender's cXML document is recorded at once (applied); a plain email is read by the Pleaxy Assistant into a draft confirmation or ship notice, and an unverified sender's cXML document is held, both for someone to record with RecordPurchaseOrderEmail. address is absent until the order is issued, or when email-in is off. Takes the same ?buyer= as GetPurchaseOrder.
+    # @param po_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :buyer 
+    # @return [PurchaseOrderEmails]
+    def list_purchase_order_emails(po_id, opts = {})
+      data, _status_code, _headers = list_purchase_order_emails_with_http_info(po_id, opts)
+      data
+    end
+
+    # [Both] The order&#39;s own email address and the emails that reached it, newest first: { address?, emails: [{ id, from, subject, receivedAt, trust: verified|unverified, kind: cxml|text, outcome: applied|draft|held|noAction|test|failed|ignored, reasonCode?, reason?, summary?, text?, attachments, draft?, result?, decision? }] }. A supplier replying to the order email, or its system sending a cXML ConfirmationRequest or ShipNoticeRequest, reaches this address. A verified sender&#39;s cXML document is recorded at once (applied); a plain email is read by the Pleaxy Assistant into a draft confirmation or ship notice, and an unverified sender&#39;s cXML document is held, both for someone to record with RecordPurchaseOrderEmail. address is absent until the order is issued, or when email-in is off. Takes the same ?buyer&#x3D; as GetPurchaseOrder.
+    # @param po_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :buyer 
+    # @return [Array<(PurchaseOrderEmails, Integer, Hash)>] PurchaseOrderEmails data, response status code and response headers
+    def list_purchase_order_emails_with_http_info(po_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: FulfillmentApi.list_purchase_order_emails ...'
+      end
+      # verify the required parameter 'po_id' is set
+      if @api_client.config.client_side_validation && po_id.nil?
+        fail ArgumentError, "Missing the required parameter 'po_id' when calling FulfillmentApi.list_purchase_order_emails"
+      end
+      # resource path
+      local_var_path = '/purchase-orders/{poId}/emails'.sub('{' + 'poId' + '}', CGI.escape(po_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'buyer'] = opts[:'buyer'] if !opts[:'buyer'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'PurchaseOrderEmails'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"FulfillmentApi.list_purchase_order_emails",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FulfillmentApi#list_purchase_order_emails\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Both] Record an email's draft (outcome draft or held) as the supplier's order confirmation or ship notice, from email, with the same checks as ConfirmPurchaseOrder and SendShipNotice. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed, NOTHING_TO_RECORD for any other outcome; the fulfillment refusals (ORDER_NOT_OPEN, an unknown line) as those routes give them.
+    # @param po_id [String] 
+    # @param email_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :buyer 
+    # @return [InboundEmail]
+    def record_purchase_order_email(po_id, email_id, opts = {})
+      data, _status_code, _headers = record_purchase_order_email_with_http_info(po_id, email_id, opts)
+      data
+    end
+
+    # [Both] Record an email&#39;s draft (outcome draft or held) as the supplier&#39;s order confirmation or ship notice, from email, with the same checks as ConfirmPurchaseOrder and SendShipNotice. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed, NOTHING_TO_RECORD for any other outcome; the fulfillment refusals (ORDER_NOT_OPEN, an unknown line) as those routes give them.
+    # @param po_id [String] 
+    # @param email_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :buyer 
+    # @return [Array<(InboundEmail, Integer, Hash)>] InboundEmail data, response status code and response headers
+    def record_purchase_order_email_with_http_info(po_id, email_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: FulfillmentApi.record_purchase_order_email ...'
+      end
+      # verify the required parameter 'po_id' is set
+      if @api_client.config.client_side_validation && po_id.nil?
+        fail ArgumentError, "Missing the required parameter 'po_id' when calling FulfillmentApi.record_purchase_order_email"
+      end
+      # verify the required parameter 'email_id' is set
+      if @api_client.config.client_side_validation && email_id.nil?
+        fail ArgumentError, "Missing the required parameter 'email_id' when calling FulfillmentApi.record_purchase_order_email"
+      end
+      # resource path
+      local_var_path = '/purchase-orders/{poId}/emails/{emailId}/record'.sub('{' + 'poId' + '}', CGI.escape(po_id.to_s)).sub('{' + 'emailId' + '}', CGI.escape(email_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'buyer'] = opts[:'buyer'] if !opts[:'buyer'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'InboundEmail'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"FulfillmentApi.record_purchase_order_email",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FulfillmentApi#record_purchase_order_email\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

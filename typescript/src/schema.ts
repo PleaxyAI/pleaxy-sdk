@@ -1277,6 +1277,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/purchase-orders/{poId}/emails": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Both] The order's own email address and the emails that reached it, newest first: { address?, emails: [{ id, from, subject, receivedAt, trust: verified|unverified, kind: cxml|text, outcome: applied|draft|held|noAction|test|failed|ignored, reasonCode?, reason?, summary?, text?, attachments, draft?, result?, decision? }] }. A supplier replying to the order email, or its system sending a cXML ConfirmationRequest or ShipNoticeRequest, reaches this address. A verified sender's cXML document is recorded at once (applied); a plain email is read by the Pleaxy Assistant into a draft confirmation or ship notice, and an unverified sender's cXML document is held, both for someone to record with RecordPurchaseOrderEmail. address is absent until the order is issued, or when email-in is off. Takes the same ?buyer= as GetPurchaseOrder. */
+        get: operations["ListPurchaseOrderEmails"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-orders/{poId}/emails/{emailId}/record": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Both] Record an email's draft (outcome draft or held) as the supplier's order confirmation or ship notice, from email, with the same checks as ConfirmPurchaseOrder and SendShipNotice. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed, NOTHING_TO_RECORD for any other outcome; the fulfillment refusals (ORDER_NOT_OPEN, an unknown line) as those routes give them. */
+        post: operations["RecordPurchaseOrderEmail"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-orders/{poId}/emails/{emailId}/dismiss": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Both] Leave the order as it is instead of recording what an email asks. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed. */
+        post: operations["DismissPurchaseOrderEmail"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/settlement/billing": {
         parameters: {
             query?: never;
@@ -2612,7 +2663,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payments_recorded_by_key" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap";
+            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -2755,6 +2806,7 @@ export interface components {
                 to?: string;
                 at?: string;
             };
+            mailboxToken?: string;
             quoteDocument?: components["schemas"]["PurchaseOrderQuoteDocument"];
             sowDocument?: components["schemas"]["PurchaseOrderQuoteDocument"];
             lineItems?: components["schemas"]["LineItem"][];
@@ -3212,6 +3264,7 @@ export interface components {
                 to?: string;
                 at?: string;
             };
+            mailboxToken?: string;
             lineItems?: components["schemas"]["LineItem"][];
             /** Format: double */
             version?: number;
@@ -3425,7 +3478,7 @@ export interface components {
         };
         InvoiceControlFinding: {
             /** @enum {string} */
-            code?: "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded";
+            code?: "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled";
             message?: string;
             messageId?: string;
             params?: components["schemas"]["ServerMessageParams"];
@@ -4133,7 +4186,7 @@ export interface components {
                 /** Format: double */
                 poLineNo?: number;
                 /** @enum {string} */
-                code?: "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded";
+                code?: "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled";
                 message?: string;
                 /** Format: double */
                 invoiceLine?: number;
@@ -4424,7 +4477,7 @@ export interface components {
             note?: string;
             lines?: components["schemas"]["OrderConfirmationLine"][];
             /** @enum {string} */
-            source?: "cxml" | "portal" | "api";
+            source?: "cxml" | "portal" | "api" | "email";
             createdAt?: string;
             decision?: components["schemas"]["OrderConfirmationDecision"];
         };
@@ -4471,7 +4524,7 @@ export interface components {
             lines?: components["schemas"]["ShipNoticeLine"][];
             note?: string;
             /** @enum {string} */
-            source?: "cxml" | "portal" | "api";
+            source?: "cxml" | "portal" | "api" | "email";
             createdAt?: string;
             updatedAt?: string;
             receipts?: {
@@ -4484,6 +4537,94 @@ export interface components {
             lineNo?: number;
             /** Format: double */
             qty?: number;
+        };
+        PurchaseOrderEmails: {
+            address?: string;
+            emails?: components["schemas"]["InboundEmail"][];
+        };
+        InboundEmail: {
+            id: string;
+            poId?: string;
+            from?: string;
+            fromName?: string;
+            subject?: string;
+            receivedAt?: string;
+            /** @enum {string} */
+            trust?: "unverified" | "verified";
+            /** @enum {string} */
+            kind?: "text" | "cxml";
+            /** @enum {string} */
+            outcome?: "failed" | "draft" | "applied" | "held" | "noAction" | "test" | "ignored";
+            /** @enum {string} */
+            reasonCode?: "refused" | "autoReply" | "dailyLimit" | "readingLimit" | "notFulfillment" | "otherOrder" | "unreadable";
+            reason?: string;
+            reasonMessageId?: string;
+            reasonParams?: {
+                [key: string]: unknown;
+            };
+            summary?: string;
+            text?: string;
+            attachments?: {
+                name?: string;
+                contentType?: string;
+                /** Format: double */
+                size?: number;
+            }[];
+            draft?: components["schemas"]["InboundEmailDraft"];
+            result?: {
+                confirmationId?: string;
+                shipmentId?: string;
+            };
+            decision?: {
+                /** @enum {string} */
+                action?: "recorded" | "dismissed";
+                by?: string;
+                at?: string;
+                confirmationId?: string;
+                shipmentId?: string;
+            };
+        };
+        InboundEmailDraft: {
+            /** @enum {string} */
+            kind?: "confirmation" | "shipNotice";
+            summary?: string;
+            confirmation?: {
+                /** @enum {string} */
+                type?: "accept" | "reject" | "backordered" | "detail";
+                confirmId?: string;
+                /** @enum {string} */
+                operation?: "new" | "update";
+                deliveryDate?: string;
+                note?: string;
+                lines?: {
+                    /** Format: double */
+                    lineNo?: number;
+                    /** @enum {string} */
+                    status?: "accept" | "reject" | "backordered" | "change";
+                    /** Format: double */
+                    qty?: number;
+                    /** Format: double */
+                    unitPrice?: number;
+                    substitute?: components["schemas"]["OrderConfirmationSubstitute"];
+                    shipmentDate?: string;
+                    deliveryDate?: string;
+                    reason?: string;
+                    currency?: string;
+                }[];
+            };
+            shipNotice?: {
+                shipmentId?: string;
+                /** @enum {string} */
+                status?: "canceled" | "planned" | "shipped";
+                shipmentDate?: string;
+                deliveryDate?: string;
+                carrier?: string;
+                trackingNumber?: string;
+                trackingUrl?: string;
+                note?: string;
+                lines?: components["schemas"]["ShipNoticeLine"][];
+            };
+            payloadId?: string;
         };
         BillingSummary: {
             billingEnabled?: boolean;
@@ -9627,6 +9768,104 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ShipNotice"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListPurchaseOrderEmails: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseOrderEmails"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    RecordPurchaseOrderEmail: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+                emailId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InboundEmail"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    DismissPurchaseOrderEmail: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+                emailId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InboundEmail"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

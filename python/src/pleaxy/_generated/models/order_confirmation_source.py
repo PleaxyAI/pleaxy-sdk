@@ -1,10 +1,11 @@
 from typing import Literal, Set, cast
 
-OrderConfirmationSource = Literal["api", "cxml", "portal"]
+OrderConfirmationSource = Literal["api", "cxml", "email", "portal"]
 
 ORDER_CONFIRMATION_SOURCE_VALUES: Set[OrderConfirmationSource] = {
     "api",
     "cxml",
+    "email",
     "portal",
 }
 

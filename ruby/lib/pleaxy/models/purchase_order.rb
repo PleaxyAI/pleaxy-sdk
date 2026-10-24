@@ -87,6 +87,8 @@ module Pleaxy
 
     attr_accessor :supplier_email
 
+    attr_accessor :mailbox_token
+
     attr_accessor :quote_document
 
     attr_accessor :sow_document
@@ -206,6 +208,7 @@ module Pleaxy
         :'notes' => :'notes',
         :'contract_id' => :'contractId',
         :'supplier_email' => :'supplierEmail',
+        :'mailbox_token' => :'mailboxToken',
         :'quote_document' => :'quoteDocument',
         :'sow_document' => :'sowDocument',
         :'line_items' => :'lineItems',
@@ -282,6 +285,7 @@ module Pleaxy
         :'notes' => :'String',
         :'contract_id' => :'String',
         :'supplier_email' => :'PurchaseOrderSupplierEmail',
+        :'mailbox_token' => :'String',
         :'quote_document' => :'PurchaseOrderQuoteDocument',
         :'sow_document' => :'PurchaseOrderQuoteDocument',
         :'line_items' => :'Array<LineItem>',
@@ -485,6 +489,10 @@ module Pleaxy
 
       if attributes.key?(:'supplier_email')
         self.supplier_email = attributes[:'supplier_email']
+      end
+
+      if attributes.key?(:'mailbox_token')
+        self.mailbox_token = attributes[:'mailbox_token']
       end
 
       if attributes.key?(:'quote_document')
@@ -733,6 +741,7 @@ module Pleaxy
           notes == o.notes &&
           contract_id == o.contract_id &&
           supplier_email == o.supplier_email &&
+          mailbox_token == o.mailbox_token &&
           quote_document == o.quote_document &&
           sow_document == o.sow_document &&
           line_items == o.line_items &&
@@ -773,7 +782,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, buyer_org_id, supplier_org_id, supplier, amount, currency, status, invoice_id, invoice_ids, invoiced_amount, prior_invoiced, rejected_invoice_count, last_rejected_invoice_id, last_replaced_invoice_id, provider, payer_accounts, bill_to, bill_to_party, cost_center, cost_center_changes, gl_code, submitted_at, budget_check, request_id, budget_owner, buyer_name, buyer_org_name, buyer_region_name, supplier_region_name, supplier_site, supplier_contact_email, supplier_invite, supplier_connection_id, notes, contract_id, supplier_email, quote_document, sow_document, line_items, approval, approval_version, ever_spend_limit_gated, spend_limit_gated_at, updated_by, updated_at, version, last_change, approval_amount, punchout, store_id, delivery_address_id, ship_to, store_order, matching, matching_default, matching_changes, receiver_employee_key, receiver_name, received, received_pending, receipt_state, receipt_required, ready_to_invoice, receipt_tolerance, created_at].hash
+      [id, buyer_org_id, supplier_org_id, supplier, amount, currency, status, invoice_id, invoice_ids, invoiced_amount, prior_invoiced, rejected_invoice_count, last_rejected_invoice_id, last_replaced_invoice_id, provider, payer_accounts, bill_to, bill_to_party, cost_center, cost_center_changes, gl_code, submitted_at, budget_check, request_id, budget_owner, buyer_name, buyer_org_name, buyer_region_name, supplier_region_name, supplier_site, supplier_contact_email, supplier_invite, supplier_connection_id, notes, contract_id, supplier_email, mailbox_token, quote_document, sow_document, line_items, approval, approval_version, ever_spend_limit_gated, spend_limit_gated_at, updated_by, updated_at, version, last_change, approval_amount, punchout, store_id, delivery_address_id, ship_to, store_order, matching, matching_default, matching_changes, receiver_employee_key, receiver_name, received, received_pending, receipt_state, receipt_required, ready_to_invoice, receipt_tolerance, created_at].hash
     end
 
     # Builds the object from hash

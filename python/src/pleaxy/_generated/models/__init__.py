@@ -787,6 +787,31 @@ from .get_purchase_order_document_format import GetPurchaseOrderDocumentFormat
 from .get_reference_rate_result import GetReferenceRateResult
 from .get_supplier_workspace_result import GetSupplierWorkspaceResult
 from .image_ref import ImageRef
+from .inbound_email import InboundEmail
+from .inbound_email_attachments_item import InboundEmailAttachmentsItem
+from .inbound_email_decision import InboundEmailDecision
+from .inbound_email_decision_action import InboundEmailDecisionAction
+from .inbound_email_draft import InboundEmailDraft
+from .inbound_email_draft_confirmation import InboundEmailDraftConfirmation
+from .inbound_email_draft_confirmation_lines_item import (
+    InboundEmailDraftConfirmationLinesItem,
+)
+from .inbound_email_draft_confirmation_lines_item_status import (
+    InboundEmailDraftConfirmationLinesItemStatus,
+)
+from .inbound_email_draft_confirmation_operation import (
+    InboundEmailDraftConfirmationOperation,
+)
+from .inbound_email_draft_confirmation_type import InboundEmailDraftConfirmationType
+from .inbound_email_draft_kind import InboundEmailDraftKind
+from .inbound_email_draft_ship_notice import InboundEmailDraftShipNotice
+from .inbound_email_draft_ship_notice_status import InboundEmailDraftShipNoticeStatus
+from .inbound_email_kind import InboundEmailKind
+from .inbound_email_outcome import InboundEmailOutcome
+from .inbound_email_reason_code import InboundEmailReasonCode
+from .inbound_email_reason_params import InboundEmailReasonParams
+from .inbound_email_result import InboundEmailResult
+from .inbound_email_trust import InboundEmailTrust
 from .invoice_adjustment import InvoiceAdjustment
 from .invoice_adjustment_input import InvoiceAdjustmentInput
 from .invoice_adjustment_input_type import InvoiceAdjustmentInputType
@@ -1218,6 +1243,7 @@ from .purchase_order_bill_to_source import PurchaseOrderBillToSource
 from .purchase_order_change_summary import PurchaseOrderChangeSummary
 from .purchase_order_change_summary_outcome import PurchaseOrderChangeSummaryOutcome
 from .purchase_order_cost_center_change import PurchaseOrderCostCenterChange
+from .purchase_order_emails import PurchaseOrderEmails
 from .purchase_order_fulfillment import PurchaseOrderFulfillment
 from .purchase_order_fulfillment_shipped_by_line_item import (
     PurchaseOrderFulfillmentShippedByLineItem,
@@ -2023,6 +2049,25 @@ __all__ = (
     "GetReferenceRateResult",
     "GetSupplierWorkspaceResult",
     "ImageRef",
+    "InboundEmail",
+    "InboundEmailAttachmentsItem",
+    "InboundEmailDecision",
+    "InboundEmailDecisionAction",
+    "InboundEmailDraft",
+    "InboundEmailDraftConfirmation",
+    "InboundEmailDraftConfirmationLinesItem",
+    "InboundEmailDraftConfirmationLinesItemStatus",
+    "InboundEmailDraftConfirmationOperation",
+    "InboundEmailDraftConfirmationType",
+    "InboundEmailDraftKind",
+    "InboundEmailDraftShipNotice",
+    "InboundEmailDraftShipNoticeStatus",
+    "InboundEmailKind",
+    "InboundEmailOutcome",
+    "InboundEmailReasonCode",
+    "InboundEmailReasonParams",
+    "InboundEmailResult",
+    "InboundEmailTrust",
     "InvoiceAdjustment",
     "InvoiceAdjustmentInput",
     "InvoiceAdjustmentInputType",
@@ -2264,6 +2309,7 @@ __all__ = (
     "PurchaseOrderChangeSummary",
     "PurchaseOrderChangeSummaryOutcome",
     "PurchaseOrderCostCenterChange",
+    "PurchaseOrderEmails",
     "PurchaseOrderFulfillment",
     "PurchaseOrderFulfillmentShippedByLineItem",
     "PurchaseOrderMatching",

@@ -119,6 +119,8 @@ pub enum Type {
     PoSupplierException,
     #[serde(rename = "po_shipped")]
     PoShipped,
+    #[serde(rename = "po_supplier_email")]
+    PoSupplierEmail,
     #[serde(rename = "po_changes_declined")]
     PoChangesDeclined,
     #[serde(rename = "po_needs_approver")]
@@ -139,6 +141,8 @@ pub enum Type {
     InvoicePaymentWithdrawn,
     #[serde(rename = "payments_recorded_by_key")]
     PaymentsRecordedByKey,
+    #[serde(rename = "accounting_sync_failed")]
+    AccountingSyncFailed,
     #[serde(rename = "invoice_remittance_sent")]
     InvoiceRemittanceSent,
     #[serde(rename = "invoice_payment_failed")]

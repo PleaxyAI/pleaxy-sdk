@@ -77,6 +77,7 @@ class PurchaseOrderSupplierView:
         supplier_site (Union[Unset, str]):
         contract_id (Union[Unset, str]):
         supplier_email (Union[Unset, PurchaseOrderSupplierViewSupplierEmail]):
+        mailbox_token (Union[Unset, str]):
         line_items (Union[Unset, List['LineItem']]):
         version (Union[Unset, float]):
         store_id (Union[Unset, str]):
@@ -121,6 +122,7 @@ class PurchaseOrderSupplierView:
     supplier_site: Union[Unset, str] = UNSET
     contract_id: Union[Unset, str] = UNSET
     supplier_email: Union[Unset, "PurchaseOrderSupplierViewSupplierEmail"] = UNSET
+    mailbox_token: Union[Unset, str] = UNSET
     line_items: Union[Unset, List["LineItem"]] = UNSET
     version: Union[Unset, float] = UNSET
     store_id: Union[Unset, str] = UNSET
@@ -204,6 +206,8 @@ class PurchaseOrderSupplierView:
         supplier_email: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.supplier_email, Unset):
             supplier_email = self.supplier_email.to_dict()
+
+        mailbox_token = self.mailbox_token
 
         line_items: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.line_items, Unset):
@@ -327,6 +331,8 @@ class PurchaseOrderSupplierView:
             field_dict["contractId"] = contract_id
         if supplier_email is not UNSET:
             field_dict["supplierEmail"] = supplier_email
+        if mailbox_token is not UNSET:
+            field_dict["mailboxToken"] = mailbox_token
         if line_items is not UNSET:
             field_dict["lineItems"] = line_items
         if version is not UNSET:
@@ -467,6 +473,8 @@ class PurchaseOrderSupplierView:
                 _supplier_email
             )
 
+        mailbox_token = d.pop("mailboxToken", UNSET)
+
         line_items = []
         _line_items = d.pop("lineItems", UNSET)
         for line_items_item_data in _line_items or []:
@@ -598,6 +606,7 @@ class PurchaseOrderSupplierView:
             supplier_site=supplier_site,
             contract_id=contract_id,
             supplier_email=supplier_email,
+            mailbox_token=mailbox_token,
             line_items=line_items,
             version=version,
             store_id=store_id,

@@ -189,7 +189,7 @@ module Pleaxy
       return false unless outcome_validator.valid?(@outcome)
       operation_validator = EnumAttributeValidator.new('String', ["new", "update"])
       return false unless operation_validator.valid?(@operation)
-      source_validator = EnumAttributeValidator.new('String', ["cxml", "portal", "api"])
+      source_validator = EnumAttributeValidator.new('String', ["cxml", "portal", "api", "email"])
       return false unless source_validator.valid?(@source)
       true
     end
@@ -217,7 +217,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] source Object to be assigned
     def source=(source)
-      validator = EnumAttributeValidator.new('String', ["cxml", "portal", "api"])
+      validator = EnumAttributeValidator.new('String', ["cxml", "portal", "api", "email"])
       unless validator.valid?(source)
         fail ArgumentError, "invalid value for \"source\", must be one of #{validator.allowable_values}."
       end

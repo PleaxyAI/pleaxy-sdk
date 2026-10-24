@@ -81,7 +81,15 @@ public class InvoiceControlFinding {
     
     RECEIPT_QTY_EXCEEDED(String.valueOf("receipt_qty_exceeded")),
     
-    RECEIPT_AMOUNT_EXCEEDED(String.valueOf("receipt_amount_exceeded"));
+    RECEIPT_AMOUNT_EXCEEDED(String.valueOf("receipt_amount_exceeded")),
+    
+    TIER_PRICE_EXCEEDED(String.valueOf("tier_price_exceeded")),
+    
+    CONTRACT_DISCOUNT_MISSING(String.valueOf("contract_discount_missing")),
+    
+    FIXED_DISCOUNT_MISSING(String.valueOf("fixed_discount_missing")),
+    
+    COMMITMENT_SHORTFALL_OVERBILLED(String.valueOf("commitment_shortfall_overbilled"));
 
     private String value;
 

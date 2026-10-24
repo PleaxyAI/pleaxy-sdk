@@ -22,7 +22,9 @@ import ai.pleaxy.model.ApplyConfirmationChangesResult;
 import ai.pleaxy.model.CreateOrderConfirmationInput;
 import ai.pleaxy.model.CreateShipNoticeInput;
 import ai.pleaxy.model.DeclineConfirmationChangesInput;
+import ai.pleaxy.model.InboundEmail;
 import ai.pleaxy.model.OrderConfirmation;
+import ai.pleaxy.model.PurchaseOrderEmails;
 import ai.pleaxy.model.PurchaseOrderFulfillment;
 import ai.pleaxy.model.ShipNotice;
 
@@ -363,6 +365,103 @@ public class FulfillmentApi {
   }
 
   /**
+   * [Both] Leave the order as it is instead of recording what an email asks. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed.
+   * 
+   * @param poId  (required)
+   * @param emailId  (required)
+   * @param buyer  (optional)
+   * @return InboundEmail
+   * @throws ApiException if fails to make API call
+   */
+  public InboundEmail dismissPurchaseOrderEmail(String poId, String emailId, String buyer) throws ApiException {
+    ApiResponse<InboundEmail> localVarResponse = dismissPurchaseOrderEmailWithHttpInfo(poId, emailId, buyer);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Both] Leave the order as it is instead of recording what an email asks. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed.
+   * 
+   * @param poId  (required)
+   * @param emailId  (required)
+   * @param buyer  (optional)
+   * @return ApiResponse&lt;InboundEmail&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<InboundEmail> dismissPurchaseOrderEmailWithHttpInfo(String poId, String emailId, String buyer) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = dismissPurchaseOrderEmailRequestBuilder(poId, emailId, buyer);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("dismissPurchaseOrderEmail", localVarResponse);
+        }
+        return new ApiResponse<InboundEmail>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<InboundEmail>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder dismissPurchaseOrderEmailRequestBuilder(String poId, String emailId, String buyer) throws ApiException {
+    // verify the required parameter 'poId' is set
+    if (poId == null) {
+      throw new ApiException(400, "Missing the required parameter 'poId' when calling dismissPurchaseOrderEmail");
+    }
+    // verify the required parameter 'emailId' is set
+    if (emailId == null) {
+      throw new ApiException(400, "Missing the required parameter 'emailId' when calling dismissPurchaseOrderEmail");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/purchase-orders/{poId}/emails/{emailId}/dismiss"
+        .replace("{poId}", ApiClient.urlEncode(poId.toString()))
+        .replace("{emailId}", ApiClient.urlEncode(emailId.toString()));
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "buyer";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("buyer", buyer));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
    * [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject, qty, unitPrice, dates and reason, and the buyer&#39;s decision on a changed one: applied or declined); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer&#x3D; as GetPurchaseOrder.
    * 
    * @param poId  (required)
@@ -443,6 +542,193 @@ public class FulfillmentApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Both] The order&#39;s own email address and the emails that reached it, newest first: { address?, emails: [{ id, from, subject, receivedAt, trust: verified|unverified, kind: cxml|text, outcome: applied|draft|held|noAction|test|failed|ignored, reasonCode?, reason?, summary?, text?, attachments, draft?, result?, decision? }] }. A supplier replying to the order email, or its system sending a cXML ConfirmationRequest or ShipNoticeRequest, reaches this address. A verified sender&#39;s cXML document is recorded at once (applied); a plain email is read by the Pleaxy Assistant into a draft confirmation or ship notice, and an unverified sender&#39;s cXML document is held, both for someone to record with RecordPurchaseOrderEmail. address is absent until the order is issued, or when email-in is off. Takes the same ?buyer&#x3D; as GetPurchaseOrder.
+   * 
+   * @param poId  (required)
+   * @param buyer  (optional)
+   * @return PurchaseOrderEmails
+   * @throws ApiException if fails to make API call
+   */
+  public PurchaseOrderEmails listPurchaseOrderEmails(String poId, String buyer) throws ApiException {
+    ApiResponse<PurchaseOrderEmails> localVarResponse = listPurchaseOrderEmailsWithHttpInfo(poId, buyer);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Both] The order&#39;s own email address and the emails that reached it, newest first: { address?, emails: [{ id, from, subject, receivedAt, trust: verified|unverified, kind: cxml|text, outcome: applied|draft|held|noAction|test|failed|ignored, reasonCode?, reason?, summary?, text?, attachments, draft?, result?, decision? }] }. A supplier replying to the order email, or its system sending a cXML ConfirmationRequest or ShipNoticeRequest, reaches this address. A verified sender&#39;s cXML document is recorded at once (applied); a plain email is read by the Pleaxy Assistant into a draft confirmation or ship notice, and an unverified sender&#39;s cXML document is held, both for someone to record with RecordPurchaseOrderEmail. address is absent until the order is issued, or when email-in is off. Takes the same ?buyer&#x3D; as GetPurchaseOrder.
+   * 
+   * @param poId  (required)
+   * @param buyer  (optional)
+   * @return ApiResponse&lt;PurchaseOrderEmails&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<PurchaseOrderEmails> listPurchaseOrderEmailsWithHttpInfo(String poId, String buyer) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = listPurchaseOrderEmailsRequestBuilder(poId, buyer);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("listPurchaseOrderEmails", localVarResponse);
+        }
+        return new ApiResponse<PurchaseOrderEmails>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PurchaseOrderEmails>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder listPurchaseOrderEmailsRequestBuilder(String poId, String buyer) throws ApiException {
+    // verify the required parameter 'poId' is set
+    if (poId == null) {
+      throw new ApiException(400, "Missing the required parameter 'poId' when calling listPurchaseOrderEmails");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/purchase-orders/{poId}/emails"
+        .replace("{poId}", ApiClient.urlEncode(poId.toString()));
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "buyer";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("buyer", buyer));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Both] Record an email&#39;s draft (outcome draft or held) as the supplier&#39;s order confirmation or ship notice, from email, with the same checks as ConfirmPurchaseOrder and SendShipNotice. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed, NOTHING_TO_RECORD for any other outcome; the fulfillment refusals (ORDER_NOT_OPEN, an unknown line) as those routes give them.
+   * 
+   * @param poId  (required)
+   * @param emailId  (required)
+   * @param buyer  (optional)
+   * @return InboundEmail
+   * @throws ApiException if fails to make API call
+   */
+  public InboundEmail recordPurchaseOrderEmail(String poId, String emailId, String buyer) throws ApiException {
+    ApiResponse<InboundEmail> localVarResponse = recordPurchaseOrderEmailWithHttpInfo(poId, emailId, buyer);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Both] Record an email&#39;s draft (outcome draft or held) as the supplier&#39;s order confirmation or ship notice, from email, with the same checks as ConfirmPurchaseOrder and SendShipNotice. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed, NOTHING_TO_RECORD for any other outcome; the fulfillment refusals (ORDER_NOT_OPEN, an unknown line) as those routes give them.
+   * 
+   * @param poId  (required)
+   * @param emailId  (required)
+   * @param buyer  (optional)
+   * @return ApiResponse&lt;InboundEmail&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<InboundEmail> recordPurchaseOrderEmailWithHttpInfo(String poId, String emailId, String buyer) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = recordPurchaseOrderEmailRequestBuilder(poId, emailId, buyer);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("recordPurchaseOrderEmail", localVarResponse);
+        }
+        return new ApiResponse<InboundEmail>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<InboundEmail>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder recordPurchaseOrderEmailRequestBuilder(String poId, String emailId, String buyer) throws ApiException {
+    // verify the required parameter 'poId' is set
+    if (poId == null) {
+      throw new ApiException(400, "Missing the required parameter 'poId' when calling recordPurchaseOrderEmail");
+    }
+    // verify the required parameter 'emailId' is set
+    if (emailId == null) {
+      throw new ApiException(400, "Missing the required parameter 'emailId' when calling recordPurchaseOrderEmail");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/purchase-orders/{poId}/emails/{emailId}/record"
+        .replace("{poId}", ApiClient.urlEncode(poId.toString()))
+        .replace("{emailId}", ApiClient.urlEncode(emailId.toString()));
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "buyer";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("buyer", buyer));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
