@@ -6,7 +6,7 @@
   "homepage": "https://pleaxy.ai/sdks",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pleaxyai/pleaxy-sdk.git",
+    "url": "git+https://github.com/PleaxyAI/pleaxy-sdk.git",
     "directory": "typescript"
   },
   "type": "module",

@@ -22,7 +22,8 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://pleaxy.ai/sdks"
-Source = "https://github.com/pleaxyai/pleaxy-sdk/tree/main/python"
+Source = "https://github.com/PleaxyAI/pleaxy-sdk/tree/master/python"
+Documentation = "https://pleaxy.ai/api-reference"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pleaxy"]

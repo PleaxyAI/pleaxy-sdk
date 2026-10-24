@@ -6,6 +6,7 @@ spec/**
 examples/**
 Gemfile
 Rakefile
+pleaxy.gemspec
 # Generator scaffolding this repo doesn't use.
 .travis.yml
 .gitlab-ci.yml

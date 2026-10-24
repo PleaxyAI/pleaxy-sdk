@@ -1,6 +1,8 @@
 # openapi-generator settings for the Ruby SDK (scripts/generate.sh).
-# Generated: pleaxy.gemspec, lib/pleaxy.rb, lib/pleaxy/{api,models,...}. Hand-written
-# files are listed in .openapi-generator-ignore so a regeneration keeps them.
+# Generated: lib/pleaxy.rb, lib/pleaxy/{api,models,...}. Hand-written
+# files (pleaxy.gemspec among them, for its file list) are listed in .openapi-generator-ignore so a
+# regeneration keeps them. gemVersion still sets lib/pleaxy/version.rb, which the gemspec reads; the other gem*
+# settings no longer reach the gemspec, so change those there too.
 generatorName: ruby
 inputSpec: ../openapi/pleaxy.json
 outputDir: .

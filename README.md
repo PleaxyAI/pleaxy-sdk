@@ -47,6 +47,18 @@ git commit -am "Release 0.2.0" && git tag v0.2.0 && git push origin master v0.2.
 
 The tag runs [`.github/workflows/release.yml`](.github/workflows/release.yml), which publishes to npm, PyPI, RubyGems, Maven Central and crates.io and tags the Go module (`go/v0.2.0`). The secrets it needs are listed at the top of that file.
 
+CI's `packages` job builds every package as the release does, without publishing, so a pull request that would break a release fails first.
+
+Before the first release (`@pleaxy/sdk` on npm and `pleaxy` on PyPI, RubyGems and crates.io were all unclaimed on 2026-10-24), the owner:
+
+1. **npm**: creates the `pleaxy` organization on npmjs.com and an automation token with publish rights on it → `NPM_TOKEN`.
+2. **PyPI**: adds a pending trusted publisher for the `pleaxy` project (owner `PleaxyAI`, repository `pleaxy-sdk`, workflow `release.yml`, environment `pypi`), and creates the `pypi` environment in this repository's settings.
+3. **RubyGems**: creates an API key with push rights → `RUBYGEMS_API_KEY`.
+4. **Maven Central**: verifies the `ai.pleaxy` namespace on central.sonatype.com (a DNS TXT record on pleaxy.ai), creates a user token → `CENTRAL_USERNAME`, `CENTRAL_TOKEN`, and publishes a GPG public key to a keyserver → `MAVEN_GPG_PRIVATE_KEY`, `MAVEN_GPG_PASSPHRASE`.
+5. **crates.io**: signs in with GitHub and creates a token with publish rights → `CARGO_REGISTRY_TOKEN`.
+
+Each registry is its own job, so one missing secret fails that registry only; re-run that job once it's set.
+
 Versions follow semver and are shared across languages. Before 1.0, a minor version may change method or model names when the API does.
 
 ## License

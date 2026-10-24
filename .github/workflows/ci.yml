@@ -139,3 +139,52 @@ jobs:
       - run: cargo fmt --check
       - run: cargo test
       - run: cargo build --examples
+
+  # Builds every package the way release.yml publishes it, without publishing, and checks what each one ships.
+  packages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: npm
+        working-directory: typescript
+        run: |
+          npm ci && npm run build
+          npm publish --dry-run --access public
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: PyPI
+        run: |
+          pip install build==1.2.2 twine==6.0.1
+          python -m build python
+          twine check --strict python/dist/*
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+          working-directory: ruby
+      - name: RubyGems
+        working-directory: ruby
+        # bundler-cache installs into vendor/bundle here, as in release.yml: the gem must ship lib/ only.
+        run: |
+          gem build pleaxy.gemspec
+          files="$(tar -xOf pleaxy-*.gem data.tar.gz | tar -tz)"
+          if echo "$files" | grep -Ev '^(lib/|README\.md$|LICENSE$)'; then echo "::error::The gem ships files outside lib/"; exit 1; fi
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+      - name: Maven Central
+        working-directory: java
+        # Central needs the sources and javadoc jars next to the main one (the release profile adds signatures).
+        run: |
+          mvn -B -DskipTests package
+          ls target/pleaxy-java-*-sources.jar target/pleaxy-java-*-javadoc.jar
+      - uses: dtolnay/rust-toolchain@stable
+      - name: crates.io
+        working-directory: rust
+        run: cargo publish --dry-run

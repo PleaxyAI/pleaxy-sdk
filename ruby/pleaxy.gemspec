@@ -26,7 +26,12 @@ Gem::Specification.new do |s|
   s.description = "Purchase orders, invoices and settlement for cloud spend: the official Ruby client for the Pleaxy API."
   s.license     = "MIT"
   s.required_ruby_version = ">= 3.0"
-  s.metadata    = {}
+  s.metadata    = {
+    "homepage_uri" => "https://pleaxy.ai/sdks",
+    "source_code_uri" => "https://github.com/PleaxyAI/pleaxy-sdk/tree/master/ruby",
+    "documentation_uri" => "https://pleaxy.ai/api-reference",
+    "bug_tracker_uri" => "https://github.com/PleaxyAI/pleaxy-sdk/issues"
+  }
 
   s.add_runtime_dependency 'faraday', '>= 1.0.1', '< 3.0'
   s.add_runtime_dependency 'faraday-multipart'
@@ -34,8 +39,8 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rspec', '~> 3.6', '>= 3.6.0'
 
-  s.files         = `find *`.split("\n").uniq.sort.select { |f| !f.empty? }
-  s.test_files    = `find spec/*`.split("\n")
+  # Only the library: `find *` would also pack vendor/bundle, where CI's bundler-cache installs the dependencies.
+  s.files         = Dir["lib/**/*.rb", "README.md", "LICENSE"]
   s.executables   = []
   s.require_paths = ["lib"]
 end
