@@ -676,6 +676,24 @@ impl<'a> Fulfillment<'a> {
         .await
     }
 
+    pub async fn dismiss_purchase_order_email(
+        &self,
+        po_id: &str,
+        email_id: &str,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::InboundEmail,
+        crate::apis::Error<crate::apis::fulfillment_api::DismissPurchaseOrderEmailError>,
+    > {
+        crate::apis::fulfillment_api::dismiss_purchase_order_email(
+            &self.0.config,
+            po_id,
+            email_id,
+            buyer,
+        )
+        .await
+    }
+
     pub async fn get_purchase_order_fulfillment(
         &self,
         po_id: &str,
@@ -686,6 +704,35 @@ impl<'a> Fulfillment<'a> {
     > {
         crate::apis::fulfillment_api::get_purchase_order_fulfillment(&self.0.config, po_id, buyer)
             .await
+    }
+
+    pub async fn list_purchase_order_emails(
+        &self,
+        po_id: &str,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::PurchaseOrderEmails,
+        crate::apis::Error<crate::apis::fulfillment_api::ListPurchaseOrderEmailsError>,
+    > {
+        crate::apis::fulfillment_api::list_purchase_order_emails(&self.0.config, po_id, buyer).await
+    }
+
+    pub async fn record_purchase_order_email(
+        &self,
+        po_id: &str,
+        email_id: &str,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::InboundEmail,
+        crate::apis::Error<crate::apis::fulfillment_api::RecordPurchaseOrderEmailError>,
+    > {
+        crate::apis::fulfillment_api::record_purchase_order_email(
+            &self.0.config,
+            po_id,
+            email_id,
+            buyer,
+        )
+        .await
     }
 
     pub async fn send_ship_notice(

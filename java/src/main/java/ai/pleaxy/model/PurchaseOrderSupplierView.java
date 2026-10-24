@@ -70,6 +70,7 @@ import ai.pleaxy.client.ApiClient;
   PurchaseOrderSupplierView.JSON_PROPERTY_SUPPLIER_SITE,
   PurchaseOrderSupplierView.JSON_PROPERTY_CONTRACT_ID,
   PurchaseOrderSupplierView.JSON_PROPERTY_SUPPLIER_EMAIL,
+  PurchaseOrderSupplierView.JSON_PROPERTY_MAILBOX_TOKEN,
   PurchaseOrderSupplierView.JSON_PROPERTY_LINE_ITEMS,
   PurchaseOrderSupplierView.JSON_PROPERTY_VERSION,
   PurchaseOrderSupplierView.JSON_PROPERTY_STORE_ID,
@@ -274,6 +275,10 @@ public class PurchaseOrderSupplierView {
   public static final String JSON_PROPERTY_SUPPLIER_EMAIL = "supplierEmail";
   @javax.annotation.Nullable
   private PurchaseOrderSupplierEmail supplierEmail;
+
+  public static final String JSON_PROPERTY_MAILBOX_TOKEN = "mailboxToken";
+  @javax.annotation.Nullable
+  private String mailboxToken;
 
   public static final String JSON_PROPERTY_LINE_ITEMS = "lineItems";
   @javax.annotation.Nullable
@@ -1014,6 +1019,30 @@ public class PurchaseOrderSupplierView {
   }
 
 
+  public PurchaseOrderSupplierView mailboxToken(@javax.annotation.Nullable String mailboxToken) {
+    this.mailboxToken = mailboxToken;
+    return this;
+  }
+
+  /**
+   * Get mailboxToken
+   * @return mailboxToken
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MAILBOX_TOKEN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getMailboxToken() {
+    return mailboxToken;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MAILBOX_TOKEN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMailboxToken(@javax.annotation.Nullable String mailboxToken) {
+    this.mailboxToken = mailboxToken;
+  }
+
+
   public PurchaseOrderSupplierView lineItems(@javax.annotation.Nullable List<LineItem> lineItems) {
     this.lineItems = lineItems;
     return this;
@@ -1506,6 +1535,7 @@ public class PurchaseOrderSupplierView {
         Objects.equals(this.supplierSite, purchaseOrderSupplierView.supplierSite) &&
         Objects.equals(this.contractId, purchaseOrderSupplierView.contractId) &&
         Objects.equals(this.supplierEmail, purchaseOrderSupplierView.supplierEmail) &&
+        Objects.equals(this.mailboxToken, purchaseOrderSupplierView.mailboxToken) &&
         Objects.equals(this.lineItems, purchaseOrderSupplierView.lineItems) &&
         Objects.equals(this.version, purchaseOrderSupplierView.version) &&
         Objects.equals(this.storeId, purchaseOrderSupplierView.storeId) &&
@@ -1528,7 +1558,7 @@ public class PurchaseOrderSupplierView {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, provider, id, buyerOrgId, supplierOrgId, status, createdAt, amount, currency, invoiceId, invoiceIds, invoicedAmount, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, payerAccounts, billTo, billToParty, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, contractId, supplierEmail, lineItems, version, storeId, deliveryAddressId, shipTo, storeOrder, matching, received, receivedPending, receiptState, receiptRequired, readyToInvoice, receiptTolerance, approval, priorInvoiced, quoteDocument, sowDocument, buyerWorkspaceId);
+    return Objects.hash(supplier, provider, id, buyerOrgId, supplierOrgId, status, createdAt, amount, currency, invoiceId, invoiceIds, invoicedAmount, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, payerAccounts, billTo, billToParty, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, contractId, supplierEmail, mailboxToken, lineItems, version, storeId, deliveryAddressId, shipTo, storeOrder, matching, received, receivedPending, receiptState, receiptRequired, readyToInvoice, receiptTolerance, approval, priorInvoiced, quoteDocument, sowDocument, buyerWorkspaceId);
   }
 
   @Override
@@ -1559,6 +1589,7 @@ public class PurchaseOrderSupplierView {
     sb.append("    supplierSite: ").append(toIndentedString(supplierSite)).append("\n");
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
     sb.append("    supplierEmail: ").append(toIndentedString(supplierEmail)).append("\n");
+    sb.append("    mailboxToken: ").append(toIndentedString(mailboxToken)).append("\n");
     sb.append("    lineItems: ").append(toIndentedString(lineItems)).append("\n");
     sb.append("    version: ").append(toIndentedString(version)).append("\n");
     sb.append("    storeId: ").append(toIndentedString(storeId)).append("\n");
@@ -1751,6 +1782,11 @@ public class PurchaseOrderSupplierView {
     // add `supplierEmail` to the URL query string
     if (getSupplierEmail() != null) {
       joiner.add(getSupplierEmail().toUrlQueryString(prefix + "supplierEmail" + suffix));
+    }
+
+    // add `mailboxToken` to the URL query string
+    if (getMailboxToken() != null) {
+      joiner.add(String.format("%smailboxToken%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMailboxToken()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `lineItems` to the URL query string

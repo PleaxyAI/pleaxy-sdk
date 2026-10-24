@@ -70,6 +70,8 @@ pub struct PurchaseOrderSupplierView {
     pub contract_id: Option<String>,
     #[serde(rename = "supplierEmail", skip_serializing_if = "Option::is_none")]
     pub supplier_email: Option<models::PurchaseOrderSupplierEmail>,
+    #[serde(rename = "mailboxToken", skip_serializing_if = "Option::is_none")]
+    pub mailbox_token: Option<String>,
     #[serde(rename = "lineItems", skip_serializing_if = "Option::is_none")]
     pub line_items: Option<Vec<models::LineItem>>,
     #[serde(rename = "version", skip_serializing_if = "Option::is_none")]
@@ -135,6 +137,7 @@ impl PurchaseOrderSupplierView {
             supplier_site: None,
             contract_id: None,
             supplier_email: None,
+            mailbox_token: None,
             line_items: None,
             version: None,
             store_id: None,

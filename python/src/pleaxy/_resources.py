@@ -425,6 +425,17 @@ class FulfillmentResource:
             body=body,
         )
 
+    def dismiss_purchase_order_email(
+        self, po_id: str, email_id: str, *, buyer: Union[Unset, str] = UNSET
+    ) -> InboundEmail:
+        """[Both] Leave the order as it is instead of recording what an email asks. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed."""
+        return self._transport.call(
+            "pleaxy._generated.api.fulfillment.dismiss_purchase_order_email",
+            po_id=po_id,
+            email_id=email_id,
+            buyer=buyer,
+        )
+
     def get_purchase_order_fulfillment(
         self, po_id: str, *, buyer: Union[Unset, str] = UNSET
     ) -> PurchaseOrderFulfillment:
@@ -432,6 +443,27 @@ class FulfillmentResource:
         return self._transport.call(
             "pleaxy._generated.api.fulfillment.get_purchase_order_fulfillment",
             po_id=po_id,
+            buyer=buyer,
+        )
+
+    def list_purchase_order_emails(
+        self, po_id: str, *, buyer: Union[Unset, str] = UNSET
+    ) -> PurchaseOrderEmails:
+        """[Both] The order's own email address and the emails that reached it, newest first: { address?, emails: [{ id, from, subject, receivedAt, trust: verified|unverified, kind: cxml|text, outcome: applied|draft|held|noAction|test|failed|ignored, reasonCode?, reason?, summary?, text?, attachments, draft?, result?, decision? }] }. A supplier replying to the order email, or its system sending a cXML ConfirmationRequest or ShipNoticeRequest, reaches this address. A verified sender's cXML document is recorded at once (applied); a plain email is read by the Pleaxy Assistant into a draft confirmation or ship notice, and an unverified sender's cXML document is held, both for someone to record with RecordPurchaseOrderEmail. address is absent until the order is issued, or when email-in is off. Takes the same ?buyer= as GetPurchaseOrder."""
+        return self._transport.call(
+            "pleaxy._generated.api.fulfillment.list_purchase_order_emails",
+            po_id=po_id,
+            buyer=buyer,
+        )
+
+    def record_purchase_order_email(
+        self, po_id: str, email_id: str, *, buyer: Union[Unset, str] = UNSET
+    ) -> InboundEmail:
+        """[Both] Record an email's draft (outcome draft or held) as the supplier's order confirmation or ship notice, from email, with the same checks as ConfirmPurchaseOrder and SendShipNotice. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed, NOTHING_TO_RECORD for any other outcome; the fulfillment refusals (ORDER_NOT_OPEN, an unknown line) as those routes give them."""
+        return self._transport.call(
+            "pleaxy._generated.api.fulfillment.record_purchase_order_email",
+            po_id=po_id,
+            email_id=email_id,
             buyer=buyer,
         )
 

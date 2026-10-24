@@ -88,6 +88,8 @@ pub enum Source {
     Portal,
     #[serde(rename = "api")]
     Api,
+    #[serde(rename = "email")]
+    Email,
 }
 
 impl Default for Source {

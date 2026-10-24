@@ -339,10 +339,31 @@ export class FulfillmentResource {
   }
 
   /**
+   * [Both] Leave the order as it is instead of recording what an email asks. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed.
+   */
+  dismissPurchaseOrderEmail(poId: string, emailId: string, query?: QueryParams<"DismissPurchaseOrderEmail">, options?: RequestOptions): Promise<ResponseBody<"DismissPurchaseOrderEmail">> {
+    return this.transport.request("post", "/purchase-orders/{poId}/emails/{emailId}/dismiss", { path: { poId, emailId }, query, options }) as Promise<ResponseBody<"DismissPurchaseOrderEmail">>;
+  }
+
+  /**
    * [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject, qty, unitPrice, dates and reason, and the buyer's decision on a changed one: applied or declined); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder.
    */
   getPurchaseOrderFulfillment(poId: string, query?: QueryParams<"GetPurchaseOrderFulfillment">, options?: RequestOptions): Promise<ResponseBody<"GetPurchaseOrderFulfillment">> {
     return this.transport.request("get", "/purchase-orders/{poId}/fulfillment", { path: { poId }, query, options }) as Promise<ResponseBody<"GetPurchaseOrderFulfillment">>;
+  }
+
+  /**
+   * [Both] The order's own email address and the emails that reached it, newest first: { address?, emails: [{ id, from, subject, receivedAt, trust: verified|unverified, kind: cxml|text, outcome: applied|draft|held|noAction|test|failed|ignored, reasonCode?, reason?, summary?, text?, attachments, draft?, result?, decision? }] }. A supplier replying to the order email, or its system sending a cXML ConfirmationRequest or ShipNoticeRequest, reaches this address. A verified sender's cXML document is recorded at once (applied); a plain email is read by the Pleaxy Assistant into a draft confirmation or ship notice, and an unverified sender's cXML document is held, both for someone to record with RecordPurchaseOrderEmail. address is absent until the order is issued, or when email-in is off. Takes the same ?buyer= as GetPurchaseOrder.
+   */
+  listPurchaseOrderEmails(poId: string, query?: QueryParams<"ListPurchaseOrderEmails">, options?: RequestOptions): Promise<ResponseBody<"ListPurchaseOrderEmails">> {
+    return this.transport.request("get", "/purchase-orders/{poId}/emails", { path: { poId }, query, options }) as Promise<ResponseBody<"ListPurchaseOrderEmails">>;
+  }
+
+  /**
+   * [Both] Record an email's draft (outcome draft or held) as the supplier's order confirmation or ship notice, from email, with the same checks as ConfirmPurchaseOrder and SendShipNotice. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed, NOTHING_TO_RECORD for any other outcome; the fulfillment refusals (ORDER_NOT_OPEN, an unknown line) as those routes give them.
+   */
+  recordPurchaseOrderEmail(poId: string, emailId: string, query?: QueryParams<"RecordPurchaseOrderEmail">, options?: RequestOptions): Promise<ResponseBody<"RecordPurchaseOrderEmail">> {
+    return this.transport.request("post", "/purchase-orders/{poId}/emails/{emailId}/record", { path: { poId, emailId }, query, options }) as Promise<ResponseBody<"RecordPurchaseOrderEmail">>;
   }
 
   /**

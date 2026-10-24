@@ -12375,6 +12375,193 @@
         ]
       }
     },
+    "/v1/workspaces/{regionId}/purchase-orders/{poId}/emails": {
+      "get": {
+        "operationId": "ListPurchaseOrderEmails",
+        "summary": "[Both] The order's own email address and the emails that reached it, newest first: { address?, emails: [{ id, from, subject, receivedAt, trust: verified|unverified, kind: cxml|text, outcome: applied|draft|held|noAction|test|failed|ignored, reasonCode?, reason?, summary?, text?, attachments, draft?, result?, decision? }] }. A supplier replying to the order email, or its system sending a cXML ConfirmationRequest or ShipNoticeRequest, reaches this address. A verified sender's cXML document is recorded at once (applied); a plain email is read by the Pleaxy Assistant into a draft confirmation or ship notice, and an unverified sender's cXML document is held, both for someone to record with RecordPurchaseOrderEmail. address is absent until the order is issued, or when email-in is off. Takes the same ?buyer= as GetPurchaseOrder.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseOrderEmails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fulfillment"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/purchase-orders/{poId}/emails/{emailId}/record": {
+      "post": {
+        "operationId": "RecordPurchaseOrderEmail",
+        "summary": "[Both] Record an email's draft (outcome draft or held) as the supplier's order confirmation or ship notice, from email, with the same checks as ConfirmPurchaseOrder and SendShipNotice. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed, NOTHING_TO_RECORD for any other outcome; the fulfillment refusals (ORDER_NOT_OPEN, an unknown line) as those routes give them.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "emailId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InboundEmail"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fulfillment"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/purchase-orders/{poId}/emails/{emailId}/dismiss": {
+      "post": {
+        "operationId": "DismissPurchaseOrderEmail",
+        "summary": "[Both] Leave the order as it is instead of recording what an email asks. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "emailId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InboundEmail"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fulfillment"
+        ]
+      }
+    },
     "/v1/workspaces/{regionId}/settlement/billing": {
       "get": {
         "operationId": "GetBilling",
@@ -16656,6 +16843,7 @@
               "po_supplier_confirmed",
               "po_supplier_exception",
               "po_shipped",
+              "po_supplier_email",
               "po_changes_declined",
               "po_needs_approver",
               "invoice_submitted",
@@ -16666,6 +16854,7 @@
               "invoice_paid",
               "invoice_payment_withdrawn",
               "payments_recorded_by_key",
+              "accounting_sync_failed",
               "invoice_remittance_sent",
               "invoice_payment_failed",
               "invoice_reminder",
@@ -17248,6 +17437,9 @@
               "to",
               "at"
             ]
+          },
+          "mailboxToken": {
+            "type": "string"
           },
           "quoteDocument": {
             "$ref": "#/components/schemas/PurchaseOrderQuoteDocument"
@@ -18779,6 +18971,9 @@
               "at"
             ]
           },
+          "mailboxToken": {
+            "type": "string"
+          },
           "lineItems": {
             "type": "array",
             "items": {
@@ -19534,7 +19729,11 @@
               "contract_check_failed",
               "receipt_missing",
               "receipt_qty_exceeded",
-              "receipt_amount_exceeded"
+              "receipt_amount_exceeded",
+              "tier_price_exceeded",
+              "contract_discount_missing",
+              "fixed_discount_missing",
+              "commitment_shortfall_overbilled"
             ]
           },
           "message": {
@@ -22018,7 +22217,11 @@
                     "contract_check_failed",
                     "receipt_missing",
                     "receipt_qty_exceeded",
-                    "receipt_amount_exceeded"
+                    "receipt_amount_exceeded",
+                    "tier_price_exceeded",
+                    "contract_discount_missing",
+                    "fixed_discount_missing",
+                    "commitment_shortfall_overbilled"
                   ]
                 },
                 "message": {
@@ -23134,7 +23337,8 @@
             "enum": [
               "cxml",
               "portal",
-              "api"
+              "api",
+              "email"
             ]
           },
           "createdAt": {
@@ -23292,7 +23496,8 @@
             "enum": [
               "cxml",
               "portal",
-              "api"
+              "api",
+              "email"
             ]
           },
           "createdAt": {
@@ -23343,6 +23548,322 @@
         "required": [
           "lineNo",
           "qty"
+        ]
+      },
+      "PurchaseOrderEmails": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "emails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InboundEmail"
+            }
+          }
+        },
+        "required": [
+          "emails"
+        ]
+      },
+      "InboundEmail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "poId": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string"
+          },
+          "fromName": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "receivedAt": {
+            "type": "string"
+          },
+          "trust": {
+            "type": "string",
+            "enum": [
+              "unverified",
+              "verified"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "text",
+              "cxml"
+            ]
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "failed",
+              "draft",
+              "applied",
+              "held",
+              "noAction",
+              "test",
+              "ignored"
+            ]
+          },
+          "reasonCode": {
+            "type": "string",
+            "enum": [
+              "refused",
+              "autoReply",
+              "dailyLimit",
+              "readingLimit",
+              "notFulfillment",
+              "otherOrder",
+              "unreadable"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "reasonMessageId": {
+            "type": "string"
+          },
+          "reasonParams": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": {}
+          },
+          "summary": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "contentType": {
+                  "type": "string"
+                },
+                "size": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "name",
+                "contentType",
+                "size"
+              ]
+            }
+          },
+          "draft": {
+            "$ref": "#/components/schemas/InboundEmailDraft"
+          },
+          "result": {
+            "type": "object",
+            "properties": {
+              "confirmationId": {
+                "type": "string"
+              },
+              "shipmentId": {
+                "type": "string"
+              }
+            }
+          },
+          "decision": {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": [
+                  "recorded",
+                  "dismissed"
+                ]
+              },
+              "by": {
+                "type": "string"
+              },
+              "at": {
+                "type": "string"
+              },
+              "confirmationId": {
+                "type": "string"
+              },
+              "shipmentId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "action",
+              "by",
+              "at"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "poId",
+          "from",
+          "subject",
+          "receivedAt",
+          "trust",
+          "kind",
+          "outcome",
+          "attachments"
+        ]
+      },
+      "InboundEmailDraft": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "confirmation",
+              "shipNotice"
+            ]
+          },
+          "summary": {
+            "type": "string"
+          },
+          "confirmation": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "accept",
+                  "reject",
+                  "backordered",
+                  "detail"
+                ]
+              },
+              "confirmId": {
+                "type": "string"
+              },
+              "operation": {
+                "type": "string",
+                "enum": [
+                  "new",
+                  "update"
+                ]
+              },
+              "deliveryDate": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              },
+              "lines": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "lineNo": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "accept",
+                        "reject",
+                        "backordered",
+                        "change"
+                      ]
+                    },
+                    "qty": {
+                      "type": "number"
+                    },
+                    "unitPrice": {
+                      "type": "number"
+                    },
+                    "substitute": {
+                      "$ref": "#/components/schemas/OrderConfirmationSubstitute"
+                    },
+                    "shipmentDate": {
+                      "type": "string"
+                    },
+                    "deliveryDate": {
+                      "type": "string"
+                    },
+                    "reason": {
+                      "type": "string"
+                    },
+                    "currency": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "lineNo",
+                    "status"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "type",
+              "lines"
+            ]
+          },
+          "shipNotice": {
+            "type": "object",
+            "properties": {
+              "shipmentId": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "canceled",
+                  "planned",
+                  "shipped"
+                ]
+              },
+              "shipmentDate": {
+                "type": "string"
+              },
+              "deliveryDate": {
+                "type": "string"
+              },
+              "carrier": {
+                "type": "string"
+              },
+              "trackingNumber": {
+                "type": "string"
+              },
+              "trackingUrl": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              },
+              "lines": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ShipNoticeLine"
+                }
+              }
+            },
+            "required": [
+              "shipmentId",
+              "status",
+              "lines"
+            ]
+          },
+          "payloadId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind"
         ]
       },
       "BillingSummary": {

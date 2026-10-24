@@ -167,7 +167,9 @@ public class OrderConfirmation {
     
     PORTAL(String.valueOf("portal")),
     
-    API(String.valueOf("api"));
+    API(String.valueOf("api")),
+    
+    EMAIL(String.valueOf("email"));
 
     private String value;
 

@@ -1093,21 +1093,25 @@ const (
 
 // Defines values for FeedValidationResultFindingsCode.
 const (
-	FeedValidationResultFindingsCodeContractCapExceeded          FeedValidationResultFindingsCode = "contract_cap_exceeded"
-	FeedValidationResultFindingsCodeContractCheckFailed          FeedValidationResultFindingsCode = "contract_check_failed"
-	FeedValidationResultFindingsCodeContractMaxUnitPriceExceeded FeedValidationResultFindingsCode = "contract_max_unit_price_exceeded"
-	FeedValidationResultFindingsCodeContractNotActive            FeedValidationResultFindingsCode = "contract_not_active"
-	FeedValidationResultFindingsCodeContractOutsideTerm          FeedValidationResultFindingsCode = "contract_outside_term"
-	FeedValidationResultFindingsCodeContractRateExceeded         FeedValidationResultFindingsCode = "contract_rate_exceeded"
-	FeedValidationResultFindingsCodePoBalanceExceeded            FeedValidationResultFindingsCode = "po_balance_exceeded"
-	FeedValidationResultFindingsCodePoLineAmountExceeded         FeedValidationResultFindingsCode = "po_line_amount_exceeded"
-	FeedValidationResultFindingsCodePoLineMissing                FeedValidationResultFindingsCode = "po_line_missing"
-	FeedValidationResultFindingsCodePoLinePriceExceeded          FeedValidationResultFindingsCode = "po_line_price_exceeded"
-	FeedValidationResultFindingsCodePoLineQtyExceeded            FeedValidationResultFindingsCode = "po_line_qty_exceeded"
-	FeedValidationResultFindingsCodePoLineUnassigned             FeedValidationResultFindingsCode = "po_line_unassigned"
-	FeedValidationResultFindingsCodeReceiptAmountExceeded        FeedValidationResultFindingsCode = "receipt_amount_exceeded"
-	FeedValidationResultFindingsCodeReceiptMissing               FeedValidationResultFindingsCode = "receipt_missing"
-	FeedValidationResultFindingsCodeReceiptQtyExceeded           FeedValidationResultFindingsCode = "receipt_qty_exceeded"
+	FeedValidationResultFindingsCodeCommitmentShortfallOverbilled FeedValidationResultFindingsCode = "commitment_shortfall_overbilled"
+	FeedValidationResultFindingsCodeContractCapExceeded           FeedValidationResultFindingsCode = "contract_cap_exceeded"
+	FeedValidationResultFindingsCodeContractCheckFailed           FeedValidationResultFindingsCode = "contract_check_failed"
+	FeedValidationResultFindingsCodeContractDiscountMissing       FeedValidationResultFindingsCode = "contract_discount_missing"
+	FeedValidationResultFindingsCodeContractMaxUnitPriceExceeded  FeedValidationResultFindingsCode = "contract_max_unit_price_exceeded"
+	FeedValidationResultFindingsCodeContractNotActive             FeedValidationResultFindingsCode = "contract_not_active"
+	FeedValidationResultFindingsCodeContractOutsideTerm           FeedValidationResultFindingsCode = "contract_outside_term"
+	FeedValidationResultFindingsCodeContractRateExceeded          FeedValidationResultFindingsCode = "contract_rate_exceeded"
+	FeedValidationResultFindingsCodeFixedDiscountMissing          FeedValidationResultFindingsCode = "fixed_discount_missing"
+	FeedValidationResultFindingsCodePoBalanceExceeded             FeedValidationResultFindingsCode = "po_balance_exceeded"
+	FeedValidationResultFindingsCodePoLineAmountExceeded          FeedValidationResultFindingsCode = "po_line_amount_exceeded"
+	FeedValidationResultFindingsCodePoLineMissing                 FeedValidationResultFindingsCode = "po_line_missing"
+	FeedValidationResultFindingsCodePoLinePriceExceeded           FeedValidationResultFindingsCode = "po_line_price_exceeded"
+	FeedValidationResultFindingsCodePoLineQtyExceeded             FeedValidationResultFindingsCode = "po_line_qty_exceeded"
+	FeedValidationResultFindingsCodePoLineUnassigned              FeedValidationResultFindingsCode = "po_line_unassigned"
+	FeedValidationResultFindingsCodeReceiptAmountExceeded         FeedValidationResultFindingsCode = "receipt_amount_exceeded"
+	FeedValidationResultFindingsCodeReceiptMissing                FeedValidationResultFindingsCode = "receipt_missing"
+	FeedValidationResultFindingsCodeReceiptQtyExceeded            FeedValidationResultFindingsCode = "receipt_qty_exceeded"
+	FeedValidationResultFindingsCodeTierPriceExceeded             FeedValidationResultFindingsCode = "tier_price_exceeded"
 )
 
 // Defines values for FeedValidationResultInvoiceDocumentType.
@@ -1602,6 +1606,81 @@ const (
 	GetOrgProfileResultRoleSupplier GetOrgProfileResultRole = "supplier"
 )
 
+// Defines values for InboundEmailDecisionAction.
+const (
+	InboundEmailDecisionActionDismissed InboundEmailDecisionAction = "dismissed"
+	InboundEmailDecisionActionRecorded  InboundEmailDecisionAction = "recorded"
+)
+
+// Defines values for InboundEmailKind.
+const (
+	InboundEmailKindCxml InboundEmailKind = "cxml"
+	InboundEmailKindText InboundEmailKind = "text"
+)
+
+// Defines values for InboundEmailOutcome.
+const (
+	InboundEmailOutcomeApplied  InboundEmailOutcome = "applied"
+	InboundEmailOutcomeDraft    InboundEmailOutcome = "draft"
+	InboundEmailOutcomeFailed   InboundEmailOutcome = "failed"
+	InboundEmailOutcomeHeld     InboundEmailOutcome = "held"
+	InboundEmailOutcomeIgnored  InboundEmailOutcome = "ignored"
+	InboundEmailOutcomeNoAction InboundEmailOutcome = "noAction"
+	InboundEmailOutcomeTest     InboundEmailOutcome = "test"
+)
+
+// Defines values for InboundEmailReasonCode.
+const (
+	InboundEmailReasonCodeAutoReply      InboundEmailReasonCode = "autoReply"
+	InboundEmailReasonCodeDailyLimit     InboundEmailReasonCode = "dailyLimit"
+	InboundEmailReasonCodeNotFulfillment InboundEmailReasonCode = "notFulfillment"
+	InboundEmailReasonCodeOtherOrder     InboundEmailReasonCode = "otherOrder"
+	InboundEmailReasonCodeReadingLimit   InboundEmailReasonCode = "readingLimit"
+	InboundEmailReasonCodeRefused        InboundEmailReasonCode = "refused"
+	InboundEmailReasonCodeUnreadable     InboundEmailReasonCode = "unreadable"
+)
+
+// Defines values for InboundEmailTrust.
+const (
+	InboundEmailTrustUnverified InboundEmailTrust = "unverified"
+	InboundEmailTrustVerified   InboundEmailTrust = "verified"
+)
+
+// Defines values for InboundEmailDraftConfirmationLinesStatus.
+const (
+	InboundEmailDraftConfirmationLinesStatusAccept      InboundEmailDraftConfirmationLinesStatus = "accept"
+	InboundEmailDraftConfirmationLinesStatusBackordered InboundEmailDraftConfirmationLinesStatus = "backordered"
+	InboundEmailDraftConfirmationLinesStatusChange      InboundEmailDraftConfirmationLinesStatus = "change"
+	InboundEmailDraftConfirmationLinesStatusReject      InboundEmailDraftConfirmationLinesStatus = "reject"
+)
+
+// Defines values for InboundEmailDraftConfirmationOperation.
+const (
+	InboundEmailDraftConfirmationOperationNew    InboundEmailDraftConfirmationOperation = "new"
+	InboundEmailDraftConfirmationOperationUpdate InboundEmailDraftConfirmationOperation = "update"
+)
+
+// Defines values for InboundEmailDraftConfirmationType.
+const (
+	InboundEmailDraftConfirmationTypeAccept      InboundEmailDraftConfirmationType = "accept"
+	InboundEmailDraftConfirmationTypeBackordered InboundEmailDraftConfirmationType = "backordered"
+	InboundEmailDraftConfirmationTypeDetail      InboundEmailDraftConfirmationType = "detail"
+	InboundEmailDraftConfirmationTypeReject      InboundEmailDraftConfirmationType = "reject"
+)
+
+// Defines values for InboundEmailDraftKind.
+const (
+	InboundEmailDraftKindConfirmation InboundEmailDraftKind = "confirmation"
+	InboundEmailDraftKindShipNotice   InboundEmailDraftKind = "shipNotice"
+)
+
+// Defines values for InboundEmailDraftShipNoticeStatus.
+const (
+	InboundEmailDraftShipNoticeStatusCanceled InboundEmailDraftShipNoticeStatus = "canceled"
+	InboundEmailDraftShipNoticeStatusPlanned  InboundEmailDraftShipNoticeStatus = "planned"
+	InboundEmailDraftShipNoticeStatusShipped  InboundEmailDraftShipNoticeStatus = "shipped"
+)
+
 // Defines values for InvoiceAdjustmentType.
 const (
 	InvoiceAdjustmentTypeCharge   InvoiceAdjustmentType = "charge"
@@ -1702,21 +1781,25 @@ const (
 
 // Defines values for InvoiceControlFindingCode.
 const (
-	InvoiceControlFindingCodeContractCapExceeded          InvoiceControlFindingCode = "contract_cap_exceeded"
-	InvoiceControlFindingCodeContractCheckFailed          InvoiceControlFindingCode = "contract_check_failed"
-	InvoiceControlFindingCodeContractMaxUnitPriceExceeded InvoiceControlFindingCode = "contract_max_unit_price_exceeded"
-	InvoiceControlFindingCodeContractNotActive            InvoiceControlFindingCode = "contract_not_active"
-	InvoiceControlFindingCodeContractOutsideTerm          InvoiceControlFindingCode = "contract_outside_term"
-	InvoiceControlFindingCodeContractRateExceeded         InvoiceControlFindingCode = "contract_rate_exceeded"
-	InvoiceControlFindingCodePoBalanceExceeded            InvoiceControlFindingCode = "po_balance_exceeded"
-	InvoiceControlFindingCodePoLineAmountExceeded         InvoiceControlFindingCode = "po_line_amount_exceeded"
-	InvoiceControlFindingCodePoLineMissing                InvoiceControlFindingCode = "po_line_missing"
-	InvoiceControlFindingCodePoLinePriceExceeded          InvoiceControlFindingCode = "po_line_price_exceeded"
-	InvoiceControlFindingCodePoLineQtyExceeded            InvoiceControlFindingCode = "po_line_qty_exceeded"
-	InvoiceControlFindingCodePoLineUnassigned             InvoiceControlFindingCode = "po_line_unassigned"
-	InvoiceControlFindingCodeReceiptAmountExceeded        InvoiceControlFindingCode = "receipt_amount_exceeded"
-	InvoiceControlFindingCodeReceiptMissing               InvoiceControlFindingCode = "receipt_missing"
-	InvoiceControlFindingCodeReceiptQtyExceeded           InvoiceControlFindingCode = "receipt_qty_exceeded"
+	InvoiceControlFindingCodeCommitmentShortfallOverbilled InvoiceControlFindingCode = "commitment_shortfall_overbilled"
+	InvoiceControlFindingCodeContractCapExceeded           InvoiceControlFindingCode = "contract_cap_exceeded"
+	InvoiceControlFindingCodeContractCheckFailed           InvoiceControlFindingCode = "contract_check_failed"
+	InvoiceControlFindingCodeContractDiscountMissing       InvoiceControlFindingCode = "contract_discount_missing"
+	InvoiceControlFindingCodeContractMaxUnitPriceExceeded  InvoiceControlFindingCode = "contract_max_unit_price_exceeded"
+	InvoiceControlFindingCodeContractNotActive             InvoiceControlFindingCode = "contract_not_active"
+	InvoiceControlFindingCodeContractOutsideTerm           InvoiceControlFindingCode = "contract_outside_term"
+	InvoiceControlFindingCodeContractRateExceeded          InvoiceControlFindingCode = "contract_rate_exceeded"
+	InvoiceControlFindingCodeFixedDiscountMissing          InvoiceControlFindingCode = "fixed_discount_missing"
+	InvoiceControlFindingCodePoBalanceExceeded             InvoiceControlFindingCode = "po_balance_exceeded"
+	InvoiceControlFindingCodePoLineAmountExceeded          InvoiceControlFindingCode = "po_line_amount_exceeded"
+	InvoiceControlFindingCodePoLineMissing                 InvoiceControlFindingCode = "po_line_missing"
+	InvoiceControlFindingCodePoLinePriceExceeded           InvoiceControlFindingCode = "po_line_price_exceeded"
+	InvoiceControlFindingCodePoLineQtyExceeded             InvoiceControlFindingCode = "po_line_qty_exceeded"
+	InvoiceControlFindingCodePoLineUnassigned              InvoiceControlFindingCode = "po_line_unassigned"
+	InvoiceControlFindingCodeReceiptAmountExceeded         InvoiceControlFindingCode = "receipt_amount_exceeded"
+	InvoiceControlFindingCodeReceiptMissing                InvoiceControlFindingCode = "receipt_missing"
+	InvoiceControlFindingCodeReceiptQtyExceeded            InvoiceControlFindingCode = "receipt_qty_exceeded"
+	InvoiceControlFindingCodeTierPriceExceeded             InvoiceControlFindingCode = "tier_price_exceeded"
 )
 
 // Defines values for InvoiceCounterpartyCloudProvider.
@@ -2422,6 +2505,7 @@ const (
 
 // Defines values for NotificationType.
 const (
+	NotificationTypeAccountingSyncFailed             NotificationType = "accounting_sync_failed"
 	NotificationTypeAgentRequest                     NotificationType = "agent_request"
 	NotificationTypeCompanyReportReady               NotificationType = "company_report_ready"
 	NotificationTypeContractComment                  NotificationType = "contract_comment"
@@ -2475,6 +2559,7 @@ const (
 	NotificationTypePoShipped                        NotificationType = "po_shipped"
 	NotificationTypePoStoreOrderProblem              NotificationType = "po_store_order_problem"
 	NotificationTypePoSupplierConfirmed              NotificationType = "po_supplier_confirmed"
+	NotificationTypePoSupplierEmail                  NotificationType = "po_supplier_email"
 	NotificationTypePoSupplierException              NotificationType = "po_supplier_exception"
 	NotificationTypeReceiptReturnRecorded            NotificationType = "receipt_return_recorded"
 	NotificationTypeReportReady                      NotificationType = "report_ready"
@@ -2506,8 +2591,8 @@ const (
 
 // Defines values for OrderConfirmationOperation.
 const (
-	New    OrderConfirmationOperation = "new"
-	Update OrderConfirmationOperation = "update"
+	OrderConfirmationOperationNew    OrderConfirmationOperation = "new"
+	OrderConfirmationOperationUpdate OrderConfirmationOperation = "update"
 )
 
 // Defines values for OrderConfirmationOutcome.
@@ -2523,6 +2608,7 @@ const (
 const (
 	OrderConfirmationSourceApi    OrderConfirmationSource = "api"
 	OrderConfirmationSourceCxml   OrderConfirmationSource = "cxml"
+	OrderConfirmationSourceEmail  OrderConfirmationSource = "email"
 	OrderConfirmationSourcePortal OrderConfirmationSource = "portal"
 )
 
@@ -2562,17 +2648,17 @@ const (
 
 // Defines values for PaymentHistoryEntryAction.
 const (
-	PaymentHistoryEntryActionCreditApplied   PaymentHistoryEntryAction = "credit_applied"
-	PaymentHistoryEntryActionCreditRemoved   PaymentHistoryEntryAction = "credit_removed"
-	PaymentHistoryEntryActionExportWithdrawn PaymentHistoryEntryAction = "export_withdrawn"
-	PaymentHistoryEntryActionExported        PaymentHistoryEntryAction = "exported"
-	PaymentHistoryEntryActionRecordWithdrawn PaymentHistoryEntryAction = "record_withdrawn"
-	PaymentHistoryEntryActionRecorded        PaymentHistoryEntryAction = "recorded"
-	PaymentHistoryEntryActionRemittanceSent  PaymentHistoryEntryAction = "remittance_sent"
-	PaymentHistoryEntryActionStripeFailed    PaymentHistoryEntryAction = "stripe_failed"
-	PaymentHistoryEntryActionStripeReleased  PaymentHistoryEntryAction = "stripe_released"
-	PaymentHistoryEntryActionStripeStarted   PaymentHistoryEntryAction = "stripe_started"
-	PaymentHistoryEntryActionStripeSucceeded PaymentHistoryEntryAction = "stripe_succeeded"
+	CreditApplied   PaymentHistoryEntryAction = "credit_applied"
+	CreditRemoved   PaymentHistoryEntryAction = "credit_removed"
+	ExportWithdrawn PaymentHistoryEntryAction = "export_withdrawn"
+	Exported        PaymentHistoryEntryAction = "exported"
+	RecordWithdrawn PaymentHistoryEntryAction = "record_withdrawn"
+	Recorded        PaymentHistoryEntryAction = "recorded"
+	RemittanceSent  PaymentHistoryEntryAction = "remittance_sent"
+	StripeFailed    PaymentHistoryEntryAction = "stripe_failed"
+	StripeReleased  PaymentHistoryEntryAction = "stripe_released"
+	StripeStarted   PaymentHistoryEntryAction = "stripe_started"
+	StripeSucceeded PaymentHistoryEntryAction = "stripe_succeeded"
 )
 
 // Defines values for PaymentHistoryEntryRecordMethod.
@@ -3290,6 +3376,7 @@ const (
 const (
 	ShipNoticeSourceApi    ShipNoticeSource = "api"
 	ShipNoticeSourceCxml   ShipNoticeSource = "cxml"
+	ShipNoticeSourceEmail  ShipNoticeSource = "email"
 	ShipNoticeSourcePortal ShipNoticeSource = "portal"
 )
 
@@ -3713,8 +3800,8 @@ const (
 
 // Defines values for MarkAllNotificationsReadParamsAudience.
 const (
-	Buyer    MarkAllNotificationsReadParamsAudience = "buyer"
-	Supplier MarkAllNotificationsReadParamsAudience = "supplier"
+	MarkAllNotificationsReadParamsAudienceBuyer    MarkAllNotificationsReadParamsAudience = "buyer"
+	MarkAllNotificationsReadParamsAudienceSupplier MarkAllNotificationsReadParamsAudience = "supplier"
 )
 
 // Defines values for GetPurchaseOrderDocumentParamsFormat.
@@ -6787,6 +6874,108 @@ type ImageRef struct {
 	Url       *string `json:"url,omitempty"`
 }
 
+// InboundEmail defines model for InboundEmail.
+type InboundEmail struct {
+	Attachments *[]struct {
+		ContentType *string  `json:"contentType,omitempty"`
+		Name        *string  `json:"name,omitempty"`
+		Size        *float64 `json:"size,omitempty"`
+	} `json:"attachments,omitempty"`
+	Decision *struct {
+		Action         *InboundEmailDecisionAction `json:"action,omitempty"`
+		At             *string                     `json:"at,omitempty"`
+		By             *string                     `json:"by,omitempty"`
+		ConfirmationId *string                     `json:"confirmationId,omitempty"`
+		ShipmentId     *string                     `json:"shipmentId,omitempty"`
+	} `json:"decision,omitempty"`
+	Draft           *InboundEmailDraft      `json:"draft,omitempty"`
+	From            *string                 `json:"from,omitempty"`
+	FromName        *string                 `json:"fromName,omitempty"`
+	Id              string                  `json:"id"`
+	Kind            *InboundEmailKind       `json:"kind,omitempty"`
+	Outcome         *InboundEmailOutcome    `json:"outcome,omitempty"`
+	PoId            *string                 `json:"poId,omitempty"`
+	Reason          *string                 `json:"reason,omitempty"`
+	ReasonCode      *InboundEmailReasonCode `json:"reasonCode,omitempty"`
+	ReasonMessageId *string                 `json:"reasonMessageId,omitempty"`
+	ReasonParams    *map[string]interface{} `json:"reasonParams,omitempty"`
+	ReceivedAt      *string                 `json:"receivedAt,omitempty"`
+	Result          *struct {
+		ConfirmationId *string `json:"confirmationId,omitempty"`
+		ShipmentId     *string `json:"shipmentId,omitempty"`
+	} `json:"result,omitempty"`
+	Subject *string            `json:"subject,omitempty"`
+	Summary *string            `json:"summary,omitempty"`
+	Text    *string            `json:"text,omitempty"`
+	Trust   *InboundEmailTrust `json:"trust,omitempty"`
+}
+
+// InboundEmailDecisionAction defines model for InboundEmail.Decision.Action.
+type InboundEmailDecisionAction string
+
+// InboundEmailKind defines model for InboundEmail.Kind.
+type InboundEmailKind string
+
+// InboundEmailOutcome defines model for InboundEmail.Outcome.
+type InboundEmailOutcome string
+
+// InboundEmailReasonCode defines model for InboundEmail.ReasonCode.
+type InboundEmailReasonCode string
+
+// InboundEmailTrust defines model for InboundEmail.Trust.
+type InboundEmailTrust string
+
+// InboundEmailDraft defines model for InboundEmailDraft.
+type InboundEmailDraft struct {
+	Confirmation *struct {
+		ConfirmId    *string `json:"confirmId,omitempty"`
+		DeliveryDate *string `json:"deliveryDate,omitempty"`
+		Lines        *[]struct {
+			Currency     *string                                   `json:"currency,omitempty"`
+			DeliveryDate *string                                   `json:"deliveryDate,omitempty"`
+			LineNo       *float64                                  `json:"lineNo,omitempty"`
+			Qty          *float64                                  `json:"qty,omitempty"`
+			Reason       *string                                   `json:"reason,omitempty"`
+			ShipmentDate *string                                   `json:"shipmentDate,omitempty"`
+			Status       *InboundEmailDraftConfirmationLinesStatus `json:"status,omitempty"`
+			Substitute   *OrderConfirmationSubstitute              `json:"substitute,omitempty"`
+			UnitPrice    *float64                                  `json:"unitPrice,omitempty"`
+		} `json:"lines,omitempty"`
+		Note      *string                                 `json:"note,omitempty"`
+		Operation *InboundEmailDraftConfirmationOperation `json:"operation,omitempty"`
+		Type      *InboundEmailDraftConfirmationType      `json:"type,omitempty"`
+	} `json:"confirmation,omitempty"`
+	Kind       *InboundEmailDraftKind `json:"kind,omitempty"`
+	PayloadId  *string                `json:"payloadId,omitempty"`
+	ShipNotice *struct {
+		Carrier        *string                            `json:"carrier,omitempty"`
+		DeliveryDate   *string                            `json:"deliveryDate,omitempty"`
+		Lines          *[]ShipNoticeLine                  `json:"lines,omitempty"`
+		Note           *string                            `json:"note,omitempty"`
+		ShipmentDate   *string                            `json:"shipmentDate,omitempty"`
+		ShipmentId     *string                            `json:"shipmentId,omitempty"`
+		Status         *InboundEmailDraftShipNoticeStatus `json:"status,omitempty"`
+		TrackingNumber *string                            `json:"trackingNumber,omitempty"`
+		TrackingUrl    *string                            `json:"trackingUrl,omitempty"`
+	} `json:"shipNotice,omitempty"`
+	Summary *string `json:"summary,omitempty"`
+}
+
+// InboundEmailDraftConfirmationLinesStatus defines model for InboundEmailDraft.Confirmation.Lines.Status.
+type InboundEmailDraftConfirmationLinesStatus string
+
+// InboundEmailDraftConfirmationOperation defines model for InboundEmailDraft.Confirmation.Operation.
+type InboundEmailDraftConfirmationOperation string
+
+// InboundEmailDraftConfirmationType defines model for InboundEmailDraft.Confirmation.Type.
+type InboundEmailDraftConfirmationType string
+
+// InboundEmailDraftKind defines model for InboundEmailDraft.Kind.
+type InboundEmailDraftKind string
+
+// InboundEmailDraftShipNoticeStatus defines model for InboundEmailDraft.ShipNotice.Status.
+type InboundEmailDraftShipNoticeStatus string
+
 // InvoiceAdjustment defines model for InvoiceAdjustment.
 type InvoiceAdjustment struct {
 	Amount      *float64               `json:"amount,omitempty"`
@@ -8487,6 +8676,7 @@ type PurchaseOrder struct {
 	LastRejectedInvoiceId *string                          `json:"lastRejectedInvoiceId,omitempty"`
 	LastReplacedInvoiceId *string                          `json:"lastReplacedInvoiceId,omitempty"`
 	LineItems             *[]LineItem                      `json:"lineItems,omitempty"`
+	MailboxToken          *string                          `json:"mailboxToken,omitempty"`
 	Matching              *PurchaseOrderMatching           `json:"matching,omitempty"`
 	MatchingChanges       *[]PurchaseOrderMatchingChange   `json:"matchingChanges,omitempty"`
 	MatchingDefault       *PurchaseOrderMatchingDefault    `json:"matchingDefault,omitempty"`
@@ -8585,6 +8775,12 @@ type PurchaseOrderCostCenterChange struct {
 	From   *string `json:"from,omitempty"`
 	Reason *string `json:"reason,omitempty"`
 	To     *string `json:"to,omitempty"`
+}
+
+// PurchaseOrderEmails defines model for PurchaseOrderEmails.
+type PurchaseOrderEmails struct {
+	Address *string         `json:"address,omitempty"`
+	Emails  *[]InboundEmail `json:"emails,omitempty"`
 }
 
 // PurchaseOrderFulfillment defines model for PurchaseOrderFulfillment.
@@ -8714,6 +8910,7 @@ type PurchaseOrderSupplierView struct {
 	LastRejectedInvoiceId *string                            `json:"lastRejectedInvoiceId,omitempty"`
 	LastReplacedInvoiceId *string                            `json:"lastReplacedInvoiceId,omitempty"`
 	LineItems             *[]LineItem                        `json:"lineItems,omitempty"`
+	MailboxToken          *string                            `json:"mailboxToken,omitempty"`
 	Matching              *PurchaseOrderSupplierViewMatching `json:"matching,omitempty"`
 	PayerAccounts         *[]PayerAccountRef                 `json:"payerAccounts,omitempty"`
 	PriorInvoiced         *struct {
@@ -10665,6 +10862,21 @@ type GetPurchaseOrderDocumentParams struct {
 
 // GetPurchaseOrderDocumentParamsFormat defines parameters for GetPurchaseOrderDocument.
 type GetPurchaseOrderDocumentParamsFormat string
+
+// ListPurchaseOrderEmailsParams defines parameters for ListPurchaseOrderEmails.
+type ListPurchaseOrderEmailsParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
+
+// DismissPurchaseOrderEmailParams defines parameters for DismissPurchaseOrderEmail.
+type DismissPurchaseOrderEmailParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
+
+// RecordPurchaseOrderEmailParams defines parameters for RecordPurchaseOrderEmail.
+type RecordPurchaseOrderEmailParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
 
 // FlipPurchaseOrderToInvoiceParams defines parameters for FlipPurchaseOrderToInvoice.
 type FlipPurchaseOrderToInvoiceParams struct {
@@ -13972,6 +14184,15 @@ type ClientInterface interface {
 	// GetPurchaseOrderDocument request
 	GetPurchaseOrderDocument(ctx context.Context, poId string, params *GetPurchaseOrderDocumentParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ListPurchaseOrderEmails request
+	ListPurchaseOrderEmails(ctx context.Context, poId string, params *ListPurchaseOrderEmailsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DismissPurchaseOrderEmail request
+	DismissPurchaseOrderEmail(ctx context.Context, poId string, emailId string, params *DismissPurchaseOrderEmailParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// RecordPurchaseOrderEmail request
+	RecordPurchaseOrderEmail(ctx context.Context, poId string, emailId string, params *RecordPurchaseOrderEmailParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// FlipPurchaseOrderToInvoice request
 	FlipPurchaseOrderToInvoice(ctx context.Context, poId string, params *FlipPurchaseOrderToInvoiceParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -15239,6 +15460,42 @@ func (c *RawClient) DeclineConfirmationChanges(ctx context.Context, poId string,
 
 func (c *RawClient) GetPurchaseOrderDocument(ctx context.Context, poId string, params *GetPurchaseOrderDocumentParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetPurchaseOrderDocumentRequest(c.Server, poId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListPurchaseOrderEmails(ctx context.Context, poId string, params *ListPurchaseOrderEmailsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListPurchaseOrderEmailsRequest(c.Server, poId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) DismissPurchaseOrderEmail(ctx context.Context, poId string, emailId string, params *DismissPurchaseOrderEmailParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDismissPurchaseOrderEmailRequest(c.Server, poId, emailId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) RecordPurchaseOrderEmail(ctx context.Context, poId string, emailId string, params *RecordPurchaseOrderEmailParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRecordPurchaseOrderEmailRequest(c.Server, poId, emailId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -19046,6 +19303,188 @@ func NewGetPurchaseOrderDocumentRequest(server string, poId string, params *GetP
 	return req, nil
 }
 
+// NewListPurchaseOrderEmailsRequest generates requests for ListPurchaseOrderEmails
+func NewListPurchaseOrderEmailsRequest(server string, poId string, params *ListPurchaseOrderEmailsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-orders/%s/emails", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDismissPurchaseOrderEmailRequest generates requests for DismissPurchaseOrderEmail
+func NewDismissPurchaseOrderEmailRequest(server string, poId string, emailId string, params *DismissPurchaseOrderEmailParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "emailId", runtime.ParamLocationPath, emailId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-orders/%s/emails/%s/dismiss", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewRecordPurchaseOrderEmailRequest generates requests for RecordPurchaseOrderEmail
+func NewRecordPurchaseOrderEmailRequest(server string, poId string, emailId string, params *RecordPurchaseOrderEmailParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "emailId", runtime.ParamLocationPath, emailId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-orders/%s/emails/%s/record", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewFlipPurchaseOrderToInvoiceRequest generates requests for FlipPurchaseOrderToInvoice
 func NewFlipPurchaseOrderToInvoiceRequest(server string, poId string, params *FlipPurchaseOrderToInvoiceParams) (*http.Request, error) {
 	var err error
@@ -20735,6 +21174,15 @@ type ClientWithResponsesInterface interface {
 
 	// GetPurchaseOrderDocumentWithResponse request
 	GetPurchaseOrderDocumentWithResponse(ctx context.Context, poId string, params *GetPurchaseOrderDocumentParams, reqEditors ...RequestEditorFn) (*GetPurchaseOrderDocumentResponse, error)
+
+	// ListPurchaseOrderEmailsWithResponse request
+	ListPurchaseOrderEmailsWithResponse(ctx context.Context, poId string, params *ListPurchaseOrderEmailsParams, reqEditors ...RequestEditorFn) (*ListPurchaseOrderEmailsResponse, error)
+
+	// DismissPurchaseOrderEmailWithResponse request
+	DismissPurchaseOrderEmailWithResponse(ctx context.Context, poId string, emailId string, params *DismissPurchaseOrderEmailParams, reqEditors ...RequestEditorFn) (*DismissPurchaseOrderEmailResponse, error)
+
+	// RecordPurchaseOrderEmailWithResponse request
+	RecordPurchaseOrderEmailWithResponse(ctx context.Context, poId string, emailId string, params *RecordPurchaseOrderEmailParams, reqEditors ...RequestEditorFn) (*RecordPurchaseOrderEmailResponse, error)
 
 	// FlipPurchaseOrderToInvoiceWithResponse request
 	FlipPurchaseOrderToInvoiceWithResponse(ctx context.Context, poId string, params *FlipPurchaseOrderToInvoiceParams, reqEditors ...RequestEditorFn) (*FlipPurchaseOrderToInvoiceResponse, error)
@@ -22500,6 +22948,75 @@ func (r GetPurchaseOrderDocumentResponse) StatusCode() int {
 	return 0
 }
 
+type ListPurchaseOrderEmailsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PurchaseOrderEmails
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListPurchaseOrderEmailsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListPurchaseOrderEmailsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DismissPurchaseOrderEmailResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *InboundEmail
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r DismissPurchaseOrderEmailResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DismissPurchaseOrderEmailResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type RecordPurchaseOrderEmailResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *InboundEmail
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r RecordPurchaseOrderEmailResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RecordPurchaseOrderEmailResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type FlipPurchaseOrderToInvoiceResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -24035,6 +24552,33 @@ func (c *ClientWithResponses) GetPurchaseOrderDocumentWithResponse(ctx context.C
 		return nil, err
 	}
 	return ParseGetPurchaseOrderDocumentResponse(rsp)
+}
+
+// ListPurchaseOrderEmailsWithResponse request returning *ListPurchaseOrderEmailsResponse
+func (c *ClientWithResponses) ListPurchaseOrderEmailsWithResponse(ctx context.Context, poId string, params *ListPurchaseOrderEmailsParams, reqEditors ...RequestEditorFn) (*ListPurchaseOrderEmailsResponse, error) {
+	rsp, err := c.ListPurchaseOrderEmails(ctx, poId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListPurchaseOrderEmailsResponse(rsp)
+}
+
+// DismissPurchaseOrderEmailWithResponse request returning *DismissPurchaseOrderEmailResponse
+func (c *ClientWithResponses) DismissPurchaseOrderEmailWithResponse(ctx context.Context, poId string, emailId string, params *DismissPurchaseOrderEmailParams, reqEditors ...RequestEditorFn) (*DismissPurchaseOrderEmailResponse, error) {
+	rsp, err := c.DismissPurchaseOrderEmail(ctx, poId, emailId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDismissPurchaseOrderEmailResponse(rsp)
+}
+
+// RecordPurchaseOrderEmailWithResponse request returning *RecordPurchaseOrderEmailResponse
+func (c *ClientWithResponses) RecordPurchaseOrderEmailWithResponse(ctx context.Context, poId string, emailId string, params *RecordPurchaseOrderEmailParams, reqEditors ...RequestEditorFn) (*RecordPurchaseOrderEmailResponse, error) {
+	rsp, err := c.RecordPurchaseOrderEmail(ctx, poId, emailId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRecordPurchaseOrderEmailResponse(rsp)
 }
 
 // FlipPurchaseOrderToInvoiceWithResponse request returning *FlipPurchaseOrderToInvoiceResponse
@@ -26730,6 +27274,105 @@ func ParseGetPurchaseOrderDocumentResponse(rsp *http.Response) (*GetPurchaseOrde
 			return nil, err
 		}
 		response.XML200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListPurchaseOrderEmailsResponse parses an HTTP response from a ListPurchaseOrderEmailsWithResponse call
+func ParseListPurchaseOrderEmailsResponse(rsp *http.Response) (*ListPurchaseOrderEmailsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListPurchaseOrderEmailsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PurchaseOrderEmails
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDismissPurchaseOrderEmailResponse parses an HTTP response from a DismissPurchaseOrderEmailWithResponse call
+func ParseDismissPurchaseOrderEmailResponse(rsp *http.Response) (*DismissPurchaseOrderEmailResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DismissPurchaseOrderEmailResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest InboundEmail
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRecordPurchaseOrderEmailResponse parses an HTTP response from a RecordPurchaseOrderEmailWithResponse call
+func ParseRecordPurchaseOrderEmailResponse(rsp *http.Response) (*RecordPurchaseOrderEmailResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RecordPurchaseOrderEmailResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest InboundEmail
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
 
 	}
 

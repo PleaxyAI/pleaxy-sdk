@@ -69,6 +69,14 @@ pub enum Code {
     ReceiptQtyExceeded,
     #[serde(rename = "receipt_amount_exceeded")]
     ReceiptAmountExceeded,
+    #[serde(rename = "tier_price_exceeded")]
+    TierPriceExceeded,
+    #[serde(rename = "contract_discount_missing")]
+    ContractDiscountMissing,
+    #[serde(rename = "fixed_discount_missing")]
+    FixedDiscountMissing,
+    #[serde(rename = "commitment_shortfall_overbilled")]
+    CommitmentShortfallOverbilled,
 }
 
 impl Default for Code {

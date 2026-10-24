@@ -1,6 +1,7 @@
 from typing import Literal, Set, cast
 
 NotificationType = Literal[
+    "accounting_sync_failed",
     "agent_request",
     "company_report_ready",
     "contract_comment",
@@ -54,6 +55,7 @@ NotificationType = Literal[
     "po_shipped",
     "po_store_order_problem",
     "po_supplier_confirmed",
+    "po_supplier_email",
     "po_supplier_exception",
     "receipt_return_recorded",
     "report_ready",
@@ -77,6 +79,7 @@ NotificationType = Literal[
 ]
 
 NOTIFICATION_TYPE_VALUES: Set[NotificationType] = {
+    "accounting_sync_failed",
     "agent_request",
     "company_report_ready",
     "contract_comment",
@@ -130,6 +133,7 @@ NOTIFICATION_TYPE_VALUES: Set[NotificationType] = {
     "po_shipped",
     "po_store_order_problem",
     "po_supplier_confirmed",
+    "po_supplier_email",
     "po_supplier_exception",
     "receipt_return_recorded",
     "report_ready",
