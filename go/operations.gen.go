@@ -160,7 +160,7 @@ func (c *Client) CreateApiKey(ctx context.Context, body CreateApiKeyJSONRequestB
 	return resp.JSON201, nil
 }
 
-// CreateCloudConnection - [Buyer] Connect a cloud provider account
+// CreateCloudConnection - [Buyer] Connect a cloud provider account ('create' on suppliers)
 func (c *Client) CreateCloudConnection(ctx context.Context, body CreateCloudConnectionJSONRequestBody) (*CloudConnection, error) {
 	resp, err := c.api.CreateCloudConnectionWithResponse(ctx, body)
 	if err != nil {
@@ -172,7 +172,7 @@ func (c *Client) CreateCloudConnection(ctx context.Context, body CreateCloudConn
 	return resp.JSON201, nil
 }
 
-// CreateInvoice - [Both] Record an invoice - or, with "documentType": "credit_note" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
+// CreateInvoice - [Both] Record an invoice - or, with "documentType": "credit_note" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve, export or record payment for it unless a signed-in person is the only one in the workspace who could; paying it through Stripe always takes someone else. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
 func (c *Client) CreateInvoice(ctx context.Context, body CreateInvoiceJSONRequestBody) (*CreateInvoiceResult, error) {
 	resp, err := c.api.CreateInvoiceWithResponse(ctx, body)
 	if err != nil {
@@ -253,7 +253,7 @@ func (c *Client) DisconnectCloudConnection(ctx context.Context, id string) (*Clo
 	return resp.JSON200, nil
 }
 
-// DiscoverAzureBillingScopes - [Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection's own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only.
+// DiscoverAzureBillingScopes - [Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection's own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only. 'create' on suppliers.
 func (c *Client) DiscoverAzureBillingScopes(ctx context.Context, body DiscoverAzureBillingScopesJSONRequestBody) (*interface{}, error) {
 	resp, err := c.api.DiscoverAzureBillingScopesWithResponse(ctx, body)
 	if err != nil {
@@ -553,7 +553,7 @@ func (c *Client) GetReferenceRate(ctx context.Context, params *GetReferenceRateP
 	return resp.JSON200, nil
 }
 
-// GetReminderSettings - [Both] Get reminder settings
+// GetReminderSettings - [Supplier] Get reminder settings
 func (c *Client) GetReminderSettings(ctx context.Context) (*ReminderSettings, error) {
 	resp, err := c.api.GetReminderSettingsWithResponse(ctx)
 	if err != nil {
@@ -601,7 +601,7 @@ func (c *Client) GetSupplierWorkspace(ctx context.Context, params *GetSupplierWo
 	return resp.JSON200, nil
 }
 
-// InitAwsCloudConnection - [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller's own unfinished draft (and its external ID) if one exists.
+// InitAwsCloudConnection - [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller's own unfinished draft (and its external ID) if one exists. 'create' on suppliers.
 func (c *Client) InitAwsCloudConnection(ctx context.Context) (*AwsCloudConnectionInit, error) {
 	resp, err := c.api.InitAwsCloudConnectionWithResponse(ctx)
 	if err != nil {
@@ -613,7 +613,7 @@ func (c *Client) InitAwsCloudConnection(ctx context.Context) (*AwsCloudConnectio
 	return resp.JSON201, nil
 }
 
-// InitCloudConnection - [Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller's own unfinished draft if one exists. 404 while the provider is demo-only.
+// InitCloudConnection - [Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller's own unfinished draft if one exists. 404 while the provider is demo-only. 'create' on suppliers.
 func (c *Client) InitCloudConnection(ctx context.Context, provider string) (*interface{}, error) {
 	resp, err := c.api.InitCloudConnectionWithResponse(ctx, provider)
 	if err != nil {
@@ -649,7 +649,7 @@ func (c *Client) ListApprovals(ctx context.Context) (*ApprovalQueue, error) {
 	return resp.JSON200, nil
 }
 
-// ListCloudConnections - [Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`, oldest first - pass `cursor` back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page).
+// ListCloudConnections - [Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`, oldest first - pass `cursor` back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page). 'view' on suppliers or on invoices.
 func (c *Client) ListCloudConnections(ctx context.Context, params *ListCloudConnectionsParams) (*ListCloudConnectionsResult, error) {
 	resp, err := c.api.ListCloudConnectionsWithResponse(ctx, params)
 	if err != nil {
@@ -769,7 +769,7 @@ func (c *Client) ListPurchaseRequests(ctx context.Context, params *ListPurchaseR
 	return resp.JSON200, nil
 }
 
-// ListSyncEvents - [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier sent one), invoice.updated (an approval step approved it, including an automatic approval, it was rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded, failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.
+// ListSyncEvents - [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied, invoice.updated (the buyer holds the invoice for review, or the hold is over: GetInvoiceStatus says which) and credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier sent one), invoice.updated (an approval step approved it, including an automatic approval, it was rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded, failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.
 func (c *Client) ListSyncEvents(ctx context.Context, params *ListSyncEventsParams) (*SyncEventPage, error) {
 	resp, err := c.api.ListSyncEventsWithResponse(ctx, params)
 	if err != nil {
@@ -1087,7 +1087,7 @@ func (c *Client) SubmitPurchaseRequest(ctx context.Context, requestId string) (*
 	return resp.JSON200, nil
 }
 
-// SyncCloudConnection - [Buyer] Manually sync one connected cloud account's billing data now (rate-limited).
+// SyncCloudConnection - [Buyer] Manually sync one connected cloud account's billing data now (rate-limited). 'create' on suppliers or 'edit' on invoices.
 func (c *Client) SyncCloudConnection(ctx context.Context, id string) (*CloudConnection, error) {
 	resp, err := c.api.SyncCloudConnectionWithResponse(ctx, id)
 	if err != nil {
@@ -1195,7 +1195,7 @@ func (c *Client) UpdatePurchaseRequest(ctx context.Context, requestId string, bo
 	return resp.JSON200, nil
 }
 
-// UpdateReminderSettings - [Both] Update reminder settings
+// UpdateReminderSettings - [Supplier] Update reminder settings
 func (c *Client) UpdateReminderSettings(ctx context.Context, body UpdateReminderSettingsJSONRequestBody) (*ReminderSettings, error) {
 	resp, err := c.api.UpdateReminderSettingsWithResponse(ctx, body)
 	if err != nil {

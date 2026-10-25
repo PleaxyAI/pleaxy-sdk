@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -39,6 +39,8 @@ module Pleaxy
 
     attr_accessor :from_request
 
+    attr_accessor :routing
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -75,7 +77,8 @@ module Pleaxy
         :'excluded_employee_keys' => :'excludedEmployeeKeys',
         :'self_approved' => :'selfApproved',
         :'fx' => :'fx',
-        :'from_request' => :'fromRequest'
+        :'from_request' => :'fromRequest',
+        :'routing' => :'routing'
       }
     end
 
@@ -98,7 +101,8 @@ module Pleaxy
         :'excluded_employee_keys' => :'Array<String>',
         :'self_approved' => :'Boolean',
         :'fx' => :'ApprovalFx',
-        :'from_request' => :'ApprovalChainFromRequest'
+        :'from_request' => :'ApprovalChainFromRequest',
+        :'routing' => :'ApprovalRouting'
       }
     end
 
@@ -176,6 +180,10 @@ module Pleaxy
       if attributes.key?(:'from_request')
         self.from_request = attributes[:'from_request']
       end
+
+      if attributes.key?(:'routing')
+        self.routing = attributes[:'routing']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -221,7 +229,8 @@ module Pleaxy
           excluded_employee_keys == o.excluded_employee_keys &&
           self_approved == o.self_approved &&
           fx == o.fx &&
-          from_request == o.from_request
+          from_request == o.from_request &&
+          routing == o.routing
     end
 
     # @see the `==` method
@@ -233,7 +242,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [requester, requester_employee_key, groups, group_index, status, history, autonomy, spend_limit_gate, excluded_employee_keys, self_approved, fx, from_request].hash
+      [requester, requester_employee_key, groups, group_index, status, history, autonomy, spend_limit_gate, excluded_employee_keys, self_approved, fx, from_request, routing].hash
     end
 
     # Builds the object from hash

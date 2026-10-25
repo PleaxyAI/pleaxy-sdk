@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -152,7 +152,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Both] Record an invoice - or, with \"documentType\": \"credit_note\" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
+    # [Both] Record an invoice - or, with \"documentType\": \"credit_note\" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve, export or record payment for it unless a signed-in person is the only one in the workspace who could; paying it through Stripe always takes someone else. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
     # @param create_manual_invoice_input [CreateManualInvoiceInput] 
     # @param [Hash] opts the optional parameters
     # @return [CreateInvoiceResult]
@@ -161,7 +161,7 @@ module Pleaxy
       data
     end
 
-    # [Both] Record an invoice - or, with \&quot;documentType\&quot;: \&quot;credit_note\&quot; and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer&#39;s workspace, and whoever entered it can&#39;t approve, resolve or settle it. cXML or UBL (buyer only): a supplier&#39;s document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
+    # [Both] Record an invoice - or, with \&quot;documentType\&quot;: \&quot;credit_note\&quot; and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer&#39;s workspace, and whoever entered it can&#39;t approve, resolve, export or record payment for it unless a signed-in person is the only one in the workspace who could; paying it through Stripe always takes someone else. cXML or UBL (buyer only): a supplier&#39;s document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
     # @param create_manual_invoice_input [CreateManualInvoiceInput] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(CreateInvoiceResult, Integer, Hash)>] CreateInvoiceResult data, response status code and response headers

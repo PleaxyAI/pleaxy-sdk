@@ -59,7 +59,7 @@ def sync_detailed(
     client: Union[AuthenticatedClient, Client],
     body: CreateCloudConnectionInput,
 ) -> Response[CloudConnection]:
-    """[Buyer] Connect a cloud provider account
+    """[Buyer] Connect a cloud provider account ('create' on suppliers)
 
     Args:
         body (CreateCloudConnectionInput):
@@ -88,7 +88,7 @@ def sync(
     client: Union[AuthenticatedClient, Client],
     body: CreateCloudConnectionInput,
 ) -> Optional[CloudConnection]:
-    """[Buyer] Connect a cloud provider account
+    """[Buyer] Connect a cloud provider account ('create' on suppliers)
 
     Args:
         body (CreateCloudConnectionInput):
@@ -112,7 +112,7 @@ async def asyncio_detailed(
     client: Union[AuthenticatedClient, Client],
     body: CreateCloudConnectionInput,
 ) -> Response[CloudConnection]:
-    """[Buyer] Connect a cloud provider account
+    """[Buyer] Connect a cloud provider account ('create' on suppliers)
 
     Args:
         body (CreateCloudConnectionInput):
@@ -139,7 +139,7 @@ async def asyncio(
     client: Union[AuthenticatedClient, Client],
     body: CreateCloudConnectionInput,
 ) -> Optional[CloudConnection]:
-    """[Buyer] Connect a cloud provider account
+    """[Buyer] Connect a cloud provider account ('create' on suppliers)
 
     Args:
         body (CreateCloudConnectionInput):

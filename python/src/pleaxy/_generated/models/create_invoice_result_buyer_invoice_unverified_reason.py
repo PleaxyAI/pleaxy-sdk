@@ -1,7 +1,7 @@
 from typing import Literal, Set, cast
 
 CreateInvoiceResultBuyerInvoiceUnverifiedReason = Literal[
-    "debit_note", "no_billing_connection", "no_purchase_order"
+    "debit_note", "no_billing_connection", "no_purchase_order", "payer_account_unclear"
 ]
 
 CREATE_INVOICE_RESULT_BUYER_INVOICE_UNVERIFIED_REASON_VALUES: Set[
@@ -10,6 +10,7 @@ CREATE_INVOICE_RESULT_BUYER_INVOICE_UNVERIFIED_REASON_VALUES: Set[
     "debit_note",
     "no_billing_connection",
     "no_purchase_order",
+    "payer_account_unclear",
 }
 
 

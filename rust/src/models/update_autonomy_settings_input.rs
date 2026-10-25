@@ -1,7 +1,7 @@
 /*
  * Pleaxy API
  *
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -22,6 +22,13 @@ pub struct UpdateAutonomySettingsInput {
     pub max_auto_approve_amount: Option<f64>,
     #[serde(rename = "approvalThreshold", skip_serializing_if = "Option::is_none")]
     pub approval_threshold: Option<f64>,
+    #[serde(
+        rename = "invoice",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub invoice: Option<Option<models::InvoiceAutonomySettingsInput>>,
 }
 
 impl UpdateAutonomySettingsInput {
@@ -30,6 +37,7 @@ impl UpdateAutonomySettingsInput {
             enabled: None,
             max_auto_approve_amount: None,
             approval_threshold: None,
+            invoice: None,
         }
     }
 }

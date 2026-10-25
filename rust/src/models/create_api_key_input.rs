@@ -1,7 +1,7 @@
 /*
  * Pleaxy API
  *
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -16,9 +16,12 @@ pub struct CreateApiKeyInput {
     /// Human-readable label, e.g. \"Billing agent - prod\"
     #[serde(rename = "label")]
     pub label: String,
-    /// Buyer-side procurement authority the key grants. Defaults to `read-only`. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys.
+    /// Buyer-side procurement authority the key grants. Defaults to `read-only`. `agent` is for an AI agent or integration that raises purchase orders and enters invoices: it reads contracts, suppliers and questionnaires, and changes no approval rule, auto-approval or billing. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys.
     #[serde(rename = "procurementRole", skip_serializing_if = "Option::is_none")]
     pub procurement_role: Option<ProcurementRole>,
+    /// Supplier-side keys: the role the key acts with, as people have - administrator, accounts-receivable, sales, fulfillment or read-only. Defaults to `read-only`. invoices:feed needs a role that edits invoices (administrator, accounts-receivable); orders:fulfill one that edits orders (administrator, fulfillment). Ignored for buyer-side keys.
+    #[serde(rename = "supplierRole", skip_serializing_if = "Option::is_none")]
+    pub supplier_role: Option<SupplierRole>,
     /// Extra abilities, each for one side (the other side's scope is a 400). Supplier: `invoices:feed` lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId; `orders:fulfill` lets it confirm orders and send ship notices, through POST .../purchase-orders/:poId/confirmations and .../ship-notices or as cXML to POST /v1/cxml/fulfillment. Buyer: `payments:record` lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key.
     #[serde(rename = "scopes", skip_serializing_if = "Option::is_none")]
     pub scopes: Option<Vec<Scopes>>,
@@ -29,11 +32,12 @@ impl CreateApiKeyInput {
         CreateApiKeyInput {
             label,
             procurement_role: None,
+            supplier_role: None,
             scopes: None,
         }
     }
 }
-/// Buyer-side procurement authority the key grants. Defaults to `read-only`. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys.
+/// Buyer-side procurement authority the key grants. Defaults to `read-only`. `agent` is for an AI agent or integration that raises purchase orders and enters invoices: it reads contracts, suppliers and questionnaires, and changes no approval rule, auto-approval or billing. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum ProcurementRole {
     #[serde(rename = "administrator")]
@@ -48,10 +52,32 @@ pub enum ProcurementRole {
     Requisitions,
     #[serde(rename = "finance")]
     Finance,
+    #[serde(rename = "agent")]
+    Agent,
 }
 
 impl Default for ProcurementRole {
     fn default() -> ProcurementRole {
+        Self::Administrator
+    }
+}
+/// Supplier-side keys: the role the key acts with, as people have - administrator, accounts-receivable, sales, fulfillment or read-only. Defaults to `read-only`. invoices:feed needs a role that edits invoices (administrator, accounts-receivable); orders:fulfill one that edits orders (administrator, fulfillment). Ignored for buyer-side keys.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum SupplierRole {
+    #[serde(rename = "administrator")]
+    Administrator,
+    #[serde(rename = "accounts-receivable")]
+    AccountsReceivable,
+    #[serde(rename = "sales")]
+    Sales,
+    #[serde(rename = "fulfillment")]
+    Fulfillment,
+    #[serde(rename = "read-only")]
+    ReadOnly,
+}
+
+impl Default for SupplierRole {
+    fn default() -> SupplierRole {
         Self::Administrator
     }
 }

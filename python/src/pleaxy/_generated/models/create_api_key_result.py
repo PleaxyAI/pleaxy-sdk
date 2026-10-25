@@ -15,6 +15,10 @@ from ..models.create_api_key_result_scopes_item import (
     CreateApiKeyResultScopesItem,
     check_create_api_key_result_scopes_item,
 )
+from ..models.create_api_key_result_supplier_role import (
+    CreateApiKeyResultSupplierRole,
+    check_create_api_key_result_supplier_role,
+)
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="CreateApiKeyResult")
@@ -29,6 +33,7 @@ class CreateApiKeyResult:
         region_id (Union[Unset, str]):
         role (Union[Unset, CreateApiKeyResultRole]):
         procurement_role (Union[Unset, CreateApiKeyResultProcurementRole]):
+        supplier_role (Union[Unset, CreateApiKeyResultSupplierRole]):
         scopes (Union[Unset, List[CreateApiKeyResultScopesItem]]):
         label (Union[Unset, str]):
         created_at (Union[Unset, str]):
@@ -41,6 +46,7 @@ class CreateApiKeyResult:
     region_id: Union[Unset, str] = UNSET
     role: Union[Unset, CreateApiKeyResultRole] = UNSET
     procurement_role: Union[Unset, CreateApiKeyResultProcurementRole] = UNSET
+    supplier_role: Union[Unset, CreateApiKeyResultSupplierRole] = UNSET
     scopes: Union[Unset, List[CreateApiKeyResultScopesItem]] = UNSET
     label: Union[Unset, str] = UNSET
     created_at: Union[Unset, str] = UNSET
@@ -62,6 +68,10 @@ class CreateApiKeyResult:
         procurement_role: Union[Unset, str] = UNSET
         if not isinstance(self.procurement_role, Unset):
             procurement_role = self.procurement_role
+
+        supplier_role: Union[Unset, str] = UNSET
+        if not isinstance(self.supplier_role, Unset):
+            supplier_role = self.supplier_role
 
         scopes: Union[Unset, List[str]] = UNSET
         if not isinstance(self.scopes, Unset):
@@ -91,6 +101,8 @@ class CreateApiKeyResult:
             field_dict["role"] = role
         if procurement_role is not UNSET:
             field_dict["procurementRole"] = procurement_role
+        if supplier_role is not UNSET:
+            field_dict["supplierRole"] = supplier_role
         if scopes is not UNSET:
             field_dict["scopes"] = scopes
         if label is not UNSET:
@@ -129,6 +141,13 @@ class CreateApiKeyResult:
                 _procurement_role
             )
 
+        _supplier_role = d.pop("supplierRole", UNSET)
+        supplier_role: Union[Unset, CreateApiKeyResultSupplierRole]
+        if isinstance(_supplier_role, Unset):
+            supplier_role = UNSET
+        else:
+            supplier_role = check_create_api_key_result_supplier_role(_supplier_role)
+
         scopes = []
         _scopes = d.pop("scopes", UNSET)
         for scopes_item_data in _scopes or []:
@@ -150,6 +169,7 @@ class CreateApiKeyResult:
             region_id=region_id,
             role=role,
             procurement_role=procurement_role,
+            supplier_role=supplier_role,
             scopes=scopes,
             label=label,
             created_at=created_at,

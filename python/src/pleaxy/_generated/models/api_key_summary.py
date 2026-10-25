@@ -12,6 +12,10 @@ from ..models.api_key_summary_scopes_item import (
     ApiKeySummaryScopesItem,
     check_api_key_summary_scopes_item,
 )
+from ..models.api_key_summary_supplier_role import (
+    ApiKeySummarySupplierRole,
+    check_api_key_summary_supplier_role,
+)
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="ApiKeySummary")
@@ -25,6 +29,7 @@ class ApiKeySummary:
         region_id (Union[Unset, str]):
         role (Union[Unset, ApiKeySummaryRole]):
         procurement_role (Union[Unset, ApiKeySummaryProcurementRole]):
+        supplier_role (Union[Unset, ApiKeySummarySupplierRole]):
         scopes (Union[Unset, List[ApiKeySummaryScopesItem]]):
         label (Union[Unset, str]):
         created_at (Union[Unset, str]):
@@ -36,6 +41,7 @@ class ApiKeySummary:
     region_id: Union[Unset, str] = UNSET
     role: Union[Unset, ApiKeySummaryRole] = UNSET
     procurement_role: Union[Unset, ApiKeySummaryProcurementRole] = UNSET
+    supplier_role: Union[Unset, ApiKeySummarySupplierRole] = UNSET
     scopes: Union[Unset, List[ApiKeySummaryScopesItem]] = UNSET
     label: Union[Unset, str] = UNSET
     created_at: Union[Unset, str] = UNSET
@@ -55,6 +61,10 @@ class ApiKeySummary:
         procurement_role: Union[Unset, str] = UNSET
         if not isinstance(self.procurement_role, Unset):
             procurement_role = self.procurement_role
+
+        supplier_role: Union[Unset, str] = UNSET
+        if not isinstance(self.supplier_role, Unset):
+            supplier_role = self.supplier_role
 
         scopes: Union[Unset, List[str]] = UNSET
         if not isinstance(self.scopes, Unset):
@@ -82,6 +92,8 @@ class ApiKeySummary:
             field_dict["role"] = role
         if procurement_role is not UNSET:
             field_dict["procurementRole"] = procurement_role
+        if supplier_role is not UNSET:
+            field_dict["supplierRole"] = supplier_role
         if scopes is not UNSET:
             field_dict["scopes"] = scopes
         if label is not UNSET:
@@ -116,6 +128,13 @@ class ApiKeySummary:
         else:
             procurement_role = check_api_key_summary_procurement_role(_procurement_role)
 
+        _supplier_role = d.pop("supplierRole", UNSET)
+        supplier_role: Union[Unset, ApiKeySummarySupplierRole]
+        if isinstance(_supplier_role, Unset):
+            supplier_role = UNSET
+        else:
+            supplier_role = check_api_key_summary_supplier_role(_supplier_role)
+
         scopes = []
         _scopes = d.pop("scopes", UNSET)
         for scopes_item_data in _scopes or []:
@@ -136,6 +155,7 @@ class ApiKeySummary:
             region_id=region_id,
             role=role,
             procurement_role=procurement_role,
+            supplier_role=supplier_role,
             scopes=scopes,
             label=label,
             created_at=created_at,

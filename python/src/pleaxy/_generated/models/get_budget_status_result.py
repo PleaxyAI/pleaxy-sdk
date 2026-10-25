@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from ..models.budget_control_settings import BudgetControlSettings
     from ..models.budget_period import BudgetPeriod
     from ..models.budget_status import BudgetStatus
+    from ..models.spend_figures import SpendFigures
 
 
 T = TypeVar("T", bound="GetBudgetStatusResult")
@@ -22,12 +23,14 @@ class GetBudgetStatusResult:
         period (Union[Unset, BudgetPeriod]):
         currency (Union[Unset, str]):
         cost_centers (Union[Unset, List['BudgetStatus']]):
+        unassigned (Union[Unset, SpendFigures]):
     """
 
     settings: Union[Unset, "BudgetControlSettings"] = UNSET
     period: Union[Unset, "BudgetPeriod"] = UNSET
     currency: Union[Unset, str] = UNSET
     cost_centers: Union[Unset, List["BudgetStatus"]] = UNSET
+    unassigned: Union[Unset, "SpendFigures"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -48,6 +51,10 @@ class GetBudgetStatusResult:
                 cost_centers_item = cost_centers_item_data.to_dict()
                 cost_centers.append(cost_centers_item)
 
+        unassigned: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.unassigned, Unset):
+            unassigned = self.unassigned.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -59,6 +66,8 @@ class GetBudgetStatusResult:
             field_dict["currency"] = currency
         if cost_centers is not UNSET:
             field_dict["costCenters"] = cost_centers
+        if unassigned is not UNSET:
+            field_dict["unassigned"] = unassigned
 
         return field_dict
 
@@ -67,6 +76,7 @@ class GetBudgetStatusResult:
         from ..models.budget_control_settings import BudgetControlSettings
         from ..models.budget_period import BudgetPeriod
         from ..models.budget_status import BudgetStatus
+        from ..models.spend_figures import SpendFigures
 
         d = src_dict.copy()
         _settings = d.pop("settings", UNSET)
@@ -92,11 +102,19 @@ class GetBudgetStatusResult:
 
             cost_centers.append(cost_centers_item)
 
+        _unassigned = d.pop("unassigned", UNSET)
+        unassigned: Union[Unset, SpendFigures]
+        if isinstance(_unassigned, Unset):
+            unassigned = UNSET
+        else:
+            unassigned = SpendFigures.from_dict(_unassigned)
+
         get_budget_status_result = cls(
             settings=settings,
             period=period,
             currency=currency,
             cost_centers=cost_centers,
+            unassigned=unassigned,
         )
 
         get_budget_status_result.additional_properties = d

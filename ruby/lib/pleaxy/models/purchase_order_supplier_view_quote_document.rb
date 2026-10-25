@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -144,7 +144,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      document_type_validator = EnumAttributeValidator.new('String', ["quote", "order_form", "proforma", "sow", "contract", "invoice", "other"])
+      document_type_validator = EnumAttributeValidator.new('String', ["invoice", "quote", "order_form", "proforma", "sow", "contract", "other"])
       return false unless document_type_validator.valid?(@document_type)
       content_type_validator = EnumAttributeValidator.new('String', ["application/pdf", "image/png", "image/jpeg"])
       return false unless content_type_validator.valid?(@content_type)
@@ -154,7 +154,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] document_type Object to be assigned
     def document_type=(document_type)
-      validator = EnumAttributeValidator.new('String', ["quote", "order_form", "proforma", "sow", "contract", "invoice", "other"])
+      validator = EnumAttributeValidator.new('String', ["invoice", "quote", "order_form", "proforma", "sow", "contract", "other"])
       unless validator.valid?(document_type)
         fail ArgumentError, "invalid value for \"document_type\", must be one of #{validator.allowable_values}."
       end

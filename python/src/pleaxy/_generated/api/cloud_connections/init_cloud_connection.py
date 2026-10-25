@@ -50,7 +50,7 @@ def sync_detailed(
 ) -> Response[Any]:
     """[Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns
     the per-connection values its setup script pins, reusing the caller's own unfinished draft if one
-    exists. 404 while the provider is demo-only.
+    exists. 404 while the provider is demo-only. 'create' on suppliers.
 
     Args:
         provider (str):
@@ -81,7 +81,7 @@ async def asyncio_detailed(
 ) -> Response[Any]:
     """[Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns
     the per-connection values its setup script pins, reusing the caller's own unfinished draft if one
-    exists. 404 while the provider is demo-only.
+    exists. 404 while the provider is demo-only. 'create' on suppliers.
 
     Args:
         provider (str):

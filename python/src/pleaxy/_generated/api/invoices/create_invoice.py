@@ -143,9 +143,10 @@ def sync_detailed(
     buyer for one of its suppliers, including an off-platform cloud provider from GET
     .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server
     computes the total from the line items, stores it in the buyer's workspace, and whoever entered it
-    can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received.
-    JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A
-    Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
+    can't approve, resolve, export or record payment for it unless a signed-in person is the only one in
+    the workspace who could; paying it through Stripe always takes someone else. cXML or UBL (buyer
+    only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer
+    only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
 
     Args:
         body (CreateManualInvoiceInput):
@@ -186,9 +187,10 @@ def sync(
     buyer for one of its suppliers, including an off-platform cloud provider from GET
     .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server
     computes the total from the line items, stores it in the buyer's workspace, and whoever entered it
-    can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received.
-    JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A
-    Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
+    can't approve, resolve, export or record payment for it unless a signed-in person is the only one in
+    the workspace who could; paying it through Stripe always takes someone else. cXML or UBL (buyer
+    only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer
+    only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
 
     Args:
         body (CreateManualInvoiceInput):
@@ -224,9 +226,10 @@ async def asyncio_detailed(
     buyer for one of its suppliers, including an off-platform cloud provider from GET
     .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server
     computes the total from the line items, stores it in the buyer's workspace, and whoever entered it
-    can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received.
-    JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A
-    Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
+    can't approve, resolve, export or record payment for it unless a signed-in person is the only one in
+    the workspace who could; paying it through Stripe always takes someone else. cXML or UBL (buyer
+    only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer
+    only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
 
     Args:
         body (CreateManualInvoiceInput):
@@ -265,9 +268,10 @@ async def asyncio(
     buyer for one of its suppliers, including an off-platform cloud provider from GET
     .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server
     computes the total from the line items, stores it in the buyer's workspace, and whoever entered it
-    can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received.
-    JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A
-    Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
+    can't approve, resolve, export or record payment for it unless a signed-in person is the only one in
+    the workspace who could; paying it through Stripe always takes someone else. cXML or UBL (buyer
+    only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer
+    only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
 
     Args:
         body (CreateManualInvoiceInput):

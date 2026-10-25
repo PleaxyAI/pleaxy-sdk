@@ -1,6 +1,6 @@
 /*
  * Pleaxy API
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.PaymentHistoryEntryRecord;
+import ai.pleaxy.model.SolePayerWaiverRecord;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -41,6 +42,7 @@ import ai.pleaxy.client.ApiClient;
   PaymentHistoryEntry.JSON_PROPERTY_REMITTANCE_ID,
   PaymentHistoryEntry.JSON_PROPERTY_CREDIT_NOTE_ID,
   PaymentHistoryEntry.JSON_PROPERTY_AMOUNT,
+  PaymentHistoryEntry.JSON_PROPERTY_SOLE_PAYER,
   PaymentHistoryEntry.JSON_PROPERTY_RECORD
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -125,6 +127,10 @@ public class PaymentHistoryEntry {
   public static final String JSON_PROPERTY_AMOUNT = "amount";
   @javax.annotation.Nullable
   private Double amount;
+
+  public static final String JSON_PROPERTY_SOLE_PAYER = "solePayer";
+  @javax.annotation.Nullable
+  private SolePayerWaiverRecord solePayer;
 
   public static final String JSON_PROPERTY_RECORD = "record";
   @javax.annotation.Nullable
@@ -301,6 +307,30 @@ public class PaymentHistoryEntry {
   }
 
 
+  public PaymentHistoryEntry solePayer(@javax.annotation.Nullable SolePayerWaiverRecord solePayer) {
+    this.solePayer = solePayer;
+    return this;
+  }
+
+  /**
+   * Get solePayer
+   * @return solePayer
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SOLE_PAYER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SolePayerWaiverRecord getSolePayer() {
+    return solePayer;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SOLE_PAYER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSolePayer(@javax.annotation.Nullable SolePayerWaiverRecord solePayer) {
+    this.solePayer = solePayer;
+  }
+
+
   public PaymentHistoryEntry record(@javax.annotation.Nullable PaymentHistoryEntryRecord record) {
     this.record = record;
     return this;
@@ -344,12 +374,13 @@ public class PaymentHistoryEntry {
         Objects.equals(this.remittanceId, paymentHistoryEntry.remittanceId) &&
         Objects.equals(this.creditNoteId, paymentHistoryEntry.creditNoteId) &&
         Objects.equals(this.amount, paymentHistoryEntry.amount) &&
+        Objects.equals(this.solePayer, paymentHistoryEntry.solePayer) &&
         Objects.equals(this.record, paymentHistoryEntry.record);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(action, at, by, byName, remittanceId, creditNoteId, amount, record);
+    return Objects.hash(action, at, by, byName, remittanceId, creditNoteId, amount, solePayer, record);
   }
 
   @Override
@@ -363,6 +394,7 @@ public class PaymentHistoryEntry {
     sb.append("    remittanceId: ").append(toIndentedString(remittanceId)).append("\n");
     sb.append("    creditNoteId: ").append(toIndentedString(creditNoteId)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    solePayer: ").append(toIndentedString(solePayer)).append("\n");
     sb.append("    record: ").append(toIndentedString(record)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -444,6 +476,11 @@ public class PaymentHistoryEntry {
     // add `amount` to the URL query string
     if (getAmount() != null) {
       joiner.add(String.format("%samount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAmount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `solePayer` to the URL query string
+    if (getSolePayer() != null) {
+      joiner.add(getSolePayer().toUrlQueryString(prefix + "solePayer" + suffix));
     }
 
     // add `record` to the URL query string

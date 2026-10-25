@@ -61,7 +61,7 @@ def sync_detailed(
     the given Microsoft Customer Agreement billing account and billing profile with it (the account list
     is empty for an app that holds only Billing profile reader). Only the person who started the setup
     may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is
-    demo-only.
+    demo-only. 'create' on suppliers.
 
     Args:
         body (DiscoverAzureScopesInput):
@@ -95,7 +95,7 @@ async def asyncio_detailed(
     the given Microsoft Customer Agreement billing account and billing profile with it (the account list
     is empty for an app that holds only Billing profile reader). Only the person who started the setup
     may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is
-    demo-only.
+    demo-only. 'create' on suppliers.
 
     Args:
         body (DiscoverAzureScopesInput):

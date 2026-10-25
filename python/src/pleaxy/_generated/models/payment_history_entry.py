@@ -11,6 +11,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.payment_history_entry_record import PaymentHistoryEntryRecord
+    from ..models.sole_payer_waiver_record import SolePayerWaiverRecord
 
 
 T = TypeVar("T", bound="PaymentHistoryEntry")
@@ -27,6 +28,7 @@ class PaymentHistoryEntry:
         remittance_id (Union[Unset, str]):
         credit_note_id (Union[Unset, str]):
         amount (Union[Unset, float]):
+        sole_payer (Union[Unset, SolePayerWaiverRecord]):
         record (Union[Unset, PaymentHistoryEntryRecord]):
     """
 
@@ -37,6 +39,7 @@ class PaymentHistoryEntry:
     remittance_id: Union[Unset, str] = UNSET
     credit_note_id: Union[Unset, str] = UNSET
     amount: Union[Unset, float] = UNSET
+    sole_payer: Union[Unset, "SolePayerWaiverRecord"] = UNSET
     record: Union[Unset, "PaymentHistoryEntryRecord"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -56,6 +59,10 @@ class PaymentHistoryEntry:
         credit_note_id = self.credit_note_id
 
         amount = self.amount
+
+        sole_payer: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.sole_payer, Unset):
+            sole_payer = self.sole_payer.to_dict()
 
         record: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.record, Unset):
@@ -78,6 +85,8 @@ class PaymentHistoryEntry:
             field_dict["creditNoteId"] = credit_note_id
         if amount is not UNSET:
             field_dict["amount"] = amount
+        if sole_payer is not UNSET:
+            field_dict["solePayer"] = sole_payer
         if record is not UNSET:
             field_dict["record"] = record
 
@@ -86,6 +95,7 @@ class PaymentHistoryEntry:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.payment_history_entry_record import PaymentHistoryEntryRecord
+        from ..models.sole_payer_waiver_record import SolePayerWaiverRecord
 
         d = src_dict.copy()
         _action = d.pop("action", UNSET)
@@ -107,6 +117,13 @@ class PaymentHistoryEntry:
 
         amount = d.pop("amount", UNSET)
 
+        _sole_payer = d.pop("solePayer", UNSET)
+        sole_payer: Union[Unset, SolePayerWaiverRecord]
+        if isinstance(_sole_payer, Unset):
+            sole_payer = UNSET
+        else:
+            sole_payer = SolePayerWaiverRecord.from_dict(_sole_payer)
+
         _record = d.pop("record", UNSET)
         record: Union[Unset, PaymentHistoryEntryRecord]
         if isinstance(_record, Unset):
@@ -122,6 +139,7 @@ class PaymentHistoryEntry:
             remittance_id=remittance_id,
             credit_note_id=credit_note_id,
             amount=amount,
+            sole_payer=sole_payer,
             record=record,
         )
 

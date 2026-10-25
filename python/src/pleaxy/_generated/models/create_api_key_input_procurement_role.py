@@ -2,6 +2,7 @@ from typing import Literal, Set, cast
 
 CreateApiKeyInputProcurementRole = Literal[
     "administrator",
+    "agent",
     "contracts-and-suppliers",
     "finance",
     "read-only",
@@ -11,6 +12,7 @@ CreateApiKeyInputProcurementRole = Literal[
 
 CREATE_API_KEY_INPUT_PROCUREMENT_ROLE_VALUES: Set[CreateApiKeyInputProcurementRole] = {
     "administrator",
+    "agent",
     "contracts-and-suppliers",
     "finance",
     "read-only",

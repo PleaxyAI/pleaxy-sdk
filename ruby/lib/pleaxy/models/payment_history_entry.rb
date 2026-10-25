@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -28,6 +28,8 @@ module Pleaxy
     attr_accessor :credit_note_id
 
     attr_accessor :amount
+
+    attr_accessor :sole_payer
 
     attr_accessor :record
 
@@ -63,6 +65,7 @@ module Pleaxy
         :'remittance_id' => :'remittanceId',
         :'credit_note_id' => :'creditNoteId',
         :'amount' => :'amount',
+        :'sole_payer' => :'solePayer',
         :'record' => :'record'
       }
     end
@@ -82,6 +85,7 @@ module Pleaxy
         :'remittance_id' => :'String',
         :'credit_note_id' => :'String',
         :'amount' => :'Float',
+        :'sole_payer' => :'SolePayerWaiverRecord',
         :'record' => :'PaymentHistoryEntryRecord'
       }
     end
@@ -135,6 +139,10 @@ module Pleaxy
         self.amount = attributes[:'amount']
       end
 
+      if attributes.key?(:'sole_payer')
+        self.sole_payer = attributes[:'sole_payer']
+      end
+
       if attributes.key?(:'record')
         self.record = attributes[:'record']
       end
@@ -179,6 +187,7 @@ module Pleaxy
           remittance_id == o.remittance_id &&
           credit_note_id == o.credit_note_id &&
           amount == o.amount &&
+          sole_payer == o.sole_payer &&
           record == o.record
     end
 
@@ -191,7 +200,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [action, at, by, by_name, remittance_id, credit_note_id, amount, record].hash
+      [action, at, by, by_name, remittance_id, credit_note_id, amount, sole_payer, record].hash
     end
 
     # Builds the object from hash

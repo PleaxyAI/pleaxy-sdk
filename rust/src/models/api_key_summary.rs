@@ -1,7 +1,7 @@
 /*
  * Pleaxy API
  *
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -21,6 +21,8 @@ pub struct ApiKeySummary {
     pub role: Option<Role>,
     #[serde(rename = "procurementRole", skip_serializing_if = "Option::is_none")]
     pub procurement_role: Option<ProcurementRole>,
+    #[serde(rename = "supplierRole", skip_serializing_if = "Option::is_none")]
+    pub supplier_role: Option<SupplierRole>,
     #[serde(rename = "scopes", skip_serializing_if = "Option::is_none")]
     pub scopes: Option<Vec<Scopes>>,
     #[serde(rename = "label", skip_serializing_if = "Option::is_none")]
@@ -40,6 +42,7 @@ impl ApiKeySummary {
             region_id: None,
             role: None,
             procurement_role: None,
+            supplier_role: None,
             scopes: None,
             label: None,
             created_at: None,
@@ -77,10 +80,34 @@ pub enum ProcurementRole {
     Requisitions,
     #[serde(rename = "finance")]
     Finance,
+    #[serde(rename = "agent")]
+    Agent,
 }
 
 impl Default for ProcurementRole {
     fn default() -> ProcurementRole {
+        Self::Administrator
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum SupplierRole {
+    #[serde(rename = "administrator")]
+    Administrator,
+    #[serde(rename = "read-only")]
+    ReadOnly,
+    #[serde(rename = "accounts-receivable")]
+    AccountsReceivable,
+    #[serde(rename = "sales")]
+    Sales,
+    #[serde(rename = "fulfillment")]
+    Fulfillment,
+    #[serde(rename = "member")]
+    Member,
+}
+
+impl Default for SupplierRole {
+    fn default() -> SupplierRole {
         Self::Administrator
     }
 }

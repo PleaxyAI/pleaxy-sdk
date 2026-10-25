@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -170,7 +170,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      code_validator = EnumAttributeValidator.new('String', ["po_balance_exceeded", "po_line_amount_exceeded", "po_line_qty_exceeded", "po_line_price_exceeded", "po_line_unassigned", "po_line_missing", "contract_rate_exceeded", "contract_max_unit_price_exceeded", "contract_outside_term", "contract_cap_exceeded", "contract_not_active", "contract_check_failed", "receipt_missing", "receipt_qty_exceeded", "receipt_amount_exceeded", "tier_price_exceeded", "contract_discount_missing", "fixed_discount_missing", "commitment_shortfall_overbilled"])
+      code_validator = EnumAttributeValidator.new('String', ["usage_grew", "po_balance_exceeded", "po_line_amount_exceeded", "po_line_qty_exceeded", "po_line_price_exceeded", "po_line_unassigned", "po_line_missing", "contract_rate_exceeded", "contract_max_unit_price_exceeded", "contract_outside_term", "contract_cap_exceeded", "contract_not_active", "contract_check_failed", "receipt_missing", "receipt_qty_exceeded", "receipt_amount_exceeded", "tier_price_exceeded", "contract_discount_missing", "fixed_discount_missing", "commitment_shortfall_overbilled"])
       return false unless code_validator.valid?(@code)
       true
     end
@@ -178,7 +178,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] code Object to be assigned
     def code=(code)
-      validator = EnumAttributeValidator.new('String', ["po_balance_exceeded", "po_line_amount_exceeded", "po_line_qty_exceeded", "po_line_price_exceeded", "po_line_unassigned", "po_line_missing", "contract_rate_exceeded", "contract_max_unit_price_exceeded", "contract_outside_term", "contract_cap_exceeded", "contract_not_active", "contract_check_failed", "receipt_missing", "receipt_qty_exceeded", "receipt_amount_exceeded", "tier_price_exceeded", "contract_discount_missing", "fixed_discount_missing", "commitment_shortfall_overbilled"])
+      validator = EnumAttributeValidator.new('String', ["usage_grew", "po_balance_exceeded", "po_line_amount_exceeded", "po_line_qty_exceeded", "po_line_price_exceeded", "po_line_unassigned", "po_line_missing", "contract_rate_exceeded", "contract_max_unit_price_exceeded", "contract_outside_term", "contract_cap_exceeded", "contract_not_active", "contract_check_failed", "receipt_missing", "receipt_qty_exceeded", "receipt_amount_exceeded", "tier_price_exceeded", "contract_discount_missing", "fixed_discount_missing", "commitment_shortfall_overbilled"])
       unless validator.valid?(code)
         fail ArgumentError, "invalid value for \"code\", must be one of #{validator.allowable_values}."
       end

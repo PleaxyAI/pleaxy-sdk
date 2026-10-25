@@ -47,7 +47,7 @@ def sync_detailed(
     client: Union[AuthenticatedClient, Client],
 ) -> Response[AwsCloudConnectionInit]:
     """[Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing
-    the caller's own unfinished draft (and its external ID) if one exists.
+    the caller's own unfinished draft (and its external ID) if one exists. 'create' on suppliers.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -71,7 +71,7 @@ def sync(
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[AwsCloudConnectionInit]:
     """[Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing
-    the caller's own unfinished draft (and its external ID) if one exists.
+    the caller's own unfinished draft (and its external ID) if one exists. 'create' on suppliers.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -91,7 +91,7 @@ async def asyncio_detailed(
     client: Union[AuthenticatedClient, Client],
 ) -> Response[AwsCloudConnectionInit]:
     """[Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing
-    the caller's own unfinished draft (and its external ID) if one exists.
+    the caller's own unfinished draft (and its external ID) if one exists. 'create' on suppliers.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -113,7 +113,7 @@ async def asyncio(
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[AwsCloudConnectionInit]:
     """[Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing
-    the caller's own unfinished draft (and its external ID) if one exists.
+    the caller's own unfinished draft (and its external ID) if one exists. 'create' on suppliers.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

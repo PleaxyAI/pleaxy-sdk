@@ -1,7 +1,7 @@
 /*
  * Pleaxy API
  *
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -45,6 +45,8 @@ impl PurchaseOrderSupplierViewQuoteDocument {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum DocumentType {
+    #[serde(rename = "invoice")]
+    Invoice,
     #[serde(rename = "quote")]
     Quote,
     #[serde(rename = "order_form")]
@@ -55,15 +57,13 @@ pub enum DocumentType {
     Sow,
     #[serde(rename = "contract")]
     Contract,
-    #[serde(rename = "invoice")]
-    Invoice,
     #[serde(rename = "other")]
     Other,
 }
 
 impl Default for DocumentType {
     fn default() -> DocumentType {
-        Self::Quote
+        Self::Invoice
     }
 }
 ///

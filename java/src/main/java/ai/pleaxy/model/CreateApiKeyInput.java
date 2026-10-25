@@ -1,6 +1,6 @@
 /*
  * Pleaxy API
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -37,6 +37,7 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   CreateApiKeyInput.JSON_PROPERTY_LABEL,
   CreateApiKeyInput.JSON_PROPERTY_PROCUREMENT_ROLE,
+  CreateApiKeyInput.JSON_PROPERTY_SUPPLIER_ROLE,
   CreateApiKeyInput.JSON_PROPERTY_SCOPES
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -46,7 +47,7 @@ public class CreateApiKeyInput {
   private String label;
 
   /**
-   * Buyer-side procurement authority the key grants. Defaults to &#x60;read-only&#x60;. Minting requires &#x60;edit&#x60; on &#x60;approvalSettings&#x60; (i.e. an administrator). Ignored for supplier-side keys.
+   * Buyer-side procurement authority the key grants. Defaults to &#x60;read-only&#x60;. &#x60;agent&#x60; is for an AI agent or integration that raises purchase orders and enters invoices: it reads contracts, suppliers and questionnaires, and changes no approval rule, auto-approval or billing. Minting requires &#x60;edit&#x60; on &#x60;approvalSettings&#x60; (i.e. an administrator). Ignored for supplier-side keys.
    */
   public enum ProcurementRoleEnum {
     ADMINISTRATOR(String.valueOf("administrator")),
@@ -59,7 +60,9 @@ public class CreateApiKeyInput {
     
     REQUISITIONS(String.valueOf("requisitions")),
     
-    FINANCE(String.valueOf("finance"));
+    FINANCE(String.valueOf("finance")),
+    
+    AGENT(String.valueOf("agent"));
 
     private String value;
 
@@ -91,6 +94,51 @@ public class CreateApiKeyInput {
   public static final String JSON_PROPERTY_PROCUREMENT_ROLE = "procurementRole";
   @javax.annotation.Nullable
   private ProcurementRoleEnum procurementRole;
+
+  /**
+   * Supplier-side keys: the role the key acts with, as people have - administrator, accounts-receivable, sales, fulfillment or read-only. Defaults to &#x60;read-only&#x60;. invoices:feed needs a role that edits invoices (administrator, accounts-receivable); orders:fulfill one that edits orders (administrator, fulfillment). Ignored for buyer-side keys.
+   */
+  public enum SupplierRoleEnum {
+    ADMINISTRATOR(String.valueOf("administrator")),
+    
+    ACCOUNTS_RECEIVABLE(String.valueOf("accounts-receivable")),
+    
+    SALES(String.valueOf("sales")),
+    
+    FULFILLMENT(String.valueOf("fulfillment")),
+    
+    READ_ONLY(String.valueOf("read-only"));
+
+    private String value;
+
+    SupplierRoleEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static SupplierRoleEnum fromValue(String value) {
+      for (SupplierRoleEnum b : SupplierRoleEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_SUPPLIER_ROLE = "supplierRole";
+  @javax.annotation.Nullable
+  private SupplierRoleEnum supplierRole;
 
   /**
    * Gets or Sets scopes
@@ -166,7 +214,7 @@ public class CreateApiKeyInput {
   }
 
   /**
-   * Buyer-side procurement authority the key grants. Defaults to &#x60;read-only&#x60;. Minting requires &#x60;edit&#x60; on &#x60;approvalSettings&#x60; (i.e. an administrator). Ignored for supplier-side keys.
+   * Buyer-side procurement authority the key grants. Defaults to &#x60;read-only&#x60;. &#x60;agent&#x60; is for an AI agent or integration that raises purchase orders and enters invoices: it reads contracts, suppliers and questionnaires, and changes no approval rule, auto-approval or billing. Minting requires &#x60;edit&#x60; on &#x60;approvalSettings&#x60; (i.e. an administrator). Ignored for supplier-side keys.
    * @return procurementRole
    */
   @javax.annotation.Nullable
@@ -181,6 +229,30 @@ public class CreateApiKeyInput {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setProcurementRole(@javax.annotation.Nullable ProcurementRoleEnum procurementRole) {
     this.procurementRole = procurementRole;
+  }
+
+
+  public CreateApiKeyInput supplierRole(@javax.annotation.Nullable SupplierRoleEnum supplierRole) {
+    this.supplierRole = supplierRole;
+    return this;
+  }
+
+  /**
+   * Supplier-side keys: the role the key acts with, as people have - administrator, accounts-receivable, sales, fulfillment or read-only. Defaults to &#x60;read-only&#x60;. invoices:feed needs a role that edits invoices (administrator, accounts-receivable); orders:fulfill one that edits orders (administrator, fulfillment). Ignored for buyer-side keys.
+   * @return supplierRole
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_ROLE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SupplierRoleEnum getSupplierRole() {
+    return supplierRole;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_ROLE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSupplierRole(@javax.annotation.Nullable SupplierRoleEnum supplierRole) {
+    this.supplierRole = supplierRole;
   }
 
 
@@ -230,12 +302,13 @@ public class CreateApiKeyInput {
     CreateApiKeyInput createApiKeyInput = (CreateApiKeyInput) o;
     return Objects.equals(this.label, createApiKeyInput.label) &&
         Objects.equals(this.procurementRole, createApiKeyInput.procurementRole) &&
+        Objects.equals(this.supplierRole, createApiKeyInput.supplierRole) &&
         Objects.equals(this.scopes, createApiKeyInput.scopes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(label, procurementRole, scopes);
+    return Objects.hash(label, procurementRole, supplierRole, scopes);
   }
 
   @Override
@@ -244,6 +317,7 @@ public class CreateApiKeyInput {
     sb.append("class CreateApiKeyInput {\n");
     sb.append("    label: ").append(toIndentedString(label)).append("\n");
     sb.append("    procurementRole: ").append(toIndentedString(procurementRole)).append("\n");
+    sb.append("    supplierRole: ").append(toIndentedString(supplierRole)).append("\n");
     sb.append("    scopes: ").append(toIndentedString(scopes)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -300,6 +374,11 @@ public class CreateApiKeyInput {
     // add `procurementRole` to the URL query string
     if (getProcurementRole() != null) {
       joiner.add(String.format("%sprocurementRole%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProcurementRole()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `supplierRole` to the URL query string
+    if (getSupplierRole() != null) {
+      joiner.add(String.format("%ssupplierRole%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSupplierRole()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `scopes` to the URL query string

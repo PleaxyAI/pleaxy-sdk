@@ -1,6 +1,6 @@
 /*
  * Pleaxy API
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.CloudConnectionBillingCurrentPeriodEstimate;
 import ai.pleaxy.model.CloudConnectionBillingFinalizedInvoice;
+import ai.pleaxy.model.CloudConnectionBillingPreviousFinalizedInvoice;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,6 +37,7 @@ import ai.pleaxy.client.ApiClient;
  */
 @JsonPropertyOrder({
   CloudConnectionBilling.JSON_PROPERTY_FINALIZED_INVOICE,
+  CloudConnectionBilling.JSON_PROPERTY_PREVIOUS_FINALIZED_INVOICE,
   CloudConnectionBilling.JSON_PROPERTY_CURRENT_PERIOD_ESTIMATE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -43,6 +45,10 @@ public class CloudConnectionBilling {
   public static final String JSON_PROPERTY_FINALIZED_INVOICE = "finalizedInvoice";
   @javax.annotation.Nullable
   private CloudConnectionBillingFinalizedInvoice finalizedInvoice;
+
+  public static final String JSON_PROPERTY_PREVIOUS_FINALIZED_INVOICE = "previousFinalizedInvoice";
+  @javax.annotation.Nullable
+  private CloudConnectionBillingPreviousFinalizedInvoice previousFinalizedInvoice;
 
   public static final String JSON_PROPERTY_CURRENT_PERIOD_ESTIMATE = "currentPeriodEstimate";
   @javax.annotation.Nullable
@@ -72,6 +78,30 @@ public class CloudConnectionBilling {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFinalizedInvoice(@javax.annotation.Nullable CloudConnectionBillingFinalizedInvoice finalizedInvoice) {
     this.finalizedInvoice = finalizedInvoice;
+  }
+
+
+  public CloudConnectionBilling previousFinalizedInvoice(@javax.annotation.Nullable CloudConnectionBillingPreviousFinalizedInvoice previousFinalizedInvoice) {
+    this.previousFinalizedInvoice = previousFinalizedInvoice;
+    return this;
+  }
+
+  /**
+   * Get previousFinalizedInvoice
+   * @return previousFinalizedInvoice
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PREVIOUS_FINALIZED_INVOICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public CloudConnectionBillingPreviousFinalizedInvoice getPreviousFinalizedInvoice() {
+    return previousFinalizedInvoice;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PREVIOUS_FINALIZED_INVOICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPreviousFinalizedInvoice(@javax.annotation.Nullable CloudConnectionBillingPreviousFinalizedInvoice previousFinalizedInvoice) {
+    this.previousFinalizedInvoice = previousFinalizedInvoice;
   }
 
 
@@ -112,12 +142,13 @@ public class CloudConnectionBilling {
     }
     CloudConnectionBilling cloudConnectionBilling = (CloudConnectionBilling) o;
     return Objects.equals(this.finalizedInvoice, cloudConnectionBilling.finalizedInvoice) &&
+        Objects.equals(this.previousFinalizedInvoice, cloudConnectionBilling.previousFinalizedInvoice) &&
         Objects.equals(this.currentPeriodEstimate, cloudConnectionBilling.currentPeriodEstimate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(finalizedInvoice, currentPeriodEstimate);
+    return Objects.hash(finalizedInvoice, previousFinalizedInvoice, currentPeriodEstimate);
   }
 
   @Override
@@ -125,6 +156,7 @@ public class CloudConnectionBilling {
     StringBuilder sb = new StringBuilder();
     sb.append("class CloudConnectionBilling {\n");
     sb.append("    finalizedInvoice: ").append(toIndentedString(finalizedInvoice)).append("\n");
+    sb.append("    previousFinalizedInvoice: ").append(toIndentedString(previousFinalizedInvoice)).append("\n");
     sb.append("    currentPeriodEstimate: ").append(toIndentedString(currentPeriodEstimate)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -176,6 +208,11 @@ public class CloudConnectionBilling {
     // add `finalizedInvoice` to the URL query string
     if (getFinalizedInvoice() != null) {
       joiner.add(getFinalizedInvoice().toUrlQueryString(prefix + "finalizedInvoice" + suffix));
+    }
+
+    // add `previousFinalizedInvoice` to the URL query string
+    if (getPreviousFinalizedInvoice() != null) {
+      joiner.add(getPreviousFinalizedInvoice().toUrlQueryString(prefix + "previousFinalizedInvoice" + suffix));
     }
 
     // add `currentPeriodEstimate` to the URL query string

@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -23,13 +23,16 @@ module Pleaxy
 
     attr_accessor :cost_centers
 
+    attr_accessor :unassigned
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'settings' => :'settings',
         :'period' => :'period',
         :'currency' => :'currency',
-        :'cost_centers' => :'costCenters'
+        :'cost_centers' => :'costCenters',
+        :'unassigned' => :'unassigned'
       }
     end
 
@@ -44,7 +47,8 @@ module Pleaxy
         :'settings' => :'BudgetControlSettings',
         :'period' => :'BudgetPeriod',
         :'currency' => :'String',
-        :'cost_centers' => :'Array<BudgetStatus>'
+        :'cost_centers' => :'Array<BudgetStatus>',
+        :'unassigned' => :'SpendFigures'
       }
     end
 
@@ -86,6 +90,10 @@ module Pleaxy
           self.cost_centers = value
         end
       end
+
+      if attributes.key?(:'unassigned')
+        self.unassigned = attributes[:'unassigned']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -111,7 +119,8 @@ module Pleaxy
           settings == o.settings &&
           period == o.period &&
           currency == o.currency &&
-          cost_centers == o.cost_centers
+          cost_centers == o.cost_centers &&
+          unassigned == o.unassigned
     end
 
     # @see the `==` method
@@ -123,7 +132,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [settings, period, currency, cost_centers].hash
+      [settings, period, currency, cost_centers, unassigned].hash
     end
 
     # Builds the object from hash

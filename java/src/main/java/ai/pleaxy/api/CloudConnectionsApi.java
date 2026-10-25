@@ -1,6 +1,6 @@
 /*
  * Pleaxy API
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -162,7 +162,7 @@ public class CloudConnectionsApi {
   }
 
   /**
-   * [Buyer] Connect a cloud provider account
+   * [Buyer] Connect a cloud provider account (&#39;create&#39; on suppliers)
    * 
    * @param createCloudConnectionInput  (required)
    * @return CloudConnection
@@ -174,7 +174,7 @@ public class CloudConnectionsApi {
   }
 
   /**
-   * [Buyer] Connect a cloud provider account
+   * [Buyer] Connect a cloud provider account (&#39;create&#39; on suppliers)
    * 
    * @param createCloudConnectionInput  (required)
    * @return ApiResponse&lt;CloudConnection&gt;
@@ -313,7 +313,7 @@ public class CloudConnectionsApi {
   }
 
   /**
-   * [Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection&#39;s own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only.
+   * [Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection&#39;s own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only. &#39;create&#39; on suppliers.
    * 
    * @param discoverAzureScopesInput  (required)
    * @return Object
@@ -325,7 +325,7 @@ public class CloudConnectionsApi {
   }
 
   /**
-   * [Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection&#39;s own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only.
+   * [Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection&#39;s own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only. &#39;create&#39; on suppliers.
    * 
    * @param discoverAzureScopesInput  (required)
    * @return ApiResponse&lt;Object&gt;
@@ -391,7 +391,7 @@ public class CloudConnectionsApi {
   }
 
   /**
-   * [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller&#39;s own unfinished draft (and its external ID) if one exists.
+   * [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller&#39;s own unfinished draft (and its external ID) if one exists. &#39;create&#39; on suppliers.
    * 
    * @return AwsCloudConnectionInit
    * @throws ApiException if fails to make API call
@@ -402,7 +402,7 @@ public class CloudConnectionsApi {
   }
 
   /**
-   * [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller&#39;s own unfinished draft (and its external ID) if one exists.
+   * [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller&#39;s own unfinished draft (and its external ID) if one exists. &#39;create&#39; on suppliers.
    * 
    * @return ApiResponse&lt;AwsCloudConnectionInit&gt;
    * @throws ApiException if fails to make API call
@@ -457,7 +457,7 @@ public class CloudConnectionsApi {
   }
 
   /**
-   * [Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller&#39;s own unfinished draft if one exists. 404 while the provider is demo-only.
+   * [Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller&#39;s own unfinished draft if one exists. 404 while the provider is demo-only. &#39;create&#39; on suppliers.
    * 
    * @param provider  (required)
    * @return Object
@@ -469,7 +469,7 @@ public class CloudConnectionsApi {
   }
 
   /**
-   * [Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller&#39;s own unfinished draft if one exists. 404 while the provider is demo-only.
+   * [Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller&#39;s own unfinished draft if one exists. 404 while the provider is demo-only. &#39;create&#39; on suppliers.
    * 
    * @param provider  (required)
    * @return ApiResponse&lt;Object&gt;
@@ -530,7 +530,7 @@ public class CloudConnectionsApi {
   }
 
   /**
-   * [Buyer] List cloud provider connections. With &#x60;limit&#x60; (1–200): one page, &#x60;{ items, nextCursor? }&#x60;, oldest first - pass &#x60;cursor&#x60; back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page).
+   * [Buyer] List cloud provider connections. With &#x60;limit&#x60; (1–200): one page, &#x60;{ items, nextCursor? }&#x60;, oldest first - pass &#x60;cursor&#x60; back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page). &#39;view&#39; on suppliers or on invoices.
    * 
    * @param limit  (optional)
    * @param cursor  (optional)
@@ -543,7 +543,7 @@ public class CloudConnectionsApi {
   }
 
   /**
-   * [Buyer] List cloud provider connections. With &#x60;limit&#x60; (1–200): one page, &#x60;{ items, nextCursor? }&#x60;, oldest first - pass &#x60;cursor&#x60; back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page).
+   * [Buyer] List cloud provider connections. With &#x60;limit&#x60; (1–200): one page, &#x60;{ items, nextCursor? }&#x60;, oldest first - pass &#x60;cursor&#x60; back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page). &#39;view&#39; on suppliers or on invoices.
    * 
    * @param limit  (optional)
    * @param cursor  (optional)
@@ -617,7 +617,7 @@ public class CloudConnectionsApi {
   }
 
   /**
-   * [Buyer] Manually sync one connected cloud account&#39;s billing data now (rate-limited).
+   * [Buyer] Manually sync one connected cloud account&#39;s billing data now (rate-limited). &#39;create&#39; on suppliers or &#39;edit&#39; on invoices.
    * 
    * @param id  (required)
    * @return CloudConnection
@@ -629,7 +629,7 @@ public class CloudConnectionsApi {
   }
 
   /**
-   * [Buyer] Manually sync one connected cloud account&#39;s billing data now (rate-limited).
+   * [Buyer] Manually sync one connected cloud account&#39;s billing data now (rate-limited). &#39;create&#39; on suppliers or &#39;edit&#39; on invoices.
    * 
    * @param id  (required)
    * @return ApiResponse&lt;CloudConnection&gt;

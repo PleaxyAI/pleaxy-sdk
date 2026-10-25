@@ -1,6 +1,6 @@
 /*
  * Pleaxy API
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -87,7 +87,7 @@ public class NotificationsApi {
   }
 
   /**
-   * [Both] Get reminder settings
+   * [Supplier] Get reminder settings
    * 
    * @return ReminderSettings
    * @throws ApiException if fails to make API call
@@ -98,7 +98,7 @@ public class NotificationsApi {
   }
 
   /**
-   * [Both] Get reminder settings
+   * [Supplier] Get reminder settings
    * 
    * @return ApiResponse&lt;ReminderSettings&gt;
    * @throws ApiException if fails to make API call
@@ -502,7 +502,7 @@ public class NotificationsApi {
   }
 
   /**
-   * [Both] Update reminder settings
+   * [Supplier] Update reminder settings
    * 
    * @param updateReminderSettingsInput  (required)
    * @return ReminderSettings
@@ -514,7 +514,7 @@ public class NotificationsApi {
   }
 
   /**
-   * [Both] Update reminder settings
+   * [Supplier] Update reminder settings
    * 
    * @param updateReminderSettingsInput  (required)
    * @return ApiResponse&lt;ReminderSettings&gt;

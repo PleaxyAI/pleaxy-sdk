@@ -1,6 +1,6 @@
 /*
  * Pleaxy API
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -53,6 +53,8 @@ public class FeedValidationResultFindingsInner {
    * Gets or Sets code
    */
   public enum CodeEnum {
+    USAGE_GREW(String.valueOf("usage_grew")),
+    
     PO_BALANCE_EXCEEDED(String.valueOf("po_balance_exceeded")),
     
     PO_LINE_AMOUNT_EXCEEDED(String.valueOf("po_line_amount_exceeded")),

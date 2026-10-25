@@ -1,6 +1,6 @@
 /*
  * Pleaxy API
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -346,7 +346,9 @@ public class InvoiceBuyerView {
     
     NO_BILLING_CONNECTION(String.valueOf("no_billing_connection")),
     
-    DEBIT_NOTE(String.valueOf("debit_note"));
+    DEBIT_NOTE(String.valueOf("debit_note")),
+    
+    PAYER_ACCOUNT_UNCLEAR(String.valueOf("payer_account_unclear"));
 
     private String value;
 

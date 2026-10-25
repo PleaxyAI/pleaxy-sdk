@@ -59,7 +59,7 @@ def sync_detailed(
     client: Union[AuthenticatedClient, Client],
     body: UpdateReminderSettingsInput,
 ) -> Response[ReminderSettings]:
-    """[Both] Update reminder settings
+    """[Supplier] Update reminder settings
 
     Args:
         body (UpdateReminderSettingsInput):
@@ -88,7 +88,7 @@ def sync(
     client: Union[AuthenticatedClient, Client],
     body: UpdateReminderSettingsInput,
 ) -> Optional[ReminderSettings]:
-    """[Both] Update reminder settings
+    """[Supplier] Update reminder settings
 
     Args:
         body (UpdateReminderSettingsInput):
@@ -112,7 +112,7 @@ async def asyncio_detailed(
     client: Union[AuthenticatedClient, Client],
     body: UpdateReminderSettingsInput,
 ) -> Response[ReminderSettings]:
-    """[Both] Update reminder settings
+    """[Supplier] Update reminder settings
 
     Args:
         body (UpdateReminderSettingsInput):
@@ -139,7 +139,7 @@ async def asyncio(
     client: Union[AuthenticatedClient, Client],
     body: UpdateReminderSettingsInput,
 ) -> Optional[ReminderSettings]:
-    """[Both] Update reminder settings
+    """[Supplier] Update reminder settings
 
     Args:
         body (UpdateReminderSettingsInput):

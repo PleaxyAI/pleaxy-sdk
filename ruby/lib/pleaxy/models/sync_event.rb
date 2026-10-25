@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -145,7 +145,7 @@ module Pleaxy
       return false if @id.nil?
       type_validator = EnumAttributeValidator.new('String', ["purchase_order.issued", "purchase_order.changed", "purchase_order.canceled", "purchase_order.rejected", "purchase_order.updated", "purchase_order.confirmed", "purchase_order.shipped", "invoice.received", "invoice.approved", "invoice.rejected", "invoice.paid", "invoice.payment_withdrawn", "invoice.payment", "invoice.remittance_sent", "invoice.credit_applied", "invoice.updated", "credit_note.received", "credit_note.accepted", "credit_note.rejected"])
       return false unless type_validator.valid?(@type)
-      document_type_validator = EnumAttributeValidator.new('String', ["purchase_order", "invoice", "credit_note"])
+      document_type_validator = EnumAttributeValidator.new('String', ["invoice", "purchase_order", "credit_note"])
       return false unless document_type_validator.valid?(@document_type)
       true
     end
@@ -163,7 +163,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] document_type Object to be assigned
     def document_type=(document_type)
-      validator = EnumAttributeValidator.new('String', ["purchase_order", "invoice", "credit_note"])
+      validator = EnumAttributeValidator.new('String', ["invoice", "purchase_order", "credit_note"])
       unless validator.valid?(document_type)
         fail ArgumentError, "invalid value for \"document_type\", must be one of #{validator.allowable_values}."
       end

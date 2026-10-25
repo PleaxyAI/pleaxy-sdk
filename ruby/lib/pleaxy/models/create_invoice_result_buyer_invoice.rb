@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -813,7 +813,7 @@ module Pleaxy
       return false unless usage_source_validator.valid?(@usage_source)
       match_status_validator = EnumAttributeValidator.new('String', ["pending", "matched", "discrepancy", "unverified"])
       return false unless match_status_validator.valid?(@match_status)
-      unverified_reason_validator = EnumAttributeValidator.new('String', ["no_purchase_order", "no_billing_connection", "debit_note"])
+      unverified_reason_validator = EnumAttributeValidator.new('String', ["no_purchase_order", "no_billing_connection", "debit_note", "payer_account_unclear"])
       return false unless unverified_reason_validator.valid?(@unverified_reason)
       match_basis_validator = EnumAttributeValidator.new('String', ["purchase_order"])
       return false unless match_basis_validator.valid?(@match_basis)
@@ -859,7 +859,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] unverified_reason Object to be assigned
     def unverified_reason=(unverified_reason)
-      validator = EnumAttributeValidator.new('String', ["no_purchase_order", "no_billing_connection", "debit_note"])
+      validator = EnumAttributeValidator.new('String', ["no_purchase_order", "no_billing_connection", "debit_note", "payer_account_unclear"])
       unless validator.valid?(unverified_reason)
         fail ArgumentError, "invalid value for \"unverified_reason\", must be one of #{validator.allowable_values}."
       end

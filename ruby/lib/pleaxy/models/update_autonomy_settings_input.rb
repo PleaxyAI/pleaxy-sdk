@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -21,12 +21,15 @@ module Pleaxy
 
     attr_accessor :approval_threshold
 
+    attr_accessor :invoice
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'enabled' => :'enabled',
         :'max_auto_approve_amount' => :'maxAutoApproveAmount',
-        :'approval_threshold' => :'approvalThreshold'
+        :'approval_threshold' => :'approvalThreshold',
+        :'invoice' => :'invoice'
       }
     end
 
@@ -40,13 +43,15 @@ module Pleaxy
       {
         :'enabled' => :'Boolean',
         :'max_auto_approve_amount' => :'Float',
-        :'approval_threshold' => :'Float'
+        :'approval_threshold' => :'Float',
+        :'invoice' => :'InvoiceAutonomySettingsInput'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'invoice'
       ])
     end
 
@@ -75,6 +80,10 @@ module Pleaxy
 
       if attributes.key?(:'approval_threshold')
         self.approval_threshold = attributes[:'approval_threshold']
+      end
+
+      if attributes.key?(:'invoice')
+        self.invoice = attributes[:'invoice']
       end
     end
 
@@ -138,7 +147,8 @@ module Pleaxy
       self.class == o.class &&
           enabled == o.enabled &&
           max_auto_approve_amount == o.max_auto_approve_amount &&
-          approval_threshold == o.approval_threshold
+          approval_threshold == o.approval_threshold &&
+          invoice == o.invoice
     end
 
     # @see the `==` method
@@ -150,7 +160,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [enabled, max_auto_approve_amount, approval_threshold].hash
+      [enabled, max_auto_approve_amount, approval_threshold, invoice].hash
     end
 
     # Builds the object from hash

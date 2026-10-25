@@ -127,7 +127,7 @@ export class CloudConnectionsResource {
   }
 
   /**
-   * [Buyer] Connect a cloud provider account
+   * [Buyer] Connect a cloud provider account ('create' on suppliers)
    */
   createCloudConnection(body: RequestBody<"CreateCloudConnection">, options?: RequestOptions): Promise<ResponseBody<"CreateCloudConnection">> {
     return this.transport.request("post", "/cloud-connections", { path: undefined, body, options }) as Promise<ResponseBody<"CreateCloudConnection">>;
@@ -141,35 +141,35 @@ export class CloudConnectionsResource {
   }
 
   /**
-   * [Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection's own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only.
+   * [Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection's own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only. 'create' on suppliers.
    */
   discoverAzureBillingScopes(body: RequestBody<"DiscoverAzureBillingScopes">, options?: RequestOptions): Promise<ResponseBody<"DiscoverAzureBillingScopes">> {
     return this.transport.request("post", "/cloud-connections/azure/discover", { path: undefined, body, options }) as Promise<ResponseBody<"DiscoverAzureBillingScopes">>;
   }
 
   /**
-   * [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller's own unfinished draft (and its external ID) if one exists.
+   * [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller's own unfinished draft (and its external ID) if one exists. 'create' on suppliers.
    */
   initAwsCloudConnection(options?: RequestOptions): Promise<ResponseBody<"InitAwsCloudConnection">> {
     return this.transport.request("post", "/cloud-connections/aws/init", { path: undefined, options }) as Promise<ResponseBody<"InitAwsCloudConnection">>;
   }
 
   /**
-   * [Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller's own unfinished draft if one exists. 404 while the provider is demo-only.
+   * [Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller's own unfinished draft if one exists. 404 while the provider is demo-only. 'create' on suppliers.
    */
   initCloudConnection(provider: string, options?: RequestOptions): Promise<ResponseBody<"InitCloudConnection">> {
     return this.transport.request("post", "/cloud-connections/{provider}/init", { path: { provider }, options }) as Promise<ResponseBody<"InitCloudConnection">>;
   }
 
   /**
-   * [Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`, oldest first - pass `cursor` back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page).
+   * [Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`, oldest first - pass `cursor` back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page). 'view' on suppliers or on invoices.
    */
   listCloudConnections(query?: QueryParams<"ListCloudConnections">, options?: RequestOptions): Promise<ResponseBody<"ListCloudConnections">> {
     return this.transport.request("get", "/cloud-connections", { path: undefined, query, options }) as Promise<ResponseBody<"ListCloudConnections">>;
   }
 
   /**
-   * [Buyer] Manually sync one connected cloud account's billing data now (rate-limited).
+   * [Buyer] Manually sync one connected cloud account's billing data now (rate-limited). 'create' on suppliers or 'edit' on invoices.
    */
   syncCloudConnection(id: string, options?: RequestOptions): Promise<ResponseBody<"SyncCloudConnection">> {
     return this.transport.request("post", "/cloud-connections/{id}/sync", { path: { id }, options }) as Promise<ResponseBody<"SyncCloudConnection">>;
@@ -236,7 +236,7 @@ export class DocumentSyncResource {
   }
 
   /**
-   * [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier sent one), invoice.updated (an approval step approved it, including an automatic approval, it was rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded, failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.
+   * [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied, invoice.updated (the buyer holds the invoice for review, or the hold is over: GetInvoiceStatus says which) and credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier sent one), invoice.updated (an approval step approved it, including an automatic approval, it was rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded, failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.
    */
   listSyncEvents(query?: QueryParams<"ListSyncEvents">, options?: RequestOptions): Promise<ResponseBody<"ListSyncEvents">> {
     return this.transport.request("get", "/sync/events", { path: undefined, query, options }) as Promise<ResponseBody<"ListSyncEvents">>;
@@ -392,7 +392,7 @@ export class InvoicesResource {
   }
 
   /**
-   * [Both] Record an invoice - or, with "documentType": "credit_note" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
+   * [Both] Record an invoice - or, with "documentType": "credit_note" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve, export or record payment for it unless a signed-in person is the only one in the workspace who could; paying it through Stripe always takes someone else. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.
    */
   createInvoice(body: RequestBody<"CreateInvoice">, options?: RequestOptions): Promise<ResponseBody<"CreateInvoice">> {
     return this.transport.request("post", "/invoices", { path: undefined, body, options }) as Promise<ResponseBody<"CreateInvoice">>;
@@ -543,7 +543,7 @@ export class NotificationsResource {
   constructor(private readonly transport: Transport) {}
 
   /**
-   * [Both] Get reminder settings
+   * [Supplier] Get reminder settings
    */
   getReminderSettings(options?: RequestOptions): Promise<ResponseBody<"GetReminderSettings">> {
     return this.transport.request("get", "/notifications/reminder-settings", { path: undefined, options }) as Promise<ResponseBody<"GetReminderSettings">>;
@@ -578,7 +578,7 @@ export class NotificationsResource {
   }
 
   /**
-   * [Both] Update reminder settings
+   * [Supplier] Update reminder settings
    */
   updateReminderSettings(body: RequestBody<"UpdateReminderSettings">, options?: RequestOptions): Promise<ResponseBody<"UpdateReminderSettings">> {
     return this.transport.request("patch", "/notifications/reminder-settings", { path: undefined, body, options }) as Promise<ResponseBody<"UpdateReminderSettings">>;

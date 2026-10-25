@@ -1,6 +1,6 @@
 /*
  * Pleaxy API
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -168,6 +168,10 @@ public class Notification {
     INVOICE_REMINDER(String.valueOf("invoice_reminder")),
     
     INVOICE_REJECTED(String.valueOf("invoice_rejected")),
+    
+    INVOICE_ON_HOLD(String.valueOf("invoice_on_hold")),
+    
+    INVOICE_HOLD_RELEASED(String.valueOf("invoice_hold_released")),
     
     INVOICE_PAYMENT_REMINDER(String.valueOf("invoice_payment_reminder")),
     

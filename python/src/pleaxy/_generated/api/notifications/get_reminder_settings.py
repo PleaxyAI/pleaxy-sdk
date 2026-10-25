@@ -46,7 +46,7 @@ def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Response[ReminderSettings]:
-    """[Both] Get reminder settings
+    """[Supplier] Get reminder settings
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -69,7 +69,7 @@ def sync(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[ReminderSettings]:
-    """[Both] Get reminder settings
+    """[Supplier] Get reminder settings
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -88,7 +88,7 @@ async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Response[ReminderSettings]:
-    """[Both] Get reminder settings
+    """[Supplier] Get reminder settings
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -109,7 +109,7 @@ async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[ReminderSettings]:
-    """[Both] Get reminder settings
+    """[Supplier] Get reminder settings
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

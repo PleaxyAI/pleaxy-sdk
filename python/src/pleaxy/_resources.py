@@ -145,7 +145,7 @@ class CloudConnectionsResource:
     def create_cloud_connection(
         self, *, body: CreateCloudConnectionInput
     ) -> CloudConnection:
-        """[Buyer] Connect a cloud provider account"""
+        """[Buyer] Connect a cloud provider account ('create' on suppliers)"""
         return self._transport.call(
             "pleaxy._generated.api.cloud_connections.create_cloud_connection", body=body
         )
@@ -157,20 +157,20 @@ class CloudConnectionsResource:
         )
 
     def discover_azure_billing_scopes(self, *, body: DiscoverAzureScopesInput) -> Any:
-        """[Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection's own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only."""
+        """[Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection's own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only. 'create' on suppliers."""
         return self._transport.call(
             "pleaxy._generated.api.cloud_connections.discover_azure_billing_scopes",
             body=body,
         )
 
     def init_aws_cloud_connection(self) -> AwsCloudConnectionInit:
-        """[Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller's own unfinished draft (and its external ID) if one exists."""
+        """[Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller's own unfinished draft (and its external ID) if one exists. 'create' on suppliers."""
         return self._transport.call(
             "pleaxy._generated.api.cloud_connections.init_aws_cloud_connection"
         )
 
     def init_cloud_connection(self, provider: str) -> Any:
-        """[Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller's own unfinished draft if one exists. 404 while the provider is demo-only."""
+        """[Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller's own unfinished draft if one exists. 404 while the provider is demo-only. 'create' on suppliers."""
         return self._transport.call(
             "pleaxy._generated.api.cloud_connections.init_cloud_connection",
             provider=provider,
@@ -179,7 +179,7 @@ class CloudConnectionsResource:
     def list_cloud_connections(
         self, *, limit: Union[Unset, str] = UNSET, cursor: Union[Unset, str] = UNSET
     ) -> Union["CloudConnectionPage", List["CloudConnection"]]:
-        """[Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`, oldest first - pass `cursor` back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page)."""
+        """[Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`, oldest first - pass `cursor` back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page). 'view' on suppliers or on invoices."""
         return self._transport.call(
             "pleaxy._generated.api.cloud_connections.list_cloud_connections",
             limit=limit,
@@ -187,7 +187,7 @@ class CloudConnectionsResource:
         )
 
     def sync_cloud_connection(self, id: str) -> CloudConnection:
-        """[Buyer] Manually sync one connected cloud account's billing data now (rate-limited)."""
+        """[Buyer] Manually sync one connected cloud account's billing data now (rate-limited). 'create' on suppliers or 'edit' on invoices."""
         return self._transport.call(
             "pleaxy._generated.api.cloud_connections.sync_cloud_connection", id=id
         )
@@ -296,7 +296,7 @@ class DocumentSyncResource:
     def list_sync_events(
         self, *, after: Union[Unset, str] = UNSET, limit: Union[Unset, str] = UNSET
     ) -> SyncEventPage:
-        """[Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier sent one), invoice.updated (an approval step approved it, including an automatic approval, it was rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded, failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view."""
+        """[Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied, invoice.updated (the buyer holds the invoice for review, or the hold is over: GetInvoiceStatus says which) and credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier sent one), invoice.updated (an approval step approved it, including an automatic approval, it was rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded, failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view."""
         return self._transport.call(
             "pleaxy._generated.api.document_sync.list_sync_events",
             after=after,
@@ -511,7 +511,7 @@ class InvoicesResource:
         "CreateInvoiceResultSupplierCreditNote",
         "CreateInvoiceResultSupplierInvoice",
     ]:
-        """[Both] Record an invoice - or, with "documentType": "credit_note" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED."""
+        """[Both] Record an invoice - or, with "documentType": "credit_note" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve, export or record payment for it unless a signed-in person is the only one in the workspace who could; paying it through Stripe always takes someone else. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED."""
         return self._transport.call(
             "pleaxy._generated.api.invoices.create_invoice", body=body
         )
@@ -716,7 +716,7 @@ class NotificationsResource:
         self._transport = transport
 
     def get_reminder_settings(self) -> ReminderSettings:
-        """[Both] Get reminder settings"""
+        """[Supplier] Get reminder settings"""
         return self._transport.call(
             "pleaxy._generated.api.notifications.get_reminder_settings"
         )
@@ -767,7 +767,7 @@ class NotificationsResource:
     def update_reminder_settings(
         self, *, body: UpdateReminderSettingsInput
     ) -> ReminderSettings:
-        """[Both] Update reminder settings"""
+        """[Supplier] Update reminder settings"""
         return self._transport.call(
             "pleaxy._generated.api.notifications.update_reminder_settings", body=body
         )

@@ -11,6 +11,10 @@ from ..models.create_api_key_input_scopes_item import (
     CreateApiKeyInputScopesItem,
     check_create_api_key_input_scopes_item,
 )
+from ..models.create_api_key_input_supplier_role import (
+    CreateApiKeyInputSupplierRole,
+    check_create_api_key_input_supplier_role,
+)
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="CreateApiKeyInput")
@@ -22,8 +26,14 @@ class CreateApiKeyInput:
     Attributes:
         label (str): Human-readable label, e.g. "Billing agent - prod"
         procurement_role (Union[Unset, CreateApiKeyInputProcurementRole]): Buyer-side procurement authority the key
-            grants. Defaults to `read-only`. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored
-            for supplier-side keys.
+            grants. Defaults to `read-only`. `agent` is for an AI agent or integration that raises purchase orders and
+            enters invoices: it reads contracts, suppliers and questionnaires, and changes no approval rule, auto-approval
+            or billing. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side
+            keys.
+        supplier_role (Union[Unset, CreateApiKeyInputSupplierRole]): Supplier-side keys: the role the key acts with, as
+            people have - administrator, accounts-receivable, sales, fulfillment or read-only. Defaults to `read-only`.
+            invoices:feed needs a role that edits invoices (administrator, accounts-receivable); orders:fulfill one that
+            edits orders (administrator, fulfillment). Ignored for buyer-side keys.
         scopes (Union[Unset, List[CreateApiKeyInputScopesItem]]): Extra abilities, each for one side (the other side's
             scope is a 400). Supplier: `invoices:feed` lets the key submit invoices to a connected buyer through POST
             .../invoices/connections/:connectionId; `orders:fulfill` lets it confirm orders and send ship notices, through
@@ -35,6 +45,7 @@ class CreateApiKeyInput:
 
     label: str
     procurement_role: Union[Unset, CreateApiKeyInputProcurementRole] = UNSET
+    supplier_role: Union[Unset, CreateApiKeyInputSupplierRole] = UNSET
     scopes: Union[Unset, List[CreateApiKeyInputScopesItem]] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -44,6 +55,10 @@ class CreateApiKeyInput:
         procurement_role: Union[Unset, str] = UNSET
         if not isinstance(self.procurement_role, Unset):
             procurement_role = self.procurement_role
+
+        supplier_role: Union[Unset, str] = UNSET
+        if not isinstance(self.supplier_role, Unset):
+            supplier_role = self.supplier_role
 
         scopes: Union[Unset, List[str]] = UNSET
         if not isinstance(self.scopes, Unset):
@@ -61,6 +76,8 @@ class CreateApiKeyInput:
         )
         if procurement_role is not UNSET:
             field_dict["procurementRole"] = procurement_role
+        if supplier_role is not UNSET:
+            field_dict["supplierRole"] = supplier_role
         if scopes is not UNSET:
             field_dict["scopes"] = scopes
 
@@ -80,6 +97,13 @@ class CreateApiKeyInput:
                 _procurement_role
             )
 
+        _supplier_role = d.pop("supplierRole", UNSET)
+        supplier_role: Union[Unset, CreateApiKeyInputSupplierRole]
+        if isinstance(_supplier_role, Unset):
+            supplier_role = UNSET
+        else:
+            supplier_role = check_create_api_key_input_supplier_role(_supplier_role)
+
         scopes = []
         _scopes = d.pop("scopes", UNSET)
         for scopes_item_data in _scopes or []:
@@ -90,6 +114,7 @@ class CreateApiKeyInput:
         create_api_key_input = cls(
             label=label,
             procurement_role=procurement_role,
+            supplier_role=supplier_role,
             scopes=scopes,
         )
 

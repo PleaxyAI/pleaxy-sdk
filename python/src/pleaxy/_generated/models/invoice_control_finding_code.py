@@ -20,6 +20,7 @@ InvoiceControlFindingCode = Literal[
     "receipt_missing",
     "receipt_qty_exceeded",
     "tier_price_exceeded",
+    "usage_grew",
 ]
 
 INVOICE_CONTROL_FINDING_CODE_VALUES: Set[InvoiceControlFindingCode] = {
@@ -42,6 +43,7 @@ INVOICE_CONTROL_FINDING_CODE_VALUES: Set[InvoiceControlFindingCode] = {
     "receipt_missing",
     "receipt_qty_exceeded",
     "tier_price_exceeded",
+    "usage_grew",
 }
 
 

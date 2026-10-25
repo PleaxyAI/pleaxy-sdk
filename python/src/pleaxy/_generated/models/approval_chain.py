@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from ..models.approval_chain_from_request import ApprovalChainFromRequest
     from ..models.approval_fx import ApprovalFx
     from ..models.approval_history_entry import ApprovalHistoryEntry
+    from ..models.approval_routing import ApprovalRouting
     from ..models.approval_stage_group_instance import ApprovalStageGroupInstance
     from ..models.spend_limit_gate import SpendLimitGate
 
@@ -36,6 +37,7 @@ class ApprovalChain:
         self_approved (Union[Unset, bool]):
         fx (Union[Unset, ApprovalFx]):
         from_request (Union[Unset, ApprovalChainFromRequest]):
+        routing (Union[Unset, ApprovalRouting]):
     """
 
     requester: Union[Unset, str] = UNSET
@@ -50,6 +52,7 @@ class ApprovalChain:
     self_approved: Union[Unset, bool] = UNSET
     fx: Union[Unset, "ApprovalFx"] = UNSET
     from_request: Union[Unset, "ApprovalChainFromRequest"] = UNSET
+    routing: Union[Unset, "ApprovalRouting"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -97,6 +100,10 @@ class ApprovalChain:
         if not isinstance(self.from_request, Unset):
             from_request = self.from_request.to_dict()
 
+        routing: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.routing, Unset):
+            routing = self.routing.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -124,6 +131,8 @@ class ApprovalChain:
             field_dict["fx"] = fx
         if from_request is not UNSET:
             field_dict["fromRequest"] = from_request
+        if routing is not UNSET:
+            field_dict["routing"] = routing
 
         return field_dict
 
@@ -132,6 +141,7 @@ class ApprovalChain:
         from ..models.approval_chain_from_request import ApprovalChainFromRequest
         from ..models.approval_fx import ApprovalFx
         from ..models.approval_history_entry import ApprovalHistoryEntry
+        from ..models.approval_routing import ApprovalRouting
         from ..models.approval_stage_group_instance import ApprovalStageGroupInstance
         from ..models.spend_limit_gate import SpendLimitGate
 
@@ -190,6 +200,13 @@ class ApprovalChain:
         else:
             from_request = ApprovalChainFromRequest.from_dict(_from_request)
 
+        _routing = d.pop("routing", UNSET)
+        routing: Union[Unset, ApprovalRouting]
+        if isinstance(_routing, Unset):
+            routing = UNSET
+        else:
+            routing = ApprovalRouting.from_dict(_routing)
+
         approval_chain = cls(
             requester=requester,
             requester_employee_key=requester_employee_key,
@@ -203,6 +220,7 @@ class ApprovalChain:
             self_approved=self_approved,
             fx=fx,
             from_request=from_request,
+            routing=routing,
         )
 
         approval_chain.additional_properties = d

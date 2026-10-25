@@ -155,7 +155,19 @@
                         "contracts-and-suppliers",
                         "relationships",
                         "requisitions",
-                        "finance"
+                        "finance",
+                        "agent"
+                      ]
+                    },
+                    "supplierRole": {
+                      "type": "string",
+                      "enum": [
+                        "administrator",
+                        "read-only",
+                        "accounts-receivable",
+                        "sales",
+                        "fulfillment",
+                        "member"
                       ]
                     },
                     "scopes": {
@@ -256,7 +268,7 @@
     "/v1/workspaces/{regionId}/cloud-connections": {
       "get": {
         "operationId": "ListCloudConnections",
-        "summary": "[Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`, oldest first - pass `cursor` back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page).",
+        "summary": "[Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`, oldest first - pass `cursor` back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page). 'view' on suppliers or on invoices.",
         "parameters": [
           {
             "name": "regionId",
@@ -321,7 +333,7 @@
       },
       "post": {
         "operationId": "CreateCloudConnection",
-        "summary": "[Buyer] Connect a cloud provider account",
+        "summary": "[Buyer] Connect a cloud provider account ('create' on suppliers)",
         "parameters": [
           {
             "name": "regionId",
@@ -372,7 +384,7 @@
     "/v1/workspaces/{regionId}/cloud-connections/aws/init": {
       "post": {
         "operationId": "InitAwsCloudConnection",
-        "summary": "[Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller's own unfinished draft (and its external ID) if one exists.",
+        "summary": "[Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller's own unfinished draft (and its external ID) if one exists. 'create' on suppliers.",
         "parameters": [
           {
             "name": "regionId",
@@ -413,7 +425,7 @@
     "/v1/workspaces/{regionId}/cloud-connections/{provider}/init": {
       "post": {
         "operationId": "InitCloudConnection",
-        "summary": "[Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller's own unfinished draft if one exists. 404 while the provider is demo-only.",
+        "summary": "[Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller's own unfinished draft if one exists. 404 while the provider is demo-only. 'create' on suppliers.",
         "parameters": [
           {
             "name": "regionId",
@@ -656,7 +668,7 @@
     "/v1/workspaces/{regionId}/cloud-connections/azure/discover": {
       "post": {
         "operationId": "DiscoverAzureBillingScopes",
-        "summary": "[Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection's own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only.",
+        "summary": "[Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection's own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only. 'create' on suppliers.",
         "parameters": [
           {
             "name": "regionId",
@@ -754,7 +766,7 @@
     "/v1/workspaces/{regionId}/cloud-connections/{id}/sync": {
       "post": {
         "operationId": "SyncCloudConnection",
-        "summary": "[Buyer] Manually sync one connected cloud account's billing data now (rate-limited).",
+        "summary": "[Buyer] Manually sync one connected cloud account's billing data now (rate-limited). 'create' on suppliers or 'edit' on invoices.",
         "parameters": [
           {
             "name": "regionId",
@@ -2124,7 +2136,7 @@
     "/v1/workspaces/{regionId}/notifications/reminder-settings": {
       "get": {
         "operationId": "GetReminderSettings",
-        "summary": "[Both] Get reminder settings",
+        "summary": "[Supplier] Get reminder settings",
         "parameters": [
           {
             "name": "regionId",
@@ -2163,7 +2175,7 @@
       },
       "patch": {
         "operationId": "UpdateReminderSettings",
-        "summary": "[Both] Update reminder settings",
+        "summary": "[Supplier] Update reminder settings",
         "parameters": [
           {
             "name": "regionId",
@@ -3877,7 +3889,8 @@
                             "enum": [
                               "no_purchase_order",
                               "no_billing_connection",
-                              "debit_note"
+                              "debit_note",
+                              "payer_account_unclear"
                             ]
                           },
                           "matchBasis": {
@@ -4946,9 +4959,9 @@
                                     "rejected",
                                     "accepted",
                                     "exported",
+                                    "removed",
                                     "issued",
                                     "applied",
-                                    "removed",
                                     "returned",
                                     "voided"
                                   ]
@@ -5319,7 +5332,7 @@
       },
       "post": {
         "operationId": "CreateInvoice",
-        "summary": "[Both] Record an invoice - or, with \"documentType\": \"credit_note\" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.",
+        "summary": "[Both] Record an invoice - or, with \"documentType\": \"credit_note\" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve, export or record payment for it unless a signed-in person is the only one in the workspace who could; paying it through Stripe always takes someone else. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED.",
         "parameters": [
           {
             "name": "regionId",
@@ -5592,9 +5605,9 @@
                                   "rejected",
                                   "accepted",
                                   "exported",
+                                  "removed",
                                   "issued",
                                   "applied",
-                                  "removed",
                                   "returned",
                                   "voided"
                                 ]
@@ -6052,7 +6065,8 @@
                           "enum": [
                             "no_purchase_order",
                             "no_billing_connection",
-                            "debit_note"
+                            "debit_note",
+                            "payer_account_unclear"
                           ]
                         },
                         "matchBasis": {
@@ -7241,9 +7255,9 @@
                                   "rejected",
                                   "accepted",
                                   "exported",
+                                  "removed",
                                   "issued",
                                   "applied",
-                                  "removed",
                                   "returned",
                                   "voided"
                                 ]
@@ -7710,7 +7724,8 @@
                           "enum": [
                             "no_purchase_order",
                             "no_billing_connection",
-                            "debit_note"
+                            "debit_note",
+                            "payer_account_unclear"
                           ]
                         },
                         "matchBasis": {
@@ -8717,7 +8732,8 @@
                       "enum": [
                         "no_purchase_order",
                         "no_billing_connection",
-                        "debit_note"
+                        "debit_note",
+                        "payer_account_unclear"
                       ]
                     },
                     "matchBasis": {
@@ -9227,7 +9243,8 @@
                       "enum": [
                         "no_purchase_order",
                         "no_billing_connection",
-                        "debit_note"
+                        "debit_note",
+                        "payer_account_unclear"
                       ]
                     },
                     "matchBasis": {
@@ -9998,7 +10015,8 @@
                       "enum": [
                         "no_purchase_order",
                         "no_billing_connection",
-                        "debit_note"
+                        "debit_note",
+                        "payer_account_unclear"
                       ]
                     },
                     "matchBasis": {
@@ -10981,6 +10999,9 @@
                       "items": {
                         "$ref": "#/components/schemas/BudgetStatus"
                       }
+                    },
+                    "unassigned": {
+                      "$ref": "#/components/schemas/SpendFigures"
                     }
                   },
                   "required": [
@@ -11062,7 +11083,7 @@
     "/v1/workspaces/{regionId}/sync/events": {
       "get": {
         "operationId": "ListSyncEvents",
-        "summary": "[Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier sent one), invoice.updated (an approval step approved it, including an automatic approval, it was rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded, failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.",
+        "summary": "[Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied, invoice.updated (the buyer holds the invoice for review, or the hold is over: GetInvoiceStatus says which) and credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier sent one), invoice.updated (an approval step approved it, including an automatic approval, it was rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded, failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.",
         "parameters": [
           {
             "name": "regionId",
@@ -13284,7 +13305,7 @@
   },
   "info": {
     "title": "Pleaxy API",
-    "description": "PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.",
+    "description": "PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.",
     "version": "1.0",
     "contact": {}
   },
@@ -13323,9 +13344,21 @@
               "contracts-and-suppliers",
               "relationships",
               "requisitions",
-              "finance"
+              "finance",
+              "agent"
             ],
-            "description": "Buyer-side procurement authority the key grants. Defaults to `read-only`. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys."
+            "description": "Buyer-side procurement authority the key grants. Defaults to `read-only`. `agent` is for an AI agent or integration that raises purchase orders and enters invoices: it reads contracts, suppliers and questionnaires, and changes no approval rule, auto-approval or billing. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys."
+          },
+          "supplierRole": {
+            "type": "string",
+            "enum": [
+              "administrator",
+              "accounts-receivable",
+              "sales",
+              "fulfillment",
+              "read-only"
+            ],
+            "description": "Supplier-side keys: the role the key acts with, as people have - administrator, accounts-receivable, sales, fulfillment or read-only. Defaults to `read-only`. invoices:feed needs a role that edits invoices (administrator, accounts-receivable); orders:fulfill one that edits orders (administrator, fulfillment). Ignored for buyer-side keys."
           },
           "scopes": {
             "type": "array",
@@ -13523,6 +13556,18 @@
           "azureBillingProfileId"
         ]
       },
+      "InvoiceAutonomySettingsDto": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "maxAutoApproveAmount": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      },
       "UpdateAutonomySettingsDto": {
         "type": "object",
         "properties": {
@@ -13536,6 +13581,15 @@
           "approvalThreshold": {
             "type": "number",
             "minimum": 0
+          },
+          "invoice": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/InvoiceAutonomySettingsDto"
+              }
+            ],
+            "type": "object"
           }
         }
       },
@@ -15808,7 +15862,19 @@
               "contracts-and-suppliers",
               "relationships",
               "requisitions",
-              "finance"
+              "finance",
+              "agent"
+            ]
+          },
+          "supplierRole": {
+            "type": "string",
+            "enum": [
+              "administrator",
+              "read-only",
+              "accounts-receivable",
+              "sales",
+              "fulfillment",
+              "member"
             ]
           },
           "scopes": {
@@ -16127,6 +16193,35 @@
               "periodLabel",
               "totalAmount",
               "asOf"
+            ]
+          },
+          "previousFinalizedInvoice": {
+            "type": "object",
+            "properties": {
+              "periodLabel": {
+                "type": "string"
+              },
+              "totalAmount": {
+                "type": "number"
+              },
+              "currency": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string",
+                "enum": [
+                  "aws_invoice",
+                  "billing_export",
+                  "mca_invoice",
+                  "ea_balance",
+                  "usage_api_closed_month",
+                  "osp_invoice"
+                ]
+              }
+            },
+            "required": [
+              "periodLabel",
+              "totalAmount"
             ]
           },
           "currentPeriodEstimate": {
@@ -16450,12 +16545,30 @@
           },
           "approvalThreshold": {
             "type": "number"
+          },
+          "invoice": {
+            "$ref": "#/components/schemas/InvoiceAutonomySettings"
           }
         },
         "required": [
           "enabled",
           "maxAutoApproveAmount",
           "approvalThreshold"
+        ]
+      },
+      "InvoiceAutonomySettings": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "maxAutoApproveAmount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "enabled",
+          "maxAutoApproveAmount"
         ]
       },
       "ApprovalChainSettings": {
@@ -16859,6 +16972,8 @@
               "invoice_payment_failed",
               "invoice_reminder",
               "invoice_rejected",
+              "invoice_on_hold",
+              "invoice_hold_released",
               "invoice_payment_reminder",
               "invoice_entered_by_buyer",
               "invoice_bank_details_to_confirm",
@@ -17837,12 +17952,12 @@
           "documentType": {
             "type": "string",
             "enum": [
+              "invoice",
               "quote",
               "order_form",
               "proforma",
               "sow",
               "contract",
-              "invoice",
               "other"
             ]
           }
@@ -18115,6 +18230,9 @@
               "amount",
               "currency"
             ]
+          },
+          "routing": {
+            "$ref": "#/components/schemas/ApprovalRouting"
           }
         },
         "required": [
@@ -18536,6 +18654,177 @@
           "approverEmployeeKey",
           "approverName",
           "mergedIntoExistingStage"
+        ]
+      },
+      "ApprovalRouting": {
+        "type": "object",
+        "properties": {
+          "budget": {
+            "type": "object",
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "enum": [
+                  "off",
+                  "within",
+                  "over",
+                  "no_budget",
+                  "no_rate"
+                ]
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "off",
+                  "warn",
+                  "block"
+                ]
+              },
+              "costCenter": {
+                "type": "string"
+              },
+              "period": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "month",
+                      "year",
+                      "quarter"
+                    ]
+                  },
+                  "start": {
+                    "type": "string"
+                  },
+                  "end": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "start",
+                  "end"
+                ]
+              },
+              "currency": {
+                "type": "string"
+              },
+              "overBy": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "outcome",
+              "mode"
+            ]
+          },
+          "spendLimit": {
+            "type": "object",
+            "properties": {
+              "employeeKey": {
+                "type": "string"
+              },
+              "employeeName": {
+                "type": "string"
+              },
+              "approverName": {
+                "type": "string"
+              },
+              "satisfied": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "employeeKey"
+            ]
+          },
+          "rule": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "index": {
+                "type": "number"
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "auto_approve",
+                  "require_approval"
+                ]
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "index",
+              "action",
+              "label"
+            ]
+          },
+          "autonomy": {
+            "type": "object",
+            "properties": {
+              "maxAutoApproveAmount": {
+                "type": "number"
+              },
+              "applied": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "maxAutoApproveAmount",
+              "applied"
+            ]
+          },
+          "touchlessSkipped": {
+            "type": "string",
+            "enum": [
+              "human_only",
+              "other_currency"
+            ]
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApprovalRoutingStep"
+            }
+          }
+        },
+        "required": [
+          "steps"
+        ]
+      },
+      "ApprovalRoutingStep": {
+        "type": "object",
+        "properties": {
+          "stepId": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "applied": {
+            "type": "boolean"
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApprovalStepCondition"
+            }
+          },
+          "highValueOnly": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "stepId",
+          "label",
+          "applied"
         ]
       },
       "PurchaseOrderChangeSummary": {
@@ -19087,12 +19376,12 @@
               "documentType": {
                 "type": "string",
                 "enum": [
+                  "invoice",
                   "quote",
                   "order_form",
                   "proforma",
                   "sow",
                   "contract",
-                  "invoice",
                   "other"
                 ]
               },
@@ -19133,12 +19422,12 @@
               "documentType": {
                 "type": "string",
                 "enum": [
+                  "invoice",
                   "quote",
                   "order_form",
                   "proforma",
                   "sow",
                   "contract",
-                  "invoice",
                   "other"
                 ]
               },
@@ -19319,7 +19608,8 @@
             "enum": [
               "no_purchase_order",
               "no_billing_connection",
-              "debit_note"
+              "debit_note",
+              "payer_account_unclear"
             ]
           },
           "matchBasis": {
@@ -19715,6 +20005,7 @@
           "code": {
             "type": "string",
             "enum": [
+              "usage_grew",
               "po_balance_exceeded",
               "po_line_amount_exceeded",
               "po_line_qty_exceeded",
@@ -20027,6 +20318,9 @@
           "amount": {
             "type": "number"
           },
+          "solePayer": {
+            "$ref": "#/components/schemas/SolePayerWaiverRecord"
+          },
           "record": {
             "type": "object",
             "properties": {
@@ -20091,6 +20385,98 @@
           "at",
           "by",
           "byName"
+        ]
+      },
+      "SolePayerWaiverRecord": {
+        "type": "object",
+        "properties": {
+          "accessRemoved": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoiceAccessRemoval"
+            }
+          },
+          "accessRemovedTotal": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "accessRemoved"
+        ]
+      },
+      "InvoiceAccessRemoval": {
+        "type": "object",
+        "properties": {
+          "at": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "role_changed",
+              "removed"
+            ]
+          },
+          "byKey": {
+            "type": "string"
+          },
+          "byName": {
+            "type": "string"
+          },
+          "bySso": {
+            "type": "boolean"
+          },
+          "targetKey": {
+            "type": "string"
+          },
+          "targetName": {
+            "type": "string"
+          },
+          "ssoMappingSaved": {
+            "type": "object",
+            "properties": {
+              "at": {
+                "type": "string"
+              },
+              "byKey": {
+                "type": "string"
+              },
+              "byName": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "at",
+              "byKey"
+            ]
+          },
+          "regained": {
+            "$ref": "#/components/schemas/InvoiceAccessRegrant"
+          }
+        },
+        "required": [
+          "at",
+          "action"
+        ]
+      },
+      "InvoiceAccessRegrant": {
+        "type": "object",
+        "properties": {
+          "at": {
+            "type": "string"
+          },
+          "byKey": {
+            "type": "string"
+          },
+          "byName": {
+            "type": "string"
+          },
+          "bySso": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "at"
         ]
       },
       "InvoiceRejection": {
@@ -21612,9 +21998,9 @@
                     "rejected",
                     "accepted",
                     "exported",
+                    "removed",
                     "issued",
                     "applied",
-                    "removed",
                     "returned",
                     "voided"
                   ]
@@ -22203,6 +22589,7 @@
                 "code": {
                   "type": "string",
                   "enum": [
+                    "usage_grew",
                     "po_balance_exceeded",
                     "po_line_amount_exceeded",
                     "po_line_qty_exceeded",
@@ -22299,9 +22686,9 @@
               "rejected",
               "accepted",
               "exported",
+              "removed",
               "issued",
               "applied",
-              "removed",
               "returned",
               "voided"
             ]
@@ -22839,6 +23226,29 @@
           "unconverted"
         ]
       },
+      "SpendFigures": {
+        "type": "object",
+        "properties": {
+          "committed": {
+            "type": "number"
+          },
+          "actual": {
+            "type": "number"
+          },
+          "pending": {
+            "type": "number"
+          },
+          "unconverted": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "committed",
+          "actual",
+          "pending",
+          "unconverted"
+        ]
+      },
       "SyncEventPage": {
         "type": "object",
         "properties": {
@@ -22896,8 +23306,8 @@
           "documentType": {
             "type": "string",
             "enum": [
-              "purchase_order",
               "invoice",
+              "purchase_order",
               "credit_note"
             ]
           },

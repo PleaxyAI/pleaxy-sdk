@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -128,7 +128,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      action_validator = EnumAttributeValidator.new('String', ["rejected", "accepted", "exported", "issued", "applied", "removed", "returned", "voided"])
+      action_validator = EnumAttributeValidator.new('String', ["rejected", "accepted", "exported", "removed", "issued", "applied", "returned", "voided"])
       return false unless action_validator.valid?(@action)
       true
     end
@@ -136,7 +136,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] action Object to be assigned
     def action=(action)
-      validator = EnumAttributeValidator.new('String', ["rejected", "accepted", "exported", "issued", "applied", "removed", "returned", "voided"])
+      validator = EnumAttributeValidator.new('String', ["rejected", "accepted", "exported", "removed", "issued", "applied", "returned", "voided"])
       unless validator.valid?(action)
         fail ArgumentError, "invalid value for \"action\", must be one of #{validator.allowable_values}."
       end

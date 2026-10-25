@@ -97,7 +97,8 @@ def sync_detailed(
 ) -> Response[Union["CloudConnectionPage", List["CloudConnection"]]]:
     """[Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`,
     oldest first - pass `cursor` back for the next page. Without it: every connection, as before
-    (unbounded; a workspace with thousands of bulk-connected accounts should page).
+    (unbounded; a workspace with thousands of bulk-connected accounts should page). 'view' on suppliers
+    or on invoices.
 
     Args:
         limit (Union[Unset, str]):
@@ -131,7 +132,8 @@ def sync(
 ) -> Optional[Union["CloudConnectionPage", List["CloudConnection"]]]:
     """[Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`,
     oldest first - pass `cursor` back for the next page. Without it: every connection, as before
-    (unbounded; a workspace with thousands of bulk-connected accounts should page).
+    (unbounded; a workspace with thousands of bulk-connected accounts should page). 'view' on suppliers
+    or on invoices.
 
     Args:
         limit (Union[Unset, str]):
@@ -160,7 +162,8 @@ async def asyncio_detailed(
 ) -> Response[Union["CloudConnectionPage", List["CloudConnection"]]]:
     """[Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`,
     oldest first - pass `cursor` back for the next page. Without it: every connection, as before
-    (unbounded; a workspace with thousands of bulk-connected accounts should page).
+    (unbounded; a workspace with thousands of bulk-connected accounts should page). 'view' on suppliers
+    or on invoices.
 
     Args:
         limit (Union[Unset, str]):
@@ -192,7 +195,8 @@ async def asyncio(
 ) -> Optional[Union["CloudConnectionPage", List["CloudConnection"]]]:
     """[Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`,
     oldest first - pass `cursor` back for the next page. Without it: every connection, as before
-    (unbounded; a workspace with thousands of bulk-connected accounts should page).
+    (unbounded; a workspace with thousands of bulk-connected accounts should page). 'view' on suppliers
+    or on invoices.
 
     Args:
         limit (Union[Unset, str]):

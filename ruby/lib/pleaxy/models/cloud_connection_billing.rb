@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -17,12 +17,15 @@ module Pleaxy
   class CloudConnectionBilling
     attr_accessor :finalized_invoice
 
+    attr_accessor :previous_finalized_invoice
+
     attr_accessor :current_period_estimate
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'finalized_invoice' => :'finalizedInvoice',
+        :'previous_finalized_invoice' => :'previousFinalizedInvoice',
         :'current_period_estimate' => :'currentPeriodEstimate'
       }
     end
@@ -36,6 +39,7 @@ module Pleaxy
     def self.openapi_types
       {
         :'finalized_invoice' => :'CloudConnectionBillingFinalizedInvoice',
+        :'previous_finalized_invoice' => :'CloudConnectionBillingPreviousFinalizedInvoice',
         :'current_period_estimate' => :'CloudConnectionBillingCurrentPeriodEstimate'
       }
     end
@@ -65,6 +69,10 @@ module Pleaxy
         self.finalized_invoice = attributes[:'finalized_invoice']
       end
 
+      if attributes.key?(:'previous_finalized_invoice')
+        self.previous_finalized_invoice = attributes[:'previous_finalized_invoice']
+      end
+
       if attributes.key?(:'current_period_estimate')
         self.current_period_estimate = attributes[:'current_period_estimate']
       end
@@ -91,6 +99,7 @@ module Pleaxy
       return true if self.equal?(o)
       self.class == o.class &&
           finalized_invoice == o.finalized_invoice &&
+          previous_finalized_invoice == o.previous_finalized_invoice &&
           current_period_estimate == o.current_period_estimate
     end
 
@@ -103,7 +112,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [finalized_invoice, current_period_estimate].hash
+      [finalized_invoice, previous_finalized_invoice, current_period_estimate].hash
     end
 
     # Builds the object from hash

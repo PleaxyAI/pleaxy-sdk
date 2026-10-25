@@ -1,6 +1,6 @@
 /*
  * Pleaxy API
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -22,6 +22,7 @@ import java.util.HashMap;
 import ai.pleaxy.model.BudgetControlSettings;
 import ai.pleaxy.model.BudgetPeriod;
 import ai.pleaxy.model.BudgetStatus;
+import ai.pleaxy.model.SpendFigures;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -41,7 +42,8 @@ import ai.pleaxy.client.ApiClient;
   GetBudgetStatusResult.JSON_PROPERTY_SETTINGS,
   GetBudgetStatusResult.JSON_PROPERTY_PERIOD,
   GetBudgetStatusResult.JSON_PROPERTY_CURRENCY,
-  GetBudgetStatusResult.JSON_PROPERTY_COST_CENTERS
+  GetBudgetStatusResult.JSON_PROPERTY_COST_CENTERS,
+  GetBudgetStatusResult.JSON_PROPERTY_UNASSIGNED
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class GetBudgetStatusResult {
@@ -60,6 +62,10 @@ public class GetBudgetStatusResult {
   public static final String JSON_PROPERTY_COST_CENTERS = "costCenters";
   @javax.annotation.Nullable
   private List<BudgetStatus> costCenters = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_UNASSIGNED = "unassigned";
+  @javax.annotation.Nullable
+  private SpendFigures unassigned;
 
   public GetBudgetStatusResult() { 
   }
@@ -168,6 +174,30 @@ public class GetBudgetStatusResult {
   }
 
 
+  public GetBudgetStatusResult unassigned(@javax.annotation.Nullable SpendFigures unassigned) {
+    this.unassigned = unassigned;
+    return this;
+  }
+
+  /**
+   * Get unassigned
+   * @return unassigned
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_UNASSIGNED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SpendFigures getUnassigned() {
+    return unassigned;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_UNASSIGNED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUnassigned(@javax.annotation.Nullable SpendFigures unassigned) {
+    this.unassigned = unassigned;
+  }
+
+
   /**
    * Return true if this GetBudgetStatusResult object is equal to o.
    */
@@ -183,12 +213,13 @@ public class GetBudgetStatusResult {
     return Objects.equals(this.settings, getBudgetStatusResult.settings) &&
         Objects.equals(this.period, getBudgetStatusResult.period) &&
         Objects.equals(this.currency, getBudgetStatusResult.currency) &&
-        Objects.equals(this.costCenters, getBudgetStatusResult.costCenters);
+        Objects.equals(this.costCenters, getBudgetStatusResult.costCenters) &&
+        Objects.equals(this.unassigned, getBudgetStatusResult.unassigned);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(settings, period, currency, costCenters);
+    return Objects.hash(settings, period, currency, costCenters, unassigned);
   }
 
   @Override
@@ -199,6 +230,7 @@ public class GetBudgetStatusResult {
     sb.append("    period: ").append(toIndentedString(period)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    costCenters: ").append(toIndentedString(costCenters)).append("\n");
+    sb.append("    unassigned: ").append(toIndentedString(unassigned)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -269,6 +301,11 @@ public class GetBudgetStatusResult {
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
+    }
+
+    // add `unassigned` to the URL query string
+    if (getUnassigned() != null) {
+      joiner.add(getUnassigned().toUrlQueryString(prefix + "unassigned" + suffix));
     }
 
     return joiner.toString();

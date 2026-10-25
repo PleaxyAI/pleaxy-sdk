@@ -12,6 +12,9 @@ if TYPE_CHECKING:
     from ..models.cloud_connection_billing_finalized_invoice import (
         CloudConnectionBillingFinalizedInvoice,
     )
+    from ..models.cloud_connection_billing_previous_finalized_invoice import (
+        CloudConnectionBillingPreviousFinalizedInvoice,
+    )
 
 
 T = TypeVar("T", bound="CloudConnectionBilling")
@@ -22,10 +25,14 @@ class CloudConnectionBilling:
     """
     Attributes:
         finalized_invoice (Union[Unset, CloudConnectionBillingFinalizedInvoice]):
+        previous_finalized_invoice (Union[Unset, CloudConnectionBillingPreviousFinalizedInvoice]):
         current_period_estimate (Union[Unset, CloudConnectionBillingCurrentPeriodEstimate]):
     """
 
     finalized_invoice: Union[Unset, "CloudConnectionBillingFinalizedInvoice"] = UNSET
+    previous_finalized_invoice: Union[
+        Unset, "CloudConnectionBillingPreviousFinalizedInvoice"
+    ] = UNSET
     current_period_estimate: Union[
         Unset, "CloudConnectionBillingCurrentPeriodEstimate"
     ] = UNSET
@@ -36,6 +43,10 @@ class CloudConnectionBilling:
         if not isinstance(self.finalized_invoice, Unset):
             finalized_invoice = self.finalized_invoice.to_dict()
 
+        previous_finalized_invoice: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.previous_finalized_invoice, Unset):
+            previous_finalized_invoice = self.previous_finalized_invoice.to_dict()
+
         current_period_estimate: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.current_period_estimate, Unset):
             current_period_estimate = self.current_period_estimate.to_dict()
@@ -45,6 +56,8 @@ class CloudConnectionBilling:
         field_dict.update({})
         if finalized_invoice is not UNSET:
             field_dict["finalizedInvoice"] = finalized_invoice
+        if previous_finalized_invoice is not UNSET:
+            field_dict["previousFinalizedInvoice"] = previous_finalized_invoice
         if current_period_estimate is not UNSET:
             field_dict["currentPeriodEstimate"] = current_period_estimate
 
@@ -58,6 +71,9 @@ class CloudConnectionBilling:
         from ..models.cloud_connection_billing_finalized_invoice import (
             CloudConnectionBillingFinalizedInvoice,
         )
+        from ..models.cloud_connection_billing_previous_finalized_invoice import (
+            CloudConnectionBillingPreviousFinalizedInvoice,
+        )
 
         d = src_dict.copy()
         _finalized_invoice = d.pop("finalizedInvoice", UNSET)
@@ -67,6 +83,19 @@ class CloudConnectionBilling:
         else:
             finalized_invoice = CloudConnectionBillingFinalizedInvoice.from_dict(
                 _finalized_invoice
+            )
+
+        _previous_finalized_invoice = d.pop("previousFinalizedInvoice", UNSET)
+        previous_finalized_invoice: Union[
+            Unset, CloudConnectionBillingPreviousFinalizedInvoice
+        ]
+        if isinstance(_previous_finalized_invoice, Unset):
+            previous_finalized_invoice = UNSET
+        else:
+            previous_finalized_invoice = (
+                CloudConnectionBillingPreviousFinalizedInvoice.from_dict(
+                    _previous_finalized_invoice
+                )
             )
 
         _current_period_estimate = d.pop("currentPeriodEstimate", UNSET)
@@ -84,6 +113,7 @@ class CloudConnectionBilling:
 
         cloud_connection_billing = cls(
             finalized_invoice=finalized_invoice,
+            previous_finalized_invoice=previous_finalized_invoice,
             current_period_estimate=current_period_estimate,
         )
 

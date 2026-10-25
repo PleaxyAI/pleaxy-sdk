@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -19,7 +19,7 @@ module Pleaxy
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # [Both] Get reminder settings
+    # [Supplier] Get reminder settings
     # @param [Hash] opts the optional parameters
     # @return [ReminderSettings]
     def get_reminder_settings(opts = {})
@@ -27,7 +27,7 @@ module Pleaxy
       data
     end
 
-    # [Both] Get reminder settings
+    # [Supplier] Get reminder settings
     # @param [Hash] opts the optional parameters
     # @return [Array<(ReminderSettings, Integer, Hash)>] ReminderSettings data, response status code and response headers
     def get_reminder_settings_with_http_info(opts = {})
@@ -361,7 +361,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Both] Update reminder settings
+    # [Supplier] Update reminder settings
     # @param update_reminder_settings_input [UpdateReminderSettingsInput] 
     # @param [Hash] opts the optional parameters
     # @return [ReminderSettings]
@@ -370,7 +370,7 @@ module Pleaxy
       data
     end
 
-    # [Both] Update reminder settings
+    # [Supplier] Update reminder settings
     # @param update_reminder_settings_input [UpdateReminderSettingsInput] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(ReminderSettings, Integer, Hash)>] ReminderSettings data, response status code and response headers

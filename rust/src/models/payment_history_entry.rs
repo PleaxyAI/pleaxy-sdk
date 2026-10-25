@@ -1,7 +1,7 @@
 /*
  * Pleaxy API
  *
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -27,6 +27,8 @@ pub struct PaymentHistoryEntry {
     pub credit_note_id: Option<String>,
     #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
     pub amount: Option<f64>,
+    #[serde(rename = "solePayer", skip_serializing_if = "Option::is_none")]
+    pub sole_payer: Option<models::SolePayerWaiverRecord>,
     #[serde(rename = "record", skip_serializing_if = "Option::is_none")]
     pub record: Option<models::PaymentHistoryEntryRecord>,
 }
@@ -41,6 +43,7 @@ impl PaymentHistoryEntry {
             remittance_id: None,
             credit_note_id: None,
             amount: None,
+            sole_payer: None,
             record: None,
         }
     }

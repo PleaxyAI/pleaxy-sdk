@@ -1,13 +1,14 @@
 from typing import Literal, Set, cast
 
 InvoiceBuyerViewUnverifiedReason = Literal[
-    "debit_note", "no_billing_connection", "no_purchase_order"
+    "debit_note", "no_billing_connection", "no_purchase_order", "payer_account_unclear"
 ]
 
 INVOICE_BUYER_VIEW_UNVERIFIED_REASON_VALUES: Set[InvoiceBuyerViewUnverifiedReason] = {
     "debit_note",
     "no_billing_connection",
     "no_purchase_order",
+    "payer_account_unclear",
 }
 
 

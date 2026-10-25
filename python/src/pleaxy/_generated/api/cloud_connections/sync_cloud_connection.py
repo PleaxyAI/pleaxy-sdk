@@ -51,7 +51,8 @@ def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Response[CloudConnection]:
-    """[Buyer] Manually sync one connected cloud account's billing data now (rate-limited).
+    """[Buyer] Manually sync one connected cloud account's billing data now (rate-limited). 'create' on
+    suppliers or 'edit' on invoices.
 
     Args:
         id (str):
@@ -80,7 +81,8 @@ def sync(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[CloudConnection]:
-    """[Buyer] Manually sync one connected cloud account's billing data now (rate-limited).
+    """[Buyer] Manually sync one connected cloud account's billing data now (rate-limited). 'create' on
+    suppliers or 'edit' on invoices.
 
     Args:
         id (str):
@@ -104,7 +106,8 @@ async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Response[CloudConnection]:
-    """[Buyer] Manually sync one connected cloud account's billing data now (rate-limited).
+    """[Buyer] Manually sync one connected cloud account's billing data now (rate-limited). 'create' on
+    suppliers or 'edit' on invoices.
 
     Args:
         id (str):
@@ -131,7 +134,8 @@ async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[CloudConnection]:
-    """[Buyer] Manually sync one connected cloud account's billing data now (rate-limited).
+    """[Buyer] Manually sync one connected cloud account's billing data now (rate-limited). 'create' on
+    suppliers or 'edit' on invoices.
 
     Args:
         id (str):

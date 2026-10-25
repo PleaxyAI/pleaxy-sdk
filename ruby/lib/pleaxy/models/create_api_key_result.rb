@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -24,6 +24,8 @@ module Pleaxy
     attr_accessor :role
 
     attr_accessor :procurement_role
+
+    attr_accessor :supplier_role
 
     attr_accessor :scopes
 
@@ -65,6 +67,7 @@ module Pleaxy
         :'region_id' => :'regionId',
         :'role' => :'role',
         :'procurement_role' => :'procurementRole',
+        :'supplier_role' => :'supplierRole',
         :'scopes' => :'scopes',
         :'label' => :'label',
         :'created_at' => :'createdAt',
@@ -86,6 +89,7 @@ module Pleaxy
         :'region_id' => :'String',
         :'role' => :'String',
         :'procurement_role' => :'String',
+        :'supplier_role' => :'String',
         :'scopes' => :'Array<String>',
         :'label' => :'String',
         :'created_at' => :'String',
@@ -135,6 +139,10 @@ module Pleaxy
         self.procurement_role = attributes[:'procurement_role']
       end
 
+      if attributes.key?(:'supplier_role')
+        self.supplier_role = attributes[:'supplier_role']
+      end
+
       if attributes.key?(:'scopes')
         if (value = attributes[:'scopes']).is_a?(Array)
           self.scopes = value
@@ -172,8 +180,10 @@ module Pleaxy
       warn '[DEPRECATED] the `valid?` method is obsolete'
       role_validator = EnumAttributeValidator.new('String', ["buyer", "supplier"])
       return false unless role_validator.valid?(@role)
-      procurement_role_validator = EnumAttributeValidator.new('String', ["administrator", "read-only", "contracts-and-suppliers", "relationships", "requisitions", "finance"])
+      procurement_role_validator = EnumAttributeValidator.new('String', ["administrator", "read-only", "contracts-and-suppliers", "relationships", "requisitions", "finance", "agent"])
       return false unless procurement_role_validator.valid?(@procurement_role)
+      supplier_role_validator = EnumAttributeValidator.new('String', ["administrator", "read-only", "accounts-receivable", "sales", "fulfillment", "member"])
+      return false unless supplier_role_validator.valid?(@supplier_role)
       true
     end
 
@@ -190,11 +200,21 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] procurement_role Object to be assigned
     def procurement_role=(procurement_role)
-      validator = EnumAttributeValidator.new('String', ["administrator", "read-only", "contracts-and-suppliers", "relationships", "requisitions", "finance"])
+      validator = EnumAttributeValidator.new('String', ["administrator", "read-only", "contracts-and-suppliers", "relationships", "requisitions", "finance", "agent"])
       unless validator.valid?(procurement_role)
         fail ArgumentError, "invalid value for \"procurement_role\", must be one of #{validator.allowable_values}."
       end
       @procurement_role = procurement_role
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] supplier_role Object to be assigned
+    def supplier_role=(supplier_role)
+      validator = EnumAttributeValidator.new('String', ["administrator", "read-only", "accounts-receivable", "sales", "fulfillment", "member"])
+      unless validator.valid?(supplier_role)
+        fail ArgumentError, "invalid value for \"supplier_role\", must be one of #{validator.allowable_values}."
+      end
+      @supplier_role = supplier_role
     end
 
     # Checks equality by comparing each attribute.
@@ -207,6 +227,7 @@ module Pleaxy
           region_id == o.region_id &&
           role == o.role &&
           procurement_role == o.procurement_role &&
+          supplier_role == o.supplier_role &&
           scopes == o.scopes &&
           label == o.label &&
           created_at == o.created_at &&
@@ -223,7 +244,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [api_key, key_id, region_id, role, procurement_role, scopes, label, created_at, created_by, revoked].hash
+      [api_key, key_id, region_id, role, procurement_role, supplier_role, scopes, label, created_at, created_by, revoked].hash
     end
 
     # Builds the object from hash

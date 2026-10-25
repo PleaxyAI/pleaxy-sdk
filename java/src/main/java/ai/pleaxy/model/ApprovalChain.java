@@ -1,6 +1,6 @@
 /*
  * Pleaxy API
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -22,6 +22,7 @@ import java.util.HashMap;
 import ai.pleaxy.model.ApprovalChainFromRequest;
 import ai.pleaxy.model.ApprovalFx;
 import ai.pleaxy.model.ApprovalHistoryEntry;
+import ai.pleaxy.model.ApprovalRouting;
 import ai.pleaxy.model.ApprovalStageGroupInstance;
 import ai.pleaxy.model.SpendLimitGate;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -51,7 +52,8 @@ import ai.pleaxy.client.ApiClient;
   ApprovalChain.JSON_PROPERTY_EXCLUDED_EMPLOYEE_KEYS,
   ApprovalChain.JSON_PROPERTY_SELF_APPROVED,
   ApprovalChain.JSON_PROPERTY_FX,
-  ApprovalChain.JSON_PROPERTY_FROM_REQUEST
+  ApprovalChain.JSON_PROPERTY_FROM_REQUEST,
+  ApprovalChain.JSON_PROPERTY_ROUTING
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class ApprovalChain {
@@ -139,6 +141,10 @@ public class ApprovalChain {
   public static final String JSON_PROPERTY_FROM_REQUEST = "fromRequest";
   @javax.annotation.Nullable
   private ApprovalChainFromRequest fromRequest;
+
+  public static final String JSON_PROPERTY_ROUTING = "routing";
+  @javax.annotation.Nullable
+  private ApprovalRouting routing;
 
   public ApprovalChain() { 
   }
@@ -455,6 +461,30 @@ public class ApprovalChain {
   }
 
 
+  public ApprovalChain routing(@javax.annotation.Nullable ApprovalRouting routing) {
+    this.routing = routing;
+    return this;
+  }
+
+  /**
+   * Get routing
+   * @return routing
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ROUTING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public ApprovalRouting getRouting() {
+    return routing;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ROUTING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRouting(@javax.annotation.Nullable ApprovalRouting routing) {
+    this.routing = routing;
+  }
+
+
   /**
    * Return true if this ApprovalChain object is equal to o.
    */
@@ -478,12 +508,13 @@ public class ApprovalChain {
         Objects.equals(this.excludedEmployeeKeys, approvalChain.excludedEmployeeKeys) &&
         Objects.equals(this.selfApproved, approvalChain.selfApproved) &&
         Objects.equals(this.fx, approvalChain.fx) &&
-        Objects.equals(this.fromRequest, approvalChain.fromRequest);
+        Objects.equals(this.fromRequest, approvalChain.fromRequest) &&
+        Objects.equals(this.routing, approvalChain.routing);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(requester, requesterEmployeeKey, groups, groupIndex, status, history, autonomy, spendLimitGate, excludedEmployeeKeys, selfApproved, fx, fromRequest);
+    return Objects.hash(requester, requesterEmployeeKey, groups, groupIndex, status, history, autonomy, spendLimitGate, excludedEmployeeKeys, selfApproved, fx, fromRequest, routing);
   }
 
   @Override
@@ -502,6 +533,7 @@ public class ApprovalChain {
     sb.append("    selfApproved: ").append(toIndentedString(selfApproved)).append("\n");
     sb.append("    fx: ").append(toIndentedString(fx)).append("\n");
     sb.append("    fromRequest: ").append(toIndentedString(fromRequest)).append("\n");
+    sb.append("    routing: ").append(toIndentedString(routing)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -621,6 +653,11 @@ public class ApprovalChain {
     // add `fromRequest` to the URL query string
     if (getFromRequest() != null) {
       joiner.add(getFromRequest().toUrlQueryString(prefix + "fromRequest" + suffix));
+    }
+
+    // add `routing` to the URL query string
+    if (getRouting() != null) {
+      joiner.add(getRouting().toUrlQueryString(prefix + "routing" + suffix));
     }
 
     return joiner.toString();

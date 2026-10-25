@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -80,7 +80,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] Connect a cloud provider account
+    # [Buyer] Connect a cloud provider account ('create' on suppliers)
     # @param create_cloud_connection_input [CreateCloudConnectionInput] 
     # @param [Hash] opts the optional parameters
     # @return [CloudConnection]
@@ -89,7 +89,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] Connect a cloud provider account
+    # [Buyer] Connect a cloud provider account (&#39;create&#39; on suppliers)
     # @param create_cloud_connection_input [CreateCloudConnectionInput] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(CloudConnection, Integer, Hash)>] CloudConnection data, response status code and response headers
@@ -207,7 +207,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection's own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only.
+    # [Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection's own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only. 'create' on suppliers.
     # @param discover_azure_scopes_input [DiscoverAzureScopesInput] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -216,7 +216,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection&#39;s own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only.
+    # [Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection&#39;s own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only. &#39;create&#39; on suppliers.
     # @param discover_azure_scopes_input [DiscoverAzureScopesInput] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -273,7 +273,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller's own unfinished draft (and its external ID) if one exists.
+    # [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller's own unfinished draft (and its external ID) if one exists. 'create' on suppliers.
     # @param [Hash] opts the optional parameters
     # @return [AwsCloudConnectionInit]
     def init_aws_cloud_connection(opts = {})
@@ -281,7 +281,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller&#39;s own unfinished draft (and its external ID) if one exists.
+    # [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller&#39;s own unfinished draft (and its external ID) if one exists. &#39;create&#39; on suppliers.
     # @param [Hash] opts the optional parameters
     # @return [Array<(AwsCloudConnectionInit, Integer, Hash)>] AwsCloudConnectionInit data, response status code and response headers
     def init_aws_cloud_connection_with_http_info(opts = {})
@@ -328,7 +328,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller's own unfinished draft if one exists. 404 while the provider is demo-only.
+    # [Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller's own unfinished draft if one exists. 404 while the provider is demo-only. 'create' on suppliers.
     # @param provider [String] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -337,7 +337,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller&#39;s own unfinished draft if one exists. 404 while the provider is demo-only.
+    # [Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller&#39;s own unfinished draft if one exists. 404 while the provider is demo-only. &#39;create&#39; on suppliers.
     # @param provider [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -389,7 +389,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`, oldest first - pass `cursor` back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page).
+    # [Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`, oldest first - pass `cursor` back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page). 'view' on suppliers or on invoices.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :limit 
     # @option opts [String] :cursor 
@@ -399,7 +399,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] List cloud provider connections. With &#x60;limit&#x60; (1–200): one page, &#x60;{ items, nextCursor? }&#x60;, oldest first - pass &#x60;cursor&#x60; back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page).
+    # [Buyer] List cloud provider connections. With &#x60;limit&#x60; (1–200): one page, &#x60;{ items, nextCursor? }&#x60;, oldest first - pass &#x60;cursor&#x60; back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page). &#39;view&#39; on suppliers or on invoices.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :limit 
     # @option opts [String] :cursor 
@@ -450,7 +450,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] Manually sync one connected cloud account's billing data now (rate-limited).
+    # [Buyer] Manually sync one connected cloud account's billing data now (rate-limited). 'create' on suppliers or 'edit' on invoices.
     # @param id [String] 
     # @param [Hash] opts the optional parameters
     # @return [CloudConnection]
@@ -459,7 +459,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] Manually sync one connected cloud account&#39;s billing data now (rate-limited).
+    # [Buyer] Manually sync one connected cloud account&#39;s billing data now (rate-limited). &#39;create&#39; on suppliers or &#39;edit&#39; on invoices.
     # @param id [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(CloudConnection, Integer, Hash)>] CloudConnection data, response status code and response headers

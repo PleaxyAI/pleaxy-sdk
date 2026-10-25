@@ -1,6 +1,6 @@
 /*
  * Pleaxy API
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.InvoiceAutonomySettings;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,7 +36,8 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   AutonomySettings.JSON_PROPERTY_ENABLED,
   AutonomySettings.JSON_PROPERTY_MAX_AUTO_APPROVE_AMOUNT,
-  AutonomySettings.JSON_PROPERTY_APPROVAL_THRESHOLD
+  AutonomySettings.JSON_PROPERTY_APPROVAL_THRESHOLD,
+  AutonomySettings.JSON_PROPERTY_INVOICE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class AutonomySettings {
@@ -50,6 +52,10 @@ public class AutonomySettings {
   public static final String JSON_PROPERTY_APPROVAL_THRESHOLD = "approvalThreshold";
   @javax.annotation.Nullable
   private Double approvalThreshold;
+
+  public static final String JSON_PROPERTY_INVOICE = "invoice";
+  @javax.annotation.Nullable
+  private InvoiceAutonomySettings invoice;
 
   public AutonomySettings() { 
   }
@@ -126,6 +132,30 @@ public class AutonomySettings {
   }
 
 
+  public AutonomySettings invoice(@javax.annotation.Nullable InvoiceAutonomySettings invoice) {
+    this.invoice = invoice;
+    return this;
+  }
+
+  /**
+   * Get invoice
+   * @return invoice
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_INVOICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceAutonomySettings getInvoice() {
+    return invoice;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_INVOICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setInvoice(@javax.annotation.Nullable InvoiceAutonomySettings invoice) {
+    this.invoice = invoice;
+  }
+
+
   /**
    * Return true if this AutonomySettings object is equal to o.
    */
@@ -140,12 +170,13 @@ public class AutonomySettings {
     AutonomySettings autonomySettings = (AutonomySettings) o;
     return Objects.equals(this.enabled, autonomySettings.enabled) &&
         Objects.equals(this.maxAutoApproveAmount, autonomySettings.maxAutoApproveAmount) &&
-        Objects.equals(this.approvalThreshold, autonomySettings.approvalThreshold);
+        Objects.equals(this.approvalThreshold, autonomySettings.approvalThreshold) &&
+        Objects.equals(this.invoice, autonomySettings.invoice);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(enabled, maxAutoApproveAmount, approvalThreshold);
+    return Objects.hash(enabled, maxAutoApproveAmount, approvalThreshold, invoice);
   }
 
   @Override
@@ -155,6 +186,7 @@ public class AutonomySettings {
     sb.append("    enabled: ").append(toIndentedString(enabled)).append("\n");
     sb.append("    maxAutoApproveAmount: ").append(toIndentedString(maxAutoApproveAmount)).append("\n");
     sb.append("    approvalThreshold: ").append(toIndentedString(approvalThreshold)).append("\n");
+    sb.append("    invoice: ").append(toIndentedString(invoice)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -215,6 +247,11 @@ public class AutonomySettings {
     // add `approvalThreshold` to the URL query string
     if (getApprovalThreshold() != null) {
       joiner.add(String.format("%sapprovalThreshold%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getApprovalThreshold()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `invoice` to the URL query string
+    if (getInvoice() != null) {
+      joiner.add(getInvoice().toUrlQueryString(prefix + "invoice" + suffix));
     }
 
     return joiner.toString();

@@ -116,6 +116,7 @@ const (
 	AddInvoiceReplacementLinksResultUnverifiedReasonDebitNote           AddInvoiceReplacementLinksResultUnverifiedReason = "debit_note"
 	AddInvoiceReplacementLinksResultUnverifiedReasonNoBillingConnection AddInvoiceReplacementLinksResultUnverifiedReason = "no_billing_connection"
 	AddInvoiceReplacementLinksResultUnverifiedReasonNoPurchaseOrder     AddInvoiceReplacementLinksResultUnverifiedReason = "no_purchase_order"
+	AddInvoiceReplacementLinksResultUnverifiedReasonPayerAccountUnclear AddInvoiceReplacementLinksResultUnverifiedReason = "payer_account_unclear"
 )
 
 // Defines values for AddInvoiceReplacementLinksResultUsageSource.
@@ -131,6 +132,7 @@ const (
 // Defines values for ApiKeySummaryProcurementRole.
 const (
 	ApiKeySummaryProcurementRoleAdministrator         ApiKeySummaryProcurementRole = "administrator"
+	ApiKeySummaryProcurementRoleAgent                 ApiKeySummaryProcurementRole = "agent"
 	ApiKeySummaryProcurementRoleContractsAndSuppliers ApiKeySummaryProcurementRole = "contracts-and-suppliers"
 	ApiKeySummaryProcurementRoleFinance               ApiKeySummaryProcurementRole = "finance"
 	ApiKeySummaryProcurementRoleReadOnly              ApiKeySummaryProcurementRole = "read-only"
@@ -149,6 +151,16 @@ const (
 	ApiKeySummaryScopesInvoicesFeed   ApiKeySummaryScopes = "invoices:feed"
 	ApiKeySummaryScopesOrdersFulfill  ApiKeySummaryScopes = "orders:fulfill"
 	ApiKeySummaryScopesPaymentsRecord ApiKeySummaryScopes = "payments:record"
+)
+
+// Defines values for ApiKeySummarySupplierRole.
+const (
+	ApiKeySummarySupplierRoleAccountsReceivable ApiKeySummarySupplierRole = "accounts-receivable"
+	ApiKeySummarySupplierRoleAdministrator      ApiKeySummarySupplierRole = "administrator"
+	ApiKeySummarySupplierRoleFulfillment        ApiKeySummarySupplierRole = "fulfillment"
+	ApiKeySummarySupplierRoleMember             ApiKeySummarySupplierRole = "member"
+	ApiKeySummarySupplierRoleReadOnly           ApiKeySummarySupplierRole = "read-only"
+	ApiKeySummarySupplierRoleSales              ApiKeySummarySupplierRole = "sales"
 )
 
 // Defines values for ApprovalChainStatus.
@@ -207,6 +219,41 @@ const (
 const (
 	Carried    ApprovalReassignmentDetailOnRebuild = "carried"
 	NotCarried ApprovalReassignmentDetailOnRebuild = "not-carried"
+)
+
+// Defines values for ApprovalRoutingBudgetMode.
+const (
+	ApprovalRoutingBudgetModeBlock ApprovalRoutingBudgetMode = "block"
+	ApprovalRoutingBudgetModeOff   ApprovalRoutingBudgetMode = "off"
+	ApprovalRoutingBudgetModeWarn  ApprovalRoutingBudgetMode = "warn"
+)
+
+// Defines values for ApprovalRoutingBudgetOutcome.
+const (
+	ApprovalRoutingBudgetOutcomeNoBudget ApprovalRoutingBudgetOutcome = "no_budget"
+	ApprovalRoutingBudgetOutcomeNoRate   ApprovalRoutingBudgetOutcome = "no_rate"
+	ApprovalRoutingBudgetOutcomeOff      ApprovalRoutingBudgetOutcome = "off"
+	ApprovalRoutingBudgetOutcomeOver     ApprovalRoutingBudgetOutcome = "over"
+	ApprovalRoutingBudgetOutcomeWithin   ApprovalRoutingBudgetOutcome = "within"
+)
+
+// Defines values for ApprovalRoutingBudgetPeriodKind.
+const (
+	ApprovalRoutingBudgetPeriodKindMonth   ApprovalRoutingBudgetPeriodKind = "month"
+	ApprovalRoutingBudgetPeriodKindQuarter ApprovalRoutingBudgetPeriodKind = "quarter"
+	ApprovalRoutingBudgetPeriodKindYear    ApprovalRoutingBudgetPeriodKind = "year"
+)
+
+// Defines values for ApprovalRoutingRuleAction.
+const (
+	AutoApprove     ApprovalRoutingRuleAction = "auto_approve"
+	RequireApproval ApprovalRoutingRuleAction = "require_approval"
+)
+
+// Defines values for ApprovalRoutingTouchlessSkipped.
+const (
+	HumanOnly     ApprovalRoutingTouchlessSkipped = "human_only"
+	OtherCurrency ApprovalRoutingTouchlessSkipped = "other_currency"
 )
 
 // Defines values for ApprovalStageGroupDefMode.
@@ -493,6 +540,16 @@ const (
 	CloudConnectionBillingFinalizedInvoiceSourceUsageApiClosedMonth CloudConnectionBillingFinalizedInvoiceSource = "usage_api_closed_month"
 )
 
+// Defines values for CloudConnectionBillingPreviousFinalizedInvoiceSource.
+const (
+	CloudConnectionBillingPreviousFinalizedInvoiceSourceAwsInvoice          CloudConnectionBillingPreviousFinalizedInvoiceSource = "aws_invoice"
+	CloudConnectionBillingPreviousFinalizedInvoiceSourceBillingExport       CloudConnectionBillingPreviousFinalizedInvoiceSource = "billing_export"
+	CloudConnectionBillingPreviousFinalizedInvoiceSourceEaBalance           CloudConnectionBillingPreviousFinalizedInvoiceSource = "ea_balance"
+	CloudConnectionBillingPreviousFinalizedInvoiceSourceMcaInvoice          CloudConnectionBillingPreviousFinalizedInvoiceSource = "mca_invoice"
+	CloudConnectionBillingPreviousFinalizedInvoiceSourceOspInvoice          CloudConnectionBillingPreviousFinalizedInvoiceSource = "osp_invoice"
+	CloudConnectionBillingPreviousFinalizedInvoiceSourceUsageApiClosedMonth CloudConnectionBillingPreviousFinalizedInvoiceSource = "usage_api_closed_month"
+)
+
 // Defines values for CloudConnectionDisconnectedProvider.
 const (
 	CloudConnectionDisconnectedProviderAws   CloudConnectionDisconnectedProvider = "aws"
@@ -528,6 +585,7 @@ const (
 // Defines values for CreateApiKeyInputProcurementRole.
 const (
 	CreateApiKeyInputProcurementRoleAdministrator         CreateApiKeyInputProcurementRole = "administrator"
+	CreateApiKeyInputProcurementRoleAgent                 CreateApiKeyInputProcurementRole = "agent"
 	CreateApiKeyInputProcurementRoleContractsAndSuppliers CreateApiKeyInputProcurementRole = "contracts-and-suppliers"
 	CreateApiKeyInputProcurementRoleFinance               CreateApiKeyInputProcurementRole = "finance"
 	CreateApiKeyInputProcurementRoleReadOnly              CreateApiKeyInputProcurementRole = "read-only"
@@ -542,14 +600,24 @@ const (
 	CreateApiKeyInputScopesPaymentsRecord CreateApiKeyInputScopes = "payments:record"
 )
 
+// Defines values for CreateApiKeyInputSupplierRole.
+const (
+	CreateApiKeyInputSupplierRoleAccountsReceivable CreateApiKeyInputSupplierRole = "accounts-receivable"
+	CreateApiKeyInputSupplierRoleAdministrator      CreateApiKeyInputSupplierRole = "administrator"
+	CreateApiKeyInputSupplierRoleFulfillment        CreateApiKeyInputSupplierRole = "fulfillment"
+	CreateApiKeyInputSupplierRoleReadOnly           CreateApiKeyInputSupplierRole = "read-only"
+	CreateApiKeyInputSupplierRoleSales              CreateApiKeyInputSupplierRole = "sales"
+)
+
 // Defines values for CreateApiKeyResultProcurementRole.
 const (
-	Administrator         CreateApiKeyResultProcurementRole = "administrator"
-	ContractsAndSuppliers CreateApiKeyResultProcurementRole = "contracts-and-suppliers"
-	Finance               CreateApiKeyResultProcurementRole = "finance"
-	ReadOnly              CreateApiKeyResultProcurementRole = "read-only"
-	Relationships         CreateApiKeyResultProcurementRole = "relationships"
-	Requisitions          CreateApiKeyResultProcurementRole = "requisitions"
+	CreateApiKeyResultProcurementRoleAdministrator         CreateApiKeyResultProcurementRole = "administrator"
+	CreateApiKeyResultProcurementRoleAgent                 CreateApiKeyResultProcurementRole = "agent"
+	CreateApiKeyResultProcurementRoleContractsAndSuppliers CreateApiKeyResultProcurementRole = "contracts-and-suppliers"
+	CreateApiKeyResultProcurementRoleFinance               CreateApiKeyResultProcurementRole = "finance"
+	CreateApiKeyResultProcurementRoleReadOnly              CreateApiKeyResultProcurementRole = "read-only"
+	CreateApiKeyResultProcurementRoleRelationships         CreateApiKeyResultProcurementRole = "relationships"
+	CreateApiKeyResultProcurementRoleRequisitions          CreateApiKeyResultProcurementRole = "requisitions"
 )
 
 // Defines values for CreateApiKeyResultRole.
@@ -563,6 +631,16 @@ const (
 	InvoicesFeed   CreateApiKeyResultScopes = "invoices:feed"
 	OrdersFulfill  CreateApiKeyResultScopes = "orders:fulfill"
 	PaymentsRecord CreateApiKeyResultScopes = "payments:record"
+)
+
+// Defines values for CreateApiKeyResultSupplierRole.
+const (
+	CreateApiKeyResultSupplierRoleAccountsReceivable CreateApiKeyResultSupplierRole = "accounts-receivable"
+	CreateApiKeyResultSupplierRoleAdministrator      CreateApiKeyResultSupplierRole = "administrator"
+	CreateApiKeyResultSupplierRoleFulfillment        CreateApiKeyResultSupplierRole = "fulfillment"
+	CreateApiKeyResultSupplierRoleMember             CreateApiKeyResultSupplierRole = "member"
+	CreateApiKeyResultSupplierRoleReadOnly           CreateApiKeyResultSupplierRole = "read-only"
+	CreateApiKeyResultSupplierRoleSales              CreateApiKeyResultSupplierRole = "sales"
 )
 
 // Defines values for CreateCloudConnectionInputDataSources.
@@ -781,6 +859,7 @@ const (
 	CreateInvoiceResultBuyerInvoiceUnverifiedReasonDebitNote           CreateInvoiceResultBuyerInvoiceUnverifiedReason = "debit_note"
 	CreateInvoiceResultBuyerInvoiceUnverifiedReasonNoBillingConnection CreateInvoiceResultBuyerInvoiceUnverifiedReason = "no_billing_connection"
 	CreateInvoiceResultBuyerInvoiceUnverifiedReasonNoPurchaseOrder     CreateInvoiceResultBuyerInvoiceUnverifiedReason = "no_purchase_order"
+	CreateInvoiceResultBuyerInvoiceUnverifiedReasonPayerAccountUnclear CreateInvoiceResultBuyerInvoiceUnverifiedReason = "payer_account_unclear"
 )
 
 // Defines values for CreateInvoiceResultBuyerInvoiceUsageSource.
@@ -1112,6 +1191,7 @@ const (
 	FeedValidationResultFindingsCodeReceiptMissing                FeedValidationResultFindingsCode = "receipt_missing"
 	FeedValidationResultFindingsCodeReceiptQtyExceeded            FeedValidationResultFindingsCode = "receipt_qty_exceeded"
 	FeedValidationResultFindingsCodeTierPriceExceeded             FeedValidationResultFindingsCode = "tier_price_exceeded"
+	FeedValidationResultFindingsCodeUsageGrew                     FeedValidationResultFindingsCode = "usage_grew"
 )
 
 // Defines values for FeedValidationResultInvoiceDocumentType.
@@ -1398,6 +1478,7 @@ const (
 	GetInvoiceResultBuyerInvoiceUnverifiedReasonDebitNote           GetInvoiceResultBuyerInvoiceUnverifiedReason = "debit_note"
 	GetInvoiceResultBuyerInvoiceUnverifiedReasonNoBillingConnection GetInvoiceResultBuyerInvoiceUnverifiedReason = "no_billing_connection"
 	GetInvoiceResultBuyerInvoiceUnverifiedReasonNoPurchaseOrder     GetInvoiceResultBuyerInvoiceUnverifiedReason = "no_purchase_order"
+	GetInvoiceResultBuyerInvoiceUnverifiedReasonPayerAccountUnclear GetInvoiceResultBuyerInvoiceUnverifiedReason = "payer_account_unclear"
 )
 
 // Defines values for GetInvoiceResultBuyerInvoiceUsageSource.
@@ -1681,6 +1762,12 @@ const (
 	InboundEmailDraftShipNoticeStatusShipped  InboundEmailDraftShipNoticeStatus = "shipped"
 )
 
+// Defines values for InvoiceAccessRemovalAction.
+const (
+	InvoiceAccessRemovalActionRemoved     InvoiceAccessRemovalAction = "removed"
+	InvoiceAccessRemovalActionRoleChanged InvoiceAccessRemovalAction = "role_changed"
+)
+
 // Defines values for InvoiceAdjustmentType.
 const (
 	InvoiceAdjustmentTypeCharge   InvoiceAdjustmentType = "charge"
@@ -1767,6 +1854,7 @@ const (
 	InvoiceBuyerViewUnverifiedReasonDebitNote           InvoiceBuyerViewUnverifiedReason = "debit_note"
 	InvoiceBuyerViewUnverifiedReasonNoBillingConnection InvoiceBuyerViewUnverifiedReason = "no_billing_connection"
 	InvoiceBuyerViewUnverifiedReasonNoPurchaseOrder     InvoiceBuyerViewUnverifiedReason = "no_purchase_order"
+	InvoiceBuyerViewUnverifiedReasonPayerAccountUnclear InvoiceBuyerViewUnverifiedReason = "payer_account_unclear"
 )
 
 // Defines values for InvoiceBuyerViewUsageSource.
@@ -1800,6 +1888,7 @@ const (
 	InvoiceControlFindingCodeReceiptMissing                InvoiceControlFindingCode = "receipt_missing"
 	InvoiceControlFindingCodeReceiptQtyExceeded            InvoiceControlFindingCode = "receipt_qty_exceeded"
 	InvoiceControlFindingCodeTierPriceExceeded             InvoiceControlFindingCode = "tier_price_exceeded"
+	InvoiceControlFindingCodeUsageGrew                     InvoiceControlFindingCode = "usage_grew"
 )
 
 // Defines values for InvoiceCounterpartyCloudProvider.
@@ -2271,6 +2360,7 @@ const (
 	ListInvoicesItemBuyerInvoiceUnverifiedReasonDebitNote           ListInvoicesItemBuyerInvoiceUnverifiedReason = "debit_note"
 	ListInvoicesItemBuyerInvoiceUnverifiedReasonNoBillingConnection ListInvoicesItemBuyerInvoiceUnverifiedReason = "no_billing_connection"
 	ListInvoicesItemBuyerInvoiceUnverifiedReasonNoPurchaseOrder     ListInvoicesItemBuyerInvoiceUnverifiedReason = "no_purchase_order"
+	ListInvoicesItemBuyerInvoiceUnverifiedReasonPayerAccountUnclear ListInvoicesItemBuyerInvoiceUnverifiedReason = "payer_account_unclear"
 )
 
 // Defines values for ListInvoicesItemBuyerInvoiceUsageSource.
@@ -2534,7 +2624,9 @@ const (
 	NotificationTypeInvoiceEnteredByBuyer            NotificationType = "invoice_entered_by_buyer"
 	NotificationTypeInvoiceFeedChanged               NotificationType = "invoice_feed_changed"
 	NotificationTypeInvoiceHeldDueSoon               NotificationType = "invoice_held_due_soon"
+	NotificationTypeInvoiceHoldReleased              NotificationType = "invoice_hold_released"
 	NotificationTypeInvoiceNeedsApprover             NotificationType = "invoice_needs_approver"
+	NotificationTypeInvoiceOnHold                    NotificationType = "invoice_on_hold"
 	NotificationTypeInvoicePaid                      NotificationType = "invoice_paid"
 	NotificationTypeInvoicePaymentFailed             NotificationType = "invoice_payment_failed"
 	NotificationTypeInvoicePaymentReminder           NotificationType = "invoice_payment_reminder"
@@ -3051,6 +3143,7 @@ const (
 	RecordPaymentResultUnverifiedReasonDebitNote           RecordPaymentResultUnverifiedReason = "debit_note"
 	RecordPaymentResultUnverifiedReasonNoBillingConnection RecordPaymentResultUnverifiedReason = "no_billing_connection"
 	RecordPaymentResultUnverifiedReasonNoPurchaseOrder     RecordPaymentResultUnverifiedReason = "no_purchase_order"
+	RecordPaymentResultUnverifiedReasonPayerAccountUnclear RecordPaymentResultUnverifiedReason = "payer_account_unclear"
 )
 
 // Defines values for RecordPaymentResultUsageSource.
@@ -3221,16 +3314,17 @@ const (
 	DebitNote           RemoveInvoiceReplacementLinkResultUnverifiedReason = "debit_note"
 	NoBillingConnection RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_billing_connection"
 	NoPurchaseOrder     RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_purchase_order"
+	PayerAccountUnclear RemoveInvoiceReplacementLinkResultUnverifiedReason = "payer_account_unclear"
 )
 
 // Defines values for RemoveInvoiceReplacementLinkResultUsageSource.
 const (
-	RemoveInvoiceReplacementLinkResultUsageSourceAwsInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "aws_invoice"
-	RemoveInvoiceReplacementLinkResultUsageSourceBillingExport       RemoveInvoiceReplacementLinkResultUsageSource = "billing_export"
-	RemoveInvoiceReplacementLinkResultUsageSourceEaBalance           RemoveInvoiceReplacementLinkResultUsageSource = "ea_balance"
-	RemoveInvoiceReplacementLinkResultUsageSourceMcaInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "mca_invoice"
-	RemoveInvoiceReplacementLinkResultUsageSourceOspInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "osp_invoice"
-	RemoveInvoiceReplacementLinkResultUsageSourceUsageApiClosedMonth RemoveInvoiceReplacementLinkResultUsageSource = "usage_api_closed_month"
+	AwsInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "aws_invoice"
+	BillingExport       RemoveInvoiceReplacementLinkResultUsageSource = "billing_export"
+	EaBalance           RemoveInvoiceReplacementLinkResultUsageSource = "ea_balance"
+	McaInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "mca_invoice"
+	OspInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "osp_invoice"
+	UsageApiClosedMonth RemoveInvoiceReplacementLinkResultUsageSource = "usage_api_closed_month"
 )
 
 // Defines values for RotateWebhookSecretResultEvents.
@@ -3558,10 +3652,10 @@ const (
 
 // Defines values for SupplierCreditNoteViewStatus.
 const (
-	SupplierCreditNoteViewStatusAccepted          SupplierCreditNoteViewStatus = "accepted"
-	SupplierCreditNoteViewStatusPendingAcceptance SupplierCreditNoteViewStatus = "pending_acceptance"
-	SupplierCreditNoteViewStatusRejected          SupplierCreditNoteViewStatus = "rejected"
-	SupplierCreditNoteViewStatusVoid              SupplierCreditNoteViewStatus = "void"
+	Accepted          SupplierCreditNoteViewStatus = "accepted"
+	PendingAcceptance SupplierCreditNoteViewStatus = "pending_acceptance"
+	Rejected          SupplierCreditNoteViewStatus = "rejected"
+	Void              SupplierCreditNoteViewStatus = "void"
 )
 
 // Defines values for SupplierCreditNoteViewSubmittedFormat.
@@ -3640,9 +3734,9 @@ const (
 
 // Defines values for UpdateBudgetControlInputPeriod.
 const (
-	UpdateBudgetControlInputPeriodMonth   UpdateBudgetControlInputPeriod = "month"
-	UpdateBudgetControlInputPeriodQuarter UpdateBudgetControlInputPeriod = "quarter"
-	UpdateBudgetControlInputPeriodYear    UpdateBudgetControlInputPeriod = "year"
+	Month   UpdateBudgetControlInputPeriod = "month"
+	Quarter UpdateBudgetControlInputPeriod = "quarter"
+	Year    UpdateBudgetControlInputPeriod = "year"
 )
 
 // Defines values for UpdateOrgProfileInputGeographyPresetId.
@@ -4064,6 +4158,7 @@ type ApiKeySummary struct {
 	Revoked         *bool                         `json:"revoked,omitempty"`
 	Role            *ApiKeySummaryRole            `json:"role,omitempty"`
 	Scopes          *[]ApiKeySummaryScopes        `json:"scopes,omitempty"`
+	SupplierRole    *ApiKeySummarySupplierRole    `json:"supplierRole,omitempty"`
 }
 
 // ApiKeySummaryProcurementRole defines model for ApiKeySummary.ProcurementRole.
@@ -4074,6 +4169,9 @@ type ApiKeySummaryRole string
 
 // ApiKeySummaryScopes defines model for ApiKeySummary.Scopes.
 type ApiKeySummaryScopes string
+
+// ApiKeySummarySupplierRole defines model for ApiKeySummary.SupplierRole.
+type ApiKeySummarySupplierRole string
 
 // ApplyConfirmationChangesResult defines model for ApplyConfirmationChangesResult.
 type ApplyConfirmationChangesResult struct {
@@ -4096,6 +4194,7 @@ type ApprovalChain struct {
 	History              *[]ApprovalHistoryEntry       `json:"history,omitempty"`
 	Requester            *string                       `json:"requester,omitempty"`
 	RequesterEmployeeKey *string                       `json:"requesterEmployeeKey,omitempty"`
+	Routing              *ApprovalRouting              `json:"routing,omitempty"`
 	SelfApproved         *bool                         `json:"selfApproved,omitempty"`
 	SpendLimitGate       *SpendLimitGate               `json:"spendLimitGate,omitempty"`
 	Status               *ApprovalChainStatus          `json:"status,omitempty"`
@@ -4197,6 +4296,64 @@ type ApprovalReassignmentDetailByPolicy string
 
 // ApprovalReassignmentDetailOnRebuild defines model for ApprovalReassignmentDetail.OnRebuild.
 type ApprovalReassignmentDetailOnRebuild string
+
+// ApprovalRouting defines model for ApprovalRouting.
+type ApprovalRouting struct {
+	Autonomy *struct {
+		Applied              *bool    `json:"applied,omitempty"`
+		MaxAutoApproveAmount *float64 `json:"maxAutoApproveAmount,omitempty"`
+	} `json:"autonomy,omitempty"`
+	Budget *struct {
+		CostCenter *string                       `json:"costCenter,omitempty"`
+		Currency   *string                       `json:"currency,omitempty"`
+		Mode       *ApprovalRoutingBudgetMode    `json:"mode,omitempty"`
+		Outcome    *ApprovalRoutingBudgetOutcome `json:"outcome,omitempty"`
+		OverBy     *float64                      `json:"overBy,omitempty"`
+		Period     *struct {
+			End   *string                          `json:"end,omitempty"`
+			Kind  *ApprovalRoutingBudgetPeriodKind `json:"kind,omitempty"`
+			Start *string                          `json:"start,omitempty"`
+		} `json:"period,omitempty"`
+	} `json:"budget,omitempty"`
+	Rule *struct {
+		Action *ApprovalRoutingRuleAction `json:"action,omitempty"`
+		Id     string                     `json:"id"`
+		Index  *float64                   `json:"index,omitempty"`
+		Label  *string                    `json:"label,omitempty"`
+	} `json:"rule,omitempty"`
+	SpendLimit *struct {
+		ApproverName *string `json:"approverName,omitempty"`
+		EmployeeKey  *string `json:"employeeKey,omitempty"`
+		EmployeeName *string `json:"employeeName,omitempty"`
+		Satisfied    *bool   `json:"satisfied,omitempty"`
+	} `json:"spendLimit,omitempty"`
+	Steps            *[]ApprovalRoutingStep           `json:"steps,omitempty"`
+	TouchlessSkipped *ApprovalRoutingTouchlessSkipped `json:"touchlessSkipped,omitempty"`
+}
+
+// ApprovalRoutingBudgetMode defines model for ApprovalRouting.Budget.Mode.
+type ApprovalRoutingBudgetMode string
+
+// ApprovalRoutingBudgetOutcome defines model for ApprovalRouting.Budget.Outcome.
+type ApprovalRoutingBudgetOutcome string
+
+// ApprovalRoutingBudgetPeriodKind defines model for ApprovalRouting.Budget.Period.Kind.
+type ApprovalRoutingBudgetPeriodKind string
+
+// ApprovalRoutingRuleAction defines model for ApprovalRouting.Rule.Action.
+type ApprovalRoutingRuleAction string
+
+// ApprovalRoutingTouchlessSkipped defines model for ApprovalRouting.TouchlessSkipped.
+type ApprovalRoutingTouchlessSkipped string
+
+// ApprovalRoutingStep defines model for ApprovalRoutingStep.
+type ApprovalRoutingStep struct {
+	Applied       *bool                    `json:"applied,omitempty"`
+	Conditions    *[]ApprovalStepCondition `json:"conditions,omitempty"`
+	HighValueOnly *bool                    `json:"highValueOnly,omitempty"`
+	Label         *string                  `json:"label,omitempty"`
+	StepId        *string                  `json:"stepId,omitempty"`
+}
 
 // ApprovalStageDef defines model for ApprovalStageDef.
 type ApprovalStageDef struct {
@@ -4394,9 +4551,10 @@ type AutomationRuleSetViewProcess string
 
 // AutonomySettings defines model for AutonomySettings.
 type AutonomySettings struct {
-	ApprovalThreshold    *float64 `json:"approvalThreshold,omitempty"`
-	Enabled              *bool    `json:"enabled,omitempty"`
-	MaxAutoApproveAmount *float64 `json:"maxAutoApproveAmount,omitempty"`
+	ApprovalThreshold    *float64                 `json:"approvalThreshold,omitempty"`
+	Enabled              *bool                    `json:"enabled,omitempty"`
+	Invoice              *InvoiceAutonomySettings `json:"invoice,omitempty"`
+	MaxAutoApproveAmount *float64                 `json:"maxAutoApproveAmount,omitempty"`
 }
 
 // AwsCloudConnectionInit defines model for AwsCloudConnectionInit.
@@ -4710,6 +4868,12 @@ type CloudConnectionBilling struct {
 		Source        *CloudConnectionBillingFinalizedInvoiceSource `json:"source,omitempty"`
 		TotalAmount   *float64                                      `json:"totalAmount,omitempty"`
 	} `json:"finalizedInvoice,omitempty"`
+	PreviousFinalizedInvoice *struct {
+		Currency    *string                                               `json:"currency,omitempty"`
+		PeriodLabel *string                                               `json:"periodLabel,omitempty"`
+		Source      *CloudConnectionBillingPreviousFinalizedInvoiceSource `json:"source,omitempty"`
+		TotalAmount *float64                                              `json:"totalAmount,omitempty"`
+	} `json:"previousFinalizedInvoice,omitempty"`
 }
 
 // CloudConnectionBillingCurrentPeriodEstimateConfidence defines model for CloudConnectionBilling.CurrentPeriodEstimate.Confidence.
@@ -4720,6 +4884,9 @@ type CloudConnectionBillingFinalizedInvoiceAdjustmentsDocumentType string
 
 // CloudConnectionBillingFinalizedInvoiceSource defines model for CloudConnectionBilling.FinalizedInvoice.Source.
 type CloudConnectionBillingFinalizedInvoiceSource string
+
+// CloudConnectionBillingPreviousFinalizedInvoiceSource defines model for CloudConnectionBilling.PreviousFinalizedInvoice.Source.
+type CloudConnectionBillingPreviousFinalizedInvoiceSource string
 
 // CloudConnectionDisconnected defines model for CloudConnectionDisconnected.
 type CloudConnectionDisconnected struct {
@@ -4824,18 +4991,24 @@ type CreateApiKeyInput struct {
 	// Label Human-readable label, e.g. "Billing agent - prod"
 	Label string `json:"label"`
 
-	// ProcurementRole Buyer-side procurement authority the key grants. Defaults to `read-only`. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys.
+	// ProcurementRole Buyer-side procurement authority the key grants. Defaults to `read-only`. `agent` is for an AI agent or integration that raises purchase orders and enters invoices: it reads contracts, suppliers and questionnaires, and changes no approval rule, auto-approval or billing. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys.
 	ProcurementRole *CreateApiKeyInputProcurementRole `json:"procurementRole,omitempty"`
 
 	// Scopes Extra abilities, each for one side (the other side's scope is a 400). Supplier: `invoices:feed` lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId; `orders:fulfill` lets it confirm orders and send ship notices, through POST .../purchase-orders/:poId/confirmations and .../ship-notices or as cXML to POST /v1/cxml/fulfillment. Buyer: `payments:record` lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key.
 	Scopes *[]CreateApiKeyInputScopes `json:"scopes,omitempty"`
+
+	// SupplierRole Supplier-side keys: the role the key acts with, as people have - administrator, accounts-receivable, sales, fulfillment or read-only. Defaults to `read-only`. invoices:feed needs a role that edits invoices (administrator, accounts-receivable); orders:fulfill one that edits orders (administrator, fulfillment). Ignored for buyer-side keys.
+	SupplierRole *CreateApiKeyInputSupplierRole `json:"supplierRole,omitempty"`
 }
 
-// CreateApiKeyInputProcurementRole Buyer-side procurement authority the key grants. Defaults to `read-only`. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys.
+// CreateApiKeyInputProcurementRole Buyer-side procurement authority the key grants. Defaults to `read-only`. `agent` is for an AI agent or integration that raises purchase orders and enters invoices: it reads contracts, suppliers and questionnaires, and changes no approval rule, auto-approval or billing. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys.
 type CreateApiKeyInputProcurementRole string
 
 // CreateApiKeyInputScopes defines model for CreateApiKeyInput.Scopes.
 type CreateApiKeyInputScopes string
+
+// CreateApiKeyInputSupplierRole Supplier-side keys: the role the key acts with, as people have - administrator, accounts-receivable, sales, fulfillment or read-only. Defaults to `read-only`. invoices:feed needs a role that edits invoices (administrator, accounts-receivable); orders:fulfill one that edits orders (administrator, fulfillment). Ignored for buyer-side keys.
+type CreateApiKeyInputSupplierRole string
 
 // CreateApiKeyResult defines model for CreateApiKeyResult.
 type CreateApiKeyResult struct {
@@ -4849,6 +5022,7 @@ type CreateApiKeyResult struct {
 	Revoked         *bool                              `json:"revoked,omitempty"`
 	Role            *CreateApiKeyResultRole            `json:"role,omitempty"`
 	Scopes          *[]CreateApiKeyResultScopes        `json:"scopes,omitempty"`
+	SupplierRole    *CreateApiKeyResultSupplierRole    `json:"supplierRole,omitempty"`
 }
 
 // CreateApiKeyResultProcurementRole defines model for CreateApiKeyResult.ProcurementRole.
@@ -4859,6 +5033,9 @@ type CreateApiKeyResultRole string
 
 // CreateApiKeyResultScopes defines model for CreateApiKeyResult.Scopes.
 type CreateApiKeyResultScopes string
+
+// CreateApiKeyResultSupplierRole defines model for CreateApiKeyResult.SupplierRole.
+type CreateApiKeyResultSupplierRole string
 
 // CreateCloudConnectionInput defines model for CreateCloudConnectionInput.
 type CreateCloudConnectionInput struct {
@@ -6219,6 +6396,7 @@ type GetBudgetStatusResult struct {
 	Currency    *string                `json:"currency,omitempty"`
 	Period      *BudgetPeriod          `json:"period,omitempty"`
 	Settings    *BudgetControlSettings `json:"settings,omitempty"`
+	Unassigned  *SpendFigures          `json:"unassigned,omitempty"`
 }
 
 // GetBuyerWorkspaceResult defines model for GetBuyerWorkspaceResult.
@@ -6976,6 +7154,34 @@ type InboundEmailDraftKind string
 // InboundEmailDraftShipNoticeStatus defines model for InboundEmailDraft.ShipNotice.Status.
 type InboundEmailDraftShipNoticeStatus string
 
+// InvoiceAccessRegrant defines model for InvoiceAccessRegrant.
+type InvoiceAccessRegrant struct {
+	At     *string `json:"at,omitempty"`
+	ByKey  *string `json:"byKey,omitempty"`
+	ByName *string `json:"byName,omitempty"`
+	BySso  *bool   `json:"bySso,omitempty"`
+}
+
+// InvoiceAccessRemoval defines model for InvoiceAccessRemoval.
+type InvoiceAccessRemoval struct {
+	Action          *InvoiceAccessRemovalAction `json:"action,omitempty"`
+	At              *string                     `json:"at,omitempty"`
+	ByKey           *string                     `json:"byKey,omitempty"`
+	ByName          *string                     `json:"byName,omitempty"`
+	BySso           *bool                       `json:"bySso,omitempty"`
+	Regained        *InvoiceAccessRegrant       `json:"regained,omitempty"`
+	SsoMappingSaved *struct {
+		At     *string `json:"at,omitempty"`
+		ByKey  *string `json:"byKey,omitempty"`
+		ByName *string `json:"byName,omitempty"`
+	} `json:"ssoMappingSaved,omitempty"`
+	TargetKey  *string `json:"targetKey,omitempty"`
+	TargetName *string `json:"targetName,omitempty"`
+}
+
+// InvoiceAccessRemovalAction defines model for InvoiceAccessRemoval.Action.
+type InvoiceAccessRemovalAction string
+
 // InvoiceAdjustment defines model for InvoiceAdjustment.
 type InvoiceAdjustment struct {
 	Amount      *float64               `json:"amount,omitempty"`
@@ -6998,6 +7204,18 @@ type InvoiceAdjustmentInput struct {
 
 // InvoiceAdjustmentInputType defines model for InvoiceAdjustmentInput.Type.
 type InvoiceAdjustmentInputType string
+
+// InvoiceAutonomySettings defines model for InvoiceAutonomySettings.
+type InvoiceAutonomySettings struct {
+	Enabled              *bool    `json:"enabled,omitempty"`
+	MaxAutoApproveAmount *float64 `json:"maxAutoApproveAmount,omitempty"`
+}
+
+// InvoiceAutonomySettingsInput defines model for InvoiceAutonomySettingsInput.
+type InvoiceAutonomySettingsInput struct {
+	Enabled              *bool    `json:"enabled,omitempty"`
+	MaxAutoApproveAmount *float64 `json:"maxAutoApproveAmount,omitempty"`
+}
 
 // InvoiceBaseCurrencyAmount defines model for InvoiceBaseCurrencyAmount.
 type InvoiceBaseCurrencyAmount struct {
@@ -8573,7 +8791,8 @@ type PaymentHistoryEntry struct {
 		Reference    *string                  `json:"reference,omitempty"`
 		Withholdings *[]InvoiceBreakdownEntry `json:"withholdings,omitempty"`
 	} `json:"record,omitempty"`
-	RemittanceId *string `json:"remittanceId,omitempty"`
+	RemittanceId *string                `json:"remittanceId,omitempty"`
+	SolePayer    *SolePayerWaiverRecord `json:"solePayer,omitempty"`
 }
 
 // PaymentHistoryEntryAction defines model for PaymentHistoryEntry.Action.
@@ -10098,6 +10317,20 @@ type ShipNoticeLineInput struct {
 	Qty    float64 `json:"qty"`
 }
 
+// SolePayerWaiverRecord defines model for SolePayerWaiverRecord.
+type SolePayerWaiverRecord struct {
+	AccessRemoved      *[]InvoiceAccessRemoval `json:"accessRemoved,omitempty"`
+	AccessRemovedTotal *float64                `json:"accessRemovedTotal,omitempty"`
+}
+
+// SpendFigures defines model for SpendFigures.
+type SpendFigures struct {
+	Actual      *float64 `json:"actual,omitempty"`
+	Committed   *float64 `json:"committed,omitempty"`
+	Pending     *float64 `json:"pending,omitempty"`
+	Unconverted *float64 `json:"unconverted,omitempty"`
+}
+
 // SpendLimitBreach defines model for SpendLimitBreach.
 type SpendLimitBreach struct {
 	Applied       *bool                    `json:"applied,omitempty"`
@@ -10471,9 +10704,10 @@ type UpdateAutomationRulesInput struct {
 
 // UpdateAutonomySettingsInput defines model for UpdateAutonomySettingsInput.
 type UpdateAutonomySettingsInput struct {
-	ApprovalThreshold    *float64 `json:"approvalThreshold,omitempty"`
-	Enabled              *bool    `json:"enabled,omitempty"`
-	MaxAutoApproveAmount *float64 `json:"maxAutoApproveAmount,omitempty"`
+	ApprovalThreshold    *float64                      `json:"approvalThreshold,omitempty"`
+	Enabled              *bool                         `json:"enabled,omitempty"`
+	Invoice              *InvoiceAutonomySettingsInput `json:"invoice"`
+	MaxAutoApproveAmount *float64                      `json:"maxAutoApproveAmount,omitempty"`
 }
 
 // UpdateBudgetControlInput defines model for UpdateBudgetControlInput.

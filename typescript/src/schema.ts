@@ -63,10 +63,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** [Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`, oldest first - pass `cursor` back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page). */
+        /** [Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`, oldest first - pass `cursor` back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page). 'view' on suppliers or on invoices. */
         get: operations["ListCloudConnections"];
         put?: never;
-        /** [Buyer] Connect a cloud provider account */
+        /** [Buyer] Connect a cloud provider account ('create' on suppliers) */
         post: operations["CreateCloudConnection"];
         delete?: never;
         options?: never;
@@ -83,7 +83,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller's own unfinished draft (and its external ID) if one exists. */
+        /** [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller's own unfinished draft (and its external ID) if one exists. 'create' on suppliers. */
         post: operations["InitAwsCloudConnection"];
         delete?: never;
         options?: never;
@@ -100,7 +100,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller's own unfinished draft if one exists. 404 while the provider is demo-only. */
+        /** [Buyer] Start connecting a provider whose real connector is switched on (gcp, azure, oci) - returns the per-connection values its setup script pins, reusing the caller's own unfinished draft if one exists. 404 while the provider is demo-only. 'create' on suppliers. */
         post: operations["InitCloudConnection"];
         delete?: never;
         options?: never;
@@ -134,7 +134,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection's own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only. */
+        /** [Buyer] Azure, when its connector is on: prove the tenant ID and app (client) ID the setup script printed, with an app-only token for this connection's own federated-credential audience, and read the given Microsoft Customer Agreement billing account and billing profile with it (the account list is empty for an app that holds only Billing profile reader). Only the person who started the setup may call it, and it counts against the same attempt limit and cooldown as verify. 404 while Azure is demo-only. 'create' on suppliers. */
         post: operations["DiscoverAzureBillingScopes"];
         delete?: never;
         options?: never;
@@ -168,7 +168,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Buyer] Manually sync one connected cloud account's billing data now (rate-limited). */
+        /** [Buyer] Manually sync one connected cloud account's billing data now (rate-limited). 'create' on suppliers or 'edit' on invoices. */
         post: operations["SyncCloudConnection"];
         delete?: never;
         options?: never;
@@ -356,14 +356,14 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** [Both] Get reminder settings */
+        /** [Supplier] Get reminder settings */
         get: operations["GetReminderSettings"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
-        /** [Both] Update reminder settings */
+        /** [Supplier] Update reminder settings */
         patch: operations["UpdateReminderSettings"];
         trace?: never;
     };
@@ -653,7 +653,7 @@ export interface paths {
         /** [Both] List invoices - optionally scoped to a createdAt range via ?from=&to=. ?documentType=credit_note lists credit notes instead, ?documentType=all both, newest first; every item carries documentType (default invoice). A Buyer caller gets the invoices it received; a Supplier caller gets the invoices it issued to its buyers, in a reduced view (see GetInvoice). */
         get: operations["ListInvoices"];
         put?: never;
-        /** [Both] Record an invoice - or, with "documentType": "credit_note" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve or settle it. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED. */
+        /** [Both] Record an invoice - or, with "documentType": "credit_note" and the body of CreateCreditNote, a credit note. JSON with connectionId: an invoice for one active counterparty (a buyer for one of its suppliers, including an off-platform cloud provider from GET .../invoices/counterparties; a supplier for one of its buyers, signed-in session only). The server computes the total from the line items, stores it in the buyer's workspace, and whoever entered it can't approve, resolve, export or record payment for it unless a signed-in person is the only one in the workspace who could; paying it through Stripe always takes someone else. cXML or UBL (buyer only): a supplier's document as received. JSON with supplier and amount and no connectionId (buyer only): deprecated, accepted until v2. A Supplier API key gets 400 SUPPLIER_DIRECT_INVOICE_RETIRED. */
         post: operations["CreateInvoice"];
         delete?: never;
         options?: never;
@@ -1010,7 +1010,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied and credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier sent one), invoice.updated (an approval step approved it, including an automatic approval, it was rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded, failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view. */
+        /** [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied, invoice.updated (the buyer holds the invoice for review, or the hold is over: GetInvoiceStatus says which) and credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier sent one), invoice.updated (an approval step approved it, including an automatic approval, it was rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded, failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view. */
         get: operations["ListSyncEvents"];
         put?: never;
         post?: never;
@@ -1509,10 +1509,15 @@ export interface components {
             /** @description Human-readable label, e.g. "Billing agent - prod" */
             label: string;
             /**
-             * @description Buyer-side procurement authority the key grants. Defaults to `read-only`. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys.
+             * @description Buyer-side procurement authority the key grants. Defaults to `read-only`. `agent` is for an AI agent or integration that raises purchase orders and enters invoices: it reads contracts, suppliers and questionnaires, and changes no approval rule, auto-approval or billing. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys.
              * @enum {string}
              */
-            procurementRole?: "administrator" | "read-only" | "contracts-and-suppliers" | "relationships" | "requisitions" | "finance";
+            procurementRole?: "administrator" | "read-only" | "contracts-and-suppliers" | "relationships" | "requisitions" | "finance" | "agent";
+            /**
+             * @description Supplier-side keys: the role the key acts with, as people have - administrator, accounts-receivable, sales, fulfillment or read-only. Defaults to `read-only`. invoices:feed needs a role that edits invoices (administrator, accounts-receivable); orders:fulfill one that edits orders (administrator, fulfillment). Ignored for buyer-side keys.
+             * @enum {string}
+             */
+            supplierRole?: "administrator" | "accounts-receivable" | "sales" | "fulfillment" | "read-only";
             /** @description Extra abilities, each for one side (the other side's scope is a 400). Supplier: `invoices:feed` lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId; `orders:fulfill` lets it confirm orders and send ship notices, through POST .../purchase-orders/:poId/confirmations and .../ship-notices or as cXML to POST /v1/cxml/fulfillment. Buyer: `payments:record` lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key. */
             scopes?: ("invoices:feed" | "payments:record" | "orders:fulfill")[];
         };
@@ -1571,12 +1576,18 @@ export interface components {
             /** @description The billing profile ID the app has Billing profile reader on. */
             azureBillingProfileId: string;
         };
+        InvoiceAutonomySettingsInput: {
+            enabled?: boolean;
+            /** Format: double */
+            maxAutoApproveAmount?: number;
+        };
         UpdateAutonomySettingsInput: {
             enabled?: boolean;
             /** Format: double */
             maxAutoApproveAmount?: number;
             /** Format: double */
             approvalThreshold?: number;
+            invoice?: components["schemas"]["InvoiceAutonomySettingsInput"] | null;
         };
         ApprovalStageDefInput: {
             id: string;
@@ -2392,7 +2403,9 @@ export interface components {
             /** @enum {string} */
             role?: "buyer" | "supplier";
             /** @enum {string} */
-            procurementRole?: "administrator" | "read-only" | "contracts-and-suppliers" | "relationships" | "requisitions" | "finance";
+            procurementRole?: "administrator" | "read-only" | "contracts-and-suppliers" | "relationships" | "requisitions" | "finance" | "agent";
+            /** @enum {string} */
+            supplierRole?: "administrator" | "read-only" | "accounts-receivable" | "sales" | "fulfillment" | "member";
             scopes?: ("invoices:feed" | "payments:record" | "orders:fulfill")[];
             label?: string;
             createdAt?: string;
@@ -2476,6 +2489,14 @@ export interface components {
                     amount?: number;
                     currency?: string;
                 }[];
+            };
+            previousFinalizedInvoice?: {
+                periodLabel?: string;
+                /** Format: double */
+                totalAmount?: number;
+                currency?: string;
+                /** @enum {string} */
+                source?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
             };
             currentPeriodEstimate?: {
                 /** Format: double */
@@ -2568,6 +2589,12 @@ export interface components {
             maxAutoApproveAmount?: number;
             /** Format: double */
             approvalThreshold?: number;
+            invoice?: components["schemas"]["InvoiceAutonomySettings"];
+        };
+        InvoiceAutonomySettings: {
+            enabled?: boolean;
+            /** Format: double */
+            maxAutoApproveAmount?: number;
         };
         ApprovalChainSettings: {
             /** @enum {string} */
@@ -2663,7 +2690,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap";
+            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -2926,7 +2953,7 @@ export interface components {
             quoteNumber?: string;
             validUntil?: string;
             /** @enum {string} */
-            documentType?: "quote" | "order_form" | "proforma" | "sow" | "contract" | "invoice" | "other";
+            documentType?: "invoice" | "quote" | "order_form" | "proforma" | "sow" | "contract" | "other";
         };
         LineItem: {
             /** Format: double */
@@ -3011,6 +3038,7 @@ export interface components {
                 amount?: number;
                 currency?: string;
             };
+            routing?: components["schemas"]["ApprovalRouting"];
         };
         ApprovalStageGroupInstance: {
             id: string;
@@ -3132,6 +3160,53 @@ export interface components {
             satisfiedAt?: string;
             /** Format: double */
             satisfiedAmount?: number;
+        };
+        ApprovalRouting: {
+            budget?: {
+                /** @enum {string} */
+                outcome?: "off" | "within" | "over" | "no_budget" | "no_rate";
+                /** @enum {string} */
+                mode?: "off" | "warn" | "block";
+                costCenter?: string;
+                period?: {
+                    /** @enum {string} */
+                    kind?: "month" | "year" | "quarter";
+                    start?: string;
+                    end?: string;
+                };
+                currency?: string;
+                /** Format: double */
+                overBy?: number;
+            };
+            spendLimit?: {
+                employeeKey?: string;
+                employeeName?: string;
+                approverName?: string;
+                satisfied?: boolean;
+            };
+            rule?: {
+                id: string;
+                /** Format: double */
+                index?: number;
+                /** @enum {string} */
+                action?: "auto_approve" | "require_approval";
+                label?: string;
+            };
+            autonomy?: {
+                /** Format: double */
+                maxAutoApproveAmount?: number;
+                applied?: boolean;
+            };
+            /** @enum {string} */
+            touchlessSkipped?: "human_only" | "other_currency";
+            steps?: components["schemas"]["ApprovalRoutingStep"][];
+        };
+        ApprovalRoutingStep: {
+            stepId?: string;
+            label?: string;
+            applied?: boolean;
+            conditions?: components["schemas"]["ApprovalStepCondition"][];
+            highValueOnly?: boolean;
         };
         PurchaseOrderChangeSummary: {
             /** Format: double */
@@ -3300,7 +3375,7 @@ export interface components {
             };
             quoteDocument?: {
                 /** @enum {string} */
-                documentType?: "quote" | "order_form" | "proforma" | "sow" | "contract" | "invoice" | "other";
+                documentType?: "invoice" | "quote" | "order_form" | "proforma" | "sow" | "contract" | "other";
                 importId?: string;
                 fileName?: string;
                 /** @enum {string} */
@@ -3311,7 +3386,7 @@ export interface components {
             };
             sowDocument?: {
                 /** @enum {string} */
-                documentType?: "quote" | "order_form" | "proforma" | "sow" | "contract" | "invoice" | "other";
+                documentType?: "invoice" | "quote" | "order_form" | "proforma" | "sow" | "contract" | "other";
                 importId?: string;
                 fileName?: string;
                 /** @enum {string} */
@@ -3365,7 +3440,7 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear";
             /** @enum {string} */
             matchBasis?: "purchase_order";
             receiptCheckSkipped?: {
@@ -3478,7 +3553,7 @@ export interface components {
         };
         InvoiceControlFinding: {
             /** @enum {string} */
-            code?: "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled";
+            code?: "usage_grew" | "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled";
             message?: string;
             messageId?: string;
             params?: components["schemas"]["ServerMessageParams"];
@@ -3571,6 +3646,7 @@ export interface components {
             creditNoteId?: string;
             /** Format: double */
             amount?: number;
+            solePayer?: components["schemas"]["SolePayerWaiverRecord"];
             record?: {
                 withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
                 /** @enum {string} */
@@ -3589,6 +3665,33 @@ export interface components {
                     rateDate?: string;
                 };
             };
+        };
+        SolePayerWaiverRecord: {
+            accessRemoved?: components["schemas"]["InvoiceAccessRemoval"][];
+            /** Format: double */
+            accessRemovedTotal?: number;
+        };
+        InvoiceAccessRemoval: {
+            at?: string;
+            /** @enum {string} */
+            action?: "role_changed" | "removed";
+            byKey?: string;
+            byName?: string;
+            bySso?: boolean;
+            targetKey?: string;
+            targetName?: string;
+            ssoMappingSaved?: {
+                at?: string;
+                byKey?: string;
+                byName?: string;
+            };
+            regained?: components["schemas"]["InvoiceAccessRegrant"];
+        };
+        InvoiceAccessRegrant: {
+            at?: string;
+            byKey?: string;
+            byName?: string;
+            bySso?: boolean;
         };
         InvoiceRejection: {
             /** @enum {string} */
@@ -4025,7 +4128,7 @@ export interface components {
                 amount?: number;
                 invoiceId?: string;
                 /** @enum {string} */
-                action?: "rejected" | "accepted" | "exported" | "issued" | "applied" | "removed" | "returned" | "voided";
+                action?: "rejected" | "accepted" | "exported" | "removed" | "issued" | "applied" | "returned" | "voided";
                 exportId?: string;
             }[];
             rejection?: {
@@ -4186,7 +4289,7 @@ export interface components {
                 /** Format: double */
                 poLineNo?: number;
                 /** @enum {string} */
-                code?: "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled";
+                code?: "usage_grew" | "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled";
                 message?: string;
                 /** Format: double */
                 invoiceLine?: number;
@@ -4204,7 +4307,7 @@ export interface components {
         };
         CreditNoteHistoryEntry: {
             /** @enum {string} */
-            action?: "rejected" | "accepted" | "exported" | "issued" | "applied" | "removed" | "returned" | "voided";
+            action?: "rejected" | "accepted" | "exported" | "removed" | "issued" | "applied" | "returned" | "voided";
             at?: string;
             by?: string;
             byName?: string;
@@ -4363,6 +4466,16 @@ export interface components {
             /** Format: double */
             unconverted?: number;
         };
+        SpendFigures: {
+            /** Format: double */
+            committed?: number;
+            /** Format: double */
+            actual?: number;
+            /** Format: double */
+            pending?: number;
+            /** Format: double */
+            unconverted?: number;
+        };
         SyncEventPage: {
             events?: components["schemas"]["SyncEvent"][];
             nextCursor?: string;
@@ -4374,7 +4487,7 @@ export interface components {
             /** @enum {string} */
             type?: "purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "purchase_order.confirmed" | "purchase_order.shipped" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected";
             /** @enum {string} */
-            documentType?: "purchase_order" | "invoice" | "credit_note";
+            documentType?: "invoice" | "purchase_order" | "credit_note";
             documentId?: string;
             buyerWorkspaceId?: string;
         };
@@ -4854,7 +4967,9 @@ export interface components {
             /** @enum {string} */
             role?: "buyer" | "supplier";
             /** @enum {string} */
-            procurementRole?: "administrator" | "read-only" | "contracts-and-suppliers" | "relationships" | "requisitions" | "finance";
+            procurementRole?: "administrator" | "read-only" | "contracts-and-suppliers" | "relationships" | "requisitions" | "finance" | "agent";
+            /** @enum {string} */
+            supplierRole?: "administrator" | "read-only" | "accounts-receivable" | "sales" | "fulfillment" | "member";
             scopes?: ("invoices:feed" | "payments:record" | "orders:fulfill")[];
             label?: string;
             createdAt?: string;
@@ -5216,7 +5331,7 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear";
             /** @enum {string} */
             matchBasis?: "purchase_order";
             receiptCheckSkipped?: {
@@ -5516,7 +5631,7 @@ export interface components {
                 amount?: number;
                 invoiceId?: string;
                 /** @enum {string} */
-                action?: "rejected" | "accepted" | "exported" | "issued" | "applied" | "removed" | "returned" | "voided";
+                action?: "rejected" | "accepted" | "exported" | "removed" | "issued" | "applied" | "returned" | "voided";
                 exportId?: string;
             }[];
             rejection?: {
@@ -5681,7 +5796,7 @@ export interface components {
                 amount?: number;
                 invoiceId?: string;
                 /** @enum {string} */
-                action?: "rejected" | "accepted" | "exported" | "issued" | "applied" | "removed" | "returned" | "voided";
+                action?: "rejected" | "accepted" | "exported" | "removed" | "issued" | "applied" | "returned" | "voided";
                 exportId?: string;
             }[];
             rejection?: {
@@ -5810,7 +5925,7 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear";
             /** @enum {string} */
             matchBasis?: "purchase_order";
             receiptCheckSkipped?: {
@@ -6114,7 +6229,7 @@ export interface components {
                 amount?: number;
                 invoiceId?: string;
                 /** @enum {string} */
-                action?: "rejected" | "accepted" | "exported" | "issued" | "applied" | "removed" | "returned" | "voided";
+                action?: "rejected" | "accepted" | "exported" | "removed" | "issued" | "applied" | "returned" | "voided";
                 exportId?: string;
             }[];
             rejection?: {
@@ -6245,7 +6360,7 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear";
             /** @enum {string} */
             matchBasis?: "purchase_order";
             receiptCheckSkipped?: {
@@ -6512,7 +6627,7 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear";
             /** @enum {string} */
             matchBasis?: "purchase_order";
             receiptCheckSkipped?: {
@@ -6643,7 +6758,7 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear";
             /** @enum {string} */
             matchBasis?: "purchase_order";
             receiptCheckSkipped?: {
@@ -6773,7 +6888,7 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear";
             /** @enum {string} */
             matchBasis?: "purchase_order";
             receiptCheckSkipped?: {
@@ -6889,6 +7004,7 @@ export interface components {
             period?: components["schemas"]["BudgetPeriod"];
             currency?: string;
             costCenters?: components["schemas"]["BudgetStatus"][];
+            unassigned?: components["schemas"]["SpendFigures"];
         };
         ListWebhooksResult: {
             endpoints?: components["schemas"]["WebhookEndpointView"][];

@@ -2,6 +2,7 @@ from typing import Literal, Set, cast
 
 ApiKeySummaryProcurementRole = Literal[
     "administrator",
+    "agent",
     "contracts-and-suppliers",
     "finance",
     "read-only",
@@ -11,6 +12,7 @@ ApiKeySummaryProcurementRole = Literal[
 
 API_KEY_SUMMARY_PROCUREMENT_ROLE_VALUES: Set[ApiKeySummaryProcurementRole] = {
     "administrator",
+    "agent",
     "contracts-and-suppliers",
     "finance",
     "read-only",

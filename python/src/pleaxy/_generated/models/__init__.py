@@ -66,6 +66,7 @@ from .api_key_summary import ApiKeySummary
 from .api_key_summary_procurement_role import ApiKeySummaryProcurementRole
 from .api_key_summary_role import ApiKeySummaryRole
 from .api_key_summary_scopes_item import ApiKeySummaryScopesItem
+from .api_key_summary_supplier_role import ApiKeySummarySupplierRole
 from .apply_confirmation_changes_result import ApplyConfirmationChangesResult
 from .approval_chain import ApprovalChain
 from .approval_chain_from_request import ApprovalChainFromRequest
@@ -88,6 +89,18 @@ from .approval_queue_needs_assignment import ApprovalQueueNeedsAssignment
 from .approval_reassignment_detail import ApprovalReassignmentDetail
 from .approval_reassignment_detail_by_policy import ApprovalReassignmentDetailByPolicy
 from .approval_reassignment_detail_on_rebuild import ApprovalReassignmentDetailOnRebuild
+from .approval_routing import ApprovalRouting
+from .approval_routing_autonomy import ApprovalRoutingAutonomy
+from .approval_routing_budget import ApprovalRoutingBudget
+from .approval_routing_budget_mode import ApprovalRoutingBudgetMode
+from .approval_routing_budget_outcome import ApprovalRoutingBudgetOutcome
+from .approval_routing_budget_period import ApprovalRoutingBudgetPeriod
+from .approval_routing_budget_period_kind import ApprovalRoutingBudgetPeriodKind
+from .approval_routing_rule import ApprovalRoutingRule
+from .approval_routing_rule_action import ApprovalRoutingRuleAction
+from .approval_routing_spend_limit import ApprovalRoutingSpendLimit
+from .approval_routing_step import ApprovalRoutingStep
+from .approval_routing_touchless_skipped import ApprovalRoutingTouchlessSkipped
 from .approval_stage_def import ApprovalStageDef
 from .approval_stage_def_input import ApprovalStageDefInput
 from .approval_stage_group_def import ApprovalStageGroupDef
@@ -183,6 +196,12 @@ from .cloud_connection_billing_finalized_invoice_adjustments_item_document_type 
 from .cloud_connection_billing_finalized_invoice_source import (
     CloudConnectionBillingFinalizedInvoiceSource,
 )
+from .cloud_connection_billing_previous_finalized_invoice import (
+    CloudConnectionBillingPreviousFinalizedInvoice,
+)
+from .cloud_connection_billing_previous_finalized_invoice_source import (
+    CloudConnectionBillingPreviousFinalizedInvoiceSource,
+)
 from .cloud_connection_data_sources_item import CloudConnectionDataSourcesItem
 from .cloud_connection_disconnected import CloudConnectionDisconnected
 from .cloud_connection_disconnected_provider import CloudConnectionDisconnectedProvider
@@ -202,10 +221,12 @@ from .convert_purchase_request_result import ConvertPurchaseRequestResult
 from .create_api_key_input import CreateApiKeyInput
 from .create_api_key_input_procurement_role import CreateApiKeyInputProcurementRole
 from .create_api_key_input_scopes_item import CreateApiKeyInputScopesItem
+from .create_api_key_input_supplier_role import CreateApiKeyInputSupplierRole
 from .create_api_key_result import CreateApiKeyResult
 from .create_api_key_result_procurement_role import CreateApiKeyResultProcurementRole
 from .create_api_key_result_role import CreateApiKeyResultRole
 from .create_api_key_result_scopes_item import CreateApiKeyResultScopesItem
+from .create_api_key_result_supplier_role import CreateApiKeyResultSupplierRole
 from .create_cloud_connection_input import CreateCloudConnectionInput
 from .create_cloud_connection_input_data_sources_item import (
     CreateCloudConnectionInputDataSourcesItem,
@@ -812,10 +833,18 @@ from .inbound_email_reason_code import InboundEmailReasonCode
 from .inbound_email_reason_params import InboundEmailReasonParams
 from .inbound_email_result import InboundEmailResult
 from .inbound_email_trust import InboundEmailTrust
+from .invoice_access_regrant import InvoiceAccessRegrant
+from .invoice_access_removal import InvoiceAccessRemoval
+from .invoice_access_removal_action import InvoiceAccessRemovalAction
+from .invoice_access_removal_sso_mapping_saved import (
+    InvoiceAccessRemovalSsoMappingSaved,
+)
 from .invoice_adjustment import InvoiceAdjustment
 from .invoice_adjustment_input import InvoiceAdjustmentInput
 from .invoice_adjustment_input_type import InvoiceAdjustmentInputType
 from .invoice_adjustment_type import InvoiceAdjustmentType
+from .invoice_autonomy_settings import InvoiceAutonomySettings
+from .invoice_autonomy_settings_input import InvoiceAutonomySettingsInput
 from .invoice_base_currency_amount import InvoiceBaseCurrencyAmount
 from .invoice_base_currency_amount_amount_breakdown import (
     InvoiceBaseCurrencyAmountAmountBreakdown,
@@ -1529,6 +1558,8 @@ from .ship_notice_line_input import ShipNoticeLineInput
 from .ship_notice_receipts_item import ShipNoticeReceiptsItem
 from .ship_notice_source import ShipNoticeSource
 from .ship_notice_status import ShipNoticeStatus
+from .sole_payer_waiver_record import SolePayerWaiverRecord
+from .spend_figures import SpendFigures
 from .spend_limit_breach import SpendLimitBreach
 from .spend_limit_breach_subject import SpendLimitBreachSubject
 from .spend_limit_gate import SpendLimitGate
@@ -1690,6 +1721,7 @@ __all__ = (
     "ApiKeySummaryProcurementRole",
     "ApiKeySummaryRole",
     "ApiKeySummaryScopesItem",
+    "ApiKeySummarySupplierRole",
     "ApplyConfirmationChangesResult",
     "ApprovalChain",
     "ApprovalChainFromRequest",
@@ -1712,6 +1744,18 @@ __all__ = (
     "ApprovalReassignmentDetail",
     "ApprovalReassignmentDetailByPolicy",
     "ApprovalReassignmentDetailOnRebuild",
+    "ApprovalRouting",
+    "ApprovalRoutingAutonomy",
+    "ApprovalRoutingBudget",
+    "ApprovalRoutingBudgetMode",
+    "ApprovalRoutingBudgetOutcome",
+    "ApprovalRoutingBudgetPeriod",
+    "ApprovalRoutingBudgetPeriodKind",
+    "ApprovalRoutingRule",
+    "ApprovalRoutingRuleAction",
+    "ApprovalRoutingSpendLimit",
+    "ApprovalRoutingStep",
+    "ApprovalRoutingTouchlessSkipped",
     "ApprovalStageDef",
     "ApprovalStageDefInput",
     "ApprovalStageGroupDef",
@@ -1789,6 +1833,8 @@ __all__ = (
     "CloudConnectionBillingFinalizedInvoiceAdjustmentsItem",
     "CloudConnectionBillingFinalizedInvoiceAdjustmentsItemDocumentType",
     "CloudConnectionBillingFinalizedInvoiceSource",
+    "CloudConnectionBillingPreviousFinalizedInvoice",
+    "CloudConnectionBillingPreviousFinalizedInvoiceSource",
     "CloudConnectionDataSourcesItem",
     "CloudConnectionDisconnected",
     "CloudConnectionDisconnectedProvider",
@@ -1808,10 +1854,12 @@ __all__ = (
     "CreateApiKeyInput",
     "CreateApiKeyInputProcurementRole",
     "CreateApiKeyInputScopesItem",
+    "CreateApiKeyInputSupplierRole",
     "CreateApiKeyResult",
     "CreateApiKeyResultProcurementRole",
     "CreateApiKeyResultRole",
     "CreateApiKeyResultScopesItem",
+    "CreateApiKeyResultSupplierRole",
     "CreateCloudConnectionInput",
     "CreateCloudConnectionInputDataSourcesItem",
     "CreateCloudConnectionInputOciHomeRegion",
@@ -2068,10 +2116,16 @@ __all__ = (
     "InboundEmailReasonParams",
     "InboundEmailResult",
     "InboundEmailTrust",
+    "InvoiceAccessRegrant",
+    "InvoiceAccessRemoval",
+    "InvoiceAccessRemovalAction",
+    "InvoiceAccessRemovalSsoMappingSaved",
     "InvoiceAdjustment",
     "InvoiceAdjustmentInput",
     "InvoiceAdjustmentInputType",
     "InvoiceAdjustmentType",
+    "InvoiceAutonomySettings",
+    "InvoiceAutonomySettingsInput",
     "InvoiceBaseCurrencyAmount",
     "InvoiceBaseCurrencyAmountAmountBreakdown",
     "InvoiceBreakdownEntry",
@@ -2485,6 +2539,8 @@ __all__ = (
     "ShipNoticeReceiptsItem",
     "ShipNoticeSource",
     "ShipNoticeStatus",
+    "SolePayerWaiverRecord",
+    "SpendFigures",
     "SpendLimitBreach",
     "SpendLimitBreachSubject",
     "SpendLimitGate",

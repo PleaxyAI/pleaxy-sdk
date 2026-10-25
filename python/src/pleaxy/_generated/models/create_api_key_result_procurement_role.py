@@ -2,6 +2,7 @@ from typing import Literal, Set, cast
 
 CreateApiKeyResultProcurementRole = Literal[
     "administrator",
+    "agent",
     "contracts-and-suppliers",
     "finance",
     "read-only",
@@ -13,6 +14,7 @@ CREATE_API_KEY_RESULT_PROCUREMENT_ROLE_VALUES: Set[
     CreateApiKeyResultProcurementRole
 ] = {
     "administrator",
+    "agent",
     "contracts-and-suppliers",
     "finance",
     "read-only",

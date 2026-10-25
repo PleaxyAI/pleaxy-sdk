@@ -1,6 +1,6 @@
 /*
  * Pleaxy API
- * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+ * PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -39,6 +39,7 @@ import ai.pleaxy.client.ApiClient;
   ApiKeySummary.JSON_PROPERTY_REGION_ID,
   ApiKeySummary.JSON_PROPERTY_ROLE,
   ApiKeySummary.JSON_PROPERTY_PROCUREMENT_ROLE,
+  ApiKeySummary.JSON_PROPERTY_SUPPLIER_ROLE,
   ApiKeySummary.JSON_PROPERTY_SCOPES,
   ApiKeySummary.JSON_PROPERTY_LABEL,
   ApiKeySummary.JSON_PROPERTY_CREATED_AT,
@@ -108,7 +109,9 @@ public class ApiKeySummary {
     
     REQUISITIONS(String.valueOf("requisitions")),
     
-    FINANCE(String.valueOf("finance"));
+    FINANCE(String.valueOf("finance")),
+    
+    AGENT(String.valueOf("agent"));
 
     private String value;
 
@@ -140,6 +143,53 @@ public class ApiKeySummary {
   public static final String JSON_PROPERTY_PROCUREMENT_ROLE = "procurementRole";
   @javax.annotation.Nullable
   private ProcurementRoleEnum procurementRole;
+
+  /**
+   * Gets or Sets supplierRole
+   */
+  public enum SupplierRoleEnum {
+    ADMINISTRATOR(String.valueOf("administrator")),
+    
+    READ_ONLY(String.valueOf("read-only")),
+    
+    ACCOUNTS_RECEIVABLE(String.valueOf("accounts-receivable")),
+    
+    SALES(String.valueOf("sales")),
+    
+    FULFILLMENT(String.valueOf("fulfillment")),
+    
+    MEMBER(String.valueOf("member"));
+
+    private String value;
+
+    SupplierRoleEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static SupplierRoleEnum fromValue(String value) {
+      for (SupplierRoleEnum b : SupplierRoleEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_SUPPLIER_ROLE = "supplierRole";
+  @javax.annotation.Nullable
+  private SupplierRoleEnum supplierRole;
 
   /**
    * Gets or Sets scopes
@@ -297,6 +347,30 @@ public class ApiKeySummary {
   }
 
 
+  public ApiKeySummary supplierRole(@javax.annotation.Nullable SupplierRoleEnum supplierRole) {
+    this.supplierRole = supplierRole;
+    return this;
+  }
+
+  /**
+   * Get supplierRole
+   * @return supplierRole
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_ROLE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SupplierRoleEnum getSupplierRole() {
+    return supplierRole;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_ROLE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSupplierRole(@javax.annotation.Nullable SupplierRoleEnum supplierRole) {
+    this.supplierRole = supplierRole;
+  }
+
+
   public ApiKeySummary scopes(@javax.annotation.Nullable List<ScopesEnum> scopes) {
     this.scopes = scopes;
     return this;
@@ -441,6 +515,7 @@ public class ApiKeySummary {
         Objects.equals(this.regionId, apiKeySummary.regionId) &&
         Objects.equals(this.role, apiKeySummary.role) &&
         Objects.equals(this.procurementRole, apiKeySummary.procurementRole) &&
+        Objects.equals(this.supplierRole, apiKeySummary.supplierRole) &&
         Objects.equals(this.scopes, apiKeySummary.scopes) &&
         Objects.equals(this.label, apiKeySummary.label) &&
         Objects.equals(this.createdAt, apiKeySummary.createdAt) &&
@@ -450,7 +525,7 @@ public class ApiKeySummary {
 
   @Override
   public int hashCode() {
-    return Objects.hash(keyId, regionId, role, procurementRole, scopes, label, createdAt, createdBy, revoked);
+    return Objects.hash(keyId, regionId, role, procurementRole, supplierRole, scopes, label, createdAt, createdBy, revoked);
   }
 
   @Override
@@ -461,6 +536,7 @@ public class ApiKeySummary {
     sb.append("    regionId: ").append(toIndentedString(regionId)).append("\n");
     sb.append("    role: ").append(toIndentedString(role)).append("\n");
     sb.append("    procurementRole: ").append(toIndentedString(procurementRole)).append("\n");
+    sb.append("    supplierRole: ").append(toIndentedString(supplierRole)).append("\n");
     sb.append("    scopes: ").append(toIndentedString(scopes)).append("\n");
     sb.append("    label: ").append(toIndentedString(label)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
@@ -531,6 +607,11 @@ public class ApiKeySummary {
     // add `procurementRole` to the URL query string
     if (getProcurementRole() != null) {
       joiner.add(String.format("%sprocurementRole%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProcurementRole()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `supplierRole` to the URL query string
+    if (getSupplierRole() != null) {
+      joiner.add(String.format("%ssupplierRole%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSupplierRole()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `scopes` to the URL query string

@@ -1,7 +1,7 @@
 =begin
 #Pleaxy API
 
-#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it.
+#PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.
 
 The version of the OpenAPI document: 0.1.0
 
@@ -18,8 +18,11 @@ module Pleaxy
     # Human-readable label, e.g. \"Billing agent - prod\"
     attr_accessor :label
 
-    # Buyer-side procurement authority the key grants. Defaults to `read-only`. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys.
+    # Buyer-side procurement authority the key grants. Defaults to `read-only`. `agent` is for an AI agent or integration that raises purchase orders and enters invoices: it reads contracts, suppliers and questionnaires, and changes no approval rule, auto-approval or billing. Minting requires `edit` on `approvalSettings` (i.e. an administrator). Ignored for supplier-side keys.
     attr_accessor :procurement_role
+
+    # Supplier-side keys: the role the key acts with, as people have - administrator, accounts-receivable, sales, fulfillment or read-only. Defaults to `read-only`. invoices:feed needs a role that edits invoices (administrator, accounts-receivable); orders:fulfill one that edits orders (administrator, fulfillment). Ignored for buyer-side keys.
+    attr_accessor :supplier_role
 
     # Extra abilities, each for one side (the other side's scope is a 400). Supplier: `invoices:feed` lets the key submit invoices to a connected buyer through POST .../invoices/connections/:connectionId; `orders:fulfill` lets it confirm orders and send ship notices, through POST .../purchase-orders/:poId/confirmations and .../ship-notices or as cXML to POST /v1/cxml/fulfillment. Buyer: `payments:record` lets the key record payments made outside Pleaxy through POST .../invoices/payment-records, and needs a procurementRole that can edit invoices. A scoped key keeps every other ability of its side. Only an administrator can mint a scoped key.
     attr_accessor :scopes
@@ -51,6 +54,7 @@ module Pleaxy
       {
         :'label' => :'label',
         :'procurement_role' => :'procurementRole',
+        :'supplier_role' => :'supplierRole',
         :'scopes' => :'scopes'
       }
     end
@@ -65,6 +69,7 @@ module Pleaxy
       {
         :'label' => :'String',
         :'procurement_role' => :'String',
+        :'supplier_role' => :'String',
         :'scopes' => :'Array<String>'
       }
     end
@@ -100,6 +105,10 @@ module Pleaxy
         self.procurement_role = attributes[:'procurement_role']
       end
 
+      if attributes.key?(:'supplier_role')
+        self.supplier_role = attributes[:'supplier_role']
+      end
+
       if attributes.key?(:'scopes')
         if (value = attributes[:'scopes']).is_a?(Array)
           self.scopes = value
@@ -124,19 +133,31 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @label.nil?
-      procurement_role_validator = EnumAttributeValidator.new('String', ["administrator", "read-only", "contracts-and-suppliers", "relationships", "requisitions", "finance"])
+      procurement_role_validator = EnumAttributeValidator.new('String', ["administrator", "read-only", "contracts-and-suppliers", "relationships", "requisitions", "finance", "agent"])
       return false unless procurement_role_validator.valid?(@procurement_role)
+      supplier_role_validator = EnumAttributeValidator.new('String', ["administrator", "accounts-receivable", "sales", "fulfillment", "read-only"])
+      return false unless supplier_role_validator.valid?(@supplier_role)
       true
     end
 
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] procurement_role Object to be assigned
     def procurement_role=(procurement_role)
-      validator = EnumAttributeValidator.new('String', ["administrator", "read-only", "contracts-and-suppliers", "relationships", "requisitions", "finance"])
+      validator = EnumAttributeValidator.new('String', ["administrator", "read-only", "contracts-and-suppliers", "relationships", "requisitions", "finance", "agent"])
       unless validator.valid?(procurement_role)
         fail ArgumentError, "invalid value for \"procurement_role\", must be one of #{validator.allowable_values}."
       end
       @procurement_role = procurement_role
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] supplier_role Object to be assigned
+    def supplier_role=(supplier_role)
+      validator = EnumAttributeValidator.new('String', ["administrator", "accounts-receivable", "sales", "fulfillment", "read-only"])
+      unless validator.valid?(supplier_role)
+        fail ArgumentError, "invalid value for \"supplier_role\", must be one of #{validator.allowable_values}."
+      end
+      @supplier_role = supplier_role
     end
 
     # Checks equality by comparing each attribute.
@@ -146,6 +167,7 @@ module Pleaxy
       self.class == o.class &&
           label == o.label &&
           procurement_role == o.procurement_role &&
+          supplier_role == o.supplier_role &&
           scopes == o.scopes
     end
 
@@ -158,7 +180,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [label, procurement_role, scopes].hash
+      [label, procurement_role, supplier_role, scopes].hash
     end
 
     # Builds the object from hash
