@@ -2599,6 +2599,7 @@ const (
 	NotificationTypeAgentRequest                     NotificationType = "agent_request"
 	NotificationTypeCompanyReportReady               NotificationType = "company_report_ready"
 	NotificationTypeContractComment                  NotificationType = "contract_comment"
+	NotificationTypeContractRecheckRequested         NotificationType = "contract_recheck_requested"
 	NotificationTypeContractSentToJoinedSupplier     NotificationType = "contract_sent_to_joined_supplier"
 	NotificationTypeContractTermsAcknowledged        NotificationType = "contract_terms_acknowledged"
 	NotificationTypeContractTermsDisputed            NotificationType = "contract_terms_disputed"

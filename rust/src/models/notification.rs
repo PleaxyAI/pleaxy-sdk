@@ -229,6 +229,8 @@ pub enum Type {
     ContractTermsAcknowledged,
     #[serde(rename = "contract_terms_disputed")]
     ContractTermsDisputed,
+    #[serde(rename = "contract_recheck_requested")]
+    ContractRecheckRequested,
     #[serde(rename = "contract_sent_to_joined_supplier")]
     ContractSentToJoinedSupplier,
     #[serde(rename = "copilot_allowance_80")]

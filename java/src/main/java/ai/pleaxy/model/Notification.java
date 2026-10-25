@@ -247,6 +247,8 @@ public class Notification {
     
     CONTRACT_TERMS_DISPUTED(String.valueOf("contract_terms_disputed")),
     
+    CONTRACT_RECHECK_REQUESTED(String.valueOf("contract_recheck_requested")),
+    
     CONTRACT_SENT_TO_JOINED_SUPPLIER(String.valueOf("contract_sent_to_joined_supplier")),
     
     COPILOT_ALLOWANCE_80(String.valueOf("copilot_allowance_80")),

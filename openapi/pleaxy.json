@@ -8456,6 +8456,7 @@
               "contract_terms_to_acknowledge",
               "contract_terms_acknowledged",
               "contract_terms_disputed",
+              "contract_recheck_requested",
               "contract_sent_to_joined_supplier",
               "copilot_allowance_80",
               "copilot_allowance_100",
