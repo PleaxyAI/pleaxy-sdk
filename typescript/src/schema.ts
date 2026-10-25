@@ -2271,6 +2271,11 @@ export interface components {
             /** @description What is needed, e.g. 27-inch monitor. */
             name: string;
             /**
+             * @description goods (shipped, confirmed on a goods receipt) or service (work done, confirmed on a service entry sheet). Carried onto the order's line; absent, it is read from the line (a time unit is a service, anything else goods).
+             * @enum {string}
+             */
+            lineType?: "goods" | "service";
+            /**
              * Format: double
              * @description How many.
              */
@@ -4828,6 +4833,8 @@ export interface components {
         };
         PurchaseRequestLine: {
             name?: string;
+            /** @enum {string} */
+            lineType?: "goods" | "service";
             /** Format: double */
             qty?: number;
             unit?: string;

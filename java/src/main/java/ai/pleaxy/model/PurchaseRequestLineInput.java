@@ -34,6 +34,7 @@ import ai.pleaxy.client.ApiClient;
  */
 @JsonPropertyOrder({
   PurchaseRequestLineInput.JSON_PROPERTY_NAME,
+  PurchaseRequestLineInput.JSON_PROPERTY_LINE_TYPE,
   PurchaseRequestLineInput.JSON_PROPERTY_QTY,
   PurchaseRequestLineInput.JSON_PROPERTY_UNIT,
   PurchaseRequestLineInput.JSON_PROPERTY_UNIT_PRICE
@@ -43,6 +44,45 @@ public class PurchaseRequestLineInput {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nonnull
   private String name;
+
+  /**
+   * goods (shipped, confirmed on a goods receipt) or service (work done, confirmed on a service entry sheet). Carried onto the order&#39;s line; absent, it is read from the line (a time unit is a service, anything else goods).
+   */
+  public enum LineTypeEnum {
+    GOODS(String.valueOf("goods")),
+    
+    SERVICE(String.valueOf("service"));
+
+    private String value;
+
+    LineTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static LineTypeEnum fromValue(String value) {
+      for (LineTypeEnum b : LineTypeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_LINE_TYPE = "lineType";
+  @javax.annotation.Nullable
+  private LineTypeEnum lineType;
 
   public static final String JSON_PROPERTY_QTY = "qty";
   @javax.annotation.Nonnull
@@ -80,6 +120,30 @@ public class PurchaseRequestLineInput {
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
+  }
+
+
+  public PurchaseRequestLineInput lineType(@javax.annotation.Nullable LineTypeEnum lineType) {
+    this.lineType = lineType;
+    return this;
+  }
+
+  /**
+   * goods (shipped, confirmed on a goods receipt) or service (work done, confirmed on a service entry sheet). Carried onto the order&#39;s line; absent, it is read from the line (a time unit is a service, anything else goods).
+   * @return lineType
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_LINE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public LineTypeEnum getLineType() {
+    return lineType;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_LINE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setLineType(@javax.annotation.Nullable LineTypeEnum lineType) {
+    this.lineType = lineType;
   }
 
 
@@ -170,6 +234,7 @@ public class PurchaseRequestLineInput {
     }
     PurchaseRequestLineInput purchaseRequestLineInput = (PurchaseRequestLineInput) o;
     return Objects.equals(this.name, purchaseRequestLineInput.name) &&
+        Objects.equals(this.lineType, purchaseRequestLineInput.lineType) &&
         Objects.equals(this.qty, purchaseRequestLineInput.qty) &&
         Objects.equals(this.unit, purchaseRequestLineInput.unit) &&
         Objects.equals(this.unitPrice, purchaseRequestLineInput.unitPrice);
@@ -177,7 +242,7 @@ public class PurchaseRequestLineInput {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, qty, unit, unitPrice);
+    return Objects.hash(name, lineType, qty, unit, unitPrice);
   }
 
   @Override
@@ -185,6 +250,7 @@ public class PurchaseRequestLineInput {
     StringBuilder sb = new StringBuilder();
     sb.append("class PurchaseRequestLineInput {\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    lineType: ").append(toIndentedString(lineType)).append("\n");
     sb.append("    qty: ").append(toIndentedString(qty)).append("\n");
     sb.append("    unit: ").append(toIndentedString(unit)).append("\n");
     sb.append("    unitPrice: ").append(toIndentedString(unitPrice)).append("\n");
@@ -238,6 +304,11 @@ public class PurchaseRequestLineInput {
     // add `name` to the URL query string
     if (getName() != null) {
       joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `lineType` to the URL query string
+    if (getLineType() != null) {
+      joiner.add(String.format("%slineType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLineType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `qty` to the URL query string

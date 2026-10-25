@@ -1357,6 +1357,8 @@ from .purchase_order_supplier_view_supplier_email import (
 from .purchase_request import PurchaseRequest
 from .purchase_request_line import PurchaseRequestLine
 from .purchase_request_line_input import PurchaseRequestLineInput
+from .purchase_request_line_input_line_type import PurchaseRequestLineInputLineType
+from .purchase_request_line_line_type import PurchaseRequestLineLineType
 from .purchase_request_status import PurchaseRequestStatus
 from .purchase_request_supplier import PurchaseRequestSupplier
 from .purchase_request_supplier_input import PurchaseRequestSupplierInput
@@ -2410,6 +2412,8 @@ __all__ = (
     "PurchaseRequest",
     "PurchaseRequestLine",
     "PurchaseRequestLineInput",
+    "PurchaseRequestLineInputLineType",
+    "PurchaseRequestLineLineType",
     "PurchaseRequestStatus",
     "PurchaseRequestSupplier",
     "PurchaseRequestSupplierInput",

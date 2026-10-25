@@ -16,6 +16,9 @@ pub struct PurchaseRequestLineInput {
     /// What is needed, e.g. 27-inch monitor.
     #[serde(rename = "name")]
     pub name: String,
+    /// goods (shipped, confirmed on a goods receipt) or service (work done, confirmed on a service entry sheet). Carried onto the order's line; absent, it is read from the line (a time unit is a service, anything else goods).
+    #[serde(rename = "lineType", skip_serializing_if = "Option::is_none")]
+    pub line_type: Option<LineType>,
     /// How many.
     #[serde(rename = "qty")]
     pub qty: f64,
@@ -31,9 +34,24 @@ impl PurchaseRequestLineInput {
     pub fn new(name: String, qty: f64, unit_price: f64) -> PurchaseRequestLineInput {
         PurchaseRequestLineInput {
             name,
+            line_type: None,
             qty,
             unit: None,
             unit_price,
         }
+    }
+}
+/// goods (shipped, confirmed on a goods receipt) or service (work done, confirmed on a service entry sheet). Carried onto the order's line; absent, it is read from the line (a time unit is a service, anything else goods).
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum LineType {
+    #[serde(rename = "goods")]
+    Goods,
+    #[serde(rename = "service")]
+    Service,
+}
+
+impl Default for LineType {
+    fn default() -> LineType {
+        Self::Goods
     }
 }

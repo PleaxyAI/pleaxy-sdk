@@ -2729,8 +2729,8 @@ const (
 
 // Defines values for OrderConfirmationSubstituteLineType.
 const (
-	Goods   OrderConfirmationSubstituteLineType = "goods"
-	Service OrderConfirmationSubstituteLineType = "service"
+	OrderConfirmationSubstituteLineTypeGoods   OrderConfirmationSubstituteLineType = "goods"
+	OrderConfirmationSubstituteLineTypeService OrderConfirmationSubstituteLineType = "service"
 )
 
 // Defines values for OrgProfileRole.
@@ -2978,6 +2978,18 @@ const (
 	PurchaseRequestStatusOrdered         PurchaseRequestStatus = "ordered"
 	PurchaseRequestStatusPendingApproval PurchaseRequestStatus = "pending_approval"
 	PurchaseRequestStatusRejected        PurchaseRequestStatus = "rejected"
+)
+
+// Defines values for PurchaseRequestLineLineType.
+const (
+	PurchaseRequestLineLineTypeGoods   PurchaseRequestLineLineType = "goods"
+	PurchaseRequestLineLineTypeService PurchaseRequestLineLineType = "service"
+)
+
+// Defines values for PurchaseRequestLineInputLineType.
+const (
+	Goods   PurchaseRequestLineInputLineType = "goods"
+	Service PurchaseRequestLineInputLineType = "service"
 )
 
 // Defines values for QuestionnaireFieldDefDocType.
@@ -9253,14 +9265,21 @@ type PurchaseRequestStatus string
 
 // PurchaseRequestLine defines model for PurchaseRequestLine.
 type PurchaseRequestLine struct {
-	Name      *string  `json:"name,omitempty"`
-	Qty       *float64 `json:"qty,omitempty"`
-	Unit      *string  `json:"unit,omitempty"`
-	UnitPrice *float64 `json:"unitPrice,omitempty"`
+	LineType  *PurchaseRequestLineLineType `json:"lineType,omitempty"`
+	Name      *string                      `json:"name,omitempty"`
+	Qty       *float64                     `json:"qty,omitempty"`
+	Unit      *string                      `json:"unit,omitempty"`
+	UnitPrice *float64                     `json:"unitPrice,omitempty"`
 }
+
+// PurchaseRequestLineLineType defines model for PurchaseRequestLine.LineType.
+type PurchaseRequestLineLineType string
 
 // PurchaseRequestLineInput defines model for PurchaseRequestLineInput.
 type PurchaseRequestLineInput struct {
+	// LineType goods (shipped, confirmed on a goods receipt) or service (work done, confirmed on a service entry sheet). Carried onto the order's line; absent, it is read from the line (a time unit is a service, anything else goods).
+	LineType *PurchaseRequestLineInputLineType `json:"lineType,omitempty"`
+
 	// Name What is needed, e.g. 27-inch monitor.
 	Name string `json:"name"`
 
@@ -9273,6 +9292,9 @@ type PurchaseRequestLineInput struct {
 	// UnitPrice Roughly what one costs, in the request's currency.
 	UnitPrice float64 `json:"unitPrice"`
 }
+
+// PurchaseRequestLineInputLineType goods (shipped, confirmed on a goods receipt) or service (work done, confirmed on a service entry sheet). Carried onto the order's line; absent, it is read from the line (a time unit is a service, anything else goods).
+type PurchaseRequestLineInputLineType string
 
 // PurchaseRequestSupplierInput defines model for PurchaseRequestSupplierInput.
 type PurchaseRequestSupplierInput struct {

@@ -7082,6 +7082,14 @@
             "maxLength": 200,
             "description": "What is needed, e.g. 27-inch monitor."
           },
+          "lineType": {
+            "type": "string",
+            "enum": [
+              "goods",
+              "service"
+            ],
+            "description": "goods (shipped, confirmed on a goods receipt) or service (work done, confirmed on a service entry sheet). Carried onto the order's line; absent, it is read from the line (a time unit is a service, anything else goods)."
+          },
           "qty": {
             "type": "number",
             "minimum": 0.0001,
@@ -15291,6 +15299,13 @@
         "properties": {
           "name": {
             "type": "string"
+          },
+          "lineType": {
+            "type": "string",
+            "enum": [
+              "goods",
+              "service"
+            ]
           },
           "qty": {
             "type": "number",

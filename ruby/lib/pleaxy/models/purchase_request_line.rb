@@ -17,16 +17,41 @@ module Pleaxy
   class PurchaseRequestLine
     attr_accessor :name
 
+    attr_accessor :line_type
+
     attr_accessor :qty
 
     attr_accessor :unit
 
     attr_accessor :unit_price
 
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'name' => :'name',
+        :'line_type' => :'lineType',
         :'qty' => :'qty',
         :'unit' => :'unit',
         :'unit_price' => :'unitPrice'
@@ -42,6 +67,7 @@ module Pleaxy
     def self.openapi_types
       {
         :'name' => :'String',
+        :'line_type' => :'String',
         :'qty' => :'Float',
         :'unit' => :'String',
         :'unit_price' => :'Float'
@@ -73,6 +99,10 @@ module Pleaxy
         self.name = attributes[:'name']
       end
 
+      if attributes.key?(:'line_type')
+        self.line_type = attributes[:'line_type']
+      end
+
       if attributes.key?(:'qty')
         self.qty = attributes[:'qty']
       end
@@ -98,7 +128,19 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
+      line_type_validator = EnumAttributeValidator.new('String', ["goods", "service"])
+      return false unless line_type_validator.valid?(@line_type)
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] line_type Object to be assigned
+    def line_type=(line_type)
+      validator = EnumAttributeValidator.new('String', ["goods", "service"])
+      unless validator.valid?(line_type)
+        fail ArgumentError, "invalid value for \"line_type\", must be one of #{validator.allowable_values}."
+      end
+      @line_type = line_type
     end
 
     # Checks equality by comparing each attribute.
@@ -107,6 +149,7 @@ module Pleaxy
       return true if self.equal?(o)
       self.class == o.class &&
           name == o.name &&
+          line_type == o.line_type &&
           qty == o.qty &&
           unit == o.unit &&
           unit_price == o.unit_price
@@ -121,7 +164,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, qty, unit, unit_price].hash
+      [name, line_type, qty, unit, unit_price].hash
     end
 
     # Builds the object from hash

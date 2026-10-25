@@ -15,6 +15,8 @@ use serde::{Deserialize, Serialize};
 pub struct PurchaseRequestLine {
     #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
+    #[serde(rename = "lineType", skip_serializing_if = "Option::is_none")]
+    pub line_type: Option<LineType>,
     #[serde(rename = "qty", skip_serializing_if = "Option::is_none")]
     pub qty: Option<f64>,
     #[serde(rename = "unit", skip_serializing_if = "Option::is_none")]
@@ -27,9 +29,24 @@ impl PurchaseRequestLine {
     pub fn new() -> PurchaseRequestLine {
         PurchaseRequestLine {
             name: None,
+            line_type: None,
             qty: None,
             unit: None,
             unit_price: None,
         }
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum LineType {
+    #[serde(rename = "goods")]
+    Goods,
+    #[serde(rename = "service")]
+    Service,
+}
+
+impl Default for LineType {
+    fn default() -> LineType {
+        Self::Goods
     }
 }
