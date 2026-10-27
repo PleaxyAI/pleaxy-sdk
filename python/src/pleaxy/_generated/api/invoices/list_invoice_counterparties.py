@@ -58,14 +58,14 @@ def sync_detailed(
     per_connection: Union[Unset, str] = UNSET,
 ) -> Response[ListInvoiceCounterpartiesResult]:
     """[Both] Active counterparties the caller can invoice through POST .../invoices with a connectionId -
-    connection id, display name, the buyer's currency, and the open POs between exactly that pair. One
-    row per counterparty; a Buyer caller can pass ?perConnection=true to list every approved connection
-    instead, each with approvedAt, feedReadiness and the feed's figures (feedAcceptedCount,
-    feedLastAcceptedAt, feedValidCount, feedLastValidAt) and, when a supplier has several,
-    multipleConnections. Without ?perConnection a Buyer caller also gets its off-platform suppliers: any
-    supplier in its list with no Pleaxy account yet, invited or not (offPlatform: true, cloudProvider
-    for a cloud provider, no POs). For those, currency is only the default: the invoice takes its own
-    currency. Human session only.
+    connection id, display name, the buyer's currency, and the open POs between exactly that pair; a
+    Supplier caller also gets the buyer's regionName. One row per counterparty; a Buyer caller can pass
+    ?perConnection=true to list every approved connection instead, each with approvedAt, feedReadiness
+    and the feed's figures (feedAcceptedCount, feedLastAcceptedAt, feedValidCount, feedLastValidAt) and,
+    when a supplier has several, multipleConnections. Without ?perConnection a Buyer caller also gets
+    its off-platform suppliers: any supplier in its list with no Pleaxy account yet, invited or not
+    (offPlatform: true, cloudProvider for a cloud provider, no POs). For those, currency is only the
+    default: the invoice takes its own currency. Human session only.
 
     Args:
         per_connection (Union[Unset, str]):
@@ -95,14 +95,14 @@ def sync(
     per_connection: Union[Unset, str] = UNSET,
 ) -> Optional[ListInvoiceCounterpartiesResult]:
     """[Both] Active counterparties the caller can invoice through POST .../invoices with a connectionId -
-    connection id, display name, the buyer's currency, and the open POs between exactly that pair. One
-    row per counterparty; a Buyer caller can pass ?perConnection=true to list every approved connection
-    instead, each with approvedAt, feedReadiness and the feed's figures (feedAcceptedCount,
-    feedLastAcceptedAt, feedValidCount, feedLastValidAt) and, when a supplier has several,
-    multipleConnections. Without ?perConnection a Buyer caller also gets its off-platform suppliers: any
-    supplier in its list with no Pleaxy account yet, invited or not (offPlatform: true, cloudProvider
-    for a cloud provider, no POs). For those, currency is only the default: the invoice takes its own
-    currency. Human session only.
+    connection id, display name, the buyer's currency, and the open POs between exactly that pair; a
+    Supplier caller also gets the buyer's regionName. One row per counterparty; a Buyer caller can pass
+    ?perConnection=true to list every approved connection instead, each with approvedAt, feedReadiness
+    and the feed's figures (feedAcceptedCount, feedLastAcceptedAt, feedValidCount, feedLastValidAt) and,
+    when a supplier has several, multipleConnections. Without ?perConnection a Buyer caller also gets
+    its off-platform suppliers: any supplier in its list with no Pleaxy account yet, invited or not
+    (offPlatform: true, cloudProvider for a cloud provider, no POs). For those, currency is only the
+    default: the invoice takes its own currency. Human session only.
 
     Args:
         per_connection (Union[Unset, str]):
@@ -127,14 +127,14 @@ async def asyncio_detailed(
     per_connection: Union[Unset, str] = UNSET,
 ) -> Response[ListInvoiceCounterpartiesResult]:
     """[Both] Active counterparties the caller can invoice through POST .../invoices with a connectionId -
-    connection id, display name, the buyer's currency, and the open POs between exactly that pair. One
-    row per counterparty; a Buyer caller can pass ?perConnection=true to list every approved connection
-    instead, each with approvedAt, feedReadiness and the feed's figures (feedAcceptedCount,
-    feedLastAcceptedAt, feedValidCount, feedLastValidAt) and, when a supplier has several,
-    multipleConnections. Without ?perConnection a Buyer caller also gets its off-platform suppliers: any
-    supplier in its list with no Pleaxy account yet, invited or not (offPlatform: true, cloudProvider
-    for a cloud provider, no POs). For those, currency is only the default: the invoice takes its own
-    currency. Human session only.
+    connection id, display name, the buyer's currency, and the open POs between exactly that pair; a
+    Supplier caller also gets the buyer's regionName. One row per counterparty; a Buyer caller can pass
+    ?perConnection=true to list every approved connection instead, each with approvedAt, feedReadiness
+    and the feed's figures (feedAcceptedCount, feedLastAcceptedAt, feedValidCount, feedLastValidAt) and,
+    when a supplier has several, multipleConnections. Without ?perConnection a Buyer caller also gets
+    its off-platform suppliers: any supplier in its list with no Pleaxy account yet, invited or not
+    (offPlatform: true, cloudProvider for a cloud provider, no POs). For those, currency is only the
+    default: the invoice takes its own currency. Human session only.
 
     Args:
         per_connection (Union[Unset, str]):
@@ -162,14 +162,14 @@ async def asyncio(
     per_connection: Union[Unset, str] = UNSET,
 ) -> Optional[ListInvoiceCounterpartiesResult]:
     """[Both] Active counterparties the caller can invoice through POST .../invoices with a connectionId -
-    connection id, display name, the buyer's currency, and the open POs between exactly that pair. One
-    row per counterparty; a Buyer caller can pass ?perConnection=true to list every approved connection
-    instead, each with approvedAt, feedReadiness and the feed's figures (feedAcceptedCount,
-    feedLastAcceptedAt, feedValidCount, feedLastValidAt) and, when a supplier has several,
-    multipleConnections. Without ?perConnection a Buyer caller also gets its off-platform suppliers: any
-    supplier in its list with no Pleaxy account yet, invited or not (offPlatform: true, cloudProvider
-    for a cloud provider, no POs). For those, currency is only the default: the invoice takes its own
-    currency. Human session only.
+    connection id, display name, the buyer's currency, and the open POs between exactly that pair; a
+    Supplier caller also gets the buyer's regionName. One row per counterparty; a Buyer caller can pass
+    ?perConnection=true to list every approved connection instead, each with approvedAt, feedReadiness
+    and the feed's figures (feedAcceptedCount, feedLastAcceptedAt, feedValidCount, feedLastValidAt) and,
+    when a supplier has several, multipleConnections. Without ?perConnection a Buyer caller also gets
+    its off-platform suppliers: any supplier in its list with no Pleaxy account yet, invited or not
+    (offPlatform: true, cloudProvider for a cloud provider, no POs). For those, currency is only the
+    default: the invoice takes its own currency. Human session only.
 
     Args:
         per_connection (Union[Unset, str]):

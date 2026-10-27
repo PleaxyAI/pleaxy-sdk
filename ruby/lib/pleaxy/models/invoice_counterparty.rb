@@ -19,6 +19,8 @@ module Pleaxy
 
     attr_accessor :name
 
+    attr_accessor :region_name
+
     attr_accessor :currency
 
     attr_accessor :currencies
@@ -76,6 +78,7 @@ module Pleaxy
       {
         :'connection_id' => :'connectionId',
         :'name' => :'name',
+        :'region_name' => :'regionName',
         :'currency' => :'currency',
         :'currencies' => :'currencies',
         :'payment_currency' => :'paymentCurrency',
@@ -104,6 +107,7 @@ module Pleaxy
       {
         :'connection_id' => :'String',
         :'name' => :'String',
+        :'region_name' => :'String',
         :'currency' => :'String',
         :'currencies' => :'Array<String>',
         :'payment_currency' => :'String',
@@ -149,6 +153,10 @@ module Pleaxy
 
       if attributes.key?(:'name')
         self.name = attributes[:'name']
+      end
+
+      if attributes.key?(:'region_name')
+        self.region_name = attributes[:'region_name']
       end
 
       if attributes.key?(:'currency')
@@ -262,6 +270,7 @@ module Pleaxy
       self.class == o.class &&
           connection_id == o.connection_id &&
           name == o.name &&
+          region_name == o.region_name &&
           currency == o.currency &&
           currencies == o.currencies &&
           payment_currency == o.payment_currency &&
@@ -288,7 +297,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [connection_id, name, currency, currencies, payment_currency, open_purchase_orders, invoice_feed_enabled, invoice_feed_updated_at, feed_readiness, feed_accepted_count, feed_last_accepted_at, feed_last_valid_at, feed_valid_count, approved_at, multiple_connections, off_platform, cloud_provider].hash
+      [connection_id, name, region_name, currency, currencies, payment_currency, open_purchase_orders, invoice_feed_enabled, invoice_feed_updated_at, feed_readiness, feed_accepted_count, feed_last_accepted_at, feed_last_valid_at, feed_valid_count, approved_at, multiple_connections, off_platform, cloud_provider].hash
     end
 
     # Builds the object from hash

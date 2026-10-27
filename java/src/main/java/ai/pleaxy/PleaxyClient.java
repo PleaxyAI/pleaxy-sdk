@@ -10,6 +10,7 @@ import ai.pleaxy.api.DocumentSyncApi;
 import ai.pleaxy.api.BudgetControlApi;
 import ai.pleaxy.api.FulfillmentApi;
 import ai.pleaxy.api.PurchaseRequestsApi;
+import ai.pleaxy.api.RequestTypesApi;
 import ai.pleaxy.api.EmployeesApi;
 import ai.pleaxy.api.ExchangeRatesApi;
 import ai.pleaxy.api.InvoicesApi;
@@ -58,6 +59,7 @@ public final class PleaxyClient {
   private final DocumentSyncApi documentSync;
   private final FulfillmentApi fulfillment;
   private final PurchaseRequestsApi purchaseRequests;
+  private final RequestTypesApi requestTypes;
   private final BudgetControlApi budgetControl;
   private final EmployeesApi employees;
   private final ExchangeRatesApi exchangeRates;
@@ -103,6 +105,7 @@ public final class PleaxyClient {
     this.documentSync = new DocumentSyncApi(apiClient);
     this.fulfillment = new FulfillmentApi(apiClient);
     this.purchaseRequests = new PurchaseRequestsApi(apiClient);
+    this.requestTypes = new RequestTypesApi(apiClient);
     this.budgetControl = new BudgetControlApi(apiClient);
     this.employees = new EmployeesApi(apiClient);
     this.exchangeRates = new ExchangeRatesApi(apiClient);
@@ -167,6 +170,11 @@ public final class PleaxyClient {
   /** Purchase request operations. */
   public PurchaseRequestsApi purchaseRequests() {
     return purchaseRequests;
+  }
+
+  /** Request type operations: the kinds of purchase request and their questions. */
+  public RequestTypesApi requestTypes() {
+    return requestTypes;
   }
 
   /** Budget control operations. */

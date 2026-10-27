@@ -668,7 +668,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** [Both] Active counterparties the caller can invoice through POST .../invoices with a connectionId - connection id, display name, the buyer's currency, and the open POs between exactly that pair. One row per counterparty; a Buyer caller can pass ?perConnection=true to list every approved connection instead, each with approvedAt, feedReadiness and the feed's figures (feedAcceptedCount, feedLastAcceptedAt, feedValidCount, feedLastValidAt) and, when a supplier has several, multipleConnections. Without ?perConnection a Buyer caller also gets its off-platform suppliers: any supplier in its list with no Pleaxy account yet, invited or not (offPlatform: true, cloudProvider for a cloud provider, no POs). For those, currency is only the default: the invoice takes its own currency. Human session only. */
+        /** [Both] Active counterparties the caller can invoice through POST .../invoices with a connectionId - connection id, display name, the buyer's currency, and the open POs between exactly that pair; a Supplier caller also gets the buyer's regionName. One row per counterparty; a Buyer caller can pass ?perConnection=true to list every approved connection instead, each with approvedAt, feedReadiness and the feed's figures (feedAcceptedCount, feedLastAcceptedAt, feedValidCount, feedLastValidAt) and, when a supplier has several, multipleConnections. Without ?perConnection a Buyer caller also gets its off-platform suppliers: any supplier in its list with no Pleaxy account yet, invited or not (offPlatform: true, cloudProvider for a cloud provider, no POs). For those, currency is only the default: the invoice takes its own currency. Human session only. */
         get: operations["ListInvoiceCounterparties"];
         put?: never;
         post?: never;
@@ -4531,6 +4531,7 @@ export interface components {
         InvoiceCounterparty: {
             connectionId?: string;
             name?: string;
+            regionName?: string;
             currency?: string;
             currencies?: string[];
             paymentCurrency?: string;

@@ -28,6 +28,7 @@ class InvoiceCounterparty:
     Attributes:
         connection_id (Union[Unset, str]):
         name (Union[Unset, str]):
+        region_name (Union[Unset, str]):
         currency (Union[Unset, str]):
         currencies (Union[Unset, List[str]]):
         payment_currency (Union[Unset, str]):
@@ -47,6 +48,7 @@ class InvoiceCounterparty:
 
     connection_id: Union[Unset, str] = UNSET
     name: Union[Unset, str] = UNSET
+    region_name: Union[Unset, str] = UNSET
     currency: Union[Unset, str] = UNSET
     currencies: Union[Unset, List[str]] = UNSET
     payment_currency: Union[Unset, str] = UNSET
@@ -70,6 +72,8 @@ class InvoiceCounterparty:
         connection_id = self.connection_id
 
         name = self.name
+
+        region_name = self.region_name
 
         currency = self.currency
 
@@ -119,6 +123,8 @@ class InvoiceCounterparty:
             field_dict["connectionId"] = connection_id
         if name is not UNSET:
             field_dict["name"] = name
+        if region_name is not UNSET:
+            field_dict["regionName"] = region_name
         if currency is not UNSET:
             field_dict["currency"] = currency
         if currencies is not UNSET:
@@ -162,6 +168,8 @@ class InvoiceCounterparty:
         connection_id = d.pop("connectionId", UNSET)
 
         name = d.pop("name", UNSET)
+
+        region_name = d.pop("regionName", UNSET)
 
         currency = d.pop("currency", UNSET)
 
@@ -215,6 +223,7 @@ class InvoiceCounterparty:
         invoice_counterparty = cls(
             connection_id=connection_id,
             name=name,
+            region_name=region_name,
             currency=currency,
             currencies=currencies,
             payment_currency=payment_currency,

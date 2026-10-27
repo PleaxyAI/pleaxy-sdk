@@ -7706,6 +7706,7 @@ type InvoiceCounterparty struct {
 		PaidDeposits *[]OpenPurchaseOrderDeposit `json:"paidDeposits,omitempty"`
 	} `json:"openPurchaseOrders,omitempty"`
 	PaymentCurrency *string `json:"paymentCurrency,omitempty"`
+	RegionName      *string `json:"regionName,omitempty"`
 }
 
 // InvoiceCounterpartyCloudProvider defines model for InvoiceCounterparty.CloudProvider.

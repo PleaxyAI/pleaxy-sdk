@@ -38,6 +38,7 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   InvoiceCounterparty.JSON_PROPERTY_CONNECTION_ID,
   InvoiceCounterparty.JSON_PROPERTY_NAME,
+  InvoiceCounterparty.JSON_PROPERTY_REGION_NAME,
   InvoiceCounterparty.JSON_PROPERTY_CURRENCY,
   InvoiceCounterparty.JSON_PROPERTY_CURRENCIES,
   InvoiceCounterparty.JSON_PROPERTY_PAYMENT_CURRENCY,
@@ -63,6 +64,10 @@ public class InvoiceCounterparty {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nullable
   private String name;
+
+  public static final String JSON_PROPERTY_REGION_NAME = "regionName";
+  @javax.annotation.Nullable
+  private String regionName;
 
   public static final String JSON_PROPERTY_CURRENCY = "currency";
   @javax.annotation.Nullable
@@ -254,6 +259,30 @@ public class InvoiceCounterparty {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
+  }
+
+
+  public InvoiceCounterparty regionName(@javax.annotation.Nullable String regionName) {
+    this.regionName = regionName;
+    return this;
+  }
+
+  /**
+   * Get regionName
+   * @return regionName
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REGION_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getRegionName() {
+    return regionName;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REGION_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRegionName(@javax.annotation.Nullable String regionName) {
+    this.regionName = regionName;
   }
 
 
@@ -647,6 +676,7 @@ public class InvoiceCounterparty {
     InvoiceCounterparty invoiceCounterparty = (InvoiceCounterparty) o;
     return Objects.equals(this.connectionId, invoiceCounterparty.connectionId) &&
         Objects.equals(this.name, invoiceCounterparty.name) &&
+        Objects.equals(this.regionName, invoiceCounterparty.regionName) &&
         Objects.equals(this.currency, invoiceCounterparty.currency) &&
         Objects.equals(this.currencies, invoiceCounterparty.currencies) &&
         Objects.equals(this.paymentCurrency, invoiceCounterparty.paymentCurrency) &&
@@ -666,7 +696,7 @@ public class InvoiceCounterparty {
 
   @Override
   public int hashCode() {
-    return Objects.hash(connectionId, name, currency, currencies, paymentCurrency, openPurchaseOrders, invoiceFeedEnabled, invoiceFeedUpdatedAt, feedReadiness, feedAcceptedCount, feedLastAcceptedAt, feedLastValidAt, feedValidCount, approvedAt, multipleConnections, offPlatform, cloudProvider);
+    return Objects.hash(connectionId, name, regionName, currency, currencies, paymentCurrency, openPurchaseOrders, invoiceFeedEnabled, invoiceFeedUpdatedAt, feedReadiness, feedAcceptedCount, feedLastAcceptedAt, feedLastValidAt, feedValidCount, approvedAt, multipleConnections, offPlatform, cloudProvider);
   }
 
   @Override
@@ -675,6 +705,7 @@ public class InvoiceCounterparty {
     sb.append("class InvoiceCounterparty {\n");
     sb.append("    connectionId: ").append(toIndentedString(connectionId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    regionName: ").append(toIndentedString(regionName)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    currencies: ").append(toIndentedString(currencies)).append("\n");
     sb.append("    paymentCurrency: ").append(toIndentedString(paymentCurrency)).append("\n");
@@ -745,6 +776,11 @@ public class InvoiceCounterparty {
     // add `name` to the URL query string
     if (getName() != null) {
       joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `regionName` to the URL query string
+    if (getRegionName() != null) {
+      joiner.add(String.format("%sregionName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRegionName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `currency` to the URL query string

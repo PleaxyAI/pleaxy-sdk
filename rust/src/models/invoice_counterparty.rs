@@ -17,6 +17,8 @@ pub struct InvoiceCounterparty {
     pub connection_id: Option<String>,
     #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
+    #[serde(rename = "regionName", skip_serializing_if = "Option::is_none")]
+    pub region_name: Option<String>,
     #[serde(rename = "currency", skip_serializing_if = "Option::is_none")]
     pub currency: Option<String>,
     #[serde(rename = "currencies", skip_serializing_if = "Option::is_none")]
@@ -60,6 +62,7 @@ impl InvoiceCounterparty {
         InvoiceCounterparty {
             connection_id: None,
             name: None,
+            region_name: None,
             currency: None,
             currencies: None,
             payment_currency: None,
