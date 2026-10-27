@@ -25,6 +25,11 @@ pub struct RequestType {
     pub order: Option<f64>,
     #[serde(rename = "defaults", skip_serializing_if = "Option::is_none")]
     pub defaults: Option<models::RequestTypeDefaults>,
+    #[serde(
+        rename = "supplierQuestionnaireId",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub supplier_questionnaire_id: Option<String>,
     #[serde(rename = "fields", skip_serializing_if = "Option::is_none")]
     pub fields: Option<Vec<models::QuestionnaireFieldDef>>,
     #[serde(rename = "version", skip_serializing_if = "Option::is_none")]
@@ -48,6 +53,7 @@ impl RequestType {
             active: None,
             order: None,
             defaults: None,
+            supplier_questionnaire_id: None,
             fields: None,
             version: None,
             used_at: None,

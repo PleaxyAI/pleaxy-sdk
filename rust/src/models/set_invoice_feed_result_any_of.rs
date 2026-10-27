@@ -35,6 +35,11 @@ pub struct SetInvoiceFeedResultAnyOf {
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<Status>,
     #[serde(
+        rename = "questionnaireTemplateId",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub questionnaire_template_id: Option<String>,
+    #[serde(
         rename = "questionnaireTemplateVersion",
         skip_serializing_if = "Option::is_none"
     )]
@@ -135,6 +140,7 @@ impl SetInvoiceFeedResultAnyOf {
             invited_as_name: None,
             supplier_contact_email: None,
             status: None,
+            questionnaire_template_id: None,
             questionnaire_template_version: None,
             fields: None,
             responses: None,

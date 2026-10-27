@@ -1037,6 +1037,91 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/purchase-orders/{poId}/fulfillment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject, qty, unitPrice, dates and reason, and the buyer's decision on a changed one: applied or declined); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder. */
+        get: operations["GetPurchaseOrderFulfillment"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-orders/{poId}/confirmations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, substitute?: { supplierPartId, name }, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line), unit price (in the order's currency) or item (substitute: a part number in your published catalog makes it that catalog item) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an order still awaiting fulfillment, not one already billed in full; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope. */
+        post: operations["ConfirmPurchaseOrder"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-orders/{poId}/confirmations/{confirmationId}/apply": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Take the new quantities and unit prices in the supplier's latest confirmation (outcome changed) into the order: { purchaseOrder, confirmation }. An ordinary line edit, as UpdatePurchaseOrder: the order gets a new version, goes back to approval when its rules say so, and the supplier hears po_changed. 409 CONFIRMATION_SUPERSEDED when the supplier confirmed again since, CONFIRMATION_DECIDED when it was already applied or declined, NO_CHANGES, or ORDER_NOT_OPEN. */
+        post: operations["ApplyConfirmationChanges"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-orders/{poId}/confirmations/{confirmationId}/decline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Keep the order as it is instead of the supplier's new quantities and prices: { reason? } (500 characters, shown to the supplier). Answers the confirmation with its decision; the supplier is told (po_changes_declined). The same 409s as ApplyConfirmationChanges. */
+        post: operations["DeclineConfirmationChanges"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-orders/{poId}/ship-notices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only goods lines (lineType goods) ordered by quantity ship; a service line is confirmed with a service entry sheet. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope. */
+        post: operations["SendShipNotice"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/sync/events": {
         parameters: {
             query?: never;
@@ -1220,91 +1305,6 @@ export interface paths {
         get: operations["ListWebhookDeliveries"];
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/purchase-orders/{poId}/fulfillment": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** [Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject, qty, unitPrice, dates and reason, and the buyer's decision on a changed one: applied or declined); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder. */
-        get: operations["GetPurchaseOrderFulfillment"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/purchase-orders/{poId}/confirmations": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, substitute?: { supplierPartId, name }, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line), unit price (in the order's currency) or item (substitute: a part number in your published catalog makes it that catalog item) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope. */
-        post: operations["ConfirmPurchaseOrder"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/purchase-orders/{poId}/confirmations/{confirmationId}/apply": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** [Buyer] Take the new quantities and unit prices in the supplier's latest confirmation (outcome changed) into the order: { purchaseOrder, confirmation }. An ordinary line edit, as UpdatePurchaseOrder: the order gets a new version, goes back to approval when its rules say so, and the supplier hears po_changed. 409 CONFIRMATION_SUPERSEDED when the supplier confirmed again since, CONFIRMATION_DECIDED when it was already applied or declined, NO_CHANGES, or ORDER_NOT_OPEN. */
-        post: operations["ApplyConfirmationChanges"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/purchase-orders/{poId}/confirmations/{confirmationId}/decline": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** [Buyer] Keep the order as it is instead of the supplier's new quantities and prices: { reason? } (500 characters, shown to the supplier). Answers the confirmation with its decision; the supplier is told (po_changes_declined). The same 409s as ApplyConfirmationChanges. */
-        post: operations["DeclineConfirmationChanges"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/purchase-orders/{poId}/ship-notices": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** [Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only goods lines (lineType goods) ordered by quantity ship; a service line is confirmed with a service entry sheet. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope. */
-        post: operations["SendShipNotice"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2296,21 +2296,6 @@ export interface components {
             /** @description With blanket: the last day it runs (YYYY-MM-DD), its lines' latest validUntil; open-ended when absent. */
             validUntil?: string;
         };
-        CreateWebhookInput: {
-            /** @description https:// address on a host name that answers a POST with a 2xx within 10 seconds. */
-            url: string;
-            /** @description Up to 100 characters, to tell endpoints apart. */
-            description?: string;
-            /** @description The event types to send (ListSyncEvents' types for your side). Leave out, or send [], for all of them. */
-            events?: string[];
-        };
-        UpdateWebhookInput: {
-            /** @description false pauses deliveries (nothing is queued while paused); true resumes them. */
-            enabled?: boolean;
-            url?: string;
-            description?: string;
-            events?: string[];
-        };
         SubstituteItemInput: {
             supplierPartId: string;
             name: string;
@@ -2357,6 +2342,21 @@ export interface components {
             trackingUrl?: string;
             note?: string;
             lines?: components["schemas"]["ShipNoticeLineInput"][];
+        };
+        CreateWebhookInput: {
+            /** @description https:// address on a host name that answers a POST with a 2xx within 10 seconds. */
+            url: string;
+            /** @description Up to 100 characters, to tell endpoints apart. */
+            description?: string;
+            /** @description The event types to send (ListSyncEvents' types for your side). Leave out, or send [], for all of them. */
+            events?: string[];
+        };
+        UpdateWebhookInput: {
+            /** @description false pauses deliveries (nothing is queued while paused); true resumes them. */
+            enabled?: boolean;
+            url?: string;
+            description?: string;
+            events?: string[];
         };
         PurchaseRequestSupplierInput: {
             /** @description The supplier's name, as the requester knows it. */
@@ -2782,6 +2782,7 @@ export interface components {
                 /** @enum {string} */
                 lineType?: "goods" | "service";
             };
+            supplierQuestionnaireId?: string;
             fields?: components["schemas"]["QuestionnaireFieldDef"][];
             /** Format: double */
             version?: number;
@@ -4713,6 +4714,91 @@ export interface components {
             /** Format: double */
             unconverted?: number;
         };
+        PurchaseOrderFulfillment: {
+            confirmation?: components["schemas"]["OrderConfirmation"];
+            confirmations?: components["schemas"]["OrderConfirmation"][];
+            shipNotices?: components["schemas"]["ShipNotice"][];
+            shippedByLine?: {
+                /** Format: double */
+                lineNo?: number;
+                /** Format: double */
+                qty?: number;
+            }[];
+            expectedDeliveryDate?: string;
+        };
+        OrderConfirmation: {
+            id: string;
+            poId?: string;
+            /** @enum {string} */
+            outcome?: "rejected" | "accepted" | "partial" | "backordered" | "changed";
+            confirmId?: string;
+            /** @enum {string} */
+            operation?: "new" | "update";
+            deliveryDate?: string;
+            note?: string;
+            lines?: components["schemas"]["OrderConfirmationLine"][];
+            /** @enum {string} */
+            source?: "cxml" | "portal" | "api" | "email";
+            createdAt?: string;
+            decision?: components["schemas"]["OrderConfirmationDecision"];
+        };
+        OrderConfirmationLine: {
+            /** Format: double */
+            lineNo?: number;
+            /** @enum {string} */
+            status?: "accept" | "reject" | "backordered" | "change";
+            /** Format: double */
+            qty?: number;
+            /** Format: double */
+            unitPrice?: number;
+            substitute?: components["schemas"]["OrderConfirmationSubstitute"];
+            shipmentDate?: string;
+            deliveryDate?: string;
+            reason?: string;
+        };
+        OrderConfirmationSubstitute: {
+            supplierPartId?: string;
+            name?: string;
+            catalogItemId?: string;
+            unit?: string;
+            /** @enum {string} */
+            lineType?: "goods" | "service";
+        };
+        OrderConfirmationDecision: {
+            /** @enum {string} */
+            decision?: "applied" | "declined";
+            at?: string;
+            /** Format: double */
+            version?: number;
+            reason?: string;
+        };
+        ShipNotice: {
+            shipmentId?: string;
+            poId?: string;
+            /** @enum {string} */
+            status?: "canceled" | "planned" | "shipped";
+            shipmentDate?: string;
+            deliveryDate?: string;
+            carrier?: string;
+            trackingNumber?: string;
+            trackingUrl?: string;
+            lines?: components["schemas"]["ShipNoticeLine"][];
+            note?: string;
+            /** @enum {string} */
+            source?: "cxml" | "portal" | "api" | "email";
+            createdAt?: string;
+            updatedAt?: string;
+            receipts?: {
+                id: string;
+                receivedAt?: string;
+            }[];
+        };
+        ShipNoticeLine: {
+            /** Format: double */
+            lineNo?: number;
+            /** Format: double */
+            qty?: number;
+        };
         SyncEventPage: {
             events?: components["schemas"]["SyncEvent"][];
             nextCursor?: string;
@@ -4802,91 +4888,6 @@ export interface components {
             /** @enum {string} */
             lastErrorCode?: "failed" | "http_status" | "blocked_address" | "unreachable" | "timeout" | "redirect" | "too_large" | "endpoint_off";
             deliveredAt?: string;
-        };
-        PurchaseOrderFulfillment: {
-            confirmation?: components["schemas"]["OrderConfirmation"];
-            confirmations?: components["schemas"]["OrderConfirmation"][];
-            shipNotices?: components["schemas"]["ShipNotice"][];
-            shippedByLine?: {
-                /** Format: double */
-                lineNo?: number;
-                /** Format: double */
-                qty?: number;
-            }[];
-            expectedDeliveryDate?: string;
-        };
-        OrderConfirmation: {
-            id: string;
-            poId?: string;
-            /** @enum {string} */
-            outcome?: "rejected" | "accepted" | "partial" | "backordered" | "changed";
-            confirmId?: string;
-            /** @enum {string} */
-            operation?: "new" | "update";
-            deliveryDate?: string;
-            note?: string;
-            lines?: components["schemas"]["OrderConfirmationLine"][];
-            /** @enum {string} */
-            source?: "cxml" | "portal" | "api" | "email";
-            createdAt?: string;
-            decision?: components["schemas"]["OrderConfirmationDecision"];
-        };
-        OrderConfirmationLine: {
-            /** Format: double */
-            lineNo?: number;
-            /** @enum {string} */
-            status?: "accept" | "reject" | "backordered" | "change";
-            /** Format: double */
-            qty?: number;
-            /** Format: double */
-            unitPrice?: number;
-            substitute?: components["schemas"]["OrderConfirmationSubstitute"];
-            shipmentDate?: string;
-            deliveryDate?: string;
-            reason?: string;
-        };
-        OrderConfirmationSubstitute: {
-            supplierPartId?: string;
-            name?: string;
-            catalogItemId?: string;
-            unit?: string;
-            /** @enum {string} */
-            lineType?: "goods" | "service";
-        };
-        OrderConfirmationDecision: {
-            /** @enum {string} */
-            decision?: "applied" | "declined";
-            at?: string;
-            /** Format: double */
-            version?: number;
-            reason?: string;
-        };
-        ShipNotice: {
-            shipmentId?: string;
-            poId?: string;
-            /** @enum {string} */
-            status?: "canceled" | "planned" | "shipped";
-            shipmentDate?: string;
-            deliveryDate?: string;
-            carrier?: string;
-            trackingNumber?: string;
-            trackingUrl?: string;
-            lines?: components["schemas"]["ShipNoticeLine"][];
-            note?: string;
-            /** @enum {string} */
-            source?: "cxml" | "portal" | "api" | "email";
-            createdAt?: string;
-            updatedAt?: string;
-            receipts?: {
-                id: string;
-                receivedAt?: string;
-            }[];
-        };
-        ShipNoticeLine: {
-            /** Format: double */
-            lineNo?: number;
-            /** Format: double */
-            qty?: number;
         };
         PurchaseOrderEmails: {
             address?: string;
@@ -5241,6 +5242,7 @@ export interface components {
             supplierContactEmail?: string;
             /** @enum {string} */
             status?: "pending_invite" | "invited" | "in_progress" | "submitted" | "approved" | "rejected";
+            questionnaireTemplateId?: string;
             /** Format: double */
             questionnaireTemplateVersion?: number;
             fields?: components["schemas"]["QuestionnaireFieldDef"][];
@@ -5286,6 +5288,7 @@ export interface components {
             supplierContactEmail?: string;
             /** @enum {string} */
             status?: "pending_invite" | "invited" | "in_progress" | "submitted" | "approved" | "rejected";
+            questionnaireTemplateId?: string;
             /** Format: double */
             questionnaireTemplateVersion?: number;
             fields?: components["schemas"]["QuestionnaireFieldDef"][];
@@ -5330,6 +5333,7 @@ export interface components {
             supplierContactEmail?: string;
             /** @enum {string} */
             status?: "pending_invite" | "invited" | "in_progress" | "submitted" | "approved" | "rejected";
+            questionnaireTemplateId?: string;
             /** Format: double */
             questionnaireTemplateVersion?: number;
             createdAt?: string;
@@ -5376,6 +5380,7 @@ export interface components {
             supplierContactEmail?: string;
             /** @enum {string} */
             status?: "pending_invite" | "invited" | "in_progress" | "submitted" | "approved" | "rejected";
+            questionnaireTemplateId?: string;
             /** Format: double */
             questionnaireTemplateVersion?: number;
             fields?: components["schemas"]["QuestionnaireFieldDef"][];
@@ -5422,6 +5427,7 @@ export interface components {
             supplierContactEmail?: string;
             /** @enum {string} */
             status?: "pending_invite" | "invited" | "in_progress" | "submitted" | "approved" | "rejected";
+            questionnaireTemplateId?: string;
             /** Format: double */
             questionnaireTemplateVersion?: number;
             createdAt?: string;
@@ -7322,6 +7328,10 @@ export interface components {
                 currency?: string;
             }[];
         };
+        ApplyConfirmationChangesResult: {
+            purchaseOrder?: components["schemas"]["PurchaseOrder"];
+            confirmation?: components["schemas"]["OrderConfirmation"];
+        };
         ListWebhooksResult: {
             endpoints?: components["schemas"]["WebhookEndpointView"][];
             eventTypes?: ("purchase_order.issued" | "purchase_order.changed" | "purchase_order.canceled" | "purchase_order.rejected" | "purchase_order.updated" | "purchase_order.confirmed" | "purchase_order.shipped" | "invoice.received" | "invoice.approved" | "invoice.rejected" | "invoice.paid" | "invoice.payment_withdrawn" | "invoice.payment" | "invoice.remittance_sent" | "invoice.credit_applied" | "invoice.updated" | "credit_note.received" | "credit_note.accepted" | "credit_note.rejected")[];
@@ -7377,10 +7387,6 @@ export interface components {
         };
         ListWebhookDeliveriesResult: {
             deliveries?: components["schemas"]["WebhookDelivery"][];
-        };
-        ApplyConfirmationChangesResult: {
-            purchaseOrder?: components["schemas"]["PurchaseOrder"];
-            confirmation?: components["schemas"]["OrderConfirmation"];
         };
         RequestPurchaseRequestFileUploadResult: {
             fileId?: string;
@@ -9706,6 +9712,176 @@ export interface operations {
             };
         };
     };
+    GetPurchaseOrderFulfillment: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseOrderFulfillment"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ConfirmPurchaseOrder: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateOrderConfirmationInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderConfirmation"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ApplyConfirmationChanges: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                poId: string;
+                confirmationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplyConfirmationChangesResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    DeclineConfirmationChanges: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                poId: string;
+                confirmationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeclineConfirmationChangesInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderConfirmation"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SendShipNotice: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateShipNoticeInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShipNotice"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     ListSyncEvents: {
         parameters: {
             query?: {
@@ -10100,176 +10276,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ListWebhookDeliveriesResult"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    GetPurchaseOrderFulfillment: {
-        parameters: {
-            query?: {
-                buyer?: string;
-            };
-            header?: never;
-            path: {
-                poId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PurchaseOrderFulfillment"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    ConfirmPurchaseOrder: {
-        parameters: {
-            query?: {
-                buyer?: string;
-            };
-            header?: never;
-            path: {
-                poId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateOrderConfirmationInput"];
-            };
-        };
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["OrderConfirmation"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    ApplyConfirmationChanges: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                poId: string;
-                confirmationId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApplyConfirmationChangesResult"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    DeclineConfirmationChanges: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                poId: string;
-                confirmationId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["DeclineConfirmationChangesInput"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["OrderConfirmation"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    SendShipNotice: {
-        parameters: {
-            query?: {
-                buyer?: string;
-            };
-            header?: never;
-            path: {
-                poId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateShipNoticeInput"];
-            };
-        };
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ShipNotice"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

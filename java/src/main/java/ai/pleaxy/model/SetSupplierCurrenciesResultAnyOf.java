@@ -47,6 +47,7 @@ import ai.pleaxy.client.ApiClient;
   SetSupplierCurrenciesResultAnyOf.JSON_PROPERTY_INVITED_AS_NAME,
   SetSupplierCurrenciesResultAnyOf.JSON_PROPERTY_SUPPLIER_CONTACT_EMAIL,
   SetSupplierCurrenciesResultAnyOf.JSON_PROPERTY_STATUS,
+  SetSupplierCurrenciesResultAnyOf.JSON_PROPERTY_QUESTIONNAIRE_TEMPLATE_ID,
   SetSupplierCurrenciesResultAnyOf.JSON_PROPERTY_QUESTIONNAIRE_TEMPLATE_VERSION,
   SetSupplierCurrenciesResultAnyOf.JSON_PROPERTY_FIELDS,
   SetSupplierCurrenciesResultAnyOf.JSON_PROPERTY_RESPONSES,
@@ -154,6 +155,10 @@ public class SetSupplierCurrenciesResultAnyOf {
   public static final String JSON_PROPERTY_STATUS = "status";
   @javax.annotation.Nullable
   private StatusEnum status;
+
+  public static final String JSON_PROPERTY_QUESTIONNAIRE_TEMPLATE_ID = "questionnaireTemplateId";
+  @javax.annotation.Nullable
+  private String questionnaireTemplateId;
 
   public static final String JSON_PROPERTY_QUESTIONNAIRE_TEMPLATE_VERSION = "questionnaireTemplateVersion";
   @javax.annotation.Nullable
@@ -506,6 +511,30 @@ public class SetSupplierCurrenciesResultAnyOf {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
+  }
+
+
+  public SetSupplierCurrenciesResultAnyOf questionnaireTemplateId(@javax.annotation.Nullable String questionnaireTemplateId) {
+    this.questionnaireTemplateId = questionnaireTemplateId;
+    return this;
+  }
+
+  /**
+   * Get questionnaireTemplateId
+   * @return questionnaireTemplateId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_QUESTIONNAIRE_TEMPLATE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getQuestionnaireTemplateId() {
+    return questionnaireTemplateId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_QUESTIONNAIRE_TEMPLATE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setQuestionnaireTemplateId(@javax.annotation.Nullable String questionnaireTemplateId) {
+    this.questionnaireTemplateId = questionnaireTemplateId;
   }
 
 
@@ -1265,6 +1294,7 @@ public class SetSupplierCurrenciesResultAnyOf {
         Objects.equals(this.invitedAsName, setSupplierCurrenciesResultAnyOf.invitedAsName) &&
         Objects.equals(this.supplierContactEmail, setSupplierCurrenciesResultAnyOf.supplierContactEmail) &&
         Objects.equals(this.status, setSupplierCurrenciesResultAnyOf.status) &&
+        Objects.equals(this.questionnaireTemplateId, setSupplierCurrenciesResultAnyOf.questionnaireTemplateId) &&
         Objects.equals(this.questionnaireTemplateVersion, setSupplierCurrenciesResultAnyOf.questionnaireTemplateVersion) &&
         Objects.equals(this.fields, setSupplierCurrenciesResultAnyOf.fields) &&
         Objects.equals(this.responses, setSupplierCurrenciesResultAnyOf.responses) &&
@@ -1299,7 +1329,7 @@ public class SetSupplierCurrenciesResultAnyOf {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, buyerOrgId, buyerName, supplierOrgId, supplierName, invitedAsName, supplierContactEmail, status, questionnaireTemplateVersion, fields, responses, createdAt, invitedAt, respondedAt, reviewedAt, reviewedBy, rejectionReason, cloudProvider, billingCurrency, paymentCurrency, offPlatformInvoicesRecorded, supplierRegion, acceptedRegionName, acceptedRegionMatchesRequest, invoiceFeedEnabled, invoiceFeedUpdatedAt, invoiceFeedUpdatedBy, feedLastAttemptAt, feedLastAcceptedAt, feedAcceptedCount, feedLastRefusedAt, feedLastRefusedCode, feedLastValidAt, feedValidCount, lateFeeTerms, lateFeeTermsUpdatedAt, lateFeeTermsAttestedAt, lateFeeTermsAttestationVersion);
+    return Objects.hash(id, buyerOrgId, buyerName, supplierOrgId, supplierName, invitedAsName, supplierContactEmail, status, questionnaireTemplateId, questionnaireTemplateVersion, fields, responses, createdAt, invitedAt, respondedAt, reviewedAt, reviewedBy, rejectionReason, cloudProvider, billingCurrency, paymentCurrency, offPlatformInvoicesRecorded, supplierRegion, acceptedRegionName, acceptedRegionMatchesRequest, invoiceFeedEnabled, invoiceFeedUpdatedAt, invoiceFeedUpdatedBy, feedLastAttemptAt, feedLastAcceptedAt, feedAcceptedCount, feedLastRefusedAt, feedLastRefusedCode, feedLastValidAt, feedValidCount, lateFeeTerms, lateFeeTermsUpdatedAt, lateFeeTermsAttestedAt, lateFeeTermsAttestationVersion);
   }
 
   @Override
@@ -1314,6 +1344,7 @@ public class SetSupplierCurrenciesResultAnyOf {
     sb.append("    invitedAsName: ").append(toIndentedString(invitedAsName)).append("\n");
     sb.append("    supplierContactEmail: ").append(toIndentedString(supplierContactEmail)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    questionnaireTemplateId: ").append(toIndentedString(questionnaireTemplateId)).append("\n");
     sb.append("    questionnaireTemplateVersion: ").append(toIndentedString(questionnaireTemplateVersion)).append("\n");
     sb.append("    fields: ").append(toIndentedString(fields)).append("\n");
     sb.append("    responses: ").append(toIndentedString(responses)).append("\n");
@@ -1429,6 +1460,11 @@ public class SetSupplierCurrenciesResultAnyOf {
     // add `status` to the URL query string
     if (getStatus() != null) {
       joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `questionnaireTemplateId` to the URL query string
+    if (getQuestionnaireTemplateId() != null) {
+      joiner.add(String.format("%squestionnaireTemplateId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuestionnaireTemplateId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `questionnaireTemplateVersion` to the URL query string

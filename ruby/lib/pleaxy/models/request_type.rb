@@ -27,6 +27,8 @@ module Pleaxy
 
     attr_accessor :defaults
 
+    attr_accessor :supplier_questionnaire_id
+
     attr_accessor :fields
 
     attr_accessor :version
@@ -48,6 +50,7 @@ module Pleaxy
         :'active' => :'active',
         :'order' => :'order',
         :'defaults' => :'defaults',
+        :'supplier_questionnaire_id' => :'supplierQuestionnaireId',
         :'fields' => :'fields',
         :'version' => :'version',
         :'used_at' => :'usedAt',
@@ -71,6 +74,7 @@ module Pleaxy
         :'active' => :'Boolean',
         :'order' => :'Float',
         :'defaults' => :'RequestTypeDefaults',
+        :'supplier_questionnaire_id' => :'String',
         :'fields' => :'Array<QuestionnaireFieldDef>',
         :'version' => :'Float',
         :'used_at' => :'String',
@@ -125,6 +129,10 @@ module Pleaxy
 
       if attributes.key?(:'defaults')
         self.defaults = attributes[:'defaults']
+      end
+
+      if attributes.key?(:'supplier_questionnaire_id')
+        self.supplier_questionnaire_id = attributes[:'supplier_questionnaire_id']
       end
 
       if attributes.key?(:'fields')
@@ -185,6 +193,7 @@ module Pleaxy
           active == o.active &&
           order == o.order &&
           defaults == o.defaults &&
+          supplier_questionnaire_id == o.supplier_questionnaire_id &&
           fields == o.fields &&
           version == o.version &&
           used_at == o.used_at &&
@@ -202,7 +211,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, description, active, order, defaults, fields, version, used_at, created_at, updated_at, updated_by].hash
+      [id, name, description, active, order, defaults, supplier_questionnaire_id, fields, version, used_at, created_at, updated_at, updated_by].hash
     end
 
     # Builds the object from hash

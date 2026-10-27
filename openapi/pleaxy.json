@@ -3257,6 +3257,281 @@
         ]
       }
     },
+    "/purchase-orders/{poId}/fulfillment": {
+      "get": {
+        "operationId": "GetPurchaseOrderFulfillment",
+        "summary": "[Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject, qty, unitPrice, dates and reason, and the buyer's decision on a changed one: applied or declined); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder.",
+        "parameters": [
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseOrderFulfillment"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fulfillment"
+        ]
+      }
+    },
+    "/purchase-orders/{poId}/confirmations": {
+      "post": {
+        "operationId": "ConfirmPurchaseOrder",
+        "summary": "[Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, substitute?: { supplierPartId, name }, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line), unit price (in the order's currency) or item (substitute: a part number in your published catalog makes it that catalog item) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an order still awaiting fulfillment, not one already billed in full; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.",
+        "parameters": [
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderConfirmationInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderConfirmation"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fulfillment"
+        ]
+      }
+    },
+    "/purchase-orders/{poId}/confirmations/{confirmationId}/apply": {
+      "post": {
+        "operationId": "ApplyConfirmationChanges",
+        "summary": "[Buyer] Take the new quantities and unit prices in the supplier's latest confirmation (outcome changed) into the order: { purchaseOrder, confirmation }. An ordinary line edit, as UpdatePurchaseOrder: the order gets a new version, goes back to approval when its rules say so, and the supplier hears po_changed. 409 CONFIRMATION_SUPERSEDED when the supplier confirmed again since, CONFIRMATION_DECIDED when it was already applied or declined, NO_CHANGES, or ORDER_NOT_OPEN.",
+        "parameters": [
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "confirmationId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplyConfirmationChangesResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fulfillment"
+        ]
+      }
+    },
+    "/purchase-orders/{poId}/confirmations/{confirmationId}/decline": {
+      "post": {
+        "operationId": "DeclineConfirmationChanges",
+        "summary": "[Buyer] Keep the order as it is instead of the supplier's new quantities and prices: { reason? } (500 characters, shown to the supplier). Answers the confirmation with its decision; the supplier is told (po_changes_declined). The same 409s as ApplyConfirmationChanges.",
+        "parameters": [
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "confirmationId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeclineConfirmationChangesInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderConfirmation"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fulfillment"
+        ]
+      }
+    },
+    "/purchase-orders/{poId}/ship-notices": {
+      "post": {
+        "operationId": "SendShipNotice",
+        "summary": "[Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only goods lines (lineType goods) ordered by quantity ship; a service line is confirmed with a service entry sheet. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.",
+        "parameters": [
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateShipNoticeInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShipNotice"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fulfillment"
+        ]
+      }
+    },
     "/sync/events": {
       "get": {
         "operationId": "ListSyncEvents",
@@ -3875,281 +4150,6 @@
         },
         "tags": [
           "document-sync"
-        ]
-      }
-    },
-    "/purchase-orders/{poId}/fulfillment": {
-      "get": {
-        "operationId": "GetPurchaseOrderFulfillment",
-        "summary": "[Both] What the supplier said about an order: { confirmation?, confirmations, shipNotices, shippedByLine, expectedDeliveryDate? }. confirmation is the latest (outcome accepted|backordered|changed|partial|rejected, lines with status accept|backordered|change|reject, qty, unitPrice, dates and reason, and the buyer's decision on a changed one: applied or declined); shipNotices are the shipments (status planned|shipped|canceled, carrier, trackingNumber, trackingUrl, lines); shippedByLine adds up what shipped, canceled and planned shipments left out. A ship notice is never a receipt: what arrives is confirmed with a goods receipt. Takes the same ?buyer= as GetPurchaseOrder.",
-        "parameters": [
-          {
-            "name": "poId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "buyer",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PurchaseOrderFulfillment"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "fulfillment"
-        ]
-      }
-    },
-    "/purchase-orders/{poId}/confirmations": {
-      "post": {
-        "operationId": "ConfirmPurchaseOrder",
-        "summary": "[Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, substitute?: { supplierPartId, name }, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line), unit price (in the order's currency) or item (substitute: a part number in your published catalog makes it that catalog item) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.",
-        "parameters": [
-          {
-            "name": "poId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "buyer",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateOrderConfirmationInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderConfirmation"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "fulfillment"
-        ]
-      }
-    },
-    "/purchase-orders/{poId}/confirmations/{confirmationId}/apply": {
-      "post": {
-        "operationId": "ApplyConfirmationChanges",
-        "summary": "[Buyer] Take the new quantities and unit prices in the supplier's latest confirmation (outcome changed) into the order: { purchaseOrder, confirmation }. An ordinary line edit, as UpdatePurchaseOrder: the order gets a new version, goes back to approval when its rules say so, and the supplier hears po_changed. 409 CONFIRMATION_SUPERSEDED when the supplier confirmed again since, CONFIRMATION_DECIDED when it was already applied or declined, NO_CHANGES, or ORDER_NOT_OPEN.",
-        "parameters": [
-          {
-            "name": "poId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "confirmationId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplyConfirmationChangesResult"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "fulfillment"
-        ]
-      }
-    },
-    "/purchase-orders/{poId}/confirmations/{confirmationId}/decline": {
-      "post": {
-        "operationId": "DeclineConfirmationChanges",
-        "summary": "[Buyer] Keep the order as it is instead of the supplier's new quantities and prices: { reason? } (500 characters, shown to the supplier). Answers the confirmation with its decision; the supplier is told (po_changes_declined). The same 409s as ApplyConfirmationChanges.",
-        "parameters": [
-          {
-            "name": "poId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "confirmationId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeclineConfirmationChangesInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderConfirmation"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "fulfillment"
-        ]
-      }
-    },
-    "/purchase-orders/{poId}/ship-notices": {
-      "post": {
-        "operationId": "SendShipNotice",
-        "summary": "[Supplier] Tell the buyer a shipment is on its way (an advance ship notice, as a cXML ShipNoticeRequest would): { shipmentId, status?: shipped|planned|canceled, shipmentDate?, deliveryDate?, carrier?, trackingNumber?, trackingUrl? (https), note?, lines: [{ lineNo, qty }] }. Only goods lines (lineType goods) ordered by quantity ship; a service line is confirmed with a service entry sheet. Sending a shipmentId again replaces that shipment; status canceled withdraws it (404 SHIPMENT_NOT_FOUND if there is none) and needs no lines. The buyer's requester and receiver are told of a new shipment or a new status, and the buyer's sync feed gets purchase_order.shipped. Never a receipt: the buyer still confirms what arrives. Only an open order (awaiting_fulfillment or invoiced), except to withdraw; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.",
-        "parameters": [
-          {
-            "name": "poId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "buyer",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateShipNoticeInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ShipNotice"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "fulfillment"
         ]
       }
     },
@@ -7072,54 +7072,6 @@
           "currency"
         ]
       },
-      "CreateWebhookInput": {
-        "type": "object",
-        "properties": {
-          "url": {
-            "type": "string",
-            "maxLength": 2048,
-            "description": "https:// address on a host name that answers a POST with a 2xx within 10 seconds."
-          },
-          "description": {
-            "type": "string",
-            "maxLength": 400,
-            "description": "Up to 100 characters, to tell endpoints apart."
-          },
-          "events": {
-            "description": "The event types to send (ListSyncEvents' types for your side). Leave out, or send [], for all of them.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": [
-          "url"
-        ]
-      },
-      "UpdateWebhookInput": {
-        "type": "object",
-        "properties": {
-          "enabled": {
-            "type": "boolean",
-            "description": "false pauses deliveries (nothing is queued while paused); true resumes them."
-          },
-          "url": {
-            "type": "string",
-            "maxLength": 2048
-          },
-          "description": {
-            "type": "string",
-            "maxLength": 400
-          },
-          "events": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
       "SubstituteItemInput": {
         "type": "object",
         "properties": {
@@ -7289,6 +7241,54 @@
         "required": [
           "shipmentId"
         ]
+      },
+      "CreateWebhookInput": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "https:// address on a host name that answers a POST with a 2xx within 10 seconds."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 400,
+            "description": "Up to 100 characters, to tell endpoints apart."
+          },
+          "events": {
+            "description": "The event types to send (ListSyncEvents' types for your side). Leave out, or send [], for all of them.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "url"
+        ]
+      },
+      "UpdateWebhookInput": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "false pauses deliveries (nothing is queued while paused); true resumes them."
+          },
+          "url": {
+            "type": "string",
+            "maxLength": 2048
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 400
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
       },
       "PurchaseRequestSupplierInput": {
         "type": "object",
@@ -8568,6 +8568,9 @@
                 ]
               }
             }
+          },
+          "supplierQuestionnaireId": {
+            "type": "string"
           },
           "fields": {
             "type": "array",
@@ -14742,6 +14745,278 @@
           }
         }
       },
+      "PurchaseOrderFulfillment": {
+        "type": "object",
+        "properties": {
+          "confirmation": {
+            "$ref": "#/components/schemas/OrderConfirmation"
+          },
+          "confirmations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderConfirmation"
+            }
+          },
+          "shipNotices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShipNotice"
+            }
+          },
+          "shippedByLine": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "lineNo": {
+                  "type": "number",
+                  "format": "double"
+                },
+                "qty": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          },
+          "expectedDeliveryDate": {
+            "type": "string"
+          }
+        }
+      },
+      "OrderConfirmation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "poId": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "rejected",
+              "accepted",
+              "partial",
+              "backordered",
+              "changed"
+            ]
+          },
+          "confirmId": {
+            "type": "string"
+          },
+          "operation": {
+            "type": "string",
+            "enum": [
+              "new",
+              "update"
+            ]
+          },
+          "deliveryDate": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderConfirmationLine"
+            }
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "cxml",
+              "portal",
+              "api",
+              "email"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "decision": {
+            "$ref": "#/components/schemas/OrderConfirmationDecision"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "OrderConfirmationLine": {
+        "type": "object",
+        "properties": {
+          "lineNo": {
+            "type": "number",
+            "format": "double"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "accept",
+              "reject",
+              "backordered",
+              "change"
+            ]
+          },
+          "qty": {
+            "type": "number",
+            "format": "double"
+          },
+          "unitPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "substitute": {
+            "$ref": "#/components/schemas/OrderConfirmationSubstitute"
+          },
+          "shipmentDate": {
+            "type": "string"
+          },
+          "deliveryDate": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      },
+      "OrderConfirmationSubstitute": {
+        "type": "object",
+        "properties": {
+          "supplierPartId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "catalogItemId": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "lineType": {
+            "type": "string",
+            "enum": [
+              "goods",
+              "service"
+            ]
+          }
+        }
+      },
+      "OrderConfirmationDecision": {
+        "type": "object",
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "applied",
+              "declined"
+            ]
+          },
+          "at": {
+            "type": "string"
+          },
+          "version": {
+            "type": "number",
+            "format": "double"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      },
+      "ShipNotice": {
+        "type": "object",
+        "properties": {
+          "shipmentId": {
+            "type": "string"
+          },
+          "poId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "canceled",
+              "planned",
+              "shipped"
+            ]
+          },
+          "shipmentDate": {
+            "type": "string"
+          },
+          "deliveryDate": {
+            "type": "string"
+          },
+          "carrier": {
+            "type": "string"
+          },
+          "trackingNumber": {
+            "type": "string"
+          },
+          "trackingUrl": {
+            "type": "string"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShipNoticeLine"
+            }
+          },
+          "note": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "cxml",
+              "portal",
+              "api",
+              "email"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "receipts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "receivedAt": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ]
+            }
+          }
+        }
+      },
+      "ShipNoticeLine": {
+        "type": "object",
+        "properties": {
+          "lineNo": {
+            "type": "number",
+            "format": "double"
+          },
+          "qty": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
       "SyncEventPage": {
         "type": "object",
         "properties": {
@@ -15104,278 +15379,6 @@
           },
           "deliveredAt": {
             "type": "string"
-          }
-        }
-      },
-      "PurchaseOrderFulfillment": {
-        "type": "object",
-        "properties": {
-          "confirmation": {
-            "$ref": "#/components/schemas/OrderConfirmation"
-          },
-          "confirmations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OrderConfirmation"
-            }
-          },
-          "shipNotices": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShipNotice"
-            }
-          },
-          "shippedByLine": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "lineNo": {
-                  "type": "number",
-                  "format": "double"
-                },
-                "qty": {
-                  "type": "number",
-                  "format": "double"
-                }
-              }
-            }
-          },
-          "expectedDeliveryDate": {
-            "type": "string"
-          }
-        }
-      },
-      "OrderConfirmation": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "poId": {
-            "type": "string"
-          },
-          "outcome": {
-            "type": "string",
-            "enum": [
-              "rejected",
-              "accepted",
-              "partial",
-              "backordered",
-              "changed"
-            ]
-          },
-          "confirmId": {
-            "type": "string"
-          },
-          "operation": {
-            "type": "string",
-            "enum": [
-              "new",
-              "update"
-            ]
-          },
-          "deliveryDate": {
-            "type": "string"
-          },
-          "note": {
-            "type": "string"
-          },
-          "lines": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OrderConfirmationLine"
-            }
-          },
-          "source": {
-            "type": "string",
-            "enum": [
-              "cxml",
-              "portal",
-              "api",
-              "email"
-            ]
-          },
-          "createdAt": {
-            "type": "string"
-          },
-          "decision": {
-            "$ref": "#/components/schemas/OrderConfirmationDecision"
-          }
-        },
-        "required": [
-          "id"
-        ]
-      },
-      "OrderConfirmationLine": {
-        "type": "object",
-        "properties": {
-          "lineNo": {
-            "type": "number",
-            "format": "double"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "accept",
-              "reject",
-              "backordered",
-              "change"
-            ]
-          },
-          "qty": {
-            "type": "number",
-            "format": "double"
-          },
-          "unitPrice": {
-            "type": "number",
-            "format": "double"
-          },
-          "substitute": {
-            "$ref": "#/components/schemas/OrderConfirmationSubstitute"
-          },
-          "shipmentDate": {
-            "type": "string"
-          },
-          "deliveryDate": {
-            "type": "string"
-          },
-          "reason": {
-            "type": "string"
-          }
-        }
-      },
-      "OrderConfirmationSubstitute": {
-        "type": "object",
-        "properties": {
-          "supplierPartId": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "catalogItemId": {
-            "type": "string"
-          },
-          "unit": {
-            "type": "string"
-          },
-          "lineType": {
-            "type": "string",
-            "enum": [
-              "goods",
-              "service"
-            ]
-          }
-        }
-      },
-      "OrderConfirmationDecision": {
-        "type": "object",
-        "properties": {
-          "decision": {
-            "type": "string",
-            "enum": [
-              "applied",
-              "declined"
-            ]
-          },
-          "at": {
-            "type": "string"
-          },
-          "version": {
-            "type": "number",
-            "format": "double"
-          },
-          "reason": {
-            "type": "string"
-          }
-        }
-      },
-      "ShipNotice": {
-        "type": "object",
-        "properties": {
-          "shipmentId": {
-            "type": "string"
-          },
-          "poId": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "canceled",
-              "planned",
-              "shipped"
-            ]
-          },
-          "shipmentDate": {
-            "type": "string"
-          },
-          "deliveryDate": {
-            "type": "string"
-          },
-          "carrier": {
-            "type": "string"
-          },
-          "trackingNumber": {
-            "type": "string"
-          },
-          "trackingUrl": {
-            "type": "string"
-          },
-          "lines": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShipNoticeLine"
-            }
-          },
-          "note": {
-            "type": "string"
-          },
-          "source": {
-            "type": "string",
-            "enum": [
-              "cxml",
-              "portal",
-              "api",
-              "email"
-            ]
-          },
-          "createdAt": {
-            "type": "string"
-          },
-          "updatedAt": {
-            "type": "string"
-          },
-          "receipts": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "receivedAt": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "id"
-              ]
-            }
-          }
-        }
-      },
-      "ShipNoticeLine": {
-        "type": "object",
-        "properties": {
-          "lineNo": {
-            "type": "number",
-            "format": "double"
-          },
-          "qty": {
-            "type": "number",
-            "format": "double"
           }
         }
       },
@@ -16547,6 +16550,9 @@
               "rejected"
             ]
           },
+          "questionnaireTemplateId": {
+            "type": "string"
+          },
           "questionnaireTemplateVersion": {
             "type": "number",
             "format": "double"
@@ -16694,6 +16700,9 @@
                   "rejected"
                 ]
               },
+              "questionnaireTemplateId": {
+                "type": "string"
+              },
               "questionnaireTemplateVersion": {
                 "type": "number",
                 "format": "double"
@@ -16838,6 +16847,9 @@
                   "approved",
                   "rejected"
                 ]
+              },
+              "questionnaireTemplateId": {
+                "type": "string"
               },
               "questionnaireTemplateVersion": {
                 "type": "number",
@@ -16990,6 +17002,9 @@
                   "rejected"
                 ]
               },
+              "questionnaireTemplateId": {
+                "type": "string"
+              },
               "questionnaireTemplateVersion": {
                 "type": "number",
                 "format": "double"
@@ -17145,6 +17160,9 @@
                   "approved",
                   "rejected"
                 ]
+              },
+              "questionnaireTemplateId": {
+                "type": "string"
               },
               "questionnaireTemplateVersion": {
                 "type": "number",
@@ -23637,6 +23655,17 @@
           }
         }
       },
+      "ApplyConfirmationChangesResult": {
+        "type": "object",
+        "properties": {
+          "purchaseOrder": {
+            "$ref": "#/components/schemas/PurchaseOrder"
+          },
+          "confirmation": {
+            "$ref": "#/components/schemas/OrderConfirmation"
+          }
+        }
+      },
       "ListWebhooksResult": {
         "type": "object",
         "properties": {
@@ -23890,17 +23919,6 @@
             "items": {
               "$ref": "#/components/schemas/WebhookDelivery"
             }
-          }
-        }
-      },
-      "ApplyConfirmationChangesResult": {
-        "type": "object",
-        "properties": {
-          "purchaseOrder": {
-            "$ref": "#/components/schemas/PurchaseOrder"
-          },
-          "confirmation": {
-            "$ref": "#/components/schemas/OrderConfirmation"
           }
         }
       },

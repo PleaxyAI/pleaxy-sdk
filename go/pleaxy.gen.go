@@ -4113,6 +4113,7 @@ type AddCloudProviderAsSupplierResult struct {
 	LateFeeTermsUpdatedAt          *string                                        `json:"lateFeeTermsUpdatedAt,omitempty"`
 	OffPlatformInvoicesRecorded    *bool                                          `json:"offPlatformInvoicesRecorded,omitempty"`
 	PaymentCurrency                *string                                        `json:"paymentCurrency,omitempty"`
+	QuestionnaireTemplateId        *string                                        `json:"questionnaireTemplateId,omitempty"`
 	QuestionnaireTemplateVersion   *float64                                       `json:"questionnaireTemplateVersion,omitempty"`
 	RejectionReason                *string                                        `json:"rejectionReason,omitempty"`
 	RespondedAt                    *string                                        `json:"respondedAt,omitempty"`
@@ -10381,15 +10382,16 @@ type RequestType struct {
 		GlCode   *string                      `json:"glCode,omitempty"`
 		LineType *RequestTypeDefaultsLineType `json:"lineType,omitempty"`
 	} `json:"defaults,omitempty"`
-	Description *string                  `json:"description,omitempty"`
-	Fields      *[]QuestionnaireFieldDef `json:"fields,omitempty"`
-	Id          string                   `json:"id"`
-	Name        *string                  `json:"name,omitempty"`
-	Order       *float64                 `json:"order,omitempty"`
-	UpdatedAt   *string                  `json:"updatedAt,omitempty"`
-	UpdatedBy   *string                  `json:"updatedBy,omitempty"`
-	UsedAt      *string                  `json:"usedAt,omitempty"`
-	Version     *float64                 `json:"version,omitempty"`
+	Description             *string                  `json:"description,omitempty"`
+	Fields                  *[]QuestionnaireFieldDef `json:"fields,omitempty"`
+	Id                      string                   `json:"id"`
+	Name                    *string                  `json:"name,omitempty"`
+	Order                   *float64                 `json:"order,omitempty"`
+	SupplierQuestionnaireId *string                  `json:"supplierQuestionnaireId,omitempty"`
+	UpdatedAt               *string                  `json:"updatedAt,omitempty"`
+	UpdatedBy               *string                  `json:"updatedBy,omitempty"`
+	UsedAt                  *string                  `json:"usedAt,omitempty"`
+	Version                 *float64                 `json:"version,omitempty"`
 }
 
 // RequestTypeDefaultsLineType defines model for RequestType.Defaults.LineType.
@@ -10538,6 +10540,7 @@ type SetInvoiceFeedResult0 struct {
 	LateFeeTermsUpdatedAt          *string                             `json:"lateFeeTermsUpdatedAt,omitempty"`
 	OffPlatformInvoicesRecorded    *bool                               `json:"offPlatformInvoicesRecorded,omitempty"`
 	PaymentCurrency                *string                             `json:"paymentCurrency,omitempty"`
+	QuestionnaireTemplateId        *string                             `json:"questionnaireTemplateId,omitempty"`
 	QuestionnaireTemplateVersion   *float64                            `json:"questionnaireTemplateVersion,omitempty"`
 	RejectionReason                *string                             `json:"rejectionReason,omitempty"`
 	RespondedAt                    *string                             `json:"respondedAt,omitempty"`
@@ -10590,6 +10593,7 @@ type SetInvoiceFeedResult1 struct {
 	OffPlatformInvoicesRecorded    *bool                               `json:"offPlatformInvoicesRecorded,omitempty"`
 	PaymentCurrency                *string                             `json:"paymentCurrency,omitempty"`
 	QuestionnaireRedacted          *bool                               `json:"questionnaireRedacted,omitempty"`
+	QuestionnaireTemplateId        *string                             `json:"questionnaireTemplateId,omitempty"`
 	QuestionnaireTemplateVersion   *float64                            `json:"questionnaireTemplateVersion,omitempty"`
 	RejectionReason                *string                             `json:"rejectionReason,omitempty"`
 	RespondedAt                    *string                             `json:"respondedAt,omitempty"`
@@ -10645,6 +10649,7 @@ type SetSupplierCurrenciesResult0 struct {
 	LateFeeTermsUpdatedAt          *string                                    `json:"lateFeeTermsUpdatedAt,omitempty"`
 	OffPlatformInvoicesRecorded    *bool                                      `json:"offPlatformInvoicesRecorded,omitempty"`
 	PaymentCurrency                *string                                    `json:"paymentCurrency,omitempty"`
+	QuestionnaireTemplateId        *string                                    `json:"questionnaireTemplateId,omitempty"`
 	QuestionnaireTemplateVersion   *float64                                   `json:"questionnaireTemplateVersion,omitempty"`
 	RejectionReason                *string                                    `json:"rejectionReason,omitempty"`
 	RespondedAt                    *string                                    `json:"respondedAt,omitempty"`
@@ -10693,6 +10698,7 @@ type SetSupplierCurrenciesResult1 struct {
 	OffPlatformInvoicesRecorded    *bool                                      `json:"offPlatformInvoicesRecorded,omitempty"`
 	PaymentCurrency                *string                                    `json:"paymentCurrency,omitempty"`
 	QuestionnaireRedacted          *bool                                      `json:"questionnaireRedacted,omitempty"`
+	QuestionnaireTemplateId        *string                                    `json:"questionnaireTemplateId,omitempty"`
 	QuestionnaireTemplateVersion   *float64                                   `json:"questionnaireTemplateVersion,omitempty"`
 	RejectionReason                *string                                    `json:"rejectionReason,omitempty"`
 	RespondedAt                    *string                                    `json:"respondedAt,omitempty"`

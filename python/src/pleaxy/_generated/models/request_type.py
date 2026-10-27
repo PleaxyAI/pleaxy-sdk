@@ -23,6 +23,7 @@ class RequestType:
         active (Union[Unset, bool]):
         order (Union[Unset, float]):
         defaults (Union[Unset, RequestTypeDefaults]):
+        supplier_questionnaire_id (Union[Unset, str]):
         fields (Union[Unset, List['QuestionnaireFieldDef']]):
         version (Union[Unset, float]):
         used_at (Union[Unset, str]):
@@ -37,6 +38,7 @@ class RequestType:
     active: Union[Unset, bool] = UNSET
     order: Union[Unset, float] = UNSET
     defaults: Union[Unset, "RequestTypeDefaults"] = UNSET
+    supplier_questionnaire_id: Union[Unset, str] = UNSET
     fields: Union[Unset, List["QuestionnaireFieldDef"]] = UNSET
     version: Union[Unset, float] = UNSET
     used_at: Union[Unset, str] = UNSET
@@ -59,6 +61,8 @@ class RequestType:
         defaults: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.defaults, Unset):
             defaults = self.defaults.to_dict()
+
+        supplier_questionnaire_id = self.supplier_questionnaire_id
 
         fields: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.fields, Unset):
@@ -94,6 +98,8 @@ class RequestType:
             field_dict["order"] = order
         if defaults is not UNSET:
             field_dict["defaults"] = defaults
+        if supplier_questionnaire_id is not UNSET:
+            field_dict["supplierQuestionnaireId"] = supplier_questionnaire_id
         if fields is not UNSET:
             field_dict["fields"] = fields
         if version is not UNSET:
@@ -132,6 +138,8 @@ class RequestType:
         else:
             defaults = RequestTypeDefaults.from_dict(_defaults)
 
+        supplier_questionnaire_id = d.pop("supplierQuestionnaireId", UNSET)
+
         fields = []
         _fields = d.pop("fields", UNSET)
         for fields_item_data in _fields or []:
@@ -156,6 +164,7 @@ class RequestType:
             active=active,
             order=order,
             defaults=defaults,
+            supplier_questionnaire_id=supplier_questionnaire_id,
             fields=fields,
             version=version,
             used_at=used_at,

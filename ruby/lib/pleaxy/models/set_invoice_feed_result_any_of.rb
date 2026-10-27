@@ -33,6 +33,8 @@ module Pleaxy
 
     attr_accessor :status
 
+    attr_accessor :questionnaire_template_id
+
     attr_accessor :questionnaire_template_version
 
     attr_accessor :fields
@@ -127,6 +129,7 @@ module Pleaxy
         :'invited_as_name' => :'invitedAsName',
         :'supplier_contact_email' => :'supplierContactEmail',
         :'status' => :'status',
+        :'questionnaire_template_id' => :'questionnaireTemplateId',
         :'questionnaire_template_version' => :'questionnaireTemplateVersion',
         :'fields' => :'fields',
         :'responses' => :'responses',
@@ -177,6 +180,7 @@ module Pleaxy
         :'invited_as_name' => :'String',
         :'supplier_contact_email' => :'String',
         :'status' => :'String',
+        :'questionnaire_template_id' => :'String',
         :'questionnaire_template_version' => :'Float',
         :'fields' => :'Array<QuestionnaireFieldDef>',
         :'responses' => :'Array<QuestionnaireResponseItem>',
@@ -267,6 +271,10 @@ module Pleaxy
 
       if attributes.key?(:'status')
         self.status = attributes[:'status']
+      end
+
+      if attributes.key?(:'questionnaire_template_id')
+        self.questionnaire_template_id = attributes[:'questionnaire_template_id']
       end
 
       if attributes.key?(:'questionnaire_template_version')
@@ -464,6 +472,7 @@ module Pleaxy
           invited_as_name == o.invited_as_name &&
           supplier_contact_email == o.supplier_contact_email &&
           status == o.status &&
+          questionnaire_template_id == o.questionnaire_template_id &&
           questionnaire_template_version == o.questionnaire_template_version &&
           fields == o.fields &&
           responses == o.responses &&
@@ -505,7 +514,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [feed_readiness, id, buyer_org_id, buyer_name, supplier_org_id, supplier_name, invited_as_name, supplier_contact_email, status, questionnaire_template_version, fields, responses, created_at, invited_at, responded_at, reviewed_at, reviewed_by, rejection_reason, cloud_provider, billing_currency, payment_currency, off_platform_invoices_recorded, supplier_region, accepted_region_name, accepted_region_matches_request, invoice_feed_enabled, invoice_feed_updated_at, invoice_feed_updated_by, feed_last_attempt_at, feed_last_accepted_at, feed_accepted_count, feed_last_refused_at, feed_last_refused_code, feed_last_valid_at, feed_valid_count, late_fee_terms, late_fee_terms_updated_at, late_fee_terms_attested_at, late_fee_terms_attestation_version].hash
+      [feed_readiness, id, buyer_org_id, buyer_name, supplier_org_id, supplier_name, invited_as_name, supplier_contact_email, status, questionnaire_template_id, questionnaire_template_version, fields, responses, created_at, invited_at, responded_at, reviewed_at, reviewed_by, rejection_reason, cloud_provider, billing_currency, payment_currency, off_platform_invoices_recorded, supplier_region, accepted_region_name, accepted_region_matches_request, invoice_feed_enabled, invoice_feed_updated_at, invoice_feed_updated_by, feed_last_attempt_at, feed_last_accepted_at, feed_accepted_count, feed_last_refused_at, feed_last_refused_code, feed_last_valid_at, feed_valid_count, late_fee_terms, late_fee_terms_updated_at, late_fee_terms_attested_at, late_fee_terms_attestation_version].hash
     end
 
     # Builds the object from hash

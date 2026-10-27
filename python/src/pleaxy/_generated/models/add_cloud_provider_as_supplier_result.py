@@ -35,6 +35,7 @@ class AddCloudProviderAsSupplierResult:
         invited_as_name (Union[Unset, str]):
         supplier_contact_email (Union[Unset, str]):
         status (Union[Unset, AddCloudProviderAsSupplierResultStatus]):
+        questionnaire_template_id (Union[Unset, str]):
         questionnaire_template_version (Union[Unset, float]):
         fields (Union[Unset, List['QuestionnaireFieldDef']]):
         responses (Union[Unset, List['QuestionnaireResponseItem']]):
@@ -75,6 +76,7 @@ class AddCloudProviderAsSupplierResult:
     invited_as_name: Union[Unset, str] = UNSET
     supplier_contact_email: Union[Unset, str] = UNSET
     status: Union[Unset, AddCloudProviderAsSupplierResultStatus] = UNSET
+    questionnaire_template_id: Union[Unset, str] = UNSET
     questionnaire_template_version: Union[Unset, float] = UNSET
     fields: Union[Unset, List["QuestionnaireFieldDef"]] = UNSET
     responses: Union[Unset, List["QuestionnaireResponseItem"]] = UNSET
@@ -125,6 +127,8 @@ class AddCloudProviderAsSupplierResult:
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
             status = self.status
+
+        questionnaire_template_id = self.questionnaire_template_id
 
         questionnaire_template_version = self.questionnaire_template_version
 
@@ -223,6 +227,8 @@ class AddCloudProviderAsSupplierResult:
             field_dict["supplierContactEmail"] = supplier_contact_email
         if status is not UNSET:
             field_dict["status"] = status
+        if questionnaire_template_id is not UNSET:
+            field_dict["questionnaireTemplateId"] = questionnaire_template_id
         if questionnaire_template_version is not UNSET:
             field_dict["questionnaireTemplateVersion"] = questionnaire_template_version
         if fields is not UNSET:
@@ -316,6 +322,8 @@ class AddCloudProviderAsSupplierResult:
             status = UNSET
         else:
             status = check_add_cloud_provider_as_supplier_result_status(_status)
+
+        questionnaire_template_id = d.pop("questionnaireTemplateId", UNSET)
 
         questionnaire_template_version = d.pop("questionnaireTemplateVersion", UNSET)
 
@@ -415,6 +423,7 @@ class AddCloudProviderAsSupplierResult:
             invited_as_name=invited_as_name,
             supplier_contact_email=supplier_contact_email,
             status=status,
+            questionnaire_template_id=questionnaire_template_id,
             questionnaire_template_version=questionnaire_template_version,
             fields=fields,
             responses=responses,

@@ -43,6 +43,7 @@ import ai.pleaxy.client.ApiClient;
   RequestType.JSON_PROPERTY_ACTIVE,
   RequestType.JSON_PROPERTY_ORDER,
   RequestType.JSON_PROPERTY_DEFAULTS,
+  RequestType.JSON_PROPERTY_SUPPLIER_QUESTIONNAIRE_ID,
   RequestType.JSON_PROPERTY_FIELDS,
   RequestType.JSON_PROPERTY_VERSION,
   RequestType.JSON_PROPERTY_USED_AT,
@@ -75,6 +76,10 @@ public class RequestType {
   public static final String JSON_PROPERTY_DEFAULTS = "defaults";
   @javax.annotation.Nullable
   private RequestTypeDefaults defaults;
+
+  public static final String JSON_PROPERTY_SUPPLIER_QUESTIONNAIRE_ID = "supplierQuestionnaireId";
+  @javax.annotation.Nullable
+  private String supplierQuestionnaireId;
 
   public static final String JSON_PROPERTY_FIELDS = "fields";
   @javax.annotation.Nullable
@@ -244,6 +249,30 @@ public class RequestType {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDefaults(@javax.annotation.Nullable RequestTypeDefaults defaults) {
     this.defaults = defaults;
+  }
+
+
+  public RequestType supplierQuestionnaireId(@javax.annotation.Nullable String supplierQuestionnaireId) {
+    this.supplierQuestionnaireId = supplierQuestionnaireId;
+    return this;
+  }
+
+  /**
+   * Get supplierQuestionnaireId
+   * @return supplierQuestionnaireId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_QUESTIONNAIRE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getSupplierQuestionnaireId() {
+    return supplierQuestionnaireId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_QUESTIONNAIRE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSupplierQuestionnaireId(@javax.annotation.Nullable String supplierQuestionnaireId) {
+    this.supplierQuestionnaireId = supplierQuestionnaireId;
   }
 
 
@@ -417,6 +446,7 @@ public class RequestType {
         Objects.equals(this.active, requestType.active) &&
         Objects.equals(this.order, requestType.order) &&
         Objects.equals(this.defaults, requestType.defaults) &&
+        Objects.equals(this.supplierQuestionnaireId, requestType.supplierQuestionnaireId) &&
         Objects.equals(this.fields, requestType.fields) &&
         Objects.equals(this.version, requestType.version) &&
         Objects.equals(this.usedAt, requestType.usedAt) &&
@@ -427,7 +457,7 @@ public class RequestType {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, active, order, defaults, fields, version, usedAt, createdAt, updatedAt, updatedBy);
+    return Objects.hash(id, name, description, active, order, defaults, supplierQuestionnaireId, fields, version, usedAt, createdAt, updatedAt, updatedBy);
   }
 
   @Override
@@ -440,6 +470,7 @@ public class RequestType {
     sb.append("    active: ").append(toIndentedString(active)).append("\n");
     sb.append("    order: ").append(toIndentedString(order)).append("\n");
     sb.append("    defaults: ").append(toIndentedString(defaults)).append("\n");
+    sb.append("    supplierQuestionnaireId: ").append(toIndentedString(supplierQuestionnaireId)).append("\n");
     sb.append("    fields: ").append(toIndentedString(fields)).append("\n");
     sb.append("    version: ").append(toIndentedString(version)).append("\n");
     sb.append("    usedAt: ").append(toIndentedString(usedAt)).append("\n");
@@ -521,6 +552,11 @@ public class RequestType {
     // add `defaults` to the URL query string
     if (getDefaults() != null) {
       joiner.add(getDefaults().toUrlQueryString(prefix + "defaults" + suffix));
+    }
+
+    // add `supplierQuestionnaireId` to the URL query string
+    if (getSupplierQuestionnaireId() != null) {
+      joiner.add(String.format("%ssupplierQuestionnaireId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSupplierQuestionnaireId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `fields` to the URL query string

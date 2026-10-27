@@ -38,6 +38,7 @@ class SetInvoiceFeedResultType1:
         invited_as_name (Union[Unset, str]):
         supplier_contact_email (Union[Unset, str]):
         status (Union[Unset, SetInvoiceFeedResultType1Status]):
+        questionnaire_template_id (Union[Unset, str]):
         questionnaire_template_version (Union[Unset, float]):
         created_at (Union[Unset, str]):
         invited_at (Union[Unset, str]):
@@ -78,6 +79,7 @@ class SetInvoiceFeedResultType1:
     invited_as_name: Union[Unset, str] = UNSET
     supplier_contact_email: Union[Unset, str] = UNSET
     status: Union[Unset, SetInvoiceFeedResultType1Status] = UNSET
+    questionnaire_template_id: Union[Unset, str] = UNSET
     questionnaire_template_version: Union[Unset, float] = UNSET
     created_at: Union[Unset, str] = UNSET
     invited_at: Union[Unset, str] = UNSET
@@ -131,6 +133,8 @@ class SetInvoiceFeedResultType1:
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
             status = self.status
+
+        questionnaire_template_id = self.questionnaire_template_id
 
         questionnaire_template_version = self.questionnaire_template_version
 
@@ -219,6 +223,8 @@ class SetInvoiceFeedResultType1:
             field_dict["supplierContactEmail"] = supplier_contact_email
         if status is not UNSET:
             field_dict["status"] = status
+        if questionnaire_template_id is not UNSET:
+            field_dict["questionnaireTemplateId"] = questionnaire_template_id
         if questionnaire_template_version is not UNSET:
             field_dict["questionnaireTemplateVersion"] = questionnaire_template_version
         if created_at is not UNSET:
@@ -318,6 +324,8 @@ class SetInvoiceFeedResultType1:
         else:
             status = check_set_invoice_feed_result_type_1_status(_status)
 
+        questionnaire_template_id = d.pop("questionnaireTemplateId", UNSET)
+
         questionnaire_template_version = d.pop("questionnaireTemplateVersion", UNSET)
 
         created_at = d.pop("createdAt", UNSET)
@@ -405,6 +413,7 @@ class SetInvoiceFeedResultType1:
             invited_as_name=invited_as_name,
             supplier_contact_email=supplier_contact_email,
             status=status,
+            questionnaire_template_id=questionnaire_template_id,
             questionnaire_template_version=questionnaire_template_version,
             created_at=created_at,
             invited_at=invited_at,

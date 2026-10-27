@@ -83,9 +83,9 @@ def sync_detailed(
     outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or
     decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when
     the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself
-    doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment
-    or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key
-    needs the orders:fulfill scope.
+    doesn't change: a refused order is the buyer's to cancel. Only an order still awaiting fulfillment,
+    not one already billed in full; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as
+    GetPurchaseOrder. An API key needs the orders:fulfill scope.
 
     Args:
         po_id (str):
@@ -131,9 +131,9 @@ def sync(
     outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or
     decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when
     the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself
-    doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment
-    or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key
-    needs the orders:fulfill scope.
+    doesn't change: a refused order is the buyer's to cancel. Only an order still awaiting fulfillment,
+    not one already billed in full; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as
+    GetPurchaseOrder. An API key needs the orders:fulfill scope.
 
     Args:
         po_id (str):
@@ -174,9 +174,9 @@ async def asyncio_detailed(
     outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or
     decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when
     the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself
-    doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment
-    or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key
-    needs the orders:fulfill scope.
+    doesn't change: a refused order is the buyer's to cancel. Only an order still awaiting fulfillment,
+    not one already billed in full; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as
+    GetPurchaseOrder. An API key needs the orders:fulfill scope.
 
     Args:
         po_id (str):
@@ -220,9 +220,9 @@ async def asyncio(
     outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or
     decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when
     the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself
-    doesn't change: a refused order is the buyer's to cancel. Only an open order (awaiting_fulfillment
-    or invoiced); 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key
-    needs the orders:fulfill scope.
+    doesn't change: a refused order is the buyer's to cancel. Only an order still awaiting fulfillment,
+    not one already billed in full; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as
+    GetPurchaseOrder. An API key needs the orders:fulfill scope.
 
     Args:
         po_id (str):
