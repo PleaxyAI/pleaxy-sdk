@@ -45,6 +45,7 @@ import ai.pleaxy.client.ApiClient;
   ApprovalRouting.JSON_PROPERTY_RULE,
   ApprovalRouting.JSON_PROPERTY_AUTONOMY,
   ApprovalRouting.JSON_PROPERTY_TOUCHLESS_SKIPPED,
+  ApprovalRouting.JSON_PROPERTY_FLAGGED_ANSWERS,
   ApprovalRouting.JSON_PROPERTY_STEPS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -71,7 +72,9 @@ public class ApprovalRouting {
   public enum TouchlessSkippedEnum {
     HUMAN_ONLY(String.valueOf("human_only")),
     
-    OTHER_CURRENCY(String.valueOf("other_currency"));
+    OTHER_CURRENCY(String.valueOf("other_currency")),
+    
+    FLAGGED_ANSWER(String.valueOf("flagged_answer"));
 
     private String value;
 
@@ -103,6 +106,10 @@ public class ApprovalRouting {
   public static final String JSON_PROPERTY_TOUCHLESS_SKIPPED = "touchlessSkipped";
   @javax.annotation.Nullable
   private TouchlessSkippedEnum touchlessSkipped;
+
+  public static final String JSON_PROPERTY_FLAGGED_ANSWERS = "flaggedAnswers";
+  @javax.annotation.Nullable
+  private List<String> flaggedAnswers = new ArrayList<>();
 
   public static final String JSON_PROPERTY_STEPS = "steps";
   @javax.annotation.Nullable
@@ -231,6 +238,38 @@ public class ApprovalRouting {
   }
 
 
+  public ApprovalRouting flaggedAnswers(@javax.annotation.Nullable List<String> flaggedAnswers) {
+    this.flaggedAnswers = flaggedAnswers;
+    return this;
+  }
+
+  public ApprovalRouting addFlaggedAnswersItem(String flaggedAnswersItem) {
+    if (this.flaggedAnswers == null) {
+      this.flaggedAnswers = new ArrayList<>();
+    }
+    this.flaggedAnswers.add(flaggedAnswersItem);
+    return this;
+  }
+
+  /**
+   * Get flaggedAnswers
+   * @return flaggedAnswers
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_FLAGGED_ANSWERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getFlaggedAnswers() {
+    return flaggedAnswers;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_FLAGGED_ANSWERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setFlaggedAnswers(@javax.annotation.Nullable List<String> flaggedAnswers) {
+    this.flaggedAnswers = flaggedAnswers;
+  }
+
+
   public ApprovalRouting steps(@javax.annotation.Nullable List<ApprovalRoutingStep> steps) {
     this.steps = steps;
     return this;
@@ -280,12 +319,13 @@ public class ApprovalRouting {
         Objects.equals(this.rule, approvalRouting.rule) &&
         Objects.equals(this.autonomy, approvalRouting.autonomy) &&
         Objects.equals(this.touchlessSkipped, approvalRouting.touchlessSkipped) &&
+        Objects.equals(this.flaggedAnswers, approvalRouting.flaggedAnswers) &&
         Objects.equals(this.steps, approvalRouting.steps);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(budget, spendLimit, rule, autonomy, touchlessSkipped, steps);
+    return Objects.hash(budget, spendLimit, rule, autonomy, touchlessSkipped, flaggedAnswers, steps);
   }
 
   @Override
@@ -297,6 +337,7 @@ public class ApprovalRouting {
     sb.append("    rule: ").append(toIndentedString(rule)).append("\n");
     sb.append("    autonomy: ").append(toIndentedString(autonomy)).append("\n");
     sb.append("    touchlessSkipped: ").append(toIndentedString(touchlessSkipped)).append("\n");
+    sb.append("    flaggedAnswers: ").append(toIndentedString(flaggedAnswers)).append("\n");
     sb.append("    steps: ").append(toIndentedString(steps)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -368,6 +409,15 @@ public class ApprovalRouting {
     // add `touchlessSkipped` to the URL query string
     if (getTouchlessSkipped() != null) {
       joiner.add(String.format("%stouchlessSkipped%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTouchlessSkipped()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `flaggedAnswers` to the URL query string
+    if (getFlaggedAnswers() != null) {
+      for (int i = 0; i < getFlaggedAnswers().size(); i++) {
+        joiner.add(String.format("%sflaggedAnswers%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getFlaggedAnswers().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
     }
 
     // add `steps` to the URL query string

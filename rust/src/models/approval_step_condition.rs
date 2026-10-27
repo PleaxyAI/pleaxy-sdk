@@ -19,6 +19,8 @@ pub struct ApprovalStepCondition {
     pub operator: Option<Operator>,
     #[serde(rename = "value", skip_serializing_if = "Option::is_none")]
     pub value: Option<models::ApprovalStepConditionValue>,
+    #[serde(rename = "questionId", skip_serializing_if = "Option::is_none")]
+    pub question_id: Option<String>,
 }
 
 impl ApprovalStepCondition {
@@ -27,6 +29,7 @@ impl ApprovalStepCondition {
             field: None,
             operator: None,
             value: None,
+            question_id: None,
         }
     }
 }
@@ -43,6 +46,10 @@ pub enum Field {
     CostCenter,
     #[serde(rename = "glCode")]
     GlCode,
+    #[serde(rename = "requestType")]
+    RequestType,
+    #[serde(rename = "answer")]
+    Answer,
 }
 
 impl Default for Field {

@@ -21,6 +21,8 @@ module Pleaxy
 
     attr_accessor :value
 
+    attr_accessor :question_id
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -48,7 +50,8 @@ module Pleaxy
       {
         :'field' => :'field',
         :'operator' => :'operator',
-        :'value' => :'value'
+        :'value' => :'value',
+        :'question_id' => :'questionId'
       }
     end
 
@@ -62,7 +65,8 @@ module Pleaxy
       {
         :'field' => :'String',
         :'operator' => :'String',
-        :'value' => :'ApprovalStepConditionValue'
+        :'value' => :'ApprovalStepConditionValue',
+        :'question_id' => :'String'
       }
     end
 
@@ -98,6 +102,10 @@ module Pleaxy
       if attributes.key?(:'value')
         self.value = attributes[:'value']
       end
+
+      if attributes.key?(:'question_id')
+        self.question_id = attributes[:'question_id']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -112,7 +120,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      field_validator = EnumAttributeValidator.new('String', ["supplier", "amount", "requester", "costCenter", "glCode"])
+      field_validator = EnumAttributeValidator.new('String', ["supplier", "amount", "requester", "costCenter", "glCode", "requestType", "answer"])
       return false unless field_validator.valid?(@field)
       operator_validator = EnumAttributeValidator.new('String', ["gt", "gte", "lt", "lte", "is", "is_not"])
       return false unless operator_validator.valid?(@operator)
@@ -122,7 +130,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] field Object to be assigned
     def field=(field)
-      validator = EnumAttributeValidator.new('String', ["supplier", "amount", "requester", "costCenter", "glCode"])
+      validator = EnumAttributeValidator.new('String', ["supplier", "amount", "requester", "costCenter", "glCode", "requestType", "answer"])
       unless validator.valid?(field)
         fail ArgumentError, "invalid value for \"field\", must be one of #{validator.allowable_values}."
       end
@@ -146,7 +154,8 @@ module Pleaxy
       self.class == o.class &&
           field == o.field &&
           operator == o.operator &&
-          value == o.value
+          value == o.value &&
+          question_id == o.question_id
     end
 
     # @see the `==` method
@@ -158,7 +167,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [field, operator, value].hash
+      [field, operator, value, question_id].hash
     end
 
     # Builds the object from hash

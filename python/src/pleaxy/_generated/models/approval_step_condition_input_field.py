@@ -1,14 +1,16 @@
 from typing import Literal, Set, cast
 
 ApprovalStepConditionInputField = Literal[
-    "amount", "costCenter", "glCode", "requester", "supplier"
+    "amount", "answer", "costCenter", "glCode", "requester", "requestType", "supplier"
 ]
 
 APPROVAL_STEP_CONDITION_INPUT_FIELD_VALUES: Set[ApprovalStepConditionInputField] = {
     "amount",
+    "answer",
     "costCenter",
     "glCode",
     "requester",
+    "requestType",
     "supplier",
 }
 

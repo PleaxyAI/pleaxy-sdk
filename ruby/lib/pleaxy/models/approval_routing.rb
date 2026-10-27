@@ -25,6 +25,8 @@ module Pleaxy
 
     attr_accessor :touchless_skipped
 
+    attr_accessor :flagged_answers
+
     attr_accessor :steps
 
     class EnumAttributeValidator
@@ -57,6 +59,7 @@ module Pleaxy
         :'rule' => :'rule',
         :'autonomy' => :'autonomy',
         :'touchless_skipped' => :'touchlessSkipped',
+        :'flagged_answers' => :'flaggedAnswers',
         :'steps' => :'steps'
       }
     end
@@ -74,6 +77,7 @@ module Pleaxy
         :'rule' => :'ApprovalRoutingRule',
         :'autonomy' => :'ApprovalRoutingAutonomy',
         :'touchless_skipped' => :'String',
+        :'flagged_answers' => :'Array<String>',
         :'steps' => :'Array<ApprovalRoutingStep>'
       }
     end
@@ -119,6 +123,12 @@ module Pleaxy
         self.touchless_skipped = attributes[:'touchless_skipped']
       end
 
+      if attributes.key?(:'flagged_answers')
+        if (value = attributes[:'flagged_answers']).is_a?(Array)
+          self.flagged_answers = value
+        end
+      end
+
       if attributes.key?(:'steps')
         if (value = attributes[:'steps']).is_a?(Array)
           self.steps = value
@@ -138,7 +148,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      touchless_skipped_validator = EnumAttributeValidator.new('String', ["human_only", "other_currency"])
+      touchless_skipped_validator = EnumAttributeValidator.new('String', ["human_only", "other_currency", "flagged_answer"])
       return false unless touchless_skipped_validator.valid?(@touchless_skipped)
       true
     end
@@ -146,7 +156,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] touchless_skipped Object to be assigned
     def touchless_skipped=(touchless_skipped)
-      validator = EnumAttributeValidator.new('String', ["human_only", "other_currency"])
+      validator = EnumAttributeValidator.new('String', ["human_only", "other_currency", "flagged_answer"])
       unless validator.valid?(touchless_skipped)
         fail ArgumentError, "invalid value for \"touchless_skipped\", must be one of #{validator.allowable_values}."
       end
@@ -163,6 +173,7 @@ module Pleaxy
           rule == o.rule &&
           autonomy == o.autonomy &&
           touchless_skipped == o.touchless_skipped &&
+          flagged_answers == o.flagged_answers &&
           steps == o.steps
     end
 
@@ -175,7 +186,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [budget, spend_limit, rule, autonomy, touchless_skipped, steps].hash
+      [budget, spend_limit, rule, autonomy, touchless_skipped, flagged_answers, steps].hash
     end
 
     # Builds the object from hash

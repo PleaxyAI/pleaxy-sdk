@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -29,6 +29,7 @@ class ApprovalRouting:
         rule (Union[Unset, ApprovalRoutingRule]):
         autonomy (Union[Unset, ApprovalRoutingAutonomy]):
         touchless_skipped (Union[Unset, ApprovalRoutingTouchlessSkipped]):
+        flagged_answers (Union[Unset, List[str]]):
         steps (Union[Unset, List['ApprovalRoutingStep']]):
     """
 
@@ -37,6 +38,7 @@ class ApprovalRouting:
     rule: Union[Unset, "ApprovalRoutingRule"] = UNSET
     autonomy: Union[Unset, "ApprovalRoutingAutonomy"] = UNSET
     touchless_skipped: Union[Unset, ApprovalRoutingTouchlessSkipped] = UNSET
+    flagged_answers: Union[Unset, List[str]] = UNSET
     steps: Union[Unset, List["ApprovalRoutingStep"]] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -61,6 +63,10 @@ class ApprovalRouting:
         if not isinstance(self.touchless_skipped, Unset):
             touchless_skipped = self.touchless_skipped
 
+        flagged_answers: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.flagged_answers, Unset):
+            flagged_answers = self.flagged_answers
+
         steps: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.steps, Unset):
             steps = []
@@ -81,6 +87,8 @@ class ApprovalRouting:
             field_dict["autonomy"] = autonomy
         if touchless_skipped is not UNSET:
             field_dict["touchlessSkipped"] = touchless_skipped
+        if flagged_answers is not UNSET:
+            field_dict["flaggedAnswers"] = flagged_answers
         if steps is not UNSET:
             field_dict["steps"] = steps
 
@@ -132,6 +140,8 @@ class ApprovalRouting:
                 _touchless_skipped
             )
 
+        flagged_answers = cast(List[str], d.pop("flaggedAnswers", UNSET))
+
         steps = []
         _steps = d.pop("steps", UNSET)
         for steps_item_data in _steps or []:
@@ -145,6 +155,7 @@ class ApprovalRouting:
             rule=rule,
             autonomy=autonomy,
             touchless_skipped=touchless_skipped,
+            flagged_answers=flagged_answers,
             steps=steps,
         )
 

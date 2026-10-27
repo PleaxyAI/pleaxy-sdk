@@ -18,10 +18,13 @@ module Pleaxy
     # The document variable to test.
     attr_accessor :field
 
-    # gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
+    # gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter, glCode, requestType and answer.
     attr_accessor :operator
 
     attr_accessor :value
+
+    # answer only: the question tested, as <requestTypeId>/<fieldId> (a yes/no or choice question on that request type); value is one of its option ids (yes/no for a yes/no question). requestType and answer conditions go on the purchase_request flow only.
+    attr_accessor :question_id
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -50,7 +53,8 @@ module Pleaxy
       {
         :'field' => :'field',
         :'operator' => :'operator',
-        :'value' => :'value'
+        :'value' => :'value',
+        :'question_id' => :'questionId'
       }
     end
 
@@ -64,7 +68,8 @@ module Pleaxy
       {
         :'field' => :'String',
         :'operator' => :'String',
-        :'value' => :'ApprovalStepConditionInputValue'
+        :'value' => :'ApprovalStepConditionInputValue',
+        :'question_id' => :'String'
       }
     end
 
@@ -106,6 +111,10 @@ module Pleaxy
       else
         self.value = nil
       end
+
+      if attributes.key?(:'question_id')
+        self.question_id = attributes[:'question_id']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -125,6 +134,10 @@ module Pleaxy
         invalid_properties.push('invalid value for "value", value cannot be nil.')
       end
 
+      if !@question_id.nil? && @question_id.to_s.length > 120
+        invalid_properties.push('invalid value for "question_id", the character length must be smaller than or equal to 120.')
+      end
+
       invalid_properties
     end
 
@@ -133,19 +146,20 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @field.nil?
-      field_validator = EnumAttributeValidator.new('String', ["amount", "supplier", "requester", "costCenter", "glCode"])
+      field_validator = EnumAttributeValidator.new('String', ["amount", "supplier", "requester", "costCenter", "glCode", "requestType", "answer"])
       return false unless field_validator.valid?(@field)
       return false if @operator.nil?
       operator_validator = EnumAttributeValidator.new('String', ["gt", "gte", "lt", "lte", "is", "is_not"])
       return false unless operator_validator.valid?(@operator)
       return false if @value.nil?
+      return false if !@question_id.nil? && @question_id.to_s.length > 120
       true
     end
 
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] field Object to be assigned
     def field=(field)
-      validator = EnumAttributeValidator.new('String', ["amount", "supplier", "requester", "costCenter", "glCode"])
+      validator = EnumAttributeValidator.new('String', ["amount", "supplier", "requester", "costCenter", "glCode", "requestType", "answer"])
       unless validator.valid?(field)
         fail ArgumentError, "invalid value for \"field\", must be one of #{validator.allowable_values}."
       end
@@ -162,6 +176,20 @@ module Pleaxy
       @operator = operator
     end
 
+    # Custom attribute writer method with validation
+    # @param [Object] question_id Value to be assigned
+    def question_id=(question_id)
+      if question_id.nil?
+        fail ArgumentError, 'question_id cannot be nil'
+      end
+
+      if question_id.to_s.length > 120
+        fail ArgumentError, 'invalid value for "question_id", the character length must be smaller than or equal to 120.'
+      end
+
+      @question_id = question_id
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
@@ -169,7 +197,8 @@ module Pleaxy
       self.class == o.class &&
           field == o.field &&
           operator == o.operator &&
-          value == o.value
+          value == o.value &&
+          question_id == o.question_id
     end
 
     # @see the `==` method
@@ -181,7 +210,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [field, operator, value].hash
+      [field, operator, value, question_id].hash
     end
 
     # Builds the object from hash

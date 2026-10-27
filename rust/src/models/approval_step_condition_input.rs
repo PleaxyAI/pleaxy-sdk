@@ -16,11 +16,14 @@ pub struct ApprovalStepConditionInput {
     /// The document variable to test.
     #[serde(rename = "field")]
     pub field: Field,
-    /// gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
+    /// gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter, glCode, requestType and answer.
     #[serde(rename = "operator")]
     pub operator: Operator,
     #[serde(rename = "value")]
     pub value: models::ApprovalStepConditionInputValue,
+    /// answer only: the question tested, as <requestTypeId>/<fieldId> (a yes/no or choice question on that request type); value is one of its option ids (yes/no for a yes/no question). requestType and answer conditions go on the purchase_request flow only.
+    #[serde(rename = "questionId", skip_serializing_if = "Option::is_none")]
+    pub question_id: Option<String>,
 }
 
 impl ApprovalStepConditionInput {
@@ -33,6 +36,7 @@ impl ApprovalStepConditionInput {
             field,
             operator,
             value,
+            question_id: None,
         }
     }
 }
@@ -49,6 +53,10 @@ pub enum Field {
     CostCenter,
     #[serde(rename = "glCode")]
     GlCode,
+    #[serde(rename = "requestType")]
+    RequestType,
+    #[serde(rename = "answer")]
+    Answer,
 }
 
 impl Default for Field {
@@ -56,7 +64,7 @@ impl Default for Field {
         Self::Amount
     }
 }
-/// gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
+/// gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter, glCode, requestType and answer.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Operator {
     #[serde(rename = "gt")]

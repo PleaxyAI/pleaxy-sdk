@@ -23,6 +23,8 @@ pub struct ApprovalRouting {
     pub autonomy: Option<models::ApprovalRoutingAutonomy>,
     #[serde(rename = "touchlessSkipped", skip_serializing_if = "Option::is_none")]
     pub touchless_skipped: Option<TouchlessSkipped>,
+    #[serde(rename = "flaggedAnswers", skip_serializing_if = "Option::is_none")]
+    pub flagged_answers: Option<Vec<String>>,
     #[serde(rename = "steps", skip_serializing_if = "Option::is_none")]
     pub steps: Option<Vec<models::ApprovalRoutingStep>>,
 }
@@ -35,6 +37,7 @@ impl ApprovalRouting {
             rule: None,
             autonomy: None,
             touchless_skipped: None,
+            flagged_answers: None,
             steps: None,
         }
     }
@@ -46,6 +49,8 @@ pub enum TouchlessSkipped {
     HumanOnly,
     #[serde(rename = "other_currency")]
     OtherCurrency,
+    #[serde(rename = "flagged_answer")]
+    FlaggedAnswer,
 }
 
 impl Default for TouchlessSkipped {

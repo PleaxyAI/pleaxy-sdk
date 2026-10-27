@@ -1,8 +1,11 @@
 from typing import Literal, Set, cast
 
-ApprovalRoutingTouchlessSkipped = Literal["human_only", "other_currency"]
+ApprovalRoutingTouchlessSkipped = Literal[
+    "flagged_answer", "human_only", "other_currency"
+]
 
 APPROVAL_ROUTING_TOUCHLESS_SKIPPED_VALUES: Set[ApprovalRoutingTouchlessSkipped] = {
+    "flagged_answer",
     "human_only",
     "other_currency",
 }

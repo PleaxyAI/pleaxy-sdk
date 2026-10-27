@@ -212,6 +212,40 @@ export interface paths {
         patch: operations["UpdateApprovalChainSettings"];
         trace?: never;
     };
+    "/request-types": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] The workspace's request types in picker order, each with its intake form; active ones unless includeInactive=true */
+        get: operations["ListRequestTypes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/request-types/{typeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] One request type, active or not, with its intake form */
+        get: operations["GetRequestType"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/automation-rules/{process}": {
         parameters: {
             query?: never;
@@ -1500,40 +1534,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/request-types": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** [Buyer] The workspace's request types in picker order, each with its intake form; active ones unless includeInactive=true */
-        get: operations["ListRequestTypes"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/request-types/{typeId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** [Buyer] One request type, active or not, with its intake form */
-        get: operations["GetRequestType"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/invoices/{invoiceId}/stripe-payment": {
         parameters: {
             query?: never;
@@ -1669,14 +1669,16 @@ export interface components {
              * @description The document variable to test.
              * @enum {string}
              */
-            field: "amount" | "supplier" | "requester" | "costCenter" | "glCode";
+            field: "amount" | "supplier" | "requester" | "costCenter" | "glCode" | "requestType" | "answer";
             /**
-             * @description gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
+             * @description gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter, glCode, requestType and answer.
              * @enum {string}
              */
             operator: "gt" | "gte" | "lt" | "lte" | "is" | "is_not";
-            /** @description A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for glCode (the order's own, else its cost center's). */
+            /** @description A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for glCode (the order's own, else its cost center's), a request type id (rt_...) for requestType, an option id for answer. */
             value: number | string;
+            /** @description answer only: the question tested, as <requestTypeId>/<fieldId> (a yes/no or choice question on that request type); value is one of its option ids (yes/no for a yes/no question). requestType and answer conditions go on the purchase_request flow only. */
+            questionId?: string;
         };
         ApprovalStageGroupDefInput: {
             id: string;
@@ -2762,10 +2764,31 @@ export interface components {
         };
         ApprovalStepCondition: {
             /** @enum {string} */
-            field?: "supplier" | "amount" | "requester" | "costCenter" | "glCode";
+            field?: "supplier" | "amount" | "requester" | "costCenter" | "glCode" | "requestType" | "answer";
             /** @enum {string} */
             operator?: "gt" | "gte" | "lt" | "lte" | "is" | "is_not";
             value?: string | number;
+            questionId?: string;
+        };
+        RequestType: {
+            id: string;
+            name?: string;
+            description?: string;
+            active?: boolean;
+            /** Format: double */
+            order?: number;
+            defaults?: {
+                glCode?: string;
+                /** @enum {string} */
+                lineType?: "goods" | "service";
+            };
+            fields?: components["schemas"]["QuestionnaireFieldDef"][];
+            /** Format: double */
+            version?: number;
+            usedAt?: string;
+            createdAt?: string;
+            updatedAt?: string;
+            updatedBy?: string;
         };
         AutomationRuleSetView: {
             /** @enum {string} */
@@ -3335,7 +3358,8 @@ export interface components {
                 applied?: boolean;
             };
             /** @enum {string} */
-            touchlessSkipped?: "human_only" | "other_currency";
+            touchlessSkipped?: "human_only" | "other_currency" | "flagged_answer";
+            flaggedAnswers?: string[];
             steps?: components["schemas"]["ApprovalRoutingStep"][];
         };
         ApprovalRoutingStep: {
@@ -5063,26 +5087,6 @@ export interface components {
             selectedOptionIds?: string[];
             file?: components["schemas"]["QuestionnaireFileAnswer"];
             flagged?: boolean;
-        };
-        RequestType: {
-            id: string;
-            name?: string;
-            description?: string;
-            active?: boolean;
-            /** Format: double */
-            order?: number;
-            defaults?: {
-                glCode?: string;
-                /** @enum {string} */
-                lineType?: "goods" | "service";
-            };
-            fields?: components["schemas"]["QuestionnaireFieldDef"][];
-            /** Format: double */
-            version?: number;
-            usedAt?: string;
-            createdAt?: string;
-            updatedAt?: string;
-            updatedBy?: string;
         };
         StripePaymentStatus: {
             available?: boolean;
@@ -7877,6 +7881,67 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ApprovalChainSettings"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListRequestTypes: {
+        parameters: {
+            query?: {
+                /** @description true: also the inactive types (for the settings page). */
+                includeInactive?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RequestType"][];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetRequestType: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                typeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RequestType"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
@@ -10686,67 +10751,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ConvertPurchaseRequestResult"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    ListRequestTypes: {
-        parameters: {
-            query?: {
-                /** @description true: also the inactive types (for the settings page). */
-                includeInactive?: boolean;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RequestType"][];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    GetRequestType: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                typeId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RequestType"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

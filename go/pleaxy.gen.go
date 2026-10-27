@@ -261,6 +261,7 @@ const (
 
 // Defines values for ApprovalRoutingTouchlessSkipped.
 const (
+	FlaggedAnswer ApprovalRoutingTouchlessSkipped = "flagged_answer"
 	HumanOnly     ApprovalRoutingTouchlessSkipped = "human_only"
 	OtherCurrency ApprovalRoutingTouchlessSkipped = "other_currency"
 )
@@ -304,11 +305,13 @@ const (
 
 // Defines values for ApprovalStepConditionField.
 const (
-	ApprovalStepConditionFieldAmount     ApprovalStepConditionField = "amount"
-	ApprovalStepConditionFieldCostCenter ApprovalStepConditionField = "costCenter"
-	ApprovalStepConditionFieldGlCode     ApprovalStepConditionField = "glCode"
-	ApprovalStepConditionFieldRequester  ApprovalStepConditionField = "requester"
-	ApprovalStepConditionFieldSupplier   ApprovalStepConditionField = "supplier"
+	ApprovalStepConditionFieldAmount      ApprovalStepConditionField = "amount"
+	ApprovalStepConditionFieldAnswer      ApprovalStepConditionField = "answer"
+	ApprovalStepConditionFieldCostCenter  ApprovalStepConditionField = "costCenter"
+	ApprovalStepConditionFieldGlCode      ApprovalStepConditionField = "glCode"
+	ApprovalStepConditionFieldRequestType ApprovalStepConditionField = "requestType"
+	ApprovalStepConditionFieldRequester   ApprovalStepConditionField = "requester"
+	ApprovalStepConditionFieldSupplier    ApprovalStepConditionField = "supplier"
 )
 
 // Defines values for ApprovalStepConditionOperator.
@@ -323,11 +326,13 @@ const (
 
 // Defines values for ApprovalStepConditionInputField.
 const (
-	ApprovalStepConditionInputFieldAmount     ApprovalStepConditionInputField = "amount"
-	ApprovalStepConditionInputFieldCostCenter ApprovalStepConditionInputField = "costCenter"
-	ApprovalStepConditionInputFieldGlCode     ApprovalStepConditionInputField = "glCode"
-	ApprovalStepConditionInputFieldRequester  ApprovalStepConditionInputField = "requester"
-	ApprovalStepConditionInputFieldSupplier   ApprovalStepConditionInputField = "supplier"
+	ApprovalStepConditionInputFieldAmount      ApprovalStepConditionInputField = "amount"
+	ApprovalStepConditionInputFieldAnswer      ApprovalStepConditionInputField = "answer"
+	ApprovalStepConditionInputFieldCostCenter  ApprovalStepConditionInputField = "costCenter"
+	ApprovalStepConditionInputFieldGlCode      ApprovalStepConditionInputField = "glCode"
+	ApprovalStepConditionInputFieldRequestType ApprovalStepConditionInputField = "requestType"
+	ApprovalStepConditionInputFieldRequester   ApprovalStepConditionInputField = "requester"
+	ApprovalStepConditionInputFieldSupplier    ApprovalStepConditionInputField = "supplier"
 )
 
 // Defines values for ApprovalStepConditionInputOperator.
@@ -4488,7 +4493,8 @@ type ApprovalRouting struct {
 			Start *string                          `json:"start,omitempty"`
 		} `json:"period,omitempty"`
 	} `json:"budget,omitempty"`
-	Rule *struct {
+	FlaggedAnswers *[]string `json:"flaggedAnswers,omitempty"`
+	Rule           *struct {
 		Action *ApprovalRoutingRuleAction `json:"action,omitempty"`
 		Id     string                     `json:"id"`
 		Index  *float64                   `json:"index,omitempty"`
@@ -4607,9 +4613,10 @@ type ApprovalStageInstanceStatus string
 
 // ApprovalStepCondition defines model for ApprovalStepCondition.
 type ApprovalStepCondition struct {
-	Field    *ApprovalStepConditionField    `json:"field,omitempty"`
-	Operator *ApprovalStepConditionOperator `json:"operator,omitempty"`
-	Value    *ApprovalStepCondition_Value   `json:"value,omitempty"`
+	Field      *ApprovalStepConditionField    `json:"field,omitempty"`
+	Operator   *ApprovalStepConditionOperator `json:"operator,omitempty"`
+	QuestionId *string                        `json:"questionId,omitempty"`
+	Value      *ApprovalStepCondition_Value   `json:"value,omitempty"`
 }
 
 // ApprovalStepConditionField defines model for ApprovalStepCondition.Field.
@@ -4634,17 +4641,20 @@ type ApprovalStepConditionInput struct {
 	// Field The document variable to test.
 	Field ApprovalStepConditionInputField `json:"field"`
 
-	// Operator gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
+	// Operator gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter, glCode, requestType and answer.
 	Operator ApprovalStepConditionInputOperator `json:"operator"`
 
-	// Value A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for glCode (the order's own, else its cost center's).
+	// QuestionId answer only: the question tested, as <requestTypeId>/<fieldId> (a yes/no or choice question on that request type); value is one of its option ids (yes/no for a yes/no question). requestType and answer conditions go on the purchase_request flow only.
+	QuestionId *string `json:"questionId,omitempty"`
+
+	// Value A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for glCode (the order's own, else its cost center's), a request type id (rt_...) for requestType, an option id for answer.
 	Value ApprovalStepConditionInput_Value `json:"value"`
 }
 
 // ApprovalStepConditionInputField The document variable to test.
 type ApprovalStepConditionInputField string
 
-// ApprovalStepConditionInputOperator gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
+// ApprovalStepConditionInputOperator gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter, glCode, requestType and answer.
 type ApprovalStepConditionInputOperator string
 
 // ApprovalStepConditionInputValue0 defines model for .
@@ -4653,7 +4663,7 @@ type ApprovalStepConditionInputValue0 = float64
 // ApprovalStepConditionInputValue1 defines model for .
 type ApprovalStepConditionInputValue1 = string
 
-// ApprovalStepConditionInput_Value A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for glCode (the order's own, else its cost center's).
+// ApprovalStepConditionInput_Value A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for glCode (the order's own, else its cost center's), a request type id (rt_...) for requestType, an option id for answer.
 type ApprovalStepConditionInput_Value struct {
 	union json.RawMessage
 }

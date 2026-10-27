@@ -14,7 +14,7 @@ require 'date'
 require 'time'
 
 module Pleaxy
-  # A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for glCode (the order's own, else its cost center's).
+  # A number for amount (in the region's currency), a supplier Workspace ID for supplier, an employee key for requester, a code on the workspace's cost center list for costCenter, a GL account for glCode (the order's own, else its cost center's), a request type id (rt_...) for requestType, an option id for answer.
   module ApprovalStepConditionInputValue
     class << self
       # List of class defined in oneOf (OpenAPI v3)

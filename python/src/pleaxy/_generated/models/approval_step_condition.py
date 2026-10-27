@@ -23,11 +23,13 @@ class ApprovalStepCondition:
         field (Union[Unset, ApprovalStepConditionField]):
         operator (Union[Unset, ApprovalStepConditionOperator]):
         value (Union[Unset, float, str]):
+        question_id (Union[Unset, str]):
     """
 
     field: Union[Unset, ApprovalStepConditionField] = UNSET
     operator: Union[Unset, ApprovalStepConditionOperator] = UNSET
     value: Union[Unset, float, str] = UNSET
+    question_id: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -45,6 +47,8 @@ class ApprovalStepCondition:
         else:
             value = self.value
 
+        question_id = self.question_id
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -54,6 +58,8 @@ class ApprovalStepCondition:
             field_dict["operator"] = operator
         if value is not UNSET:
             field_dict["value"] = value
+        if question_id is not UNSET:
+            field_dict["questionId"] = question_id
 
         return field_dict
 
@@ -81,10 +87,13 @@ class ApprovalStepCondition:
 
         value = _parse_value(d.pop("value", UNSET))
 
+        question_id = d.pop("questionId", UNSET)
+
         approval_step_condition = cls(
             field=field,
             operator=operator,
             value=value,
+            question_id=question_id,
         )
 
         approval_step_condition.additional_properties = d

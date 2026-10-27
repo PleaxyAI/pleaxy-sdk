@@ -36,7 +36,8 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   ApprovalStepCondition.JSON_PROPERTY_FIELD,
   ApprovalStepCondition.JSON_PROPERTY_OPERATOR,
-  ApprovalStepCondition.JSON_PROPERTY_VALUE
+  ApprovalStepCondition.JSON_PROPERTY_VALUE,
+  ApprovalStepCondition.JSON_PROPERTY_QUESTION_ID
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class ApprovalStepCondition {
@@ -52,7 +53,11 @@ public class ApprovalStepCondition {
     
     COST_CENTER(String.valueOf("costCenter")),
     
-    GL_CODE(String.valueOf("glCode"));
+    GL_CODE(String.valueOf("glCode")),
+    
+    REQUEST_TYPE(String.valueOf("requestType")),
+    
+    ANSWER(String.valueOf("answer"));
 
     private String value;
 
@@ -136,6 +141,10 @@ public class ApprovalStepCondition {
   @javax.annotation.Nullable
   private ApprovalStepConditionValue value;
 
+  public static final String JSON_PROPERTY_QUESTION_ID = "questionId";
+  @javax.annotation.Nullable
+  private String questionId;
+
   public ApprovalStepCondition() { 
   }
 
@@ -211,6 +220,30 @@ public class ApprovalStepCondition {
   }
 
 
+  public ApprovalStepCondition questionId(@javax.annotation.Nullable String questionId) {
+    this.questionId = questionId;
+    return this;
+  }
+
+  /**
+   * Get questionId
+   * @return questionId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_QUESTION_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getQuestionId() {
+    return questionId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_QUESTION_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setQuestionId(@javax.annotation.Nullable String questionId) {
+    this.questionId = questionId;
+  }
+
+
   /**
    * Return true if this ApprovalStepCondition object is equal to o.
    */
@@ -225,12 +258,13 @@ public class ApprovalStepCondition {
     ApprovalStepCondition approvalStepCondition = (ApprovalStepCondition) o;
     return Objects.equals(this.field, approvalStepCondition.field) &&
         Objects.equals(this.operator, approvalStepCondition.operator) &&
-        Objects.equals(this.value, approvalStepCondition.value);
+        Objects.equals(this.value, approvalStepCondition.value) &&
+        Objects.equals(this.questionId, approvalStepCondition.questionId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(field, operator, value);
+    return Objects.hash(field, operator, value, questionId);
   }
 
   @Override
@@ -240,6 +274,7 @@ public class ApprovalStepCondition {
     sb.append("    field: ").append(toIndentedString(field)).append("\n");
     sb.append("    operator: ").append(toIndentedString(operator)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
+    sb.append("    questionId: ").append(toIndentedString(questionId)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -300,6 +335,11 @@ public class ApprovalStepCondition {
     // add `value` to the URL query string
     if (getValue() != null) {
       joiner.add(getValue().toUrlQueryString(prefix + "value" + suffix));
+    }
+
+    // add `questionId` to the URL query string
+    if (getQuestionId() != null) {
+      joiner.add(String.format("%squestionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuestionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

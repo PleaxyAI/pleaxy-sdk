@@ -36,7 +36,8 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   ApprovalStepConditionInput.JSON_PROPERTY_FIELD,
   ApprovalStepConditionInput.JSON_PROPERTY_OPERATOR,
-  ApprovalStepConditionInput.JSON_PROPERTY_VALUE
+  ApprovalStepConditionInput.JSON_PROPERTY_VALUE,
+  ApprovalStepConditionInput.JSON_PROPERTY_QUESTION_ID
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class ApprovalStepConditionInput {
@@ -52,7 +53,11 @@ public class ApprovalStepConditionInput {
     
     COST_CENTER(String.valueOf("costCenter")),
     
-    GL_CODE(String.valueOf("glCode"));
+    GL_CODE(String.valueOf("glCode")),
+    
+    REQUEST_TYPE(String.valueOf("requestType")),
+    
+    ANSWER(String.valueOf("answer"));
 
     private String value;
 
@@ -86,7 +91,7 @@ public class ApprovalStepConditionInput {
   private FieldEnum field;
 
   /**
-   * gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
+   * gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter, glCode, requestType and answer.
    */
   public enum OperatorEnum {
     GT(String.valueOf("gt")),
@@ -136,6 +141,10 @@ public class ApprovalStepConditionInput {
   @javax.annotation.Nonnull
   private ApprovalStepConditionInputValue value;
 
+  public static final String JSON_PROPERTY_QUESTION_ID = "questionId";
+  @javax.annotation.Nullable
+  private String questionId;
+
   public ApprovalStepConditionInput() { 
   }
 
@@ -169,7 +178,7 @@ public class ApprovalStepConditionInput {
   }
 
   /**
-   * gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter and glCode.
+   * gt/gte/lt/lte for amount; is/is_not for supplier, requester, costCenter, glCode, requestType and answer.
    * @return operator
    */
   @javax.annotation.Nonnull
@@ -211,6 +220,30 @@ public class ApprovalStepConditionInput {
   }
 
 
+  public ApprovalStepConditionInput questionId(@javax.annotation.Nullable String questionId) {
+    this.questionId = questionId;
+    return this;
+  }
+
+  /**
+   * answer only: the question tested, as &lt;requestTypeId&gt;/&lt;fieldId&gt; (a yes/no or choice question on that request type); value is one of its option ids (yes/no for a yes/no question). requestType and answer conditions go on the purchase_request flow only.
+   * @return questionId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_QUESTION_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getQuestionId() {
+    return questionId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_QUESTION_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setQuestionId(@javax.annotation.Nullable String questionId) {
+    this.questionId = questionId;
+  }
+
+
   /**
    * Return true if this ApprovalStepConditionInput object is equal to o.
    */
@@ -225,12 +258,13 @@ public class ApprovalStepConditionInput {
     ApprovalStepConditionInput approvalStepConditionInput = (ApprovalStepConditionInput) o;
     return Objects.equals(this.field, approvalStepConditionInput.field) &&
         Objects.equals(this.operator, approvalStepConditionInput.operator) &&
-        Objects.equals(this.value, approvalStepConditionInput.value);
+        Objects.equals(this.value, approvalStepConditionInput.value) &&
+        Objects.equals(this.questionId, approvalStepConditionInput.questionId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(field, operator, value);
+    return Objects.hash(field, operator, value, questionId);
   }
 
   @Override
@@ -240,6 +274,7 @@ public class ApprovalStepConditionInput {
     sb.append("    field: ").append(toIndentedString(field)).append("\n");
     sb.append("    operator: ").append(toIndentedString(operator)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
+    sb.append("    questionId: ").append(toIndentedString(questionId)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -300,6 +335,11 @@ public class ApprovalStepConditionInput {
     // add `value` to the URL query string
     if (getValue() != null) {
       joiner.add(getValue().toUrlQueryString(prefix + "value" + suffix));
+    }
+
+    // add `questionId` to the URL query string
+    if (getQuestionId() != null) {
+      joiner.add(String.format("%squestionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuestionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
