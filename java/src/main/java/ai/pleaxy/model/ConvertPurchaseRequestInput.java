@@ -52,6 +52,8 @@ import ai.pleaxy.client.ApiClient;
   ConvertPurchaseRequestInput.JSON_PROPERTY_COST_CENTER,
   ConvertPurchaseRequestInput.JSON_PROPERTY_GL_CODE,
   ConvertPurchaseRequestInput.JSON_PROPERTY_BUDGET_OWNER,
+  ConvertPurchaseRequestInput.JSON_PROPERTY_BLANKET,
+  ConvertPurchaseRequestInput.JSON_PROPERTY_EXPECTED_MONTHLY,
   ConvertPurchaseRequestInput.JSON_PROPERTY_BUYER_NAME,
   ConvertPurchaseRequestInput.JSON_PROPERTY_SUPPLIER_SITE,
   ConvertPurchaseRequestInput.JSON_PROPERTY_SUPPLIER_CONTACT_EMAIL,
@@ -193,6 +195,14 @@ public class ConvertPurchaseRequestInput {
   public static final String JSON_PROPERTY_BUDGET_OWNER = "budgetOwner";
   @javax.annotation.Nullable
   private String budgetOwner;
+
+  public static final String JSON_PROPERTY_BLANKET = "blanket";
+  @javax.annotation.Nullable
+  private Boolean blanket;
+
+  public static final String JSON_PROPERTY_EXPECTED_MONTHLY = "expectedMonthly";
+  @javax.annotation.Nullable
+  private Double expectedMonthly;
 
   public static final String JSON_PROPERTY_BUYER_NAME = "buyerName";
   @javax.annotation.Nullable
@@ -579,6 +589,55 @@ public class ConvertPurchaseRequestInput {
   }
 
 
+  public ConvertPurchaseRequestInput blanket(@javax.annotation.Nullable Boolean blanket) {
+    this.blanket = blanket;
+    return this;
+  }
+
+  /**
+   * A blanket order: billed as used, up to its amount. Its amount never uses the cost center&#39;s budget at once; expectedMonthly does, month by month, and its invoices as they are approved. Cloud-provider orders are blanket orders either way.
+   * @return blanket
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BLANKET)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getBlanket() {
+    return blanket;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BLANKET)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBlanket(@javax.annotation.Nullable Boolean blanket) {
+    this.blanket = blanket;
+  }
+
+
+  public ConvertPurchaseRequestInput expectedMonthly(@javax.annotation.Nullable Double expectedMonthly) {
+    this.expectedMonthly = expectedMonthly;
+    return this;
+  }
+
+  /**
+   * A blanket or cloud order&#39;s expected billing each month, in the order&#39;s currency: what its cost center&#39;s budget reserves for it.
+   * minimum: 0
+   * @return expectedMonthly
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EXPECTED_MONTHLY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getExpectedMonthly() {
+    return expectedMonthly;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EXPECTED_MONTHLY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setExpectedMonthly(@javax.annotation.Nullable Double expectedMonthly) {
+    this.expectedMonthly = expectedMonthly;
+  }
+
+
   public ConvertPurchaseRequestInput buyerName(@javax.annotation.Nullable String buyerName) {
     this.buyerName = buyerName;
     return this;
@@ -829,6 +888,8 @@ public class ConvertPurchaseRequestInput {
         Objects.equals(this.costCenter, convertPurchaseRequestInput.costCenter) &&
         Objects.equals(this.glCode, convertPurchaseRequestInput.glCode) &&
         Objects.equals(this.budgetOwner, convertPurchaseRequestInput.budgetOwner) &&
+        Objects.equals(this.blanket, convertPurchaseRequestInput.blanket) &&
+        Objects.equals(this.expectedMonthly, convertPurchaseRequestInput.expectedMonthly) &&
         Objects.equals(this.buyerName, convertPurchaseRequestInput.buyerName) &&
         Objects.equals(this.supplierSite, convertPurchaseRequestInput.supplierSite) &&
         Objects.equals(this.supplierContactEmail, convertPurchaseRequestInput.supplierContactEmail) &&
@@ -842,7 +903,7 @@ public class ConvertPurchaseRequestInput {
 
   @Override
   public int hashCode() {
-    return Objects.hash(poNumber, supplier, matching, receiverEmployeeKey, supplierRegionId, supplierConnectionId, currency, provider, payerAccounts, billToParty, billTo, costCenter, glCode, budgetOwner, buyerName, supplierSite, supplierContactEmail, notes, contractId, quoteImportId, sowImportId, draft, lineItems);
+    return Objects.hash(poNumber, supplier, matching, receiverEmployeeKey, supplierRegionId, supplierConnectionId, currency, provider, payerAccounts, billToParty, billTo, costCenter, glCode, budgetOwner, blanket, expectedMonthly, buyerName, supplierSite, supplierContactEmail, notes, contractId, quoteImportId, sowImportId, draft, lineItems);
   }
 
   @Override
@@ -863,6 +924,8 @@ public class ConvertPurchaseRequestInput {
     sb.append("    costCenter: ").append(toIndentedString(costCenter)).append("\n");
     sb.append("    glCode: ").append(toIndentedString(glCode)).append("\n");
     sb.append("    budgetOwner: ").append(toIndentedString(budgetOwner)).append("\n");
+    sb.append("    blanket: ").append(toIndentedString(blanket)).append("\n");
+    sb.append("    expectedMonthly: ").append(toIndentedString(expectedMonthly)).append("\n");
     sb.append("    buyerName: ").append(toIndentedString(buyerName)).append("\n");
     sb.append("    supplierSite: ").append(toIndentedString(supplierSite)).append("\n");
     sb.append("    supplierContactEmail: ").append(toIndentedString(supplierContactEmail)).append("\n");
@@ -992,6 +1055,16 @@ public class ConvertPurchaseRequestInput {
     // add `budgetOwner` to the URL query string
     if (getBudgetOwner() != null) {
       joiner.add(String.format("%sbudgetOwner%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBudgetOwner()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `blanket` to the URL query string
+    if (getBlanket() != null) {
+      joiner.add(String.format("%sblanket%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBlanket()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `expectedMonthly` to the URL query string
+    if (getExpectedMonthly() != null) {
+      joiner.add(String.format("%sexpectedMonthly%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpectedMonthly()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `buyerName` to the URL query string

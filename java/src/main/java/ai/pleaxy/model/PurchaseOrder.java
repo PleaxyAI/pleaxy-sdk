@@ -73,6 +73,8 @@ import ai.pleaxy.client.ApiClient;
   PurchaseOrder.JSON_PROPERTY_COST_CENTER,
   PurchaseOrder.JSON_PROPERTY_COST_CENTER_CHANGES,
   PurchaseOrder.JSON_PROPERTY_GL_CODE,
+  PurchaseOrder.JSON_PROPERTY_BLANKET,
+  PurchaseOrder.JSON_PROPERTY_EXPECTED_MONTHLY,
   PurchaseOrder.JSON_PROPERTY_SUBMITTED_AT,
   PurchaseOrder.JSON_PROPERTY_BUDGET_CHECK,
   PurchaseOrder.JSON_PROPERTY_REQUEST_ID,
@@ -292,6 +294,14 @@ public class PurchaseOrder {
   public static final String JSON_PROPERTY_GL_CODE = "glCode";
   @javax.annotation.Nullable
   private String glCode;
+
+  public static final String JSON_PROPERTY_BLANKET = "blanket";
+  @javax.annotation.Nullable
+  private Boolean blanket;
+
+  public static final String JSON_PROPERTY_EXPECTED_MONTHLY = "expectedMonthly";
+  @javax.annotation.Nullable
+  private Double expectedMonthly;
 
   public static final String JSON_PROPERTY_SUBMITTED_AT = "submittedAt";
   @javax.annotation.Nullable
@@ -1108,6 +1118,54 @@ public class PurchaseOrder {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setGlCode(@javax.annotation.Nullable String glCode) {
     this.glCode = glCode;
+  }
+
+
+  public PurchaseOrder blanket(@javax.annotation.Nullable Boolean blanket) {
+    this.blanket = blanket;
+    return this;
+  }
+
+  /**
+   * Get blanket
+   * @return blanket
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BLANKET)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getBlanket() {
+    return blanket;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BLANKET)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBlanket(@javax.annotation.Nullable Boolean blanket) {
+    this.blanket = blanket;
+  }
+
+
+  public PurchaseOrder expectedMonthly(@javax.annotation.Nullable Double expectedMonthly) {
+    this.expectedMonthly = expectedMonthly;
+    return this;
+  }
+
+  /**
+   * Get expectedMonthly
+   * @return expectedMonthly
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EXPECTED_MONTHLY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getExpectedMonthly() {
+    return expectedMonthly;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EXPECTED_MONTHLY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setExpectedMonthly(@javax.annotation.Nullable Double expectedMonthly) {
+    this.expectedMonthly = expectedMonthly;
   }
 
 
@@ -2256,6 +2314,8 @@ public class PurchaseOrder {
         Objects.equals(this.costCenter, purchaseOrder.costCenter) &&
         Objects.equals(this.costCenterChanges, purchaseOrder.costCenterChanges) &&
         Objects.equals(this.glCode, purchaseOrder.glCode) &&
+        Objects.equals(this.blanket, purchaseOrder.blanket) &&
+        Objects.equals(this.expectedMonthly, purchaseOrder.expectedMonthly) &&
         Objects.equals(this.submittedAt, purchaseOrder.submittedAt) &&
         Objects.equals(this.budgetCheck, purchaseOrder.budgetCheck) &&
         Objects.equals(this.requestId, purchaseOrder.requestId) &&
@@ -2305,7 +2365,7 @@ public class PurchaseOrder {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, buyerOrgId, supplierOrgId, supplier, amount, currency, status, invoiceId, invoiceIds, invoicedAmount, priorInvoiced, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, provider, payerAccounts, billTo, billToParty, costCenter, costCenterChanges, glCode, submittedAt, budgetCheck, requestId, budgetOwner, buyerName, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, supplierContactEmail, supplierInvite, supplierConnectionId, notes, contractId, supplierEmail, mailboxToken, quoteDocument, sowDocument, lineItems, approval, approvalVersion, everSpendLimitGated, spendLimitGatedAt, updatedBy, updatedAt, version, lastChange, approvalAmount, punchout, storeId, deliveryAddressId, shipTo, storeOrder, matching, matchingDefault, matchingChanges, receiverEmployeeKey, receiverName, received, receivedPending, receiptState, receiptRequired, readyToInvoice, receiptTolerance, createdAt);
+    return Objects.hash(id, buyerOrgId, supplierOrgId, supplier, amount, currency, status, invoiceId, invoiceIds, invoicedAmount, priorInvoiced, rejectedInvoiceCount, lastRejectedInvoiceId, lastReplacedInvoiceId, provider, payerAccounts, billTo, billToParty, costCenter, costCenterChanges, glCode, blanket, expectedMonthly, submittedAt, budgetCheck, requestId, budgetOwner, buyerName, buyerOrgName, buyerRegionName, supplierRegionName, supplierSite, supplierContactEmail, supplierInvite, supplierConnectionId, notes, contractId, supplierEmail, mailboxToken, quoteDocument, sowDocument, lineItems, approval, approvalVersion, everSpendLimitGated, spendLimitGatedAt, updatedBy, updatedAt, version, lastChange, approvalAmount, punchout, storeId, deliveryAddressId, shipTo, storeOrder, matching, matchingDefault, matchingChanges, receiverEmployeeKey, receiverName, received, receivedPending, receiptState, receiptRequired, readyToInvoice, receiptTolerance, createdAt);
   }
 
   @Override
@@ -2333,6 +2393,8 @@ public class PurchaseOrder {
     sb.append("    costCenter: ").append(toIndentedString(costCenter)).append("\n");
     sb.append("    costCenterChanges: ").append(toIndentedString(costCenterChanges)).append("\n");
     sb.append("    glCode: ").append(toIndentedString(glCode)).append("\n");
+    sb.append("    blanket: ").append(toIndentedString(blanket)).append("\n");
+    sb.append("    expectedMonthly: ").append(toIndentedString(expectedMonthly)).append("\n");
     sb.append("    submittedAt: ").append(toIndentedString(submittedAt)).append("\n");
     sb.append("    budgetCheck: ").append(toIndentedString(budgetCheck)).append("\n");
     sb.append("    requestId: ").append(toIndentedString(requestId)).append("\n");
@@ -2542,6 +2604,16 @@ public class PurchaseOrder {
     // add `glCode` to the URL query string
     if (getGlCode() != null) {
       joiner.add(String.format("%sglCode%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getGlCode()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `blanket` to the URL query string
+    if (getBlanket() != null) {
+      joiner.add(String.format("%sblanket%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBlanket()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `expectedMonthly` to the URL query string
+    if (getExpectedMonthly() != null) {
+      joiner.add(String.format("%sexpectedMonthly%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpectedMonthly()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `submittedAt` to the URL query string

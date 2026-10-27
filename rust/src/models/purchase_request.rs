@@ -44,6 +44,12 @@ pub struct PurchaseRequest {
     pub quote_document: Option<models::PurchaseOrderQuoteDocument>,
     #[serde(rename = "notes", skip_serializing_if = "Option::is_none")]
     pub notes: Option<String>,
+    #[serde(rename = "requestType", skip_serializing_if = "Option::is_none")]
+    pub request_type: Option<models::PurchaseRequestRequestType>,
+    #[serde(rename = "formFields", skip_serializing_if = "Option::is_none")]
+    pub form_fields: Option<Vec<models::QuestionnaireFieldDef>>,
+    #[serde(rename = "answers", skip_serializing_if = "Option::is_none")]
+    pub answers: Option<Vec<models::RequestAnswer>>,
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<Status>,
     #[serde(rename = "approval", skip_serializing_if = "Option::is_none")]
@@ -87,6 +93,9 @@ impl PurchaseRequest {
             needed_by: None,
             quote_document: None,
             notes: None,
+            request_type: None,
+            form_fields: None,
+            answers: None,
             status: None,
             approval: None,
             approval_version: None,

@@ -43,6 +43,12 @@ module Pleaxy
 
     attr_accessor :notes
 
+    attr_accessor :request_type
+
+    attr_accessor :form_fields
+
+    attr_accessor :answers
+
     attr_accessor :status
 
     attr_accessor :approval
@@ -106,6 +112,9 @@ module Pleaxy
         :'needed_by' => :'neededBy',
         :'quote_document' => :'quoteDocument',
         :'notes' => :'notes',
+        :'request_type' => :'requestType',
+        :'form_fields' => :'formFields',
+        :'answers' => :'answers',
         :'status' => :'status',
         :'approval' => :'approval',
         :'approval_version' => :'approvalVersion',
@@ -143,6 +152,9 @@ module Pleaxy
         :'needed_by' => :'String',
         :'quote_document' => :'PurchaseOrderQuoteDocument',
         :'notes' => :'String',
+        :'request_type' => :'PurchaseRequestRequestType',
+        :'form_fields' => :'Array<QuestionnaireFieldDef>',
+        :'answers' => :'Array<RequestAnswer>',
         :'status' => :'String',
         :'approval' => :'ApprovalChain',
         :'approval_version' => :'Float',
@@ -237,6 +249,22 @@ module Pleaxy
 
       if attributes.key?(:'notes')
         self.notes = attributes[:'notes']
+      end
+
+      if attributes.key?(:'request_type')
+        self.request_type = attributes[:'request_type']
+      end
+
+      if attributes.key?(:'form_fields')
+        if (value = attributes[:'form_fields']).is_a?(Array)
+          self.form_fields = value
+        end
+      end
+
+      if attributes.key?(:'answers')
+        if (value = attributes[:'answers']).is_a?(Array)
+          self.answers = value
+        end
       end
 
       if attributes.key?(:'status')
@@ -339,6 +367,9 @@ module Pleaxy
           needed_by == o.needed_by &&
           quote_document == o.quote_document &&
           notes == o.notes &&
+          request_type == o.request_type &&
+          form_fields == o.form_fields &&
+          answers == o.answers &&
           status == o.status &&
           approval == o.approval &&
           approval_version == o.approval_version &&
@@ -362,7 +393,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, title, description, requester_employee_key, requester_name, cost_center, gl_code, supplier, line_items, amount, currency, needed_by, quote_document, notes, status, approval, approval_version, budget_check, po_id, rejection_reason, created_at, updated_at, submitted_at, decided_at, canceled_at, canceled_by].hash
+      [id, title, description, requester_employee_key, requester_name, cost_center, gl_code, supplier, line_items, amount, currency, needed_by, quote_document, notes, request_type, form_fields, answers, status, approval, approval_version, budget_check, po_id, rejection_reason, created_at, updated_at, submitted_at, decided_at, canceled_at, canceled_by].hash
     end
 
     # Builds the object from hash

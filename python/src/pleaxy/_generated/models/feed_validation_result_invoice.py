@@ -32,6 +32,10 @@ from ..models.feed_validation_result_invoice_match_status import (
     FeedValidationResultInvoiceMatchStatus,
     check_feed_validation_result_invoice_match_status,
 )
+from ..models.feed_validation_result_invoice_payment_route import (
+    FeedValidationResultInvoicePaymentRoute,
+    check_feed_validation_result_invoice_payment_route,
+)
 from ..models.feed_validation_result_invoice_submitted_format import (
     FeedValidationResultInvoiceSubmittedFormat,
     check_feed_validation_result_invoice_submitted_format,
@@ -65,12 +69,15 @@ if TYPE_CHECKING:
     from ..models.invoice_rejection import InvoiceRejection
     from ..models.invoice_source_document import InvoiceSourceDocument
     from ..models.late_fee_terms import LateFeeTerms
+    from ..models.no_po_comparison import NoPoComparison
     from ..models.remittance_instructions import RemittanceInstructions
     from ..models.supplier_approval_view import SupplierApprovalView
     from ..models.supplier_bank_details_confirmation_view import (
         SupplierBankDetailsConfirmationView,
     )
+    from ..models.supplier_payment_problem_view import SupplierPaymentProblemView
     from ..models.supplier_remittance_view import SupplierRemittanceView
+    from ..models.supplier_settlement_view import SupplierSettlementView
 
 
 T = TypeVar("T", bound="FeedValidationResultInvoice")
@@ -85,6 +92,7 @@ class FeedValidationResultInvoice:
         supplier_org_id (Union[Unset, str]):
         late_fee_terms (Union[Unset, LateFeeTerms]):
         amount (Union[Unset, float]):
+        settlement (Union[Unset, SupplierSettlementView]):
         approval (Union[Unset, SupplierApprovalView]):
         supplier_connection_id (Union[Unset, str]):
         currency (Union[Unset, str]):
@@ -98,12 +106,15 @@ class FeedValidationResultInvoice:
         bills_no_po_line (Union[Unset, bool]):
         party_details (Union[Unset, FeedValidationResultInvoicePartyDetails]):
         match_status (Union[Unset, FeedValidationResultInvoiceMatchStatus]):
+        no_po_comparison (Union[Unset, NoPoComparison]):
+        payment_route (Union[Unset, FeedValidationResultInvoicePaymentRoute]):
         paid (Union[Unset, bool]):
         due_in_days (Union[Unset, float]):
         due_date (Union[Unset, str]):
         paid_at (Union[Unset, str]):
         payment (Union['FeedValidationResultInvoicePaymentType0', 'FeedValidationResultInvoicePaymentType1', Unset]):
         remittances (Union[Unset, List['SupplierRemittanceView']]):
+        payment_problem (Union[Unset, SupplierPaymentProblemView]):
         due_date_source (Union[Unset, FeedValidationResultInvoiceDueDateSource]):
         last_reminded_at (Union[Unset, str]):
         rejection (Union[Unset, InvoiceRejection]):
@@ -148,6 +159,7 @@ class FeedValidationResultInvoice:
     supplier_org_id: Union[Unset, str] = UNSET
     late_fee_terms: Union[Unset, "LateFeeTerms"] = UNSET
     amount: Union[Unset, float] = UNSET
+    settlement: Union[Unset, "SupplierSettlementView"] = UNSET
     approval: Union[Unset, "SupplierApprovalView"] = UNSET
     supplier_connection_id: Union[Unset, str] = UNSET
     currency: Union[Unset, str] = UNSET
@@ -161,6 +173,8 @@ class FeedValidationResultInvoice:
     bills_no_po_line: Union[Unset, bool] = UNSET
     party_details: Union[Unset, "FeedValidationResultInvoicePartyDetails"] = UNSET
     match_status: Union[Unset, FeedValidationResultInvoiceMatchStatus] = UNSET
+    no_po_comparison: Union[Unset, "NoPoComparison"] = UNSET
+    payment_route: Union[Unset, FeedValidationResultInvoicePaymentRoute] = UNSET
     paid: Union[Unset, bool] = UNSET
     due_in_days: Union[Unset, float] = UNSET
     due_date: Union[Unset, str] = UNSET
@@ -171,6 +185,7 @@ class FeedValidationResultInvoice:
         Unset,
     ] = UNSET
     remittances: Union[Unset, List["SupplierRemittanceView"]] = UNSET
+    payment_problem: Union[Unset, "SupplierPaymentProblemView"] = UNSET
     due_date_source: Union[Unset, FeedValidationResultInvoiceDueDateSource] = UNSET
     last_reminded_at: Union[Unset, str] = UNSET
     rejection: Union[Unset, "InvoiceRejection"] = UNSET
@@ -235,6 +250,10 @@ class FeedValidationResultInvoice:
 
         amount = self.amount
 
+        settlement: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.settlement, Unset):
+            settlement = self.settlement.to_dict()
+
         approval: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.approval, Unset):
             approval = self.approval.to_dict()
@@ -272,6 +291,14 @@ class FeedValidationResultInvoice:
         if not isinstance(self.match_status, Unset):
             match_status = self.match_status
 
+        no_po_comparison: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.no_po_comparison, Unset):
+            no_po_comparison = self.no_po_comparison.to_dict()
+
+        payment_route: Union[Unset, str] = UNSET
+        if not isinstance(self.payment_route, Unset):
+            payment_route = self.payment_route
+
         paid = self.paid
 
         due_in_days = self.due_in_days
@@ -294,6 +321,10 @@ class FeedValidationResultInvoice:
             for remittances_item_data in self.remittances:
                 remittances_item = remittances_item_data.to_dict()
                 remittances.append(remittances_item)
+
+        payment_problem: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.payment_problem, Unset):
+            payment_problem = self.payment_problem.to_dict()
 
         due_date_source: Union[Unset, str] = UNSET
         if not isinstance(self.due_date_source, Unset):
@@ -450,6 +481,8 @@ class FeedValidationResultInvoice:
             field_dict["lateFeeTerms"] = late_fee_terms
         if amount is not UNSET:
             field_dict["amount"] = amount
+        if settlement is not UNSET:
+            field_dict["settlement"] = settlement
         if approval is not UNSET:
             field_dict["approval"] = approval
         if supplier_connection_id is not UNSET:
@@ -476,6 +509,10 @@ class FeedValidationResultInvoice:
             field_dict["partyDetails"] = party_details
         if match_status is not UNSET:
             field_dict["matchStatus"] = match_status
+        if no_po_comparison is not UNSET:
+            field_dict["noPoComparison"] = no_po_comparison
+        if payment_route is not UNSET:
+            field_dict["paymentRoute"] = payment_route
         if paid is not UNSET:
             field_dict["paid"] = paid
         if due_in_days is not UNSET:
@@ -488,6 +525,8 @@ class FeedValidationResultInvoice:
             field_dict["payment"] = payment
         if remittances is not UNSET:
             field_dict["remittances"] = remittances
+        if payment_problem is not UNSET:
+            field_dict["paymentProblem"] = payment_problem
         if due_date_source is not UNSET:
             field_dict["dueDateSource"] = due_date_source
         if last_reminded_at is not UNSET:
@@ -591,12 +630,15 @@ class FeedValidationResultInvoice:
         from ..models.invoice_rejection import InvoiceRejection
         from ..models.invoice_source_document import InvoiceSourceDocument
         from ..models.late_fee_terms import LateFeeTerms
+        from ..models.no_po_comparison import NoPoComparison
         from ..models.remittance_instructions import RemittanceInstructions
         from ..models.supplier_approval_view import SupplierApprovalView
         from ..models.supplier_bank_details_confirmation_view import (
             SupplierBankDetailsConfirmationView,
         )
+        from ..models.supplier_payment_problem_view import SupplierPaymentProblemView
         from ..models.supplier_remittance_view import SupplierRemittanceView
+        from ..models.supplier_settlement_view import SupplierSettlementView
 
         d = src_dict.copy()
         supplier = d.pop("supplier", UNSET)
@@ -613,6 +655,13 @@ class FeedValidationResultInvoice:
             late_fee_terms = LateFeeTerms.from_dict(_late_fee_terms)
 
         amount = d.pop("amount", UNSET)
+
+        _settlement = d.pop("settlement", UNSET)
+        settlement: Union[Unset, SupplierSettlementView]
+        if isinstance(_settlement, Unset):
+            settlement = UNSET
+        else:
+            settlement = SupplierSettlementView.from_dict(_settlement)
 
         _approval = d.pop("approval", UNSET)
         approval: Union[Unset, SupplierApprovalView]
@@ -664,6 +713,22 @@ class FeedValidationResultInvoice:
                 _match_status
             )
 
+        _no_po_comparison = d.pop("noPoComparison", UNSET)
+        no_po_comparison: Union[Unset, NoPoComparison]
+        if isinstance(_no_po_comparison, Unset):
+            no_po_comparison = UNSET
+        else:
+            no_po_comparison = NoPoComparison.from_dict(_no_po_comparison)
+
+        _payment_route = d.pop("paymentRoute", UNSET)
+        payment_route: Union[Unset, FeedValidationResultInvoicePaymentRoute]
+        if isinstance(_payment_route, Unset):
+            payment_route = UNSET
+        else:
+            payment_route = check_feed_validation_result_invoice_payment_route(
+                _payment_route
+            )
+
         paid = d.pop("paid", UNSET)
 
         due_in_days = d.pop("dueInDays", UNSET)
@@ -703,6 +768,13 @@ class FeedValidationResultInvoice:
             remittances_item = SupplierRemittanceView.from_dict(remittances_item_data)
 
             remittances.append(remittances_item)
+
+        _payment_problem = d.pop("paymentProblem", UNSET)
+        payment_problem: Union[Unset, SupplierPaymentProblemView]
+        if isinstance(_payment_problem, Unset):
+            payment_problem = UNSET
+        else:
+            payment_problem = SupplierPaymentProblemView.from_dict(_payment_problem)
 
         _due_date_source = d.pop("dueDateSource", UNSET)
         due_date_source: Union[Unset, FeedValidationResultInvoiceDueDateSource]
@@ -921,6 +993,7 @@ class FeedValidationResultInvoice:
             supplier_org_id=supplier_org_id,
             late_fee_terms=late_fee_terms,
             amount=amount,
+            settlement=settlement,
             approval=approval,
             supplier_connection_id=supplier_connection_id,
             currency=currency,
@@ -934,12 +1007,15 @@ class FeedValidationResultInvoice:
             bills_no_po_line=bills_no_po_line,
             party_details=party_details,
             match_status=match_status,
+            no_po_comparison=no_po_comparison,
+            payment_route=payment_route,
             paid=paid,
             due_in_days=due_in_days,
             due_date=due_date,
             paid_at=paid_at,
             payment=payment,
             remittances=remittances,
+            payment_problem=payment_problem,
             due_date_source=due_date_source,
             last_reminded_at=last_reminded_at,
             rejection=rejection,

@@ -351,6 +351,73 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Buyer] A short-lived link to a file answering one of the request's questions, for whoever may see the request
+    # @param request_id [String] 
+    # @param file_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [GetPurchaseRequestFileResult]
+    def get_purchase_request_file(request_id, file_id, opts = {})
+      data, _status_code, _headers = get_purchase_request_file_with_http_info(request_id, file_id, opts)
+      data
+    end
+
+    # [Buyer] A short-lived link to a file answering one of the request&#39;s questions, for whoever may see the request
+    # @param request_id [String] 
+    # @param file_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(GetPurchaseRequestFileResult, Integer, Hash)>] GetPurchaseRequestFileResult data, response status code and response headers
+    def get_purchase_request_file_with_http_info(request_id, file_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: PurchaseRequestsApi.get_purchase_request_file ...'
+      end
+      # verify the required parameter 'request_id' is set
+      if @api_client.config.client_side_validation && request_id.nil?
+        fail ArgumentError, "Missing the required parameter 'request_id' when calling PurchaseRequestsApi.get_purchase_request_file"
+      end
+      # verify the required parameter 'file_id' is set
+      if @api_client.config.client_side_validation && file_id.nil?
+        fail ArgumentError, "Missing the required parameter 'file_id' when calling PurchaseRequestsApi.get_purchase_request_file"
+      end
+      # resource path
+      local_var_path = '/purchase-requests/{requestId}/files/{fileId}'.sub('{' + 'requestId' + '}', CGI.escape(request_id.to_s)).sub('{' + 'fileId' + '}', CGI.escape(file_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'GetPurchaseRequestFileResult'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"PurchaseRequestsApi.get_purchase_request_file",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PurchaseRequestsApi#get_purchase_request_file\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] Purchase requests the caller can see, newest first: their own, everyone's with purchase order access, and any waiting on them
     # @param [Hash] opts the optional parameters
     # @option opts [String] :status 
@@ -487,6 +554,72 @@ module Pleaxy
       data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PurchaseRequestsApi#reject_purchase_request\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Buyer] A presigned URL to upload the answer to a request form's 'file' question (PDF, image, Word, Excel, CSV or text, up to 25 MB). PUT the file there, then save the answer with the returned fileId. Any workspace member, before or after the request exists.
+    # @param request_file_upload_input [RequestFileUploadInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [RequestPurchaseRequestFileUploadResult]
+    def request_purchase_request_file_upload(request_file_upload_input, opts = {})
+      data, _status_code, _headers = request_purchase_request_file_upload_with_http_info(request_file_upload_input, opts)
+      data
+    end
+
+    # [Buyer] A presigned URL to upload the answer to a request form&#39;s &#39;file&#39; question (PDF, image, Word, Excel, CSV or text, up to 25 MB). PUT the file there, then save the answer with the returned fileId. Any workspace member, before or after the request exists.
+    # @param request_file_upload_input [RequestFileUploadInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(RequestPurchaseRequestFileUploadResult, Integer, Hash)>] RequestPurchaseRequestFileUploadResult data, response status code and response headers
+    def request_purchase_request_file_upload_with_http_info(request_file_upload_input, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: PurchaseRequestsApi.request_purchase_request_file_upload ...'
+      end
+      # verify the required parameter 'request_file_upload_input' is set
+      if @api_client.config.client_side_validation && request_file_upload_input.nil?
+        fail ArgumentError, "Missing the required parameter 'request_file_upload_input' when calling PurchaseRequestsApi.request_purchase_request_file_upload"
+      end
+      # resource path
+      local_var_path = '/purchase-requests/files/upload-url'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(request_file_upload_input)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'RequestPurchaseRequestFileUploadResult'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"PurchaseRequestsApi.request_purchase_request_file_upload",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PurchaseRequestsApi#request_purchase_request_file_upload\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

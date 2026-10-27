@@ -45,6 +45,12 @@ module Pleaxy
     # Anything procurement should know.
     attr_accessor :notes
 
+    # The request type (GET /request-types). Required when the workspace has an active type. The type's GL account and line type fill in what the request leaves out.
+    attr_accessor :request_type_id
+
+    # Answers to the type's questions, by fieldId. On an update, the whole set (omit to keep them). A draft may leave questions blank; submitting needs every required question the answers make visible.
+    attr_accessor :answers
+
     # true submits it for approval straight away; otherwise it is saved as a draft.
     attr_accessor :submit
 
@@ -61,6 +67,8 @@ module Pleaxy
         :'needed_by' => :'neededBy',
         :'quote_import_id' => :'quoteImportId',
         :'notes' => :'notes',
+        :'request_type_id' => :'requestTypeId',
+        :'answers' => :'answers',
         :'submit' => :'submit'
       }
     end
@@ -83,6 +91,8 @@ module Pleaxy
         :'needed_by' => :'String',
         :'quote_import_id' => :'String',
         :'notes' => :'String',
+        :'request_type_id' => :'String',
+        :'answers' => :'Array<PurchaseRequestAnswerInput>',
         :'submit' => :'Boolean'
       }
     end
@@ -154,6 +164,16 @@ module Pleaxy
         self.notes = attributes[:'notes']
       end
 
+      if attributes.key?(:'request_type_id')
+        self.request_type_id = attributes[:'request_type_id']
+      end
+
+      if attributes.key?(:'answers')
+        if (value = attributes[:'answers']).is_a?(Array)
+          self.answers = value
+        end
+      end
+
       if attributes.key?(:'submit')
         self.submit = attributes[:'submit']
       end
@@ -201,6 +221,10 @@ module Pleaxy
         invalid_properties.push('invalid value for "notes", the character length must be smaller than or equal to 2000.')
       end
 
+      if !@request_type_id.nil? && @request_type_id.to_s.length > 16
+        invalid_properties.push('invalid value for "request_type_id", the character length must be smaller than or equal to 16.')
+      end
+
       invalid_properties
     end
 
@@ -217,6 +241,7 @@ module Pleaxy
       return false if !@needed_by.nil? && @needed_by !~ Regexp.new(/^\d{4}-\d{2}-\d{2}$/)
       return false if !@quote_import_id.nil? && @quote_import_id.to_s.length > 64
       return false if !@notes.nil? && @notes.to_s.length > 2000
+      return false if !@request_type_id.nil? && @request_type_id.to_s.length > 16
       true
     end
 
@@ -319,6 +344,20 @@ module Pleaxy
       @notes = notes
     end
 
+    # Custom attribute writer method with validation
+    # @param [Object] request_type_id Value to be assigned
+    def request_type_id=(request_type_id)
+      if request_type_id.nil?
+        fail ArgumentError, 'request_type_id cannot be nil'
+      end
+
+      if request_type_id.to_s.length > 16
+        fail ArgumentError, 'invalid value for "request_type_id", the character length must be smaller than or equal to 16.'
+      end
+
+      @request_type_id = request_type_id
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
@@ -334,6 +373,8 @@ module Pleaxy
           needed_by == o.needed_by &&
           quote_import_id == o.quote_import_id &&
           notes == o.notes &&
+          request_type_id == o.request_type_id &&
+          answers == o.answers &&
           submit == o.submit
     end
 
@@ -346,7 +387,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [title, description, cost_center, gl_code, supplier, line_items, currency, needed_by, quote_import_id, notes, submit].hash
+      [title, description, cost_center, gl_code, supplier, line_items, currency, needed_by, quote_import_id, notes, request_type_id, answers, submit].hash
     end
 
     # Builds the object from hash

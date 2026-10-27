@@ -17,9 +17,9 @@ module Pleaxy
   class SupplierRemittanceView
     attr_accessor :id
 
-    attr_accessor :sent_at
-
     attr_accessor :note
+
+    attr_accessor :sent_at
 
     attr_accessor :file
 
@@ -27,8 +27,8 @@ module Pleaxy
     def self.attribute_map
       {
         :'id' => :'id',
-        :'sent_at' => :'sentAt',
         :'note' => :'note',
+        :'sent_at' => :'sentAt',
         :'file' => :'file'
       }
     end
@@ -42,8 +42,8 @@ module Pleaxy
     def self.openapi_types
       {
         :'id' => :'String',
-        :'sent_at' => :'String',
         :'note' => :'String',
+        :'sent_at' => :'String',
         :'file' => :'SupplierRemittanceViewFile'
       }
     end
@@ -75,12 +75,12 @@ module Pleaxy
         self.id = nil
       end
 
-      if attributes.key?(:'sent_at')
-        self.sent_at = attributes[:'sent_at']
-      end
-
       if attributes.key?(:'note')
         self.note = attributes[:'note']
+      end
+
+      if attributes.key?(:'sent_at')
+        self.sent_at = attributes[:'sent_at']
       end
 
       if attributes.key?(:'file')
@@ -114,8 +114,8 @@ module Pleaxy
       return true if self.equal?(o)
       self.class == o.class &&
           id == o.id &&
-          sent_at == o.sent_at &&
           note == o.note &&
+          sent_at == o.sent_at &&
           file == o.file
     end
 
@@ -128,7 +128,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, sent_at, note, file].hash
+      [id, note, sent_at, file].hash
     end
 
     # Builds the object from hash

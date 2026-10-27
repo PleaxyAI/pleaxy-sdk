@@ -34,6 +34,8 @@ pub struct GetInvoiceResultBuyerInvoice {
     pub late_fee_terms: Option<models::LateFeeTerms>,
     #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
     pub amount: Option<f64>,
+    #[serde(rename = "settlement", skip_serializing_if = "Option::is_none")]
+    pub settlement: Option<models::InvoiceSettlement>,
     #[serde(rename = "approvalVersion", skip_serializing_if = "Option::is_none")]
     pub approval_version: Option<f64>,
     #[serde(rename = "approval", skip_serializing_if = "Option::is_none")]
@@ -87,6 +89,10 @@ pub struct GetInvoiceResultBuyerInvoice {
     pub unverified_reason: Option<UnverifiedReason>,
     #[serde(rename = "matchBasis", skip_serializing_if = "Option::is_none")]
     pub match_basis: Option<MatchBasis>,
+    #[serde(rename = "noPoComparison", skip_serializing_if = "Option::is_none")]
+    pub no_po_comparison: Option<models::NoPoComparison>,
+    #[serde(rename = "paymentRoute", skip_serializing_if = "Option::is_none")]
+    pub payment_route: Option<PaymentRoute>,
     #[serde(
         rename = "receiptCheckSkipped",
         skip_serializing_if = "Option::is_none"
@@ -117,6 +123,13 @@ pub struct GetInvoiceResultBuyerInvoice {
     pub remittances: Option<Vec<models::InvoiceRemittance>>,
     #[serde(rename = "paymentHistory", skip_serializing_if = "Option::is_none")]
     pub payment_history: Option<Vec<models::PaymentHistoryEntry>>,
+    #[serde(rename = "paymentProblem", skip_serializing_if = "Option::is_none")]
+    pub payment_problem: Option<models::InvoicePaymentProblem>,
+    #[serde(
+        rename = "receiptConfirmationRemindedAt",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub receipt_confirmation_reminded_at: Option<String>,
     #[serde(
         rename = "exportAvailableFrom",
         skip_serializing_if = "Option::is_none"
@@ -239,6 +252,7 @@ impl GetInvoiceResultBuyerInvoice {
             created_at: None,
             late_fee_terms: None,
             amount: None,
+            settlement: None,
             approval_version: None,
             approval: None,
             supplier_connection_id: None,
@@ -261,6 +275,8 @@ impl GetInvoiceResultBuyerInvoice {
             match_status: None,
             unverified_reason: None,
             match_basis: None,
+            no_po_comparison: None,
+            payment_route: None,
             receipt_check_skipped: None,
             receipt_tolerance_applied: None,
             match_type: None,
@@ -273,6 +289,8 @@ impl GetInvoiceResultBuyerInvoice {
             payment: None,
             remittances: None,
             payment_history: None,
+            payment_problem: None,
+            receipt_confirmation_reminded_at: None,
             export_available_from: None,
             previous_exported_at: None,
             due_date_source: None,
@@ -369,6 +387,8 @@ pub enum UnverifiedReason {
     DebitNote,
     #[serde(rename = "payer_account_unclear")]
     PayerAccountUnclear,
+    #[serde(rename = "no_po_first_invoice")]
+    NoPoFirstInvoice,
 }
 
 impl Default for UnverifiedReason {
@@ -381,11 +401,27 @@ impl Default for UnverifiedReason {
 pub enum MatchBasis {
     #[serde(rename = "purchase_order")]
     PurchaseOrder,
+    #[serde(rename = "no_po_history")]
+    NoPoHistory,
 }
 
 impl Default for MatchBasis {
     fn default() -> MatchBasis {
         Self::PurchaseOrder
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum PaymentRoute {
+    #[serde(rename = "pleaxy")]
+    Pleaxy,
+    #[serde(rename = "erp")]
+    Erp,
+}
+
+impl Default for PaymentRoute {
+    fn default() -> PaymentRoute {
+        Self::Pleaxy
     }
 }
 ///
@@ -413,6 +449,8 @@ pub enum DiscrepancyReason {
     Currency,
     #[serde(rename = "controls")]
     Controls,
+    #[serde(rename = "no_po_variance")]
+    NoPoVariance,
 }
 
 impl Default for DiscrepancyReason {

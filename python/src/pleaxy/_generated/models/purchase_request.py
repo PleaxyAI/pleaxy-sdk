@@ -14,7 +14,10 @@ if TYPE_CHECKING:
     from ..models.budget_check import BudgetCheck
     from ..models.purchase_order_quote_document import PurchaseOrderQuoteDocument
     from ..models.purchase_request_line import PurchaseRequestLine
+    from ..models.purchase_request_request_type import PurchaseRequestRequestType
     from ..models.purchase_request_supplier import PurchaseRequestSupplier
+    from ..models.questionnaire_field_def import QuestionnaireFieldDef
+    from ..models.request_answer import RequestAnswer
 
 
 T = TypeVar("T", bound="PurchaseRequest")
@@ -38,6 +41,9 @@ class PurchaseRequest:
         needed_by (Union[Unset, str]):
         quote_document (Union[Unset, PurchaseOrderQuoteDocument]):
         notes (Union[Unset, str]):
+        request_type (Union[Unset, PurchaseRequestRequestType]):
+        form_fields (Union[Unset, List['QuestionnaireFieldDef']]):
+        answers (Union[Unset, List['RequestAnswer']]):
         status (Union[Unset, PurchaseRequestStatus]):
         approval (Union[Unset, ApprovalChain]):
         approval_version (Union[Unset, float]):
@@ -66,6 +72,9 @@ class PurchaseRequest:
     needed_by: Union[Unset, str] = UNSET
     quote_document: Union[Unset, "PurchaseOrderQuoteDocument"] = UNSET
     notes: Union[Unset, str] = UNSET
+    request_type: Union[Unset, "PurchaseRequestRequestType"] = UNSET
+    form_fields: Union[Unset, List["QuestionnaireFieldDef"]] = UNSET
+    answers: Union[Unset, List["RequestAnswer"]] = UNSET
     status: Union[Unset, PurchaseRequestStatus] = UNSET
     approval: Union[Unset, "ApprovalChain"] = UNSET
     approval_version: Union[Unset, float] = UNSET
@@ -117,6 +126,24 @@ class PurchaseRequest:
             quote_document = self.quote_document.to_dict()
 
         notes = self.notes
+
+        request_type: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.request_type, Unset):
+            request_type = self.request_type.to_dict()
+
+        form_fields: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.form_fields, Unset):
+            form_fields = []
+            for form_fields_item_data in self.form_fields:
+                form_fields_item = form_fields_item_data.to_dict()
+                form_fields.append(form_fields_item)
+
+        answers: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.answers, Unset):
+            answers = []
+            for answers_item_data in self.answers:
+                answers_item = answers_item_data.to_dict()
+                answers.append(answers_item)
 
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
@@ -181,6 +208,12 @@ class PurchaseRequest:
             field_dict["quoteDocument"] = quote_document
         if notes is not UNSET:
             field_dict["notes"] = notes
+        if request_type is not UNSET:
+            field_dict["requestType"] = request_type
+        if form_fields is not UNSET:
+            field_dict["formFields"] = form_fields
+        if answers is not UNSET:
+            field_dict["answers"] = answers
         if status is not UNSET:
             field_dict["status"] = status
         if approval is not UNSET:
@@ -214,7 +247,10 @@ class PurchaseRequest:
         from ..models.budget_check import BudgetCheck
         from ..models.purchase_order_quote_document import PurchaseOrderQuoteDocument
         from ..models.purchase_request_line import PurchaseRequestLine
+        from ..models.purchase_request_request_type import PurchaseRequestRequestType
         from ..models.purchase_request_supplier import PurchaseRequestSupplier
+        from ..models.questionnaire_field_def import QuestionnaireFieldDef
+        from ..models.request_answer import RequestAnswer
 
         d = src_dict.copy()
         id = d.pop("id")
@@ -259,6 +295,27 @@ class PurchaseRequest:
             quote_document = PurchaseOrderQuoteDocument.from_dict(_quote_document)
 
         notes = d.pop("notes", UNSET)
+
+        _request_type = d.pop("requestType", UNSET)
+        request_type: Union[Unset, PurchaseRequestRequestType]
+        if isinstance(_request_type, Unset):
+            request_type = UNSET
+        else:
+            request_type = PurchaseRequestRequestType.from_dict(_request_type)
+
+        form_fields = []
+        _form_fields = d.pop("formFields", UNSET)
+        for form_fields_item_data in _form_fields or []:
+            form_fields_item = QuestionnaireFieldDef.from_dict(form_fields_item_data)
+
+            form_fields.append(form_fields_item)
+
+        answers = []
+        _answers = d.pop("answers", UNSET)
+        for answers_item_data in _answers or []:
+            answers_item = RequestAnswer.from_dict(answers_item_data)
+
+            answers.append(answers_item)
 
         _status = d.pop("status", UNSET)
         status: Union[Unset, PurchaseRequestStatus]
@@ -314,6 +371,9 @@ class PurchaseRequest:
             needed_by=needed_by,
             quote_document=quote_document,
             notes=notes,
+            request_type=request_type,
+            form_fields=form_fields,
+            answers=answers,
             status=status,
             approval=approval,
             approval_version=approval_version,

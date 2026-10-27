@@ -63,6 +63,11 @@ class CreatePurchaseOrderInput:
         gl_code (Union[Unset, str]): The GL account (spend category) the order books to, when it isn't its cost
             center's. Approval steps can route by it. An empty string clears it.
         budget_owner (Union[Unset, str]):
+        blanket (Union[Unset, bool]): A blanket order: billed as used, up to its amount. Its amount never uses the cost
+            center's budget at once; expectedMonthly does, month by month, and its invoices as they are approved. Cloud-
+            provider orders are blanket orders either way.
+        expected_monthly (Union[Unset, float]): A blanket or cloud order's expected billing each month, in the order's
+            currency: what its cost center's budget reserves for it.
         buyer_name (Union[Unset, str]):
         supplier_site (Union[Unset, str]):
         supplier_contact_email (Union[Unset, str]): Only for a supplier not on Pleaxy (no supplierRegionId or provider):
@@ -95,6 +100,8 @@ class CreatePurchaseOrderInput:
     cost_center: Union[Unset, str] = UNSET
     gl_code: Union[Unset, str] = UNSET
     budget_owner: Union[Unset, str] = UNSET
+    blanket: Union[Unset, bool] = UNSET
+    expected_monthly: Union[Unset, float] = UNSET
     buyer_name: Union[Unset, str] = UNSET
     supplier_site: Union[Unset, str] = UNSET
     supplier_contact_email: Union[Unset, str] = UNSET
@@ -150,6 +157,10 @@ class CreatePurchaseOrderInput:
 
         budget_owner = self.budget_owner
 
+        blanket = self.blanket
+
+        expected_monthly = self.expected_monthly
+
         buyer_name = self.buyer_name
 
         supplier_site = self.supplier_site
@@ -200,6 +211,10 @@ class CreatePurchaseOrderInput:
             field_dict["glCode"] = gl_code
         if budget_owner is not UNSET:
             field_dict["budgetOwner"] = budget_owner
+        if blanket is not UNSET:
+            field_dict["blanket"] = blanket
+        if expected_monthly is not UNSET:
+            field_dict["expectedMonthly"] = expected_monthly
         if buyer_name is not UNSET:
             field_dict["buyerName"] = buyer_name
         if supplier_site is not UNSET:
@@ -283,6 +298,10 @@ class CreatePurchaseOrderInput:
 
         budget_owner = d.pop("budgetOwner", UNSET)
 
+        blanket = d.pop("blanket", UNSET)
+
+        expected_monthly = d.pop("expectedMonthly", UNSET)
+
         buyer_name = d.pop("buyerName", UNSET)
 
         supplier_site = d.pop("supplierSite", UNSET)
@@ -315,6 +334,8 @@ class CreatePurchaseOrderInput:
             cost_center=cost_center,
             gl_code=gl_code,
             budget_owner=budget_owner,
+            blanket=blanket,
+            expected_monthly=expected_monthly,
             buyer_name=buyer_name,
             supplier_site=supplier_site,
             supplier_contact_email=supplier_contact_email,

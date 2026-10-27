@@ -33,13 +33,16 @@ import ai.pleaxy.model.InvoiceCurrencyAmount;
 import ai.pleaxy.model.InvoiceDeduction;
 import ai.pleaxy.model.InvoiceDuplicateRef;
 import ai.pleaxy.model.InvoiceLineItem;
+import ai.pleaxy.model.InvoicePaymentProblem;
 import ai.pleaxy.model.InvoicePaymentRecord;
 import ai.pleaxy.model.InvoiceRateWarning;
 import ai.pleaxy.model.InvoiceRejection;
 import ai.pleaxy.model.InvoiceRemittance;
 import ai.pleaxy.model.InvoiceReplacementCheck;
+import ai.pleaxy.model.InvoiceSettlement;
 import ai.pleaxy.model.InvoiceSourceDocument;
 import ai.pleaxy.model.LateFeeTerms;
+import ai.pleaxy.model.NoPoComparison;
 import ai.pleaxy.model.PaymentHistoryEntry;
 import ai.pleaxy.model.RemittanceCheck;
 import ai.pleaxy.model.RemittanceInstructions;
@@ -69,6 +72,7 @@ import ai.pleaxy.client.ApiClient;
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_CREATED_AT,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_LATE_FEE_TERMS,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_AMOUNT,
+  GetInvoiceResultBuyerInvoice.JSON_PROPERTY_SETTLEMENT,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_APPROVAL_VERSION,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_APPROVAL,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_SUPPLIER_CONNECTION_ID,
@@ -91,6 +95,8 @@ import ai.pleaxy.client.ApiClient;
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_MATCH_STATUS,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_UNVERIFIED_REASON,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_MATCH_BASIS,
+  GetInvoiceResultBuyerInvoice.JSON_PROPERTY_NO_PO_COMPARISON,
+  GetInvoiceResultBuyerInvoice.JSON_PROPERTY_PAYMENT_ROUTE,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_RECEIPT_CHECK_SKIPPED,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_RECEIPT_TOLERANCE_APPLIED,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_MATCH_TYPE,
@@ -103,6 +109,8 @@ import ai.pleaxy.client.ApiClient;
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_PAYMENT,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_REMITTANCES,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_PAYMENT_HISTORY,
+  GetInvoiceResultBuyerInvoice.JSON_PROPERTY_PAYMENT_PROBLEM,
+  GetInvoiceResultBuyerInvoice.JSON_PROPERTY_RECEIPT_CONFIRMATION_REMINDED_AT,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_EXPORT_AVAILABLE_FROM,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_PREVIOUS_EXPORTED_AT,
   GetInvoiceResultBuyerInvoice.JSON_PROPERTY_DUE_DATE_SOURCE,
@@ -183,6 +191,10 @@ public class GetInvoiceResultBuyerInvoice {
   public static final String JSON_PROPERTY_AMOUNT = "amount";
   @javax.annotation.Nullable
   private Double amount;
+
+  public static final String JSON_PROPERTY_SETTLEMENT = "settlement";
+  @javax.annotation.Nullable
+  private InvoiceSettlement settlement;
 
   public static final String JSON_PROPERTY_APPROVAL_VERSION = "approvalVersion";
   @javax.annotation.Nullable
@@ -356,7 +368,9 @@ public class GetInvoiceResultBuyerInvoice {
     
     DEBIT_NOTE(String.valueOf("debit_note")),
     
-    PAYER_ACCOUNT_UNCLEAR(String.valueOf("payer_account_unclear"));
+    PAYER_ACCOUNT_UNCLEAR(String.valueOf("payer_account_unclear")),
+    
+    NO_PO_FIRST_INVOICE(String.valueOf("no_po_first_invoice"));
 
     private String value;
 
@@ -393,7 +407,9 @@ public class GetInvoiceResultBuyerInvoice {
    * Gets or Sets matchBasis
    */
   public enum MatchBasisEnum {
-    PURCHASE_ORDER(String.valueOf("purchase_order"));
+    PURCHASE_ORDER(String.valueOf("purchase_order")),
+    
+    NO_PO_HISTORY(String.valueOf("no_po_history"));
 
     private String value;
 
@@ -425,6 +441,49 @@ public class GetInvoiceResultBuyerInvoice {
   public static final String JSON_PROPERTY_MATCH_BASIS = "matchBasis";
   @javax.annotation.Nullable
   private MatchBasisEnum matchBasis;
+
+  public static final String JSON_PROPERTY_NO_PO_COMPARISON = "noPoComparison";
+  @javax.annotation.Nullable
+  private NoPoComparison noPoComparison;
+
+  /**
+   * Gets or Sets paymentRoute
+   */
+  public enum PaymentRouteEnum {
+    PLEAXY(String.valueOf("pleaxy")),
+    
+    ERP(String.valueOf("erp"));
+
+    private String value;
+
+    PaymentRouteEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static PaymentRouteEnum fromValue(String value) {
+      for (PaymentRouteEnum b : PaymentRouteEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_PAYMENT_ROUTE = "paymentRoute";
+  @javax.annotation.Nullable
+  private PaymentRouteEnum paymentRoute;
 
   public static final String JSON_PROPERTY_RECEIPT_CHECK_SKIPPED = "receiptCheckSkipped";
   @javax.annotation.Nullable
@@ -483,7 +542,9 @@ public class GetInvoiceResultBuyerInvoice {
     
     CURRENCY(String.valueOf("currency")),
     
-    CONTROLS(String.valueOf("controls"));
+    CONTROLS(String.valueOf("controls")),
+    
+    NO_PO_VARIANCE(String.valueOf("no_po_variance"));
 
     private String value;
 
@@ -547,6 +608,14 @@ public class GetInvoiceResultBuyerInvoice {
   public static final String JSON_PROPERTY_PAYMENT_HISTORY = "paymentHistory";
   @javax.annotation.Nullable
   private List<PaymentHistoryEntry> paymentHistory = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_PAYMENT_PROBLEM = "paymentProblem";
+  @javax.annotation.Nullable
+  private InvoicePaymentProblem paymentProblem;
+
+  public static final String JSON_PROPERTY_RECEIPT_CONFIRMATION_REMINDED_AT = "receiptConfirmationRemindedAt";
+  @javax.annotation.Nullable
+  private String receiptConfirmationRemindedAt;
 
   public static final String JSON_PROPERTY_EXPORT_AVAILABLE_FROM = "exportAvailableFrom";
   @javax.annotation.Nullable
@@ -1157,6 +1226,30 @@ public class GetInvoiceResultBuyerInvoice {
   }
 
 
+  public GetInvoiceResultBuyerInvoice settlement(@javax.annotation.Nullable InvoiceSettlement settlement) {
+    this.settlement = settlement;
+    return this;
+  }
+
+  /**
+   * Get settlement
+   * @return settlement
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SETTLEMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceSettlement getSettlement() {
+    return settlement;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SETTLEMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSettlement(@javax.annotation.Nullable InvoiceSettlement settlement) {
+    this.settlement = settlement;
+  }
+
+
   public GetInvoiceResultBuyerInvoice approvalVersion(@javax.annotation.Nullable Double approvalVersion) {
     this.approvalVersion = approvalVersion;
     return this;
@@ -1693,6 +1786,54 @@ public class GetInvoiceResultBuyerInvoice {
   }
 
 
+  public GetInvoiceResultBuyerInvoice noPoComparison(@javax.annotation.Nullable NoPoComparison noPoComparison) {
+    this.noPoComparison = noPoComparison;
+    return this;
+  }
+
+  /**
+   * Get noPoComparison
+   * @return noPoComparison
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_NO_PO_COMPARISON)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public NoPoComparison getNoPoComparison() {
+    return noPoComparison;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_NO_PO_COMPARISON)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setNoPoComparison(@javax.annotation.Nullable NoPoComparison noPoComparison) {
+    this.noPoComparison = noPoComparison;
+  }
+
+
+  public GetInvoiceResultBuyerInvoice paymentRoute(@javax.annotation.Nullable PaymentRouteEnum paymentRoute) {
+    this.paymentRoute = paymentRoute;
+    return this;
+  }
+
+  /**
+   * Get paymentRoute
+   * @return paymentRoute
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PAYMENT_ROUTE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PaymentRouteEnum getPaymentRoute() {
+    return paymentRoute;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PAYMENT_ROUTE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaymentRoute(@javax.annotation.Nullable PaymentRouteEnum paymentRoute) {
+    this.paymentRoute = paymentRoute;
+  }
+
+
   public GetInvoiceResultBuyerInvoice receiptCheckSkipped(@javax.annotation.Nullable InvoiceBuyerViewReceiptCheckSkipped receiptCheckSkipped) {
     this.receiptCheckSkipped = receiptCheckSkipped;
     return this;
@@ -2002,6 +2143,54 @@ public class GetInvoiceResultBuyerInvoice {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPaymentHistory(@javax.annotation.Nullable List<PaymentHistoryEntry> paymentHistory) {
     this.paymentHistory = paymentHistory;
+  }
+
+
+  public GetInvoiceResultBuyerInvoice paymentProblem(@javax.annotation.Nullable InvoicePaymentProblem paymentProblem) {
+    this.paymentProblem = paymentProblem;
+    return this;
+  }
+
+  /**
+   * Get paymentProblem
+   * @return paymentProblem
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PAYMENT_PROBLEM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoicePaymentProblem getPaymentProblem() {
+    return paymentProblem;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PAYMENT_PROBLEM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaymentProblem(@javax.annotation.Nullable InvoicePaymentProblem paymentProblem) {
+    this.paymentProblem = paymentProblem;
+  }
+
+
+  public GetInvoiceResultBuyerInvoice receiptConfirmationRemindedAt(@javax.annotation.Nullable String receiptConfirmationRemindedAt) {
+    this.receiptConfirmationRemindedAt = receiptConfirmationRemindedAt;
+    return this;
+  }
+
+  /**
+   * Get receiptConfirmationRemindedAt
+   * @return receiptConfirmationRemindedAt
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_RECEIPT_CONFIRMATION_REMINDED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getReceiptConfirmationRemindedAt() {
+    return receiptConfirmationRemindedAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_RECEIPT_CONFIRMATION_REMINDED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReceiptConfirmationRemindedAt(@javax.annotation.Nullable String receiptConfirmationRemindedAt) {
+    this.receiptConfirmationRemindedAt = receiptConfirmationRemindedAt;
   }
 
 
@@ -3130,6 +3319,7 @@ public class GetInvoiceResultBuyerInvoice {
         Objects.equals(this.createdAt, getInvoiceResultBuyerInvoice.createdAt) &&
         Objects.equals(this.lateFeeTerms, getInvoiceResultBuyerInvoice.lateFeeTerms) &&
         Objects.equals(this.amount, getInvoiceResultBuyerInvoice.amount) &&
+        Objects.equals(this.settlement, getInvoiceResultBuyerInvoice.settlement) &&
         Objects.equals(this.approvalVersion, getInvoiceResultBuyerInvoice.approvalVersion) &&
         Objects.equals(this.approval, getInvoiceResultBuyerInvoice.approval) &&
         Objects.equals(this.supplierConnectionId, getInvoiceResultBuyerInvoice.supplierConnectionId) &&
@@ -3152,6 +3342,8 @@ public class GetInvoiceResultBuyerInvoice {
         Objects.equals(this.matchStatus, getInvoiceResultBuyerInvoice.matchStatus) &&
         Objects.equals(this.unverifiedReason, getInvoiceResultBuyerInvoice.unverifiedReason) &&
         Objects.equals(this.matchBasis, getInvoiceResultBuyerInvoice.matchBasis) &&
+        Objects.equals(this.noPoComparison, getInvoiceResultBuyerInvoice.noPoComparison) &&
+        Objects.equals(this.paymentRoute, getInvoiceResultBuyerInvoice.paymentRoute) &&
         Objects.equals(this.receiptCheckSkipped, getInvoiceResultBuyerInvoice.receiptCheckSkipped) &&
         Objects.equals(this.receiptToleranceApplied, getInvoiceResultBuyerInvoice.receiptToleranceApplied) &&
         Objects.equals(this.matchType, getInvoiceResultBuyerInvoice.matchType) &&
@@ -3164,6 +3356,8 @@ public class GetInvoiceResultBuyerInvoice {
         Objects.equals(this.payment, getInvoiceResultBuyerInvoice.payment) &&
         Objects.equals(this.remittances, getInvoiceResultBuyerInvoice.remittances) &&
         Objects.equals(this.paymentHistory, getInvoiceResultBuyerInvoice.paymentHistory) &&
+        Objects.equals(this.paymentProblem, getInvoiceResultBuyerInvoice.paymentProblem) &&
+        Objects.equals(this.receiptConfirmationRemindedAt, getInvoiceResultBuyerInvoice.receiptConfirmationRemindedAt) &&
         Objects.equals(this.exportAvailableFrom, getInvoiceResultBuyerInvoice.exportAvailableFrom) &&
         Objects.equals(this.previousExportedAt, getInvoiceResultBuyerInvoice.previousExportedAt) &&
         Objects.equals(this.dueDateSource, getInvoiceResultBuyerInvoice.dueDateSource) &&
@@ -3210,7 +3404,7 @@ public class GetInvoiceResultBuyerInvoice {
 
   @Override
   public int hashCode() {
-    return Objects.hash(replacement, uncreditedOriginals, supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, approvalVersion, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, usageAmount, usageAmountSimulated, usageSimulatedAfterDisconnect, usageCurrency, usageSource, tolerancePct, matchStatus, unverifiedReason, matchBasis, receiptCheckSkipped, receiptToleranceApplied, matchType, discrepancyReason, controlFindings, paid, dueInDays, dueDate, paidAt, payment, remittances, paymentHistory, exportAvailableFrom, previousExportedAt, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, sodExcludedKeys, submittedFormat, submittedBy, feedPayloadHash, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, rateWarnings, remittanceInstructions, remittanceCheck, bankDetailsConfirmation, sourceDocument, hasOriginalPdf, baseCurrencyAmount, viewerIsSupplierMember);
+    return Objects.hash(replacement, uncreditedOriginals, supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, settlement, approvalVersion, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, usageAmount, usageAmountSimulated, usageSimulatedAfterDisconnect, usageCurrency, usageSource, tolerancePct, matchStatus, unverifiedReason, matchBasis, noPoComparison, paymentRoute, receiptCheckSkipped, receiptToleranceApplied, matchType, discrepancyReason, controlFindings, paid, dueInDays, dueDate, paidAt, payment, remittances, paymentHistory, paymentProblem, receiptConfirmationRemindedAt, exportAvailableFrom, previousExportedAt, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, sodExcludedKeys, submittedFormat, submittedBy, feedPayloadHash, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, rateWarnings, remittanceInstructions, remittanceCheck, bankDetailsConfirmation, sourceDocument, hasOriginalPdf, baseCurrencyAmount, viewerIsSupplierMember);
   }
 
   @Override
@@ -3226,6 +3420,7 @@ public class GetInvoiceResultBuyerInvoice {
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    lateFeeTerms: ").append(toIndentedString(lateFeeTerms)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    settlement: ").append(toIndentedString(settlement)).append("\n");
     sb.append("    approvalVersion: ").append(toIndentedString(approvalVersion)).append("\n");
     sb.append("    approval: ").append(toIndentedString(approval)).append("\n");
     sb.append("    supplierConnectionId: ").append(toIndentedString(supplierConnectionId)).append("\n");
@@ -3248,6 +3443,8 @@ public class GetInvoiceResultBuyerInvoice {
     sb.append("    matchStatus: ").append(toIndentedString(matchStatus)).append("\n");
     sb.append("    unverifiedReason: ").append(toIndentedString(unverifiedReason)).append("\n");
     sb.append("    matchBasis: ").append(toIndentedString(matchBasis)).append("\n");
+    sb.append("    noPoComparison: ").append(toIndentedString(noPoComparison)).append("\n");
+    sb.append("    paymentRoute: ").append(toIndentedString(paymentRoute)).append("\n");
     sb.append("    receiptCheckSkipped: ").append(toIndentedString(receiptCheckSkipped)).append("\n");
     sb.append("    receiptToleranceApplied: ").append(toIndentedString(receiptToleranceApplied)).append("\n");
     sb.append("    matchType: ").append(toIndentedString(matchType)).append("\n");
@@ -3260,6 +3457,8 @@ public class GetInvoiceResultBuyerInvoice {
     sb.append("    payment: ").append(toIndentedString(payment)).append("\n");
     sb.append("    remittances: ").append(toIndentedString(remittances)).append("\n");
     sb.append("    paymentHistory: ").append(toIndentedString(paymentHistory)).append("\n");
+    sb.append("    paymentProblem: ").append(toIndentedString(paymentProblem)).append("\n");
+    sb.append("    receiptConfirmationRemindedAt: ").append(toIndentedString(receiptConfirmationRemindedAt)).append("\n");
     sb.append("    exportAvailableFrom: ").append(toIndentedString(exportAvailableFrom)).append("\n");
     sb.append("    previousExportedAt: ").append(toIndentedString(previousExportedAt)).append("\n");
     sb.append("    dueDateSource: ").append(toIndentedString(dueDateSource)).append("\n");
@@ -3399,6 +3598,11 @@ public class GetInvoiceResultBuyerInvoice {
       joiner.add(String.format("%samount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAmount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `settlement` to the URL query string
+    if (getSettlement() != null) {
+      joiner.add(getSettlement().toUrlQueryString(prefix + "settlement" + suffix));
+    }
+
     // add `approvalVersion` to the URL query string
     if (getApprovalVersion() != null) {
       joiner.add(String.format("%sapprovalVersion%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getApprovalVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -3514,6 +3718,16 @@ public class GetInvoiceResultBuyerInvoice {
       joiner.add(String.format("%smatchBasis%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMatchBasis()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `noPoComparison` to the URL query string
+    if (getNoPoComparison() != null) {
+      joiner.add(getNoPoComparison().toUrlQueryString(prefix + "noPoComparison" + suffix));
+    }
+
+    // add `paymentRoute` to the URL query string
+    if (getPaymentRoute() != null) {
+      joiner.add(String.format("%spaymentRoute%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPaymentRoute()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
     // add `receiptCheckSkipped` to the URL query string
     if (getReceiptCheckSkipped() != null) {
       joiner.add(getReceiptCheckSkipped().toUrlQueryString(prefix + "receiptCheckSkipped" + suffix));
@@ -3587,6 +3801,16 @@ public class GetInvoiceResultBuyerInvoice {
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
+    }
+
+    // add `paymentProblem` to the URL query string
+    if (getPaymentProblem() != null) {
+      joiner.add(getPaymentProblem().toUrlQueryString(prefix + "paymentProblem" + suffix));
+    }
+
+    // add `receiptConfirmationRemindedAt` to the URL query string
+    if (getReceiptConfirmationRemindedAt() != null) {
+      joiner.add(String.format("%sreceiptConfirmationRemindedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReceiptConfirmationRemindedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `exportAvailableFrom` to the URL query string

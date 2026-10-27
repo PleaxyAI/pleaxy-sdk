@@ -2,7 +2,9 @@ from typing import Literal, Set, cast
 
 NotificationType = Literal[
     "accounting_sync_failed",
+    "agent_connected",
     "agent_request",
+    "agent_signed_out",
     "company_report_ready",
     "contract_comment",
     "contract_recheck_requested",
@@ -43,6 +45,9 @@ NotificationType = Literal[
     "invoice_reminder",
     "invoice_remittance_sent",
     "invoice_submitted",
+    "payment_problem_answered",
+    "payment_problem_reported",
+    "payment_receipt_to_confirm",
     "payments_recorded_by_key",
     "po_approval_requested",
     "po_approved",
@@ -83,7 +88,9 @@ NotificationType = Literal[
 
 NOTIFICATION_TYPE_VALUES: Set[NotificationType] = {
     "accounting_sync_failed",
+    "agent_connected",
     "agent_request",
+    "agent_signed_out",
     "company_report_ready",
     "contract_comment",
     "contract_recheck_requested",
@@ -124,6 +131,9 @@ NOTIFICATION_TYPE_VALUES: Set[NotificationType] = {
     "invoice_reminder",
     "invoice_remittance_sent",
     "invoice_submitted",
+    "payment_problem_answered",
+    "payment_problem_reported",
+    "payment_receipt_to_confirm",
     "payments_recorded_by_key",
     "po_approval_requested",
     "po_approved",

@@ -6,6 +6,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.purchase_request_answer_input import PurchaseRequestAnswerInput
     from ..models.purchase_request_line_input import PurchaseRequestLineInput
     from ..models.purchase_request_supplier_input import PurchaseRequestSupplierInput
 
@@ -28,6 +29,11 @@ class CreatePurchaseRequestInput:
         needed_by (Union[Unset, str]): When it's needed, YYYY-MM-DD.
         quote_import_id (Union[Unset, str]): A quote uploaded through the quote import, to attach.
         notes (Union[Unset, str]): Anything procurement should know.
+        request_type_id (Union[Unset, str]): The request type (GET /request-types). Required when the workspace has an
+            active type. The type's GL account and line type fill in what the request leaves out.
+        answers (Union[Unset, List['PurchaseRequestAnswerInput']]): Answers to the type's questions, by fieldId. On an
+            update, the whole set (omit to keep them). A draft may leave questions blank; submitting needs every required
+            question the answers make visible.
         submit (Union[Unset, bool]): true submits it for approval straight away; otherwise it is saved as a draft.
     """
 
@@ -41,6 +47,8 @@ class CreatePurchaseRequestInput:
     needed_by: Union[Unset, str] = UNSET
     quote_import_id: Union[Unset, str] = UNSET
     notes: Union[Unset, str] = UNSET
+    request_type_id: Union[Unset, str] = UNSET
+    answers: Union[Unset, List["PurchaseRequestAnswerInput"]] = UNSET
     submit: Union[Unset, bool] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -70,6 +78,15 @@ class CreatePurchaseRequestInput:
 
         notes = self.notes
 
+        request_type_id = self.request_type_id
+
+        answers: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.answers, Unset):
+            answers = []
+            for answers_item_data in self.answers:
+                answers_item = answers_item_data.to_dict()
+                answers.append(answers_item)
+
         submit = self.submit
 
         field_dict: Dict[str, Any] = {}
@@ -96,6 +113,10 @@ class CreatePurchaseRequestInput:
             field_dict["quoteImportId"] = quote_import_id
         if notes is not UNSET:
             field_dict["notes"] = notes
+        if request_type_id is not UNSET:
+            field_dict["requestTypeId"] = request_type_id
+        if answers is not UNSET:
+            field_dict["answers"] = answers
         if submit is not UNSET:
             field_dict["submit"] = submit
 
@@ -103,6 +124,7 @@ class CreatePurchaseRequestInput:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.purchase_request_answer_input import PurchaseRequestAnswerInput
         from ..models.purchase_request_line_input import PurchaseRequestLineInput
         from ..models.purchase_request_supplier_input import (
             PurchaseRequestSupplierInput,
@@ -139,6 +161,15 @@ class CreatePurchaseRequestInput:
 
         notes = d.pop("notes", UNSET)
 
+        request_type_id = d.pop("requestTypeId", UNSET)
+
+        answers = []
+        _answers = d.pop("answers", UNSET)
+        for answers_item_data in _answers or []:
+            answers_item = PurchaseRequestAnswerInput.from_dict(answers_item_data)
+
+            answers.append(answers_item)
+
         submit = d.pop("submit", UNSET)
 
         create_purchase_request_input = cls(
@@ -152,6 +183,8 @@ class CreatePurchaseRequestInput:
             needed_by=needed_by,
             quote_import_id=quote_import_id,
             notes=notes,
+            request_type_id=request_type_id,
+            answers=answers,
             submit=submit,
         )
 

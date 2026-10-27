@@ -23,7 +23,10 @@ import ai.pleaxy.model.ApprovalChain;
 import ai.pleaxy.model.BudgetCheck;
 import ai.pleaxy.model.PurchaseOrderQuoteDocument;
 import ai.pleaxy.model.PurchaseRequestLine;
+import ai.pleaxy.model.PurchaseRequestRequestType;
 import ai.pleaxy.model.PurchaseRequestSupplier;
+import ai.pleaxy.model.QuestionnaireFieldDef;
+import ai.pleaxy.model.RequestAnswer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -54,6 +57,9 @@ import ai.pleaxy.client.ApiClient;
   PurchaseRequest.JSON_PROPERTY_NEEDED_BY,
   PurchaseRequest.JSON_PROPERTY_QUOTE_DOCUMENT,
   PurchaseRequest.JSON_PROPERTY_NOTES,
+  PurchaseRequest.JSON_PROPERTY_REQUEST_TYPE,
+  PurchaseRequest.JSON_PROPERTY_FORM_FIELDS,
+  PurchaseRequest.JSON_PROPERTY_ANSWERS,
   PurchaseRequest.JSON_PROPERTY_STATUS,
   PurchaseRequest.JSON_PROPERTY_APPROVAL,
   PurchaseRequest.JSON_PROPERTY_APPROVAL_VERSION,
@@ -124,6 +130,18 @@ public class PurchaseRequest {
   public static final String JSON_PROPERTY_NOTES = "notes";
   @javax.annotation.Nullable
   private String notes;
+
+  public static final String JSON_PROPERTY_REQUEST_TYPE = "requestType";
+  @javax.annotation.Nullable
+  private PurchaseRequestRequestType requestType;
+
+  public static final String JSON_PROPERTY_FORM_FIELDS = "formFields";
+  @javax.annotation.Nullable
+  private List<QuestionnaireFieldDef> formFields = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_ANSWERS = "answers";
+  @javax.annotation.Nullable
+  private List<RequestAnswer> answers = new ArrayList<>();
 
   /**
    * Gets or Sets status
@@ -563,6 +581,94 @@ public class PurchaseRequest {
   }
 
 
+  public PurchaseRequest requestType(@javax.annotation.Nullable PurchaseRequestRequestType requestType) {
+    this.requestType = requestType;
+    return this;
+  }
+
+  /**
+   * Get requestType
+   * @return requestType
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REQUEST_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PurchaseRequestRequestType getRequestType() {
+    return requestType;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REQUEST_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRequestType(@javax.annotation.Nullable PurchaseRequestRequestType requestType) {
+    this.requestType = requestType;
+  }
+
+
+  public PurchaseRequest formFields(@javax.annotation.Nullable List<QuestionnaireFieldDef> formFields) {
+    this.formFields = formFields;
+    return this;
+  }
+
+  public PurchaseRequest addFormFieldsItem(QuestionnaireFieldDef formFieldsItem) {
+    if (this.formFields == null) {
+      this.formFields = new ArrayList<>();
+    }
+    this.formFields.add(formFieldsItem);
+    return this;
+  }
+
+  /**
+   * Get formFields
+   * @return formFields
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_FORM_FIELDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<QuestionnaireFieldDef> getFormFields() {
+    return formFields;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_FORM_FIELDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setFormFields(@javax.annotation.Nullable List<QuestionnaireFieldDef> formFields) {
+    this.formFields = formFields;
+  }
+
+
+  public PurchaseRequest answers(@javax.annotation.Nullable List<RequestAnswer> answers) {
+    this.answers = answers;
+    return this;
+  }
+
+  public PurchaseRequest addAnswersItem(RequestAnswer answersItem) {
+    if (this.answers == null) {
+      this.answers = new ArrayList<>();
+    }
+    this.answers.add(answersItem);
+    return this;
+  }
+
+  /**
+   * Get answers
+   * @return answers
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ANSWERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<RequestAnswer> getAnswers() {
+    return answers;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ANSWERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAnswers(@javax.annotation.Nullable List<RequestAnswer> answers) {
+    this.answers = answers;
+  }
+
+
   public PurchaseRequest status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
@@ -877,6 +983,9 @@ public class PurchaseRequest {
         Objects.equals(this.neededBy, purchaseRequest.neededBy) &&
         Objects.equals(this.quoteDocument, purchaseRequest.quoteDocument) &&
         Objects.equals(this.notes, purchaseRequest.notes) &&
+        Objects.equals(this.requestType, purchaseRequest.requestType) &&
+        Objects.equals(this.formFields, purchaseRequest.formFields) &&
+        Objects.equals(this.answers, purchaseRequest.answers) &&
         Objects.equals(this.status, purchaseRequest.status) &&
         Objects.equals(this.approval, purchaseRequest.approval) &&
         Objects.equals(this.approvalVersion, purchaseRequest.approvalVersion) &&
@@ -893,7 +1002,7 @@ public class PurchaseRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, requesterEmployeeKey, requesterName, costCenter, glCode, supplier, lineItems, amount, currency, neededBy, quoteDocument, notes, status, approval, approvalVersion, budgetCheck, poId, rejectionReason, createdAt, updatedAt, submittedAt, decidedAt, canceledAt, canceledBy);
+    return Objects.hash(id, title, description, requesterEmployeeKey, requesterName, costCenter, glCode, supplier, lineItems, amount, currency, neededBy, quoteDocument, notes, requestType, formFields, answers, status, approval, approvalVersion, budgetCheck, poId, rejectionReason, createdAt, updatedAt, submittedAt, decidedAt, canceledAt, canceledBy);
   }
 
   @Override
@@ -914,6 +1023,9 @@ public class PurchaseRequest {
     sb.append("    neededBy: ").append(toIndentedString(neededBy)).append("\n");
     sb.append("    quoteDocument: ").append(toIndentedString(quoteDocument)).append("\n");
     sb.append("    notes: ").append(toIndentedString(notes)).append("\n");
+    sb.append("    requestType: ").append(toIndentedString(requestType)).append("\n");
+    sb.append("    formFields: ").append(toIndentedString(formFields)).append("\n");
+    sb.append("    answers: ").append(toIndentedString(answers)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    approval: ").append(toIndentedString(approval)).append("\n");
     sb.append("    approvalVersion: ").append(toIndentedString(approvalVersion)).append("\n");
@@ -1046,6 +1158,31 @@ public class PurchaseRequest {
     // add `notes` to the URL query string
     if (getNotes() != null) {
       joiner.add(String.format("%snotes%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNotes()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `requestType` to the URL query string
+    if (getRequestType() != null) {
+      joiner.add(getRequestType().toUrlQueryString(prefix + "requestType" + suffix));
+    }
+
+    // add `formFields` to the URL query string
+    if (getFormFields() != null) {
+      for (int i = 0; i < getFormFields().size(); i++) {
+        if (getFormFields().get(i) != null) {
+          joiner.add(getFormFields().get(i).toUrlQueryString(String.format("%sformFields%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `answers` to the URL query string
+    if (getAnswers() != null) {
+      for (int i = 0; i < getAnswers().size(); i++) {
+        if (getAnswers().get(i) != null) {
+          joiner.add(getAnswers().get(i).toUrlQueryString(String.format("%sanswers%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
     }
 
     // add `status` to the URL query string

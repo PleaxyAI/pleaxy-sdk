@@ -157,6 +157,12 @@ public class Notification {
     
     INVOICE_PAYMENT_WITHDRAWN(String.valueOf("invoice_payment_withdrawn")),
     
+    PAYMENT_PROBLEM_REPORTED(String.valueOf("payment_problem_reported")),
+    
+    PAYMENT_PROBLEM_ANSWERED(String.valueOf("payment_problem_answered")),
+    
+    PAYMENT_RECEIPT_TO_CONFIRM(String.valueOf("payment_receipt_to_confirm")),
+    
     PAYMENTS_RECORDED_BY_KEY(String.valueOf("payments_recorded_by_key")),
     
     ACCOUNTING_SYNC_FAILED(String.valueOf("accounting_sync_failed")),
@@ -261,7 +267,11 @@ public class Notification {
     
     COPILOT_PACKS_EMPTY(String.valueOf("copilot_packs_empty")),
     
-    COPILOT_PAYG_CAP(String.valueOf("copilot_payg_cap"));
+    COPILOT_PAYG_CAP(String.valueOf("copilot_payg_cap")),
+    
+    AGENT_CONNECTED(String.valueOf("agent_connected")),
+    
+    AGENT_SIGNED_OUT(String.valueOf("agent_signed_out"));
 
     private String value;
 

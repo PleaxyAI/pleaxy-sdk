@@ -32,10 +32,13 @@ import ai.pleaxy.model.InvoiceRejection;
 import ai.pleaxy.model.InvoiceSourceDocument;
 import ai.pleaxy.model.InvoiceSupplierViewPayment;
 import ai.pleaxy.model.LateFeeTerms;
+import ai.pleaxy.model.NoPoComparison;
 import ai.pleaxy.model.RemittanceInstructions;
 import ai.pleaxy.model.SupplierApprovalView;
 import ai.pleaxy.model.SupplierBankDetailsConfirmationView;
+import ai.pleaxy.model.SupplierPaymentProblemView;
 import ai.pleaxy.model.SupplierRemittanceView;
+import ai.pleaxy.model.SupplierSettlementView;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -71,6 +74,8 @@ import ai.pleaxy.client.ApiClient;
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_BILLS_NO_PO_LINE,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_PARTY_DETAILS,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_MATCH_STATUS,
+  CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_NO_PO_COMPARISON,
+  CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_PAYMENT_ROUTE,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_PAID,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_DUE_IN_DAYS,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_DUE_DATE,
@@ -107,6 +112,8 @@ import ai.pleaxy.client.ApiClient;
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_REMITTANCE_INSTRUCTIONS,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_SOURCE_DOCUMENT,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_HAS_ORIGINAL_PDF,
+  CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_SETTLEMENT,
+  CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_PAYMENT_PROBLEM,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_BANK_DETAILS_CONFIRMATION,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_BASE_CURRENCY_AMOUNT,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_APPROVAL,
@@ -232,6 +239,49 @@ public class CreateInvoiceResultSupplierInvoice {
   public static final String JSON_PROPERTY_MATCH_STATUS = "matchStatus";
   @javax.annotation.Nullable
   private MatchStatusEnum matchStatus;
+
+  public static final String JSON_PROPERTY_NO_PO_COMPARISON = "noPoComparison";
+  @javax.annotation.Nullable
+  private NoPoComparison noPoComparison;
+
+  /**
+   * Gets or Sets paymentRoute
+   */
+  public enum PaymentRouteEnum {
+    PLEAXY(String.valueOf("pleaxy")),
+    
+    ERP(String.valueOf("erp"));
+
+    private String value;
+
+    PaymentRouteEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static PaymentRouteEnum fromValue(String value) {
+      for (PaymentRouteEnum b : PaymentRouteEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_PAYMENT_ROUTE = "paymentRoute";
+  @javax.annotation.Nullable
+  private PaymentRouteEnum paymentRoute;
 
   public static final String JSON_PROPERTY_PAID = "paid";
   @javax.annotation.Nullable
@@ -590,6 +640,14 @@ public class CreateInvoiceResultSupplierInvoice {
   public static final String JSON_PROPERTY_HAS_ORIGINAL_PDF = "hasOriginalPdf";
   @javax.annotation.Nullable
   private Boolean hasOriginalPdf;
+
+  public static final String JSON_PROPERTY_SETTLEMENT = "settlement";
+  @javax.annotation.Nullable
+  private SupplierSettlementView settlement;
+
+  public static final String JSON_PROPERTY_PAYMENT_PROBLEM = "paymentProblem";
+  @javax.annotation.Nullable
+  private SupplierPaymentProblemView paymentProblem;
 
   public static final String JSON_PROPERTY_BANK_DETAILS_CONFIRMATION = "bankDetailsConfirmation";
   @javax.annotation.Nullable
@@ -1087,6 +1145,54 @@ public class CreateInvoiceResultSupplierInvoice {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMatchStatus(@javax.annotation.Nullable MatchStatusEnum matchStatus) {
     this.matchStatus = matchStatus;
+  }
+
+
+  public CreateInvoiceResultSupplierInvoice noPoComparison(@javax.annotation.Nullable NoPoComparison noPoComparison) {
+    this.noPoComparison = noPoComparison;
+    return this;
+  }
+
+  /**
+   * Get noPoComparison
+   * @return noPoComparison
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_NO_PO_COMPARISON)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public NoPoComparison getNoPoComparison() {
+    return noPoComparison;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_NO_PO_COMPARISON)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setNoPoComparison(@javax.annotation.Nullable NoPoComparison noPoComparison) {
+    this.noPoComparison = noPoComparison;
+  }
+
+
+  public CreateInvoiceResultSupplierInvoice paymentRoute(@javax.annotation.Nullable PaymentRouteEnum paymentRoute) {
+    this.paymentRoute = paymentRoute;
+    return this;
+  }
+
+  /**
+   * Get paymentRoute
+   * @return paymentRoute
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PAYMENT_ROUTE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PaymentRouteEnum getPaymentRoute() {
+    return paymentRoute;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PAYMENT_ROUTE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaymentRoute(@javax.annotation.Nullable PaymentRouteEnum paymentRoute) {
+    this.paymentRoute = paymentRoute;
   }
 
 
@@ -2034,6 +2140,54 @@ public class CreateInvoiceResultSupplierInvoice {
   }
 
 
+  public CreateInvoiceResultSupplierInvoice settlement(@javax.annotation.Nullable SupplierSettlementView settlement) {
+    this.settlement = settlement;
+    return this;
+  }
+
+  /**
+   * Get settlement
+   * @return settlement
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SETTLEMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SupplierSettlementView getSettlement() {
+    return settlement;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SETTLEMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSettlement(@javax.annotation.Nullable SupplierSettlementView settlement) {
+    this.settlement = settlement;
+  }
+
+
+  public CreateInvoiceResultSupplierInvoice paymentProblem(@javax.annotation.Nullable SupplierPaymentProblemView paymentProblem) {
+    this.paymentProblem = paymentProblem;
+    return this;
+  }
+
+  /**
+   * Get paymentProblem
+   * @return paymentProblem
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PAYMENT_PROBLEM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SupplierPaymentProblemView getPaymentProblem() {
+    return paymentProblem;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PAYMENT_PROBLEM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaymentProblem(@javax.annotation.Nullable SupplierPaymentProblemView paymentProblem) {
+    this.paymentProblem = paymentProblem;
+  }
+
+
   public CreateInvoiceResultSupplierInvoice bankDetailsConfirmation(@javax.annotation.Nullable SupplierBankDetailsConfirmationView bankDetailsConfirmation) {
     this.bankDetailsConfirmation = bankDetailsConfirmation;
     return this;
@@ -2265,6 +2419,8 @@ public class CreateInvoiceResultSupplierInvoice {
         Objects.equals(this.billsNoPoLine, createInvoiceResultSupplierInvoice.billsNoPoLine) &&
         Objects.equals(this.partyDetails, createInvoiceResultSupplierInvoice.partyDetails) &&
         Objects.equals(this.matchStatus, createInvoiceResultSupplierInvoice.matchStatus) &&
+        Objects.equals(this.noPoComparison, createInvoiceResultSupplierInvoice.noPoComparison) &&
+        Objects.equals(this.paymentRoute, createInvoiceResultSupplierInvoice.paymentRoute) &&
         Objects.equals(this.paid, createInvoiceResultSupplierInvoice.paid) &&
         Objects.equals(this.dueInDays, createInvoiceResultSupplierInvoice.dueInDays) &&
         Objects.equals(this.dueDate, createInvoiceResultSupplierInvoice.dueDate) &&
@@ -2301,6 +2457,8 @@ public class CreateInvoiceResultSupplierInvoice {
         Objects.equals(this.remittanceInstructions, createInvoiceResultSupplierInvoice.remittanceInstructions) &&
         Objects.equals(this.sourceDocument, createInvoiceResultSupplierInvoice.sourceDocument) &&
         Objects.equals(this.hasOriginalPdf, createInvoiceResultSupplierInvoice.hasOriginalPdf) &&
+        Objects.equals(this.settlement, createInvoiceResultSupplierInvoice.settlement) &&
+        Objects.equals(this.paymentProblem, createInvoiceResultSupplierInvoice.paymentProblem) &&
         Objects.equals(this.bankDetailsConfirmation, createInvoiceResultSupplierInvoice.bankDetailsConfirmation) &&
         Objects.equals(this.baseCurrencyAmount, createInvoiceResultSupplierInvoice.baseCurrencyAmount) &&
         Objects.equals(this.approval, createInvoiceResultSupplierInvoice.approval) &&
@@ -2313,7 +2471,7 @@ public class CreateInvoiceResultSupplierInvoice {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, paid, dueInDays, dueDate, paidAt, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, sourceDocument, hasOriginalPdf, bankDetailsConfirmation, baseCurrencyAmount, approval, payment, withdrawnPayment, remittances, buyerWorkspaceId, nextReminderAt);
+    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, noPoComparison, paymentRoute, paid, dueInDays, dueDate, paidAt, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, sourceDocument, hasOriginalPdf, settlement, paymentProblem, bankDetailsConfirmation, baseCurrencyAmount, approval, payment, withdrawnPayment, remittances, buyerWorkspaceId, nextReminderAt);
   }
 
   @Override
@@ -2339,6 +2497,8 @@ public class CreateInvoiceResultSupplierInvoice {
     sb.append("    billsNoPoLine: ").append(toIndentedString(billsNoPoLine)).append("\n");
     sb.append("    partyDetails: ").append(toIndentedString(partyDetails)).append("\n");
     sb.append("    matchStatus: ").append(toIndentedString(matchStatus)).append("\n");
+    sb.append("    noPoComparison: ").append(toIndentedString(noPoComparison)).append("\n");
+    sb.append("    paymentRoute: ").append(toIndentedString(paymentRoute)).append("\n");
     sb.append("    paid: ").append(toIndentedString(paid)).append("\n");
     sb.append("    dueInDays: ").append(toIndentedString(dueInDays)).append("\n");
     sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
@@ -2375,6 +2535,8 @@ public class CreateInvoiceResultSupplierInvoice {
     sb.append("    remittanceInstructions: ").append(toIndentedString(remittanceInstructions)).append("\n");
     sb.append("    sourceDocument: ").append(toIndentedString(sourceDocument)).append("\n");
     sb.append("    hasOriginalPdf: ").append(toIndentedString(hasOriginalPdf)).append("\n");
+    sb.append("    settlement: ").append(toIndentedString(settlement)).append("\n");
+    sb.append("    paymentProblem: ").append(toIndentedString(paymentProblem)).append("\n");
     sb.append("    bankDetailsConfirmation: ").append(toIndentedString(bankDetailsConfirmation)).append("\n");
     sb.append("    baseCurrencyAmount: ").append(toIndentedString(baseCurrencyAmount)).append("\n");
     sb.append("    approval: ").append(toIndentedString(approval)).append("\n");
@@ -2528,6 +2690,16 @@ public class CreateInvoiceResultSupplierInvoice {
     // add `matchStatus` to the URL query string
     if (getMatchStatus() != null) {
       joiner.add(String.format("%smatchStatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMatchStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `noPoComparison` to the URL query string
+    if (getNoPoComparison() != null) {
+      joiner.add(getNoPoComparison().toUrlQueryString(prefix + "noPoComparison" + suffix));
+    }
+
+    // add `paymentRoute` to the URL query string
+    if (getPaymentRoute() != null) {
+      joiner.add(String.format("%spaymentRoute%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPaymentRoute()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `paid` to the URL query string
@@ -2754,6 +2926,16 @@ public class CreateInvoiceResultSupplierInvoice {
     // add `hasOriginalPdf` to the URL query string
     if (getHasOriginalPdf() != null) {
       joiner.add(String.format("%shasOriginalPdf%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHasOriginalPdf()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `settlement` to the URL query string
+    if (getSettlement() != null) {
+      joiner.add(getSettlement().toUrlQueryString(prefix + "settlement" + suffix));
+    }
+
+    // add `paymentProblem` to the URL query string
+    if (getPaymentProblem() != null) {
+      joiner.add(getPaymentProblem().toUrlQueryString(prefix + "paymentProblem" + suffix));
     }
 
     // add `bankDetailsConfirmation` to the URL query string

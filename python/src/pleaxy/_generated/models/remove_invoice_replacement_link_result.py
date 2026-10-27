@@ -35,6 +35,10 @@ from ..models.remove_invoice_replacement_link_result_match_type import (
     RemoveInvoiceReplacementLinkResultMatchType,
     check_remove_invoice_replacement_link_result_match_type,
 )
+from ..models.remove_invoice_replacement_link_result_payment_route import (
+    RemoveInvoiceReplacementLinkResultPaymentRoute,
+    check_remove_invoice_replacement_link_result_payment_route,
+)
 from ..models.remove_invoice_replacement_link_result_source import (
     RemoveInvoiceReplacementLinkResultSource,
     check_remove_invoice_replacement_link_result_source,
@@ -65,13 +69,16 @@ if TYPE_CHECKING:
     from ..models.invoice_deduction import InvoiceDeduction
     from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
     from ..models.invoice_line_item import InvoiceLineItem
+    from ..models.invoice_payment_problem import InvoicePaymentProblem
     from ..models.invoice_payment_record import InvoicePaymentRecord
     from ..models.invoice_rate_warning import InvoiceRateWarning
     from ..models.invoice_rejection import InvoiceRejection
     from ..models.invoice_remittance import InvoiceRemittance
     from ..models.invoice_replacement_check import InvoiceReplacementCheck
+    from ..models.invoice_settlement import InvoiceSettlement
     from ..models.invoice_source_document import InvoiceSourceDocument
     from ..models.late_fee_terms import LateFeeTerms
+    from ..models.no_po_comparison import NoPoComparison
     from ..models.payment_history_entry import PaymentHistoryEntry
     from ..models.remittance_check import RemittanceCheck
     from ..models.remittance_instructions import RemittanceInstructions
@@ -103,6 +110,7 @@ class RemoveInvoiceReplacementLinkResult:
         created_at (Union[Unset, str]):
         late_fee_terms (Union[Unset, LateFeeTerms]):
         amount (Union[Unset, float]):
+        settlement (Union[Unset, InvoiceSettlement]):
         approval_version (Union[Unset, float]):
         approval (Union[Unset, ApprovalChain]):
         supplier_connection_id (Union[Unset, str]):
@@ -125,6 +133,8 @@ class RemoveInvoiceReplacementLinkResult:
         match_status (Union[Unset, RemoveInvoiceReplacementLinkResultMatchStatus]):
         unverified_reason (Union[Unset, RemoveInvoiceReplacementLinkResultUnverifiedReason]):
         match_basis (Union[Unset, RemoveInvoiceReplacementLinkResultMatchBasis]):
+        no_po_comparison (Union[Unset, NoPoComparison]):
+        payment_route (Union[Unset, RemoveInvoiceReplacementLinkResultPaymentRoute]):
         receipt_check_skipped (Union[Unset, RemoveInvoiceReplacementLinkResultReceiptCheckSkipped]):
         receipt_tolerance_applied (Union[Unset, RemoveInvoiceReplacementLinkResultReceiptToleranceApplied]):
         match_type (Union[Unset, RemoveInvoiceReplacementLinkResultMatchType]):
@@ -137,6 +147,8 @@ class RemoveInvoiceReplacementLinkResult:
         payment (Union[Unset, InvoicePaymentRecord]):
         remittances (Union[Unset, List['InvoiceRemittance']]):
         payment_history (Union[Unset, List['PaymentHistoryEntry']]):
+        payment_problem (Union[Unset, InvoicePaymentProblem]):
+        receipt_confirmation_reminded_at (Union[Unset, str]):
         export_available_from (Union[Unset, str]):
         previous_exported_at (Union[Unset, str]):
         due_date_source (Union[Unset, RemoveInvoiceReplacementLinkResultDueDateSource]):
@@ -190,6 +202,7 @@ class RemoveInvoiceReplacementLinkResult:
     created_at: Union[Unset, str] = UNSET
     late_fee_terms: Union[Unset, "LateFeeTerms"] = UNSET
     amount: Union[Unset, float] = UNSET
+    settlement: Union[Unset, "InvoiceSettlement"] = UNSET
     approval_version: Union[Unset, float] = UNSET
     approval: Union[Unset, "ApprovalChain"] = UNSET
     supplier_connection_id: Union[Unset, str] = UNSET
@@ -216,6 +229,8 @@ class RemoveInvoiceReplacementLinkResult:
         Unset, RemoveInvoiceReplacementLinkResultUnverifiedReason
     ] = UNSET
     match_basis: Union[Unset, RemoveInvoiceReplacementLinkResultMatchBasis] = UNSET
+    no_po_comparison: Union[Unset, "NoPoComparison"] = UNSET
+    payment_route: Union[Unset, RemoveInvoiceReplacementLinkResultPaymentRoute] = UNSET
     receipt_check_skipped: Union[
         Unset, "RemoveInvoiceReplacementLinkResultReceiptCheckSkipped"
     ] = UNSET
@@ -234,6 +249,8 @@ class RemoveInvoiceReplacementLinkResult:
     payment: Union[Unset, "InvoicePaymentRecord"] = UNSET
     remittances: Union[Unset, List["InvoiceRemittance"]] = UNSET
     payment_history: Union[Unset, List["PaymentHistoryEntry"]] = UNSET
+    payment_problem: Union[Unset, "InvoicePaymentProblem"] = UNSET
+    receipt_confirmation_reminded_at: Union[Unset, str] = UNSET
     export_available_from: Union[Unset, str] = UNSET
     previous_exported_at: Union[Unset, str] = UNSET
     due_date_source: Union[Unset, RemoveInvoiceReplacementLinkResultDueDateSource] = (
@@ -310,6 +327,10 @@ class RemoveInvoiceReplacementLinkResult:
 
         amount = self.amount
 
+        settlement: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.settlement, Unset):
+            settlement = self.settlement.to_dict()
+
         approval_version = self.approval_version
 
         approval: Union[Unset, Dict[str, Any]] = UNSET
@@ -371,6 +392,14 @@ class RemoveInvoiceReplacementLinkResult:
         if not isinstance(self.match_basis, Unset):
             match_basis = self.match_basis
 
+        no_po_comparison: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.no_po_comparison, Unset):
+            no_po_comparison = self.no_po_comparison.to_dict()
+
+        payment_route: Union[Unset, str] = UNSET
+        if not isinstance(self.payment_route, Unset):
+            payment_route = self.payment_route
+
         receipt_check_skipped: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.receipt_check_skipped, Unset):
             receipt_check_skipped = self.receipt_check_skipped.to_dict()
@@ -419,6 +448,12 @@ class RemoveInvoiceReplacementLinkResult:
             for payment_history_item_data in self.payment_history:
                 payment_history_item = payment_history_item_data.to_dict()
                 payment_history.append(payment_history_item)
+
+        payment_problem: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.payment_problem, Unset):
+            payment_problem = self.payment_problem.to_dict()
+
+        receipt_confirmation_reminded_at = self.receipt_confirmation_reminded_at
 
         export_available_from = self.export_available_from
 
@@ -600,6 +635,8 @@ class RemoveInvoiceReplacementLinkResult:
             field_dict["lateFeeTerms"] = late_fee_terms
         if amount is not UNSET:
             field_dict["amount"] = amount
+        if settlement is not UNSET:
+            field_dict["settlement"] = settlement
         if approval_version is not UNSET:
             field_dict["approvalVersion"] = approval_version
         if approval is not UNSET:
@@ -646,6 +683,10 @@ class RemoveInvoiceReplacementLinkResult:
             field_dict["unverifiedReason"] = unverified_reason
         if match_basis is not UNSET:
             field_dict["matchBasis"] = match_basis
+        if no_po_comparison is not UNSET:
+            field_dict["noPoComparison"] = no_po_comparison
+        if payment_route is not UNSET:
+            field_dict["paymentRoute"] = payment_route
         if receipt_check_skipped is not UNSET:
             field_dict["receiptCheckSkipped"] = receipt_check_skipped
         if receipt_tolerance_applied is not UNSET:
@@ -670,6 +711,12 @@ class RemoveInvoiceReplacementLinkResult:
             field_dict["remittances"] = remittances
         if payment_history is not UNSET:
             field_dict["paymentHistory"] = payment_history
+        if payment_problem is not UNSET:
+            field_dict["paymentProblem"] = payment_problem
+        if receipt_confirmation_reminded_at is not UNSET:
+            field_dict["receiptConfirmationRemindedAt"] = (
+                receipt_confirmation_reminded_at
+            )
         if export_available_from is not UNSET:
             field_dict["exportAvailableFrom"] = export_available_from
         if previous_exported_at is not UNSET:
@@ -770,13 +817,16 @@ class RemoveInvoiceReplacementLinkResult:
         from ..models.invoice_deduction import InvoiceDeduction
         from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
         from ..models.invoice_line_item import InvoiceLineItem
+        from ..models.invoice_payment_problem import InvoicePaymentProblem
         from ..models.invoice_payment_record import InvoicePaymentRecord
         from ..models.invoice_rate_warning import InvoiceRateWarning
         from ..models.invoice_rejection import InvoiceRejection
         from ..models.invoice_remittance import InvoiceRemittance
         from ..models.invoice_replacement_check import InvoiceReplacementCheck
+        from ..models.invoice_settlement import InvoiceSettlement
         from ..models.invoice_source_document import InvoiceSourceDocument
         from ..models.late_fee_terms import LateFeeTerms
+        from ..models.no_po_comparison import NoPoComparison
         from ..models.payment_history_entry import PaymentHistoryEntry
         from ..models.remittance_check import RemittanceCheck
         from ..models.remittance_instructions import RemittanceInstructions
@@ -826,6 +876,13 @@ class RemoveInvoiceReplacementLinkResult:
             late_fee_terms = LateFeeTerms.from_dict(_late_fee_terms)
 
         amount = d.pop("amount", UNSET)
+
+        _settlement = d.pop("settlement", UNSET)
+        settlement: Union[Unset, InvoiceSettlement]
+        if isinstance(_settlement, Unset):
+            settlement = UNSET
+        else:
+            settlement = InvoiceSettlement.from_dict(_settlement)
 
         approval_version = d.pop("approvalVersion", UNSET)
 
@@ -920,6 +977,22 @@ class RemoveInvoiceReplacementLinkResult:
                 _match_basis
             )
 
+        _no_po_comparison = d.pop("noPoComparison", UNSET)
+        no_po_comparison: Union[Unset, NoPoComparison]
+        if isinstance(_no_po_comparison, Unset):
+            no_po_comparison = UNSET
+        else:
+            no_po_comparison = NoPoComparison.from_dict(_no_po_comparison)
+
+        _payment_route = d.pop("paymentRoute", UNSET)
+        payment_route: Union[Unset, RemoveInvoiceReplacementLinkResultPaymentRoute]
+        if isinstance(_payment_route, Unset):
+            payment_route = UNSET
+        else:
+            payment_route = check_remove_invoice_replacement_link_result_payment_route(
+                _payment_route
+            )
+
         _receipt_check_skipped = d.pop("receiptCheckSkipped", UNSET)
         receipt_check_skipped: Union[
             Unset, RemoveInvoiceReplacementLinkResultReceiptCheckSkipped
@@ -1007,6 +1080,15 @@ class RemoveInvoiceReplacementLinkResult:
             )
 
             payment_history.append(payment_history_item)
+
+        _payment_problem = d.pop("paymentProblem", UNSET)
+        payment_problem: Union[Unset, InvoicePaymentProblem]
+        if isinstance(_payment_problem, Unset):
+            payment_problem = UNSET
+        else:
+            payment_problem = InvoicePaymentProblem.from_dict(_payment_problem)
+
+        receipt_confirmation_reminded_at = d.pop("receiptConfirmationRemindedAt", UNSET)
 
         export_available_from = d.pop("exportAvailableFrom", UNSET)
 
@@ -1237,6 +1319,7 @@ class RemoveInvoiceReplacementLinkResult:
             created_at=created_at,
             late_fee_terms=late_fee_terms,
             amount=amount,
+            settlement=settlement,
             approval_version=approval_version,
             approval=approval,
             supplier_connection_id=supplier_connection_id,
@@ -1259,6 +1342,8 @@ class RemoveInvoiceReplacementLinkResult:
             match_status=match_status,
             unverified_reason=unverified_reason,
             match_basis=match_basis,
+            no_po_comparison=no_po_comparison,
+            payment_route=payment_route,
             receipt_check_skipped=receipt_check_skipped,
             receipt_tolerance_applied=receipt_tolerance_applied,
             match_type=match_type,
@@ -1271,6 +1356,8 @@ class RemoveInvoiceReplacementLinkResult:
             payment=payment,
             remittances=remittances,
             payment_history=payment_history,
+            payment_problem=payment_problem,
+            receipt_confirmation_reminded_at=receipt_confirmation_reminded_at,
             export_available_from=export_available_from,
             previous_exported_at=previous_exported_at,
             due_date_source=due_date_source,

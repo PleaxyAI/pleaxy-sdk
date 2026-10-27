@@ -31,6 +31,8 @@ module Pleaxy
 
     attr_accessor :amount
 
+    attr_accessor :settlement
+
     attr_accessor :approval_version
 
     attr_accessor :approval
@@ -75,6 +77,10 @@ module Pleaxy
 
     attr_accessor :match_basis
 
+    attr_accessor :no_po_comparison
+
+    attr_accessor :payment_route
+
     attr_accessor :receipt_check_skipped
 
     attr_accessor :receipt_tolerance_applied
@@ -98,6 +104,10 @@ module Pleaxy
     attr_accessor :remittances
 
     attr_accessor :payment_history
+
+    attr_accessor :payment_problem
+
+    attr_accessor :receipt_confirmation_reminded_at
 
     attr_accessor :export_available_from
 
@@ -220,6 +230,7 @@ module Pleaxy
         :'created_at' => :'createdAt',
         :'late_fee_terms' => :'lateFeeTerms',
         :'amount' => :'amount',
+        :'settlement' => :'settlement',
         :'approval_version' => :'approvalVersion',
         :'approval' => :'approval',
         :'supplier_connection_id' => :'supplierConnectionId',
@@ -242,6 +253,8 @@ module Pleaxy
         :'match_status' => :'matchStatus',
         :'unverified_reason' => :'unverifiedReason',
         :'match_basis' => :'matchBasis',
+        :'no_po_comparison' => :'noPoComparison',
+        :'payment_route' => :'paymentRoute',
         :'receipt_check_skipped' => :'receiptCheckSkipped',
         :'receipt_tolerance_applied' => :'receiptToleranceApplied',
         :'match_type' => :'matchType',
@@ -254,6 +267,8 @@ module Pleaxy
         :'payment' => :'payment',
         :'remittances' => :'remittances',
         :'payment_history' => :'paymentHistory',
+        :'payment_problem' => :'paymentProblem',
+        :'receipt_confirmation_reminded_at' => :'receiptConfirmationRemindedAt',
         :'export_available_from' => :'exportAvailableFrom',
         :'previous_exported_at' => :'previousExportedAt',
         :'due_date_source' => :'dueDateSource',
@@ -317,6 +332,7 @@ module Pleaxy
         :'created_at' => :'String',
         :'late_fee_terms' => :'LateFeeTerms',
         :'amount' => :'Float',
+        :'settlement' => :'InvoiceSettlement',
         :'approval_version' => :'Float',
         :'approval' => :'ApprovalChain',
         :'supplier_connection_id' => :'String',
@@ -339,6 +355,8 @@ module Pleaxy
         :'match_status' => :'String',
         :'unverified_reason' => :'String',
         :'match_basis' => :'String',
+        :'no_po_comparison' => :'NoPoComparison',
+        :'payment_route' => :'String',
         :'receipt_check_skipped' => :'InvoiceBuyerViewReceiptCheckSkipped',
         :'receipt_tolerance_applied' => :'InvoiceBuyerViewReceiptToleranceApplied',
         :'match_type' => :'String',
@@ -351,6 +369,8 @@ module Pleaxy
         :'payment' => :'InvoicePaymentRecord',
         :'remittances' => :'Array<InvoiceRemittance>',
         :'payment_history' => :'Array<PaymentHistoryEntry>',
+        :'payment_problem' => :'InvoicePaymentProblem',
+        :'receipt_confirmation_reminded_at' => :'String',
         :'export_available_from' => :'String',
         :'previous_exported_at' => :'String',
         :'due_date_source' => :'String',
@@ -453,6 +473,10 @@ module Pleaxy
         self.amount = attributes[:'amount']
       end
 
+      if attributes.key?(:'settlement')
+        self.settlement = attributes[:'settlement']
+      end
+
       if attributes.key?(:'approval_version')
         self.approval_version = attributes[:'approval_version']
       end
@@ -543,6 +567,14 @@ module Pleaxy
         self.match_basis = attributes[:'match_basis']
       end
 
+      if attributes.key?(:'no_po_comparison')
+        self.no_po_comparison = attributes[:'no_po_comparison']
+      end
+
+      if attributes.key?(:'payment_route')
+        self.payment_route = attributes[:'payment_route']
+      end
+
       if attributes.key?(:'receipt_check_skipped')
         self.receipt_check_skipped = attributes[:'receipt_check_skipped']
       end
@@ -595,6 +627,14 @@ module Pleaxy
         if (value = attributes[:'payment_history']).is_a?(Array)
           self.payment_history = value
         end
+      end
+
+      if attributes.key?(:'payment_problem')
+        self.payment_problem = attributes[:'payment_problem']
+      end
+
+      if attributes.key?(:'receipt_confirmation_reminded_at')
+        self.receipt_confirmation_reminded_at = attributes[:'receipt_confirmation_reminded_at']
       end
 
       if attributes.key?(:'export_available_from')
@@ -821,13 +861,15 @@ module Pleaxy
       return false unless usage_source_validator.valid?(@usage_source)
       match_status_validator = EnumAttributeValidator.new('String', ["pending", "matched", "discrepancy", "unverified"])
       return false unless match_status_validator.valid?(@match_status)
-      unverified_reason_validator = EnumAttributeValidator.new('String', ["no_purchase_order", "no_billing_connection", "debit_note", "payer_account_unclear"])
+      unverified_reason_validator = EnumAttributeValidator.new('String', ["no_purchase_order", "no_billing_connection", "debit_note", "payer_account_unclear", "no_po_first_invoice"])
       return false unless unverified_reason_validator.valid?(@unverified_reason)
-      match_basis_validator = EnumAttributeValidator.new('String', ["purchase_order"])
+      match_basis_validator = EnumAttributeValidator.new('String', ["purchase_order", "no_po_history"])
       return false unless match_basis_validator.valid?(@match_basis)
+      payment_route_validator = EnumAttributeValidator.new('String', ["pleaxy", "erp"])
+      return false unless payment_route_validator.valid?(@payment_route)
       match_type_validator = EnumAttributeValidator.new('String', ["two_way", "three_way", "usage"])
       return false unless match_type_validator.valid?(@match_type)
-      discrepancy_reason_validator = EnumAttributeValidator.new('String', ["amount", "currency", "controls"])
+      discrepancy_reason_validator = EnumAttributeValidator.new('String', ["amount", "currency", "controls", "no_po_variance"])
       return false unless discrepancy_reason_validator.valid?(@discrepancy_reason)
       due_date_source_validator = EnumAttributeValidator.new('String', ["default", "stated"])
       return false unless due_date_source_validator.valid?(@due_date_source)
@@ -867,7 +909,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] unverified_reason Object to be assigned
     def unverified_reason=(unverified_reason)
-      validator = EnumAttributeValidator.new('String', ["no_purchase_order", "no_billing_connection", "debit_note", "payer_account_unclear"])
+      validator = EnumAttributeValidator.new('String', ["no_purchase_order", "no_billing_connection", "debit_note", "payer_account_unclear", "no_po_first_invoice"])
       unless validator.valid?(unverified_reason)
         fail ArgumentError, "invalid value for \"unverified_reason\", must be one of #{validator.allowable_values}."
       end
@@ -877,11 +919,21 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] match_basis Object to be assigned
     def match_basis=(match_basis)
-      validator = EnumAttributeValidator.new('String', ["purchase_order"])
+      validator = EnumAttributeValidator.new('String', ["purchase_order", "no_po_history"])
       unless validator.valid?(match_basis)
         fail ArgumentError, "invalid value for \"match_basis\", must be one of #{validator.allowable_values}."
       end
       @match_basis = match_basis
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] payment_route Object to be assigned
+    def payment_route=(payment_route)
+      validator = EnumAttributeValidator.new('String', ["pleaxy", "erp"])
+      unless validator.valid?(payment_route)
+        fail ArgumentError, "invalid value for \"payment_route\", must be one of #{validator.allowable_values}."
+      end
+      @payment_route = payment_route
     end
 
     # Custom attribute writer method checking allowed values (enum).
@@ -897,7 +949,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] discrepancy_reason Object to be assigned
     def discrepancy_reason=(discrepancy_reason)
-      validator = EnumAttributeValidator.new('String', ["amount", "currency", "controls"])
+      validator = EnumAttributeValidator.new('String', ["amount", "currency", "controls", "no_po_variance"])
       unless validator.valid?(discrepancy_reason)
         fail ArgumentError, "invalid value for \"discrepancy_reason\", must be one of #{validator.allowable_values}."
       end
@@ -977,6 +1029,7 @@ module Pleaxy
           created_at == o.created_at &&
           late_fee_terms == o.late_fee_terms &&
           amount == o.amount &&
+          settlement == o.settlement &&
           approval_version == o.approval_version &&
           approval == o.approval &&
           supplier_connection_id == o.supplier_connection_id &&
@@ -999,6 +1052,8 @@ module Pleaxy
           match_status == o.match_status &&
           unverified_reason == o.unverified_reason &&
           match_basis == o.match_basis &&
+          no_po_comparison == o.no_po_comparison &&
+          payment_route == o.payment_route &&
           receipt_check_skipped == o.receipt_check_skipped &&
           receipt_tolerance_applied == o.receipt_tolerance_applied &&
           match_type == o.match_type &&
@@ -1011,6 +1066,8 @@ module Pleaxy
           payment == o.payment &&
           remittances == o.remittances &&
           payment_history == o.payment_history &&
+          payment_problem == o.payment_problem &&
+          receipt_confirmation_reminded_at == o.receipt_confirmation_reminded_at &&
           export_available_from == o.export_available_from &&
           previous_exported_at == o.previous_exported_at &&
           due_date_source == o.due_date_source &&
@@ -1066,7 +1123,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [already_recorded, supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, approval_version, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, usage_amount, usage_amount_simulated, usage_simulated_after_disconnect, usage_currency, usage_source, tolerance_pct, match_status, unverified_reason, match_basis, receipt_check_skipped, receipt_tolerance_applied, match_type, discrepancy_reason, control_findings, paid, due_in_days, due_date, paid_at, payment, remittances, payment_history, export_available_from, previous_exported_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, sod_excluded_keys, submitted_format, submitted_by, feed_payload_hash, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, rate_warnings, remittance_instructions, remittance_check, bank_details_confirmation, source_document, has_original_pdf, base_currency_amount, viewer_is_supplier_member, replacement, uncredited_originals].hash
+      [already_recorded, supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, settlement, approval_version, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, usage_amount, usage_amount_simulated, usage_simulated_after_disconnect, usage_currency, usage_source, tolerance_pct, match_status, unverified_reason, match_basis, no_po_comparison, payment_route, receipt_check_skipped, receipt_tolerance_applied, match_type, discrepancy_reason, control_findings, paid, due_in_days, due_date, paid_at, payment, remittances, payment_history, payment_problem, receipt_confirmation_reminded_at, export_available_from, previous_exported_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, sod_excluded_keys, submitted_format, submitted_by, feed_payload_hash, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, rate_warnings, remittance_instructions, remittance_check, bank_details_confirmation, source_document, has_original_pdf, base_currency_amount, viewer_is_supplier_member, replacement, uncredited_originals].hash
     end
 
     # Builds the object from hash

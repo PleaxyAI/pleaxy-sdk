@@ -1,7 +1,11 @@
 from typing import Literal, Set, cast
 
 RemoveInvoiceReplacementLinkResultUnverifiedReason = Literal[
-    "debit_note", "no_billing_connection", "no_purchase_order", "payer_account_unclear"
+    "debit_note",
+    "no_billing_connection",
+    "no_po_first_invoice",
+    "no_purchase_order",
+    "payer_account_unclear",
 ]
 
 REMOVE_INVOICE_REPLACEMENT_LINK_RESULT_UNVERIFIED_REASON_VALUES: Set[
@@ -9,6 +13,7 @@ REMOVE_INVOICE_REPLACEMENT_LINK_RESULT_UNVERIFIED_REASON_VALUES: Set[
 ] = {
     "debit_note",
     "no_billing_connection",
+    "no_po_first_invoice",
     "no_purchase_order",
     "payer_account_unclear",
 }

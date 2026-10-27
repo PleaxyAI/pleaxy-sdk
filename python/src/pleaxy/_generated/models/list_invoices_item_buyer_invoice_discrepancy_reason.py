@@ -1,7 +1,7 @@
 from typing import Literal, Set, cast
 
 ListInvoicesItemBuyerInvoiceDiscrepancyReason = Literal[
-    "amount", "controls", "currency"
+    "amount", "controls", "currency", "no_po_variance"
 ]
 
 LIST_INVOICES_ITEM_BUYER_INVOICE_DISCREPANCY_REASON_VALUES: Set[
@@ -10,6 +10,7 @@ LIST_INVOICES_ITEM_BUYER_INVOICE_DISCREPANCY_REASON_VALUES: Set[
     "amount",
     "controls",
     "currency",
+    "no_po_variance",
 }
 
 

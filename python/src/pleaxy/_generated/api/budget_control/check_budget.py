@@ -59,8 +59,8 @@ def sync_detailed(
     client: Union[AuthenticatedClient, Client],
     body: BudgetCheckInput,
 ) -> Response[BudgetCheck]:
-    """[Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or
-    off. Writes nothing.
+    """[Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount's
+    currency: within, over, no_budget or off. Writes nothing.
 
     Args:
         body (BudgetCheckInput):
@@ -89,8 +89,8 @@ def sync(
     client: Union[AuthenticatedClient, Client],
     body: BudgetCheckInput,
 ) -> Optional[BudgetCheck]:
-    """[Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or
-    off. Writes nothing.
+    """[Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount's
+    currency: within, over, no_budget or off. Writes nothing.
 
     Args:
         body (BudgetCheckInput):
@@ -114,8 +114,8 @@ async def asyncio_detailed(
     client: Union[AuthenticatedClient, Client],
     body: BudgetCheckInput,
 ) -> Response[BudgetCheck]:
-    """[Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or
-    off. Writes nothing.
+    """[Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount's
+    currency: within, over, no_budget or off. Writes nothing.
 
     Args:
         body (BudgetCheckInput):
@@ -142,8 +142,8 @@ async def asyncio(
     client: Union[AuthenticatedClient, Client],
     body: BudgetCheckInput,
 ) -> Optional[BudgetCheck]:
-    """[Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or
-    off. Writes nothing.
+    """[Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount's
+    currency: within, over, no_budget or off. Writes nothing.
 
     Args:
         body (BudgetCheckInput):

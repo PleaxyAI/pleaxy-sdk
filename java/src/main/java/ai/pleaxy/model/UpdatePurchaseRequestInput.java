@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.PurchaseRequestAnswerInput;
 import ai.pleaxy.model.PurchaseRequestLineInput;
 import ai.pleaxy.model.PurchaseRequestSupplierInput;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -46,7 +47,9 @@ import ai.pleaxy.client.ApiClient;
   UpdatePurchaseRequestInput.JSON_PROPERTY_CURRENCY,
   UpdatePurchaseRequestInput.JSON_PROPERTY_NEEDED_BY,
   UpdatePurchaseRequestInput.JSON_PROPERTY_QUOTE_IMPORT_ID,
-  UpdatePurchaseRequestInput.JSON_PROPERTY_NOTES
+  UpdatePurchaseRequestInput.JSON_PROPERTY_NOTES,
+  UpdatePurchaseRequestInput.JSON_PROPERTY_REQUEST_TYPE_ID,
+  UpdatePurchaseRequestInput.JSON_PROPERTY_ANSWERS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class UpdatePurchaseRequestInput {
@@ -89,6 +92,14 @@ public class UpdatePurchaseRequestInput {
   public static final String JSON_PROPERTY_NOTES = "notes";
   @javax.annotation.Nullable
   private String notes;
+
+  public static final String JSON_PROPERTY_REQUEST_TYPE_ID = "requestTypeId";
+  @javax.annotation.Nullable
+  private String requestTypeId;
+
+  public static final String JSON_PROPERTY_ANSWERS = "answers";
+  @javax.annotation.Nullable
+  private List<PurchaseRequestAnswerInput> answers = new ArrayList<>();
 
   public UpdatePurchaseRequestInput() { 
   }
@@ -341,6 +352,62 @@ public class UpdatePurchaseRequestInput {
   }
 
 
+  public UpdatePurchaseRequestInput requestTypeId(@javax.annotation.Nullable String requestTypeId) {
+    this.requestTypeId = requestTypeId;
+    return this;
+  }
+
+  /**
+   * The request type (GET /request-types). Required when the workspace has an active type. The type&#39;s GL account and line type fill in what the request leaves out.
+   * @return requestTypeId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REQUEST_TYPE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getRequestTypeId() {
+    return requestTypeId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REQUEST_TYPE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRequestTypeId(@javax.annotation.Nullable String requestTypeId) {
+    this.requestTypeId = requestTypeId;
+  }
+
+
+  public UpdatePurchaseRequestInput answers(@javax.annotation.Nullable List<PurchaseRequestAnswerInput> answers) {
+    this.answers = answers;
+    return this;
+  }
+
+  public UpdatePurchaseRequestInput addAnswersItem(PurchaseRequestAnswerInput answersItem) {
+    if (this.answers == null) {
+      this.answers = new ArrayList<>();
+    }
+    this.answers.add(answersItem);
+    return this;
+  }
+
+  /**
+   * Answers to the type&#39;s questions, by fieldId. On an update, the whole set (omit to keep them). A draft may leave questions blank; submitting needs every required question the answers make visible.
+   * @return answers
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ANSWERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<PurchaseRequestAnswerInput> getAnswers() {
+    return answers;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ANSWERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAnswers(@javax.annotation.Nullable List<PurchaseRequestAnswerInput> answers) {
+    this.answers = answers;
+  }
+
+
   /**
    * Return true if this UpdatePurchaseRequestInput object is equal to o.
    */
@@ -362,12 +429,14 @@ public class UpdatePurchaseRequestInput {
         Objects.equals(this.currency, updatePurchaseRequestInput.currency) &&
         Objects.equals(this.neededBy, updatePurchaseRequestInput.neededBy) &&
         Objects.equals(this.quoteImportId, updatePurchaseRequestInput.quoteImportId) &&
-        Objects.equals(this.notes, updatePurchaseRequestInput.notes);
+        Objects.equals(this.notes, updatePurchaseRequestInput.notes) &&
+        Objects.equals(this.requestTypeId, updatePurchaseRequestInput.requestTypeId) &&
+        Objects.equals(this.answers, updatePurchaseRequestInput.answers);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(title, description, costCenter, glCode, supplier, lineItems, currency, neededBy, quoteImportId, notes);
+    return Objects.hash(title, description, costCenter, glCode, supplier, lineItems, currency, neededBy, quoteImportId, notes, requestTypeId, answers);
   }
 
   @Override
@@ -384,6 +453,8 @@ public class UpdatePurchaseRequestInput {
     sb.append("    neededBy: ").append(toIndentedString(neededBy)).append("\n");
     sb.append("    quoteImportId: ").append(toIndentedString(quoteImportId)).append("\n");
     sb.append("    notes: ").append(toIndentedString(notes)).append("\n");
+    sb.append("    requestTypeId: ").append(toIndentedString(requestTypeId)).append("\n");
+    sb.append("    answers: ").append(toIndentedString(answers)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -484,6 +555,21 @@ public class UpdatePurchaseRequestInput {
     // add `notes` to the URL query string
     if (getNotes() != null) {
       joiner.add(String.format("%snotes%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNotes()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `requestTypeId` to the URL query string
+    if (getRequestTypeId() != null) {
+      joiner.add(String.format("%srequestTypeId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRequestTypeId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `answers` to the URL query string
+    if (getAnswers() != null) {
+      for (int i = 0; i < getAnswers().size(); i++) {
+        if (getAnswers().get(i) != null) {
+          joiner.add(getAnswers().get(i).toUrlQueryString(String.format("%sanswers%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
     }
 
     return joiner.toString();

@@ -73,6 +73,8 @@ class PurchaseOrder:
         cost_center (Union[Unset, str]):
         cost_center_changes (Union[Unset, List['PurchaseOrderCostCenterChange']]):
         gl_code (Union[Unset, str]):
+        blanket (Union[Unset, bool]):
+        expected_monthly (Union[Unset, float]):
         submitted_at (Union[Unset, str]):
         budget_check (Union[Unset, BudgetCheck]):
         request_id (Union[Unset, str]):
@@ -141,6 +143,8 @@ class PurchaseOrder:
     cost_center: Union[Unset, str] = UNSET
     cost_center_changes: Union[Unset, List["PurchaseOrderCostCenterChange"]] = UNSET
     gl_code: Union[Unset, str] = UNSET
+    blanket: Union[Unset, bool] = UNSET
+    expected_monthly: Union[Unset, float] = UNSET
     submitted_at: Union[Unset, str] = UNSET
     budget_check: Union[Unset, "BudgetCheck"] = UNSET
     request_id: Union[Unset, str] = UNSET
@@ -250,6 +254,10 @@ class PurchaseOrder:
                 cost_center_changes.append(cost_center_changes_item)
 
         gl_code = self.gl_code
+
+        blanket = self.blanket
+
+        expected_monthly = self.expected_monthly
 
         submitted_at = self.submitted_at
 
@@ -436,6 +444,10 @@ class PurchaseOrder:
             field_dict["costCenterChanges"] = cost_center_changes
         if gl_code is not UNSET:
             field_dict["glCode"] = gl_code
+        if blanket is not UNSET:
+            field_dict["blanket"] = blanket
+        if expected_monthly is not UNSET:
+            field_dict["expectedMonthly"] = expected_monthly
         if submitted_at is not UNSET:
             field_dict["submittedAt"] = submitted_at
         if budget_check is not UNSET:
@@ -627,6 +639,10 @@ class PurchaseOrder:
             cost_center_changes.append(cost_center_changes_item)
 
         gl_code = d.pop("glCode", UNSET)
+
+        blanket = d.pop("blanket", UNSET)
+
+        expected_monthly = d.pop("expectedMonthly", UNSET)
 
         submitted_at = d.pop("submittedAt", UNSET)
 
@@ -836,6 +852,8 @@ class PurchaseOrder:
             cost_center=cost_center,
             cost_center_changes=cost_center_changes,
             gl_code=gl_code,
+            blanket=blanket,
+            expected_monthly=expected_monthly,
             submitted_at=submitted_at,
             budget_check=budget_check,
             request_id=request_id,

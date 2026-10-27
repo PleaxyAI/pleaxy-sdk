@@ -1,8 +1,9 @@
 from typing import Literal, Set, cast
 
-InvoiceBuyerViewMatchBasis = Literal["purchase_order"]
+InvoiceBuyerViewMatchBasis = Literal["no_po_history", "purchase_order"]
 
 INVOICE_BUYER_VIEW_MATCH_BASIS_VALUES: Set[InvoiceBuyerViewMatchBasis] = {
+    "no_po_history",
     "purchase_order",
 }
 

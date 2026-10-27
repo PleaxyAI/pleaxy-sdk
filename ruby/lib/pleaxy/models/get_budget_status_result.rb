@@ -25,6 +25,8 @@ module Pleaxy
 
     attr_accessor :unassigned
 
+    attr_accessor :unassigned_by_currency
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -32,7 +34,8 @@ module Pleaxy
         :'period' => :'period',
         :'currency' => :'currency',
         :'cost_centers' => :'costCenters',
-        :'unassigned' => :'unassigned'
+        :'unassigned' => :'unassigned',
+        :'unassigned_by_currency' => :'unassignedByCurrency'
       }
     end
 
@@ -48,7 +51,8 @@ module Pleaxy
         :'period' => :'BudgetPeriod',
         :'currency' => :'String',
         :'cost_centers' => :'Array<BudgetStatus>',
-        :'unassigned' => :'SpendFigures'
+        :'unassigned' => :'SpendFigures',
+        :'unassigned_by_currency' => :'Array<GetBudgetStatusResultUnassignedByCurrencyInner>'
       }
     end
 
@@ -94,6 +98,12 @@ module Pleaxy
       if attributes.key?(:'unassigned')
         self.unassigned = attributes[:'unassigned']
       end
+
+      if attributes.key?(:'unassigned_by_currency')
+        if (value = attributes[:'unassigned_by_currency']).is_a?(Array)
+          self.unassigned_by_currency = value
+        end
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -120,7 +130,8 @@ module Pleaxy
           period == o.period &&
           currency == o.currency &&
           cost_centers == o.cost_centers &&
-          unassigned == o.unassigned
+          unassigned == o.unassigned &&
+          unassigned_by_currency == o.unassigned_by_currency
     end
 
     # @see the `==` method
@@ -132,7 +143,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [settings, period, currency, cost_centers, unassigned].hash
+      [settings, period, currency, cost_centers, unassigned, unassigned_by_currency].hash
     end
 
     # Builds the object from hash

@@ -35,8 +35,8 @@ import ai.pleaxy.client.ApiClient;
  */
 @JsonPropertyOrder({
   SupplierRemittanceView.JSON_PROPERTY_ID,
-  SupplierRemittanceView.JSON_PROPERTY_SENT_AT,
   SupplierRemittanceView.JSON_PROPERTY_NOTE,
+  SupplierRemittanceView.JSON_PROPERTY_SENT_AT,
   SupplierRemittanceView.JSON_PROPERTY_FILE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -45,13 +45,13 @@ public class SupplierRemittanceView {
   @javax.annotation.Nonnull
   private String id;
 
-  public static final String JSON_PROPERTY_SENT_AT = "sentAt";
-  @javax.annotation.Nullable
-  private String sentAt;
-
   public static final String JSON_PROPERTY_NOTE = "note";
   @javax.annotation.Nullable
   private String note;
+
+  public static final String JSON_PROPERTY_SENT_AT = "sentAt";
+  @javax.annotation.Nullable
+  private String sentAt;
 
   public static final String JSON_PROPERTY_FILE = "file";
   @javax.annotation.Nullable
@@ -84,30 +84,6 @@ public class SupplierRemittanceView {
   }
 
 
-  public SupplierRemittanceView sentAt(@javax.annotation.Nullable String sentAt) {
-    this.sentAt = sentAt;
-    return this;
-  }
-
-  /**
-   * Get sentAt
-   * @return sentAt
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SENT_AT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public String getSentAt() {
-    return sentAt;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_SENT_AT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSentAt(@javax.annotation.Nullable String sentAt) {
-    this.sentAt = sentAt;
-  }
-
-
   public SupplierRemittanceView note(@javax.annotation.Nullable String note) {
     this.note = note;
     return this;
@@ -129,6 +105,30 @@ public class SupplierRemittanceView {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setNote(@javax.annotation.Nullable String note) {
     this.note = note;
+  }
+
+
+  public SupplierRemittanceView sentAt(@javax.annotation.Nullable String sentAt) {
+    this.sentAt = sentAt;
+    return this;
+  }
+
+  /**
+   * Get sentAt
+   * @return sentAt
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SENT_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getSentAt() {
+    return sentAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SENT_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSentAt(@javax.annotation.Nullable String sentAt) {
+    this.sentAt = sentAt;
   }
 
 
@@ -169,14 +169,14 @@ public class SupplierRemittanceView {
     }
     SupplierRemittanceView supplierRemittanceView = (SupplierRemittanceView) o;
     return Objects.equals(this.id, supplierRemittanceView.id) &&
-        Objects.equals(this.sentAt, supplierRemittanceView.sentAt) &&
         Objects.equals(this.note, supplierRemittanceView.note) &&
+        Objects.equals(this.sentAt, supplierRemittanceView.sentAt) &&
         Objects.equals(this._file, supplierRemittanceView._file);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, sentAt, note, _file);
+    return Objects.hash(id, note, sentAt, _file);
   }
 
   @Override
@@ -184,8 +184,8 @@ public class SupplierRemittanceView {
     StringBuilder sb = new StringBuilder();
     sb.append("class SupplierRemittanceView {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    sentAt: ").append(toIndentedString(sentAt)).append("\n");
     sb.append("    note: ").append(toIndentedString(note)).append("\n");
+    sb.append("    sentAt: ").append(toIndentedString(sentAt)).append("\n");
     sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -239,14 +239,14 @@ public class SupplierRemittanceView {
       joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `sentAt` to the URL query string
-    if (getSentAt() != null) {
-      joiner.add(String.format("%ssentAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSentAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
     // add `note` to the URL query string
     if (getNote() != null) {
       joiner.add(String.format("%snote%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNote()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `sentAt` to the URL query string
+    if (getSentAt() != null) {
+      joiner.add(String.format("%ssentAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSentAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `file` to the URL query string

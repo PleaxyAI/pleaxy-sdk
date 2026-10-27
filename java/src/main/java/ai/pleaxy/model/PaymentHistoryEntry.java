@@ -39,6 +39,7 @@ import ai.pleaxy.client.ApiClient;
   PaymentHistoryEntry.JSON_PROPERTY_AT,
   PaymentHistoryEntry.JSON_PROPERTY_BY,
   PaymentHistoryEntry.JSON_PROPERTY_BY_NAME,
+  PaymentHistoryEntry.JSON_PROPERTY_BY_SUPPLIER,
   PaymentHistoryEntry.JSON_PROPERTY_REMITTANCE_ID,
   PaymentHistoryEntry.JSON_PROPERTY_CREDIT_NOTE_ID,
   PaymentHistoryEntry.JSON_PROPERTY_AMOUNT,
@@ -71,7 +72,15 @@ public class PaymentHistoryEntry {
     
     CREDIT_APPLIED(String.valueOf("credit_applied")),
     
-    CREDIT_REMOVED(String.valueOf("credit_removed"));
+    CREDIT_REMOVED(String.valueOf("credit_removed")),
+    
+    SETTLED(String.valueOf("settled")),
+    
+    SETTLEMENT_UNDONE(String.valueOf("settlement_undone")),
+    
+    PROBLEM_REPORTED(String.valueOf("problem_reported")),
+    
+    PROBLEM_ANSWERED(String.valueOf("problem_answered"));
 
     private String value;
 
@@ -115,6 +124,10 @@ public class PaymentHistoryEntry {
   public static final String JSON_PROPERTY_BY_NAME = "byName";
   @javax.annotation.Nullable
   private String byName;
+
+  public static final String JSON_PROPERTY_BY_SUPPLIER = "bySupplier";
+  @javax.annotation.Nullable
+  private Boolean bySupplier;
 
   public static final String JSON_PROPERTY_REMITTANCE_ID = "remittanceId";
   @javax.annotation.Nullable
@@ -232,6 +245,30 @@ public class PaymentHistoryEntry {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setByName(@javax.annotation.Nullable String byName) {
     this.byName = byName;
+  }
+
+
+  public PaymentHistoryEntry bySupplier(@javax.annotation.Nullable Boolean bySupplier) {
+    this.bySupplier = bySupplier;
+    return this;
+  }
+
+  /**
+   * Get bySupplier
+   * @return bySupplier
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BY_SUPPLIER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getBySupplier() {
+    return bySupplier;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BY_SUPPLIER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBySupplier(@javax.annotation.Nullable Boolean bySupplier) {
+    this.bySupplier = bySupplier;
   }
 
 
@@ -371,6 +408,7 @@ public class PaymentHistoryEntry {
         Objects.equals(this.at, paymentHistoryEntry.at) &&
         Objects.equals(this.by, paymentHistoryEntry.by) &&
         Objects.equals(this.byName, paymentHistoryEntry.byName) &&
+        Objects.equals(this.bySupplier, paymentHistoryEntry.bySupplier) &&
         Objects.equals(this.remittanceId, paymentHistoryEntry.remittanceId) &&
         Objects.equals(this.creditNoteId, paymentHistoryEntry.creditNoteId) &&
         Objects.equals(this.amount, paymentHistoryEntry.amount) &&
@@ -380,7 +418,7 @@ public class PaymentHistoryEntry {
 
   @Override
   public int hashCode() {
-    return Objects.hash(action, at, by, byName, remittanceId, creditNoteId, amount, solePayer, record);
+    return Objects.hash(action, at, by, byName, bySupplier, remittanceId, creditNoteId, amount, solePayer, record);
   }
 
   @Override
@@ -391,6 +429,7 @@ public class PaymentHistoryEntry {
     sb.append("    at: ").append(toIndentedString(at)).append("\n");
     sb.append("    by: ").append(toIndentedString(by)).append("\n");
     sb.append("    byName: ").append(toIndentedString(byName)).append("\n");
+    sb.append("    bySupplier: ").append(toIndentedString(bySupplier)).append("\n");
     sb.append("    remittanceId: ").append(toIndentedString(remittanceId)).append("\n");
     sb.append("    creditNoteId: ").append(toIndentedString(creditNoteId)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
@@ -461,6 +500,11 @@ public class PaymentHistoryEntry {
     // add `byName` to the URL query string
     if (getByName() != null) {
       joiner.add(String.format("%sbyName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getByName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `bySupplier` to the URL query string
+    if (getBySupplier() != null) {
+      joiner.add(String.format("%sbySupplier%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBySupplier()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `remittanceId` to the URL query string

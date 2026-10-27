@@ -25,6 +25,15 @@ pub struct BudgetCheckInput {
     /// An existing order being edited, so it doesn't count against itself.
     #[serde(rename = "excludeOrderId", skip_serializing_if = "Option::is_none")]
     pub exclude_order_id: Option<String>,
+    /// A blanket order (billed as used, up to `amount`): what is checked is `expectedMonthly` for the current period's months within its term, never `amount`.
+    #[serde(rename = "blanket", skip_serializing_if = "Option::is_none")]
+    pub blanket: Option<bool>,
+    /// With blanket: what the order is expected to bill each month, in `currency`.
+    #[serde(rename = "expectedMonthly", skip_serializing_if = "Option::is_none")]
+    pub expected_monthly: Option<f64>,
+    /// With blanket: the last day it runs (YYYY-MM-DD), its lines' latest validUntil; open-ended when absent.
+    #[serde(rename = "validUntil", skip_serializing_if = "Option::is_none")]
+    pub valid_until: Option<String>,
 }
 
 impl BudgetCheckInput {
@@ -34,6 +43,9 @@ impl BudgetCheckInput {
             amount,
             currency,
             exclude_order_id: None,
+            blanket: None,
+            expected_monthly: None,
+            valid_until: None,
         }
     }
 }

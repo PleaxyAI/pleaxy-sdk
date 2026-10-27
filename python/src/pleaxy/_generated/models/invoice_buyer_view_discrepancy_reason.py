@@ -1,11 +1,14 @@
 from typing import Literal, Set, cast
 
-InvoiceBuyerViewDiscrepancyReason = Literal["amount", "controls", "currency"]
+InvoiceBuyerViewDiscrepancyReason = Literal[
+    "amount", "controls", "currency", "no_po_variance"
+]
 
 INVOICE_BUYER_VIEW_DISCREPANCY_REASON_VALUES: Set[InvoiceBuyerViewDiscrepancyReason] = {
     "amount",
     "controls",
     "currency",
+    "no_po_variance",
 }
 
 

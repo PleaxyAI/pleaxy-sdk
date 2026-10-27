@@ -21,6 +21,8 @@ pub struct PaymentHistoryEntry {
     pub by: Option<String>,
     #[serde(rename = "byName", skip_serializing_if = "Option::is_none")]
     pub by_name: Option<String>,
+    #[serde(rename = "bySupplier", skip_serializing_if = "Option::is_none")]
+    pub by_supplier: Option<bool>,
     #[serde(rename = "remittanceId", skip_serializing_if = "Option::is_none")]
     pub remittance_id: Option<String>,
     #[serde(rename = "creditNoteId", skip_serializing_if = "Option::is_none")]
@@ -40,6 +42,7 @@ impl PaymentHistoryEntry {
             at: None,
             by: None,
             by_name: None,
+            by_supplier: None,
             remittance_id: None,
             credit_note_id: None,
             amount: None,
@@ -73,6 +76,14 @@ pub enum Action {
     CreditApplied,
     #[serde(rename = "credit_removed")]
     CreditRemoved,
+    #[serde(rename = "settled")]
+    Settled,
+    #[serde(rename = "settlement_undone")]
+    SettlementUndone,
+    #[serde(rename = "problem_reported")]
+    ProblemReported,
+    #[serde(rename = "problem_answered")]
+    ProblemAnswered,
 }
 
 impl Default for Action {

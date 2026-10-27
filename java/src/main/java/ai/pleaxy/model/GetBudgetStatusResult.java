@@ -22,6 +22,7 @@ import java.util.HashMap;
 import ai.pleaxy.model.BudgetControlSettings;
 import ai.pleaxy.model.BudgetPeriod;
 import ai.pleaxy.model.BudgetStatus;
+import ai.pleaxy.model.GetBudgetStatusResultUnassignedByCurrencyInner;
 import ai.pleaxy.model.SpendFigures;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -43,7 +44,8 @@ import ai.pleaxy.client.ApiClient;
   GetBudgetStatusResult.JSON_PROPERTY_PERIOD,
   GetBudgetStatusResult.JSON_PROPERTY_CURRENCY,
   GetBudgetStatusResult.JSON_PROPERTY_COST_CENTERS,
-  GetBudgetStatusResult.JSON_PROPERTY_UNASSIGNED
+  GetBudgetStatusResult.JSON_PROPERTY_UNASSIGNED,
+  GetBudgetStatusResult.JSON_PROPERTY_UNASSIGNED_BY_CURRENCY
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class GetBudgetStatusResult {
@@ -66,6 +68,10 @@ public class GetBudgetStatusResult {
   public static final String JSON_PROPERTY_UNASSIGNED = "unassigned";
   @javax.annotation.Nullable
   private SpendFigures unassigned;
+
+  public static final String JSON_PROPERTY_UNASSIGNED_BY_CURRENCY = "unassignedByCurrency";
+  @javax.annotation.Nullable
+  private List<GetBudgetStatusResultUnassignedByCurrencyInner> unassignedByCurrency = new ArrayList<>();
 
   public GetBudgetStatusResult() { 
   }
@@ -198,6 +204,38 @@ public class GetBudgetStatusResult {
   }
 
 
+  public GetBudgetStatusResult unassignedByCurrency(@javax.annotation.Nullable List<GetBudgetStatusResultUnassignedByCurrencyInner> unassignedByCurrency) {
+    this.unassignedByCurrency = unassignedByCurrency;
+    return this;
+  }
+
+  public GetBudgetStatusResult addUnassignedByCurrencyItem(GetBudgetStatusResultUnassignedByCurrencyInner unassignedByCurrencyItem) {
+    if (this.unassignedByCurrency == null) {
+      this.unassignedByCurrency = new ArrayList<>();
+    }
+    this.unassignedByCurrency.add(unassignedByCurrencyItem);
+    return this;
+  }
+
+  /**
+   * Get unassignedByCurrency
+   * @return unassignedByCurrency
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_UNASSIGNED_BY_CURRENCY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<GetBudgetStatusResultUnassignedByCurrencyInner> getUnassignedByCurrency() {
+    return unassignedByCurrency;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_UNASSIGNED_BY_CURRENCY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUnassignedByCurrency(@javax.annotation.Nullable List<GetBudgetStatusResultUnassignedByCurrencyInner> unassignedByCurrency) {
+    this.unassignedByCurrency = unassignedByCurrency;
+  }
+
+
   /**
    * Return true if this GetBudgetStatusResult object is equal to o.
    */
@@ -214,12 +252,13 @@ public class GetBudgetStatusResult {
         Objects.equals(this.period, getBudgetStatusResult.period) &&
         Objects.equals(this.currency, getBudgetStatusResult.currency) &&
         Objects.equals(this.costCenters, getBudgetStatusResult.costCenters) &&
-        Objects.equals(this.unassigned, getBudgetStatusResult.unassigned);
+        Objects.equals(this.unassigned, getBudgetStatusResult.unassigned) &&
+        Objects.equals(this.unassignedByCurrency, getBudgetStatusResult.unassignedByCurrency);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(settings, period, currency, costCenters, unassigned);
+    return Objects.hash(settings, period, currency, costCenters, unassigned, unassignedByCurrency);
   }
 
   @Override
@@ -231,6 +270,7 @@ public class GetBudgetStatusResult {
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    costCenters: ").append(toIndentedString(costCenters)).append("\n");
     sb.append("    unassigned: ").append(toIndentedString(unassigned)).append("\n");
+    sb.append("    unassignedByCurrency: ").append(toIndentedString(unassignedByCurrency)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -306,6 +346,16 @@ public class GetBudgetStatusResult {
     // add `unassigned` to the URL query string
     if (getUnassigned() != null) {
       joiner.add(getUnassigned().toUrlQueryString(prefix + "unassigned" + suffix));
+    }
+
+    // add `unassignedByCurrency` to the URL query string
+    if (getUnassignedByCurrency() != null) {
+      for (int i = 0; i < getUnassignedByCurrency().size(); i++) {
+        if (getUnassignedByCurrency().get(i) != null) {
+          joiner.add(getUnassignedByCurrency().get(i).toUrlQueryString(String.format("%sunassignedByCurrency%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
     }
 
     return joiner.toString();

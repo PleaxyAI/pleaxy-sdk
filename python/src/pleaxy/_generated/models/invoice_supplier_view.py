@@ -32,6 +32,10 @@ from ..models.invoice_supplier_view_match_status import (
     InvoiceSupplierViewMatchStatus,
     check_invoice_supplier_view_match_status,
 )
+from ..models.invoice_supplier_view_payment_route import (
+    InvoiceSupplierViewPaymentRoute,
+    check_invoice_supplier_view_payment_route,
+)
 from ..models.invoice_supplier_view_source import (
     InvoiceSupplierViewSource,
     check_invoice_supplier_view_source,
@@ -69,12 +73,15 @@ if TYPE_CHECKING:
         InvoiceSupplierViewWithdrawnPaymentType1,
     )
     from ..models.late_fee_terms import LateFeeTerms
+    from ..models.no_po_comparison import NoPoComparison
     from ..models.remittance_instructions import RemittanceInstructions
     from ..models.supplier_approval_view import SupplierApprovalView
     from ..models.supplier_bank_details_confirmation_view import (
         SupplierBankDetailsConfirmationView,
     )
+    from ..models.supplier_payment_problem_view import SupplierPaymentProblemView
     from ..models.supplier_remittance_view import SupplierRemittanceView
+    from ..models.supplier_settlement_view import SupplierSettlementView
 
 
 T = TypeVar("T", bound="InvoiceSupplierView")
@@ -103,6 +110,8 @@ class InvoiceSupplierView:
         bills_no_po_line (Union[Unset, bool]):
         party_details (Union[Unset, InvoiceSupplierViewPartyDetails]):
         match_status (Union[Unset, InvoiceSupplierViewMatchStatus]):
+        no_po_comparison (Union[Unset, NoPoComparison]):
+        payment_route (Union[Unset, InvoiceSupplierViewPaymentRoute]):
         paid (Union[Unset, bool]):
         due_in_days (Union[Unset, float]):
         due_date (Union[Unset, str]):
@@ -139,6 +148,8 @@ class InvoiceSupplierView:
         remittance_instructions (Union[Unset, RemittanceInstructions]):
         source_document (Union[Unset, InvoiceSourceDocument]):
         has_original_pdf (Union[Unset, bool]):
+        settlement (Union[Unset, SupplierSettlementView]):
+        payment_problem (Union[Unset, SupplierPaymentProblemView]):
         bank_details_confirmation (Union[Unset, SupplierBankDetailsConfirmationView]):
         base_currency_amount (Union[Unset, InvoiceBaseCurrencyAmount]):
         approval (Union[Unset, SupplierApprovalView]):
@@ -169,6 +180,8 @@ class InvoiceSupplierView:
     bills_no_po_line: Union[Unset, bool] = UNSET
     party_details: Union[Unset, "InvoiceSupplierViewPartyDetails"] = UNSET
     match_status: Union[Unset, InvoiceSupplierViewMatchStatus] = UNSET
+    no_po_comparison: Union[Unset, "NoPoComparison"] = UNSET
+    payment_route: Union[Unset, InvoiceSupplierViewPaymentRoute] = UNSET
     paid: Union[Unset, bool] = UNSET
     due_in_days: Union[Unset, float] = UNSET
     due_date: Union[Unset, str] = UNSET
@@ -205,6 +218,8 @@ class InvoiceSupplierView:
     remittance_instructions: Union[Unset, "RemittanceInstructions"] = UNSET
     source_document: Union[Unset, "InvoiceSourceDocument"] = UNSET
     has_original_pdf: Union[Unset, bool] = UNSET
+    settlement: Union[Unset, "SupplierSettlementView"] = UNSET
+    payment_problem: Union[Unset, "SupplierPaymentProblemView"] = UNSET
     bank_details_confirmation: Union[Unset, "SupplierBankDetailsConfirmationView"] = (
         UNSET
     )
@@ -279,6 +294,14 @@ class InvoiceSupplierView:
         match_status: Union[Unset, str] = UNSET
         if not isinstance(self.match_status, Unset):
             match_status = self.match_status
+
+        no_po_comparison: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.no_po_comparison, Unset):
+            no_po_comparison = self.no_po_comparison.to_dict()
+
+        payment_route: Union[Unset, str] = UNSET
+        if not isinstance(self.payment_route, Unset):
+            payment_route = self.payment_route
 
         paid = self.paid
 
@@ -412,6 +435,14 @@ class InvoiceSupplierView:
 
         has_original_pdf = self.has_original_pdf
 
+        settlement: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.settlement, Unset):
+            settlement = self.settlement.to_dict()
+
+        payment_problem: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.payment_problem, Unset):
+            payment_problem = self.payment_problem.to_dict()
+
         bank_details_confirmation: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.bank_details_confirmation, Unset):
             bank_details_confirmation = self.bank_details_confirmation.to_dict()
@@ -496,6 +527,10 @@ class InvoiceSupplierView:
             field_dict["partyDetails"] = party_details
         if match_status is not UNSET:
             field_dict["matchStatus"] = match_status
+        if no_po_comparison is not UNSET:
+            field_dict["noPoComparison"] = no_po_comparison
+        if payment_route is not UNSET:
+            field_dict["paymentRoute"] = payment_route
         if paid is not UNSET:
             field_dict["paid"] = paid
         if due_in_days is not UNSET:
@@ -568,6 +603,10 @@ class InvoiceSupplierView:
             field_dict["sourceDocument"] = source_document
         if has_original_pdf is not UNSET:
             field_dict["hasOriginalPdf"] = has_original_pdf
+        if settlement is not UNSET:
+            field_dict["settlement"] = settlement
+        if payment_problem is not UNSET:
+            field_dict["paymentProblem"] = payment_problem
         if bank_details_confirmation is not UNSET:
             field_dict["bankDetailsConfirmation"] = bank_details_confirmation
         if base_currency_amount is not UNSET:
@@ -615,12 +654,15 @@ class InvoiceSupplierView:
             InvoiceSupplierViewWithdrawnPaymentType1,
         )
         from ..models.late_fee_terms import LateFeeTerms
+        from ..models.no_po_comparison import NoPoComparison
         from ..models.remittance_instructions import RemittanceInstructions
         from ..models.supplier_approval_view import SupplierApprovalView
         from ..models.supplier_bank_details_confirmation_view import (
             SupplierBankDetailsConfirmationView,
         )
+        from ..models.supplier_payment_problem_view import SupplierPaymentProblemView
         from ..models.supplier_remittance_view import SupplierRemittanceView
+        from ..models.supplier_settlement_view import SupplierSettlementView
 
         d = src_dict.copy()
         id = d.pop("id")
@@ -680,6 +722,20 @@ class InvoiceSupplierView:
             match_status = UNSET
         else:
             match_status = check_invoice_supplier_view_match_status(_match_status)
+
+        _no_po_comparison = d.pop("noPoComparison", UNSET)
+        no_po_comparison: Union[Unset, NoPoComparison]
+        if isinstance(_no_po_comparison, Unset):
+            no_po_comparison = UNSET
+        else:
+            no_po_comparison = NoPoComparison.from_dict(_no_po_comparison)
+
+        _payment_route = d.pop("paymentRoute", UNSET)
+        payment_route: Union[Unset, InvoiceSupplierViewPaymentRoute]
+        if isinstance(_payment_route, Unset):
+            payment_route = UNSET
+        else:
+            payment_route = check_invoice_supplier_view_payment_route(_payment_route)
 
         paid = d.pop("paid", UNSET)
 
@@ -852,6 +908,20 @@ class InvoiceSupplierView:
 
         has_original_pdf = d.pop("hasOriginalPdf", UNSET)
 
+        _settlement = d.pop("settlement", UNSET)
+        settlement: Union[Unset, SupplierSettlementView]
+        if isinstance(_settlement, Unset):
+            settlement = UNSET
+        else:
+            settlement = SupplierSettlementView.from_dict(_settlement)
+
+        _payment_problem = d.pop("paymentProblem", UNSET)
+        payment_problem: Union[Unset, SupplierPaymentProblemView]
+        if isinstance(_payment_problem, Unset):
+            payment_problem = UNSET
+        else:
+            payment_problem = SupplierPaymentProblemView.from_dict(_payment_problem)
+
         _bank_details_confirmation = d.pop("bankDetailsConfirmation", UNSET)
         bank_details_confirmation: Union[Unset, SupplierBankDetailsConfirmationView]
         if isinstance(_bank_details_confirmation, Unset):
@@ -960,6 +1030,8 @@ class InvoiceSupplierView:
             bills_no_po_line=bills_no_po_line,
             party_details=party_details,
             match_status=match_status,
+            no_po_comparison=no_po_comparison,
+            payment_route=payment_route,
             paid=paid,
             due_in_days=due_in_days,
             due_date=due_date,
@@ -996,6 +1068,8 @@ class InvoiceSupplierView:
             remittance_instructions=remittance_instructions,
             source_document=source_document,
             has_original_pdf=has_original_pdf,
+            settlement=settlement,
+            payment_problem=payment_problem,
             bank_details_confirmation=bank_details_confirmation,
             base_currency_amount=base_currency_amount,
             approval=approval,

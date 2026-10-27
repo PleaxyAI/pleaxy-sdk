@@ -995,7 +995,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or off. Writes nothing. */
+        /** [Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount's currency: within, over, no_budget or off. Writes nothing. */
         post: operations["CheckBudget"];
         delete?: never;
         options?: never;
@@ -1363,6 +1363,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/purchase-requests/files/upload-url": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] A presigned URL to upload the answer to a request form's 'file' question (PDF, image, Word, Excel, CSV or text, up to 25 MB). PUT the file there, then save the answer with the returned fileId. Any workspace member, before or after the request exists. */
+        post: operations["RequestPurchaseRequestFileUpload"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/purchase-requests/{requestId}": {
         parameters: {
             query?: never;
@@ -1379,6 +1396,23 @@ export interface paths {
         head?: never;
         /** [Buyer] The requester changes a draft, or a request waiting for approval (which sends it back through approval) */
         patch: operations["UpdatePurchaseRequest"];
+        trace?: never;
+    };
+    "/purchase-requests/{requestId}/files/{fileId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] A short-lived link to a file answering one of the request's questions, for whoever may see the request */
+        get: operations["GetPurchaseRequestFile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/purchase-requests/{requestId}/submit": {
@@ -1460,6 +1494,40 @@ export interface paths {
         put?: never;
         /** [Buyer] Order an approved request: a purchase order from its lines, supplier, cost center, GL account and quote, each overridable. Within what was approved it keeps the request's approval. */
         post: operations["ConvertPurchaseRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/request-types": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] The workspace's request types in picker order, each with its intake form; active ones unless includeInactive=true */
+        get: operations["ListRequestTypes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/request-types/{typeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] One request type, active or not, with its intake form */
+        get: operations["GetRequestType"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -1665,6 +1733,12 @@ export interface components {
             /** @description true lets this supplier send invoices with an invoices:feed API key; false stops the next one */
             enabled: boolean;
         };
+        FileAnswerInput: {
+            /** @description The fileId the upload-url route returned */
+            fileId: string;
+            fileName: string;
+            contentType: string;
+        };
         UpdateReminderSettingsInput: {
             enabled?: boolean;
             /** Format: double */
@@ -1790,6 +1864,13 @@ export interface components {
             /** @description The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it. */
             glCode?: string;
             budgetOwner?: string;
+            /** @description A blanket order: billed as used, up to its amount. Its amount never uses the cost center's budget at once; expectedMonthly does, month by month, and its invoices as they are approved. Cloud-provider orders are blanket orders either way. */
+            blanket?: boolean;
+            /**
+             * Format: double
+             * @description A blanket or cloud order's expected billing each month, in the order's currency: what its cost center's budget reserves for it.
+             */
+            expectedMonthly?: number;
             buyerName?: string;
             supplierSite?: string;
             /** @description Only for a supplier not on Pleaxy (no supplierRegionId or provider): their contact email. When the PO is sent (now, or when a draft is submitted), Pleaxy invites them - or links the supplier this workspace already has. */
@@ -1824,6 +1905,13 @@ export interface components {
             /** @description Drafts only: the workspace delivery address an online store order ships to, copied onto the order at submit. An empty string goes back to the workspace default. */
             deliveryAddressId?: string;
             budgetOwner?: string;
+            /** @description Mark a draft a blanket order (billed as used, up to its amount), or not. Only while it is a draft. */
+            blanket?: boolean;
+            /**
+             * Format: double
+             * @description A blanket or cloud order's expected billing each month, in its currency; null takes it off.
+             */
+            expectedMonthly?: number | null;
             buyerName?: string;
             notes?: string;
             /** @description The contract this order falls under - one of this workspace's, active, with the order's supplier (400 otherwise); `null` removes it. Bookkeeping: never re-triggers approval. */
@@ -2196,6 +2284,15 @@ export interface components {
             currency: string;
             /** @description An existing order being edited, so it doesn't count against itself. */
             excludeOrderId?: string;
+            /** @description A blanket order (billed as used, up to `amount`): what is checked is `expectedMonthly` for the current period's months within its term, never `amount`. */
+            blanket?: boolean;
+            /**
+             * Format: double
+             * @description With blanket: what the order is expected to bill each month, in `currency`.
+             */
+            expectedMonthly?: number;
+            /** @description With blanket: the last day it runs (YYYY-MM-DD), its lines' latest validUntil; open-ended when absent. */
+            validUntil?: string;
         };
         CreateWebhookInput: {
             /** @description https:// address on a host name that answers a POST with a 2xx within 10 seconds. */
@@ -2288,6 +2385,16 @@ export interface components {
              */
             unitPrice: number;
         };
+        PurchaseRequestAnswerInput: {
+            /** @description QuestionnaireFieldDef.id of a kind === 'custom' field */
+            fieldId: string;
+            /** @description text, long_text, number (e.g. "1250.5") and date (YYYY-MM-DD) questions */
+            textAnswer?: string;
+            /** @description yes_no ("yes"/"no"), single_choice and multi_choice questions - option ids */
+            selectedOptionIds?: string[];
+            /** @description file questions - upload first via POST .../questionnaire-files/upload-url */
+            file?: components["schemas"]["FileAnswerInput"];
+        };
         CreatePurchaseRequestInput: {
             /** @description What is needed, in a few words. */
             title: string;
@@ -2309,8 +2416,19 @@ export interface components {
             quoteImportId?: string;
             /** @description Anything procurement should know. */
             notes?: string;
+            /** @description The request type (GET /request-types). Required when the workspace has an active type. The type's GL account and line type fill in what the request leaves out. */
+            requestTypeId?: string;
+            /** @description Answers to the type's questions, by fieldId. On an update, the whole set (omit to keep them). A draft may leave questions blank; submitting needs every required question the answers make visible. */
+            answers?: components["schemas"]["PurchaseRequestAnswerInput"][];
             /** @description true submits it for approval straight away; otherwise it is saved as a draft. */
             submit?: boolean;
+        };
+        RequestFileUploadInput: {
+            /**
+             * @description PDF, image, Word, Excel, CSV or text, up to 25 MB.
+             * @enum {string}
+             */
+            contentType: "application/pdf" | "image/png" | "image/jpeg" | "application/vnd.openxmlformats-officedocument.wordprocessingml.document" | "application/msword" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.ms-excel" | "text/csv" | "text/plain";
         };
         UpdatePurchaseRequestInput: {
             /** @description What is needed, in a few words. */
@@ -2333,6 +2451,10 @@ export interface components {
             quoteImportId?: string;
             /** @description Anything procurement should know. */
             notes?: string;
+            /** @description The request type (GET /request-types). Required when the workspace has an active type. The type's GL account and line type fill in what the request leaves out. */
+            requestTypeId?: string;
+            /** @description Answers to the type's questions, by fieldId. On an update, the whole set (omit to keep them). A draft may leave questions blank; submitting needs every required question the answers make visible. */
+            answers?: components["schemas"]["PurchaseRequestAnswerInput"][];
         };
         ApprovePurchaseRequestInput: {
             /**
@@ -2379,6 +2501,13 @@ export interface components {
             /** @description The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it. */
             glCode?: string;
             budgetOwner?: string;
+            /** @description A blanket order: billed as used, up to its amount. Its amount never uses the cost center's budget at once; expectedMonthly does, month by month, and its invoices as they are approved. Cloud-provider orders are blanket orders either way. */
+            blanket?: boolean;
+            /**
+             * Format: double
+             * @description A blanket or cloud order's expected billing each month, in the order's currency: what its cost center's budget reserves for it.
+             */
+            expectedMonthly?: number;
             buyerName?: string;
             supplierSite?: string;
             /** @description Only for a supplier not on Pleaxy (no supplierRegionId or provider): their contact email. When the PO is sent (now, or when a draft is submitted), Pleaxy invites them - or links the supplier this workspace already has. */
@@ -2695,7 +2824,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap";
+            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -2820,6 +2949,9 @@ export interface components {
             costCenter?: string;
             costCenterChanges?: components["schemas"]["PurchaseOrderCostCenterChange"][];
             glCode?: string;
+            blanket?: boolean;
+            /** Format: double */
+            expectedMonthly?: number;
             submittedAt?: string;
             budgetCheck?: components["schemas"]["BudgetCheck"];
             requestId?: string;
@@ -3415,6 +3547,7 @@ export interface components {
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
+            settlement?: components["schemas"]["InvoiceSettlement"];
             /** Format: double */
             approvalVersion?: number;
             approval?: components["schemas"]["ApprovalChain"];
@@ -3445,9 +3578,12 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice";
             /** @enum {string} */
-            matchBasis?: "purchase_order";
+            matchBasis?: "purchase_order" | "no_po_history";
+            noPoComparison?: components["schemas"]["NoPoComparison"];
+            /** @enum {string} */
+            paymentRoute?: "pleaxy" | "erp";
             receiptCheckSkipped?: {
                 /** @enum {string} */
                 reason?: "small_invoice";
@@ -3474,7 +3610,7 @@ export interface components {
             /** @enum {string} */
             matchType?: "two_way" | "three_way" | "usage";
             /** @enum {string} */
-            discrepancyReason?: "amount" | "currency" | "controls";
+            discrepancyReason?: "amount" | "currency" | "controls" | "no_po_variance";
             controlFindings?: components["schemas"]["InvoiceControlFinding"][];
             paid?: boolean;
             /** Format: double */
@@ -3484,6 +3620,8 @@ export interface components {
             payment?: components["schemas"]["InvoicePaymentRecord"];
             remittances?: components["schemas"]["InvoiceRemittance"][];
             paymentHistory?: components["schemas"]["PaymentHistoryEntry"][];
+            paymentProblem?: components["schemas"]["InvoicePaymentProblem"];
+            receiptConfirmationRemindedAt?: string;
             exportAvailableFrom?: string;
             previousExportedAt?: string;
             /** @enum {string} */
@@ -3537,6 +3675,15 @@ export interface components {
             replacement?: components["schemas"]["InvoiceReplacementCheck"];
             uncreditedOriginals?: components["schemas"]["UncreditedOriginal"][];
         };
+        InvoiceSettlement: {
+            at?: string;
+            /** @enum {string} */
+            source?: "stripe" | "supplier_confirmed" | "no_money_moved" | "no_problem_reported" | "buyer_marked";
+            by?: string;
+            byName?: string;
+            note?: string;
+            undoUntil?: string;
+        };
         InvoiceLineItem: {
             description?: string;
             /** Format: double */
@@ -3555,6 +3702,16 @@ export interface components {
             addressLines?: string[];
             taxId?: string;
             taxIdLabel?: string;
+        };
+        NoPoComparison: {
+            /** Format: double */
+            average?: number;
+            invoiceIds?: string[];
+            /** Format: double */
+            differencePct?: number;
+            /** Format: double */
+            tolerancePct?: number;
+            at?: string;
         };
         InvoiceControlFinding: {
             /** @enum {string} */
@@ -3576,7 +3733,7 @@ export interface components {
         };
         InvoicePaymentRecord: {
             /** @enum {string} */
-            status?: "exported" | "recorded" | "stripe";
+            status?: "stripe" | "exported" | "recorded";
             stripe?: components["schemas"]["InvoiceStripePayment"];
             exportId?: string;
             exportedAt?: string;
@@ -3643,10 +3800,11 @@ export interface components {
         };
         PaymentHistoryEntry: {
             /** @enum {string} */
-            action?: "exported" | "recorded" | "export_withdrawn" | "record_withdrawn" | "stripe_started" | "stripe_released" | "stripe_failed" | "stripe_succeeded" | "remittance_sent" | "credit_applied" | "credit_removed";
+            action?: "exported" | "recorded" | "export_withdrawn" | "record_withdrawn" | "stripe_started" | "stripe_released" | "stripe_failed" | "stripe_succeeded" | "remittance_sent" | "credit_applied" | "credit_removed" | "settled" | "settlement_undone" | "problem_reported" | "problem_answered";
             at?: string;
             by?: string;
             byName?: string;
+            bySupplier?: boolean;
             remittanceId?: string;
             creditNoteId?: string;
             /** Format: double */
@@ -3697,6 +3855,23 @@ export interface components {
             byKey?: string;
             byName?: string;
             bySso?: boolean;
+        };
+        InvoicePaymentProblem: {
+            /** @enum {string} */
+            kind?: "not_received" | "amount_differs";
+            /** Format: double */
+            amountReceived?: number;
+            note?: string;
+            at?: string;
+            by?: string;
+            byName?: string;
+            answer?: {
+                note?: string;
+                at?: string;
+                by?: string;
+                byName?: string;
+            };
+            resolvedAt?: string;
         };
         InvoiceRejection: {
             /** @enum {string} */
@@ -3889,6 +4064,9 @@ export interface components {
             };
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
+            noPoComparison?: components["schemas"]["NoPoComparison"];
+            /** @enum {string} */
+            paymentRoute?: "pleaxy" | "erp";
             paid?: boolean;
             /** Format: double */
             dueInDays?: number;
@@ -3934,6 +4112,8 @@ export interface components {
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
+            settlement?: components["schemas"]["SupplierSettlementView"];
+            paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
             bankDetailsConfirmation?: components["schemas"]["SupplierBankDetailsConfirmationView"];
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
             approval?: components["schemas"]["SupplierApprovalView"];
@@ -3997,6 +4177,28 @@ export interface components {
             buyerWorkspaceId?: string;
             nextReminderAt?: string;
         };
+        SupplierSettlementView: {
+            at?: string;
+            /** @enum {string} */
+            source?: "stripe" | "supplier_confirmed" | "no_money_moved" | "no_problem_reported" | "buyer_marked";
+            undoUntil?: string;
+            byName?: string;
+        };
+        SupplierPaymentProblemView: {
+            at?: string;
+            /** @enum {string} */
+            kind?: "not_received" | "amount_differs";
+            /** Format: double */
+            amountReceived?: number;
+            note?: string;
+            by?: string;
+            byName?: string;
+            resolvedAt?: string;
+            answer?: {
+                note?: string;
+                at?: string;
+            };
+        };
         SupplierBankDetailsConfirmationView: {
             /** @enum {string} */
             status?: "pending" | "confirmed" | "disputed";
@@ -4017,8 +4219,8 @@ export interface components {
         };
         SupplierRemittanceView: {
             id: string;
-            sentAt?: string;
             note?: string;
+            sentAt?: string;
             file?: {
                 fileName?: string;
                 /** @enum {string} */
@@ -4164,6 +4366,7 @@ export interface components {
                 lateFeeTerms?: components["schemas"]["LateFeeTerms"];
                 /** Format: double */
                 amount?: number;
+                settlement?: components["schemas"]["SupplierSettlementView"];
                 approval?: components["schemas"]["SupplierApprovalView"];
                 supplierConnectionId?: string;
                 currency?: string;
@@ -4182,6 +4385,9 @@ export interface components {
                 };
                 /** @enum {string} */
                 matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
+                noPoComparison?: components["schemas"]["NoPoComparison"];
+                /** @enum {string} */
+                paymentRoute?: "pleaxy" | "erp";
                 paid?: boolean;
                 /** Format: double */
                 dueInDays?: number;
@@ -4216,6 +4422,7 @@ export interface components {
                     succeededAt?: string;
                 };
                 remittances?: components["schemas"]["SupplierRemittanceView"][];
+                paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
                 /** @enum {string} */
                 dueDateSource?: "default" | "stated";
                 lastRemindedAt?: string;
@@ -4816,6 +5023,14 @@ export interface components {
             neededBy?: string;
             quoteDocument?: components["schemas"]["PurchaseOrderQuoteDocument"];
             notes?: string;
+            requestType?: {
+                id: string;
+                name?: string;
+                /** Format: double */
+                version?: number;
+            };
+            formFields?: components["schemas"]["QuestionnaireFieldDef"][];
+            answers?: components["schemas"]["RequestAnswer"][];
             /** @enum {string} */
             status?: "approved" | "rejected" | "pending_approval" | "draft" | "canceled" | "ordered";
             approval?: components["schemas"]["ApprovalChain"];
@@ -4841,10 +5056,37 @@ export interface components {
             /** Format: double */
             unitPrice?: number;
         };
+        RequestAnswer: {
+            fieldId?: string;
+            textAnswer?: string;
+            selectedOptionIds?: string[];
+            file?: components["schemas"]["QuestionnaireFileAnswer"];
+            flagged?: boolean;
+        };
+        RequestType: {
+            id: string;
+            name?: string;
+            description?: string;
+            active?: boolean;
+            /** Format: double */
+            order?: number;
+            defaults?: {
+                glCode?: string;
+                /** @enum {string} */
+                lineType?: "goods" | "service";
+            };
+            fields?: components["schemas"]["QuestionnaireFieldDef"][];
+            /** Format: double */
+            version?: number;
+            usedAt?: string;
+            createdAt?: string;
+            updatedAt?: string;
+            updatedBy?: string;
+        };
         StripePaymentStatus: {
             available?: boolean;
             /** @enum {string} */
-            reason?: "not_configured" | "not_approved" | "bank_details_held" | "payment_locked" | "supplier_not_on_pleaxy" | "supplier_not_connected" | "unsupported_currency" | "amount_too_small";
+            reason?: "not_configured" | "not_approved" | "bank_details_held" | "payment_locked" | "paid_in_erp" | "supplier_not_on_pleaxy" | "supplier_not_connected" | "unsupported_currency" | "amount_too_small";
             /** @enum {string} */
             state?: "checkout_open" | "processing" | "succeeded";
             /** @enum {string} */
@@ -5308,6 +5550,7 @@ export interface components {
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
+            settlement?: components["schemas"]["InvoiceSettlement"];
             /** Format: double */
             approvalVersion?: number;
             approval?: components["schemas"]["ApprovalChain"];
@@ -5338,9 +5581,12 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice";
             /** @enum {string} */
-            matchBasis?: "purchase_order";
+            matchBasis?: "purchase_order" | "no_po_history";
+            noPoComparison?: components["schemas"]["NoPoComparison"];
+            /** @enum {string} */
+            paymentRoute?: "pleaxy" | "erp";
             receiptCheckSkipped?: {
                 /** @enum {string} */
                 reason?: "small_invoice";
@@ -5367,7 +5613,7 @@ export interface components {
             /** @enum {string} */
             matchType?: "two_way" | "three_way" | "usage";
             /** @enum {string} */
-            discrepancyReason?: "amount" | "currency" | "controls";
+            discrepancyReason?: "amount" | "currency" | "controls" | "no_po_variance";
             controlFindings?: components["schemas"]["InvoiceControlFinding"][];
             paid?: boolean;
             /** Format: double */
@@ -5377,6 +5623,8 @@ export interface components {
             payment?: components["schemas"]["InvoicePaymentRecord"];
             remittances?: components["schemas"]["InvoiceRemittance"][];
             paymentHistory?: components["schemas"]["PaymentHistoryEntry"][];
+            paymentProblem?: components["schemas"]["InvoicePaymentProblem"];
+            receiptConfirmationRemindedAt?: string;
             exportAvailableFrom?: string;
             previousExportedAt?: string;
             /** @enum {string} */
@@ -5456,6 +5704,9 @@ export interface components {
             };
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
+            noPoComparison?: components["schemas"]["NoPoComparison"];
+            /** @enum {string} */
+            paymentRoute?: "pleaxy" | "erp";
             paid?: boolean;
             /** Format: double */
             dueInDays?: number;
@@ -5501,6 +5752,8 @@ export interface components {
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
+            settlement?: components["schemas"]["SupplierSettlementView"];
+            paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
             bankDetailsConfirmation?: components["schemas"]["SupplierBankDetailsConfirmationView"];
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
             approval?: components["schemas"]["SupplierApprovalView"];
@@ -5902,6 +6155,7 @@ export interface components {
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
+            settlement?: components["schemas"]["InvoiceSettlement"];
             /** Format: double */
             approvalVersion?: number;
             approval?: components["schemas"]["ApprovalChain"];
@@ -5932,9 +6186,12 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice";
             /** @enum {string} */
-            matchBasis?: "purchase_order";
+            matchBasis?: "purchase_order" | "no_po_history";
+            noPoComparison?: components["schemas"]["NoPoComparison"];
+            /** @enum {string} */
+            paymentRoute?: "pleaxy" | "erp";
             receiptCheckSkipped?: {
                 /** @enum {string} */
                 reason?: "small_invoice";
@@ -5961,7 +6218,7 @@ export interface components {
             /** @enum {string} */
             matchType?: "two_way" | "three_way" | "usage";
             /** @enum {string} */
-            discrepancyReason?: "amount" | "currency" | "controls";
+            discrepancyReason?: "amount" | "currency" | "controls" | "no_po_variance";
             controlFindings?: components["schemas"]["InvoiceControlFinding"][];
             paid?: boolean;
             /** Format: double */
@@ -5971,6 +6228,8 @@ export interface components {
             payment?: components["schemas"]["InvoicePaymentRecord"];
             remittances?: components["schemas"]["InvoiceRemittance"][];
             paymentHistory?: components["schemas"]["PaymentHistoryEntry"][];
+            paymentProblem?: components["schemas"]["InvoicePaymentProblem"];
+            receiptConfirmationRemindedAt?: string;
             exportAvailableFrom?: string;
             previousExportedAt?: string;
             /** @enum {string} */
@@ -6050,6 +6309,9 @@ export interface components {
             };
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
+            noPoComparison?: components["schemas"]["NoPoComparison"];
+            /** @enum {string} */
+            paymentRoute?: "pleaxy" | "erp";
             paid?: boolean;
             /** Format: double */
             dueInDays?: number;
@@ -6095,6 +6357,8 @@ export interface components {
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
+            settlement?: components["schemas"]["SupplierSettlementView"];
+            paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
             bankDetailsConfirmation?: components["schemas"]["SupplierBankDetailsConfirmationView"];
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
             approval?: components["schemas"]["SupplierApprovalView"];
@@ -6337,6 +6601,7 @@ export interface components {
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
+            settlement?: components["schemas"]["InvoiceSettlement"];
             /** Format: double */
             approvalVersion?: number;
             approval?: components["schemas"]["ApprovalChain"];
@@ -6367,9 +6632,12 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice";
             /** @enum {string} */
-            matchBasis?: "purchase_order";
+            matchBasis?: "purchase_order" | "no_po_history";
+            noPoComparison?: components["schemas"]["NoPoComparison"];
+            /** @enum {string} */
+            paymentRoute?: "pleaxy" | "erp";
             receiptCheckSkipped?: {
                 /** @enum {string} */
                 reason?: "small_invoice";
@@ -6396,7 +6664,7 @@ export interface components {
             /** @enum {string} */
             matchType?: "two_way" | "three_way" | "usage";
             /** @enum {string} */
-            discrepancyReason?: "amount" | "currency" | "controls";
+            discrepancyReason?: "amount" | "currency" | "controls" | "no_po_variance";
             controlFindings?: components["schemas"]["InvoiceControlFinding"][];
             paid?: boolean;
             /** Format: double */
@@ -6406,6 +6674,8 @@ export interface components {
             payment?: components["schemas"]["InvoicePaymentRecord"];
             remittances?: components["schemas"]["InvoiceRemittance"][];
             paymentHistory?: components["schemas"]["PaymentHistoryEntry"][];
+            paymentProblem?: components["schemas"]["InvoicePaymentProblem"];
+            receiptConfirmationRemindedAt?: string;
             exportAvailableFrom?: string;
             previousExportedAt?: string;
             /** @enum {string} */
@@ -6485,6 +6755,9 @@ export interface components {
             };
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
+            noPoComparison?: components["schemas"]["NoPoComparison"];
+            /** @enum {string} */
+            paymentRoute?: "pleaxy" | "erp";
             paid?: boolean;
             /** Format: double */
             dueInDays?: number;
@@ -6530,6 +6803,8 @@ export interface components {
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
+            settlement?: components["schemas"]["SupplierSettlementView"];
+            paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
             bankDetailsConfirmation?: components["schemas"]["SupplierBankDetailsConfirmationView"];
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
             approval?: components["schemas"]["SupplierApprovalView"];
@@ -6604,6 +6879,7 @@ export interface components {
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
+            settlement?: components["schemas"]["InvoiceSettlement"];
             /** Format: double */
             approvalVersion?: number;
             approval?: components["schemas"]["ApprovalChain"];
@@ -6634,9 +6910,12 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice";
             /** @enum {string} */
-            matchBasis?: "purchase_order";
+            matchBasis?: "purchase_order" | "no_po_history";
+            noPoComparison?: components["schemas"]["NoPoComparison"];
+            /** @enum {string} */
+            paymentRoute?: "pleaxy" | "erp";
             receiptCheckSkipped?: {
                 /** @enum {string} */
                 reason?: "small_invoice";
@@ -6663,7 +6942,7 @@ export interface components {
             /** @enum {string} */
             matchType?: "two_way" | "three_way" | "usage";
             /** @enum {string} */
-            discrepancyReason?: "amount" | "currency" | "controls";
+            discrepancyReason?: "amount" | "currency" | "controls" | "no_po_variance";
             controlFindings?: components["schemas"]["InvoiceControlFinding"][];
             paid?: boolean;
             /** Format: double */
@@ -6673,6 +6952,8 @@ export interface components {
             payment?: components["schemas"]["InvoicePaymentRecord"];
             remittances?: components["schemas"]["InvoiceRemittance"][];
             paymentHistory?: components["schemas"]["PaymentHistoryEntry"][];
+            paymentProblem?: components["schemas"]["InvoicePaymentProblem"];
+            receiptConfirmationRemindedAt?: string;
             exportAvailableFrom?: string;
             previousExportedAt?: string;
             /** @enum {string} */
@@ -6735,6 +7016,7 @@ export interface components {
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
+            settlement?: components["schemas"]["InvoiceSettlement"];
             /** Format: double */
             approvalVersion?: number;
             approval?: components["schemas"]["ApprovalChain"];
@@ -6765,9 +7047,12 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice";
             /** @enum {string} */
-            matchBasis?: "purchase_order";
+            matchBasis?: "purchase_order" | "no_po_history";
+            noPoComparison?: components["schemas"]["NoPoComparison"];
+            /** @enum {string} */
+            paymentRoute?: "pleaxy" | "erp";
             receiptCheckSkipped?: {
                 /** @enum {string} */
                 reason?: "small_invoice";
@@ -6794,7 +7079,7 @@ export interface components {
             /** @enum {string} */
             matchType?: "two_way" | "three_way" | "usage";
             /** @enum {string} */
-            discrepancyReason?: "amount" | "currency" | "controls";
+            discrepancyReason?: "amount" | "currency" | "controls" | "no_po_variance";
             controlFindings?: components["schemas"]["InvoiceControlFinding"][];
             paid?: boolean;
             /** Format: double */
@@ -6804,6 +7089,8 @@ export interface components {
             payment?: components["schemas"]["InvoicePaymentRecord"];
             remittances?: components["schemas"]["InvoiceRemittance"][];
             paymentHistory?: components["schemas"]["PaymentHistoryEntry"][];
+            paymentProblem?: components["schemas"]["InvoicePaymentProblem"];
+            receiptConfirmationRemindedAt?: string;
             exportAvailableFrom?: string;
             previousExportedAt?: string;
             /** @enum {string} */
@@ -6865,6 +7152,7 @@ export interface components {
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
+            settlement?: components["schemas"]["InvoiceSettlement"];
             /** Format: double */
             approvalVersion?: number;
             approval?: components["schemas"]["ApprovalChain"];
@@ -6895,9 +7183,12 @@ export interface components {
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice";
             /** @enum {string} */
-            matchBasis?: "purchase_order";
+            matchBasis?: "purchase_order" | "no_po_history";
+            noPoComparison?: components["schemas"]["NoPoComparison"];
+            /** @enum {string} */
+            paymentRoute?: "pleaxy" | "erp";
             receiptCheckSkipped?: {
                 /** @enum {string} */
                 reason?: "small_invoice";
@@ -6924,7 +7215,7 @@ export interface components {
             /** @enum {string} */
             matchType?: "two_way" | "three_way" | "usage";
             /** @enum {string} */
-            discrepancyReason?: "amount" | "currency" | "controls";
+            discrepancyReason?: "amount" | "currency" | "controls" | "no_po_variance";
             controlFindings?: components["schemas"]["InvoiceControlFinding"][];
             paid?: boolean;
             /** Format: double */
@@ -6934,6 +7225,8 @@ export interface components {
             payment?: components["schemas"]["InvoicePaymentRecord"];
             remittances?: components["schemas"]["InvoiceRemittance"][];
             paymentHistory?: components["schemas"]["PaymentHistoryEntry"][];
+            paymentProblem?: components["schemas"]["InvoicePaymentProblem"];
+            receiptConfirmationRemindedAt?: string;
             exportAvailableFrom?: string;
             previousExportedAt?: string;
             /** @enum {string} */
@@ -7012,6 +7305,17 @@ export interface components {
             currency?: string;
             costCenters?: components["schemas"]["BudgetStatus"][];
             unassigned?: components["schemas"]["SpendFigures"];
+            unassignedByCurrency?: {
+                /** Format: double */
+                committed?: number;
+                /** Format: double */
+                actual?: number;
+                /** Format: double */
+                pending?: number;
+                /** Format: double */
+                unconverted?: number;
+                currency?: string;
+            }[];
         };
         ListWebhooksResult: {
             endpoints?: components["schemas"]["WebhookEndpointView"][];
@@ -7072,6 +7376,15 @@ export interface components {
         ApplyConfirmationChangesResult: {
             purchaseOrder?: components["schemas"]["PurchaseOrder"];
             confirmation?: components["schemas"]["OrderConfirmation"];
+        };
+        RequestPurchaseRequestFileUploadResult: {
+            fileId?: string;
+            uploadUrl?: string;
+            /** Format: double */
+            maxBytes?: number;
+        };
+        GetPurchaseRequestFileResult: {
+            url?: string;
         };
         ConvertPurchaseRequestResult: {
             request?: components["schemas"]["PurchaseRequest"];
@@ -10096,6 +10409,38 @@ export interface operations {
             };
         };
     };
+    RequestPurchaseRequestFileUpload: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RequestFileUploadInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RequestPurchaseRequestFileUploadResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     GetPurchaseRequest: {
         parameters: {
             query?: never;
@@ -10147,6 +10492,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetPurchaseRequestFile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+                fileId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetPurchaseRequestFileResult"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
@@ -10309,6 +10685,67 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ConvertPurchaseRequestResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListRequestTypes: {
+        parameters: {
+            query?: {
+                /** @description true: also the inactive types (for the settings page). */
+                includeInactive?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RequestType"][];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetRequestType: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                typeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RequestType"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

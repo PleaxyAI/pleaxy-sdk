@@ -1,7 +1,11 @@
 from typing import Literal, Set, cast
 
 RecordPaymentResultUnverifiedReason = Literal[
-    "debit_note", "no_billing_connection", "no_purchase_order", "payer_account_unclear"
+    "debit_note",
+    "no_billing_connection",
+    "no_po_first_invoice",
+    "no_purchase_order",
+    "payer_account_unclear",
 ]
 
 RECORD_PAYMENT_RESULT_UNVERIFIED_REASON_VALUES: Set[
@@ -9,6 +13,7 @@ RECORD_PAYMENT_RESULT_UNVERIFIED_REASON_VALUES: Set[
 ] = {
     "debit_note",
     "no_billing_connection",
+    "no_po_first_invoice",
     "no_purchase_order",
     "payer_account_unclear",
 }

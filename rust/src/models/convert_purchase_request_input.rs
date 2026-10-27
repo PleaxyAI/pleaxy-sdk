@@ -59,6 +59,12 @@ pub struct ConvertPurchaseRequestInput {
     pub gl_code: Option<String>,
     #[serde(rename = "budgetOwner", skip_serializing_if = "Option::is_none")]
     pub budget_owner: Option<String>,
+    /// A blanket order: billed as used, up to its amount. Its amount never uses the cost center's budget at once; expectedMonthly does, month by month, and its invoices as they are approved. Cloud-provider orders are blanket orders either way.
+    #[serde(rename = "blanket", skip_serializing_if = "Option::is_none")]
+    pub blanket: Option<bool>,
+    /// A blanket or cloud order's expected billing each month, in the order's currency: what its cost center's budget reserves for it.
+    #[serde(rename = "expectedMonthly", skip_serializing_if = "Option::is_none")]
+    pub expected_monthly: Option<f64>,
     #[serde(rename = "buyerName", skip_serializing_if = "Option::is_none")]
     pub buyer_name: Option<String>,
     #[serde(rename = "supplierSite", skip_serializing_if = "Option::is_none")]
@@ -104,6 +110,8 @@ impl ConvertPurchaseRequestInput {
             cost_center: None,
             gl_code: None,
             budget_owner: None,
+            blanket: None,
+            expected_monthly: None,
             buyer_name: None,
             supplier_site: None,
             supplier_contact_email: None,

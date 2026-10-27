@@ -47,6 +47,8 @@ pub enum Reason {
     BankDetailsHeld,
     #[serde(rename = "payment_locked")]
     PaymentLocked,
+    #[serde(rename = "paid_in_erp")]
+    PaidInErp,
     #[serde(rename = "supplier_not_on_pleaxy")]
     SupplierNotOnPleaxy,
     #[serde(rename = "supplier_not_connected")]

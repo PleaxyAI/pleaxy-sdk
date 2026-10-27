@@ -35,6 +35,9 @@ from .add_invoice_replacement_links_result_match_type import (
 from .add_invoice_replacement_links_result_party_details import (
     AddInvoiceReplacementLinksResultPartyDetails,
 )
+from .add_invoice_replacement_links_result_payment_route import (
+    AddInvoiceReplacementLinksResultPaymentRoute,
+)
 from .add_invoice_replacement_links_result_receipt_check_skipped import (
     AddInvoiceReplacementLinksResultReceiptCheckSkipped,
 )
@@ -309,6 +312,9 @@ from .create_invoice_result_buyer_invoice_match_type import (
 from .create_invoice_result_buyer_invoice_party_details import (
     CreateInvoiceResultBuyerInvoicePartyDetails,
 )
+from .create_invoice_result_buyer_invoice_payment_route import (
+    CreateInvoiceResultBuyerInvoicePaymentRoute,
+)
 from .create_invoice_result_buyer_invoice_receipt_check_skipped import (
     CreateInvoiceResultBuyerInvoiceReceiptCheckSkipped,
 )
@@ -402,6 +408,9 @@ from .create_invoice_result_supplier_invoice_match_status import (
 )
 from .create_invoice_result_supplier_invoice_party_details import (
     CreateInvoiceResultSupplierInvoicePartyDetails,
+)
+from .create_invoice_result_supplier_invoice_payment_route import (
+    CreateInvoiceResultSupplierInvoicePaymentRoute,
 )
 from .create_invoice_result_supplier_invoice_payment_type_0 import (
     CreateInvoiceResultSupplierInvoicePaymentType0,
@@ -522,6 +531,9 @@ from .feed_validation_result_invoice_match_status import (
 from .feed_validation_result_invoice_party_details import (
     FeedValidationResultInvoicePartyDetails,
 )
+from .feed_validation_result_invoice_payment_route import (
+    FeedValidationResultInvoicePaymentRoute,
+)
 from .feed_validation_result_invoice_payment_type_0 import (
     FeedValidationResultInvoicePaymentType0,
 )
@@ -580,9 +592,13 @@ from .feed_validation_result_replay_type_0 import FeedValidationResultReplayType
 from .feed_validation_result_submitted_format import FeedValidationResultSubmittedFormat
 from .feed_validation_warning import FeedValidationWarning
 from .feed_validation_warning_code import FeedValidationWarningCode
+from .file_answer_input import FileAnswerInput
 from .geography import Geography
 from .geography_preset_id import GeographyPresetId
 from .get_budget_status_result import GetBudgetStatusResult
+from .get_budget_status_result_unassigned_by_currency_item import (
+    GetBudgetStatusResultUnassignedByCurrencyItem,
+)
 from .get_buyer_workspace_result import GetBuyerWorkspaceResult
 from .get_invoice_document_format import GetInvoiceDocumentFormat
 from .get_invoice_remittance_document_format import GetInvoiceRemittanceDocumentFormat
@@ -656,6 +672,9 @@ from .get_invoice_result_buyer_invoice_match_type import (
 )
 from .get_invoice_result_buyer_invoice_party_details import (
     GetInvoiceResultBuyerInvoicePartyDetails,
+)
+from .get_invoice_result_buyer_invoice_payment_route import (
+    GetInvoiceResultBuyerInvoicePaymentRoute,
 )
 from .get_invoice_result_buyer_invoice_receipt_check_skipped import (
     GetInvoiceResultBuyerInvoiceReceiptCheckSkipped,
@@ -747,6 +766,9 @@ from .get_invoice_result_supplier_invoice_match_status import (
 from .get_invoice_result_supplier_invoice_party_details import (
     GetInvoiceResultSupplierInvoicePartyDetails,
 )
+from .get_invoice_result_supplier_invoice_payment_route import (
+    GetInvoiceResultSupplierInvoicePaymentRoute,
+)
 from .get_invoice_result_supplier_invoice_payment_type_0 import (
     GetInvoiceResultSupplierInvoicePaymentType0,
 )
@@ -805,6 +827,7 @@ from .get_invoice_status_document_format import GetInvoiceStatusDocumentFormat
 from .get_org_profile_result import GetOrgProfileResult
 from .get_org_profile_result_role import GetOrgProfileResultRole
 from .get_purchase_order_document_format import GetPurchaseOrderDocumentFormat
+from .get_purchase_request_file_result import GetPurchaseRequestFileResult
 from .get_reference_rate_result import GetReferenceRateResult
 from .get_supplier_workspace_result import GetSupplierWorkspaceResult
 from .image_ref import ImageRef
@@ -861,6 +884,7 @@ from .invoice_buyer_view_match_basis import InvoiceBuyerViewMatchBasis
 from .invoice_buyer_view_match_status import InvoiceBuyerViewMatchStatus
 from .invoice_buyer_view_match_type import InvoiceBuyerViewMatchType
 from .invoice_buyer_view_party_details import InvoiceBuyerViewPartyDetails
+from .invoice_buyer_view_payment_route import InvoiceBuyerViewPaymentRoute
 from .invoice_buyer_view_receipt_check_skipped import (
     InvoiceBuyerViewReceiptCheckSkipped,
 )
@@ -901,6 +925,9 @@ from .invoice_deduction_kind import InvoiceDeductionKind
 from .invoice_duplicate_ref import InvoiceDuplicateRef
 from .invoice_line_item import InvoiceLineItem
 from .invoice_party_details import InvoicePartyDetails
+from .invoice_payment_problem import InvoicePaymentProblem
+from .invoice_payment_problem_answer import InvoicePaymentProblemAnswer
+from .invoice_payment_problem_kind import InvoicePaymentProblemKind
 from .invoice_payment_record import InvoicePaymentRecord
 from .invoice_payment_record_method import InvoicePaymentRecordMethod
 from .invoice_payment_record_paid_amount import InvoicePaymentRecordPaidAmount
@@ -914,6 +941,8 @@ from .invoice_remittance import InvoiceRemittance
 from .invoice_remittance_file import InvoiceRemittanceFile
 from .invoice_remittance_file_content_type import InvoiceRemittanceFileContentType
 from .invoice_replacement_check import InvoiceReplacementCheck
+from .invoice_settlement import InvoiceSettlement
+from .invoice_settlement_source import InvoiceSettlementSource
 from .invoice_source_document import InvoiceSourceDocument
 from .invoice_source_document_content_type import InvoiceSourceDocumentContentType
 from .invoice_status_view import InvoiceStatusView
@@ -940,6 +969,7 @@ from .invoice_supplier_view_entered_by import InvoiceSupplierViewEnteredBy
 from .invoice_supplier_view_invoice_kind import InvoiceSupplierViewInvoiceKind
 from .invoice_supplier_view_match_status import InvoiceSupplierViewMatchStatus
 from .invoice_supplier_view_party_details import InvoiceSupplierViewPartyDetails
+from .invoice_supplier_view_payment_route import InvoiceSupplierViewPaymentRoute
 from .invoice_supplier_view_payment_type_0 import InvoiceSupplierViewPaymentType0
 from .invoice_supplier_view_payment_type_0_method import (
     InvoiceSupplierViewPaymentType0Method,
@@ -1074,6 +1104,9 @@ from .list_invoices_item_buyer_invoice_match_type import (
 from .list_invoices_item_buyer_invoice_party_details import (
     ListInvoicesItemBuyerInvoicePartyDetails,
 )
+from .list_invoices_item_buyer_invoice_payment_route import (
+    ListInvoicesItemBuyerInvoicePaymentRoute,
+)
 from .list_invoices_item_buyer_invoice_receipt_check_skipped import (
     ListInvoicesItemBuyerInvoiceReceiptCheckSkipped,
 )
@@ -1164,6 +1197,9 @@ from .list_invoices_item_supplier_invoice_match_status import (
 from .list_invoices_item_supplier_invoice_party_details import (
     ListInvoicesItemSupplierInvoicePartyDetails,
 )
+from .list_invoices_item_supplier_invoice_payment_route import (
+    ListInvoicesItemSupplierInvoicePaymentRoute,
+)
 from .list_invoices_item_supplier_invoice_payment_type_0 import (
     ListInvoicesItemSupplierInvoicePaymentType0,
 )
@@ -1226,6 +1262,7 @@ from .list_webhooks_result import ListWebhooksResult
 from .list_webhooks_result_event_types_item import ListWebhooksResultEventTypesItem
 from .mark_all_notifications_read_audience import MarkAllNotificationsReadAudience
 from .mark_all_notifications_read_result import MarkAllNotificationsReadResult
+from .no_po_comparison import NoPoComparison
 from .notification import Notification
 from .notification_audience import NotificationAudience
 from .notification_page import NotificationPage
@@ -1355,10 +1392,12 @@ from .purchase_order_supplier_view_supplier_email import (
     PurchaseOrderSupplierViewSupplierEmail,
 )
 from .purchase_request import PurchaseRequest
+from .purchase_request_answer_input import PurchaseRequestAnswerInput
 from .purchase_request_line import PurchaseRequestLine
 from .purchase_request_line_input import PurchaseRequestLineInput
 from .purchase_request_line_input_line_type import PurchaseRequestLineInputLineType
 from .purchase_request_line_line_type import PurchaseRequestLineLineType
+from .purchase_request_request_type import PurchaseRequestRequestType
 from .purchase_request_status import PurchaseRequestStatus
 from .purchase_request_supplier import PurchaseRequestSupplier
 from .purchase_request_supplier_input import PurchaseRequestSupplierInput
@@ -1399,6 +1438,7 @@ from .record_payment_result_match_basis import RecordPaymentResultMatchBasis
 from .record_payment_result_match_status import RecordPaymentResultMatchStatus
 from .record_payment_result_match_type import RecordPaymentResultMatchType
 from .record_payment_result_party_details import RecordPaymentResultPartyDetails
+from .record_payment_result_payment_route import RecordPaymentResultPaymentRoute
 from .record_payment_result_receipt_check_skipped import (
     RecordPaymentResultReceiptCheckSkipped,
 )
@@ -1478,6 +1518,9 @@ from .remove_invoice_replacement_link_result_match_type import (
 from .remove_invoice_replacement_link_result_party_details import (
     RemoveInvoiceReplacementLinkResultPartyDetails,
 )
+from .remove_invoice_replacement_link_result_payment_route import (
+    RemoveInvoiceReplacementLinkResultPaymentRoute,
+)
 from .remove_invoice_replacement_link_result_receipt_check_skipped import (
     RemoveInvoiceReplacementLinkResultReceiptCheckSkipped,
 )
@@ -1502,6 +1545,15 @@ from .remove_invoice_replacement_link_result_unverified_reason import (
 from .remove_invoice_replacement_link_result_usage_source import (
     RemoveInvoiceReplacementLinkResultUsageSource,
 )
+from .request_answer import RequestAnswer
+from .request_file_upload_input import RequestFileUploadInput
+from .request_file_upload_input_content_type import RequestFileUploadInputContentType
+from .request_purchase_request_file_upload_result import (
+    RequestPurchaseRequestFileUploadResult,
+)
+from .request_type import RequestType
+from .request_type_defaults import RequestTypeDefaults
+from .request_type_defaults_line_type import RequestTypeDefaultsLineType
 from .rotate_webhook_secret_result import RotateWebhookSecretResult
 from .rotate_webhook_secret_result_events_item import (
     RotateWebhookSecretResultEventsItem,
@@ -1637,12 +1689,17 @@ from .supplier_credit_note_view_status import SupplierCreditNoteViewStatus
 from .supplier_credit_note_view_submitted_format import (
     SupplierCreditNoteViewSubmittedFormat,
 )
+from .supplier_payment_problem_view import SupplierPaymentProblemView
+from .supplier_payment_problem_view_answer import SupplierPaymentProblemViewAnswer
+from .supplier_payment_problem_view_kind import SupplierPaymentProblemViewKind
 from .supplier_region_request import SupplierRegionRequest
 from .supplier_remittance_view import SupplierRemittanceView
 from .supplier_remittance_view_file import SupplierRemittanceViewFile
 from .supplier_remittance_view_file_content_type import (
     SupplierRemittanceViewFileContentType,
 )
+from .supplier_settlement_view import SupplierSettlementView
+from .supplier_settlement_view_source import SupplierSettlementViewSource
 from .sync_event import SyncEvent
 from .sync_event_document_type import SyncEventDocumentType
 from .sync_event_page import SyncEventPage
@@ -1708,6 +1765,7 @@ __all__ = (
     "AddInvoiceReplacementLinksResultMatchStatus",
     "AddInvoiceReplacementLinksResultMatchType",
     "AddInvoiceReplacementLinksResultPartyDetails",
+    "AddInvoiceReplacementLinksResultPaymentRoute",
     "AddInvoiceReplacementLinksResultReceiptCheckSkipped",
     "AddInvoiceReplacementLinksResultReceiptCheckSkippedReason",
     "AddInvoiceReplacementLinksResultReceiptToleranceApplied",
@@ -1894,6 +1952,7 @@ __all__ = (
     "CreateInvoiceResultBuyerInvoiceMatchStatus",
     "CreateInvoiceResultBuyerInvoiceMatchType",
     "CreateInvoiceResultBuyerInvoicePartyDetails",
+    "CreateInvoiceResultBuyerInvoicePaymentRoute",
     "CreateInvoiceResultBuyerInvoiceReceiptCheckSkipped",
     "CreateInvoiceResultBuyerInvoiceReceiptCheckSkippedReason",
     "CreateInvoiceResultBuyerInvoiceReceiptToleranceApplied",
@@ -1926,6 +1985,7 @@ __all__ = (
     "CreateInvoiceResultSupplierInvoiceInvoiceKind",
     "CreateInvoiceResultSupplierInvoiceMatchStatus",
     "CreateInvoiceResultSupplierInvoicePartyDetails",
+    "CreateInvoiceResultSupplierInvoicePaymentRoute",
     "CreateInvoiceResultSupplierInvoicePaymentType0",
     "CreateInvoiceResultSupplierInvoicePaymentType0Method",
     "CreateInvoiceResultSupplierInvoicePaymentType0PaidAmount",
@@ -1989,6 +2049,7 @@ __all__ = (
     "FeedValidationResultInvoiceInvoiceKind",
     "FeedValidationResultInvoiceMatchStatus",
     "FeedValidationResultInvoicePartyDetails",
+    "FeedValidationResultInvoicePaymentRoute",
     "FeedValidationResultInvoicePaymentType0",
     "FeedValidationResultInvoicePaymentType0Method",
     "FeedValidationResultInvoicePaymentType0PaidAmount",
@@ -2011,9 +2072,11 @@ __all__ = (
     "FeedValidationResultSubmittedFormat",
     "FeedValidationWarning",
     "FeedValidationWarningCode",
+    "FileAnswerInput",
     "Geography",
     "GeographyPresetId",
     "GetBudgetStatusResult",
+    "GetBudgetStatusResultUnassignedByCurrencyItem",
     "GetBuyerWorkspaceResult",
     "GetInvoiceDocumentFormat",
     "GetInvoiceRemittanceDocumentFormat",
@@ -2042,6 +2105,7 @@ __all__ = (
     "GetInvoiceResultBuyerInvoiceMatchStatus",
     "GetInvoiceResultBuyerInvoiceMatchType",
     "GetInvoiceResultBuyerInvoicePartyDetails",
+    "GetInvoiceResultBuyerInvoicePaymentRoute",
     "GetInvoiceResultBuyerInvoiceReceiptCheckSkipped",
     "GetInvoiceResultBuyerInvoiceReceiptCheckSkippedReason",
     "GetInvoiceResultBuyerInvoiceReceiptToleranceApplied",
@@ -2074,6 +2138,7 @@ __all__ = (
     "GetInvoiceResultSupplierInvoiceInvoiceKind",
     "GetInvoiceResultSupplierInvoiceMatchStatus",
     "GetInvoiceResultSupplierInvoicePartyDetails",
+    "GetInvoiceResultSupplierInvoicePaymentRoute",
     "GetInvoiceResultSupplierInvoicePaymentType0",
     "GetInvoiceResultSupplierInvoicePaymentType0Method",
     "GetInvoiceResultSupplierInvoicePaymentType0PaidAmount",
@@ -2096,6 +2161,7 @@ __all__ = (
     "GetOrgProfileResult",
     "GetOrgProfileResultRole",
     "GetPurchaseOrderDocumentFormat",
+    "GetPurchaseRequestFileResult",
     "GetReferenceRateResult",
     "GetSupplierWorkspaceResult",
     "ImageRef",
@@ -2142,6 +2208,7 @@ __all__ = (
     "InvoiceBuyerViewMatchStatus",
     "InvoiceBuyerViewMatchType",
     "InvoiceBuyerViewPartyDetails",
+    "InvoiceBuyerViewPaymentRoute",
     "InvoiceBuyerViewReceiptCheckSkipped",
     "InvoiceBuyerViewReceiptCheckSkippedReason",
     "InvoiceBuyerViewReceiptToleranceApplied",
@@ -2168,6 +2235,9 @@ __all__ = (
     "InvoiceDuplicateRef",
     "InvoiceLineItem",
     "InvoicePartyDetails",
+    "InvoicePaymentProblem",
+    "InvoicePaymentProblemAnswer",
+    "InvoicePaymentProblemKind",
     "InvoicePaymentRecord",
     "InvoicePaymentRecordMethod",
     "InvoicePaymentRecordPaidAmount",
@@ -2181,6 +2251,8 @@ __all__ = (
     "InvoiceRemittanceFile",
     "InvoiceRemittanceFileContentType",
     "InvoiceReplacementCheck",
+    "InvoiceSettlement",
+    "InvoiceSettlementSource",
     "InvoiceSourceDocument",
     "InvoiceSourceDocumentContentType",
     "InvoiceStatusView",
@@ -2203,6 +2275,7 @@ __all__ = (
     "InvoiceSupplierViewInvoiceKind",
     "InvoiceSupplierViewMatchStatus",
     "InvoiceSupplierViewPartyDetails",
+    "InvoiceSupplierViewPaymentRoute",
     "InvoiceSupplierViewPaymentType0",
     "InvoiceSupplierViewPaymentType0Method",
     "InvoiceSupplierViewPaymentType0PaidAmount",
@@ -2263,6 +2336,7 @@ __all__ = (
     "ListInvoicesItemBuyerInvoiceMatchStatus",
     "ListInvoicesItemBuyerInvoiceMatchType",
     "ListInvoicesItemBuyerInvoicePartyDetails",
+    "ListInvoicesItemBuyerInvoicePaymentRoute",
     "ListInvoicesItemBuyerInvoiceReceiptCheckSkipped",
     "ListInvoicesItemBuyerInvoiceReceiptCheckSkippedReason",
     "ListInvoicesItemBuyerInvoiceReceiptToleranceApplied",
@@ -2295,6 +2369,7 @@ __all__ = (
     "ListInvoicesItemSupplierInvoiceInvoiceKind",
     "ListInvoicesItemSupplierInvoiceMatchStatus",
     "ListInvoicesItemSupplierInvoicePartyDetails",
+    "ListInvoicesItemSupplierInvoicePaymentRoute",
     "ListInvoicesItemSupplierInvoicePaymentType0",
     "ListInvoicesItemSupplierInvoicePaymentType0Method",
     "ListInvoicesItemSupplierInvoicePaymentType0PaidAmount",
@@ -2321,6 +2396,7 @@ __all__ = (
     "ListWebhooksResultEventTypesItem",
     "MarkAllNotificationsReadAudience",
     "MarkAllNotificationsReadResult",
+    "NoPoComparison",
     "Notification",
     "NotificationAudience",
     "NotificationPage",
@@ -2410,10 +2486,12 @@ __all__ = (
     "PurchaseOrderSupplierViewStatus",
     "PurchaseOrderSupplierViewSupplierEmail",
     "PurchaseRequest",
+    "PurchaseRequestAnswerInput",
     "PurchaseRequestLine",
     "PurchaseRequestLineInput",
     "PurchaseRequestLineInputLineType",
     "PurchaseRequestLineLineType",
+    "PurchaseRequestRequestType",
     "PurchaseRequestStatus",
     "PurchaseRequestSupplier",
     "PurchaseRequestSupplierInput",
@@ -2452,6 +2530,7 @@ __all__ = (
     "RecordPaymentResultMatchStatus",
     "RecordPaymentResultMatchType",
     "RecordPaymentResultPartyDetails",
+    "RecordPaymentResultPaymentRoute",
     "RecordPaymentResultReceiptCheckSkipped",
     "RecordPaymentResultReceiptCheckSkippedReason",
     "RecordPaymentResultReceiptToleranceApplied",
@@ -2499,6 +2578,7 @@ __all__ = (
     "RemoveInvoiceReplacementLinkResultMatchStatus",
     "RemoveInvoiceReplacementLinkResultMatchType",
     "RemoveInvoiceReplacementLinkResultPartyDetails",
+    "RemoveInvoiceReplacementLinkResultPaymentRoute",
     "RemoveInvoiceReplacementLinkResultReceiptCheckSkipped",
     "RemoveInvoiceReplacementLinkResultReceiptCheckSkippedReason",
     "RemoveInvoiceReplacementLinkResultReceiptToleranceApplied",
@@ -2507,6 +2587,13 @@ __all__ = (
     "RemoveInvoiceReplacementLinkResultSubmittedFormat",
     "RemoveInvoiceReplacementLinkResultUnverifiedReason",
     "RemoveInvoiceReplacementLinkResultUsageSource",
+    "RequestAnswer",
+    "RequestFileUploadInput",
+    "RequestFileUploadInputContentType",
+    "RequestPurchaseRequestFileUploadResult",
+    "RequestType",
+    "RequestTypeDefaults",
+    "RequestTypeDefaultsLineType",
     "RotateWebhookSecretResult",
     "RotateWebhookSecretResultEventsItem",
     "RotateWebhookSecretResultLastErrorCode",
@@ -2590,10 +2677,15 @@ __all__ = (
     "SupplierCreditNoteViewSource",
     "SupplierCreditNoteViewStatus",
     "SupplierCreditNoteViewSubmittedFormat",
+    "SupplierPaymentProblemView",
+    "SupplierPaymentProblemViewAnswer",
+    "SupplierPaymentProblemViewKind",
     "SupplierRegionRequest",
     "SupplierRemittanceView",
     "SupplierRemittanceViewFile",
     "SupplierRemittanceViewFileContentType",
+    "SupplierSettlementView",
+    "SupplierSettlementViewSource",
     "SyncEvent",
     "SyncEventDocumentType",
     "SyncEventPage",

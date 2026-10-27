@@ -58,6 +58,8 @@ public class StripePaymentStatus {
     
     PAYMENT_LOCKED(String.valueOf("payment_locked")),
     
+    PAID_IN_ERP(String.valueOf("paid_in_erp")),
+    
     SUPPLIER_NOT_ON_PLEAXY(String.valueOf("supplier_not_on_pleaxy")),
     
     SUPPLIER_NOT_CONNECTED(String.valueOf("supplier_not_connected")),

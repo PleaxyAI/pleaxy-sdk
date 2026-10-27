@@ -25,6 +25,7 @@ class PaymentHistoryEntry:
         at (Union[Unset, str]):
         by (Union[Unset, str]):
         by_name (Union[Unset, str]):
+        by_supplier (Union[Unset, bool]):
         remittance_id (Union[Unset, str]):
         credit_note_id (Union[Unset, str]):
         amount (Union[Unset, float]):
@@ -36,6 +37,7 @@ class PaymentHistoryEntry:
     at: Union[Unset, str] = UNSET
     by: Union[Unset, str] = UNSET
     by_name: Union[Unset, str] = UNSET
+    by_supplier: Union[Unset, bool] = UNSET
     remittance_id: Union[Unset, str] = UNSET
     credit_note_id: Union[Unset, str] = UNSET
     amount: Union[Unset, float] = UNSET
@@ -53,6 +55,8 @@ class PaymentHistoryEntry:
         by = self.by
 
         by_name = self.by_name
+
+        by_supplier = self.by_supplier
 
         remittance_id = self.remittance_id
 
@@ -79,6 +83,8 @@ class PaymentHistoryEntry:
             field_dict["by"] = by
         if by_name is not UNSET:
             field_dict["byName"] = by_name
+        if by_supplier is not UNSET:
+            field_dict["bySupplier"] = by_supplier
         if remittance_id is not UNSET:
             field_dict["remittanceId"] = remittance_id
         if credit_note_id is not UNSET:
@@ -111,6 +117,8 @@ class PaymentHistoryEntry:
 
         by_name = d.pop("byName", UNSET)
 
+        by_supplier = d.pop("bySupplier", UNSET)
+
         remittance_id = d.pop("remittanceId", UNSET)
 
         credit_note_id = d.pop("creditNoteId", UNSET)
@@ -136,6 +144,7 @@ class PaymentHistoryEntry:
             at=at,
             by=by,
             by_name=by_name,
+            by_supplier=by_supplier,
             remittance_id=remittance_id,
             credit_note_id=credit_note_id,
             amount=amount,

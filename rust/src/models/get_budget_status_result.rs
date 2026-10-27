@@ -23,6 +23,11 @@ pub struct GetBudgetStatusResult {
     pub cost_centers: Option<Vec<models::BudgetStatus>>,
     #[serde(rename = "unassigned", skip_serializing_if = "Option::is_none")]
     pub unassigned: Option<models::SpendFigures>,
+    #[serde(
+        rename = "unassignedByCurrency",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub unassigned_by_currency: Option<Vec<models::GetBudgetStatusResultUnassignedByCurrencyInner>>,
 }
 
 impl GetBudgetStatusResult {
@@ -33,6 +38,7 @@ impl GetBudgetStatusResult {
             currency: None,
             cost_centers: None,
             unassigned: None,
+            unassigned_by_currency: None,
         }
     }
 }

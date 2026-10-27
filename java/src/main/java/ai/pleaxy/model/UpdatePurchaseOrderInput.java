@@ -45,6 +45,8 @@ import ai.pleaxy.client.ApiClient;
   UpdatePurchaseOrderInput.JSON_PROPERTY_GL_CODE,
   UpdatePurchaseOrderInput.JSON_PROPERTY_DELIVERY_ADDRESS_ID,
   UpdatePurchaseOrderInput.JSON_PROPERTY_BUDGET_OWNER,
+  UpdatePurchaseOrderInput.JSON_PROPERTY_BLANKET,
+  UpdatePurchaseOrderInput.JSON_PROPERTY_EXPECTED_MONTHLY,
   UpdatePurchaseOrderInput.JSON_PROPERTY_BUYER_NAME,
   UpdatePurchaseOrderInput.JSON_PROPERTY_NOTES,
   UpdatePurchaseOrderInput.JSON_PROPERTY_CONTRACT_ID,
@@ -84,6 +86,14 @@ public class UpdatePurchaseOrderInput {
   public static final String JSON_PROPERTY_BUDGET_OWNER = "budgetOwner";
   @javax.annotation.Nullable
   private String budgetOwner;
+
+  public static final String JSON_PROPERTY_BLANKET = "blanket";
+  @javax.annotation.Nullable
+  private Boolean blanket;
+
+  public static final String JSON_PROPERTY_EXPECTED_MONTHLY = "expectedMonthly";
+  @javax.annotation.Nullable
+  private Double expectedMonthly;
 
   public static final String JSON_PROPERTY_BUYER_NAME = "buyerName";
   @javax.annotation.Nullable
@@ -310,6 +320,55 @@ public class UpdatePurchaseOrderInput {
   }
 
 
+  public UpdatePurchaseOrderInput blanket(@javax.annotation.Nullable Boolean blanket) {
+    this.blanket = blanket;
+    return this;
+  }
+
+  /**
+   * Mark a draft a blanket order (billed as used, up to its amount), or not. Only while it is a draft.
+   * @return blanket
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BLANKET)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getBlanket() {
+    return blanket;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BLANKET)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBlanket(@javax.annotation.Nullable Boolean blanket) {
+    this.blanket = blanket;
+  }
+
+
+  public UpdatePurchaseOrderInput expectedMonthly(@javax.annotation.Nullable Double expectedMonthly) {
+    this.expectedMonthly = expectedMonthly;
+    return this;
+  }
+
+  /**
+   * A blanket or cloud order&#39;s expected billing each month, in its currency; null takes it off.
+   * minimum: 0
+   * @return expectedMonthly
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EXPECTED_MONTHLY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getExpectedMonthly() {
+    return expectedMonthly;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EXPECTED_MONTHLY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setExpectedMonthly(@javax.annotation.Nullable Double expectedMonthly) {
+    this.expectedMonthly = expectedMonthly;
+  }
+
+
   public UpdatePurchaseOrderInput buyerName(@javax.annotation.Nullable String buyerName) {
     this.buyerName = buyerName;
     return this;
@@ -450,6 +509,8 @@ public class UpdatePurchaseOrderInput {
         Objects.equals(this.glCode, updatePurchaseOrderInput.glCode) &&
         Objects.equals(this.deliveryAddressId, updatePurchaseOrderInput.deliveryAddressId) &&
         Objects.equals(this.budgetOwner, updatePurchaseOrderInput.budgetOwner) &&
+        Objects.equals(this.blanket, updatePurchaseOrderInput.blanket) &&
+        Objects.equals(this.expectedMonthly, updatePurchaseOrderInput.expectedMonthly) &&
         Objects.equals(this.buyerName, updatePurchaseOrderInput.buyerName) &&
         Objects.equals(this.notes, updatePurchaseOrderInput.notes) &&
         Objects.equals(this.contractId, updatePurchaseOrderInput.contractId) &&
@@ -459,7 +520,7 @@ public class UpdatePurchaseOrderInput {
 
   @Override
   public int hashCode() {
-    return Objects.hash(currency, lineItems, billToParty, billTo, costCenter, glCode, deliveryAddressId, budgetOwner, buyerName, notes, contractId, quoteImportId, sowImportId);
+    return Objects.hash(currency, lineItems, billToParty, billTo, costCenter, glCode, deliveryAddressId, budgetOwner, blanket, expectedMonthly, buyerName, notes, contractId, quoteImportId, sowImportId);
   }
 
   @Override
@@ -474,6 +535,8 @@ public class UpdatePurchaseOrderInput {
     sb.append("    glCode: ").append(toIndentedString(glCode)).append("\n");
     sb.append("    deliveryAddressId: ").append(toIndentedString(deliveryAddressId)).append("\n");
     sb.append("    budgetOwner: ").append(toIndentedString(budgetOwner)).append("\n");
+    sb.append("    blanket: ").append(toIndentedString(blanket)).append("\n");
+    sb.append("    expectedMonthly: ").append(toIndentedString(expectedMonthly)).append("\n");
     sb.append("    buyerName: ").append(toIndentedString(buyerName)).append("\n");
     sb.append("    notes: ").append(toIndentedString(notes)).append("\n");
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
@@ -569,6 +632,16 @@ public class UpdatePurchaseOrderInput {
     // add `budgetOwner` to the URL query string
     if (getBudgetOwner() != null) {
       joiner.add(String.format("%sbudgetOwner%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBudgetOwner()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `blanket` to the URL query string
+    if (getBlanket() != null) {
+      joiner.add(String.format("%sblanket%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBlanket()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `expectedMonthly` to the URL query string
+    if (getExpectedMonthly() != null) {
+      joiner.add(String.format("%sexpectedMonthly%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpectedMonthly()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `buyerName` to the URL query string

@@ -38,6 +38,12 @@ module Pleaxy
 
     attr_accessor :budget_owner
 
+    # Mark a draft a blanket order (billed as used, up to its amount), or not. Only while it is a draft.
+    attr_accessor :blanket
+
+    # A blanket or cloud order's expected billing each month, in its currency; null takes it off.
+    attr_accessor :expected_monthly
+
     attr_accessor :buyer_name
 
     attr_accessor :notes
@@ -62,6 +68,8 @@ module Pleaxy
         :'gl_code' => :'glCode',
         :'delivery_address_id' => :'deliveryAddressId',
         :'budget_owner' => :'budgetOwner',
+        :'blanket' => :'blanket',
+        :'expected_monthly' => :'expectedMonthly',
         :'buyer_name' => :'buyerName',
         :'notes' => :'notes',
         :'contract_id' => :'contractId',
@@ -86,6 +94,8 @@ module Pleaxy
         :'gl_code' => :'String',
         :'delivery_address_id' => :'String',
         :'budget_owner' => :'String',
+        :'blanket' => :'Boolean',
+        :'expected_monthly' => :'Float',
         :'buyer_name' => :'String',
         :'notes' => :'String',
         :'contract_id' => :'String',
@@ -98,6 +108,7 @@ module Pleaxy
     def self.openapi_nullable
       Set.new([
         :'bill_to_party',
+        :'expected_monthly',
         :'contract_id',
         :'quote_import_id',
         :'sow_import_id'
@@ -153,6 +164,14 @@ module Pleaxy
         self.budget_owner = attributes[:'budget_owner']
       end
 
+      if attributes.key?(:'blanket')
+        self.blanket = attributes[:'blanket']
+      end
+
+      if attributes.key?(:'expected_monthly')
+        self.expected_monthly = attributes[:'expected_monthly']
+      end
+
       if attributes.key?(:'buyer_name')
         self.buyer_name = attributes[:'buyer_name']
       end
@@ -195,6 +214,10 @@ module Pleaxy
         invalid_properties.push('invalid value for "delivery_address_id", the character length must be smaller than or equal to 64.')
       end
 
+      if !@expected_monthly.nil? && @expected_monthly < 0
+        invalid_properties.push('invalid value for "expected_monthly", must be greater than or equal to 0.')
+      end
+
       if !@contract_id.nil? && @contract_id.to_s.length > 60
         invalid_properties.push('invalid value for "contract_id", the character length must be smaller than or equal to 60.')
       end
@@ -218,6 +241,7 @@ module Pleaxy
       return false if !@cost_center.nil? && @cost_center.to_s.length > 200
       return false if !@gl_code.nil? && @gl_code.to_s.length > 40
       return false if !@delivery_address_id.nil? && @delivery_address_id.to_s.length > 64
+      return false if !@expected_monthly.nil? && @expected_monthly < 0
       return false if !@contract_id.nil? && @contract_id.to_s.length > 60
       return false if !@quote_import_id.nil? && @quote_import_id.to_s.length > 20
       return false if !@sow_import_id.nil? && @sow_import_id.to_s.length > 20
@@ -281,6 +305,16 @@ module Pleaxy
     end
 
     # Custom attribute writer method with validation
+    # @param [Object] expected_monthly Value to be assigned
+    def expected_monthly=(expected_monthly)
+      if !expected_monthly.nil? && expected_monthly < 0
+        fail ArgumentError, 'invalid value for "expected_monthly", must be greater than or equal to 0.'
+      end
+
+      @expected_monthly = expected_monthly
+    end
+
+    # Custom attribute writer method with validation
     # @param [Object] contract_id Value to be assigned
     def contract_id=(contract_id)
       if !contract_id.nil? && contract_id.to_s.length > 60
@@ -323,6 +357,8 @@ module Pleaxy
           gl_code == o.gl_code &&
           delivery_address_id == o.delivery_address_id &&
           budget_owner == o.budget_owner &&
+          blanket == o.blanket &&
+          expected_monthly == o.expected_monthly &&
           buyer_name == o.buyer_name &&
           notes == o.notes &&
           contract_id == o.contract_id &&
@@ -339,7 +375,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [currency, line_items, bill_to_party, bill_to, cost_center, gl_code, delivery_address_id, budget_owner, buyer_name, notes, contract_id, quote_import_id, sow_import_id].hash
+      [currency, line_items, bill_to_party, bill_to, cost_center, gl_code, delivery_address_id, budget_owner, blanket, expected_monthly, buyer_name, notes, contract_id, quote_import_id, sow_import_id].hash
     end
 
     # Builds the object from hash

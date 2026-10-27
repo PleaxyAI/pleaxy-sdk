@@ -54,6 +54,10 @@ pub struct ListInvoicesItemSupplierInvoice {
     pub party_details: Option<models::InvoiceBuyerViewPartyDetails>,
     #[serde(rename = "matchStatus", skip_serializing_if = "Option::is_none")]
     pub match_status: Option<MatchStatus>,
+    #[serde(rename = "noPoComparison", skip_serializing_if = "Option::is_none")]
+    pub no_po_comparison: Option<models::NoPoComparison>,
+    #[serde(rename = "paymentRoute", skip_serializing_if = "Option::is_none")]
+    pub payment_route: Option<PaymentRoute>,
     #[serde(rename = "paid", skip_serializing_if = "Option::is_none")]
     pub paid: Option<bool>,
     #[serde(rename = "dueInDays", skip_serializing_if = "Option::is_none")]
@@ -141,6 +145,10 @@ pub struct ListInvoicesItemSupplierInvoice {
     pub source_document: Option<models::InvoiceSourceDocument>,
     #[serde(rename = "hasOriginalPdf", skip_serializing_if = "Option::is_none")]
     pub has_original_pdf: Option<bool>,
+    #[serde(rename = "settlement", skip_serializing_if = "Option::is_none")]
+    pub settlement: Option<models::SupplierSettlementView>,
+    #[serde(rename = "paymentProblem", skip_serializing_if = "Option::is_none")]
+    pub payment_problem: Option<models::SupplierPaymentProblemView>,
     #[serde(
         rename = "bankDetailsConfirmation",
         skip_serializing_if = "Option::is_none"
@@ -184,6 +192,8 @@ impl ListInvoicesItemSupplierInvoice {
             bills_no_po_line: None,
             party_details: None,
             match_status: None,
+            no_po_comparison: None,
+            payment_route: None,
             paid: None,
             due_in_days: None,
             due_date: None,
@@ -220,6 +230,8 @@ impl ListInvoicesItemSupplierInvoice {
             remittance_instructions: None,
             source_document: None,
             has_original_pdf: None,
+            settlement: None,
+            payment_problem: None,
             bank_details_confirmation: None,
             base_currency_amount: None,
             approval: None,
@@ -247,6 +259,20 @@ pub enum MatchStatus {
 impl Default for MatchStatus {
     fn default() -> MatchStatus {
         Self::Pending
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum PaymentRoute {
+    #[serde(rename = "pleaxy")]
+    Pleaxy,
+    #[serde(rename = "erp")]
+    Erp,
+}
+
+impl Default for PaymentRoute {
+    fn default() -> PaymentRoute {
+        Self::Pleaxy
     }
 }
 ///

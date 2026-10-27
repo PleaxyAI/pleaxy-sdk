@@ -100,7 +100,7 @@ func (c *Client) CancelPurchaseRequest(ctx context.Context, requestId string) (*
 	return resp.JSON200, nil
 }
 
-// CheckBudget - [Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or off. Writes nothing.
+// CheckBudget - [Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount's currency: within, over, no_budget or off. Writes nothing.
 func (c *Client) CheckBudget(ctx context.Context, body CheckBudgetJSONRequestBody) (*BudgetCheck, error) {
 	resp, err := c.api.CheckBudgetWithResponse(ctx, body)
 	if err != nil {
@@ -541,6 +541,18 @@ func (c *Client) GetPurchaseRequest(ctx context.Context, requestId string) (*Pur
 	return resp.JSON200, nil
 }
 
+// GetPurchaseRequestFile - [Buyer] A short-lived link to a file answering one of the request's questions, for whoever may see the request
+func (c *Client) GetPurchaseRequestFile(ctx context.Context, requestId string, fileId string) (*GetPurchaseRequestFileResult, error) {
+	resp, err := c.api.GetPurchaseRequestFileWithResponse(ctx, requestId, fileId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // GetReferenceRate - [Buyer, Supplier] The reference rate for 1 `from` in `to` on `date` (YYYY-MM-DD, default today), or the latest of the 3 days before it. Returns `{ reference }`, absent when there's no rate. A suggestion for the New invoice form only; the invoice records whatever rate is submitted. Signed-in session only. Rates By Exchange Rate API.
 func (c *Client) GetReferenceRate(ctx context.Context, params *GetReferenceRateParams) (*GetReferenceRateResult, error) {
 	resp, err := c.api.GetReferenceRateWithResponse(ctx, params)
@@ -575,6 +587,18 @@ func (c *Client) GetRemittanceAdvice(ctx context.Context, invoiceId string, para
 		return nil, err
 	}
 	return resp.Body, nil
+}
+
+// GetRequestType - [Buyer] One request type, active or not, with its intake form
+func (c *Client) GetRequestType(ctx context.Context, typeId string) (*RequestType, error) {
+	resp, err := c.api.GetRequestTypeWithResponse(ctx, typeId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
 }
 
 // GetStripePayment - [Buyer] Whether this invoice can be paid through Pleaxy with Stripe: { available, reason?, state?, paymentMethodType?, quote? }. `quote` is { amount, fee, total, currency } in dollars: the buyer covers Stripe's bank-transfer fee (0.8%, capped at $5) so the supplier receives the full invoice amount. `reason` explains why not (not_configured, not_approved, payment_locked, supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). `state` is the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded.
@@ -769,6 +793,18 @@ func (c *Client) ListPurchaseRequests(ctx context.Context, params *ListPurchaseR
 	return resp.JSON200, nil
 }
 
+// ListRequestTypes - [Buyer] The workspace's request types in picker order, each with its intake form; active ones unless includeInactive=true
+func (c *Client) ListRequestTypes(ctx context.Context, params *ListRequestTypesParams) (*[]RequestType, error) {
+	resp, err := c.api.ListRequestTypesWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // ListSyncEvents - [Both] What changed, oldest first, to keep another system in step: { events: [{ id, at, type, documentType, documentId, buyerWorkspaceId? }], nextCursor, hasMore }. A supplier gets purchase_order.issued|changed|canceled|rejected, invoice.received|approved|rejected|paid|payment_withdrawn|remittance_sent|credit_applied, invoice.updated (the buyer holds the invoice for review, or the hold is over: GetInvoiceStatus says which) and credit_note.accepted|rejected; a buyer gets invoice.received and credit_note.received (a supplier sent one), invoice.updated (an approval step approved it, including an automatic approval, it was rejected, or its supplier confirmed bank details or reported it), invoice.payment (a payment was recorded or withdrawn, credit or a zero amount settled it, or a payment through Pleaxy succeeded, failed or was released: read GetInvoiceRemittance), purchase_order.updated (approved, rejected or canceled), and purchase_order.confirmed / purchase_order.shipped (the supplier confirmed or shipped against it: read GetPurchaseOrderFulfillment). An event names the document only: read it with GetPurchaseOrder, GetPurchaseOrderDocument, GetInvoiceStatus or GetInvoiceRemittance (pass buyerWorkspaceId as ?buyer=). Pass nextCursor back as ?after= on the next call; call again at once while hasMore is true. ?limit= 1-500 (default 100). Events are kept 30 days and delivered at least once; the newest 5 seconds wait for the next call. A buyer sees only the document types its procurement role can view.
 func (c *Client) ListSyncEvents(ctx context.Context, params *ListSyncEventsParams) (*SyncEventPage, error) {
 	resp, err := c.api.ListSyncEventsWithResponse(ctx, params)
@@ -937,6 +973,18 @@ func (c *Client) RemindInvoice(ctx context.Context, invoiceId string, params *Re
 // RemoveInvoiceReplacementLink - [Buyer] Undo a replacement link entered wrongly (credit notes spec §20), on both invoices. The rejected invoice an invoice corrects on its purchase order stays linked.
 func (c *Client) RemoveInvoiceReplacementLink(ctx context.Context, invoiceId string, originalId string) (*RemoveInvoiceReplacementLinkResult, error) {
 	resp, err := c.api.RemoveInvoiceReplacementLinkWithResponse(ctx, invoiceId, originalId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// RequestPurchaseRequestFileUpload - [Buyer] A presigned URL to upload the answer to a request form's 'file' question (PDF, image, Word, Excel, CSV or text, up to 25 MB). PUT the file there, then save the answer with the returned fileId. Any workspace member, before or after the request exists.
+func (c *Client) RequestPurchaseRequestFileUpload(ctx context.Context, body RequestPurchaseRequestFileUploadJSONRequestBody) (*RequestPurchaseRequestFileUploadResult, error) {
+	resp, err := c.api.RequestPurchaseRequestFileUploadWithResponse(ctx, body)
 	if err != nil {
 		return nil, err
 	}

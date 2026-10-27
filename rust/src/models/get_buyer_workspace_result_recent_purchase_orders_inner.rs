@@ -64,6 +64,10 @@ pub struct GetBuyerWorkspaceResultRecentPurchaseOrdersInner {
     pub cost_center_changes: Option<Vec<models::PurchaseOrderCostCenterChange>>,
     #[serde(rename = "glCode", skip_serializing_if = "Option::is_none")]
     pub gl_code: Option<String>,
+    #[serde(rename = "blanket", skip_serializing_if = "Option::is_none")]
+    pub blanket: Option<bool>,
+    #[serde(rename = "expectedMonthly", skip_serializing_if = "Option::is_none")]
+    pub expected_monthly: Option<f64>,
     #[serde(rename = "submittedAt", skip_serializing_if = "Option::is_none")]
     pub submitted_at: Option<String>,
     #[serde(rename = "budgetCheck", skip_serializing_if = "Option::is_none")]
@@ -194,6 +198,8 @@ impl GetBuyerWorkspaceResultRecentPurchaseOrdersInner {
             cost_center: None,
             cost_center_changes: None,
             gl_code: None,
+            blanket: None,
+            expected_monthly: None,
             submitted_at: None,
             budget_check: None,
             request_id: None,

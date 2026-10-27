@@ -32,10 +32,13 @@ import ai.pleaxy.model.InvoiceRejection;
 import ai.pleaxy.model.InvoiceSourceDocument;
 import ai.pleaxy.model.InvoiceSupplierViewPayment;
 import ai.pleaxy.model.LateFeeTerms;
+import ai.pleaxy.model.NoPoComparison;
 import ai.pleaxy.model.RemittanceInstructions;
 import ai.pleaxy.model.SupplierApprovalView;
 import ai.pleaxy.model.SupplierBankDetailsConfirmationView;
+import ai.pleaxy.model.SupplierPaymentProblemView;
 import ai.pleaxy.model.SupplierRemittanceView;
+import ai.pleaxy.model.SupplierSettlementView;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -71,6 +74,8 @@ import ai.pleaxy.client.ApiClient;
   InvoiceSupplierView.JSON_PROPERTY_BILLS_NO_PO_LINE,
   InvoiceSupplierView.JSON_PROPERTY_PARTY_DETAILS,
   InvoiceSupplierView.JSON_PROPERTY_MATCH_STATUS,
+  InvoiceSupplierView.JSON_PROPERTY_NO_PO_COMPARISON,
+  InvoiceSupplierView.JSON_PROPERTY_PAYMENT_ROUTE,
   InvoiceSupplierView.JSON_PROPERTY_PAID,
   InvoiceSupplierView.JSON_PROPERTY_DUE_IN_DAYS,
   InvoiceSupplierView.JSON_PROPERTY_DUE_DATE,
@@ -107,6 +112,8 @@ import ai.pleaxy.client.ApiClient;
   InvoiceSupplierView.JSON_PROPERTY_REMITTANCE_INSTRUCTIONS,
   InvoiceSupplierView.JSON_PROPERTY_SOURCE_DOCUMENT,
   InvoiceSupplierView.JSON_PROPERTY_HAS_ORIGINAL_PDF,
+  InvoiceSupplierView.JSON_PROPERTY_SETTLEMENT,
+  InvoiceSupplierView.JSON_PROPERTY_PAYMENT_PROBLEM,
   InvoiceSupplierView.JSON_PROPERTY_BANK_DETAILS_CONFIRMATION,
   InvoiceSupplierView.JSON_PROPERTY_BASE_CURRENCY_AMOUNT,
   InvoiceSupplierView.JSON_PROPERTY_APPROVAL,
@@ -232,6 +239,49 @@ public class InvoiceSupplierView {
   public static final String JSON_PROPERTY_MATCH_STATUS = "matchStatus";
   @javax.annotation.Nullable
   private MatchStatusEnum matchStatus;
+
+  public static final String JSON_PROPERTY_NO_PO_COMPARISON = "noPoComparison";
+  @javax.annotation.Nullable
+  private NoPoComparison noPoComparison;
+
+  /**
+   * Gets or Sets paymentRoute
+   */
+  public enum PaymentRouteEnum {
+    PLEAXY(String.valueOf("pleaxy")),
+    
+    ERP(String.valueOf("erp"));
+
+    private String value;
+
+    PaymentRouteEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static PaymentRouteEnum fromValue(String value) {
+      for (PaymentRouteEnum b : PaymentRouteEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_PAYMENT_ROUTE = "paymentRoute";
+  @javax.annotation.Nullable
+  private PaymentRouteEnum paymentRoute;
 
   public static final String JSON_PROPERTY_PAID = "paid";
   @javax.annotation.Nullable
@@ -588,6 +638,14 @@ public class InvoiceSupplierView {
   public static final String JSON_PROPERTY_HAS_ORIGINAL_PDF = "hasOriginalPdf";
   @javax.annotation.Nullable
   private Boolean hasOriginalPdf;
+
+  public static final String JSON_PROPERTY_SETTLEMENT = "settlement";
+  @javax.annotation.Nullable
+  private SupplierSettlementView settlement;
+
+  public static final String JSON_PROPERTY_PAYMENT_PROBLEM = "paymentProblem";
+  @javax.annotation.Nullable
+  private SupplierPaymentProblemView paymentProblem;
 
   public static final String JSON_PROPERTY_BANK_DETAILS_CONFIRMATION = "bankDetailsConfirmation";
   @javax.annotation.Nullable
@@ -1085,6 +1143,54 @@ public class InvoiceSupplierView {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMatchStatus(@javax.annotation.Nullable MatchStatusEnum matchStatus) {
     this.matchStatus = matchStatus;
+  }
+
+
+  public InvoiceSupplierView noPoComparison(@javax.annotation.Nullable NoPoComparison noPoComparison) {
+    this.noPoComparison = noPoComparison;
+    return this;
+  }
+
+  /**
+   * Get noPoComparison
+   * @return noPoComparison
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_NO_PO_COMPARISON)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public NoPoComparison getNoPoComparison() {
+    return noPoComparison;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_NO_PO_COMPARISON)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setNoPoComparison(@javax.annotation.Nullable NoPoComparison noPoComparison) {
+    this.noPoComparison = noPoComparison;
+  }
+
+
+  public InvoiceSupplierView paymentRoute(@javax.annotation.Nullable PaymentRouteEnum paymentRoute) {
+    this.paymentRoute = paymentRoute;
+    return this;
+  }
+
+  /**
+   * Get paymentRoute
+   * @return paymentRoute
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PAYMENT_ROUTE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PaymentRouteEnum getPaymentRoute() {
+    return paymentRoute;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PAYMENT_ROUTE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaymentRoute(@javax.annotation.Nullable PaymentRouteEnum paymentRoute) {
+    this.paymentRoute = paymentRoute;
   }
 
 
@@ -2032,6 +2138,54 @@ public class InvoiceSupplierView {
   }
 
 
+  public InvoiceSupplierView settlement(@javax.annotation.Nullable SupplierSettlementView settlement) {
+    this.settlement = settlement;
+    return this;
+  }
+
+  /**
+   * Get settlement
+   * @return settlement
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SETTLEMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SupplierSettlementView getSettlement() {
+    return settlement;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SETTLEMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSettlement(@javax.annotation.Nullable SupplierSettlementView settlement) {
+    this.settlement = settlement;
+  }
+
+
+  public InvoiceSupplierView paymentProblem(@javax.annotation.Nullable SupplierPaymentProblemView paymentProblem) {
+    this.paymentProblem = paymentProblem;
+    return this;
+  }
+
+  /**
+   * Get paymentProblem
+   * @return paymentProblem
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PAYMENT_PROBLEM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SupplierPaymentProblemView getPaymentProblem() {
+    return paymentProblem;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PAYMENT_PROBLEM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaymentProblem(@javax.annotation.Nullable SupplierPaymentProblemView paymentProblem) {
+    this.paymentProblem = paymentProblem;
+  }
+
+
   public InvoiceSupplierView bankDetailsConfirmation(@javax.annotation.Nullable SupplierBankDetailsConfirmationView bankDetailsConfirmation) {
     this.bankDetailsConfirmation = bankDetailsConfirmation;
     return this;
@@ -2263,6 +2417,8 @@ public class InvoiceSupplierView {
         Objects.equals(this.billsNoPoLine, invoiceSupplierView.billsNoPoLine) &&
         Objects.equals(this.partyDetails, invoiceSupplierView.partyDetails) &&
         Objects.equals(this.matchStatus, invoiceSupplierView.matchStatus) &&
+        Objects.equals(this.noPoComparison, invoiceSupplierView.noPoComparison) &&
+        Objects.equals(this.paymentRoute, invoiceSupplierView.paymentRoute) &&
         Objects.equals(this.paid, invoiceSupplierView.paid) &&
         Objects.equals(this.dueInDays, invoiceSupplierView.dueInDays) &&
         Objects.equals(this.dueDate, invoiceSupplierView.dueDate) &&
@@ -2299,6 +2455,8 @@ public class InvoiceSupplierView {
         Objects.equals(this.remittanceInstructions, invoiceSupplierView.remittanceInstructions) &&
         Objects.equals(this.sourceDocument, invoiceSupplierView.sourceDocument) &&
         Objects.equals(this.hasOriginalPdf, invoiceSupplierView.hasOriginalPdf) &&
+        Objects.equals(this.settlement, invoiceSupplierView.settlement) &&
+        Objects.equals(this.paymentProblem, invoiceSupplierView.paymentProblem) &&
         Objects.equals(this.bankDetailsConfirmation, invoiceSupplierView.bankDetailsConfirmation) &&
         Objects.equals(this.baseCurrencyAmount, invoiceSupplierView.baseCurrencyAmount) &&
         Objects.equals(this.approval, invoiceSupplierView.approval) &&
@@ -2311,7 +2469,7 @@ public class InvoiceSupplierView {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, paid, dueInDays, dueDate, paidAt, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, sourceDocument, hasOriginalPdf, bankDetailsConfirmation, baseCurrencyAmount, approval, payment, withdrawnPayment, remittances, buyerWorkspaceId, nextReminderAt);
+    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, noPoComparison, paymentRoute, paid, dueInDays, dueDate, paidAt, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, sourceDocument, hasOriginalPdf, settlement, paymentProblem, bankDetailsConfirmation, baseCurrencyAmount, approval, payment, withdrawnPayment, remittances, buyerWorkspaceId, nextReminderAt);
   }
 
   @Override
@@ -2337,6 +2495,8 @@ public class InvoiceSupplierView {
     sb.append("    billsNoPoLine: ").append(toIndentedString(billsNoPoLine)).append("\n");
     sb.append("    partyDetails: ").append(toIndentedString(partyDetails)).append("\n");
     sb.append("    matchStatus: ").append(toIndentedString(matchStatus)).append("\n");
+    sb.append("    noPoComparison: ").append(toIndentedString(noPoComparison)).append("\n");
+    sb.append("    paymentRoute: ").append(toIndentedString(paymentRoute)).append("\n");
     sb.append("    paid: ").append(toIndentedString(paid)).append("\n");
     sb.append("    dueInDays: ").append(toIndentedString(dueInDays)).append("\n");
     sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
@@ -2373,6 +2533,8 @@ public class InvoiceSupplierView {
     sb.append("    remittanceInstructions: ").append(toIndentedString(remittanceInstructions)).append("\n");
     sb.append("    sourceDocument: ").append(toIndentedString(sourceDocument)).append("\n");
     sb.append("    hasOriginalPdf: ").append(toIndentedString(hasOriginalPdf)).append("\n");
+    sb.append("    settlement: ").append(toIndentedString(settlement)).append("\n");
+    sb.append("    paymentProblem: ").append(toIndentedString(paymentProblem)).append("\n");
     sb.append("    bankDetailsConfirmation: ").append(toIndentedString(bankDetailsConfirmation)).append("\n");
     sb.append("    baseCurrencyAmount: ").append(toIndentedString(baseCurrencyAmount)).append("\n");
     sb.append("    approval: ").append(toIndentedString(approval)).append("\n");
@@ -2526,6 +2688,16 @@ public class InvoiceSupplierView {
     // add `matchStatus` to the URL query string
     if (getMatchStatus() != null) {
       joiner.add(String.format("%smatchStatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMatchStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `noPoComparison` to the URL query string
+    if (getNoPoComparison() != null) {
+      joiner.add(getNoPoComparison().toUrlQueryString(prefix + "noPoComparison" + suffix));
+    }
+
+    // add `paymentRoute` to the URL query string
+    if (getPaymentRoute() != null) {
+      joiner.add(String.format("%spaymentRoute%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPaymentRoute()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `paid` to the URL query string
@@ -2752,6 +2924,16 @@ public class InvoiceSupplierView {
     // add `hasOriginalPdf` to the URL query string
     if (getHasOriginalPdf() != null) {
       joiner.add(String.format("%shasOriginalPdf%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHasOriginalPdf()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `settlement` to the URL query string
+    if (getSettlement() != null) {
+      joiner.add(getSettlement().toUrlQueryString(prefix + "settlement" + suffix));
+    }
+
+    // add `paymentProblem` to the URL query string
+    if (getPaymentProblem() != null) {
+      joiner.add(getPaymentProblem().toUrlQueryString(prefix + "paymentProblem" + suffix));
     }
 
     // add `bankDetailsConfirmation` to the URL query string

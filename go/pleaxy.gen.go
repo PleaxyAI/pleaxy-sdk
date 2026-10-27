@@ -43,9 +43,10 @@ const (
 
 // Defines values for AddInvoiceReplacementLinksResultDiscrepancyReason.
 const (
-	AddInvoiceReplacementLinksResultDiscrepancyReasonAmount   AddInvoiceReplacementLinksResultDiscrepancyReason = "amount"
-	AddInvoiceReplacementLinksResultDiscrepancyReasonControls AddInvoiceReplacementLinksResultDiscrepancyReason = "controls"
-	AddInvoiceReplacementLinksResultDiscrepancyReasonCurrency AddInvoiceReplacementLinksResultDiscrepancyReason = "currency"
+	AddInvoiceReplacementLinksResultDiscrepancyReasonAmount       AddInvoiceReplacementLinksResultDiscrepancyReason = "amount"
+	AddInvoiceReplacementLinksResultDiscrepancyReasonControls     AddInvoiceReplacementLinksResultDiscrepancyReason = "controls"
+	AddInvoiceReplacementLinksResultDiscrepancyReasonCurrency     AddInvoiceReplacementLinksResultDiscrepancyReason = "currency"
+	AddInvoiceReplacementLinksResultDiscrepancyReasonNoPoVariance AddInvoiceReplacementLinksResultDiscrepancyReason = "no_po_variance"
 )
 
 // Defines values for AddInvoiceReplacementLinksResultDocumentType.
@@ -73,6 +74,7 @@ const (
 
 // Defines values for AddInvoiceReplacementLinksResultMatchBasis.
 const (
+	AddInvoiceReplacementLinksResultMatchBasisNoPoHistory   AddInvoiceReplacementLinksResultMatchBasis = "no_po_history"
 	AddInvoiceReplacementLinksResultMatchBasisPurchaseOrder AddInvoiceReplacementLinksResultMatchBasis = "purchase_order"
 )
 
@@ -89,6 +91,12 @@ const (
 	AddInvoiceReplacementLinksResultMatchTypeThreeWay AddInvoiceReplacementLinksResultMatchType = "three_way"
 	AddInvoiceReplacementLinksResultMatchTypeTwoWay   AddInvoiceReplacementLinksResultMatchType = "two_way"
 	AddInvoiceReplacementLinksResultMatchTypeUsage    AddInvoiceReplacementLinksResultMatchType = "usage"
+)
+
+// Defines values for AddInvoiceReplacementLinksResultPaymentRoute.
+const (
+	AddInvoiceReplacementLinksResultPaymentRouteErp    AddInvoiceReplacementLinksResultPaymentRoute = "erp"
+	AddInvoiceReplacementLinksResultPaymentRoutePleaxy AddInvoiceReplacementLinksResultPaymentRoute = "pleaxy"
 )
 
 // Defines values for AddInvoiceReplacementLinksResultReceiptCheckSkippedReason.
@@ -115,6 +123,7 @@ const (
 const (
 	AddInvoiceReplacementLinksResultUnverifiedReasonDebitNote           AddInvoiceReplacementLinksResultUnverifiedReason = "debit_note"
 	AddInvoiceReplacementLinksResultUnverifiedReasonNoBillingConnection AddInvoiceReplacementLinksResultUnverifiedReason = "no_billing_connection"
+	AddInvoiceReplacementLinksResultUnverifiedReasonNoPoFirstInvoice    AddInvoiceReplacementLinksResultUnverifiedReason = "no_po_first_invoice"
 	AddInvoiceReplacementLinksResultUnverifiedReasonNoPurchaseOrder     AddInvoiceReplacementLinksResultUnverifiedReason = "no_purchase_order"
 	AddInvoiceReplacementLinksResultUnverifiedReasonPayerAccountUnclear AddInvoiceReplacementLinksResultUnverifiedReason = "payer_account_unclear"
 )
@@ -786,9 +795,10 @@ const (
 
 // Defines values for CreateInvoiceResultBuyerInvoiceDiscrepancyReason.
 const (
-	CreateInvoiceResultBuyerInvoiceDiscrepancyReasonAmount   CreateInvoiceResultBuyerInvoiceDiscrepancyReason = "amount"
-	CreateInvoiceResultBuyerInvoiceDiscrepancyReasonControls CreateInvoiceResultBuyerInvoiceDiscrepancyReason = "controls"
-	CreateInvoiceResultBuyerInvoiceDiscrepancyReasonCurrency CreateInvoiceResultBuyerInvoiceDiscrepancyReason = "currency"
+	CreateInvoiceResultBuyerInvoiceDiscrepancyReasonAmount       CreateInvoiceResultBuyerInvoiceDiscrepancyReason = "amount"
+	CreateInvoiceResultBuyerInvoiceDiscrepancyReasonControls     CreateInvoiceResultBuyerInvoiceDiscrepancyReason = "controls"
+	CreateInvoiceResultBuyerInvoiceDiscrepancyReasonCurrency     CreateInvoiceResultBuyerInvoiceDiscrepancyReason = "currency"
+	CreateInvoiceResultBuyerInvoiceDiscrepancyReasonNoPoVariance CreateInvoiceResultBuyerInvoiceDiscrepancyReason = "no_po_variance"
 )
 
 // Defines values for CreateInvoiceResultBuyerInvoiceDocumentType.
@@ -816,6 +826,7 @@ const (
 
 // Defines values for CreateInvoiceResultBuyerInvoiceMatchBasis.
 const (
+	CreateInvoiceResultBuyerInvoiceMatchBasisNoPoHistory   CreateInvoiceResultBuyerInvoiceMatchBasis = "no_po_history"
 	CreateInvoiceResultBuyerInvoiceMatchBasisPurchaseOrder CreateInvoiceResultBuyerInvoiceMatchBasis = "purchase_order"
 )
 
@@ -832,6 +843,12 @@ const (
 	CreateInvoiceResultBuyerInvoiceMatchTypeThreeWay CreateInvoiceResultBuyerInvoiceMatchType = "three_way"
 	CreateInvoiceResultBuyerInvoiceMatchTypeTwoWay   CreateInvoiceResultBuyerInvoiceMatchType = "two_way"
 	CreateInvoiceResultBuyerInvoiceMatchTypeUsage    CreateInvoiceResultBuyerInvoiceMatchType = "usage"
+)
+
+// Defines values for CreateInvoiceResultBuyerInvoicePaymentRoute.
+const (
+	CreateInvoiceResultBuyerInvoicePaymentRouteErp    CreateInvoiceResultBuyerInvoicePaymentRoute = "erp"
+	CreateInvoiceResultBuyerInvoicePaymentRoutePleaxy CreateInvoiceResultBuyerInvoicePaymentRoute = "pleaxy"
 )
 
 // Defines values for CreateInvoiceResultBuyerInvoiceReceiptCheckSkippedReason.
@@ -858,6 +875,7 @@ const (
 const (
 	CreateInvoiceResultBuyerInvoiceUnverifiedReasonDebitNote           CreateInvoiceResultBuyerInvoiceUnverifiedReason = "debit_note"
 	CreateInvoiceResultBuyerInvoiceUnverifiedReasonNoBillingConnection CreateInvoiceResultBuyerInvoiceUnverifiedReason = "no_billing_connection"
+	CreateInvoiceResultBuyerInvoiceUnverifiedReasonNoPoFirstInvoice    CreateInvoiceResultBuyerInvoiceUnverifiedReason = "no_po_first_invoice"
 	CreateInvoiceResultBuyerInvoiceUnverifiedReasonNoPurchaseOrder     CreateInvoiceResultBuyerInvoiceUnverifiedReason = "no_purchase_order"
 	CreateInvoiceResultBuyerInvoiceUnverifiedReasonPayerAccountUnclear CreateInvoiceResultBuyerInvoiceUnverifiedReason = "payer_account_unclear"
 )
@@ -1012,6 +1030,12 @@ const (
 // Defines values for CreateInvoiceResultSupplierInvoicePayment1Status.
 const (
 	CreateInvoiceResultSupplierInvoicePayment1StatusStripe CreateInvoiceResultSupplierInvoicePayment1Status = "stripe"
+)
+
+// Defines values for CreateInvoiceResultSupplierInvoicePaymentRoute.
+const (
+	CreateInvoiceResultSupplierInvoicePaymentRouteErp    CreateInvoiceResultSupplierInvoicePaymentRoute = "erp"
+	CreateInvoiceResultSupplierInvoicePaymentRoutePleaxy CreateInvoiceResultSupplierInvoicePaymentRoute = "pleaxy"
 )
 
 // Defines values for CreateInvoiceResultSupplierInvoiceSource.
@@ -1257,6 +1281,12 @@ const (
 	FeedValidationResultInvoicePayment1StatusStripe FeedValidationResultInvoicePayment1Status = "stripe"
 )
 
+// Defines values for FeedValidationResultInvoicePaymentRoute.
+const (
+	FeedValidationResultInvoicePaymentRouteErp    FeedValidationResultInvoicePaymentRoute = "erp"
+	FeedValidationResultInvoicePaymentRoutePleaxy FeedValidationResultInvoicePaymentRoute = "pleaxy"
+)
+
 // Defines values for FeedValidationResultInvoiceSubmittedFormat.
 const (
 	FeedValidationResultInvoiceSubmittedFormatCxml FeedValidationResultInvoiceSubmittedFormat = "cxml"
@@ -1405,9 +1435,10 @@ const (
 
 // Defines values for GetInvoiceResultBuyerInvoiceDiscrepancyReason.
 const (
-	GetInvoiceResultBuyerInvoiceDiscrepancyReasonAmount   GetInvoiceResultBuyerInvoiceDiscrepancyReason = "amount"
-	GetInvoiceResultBuyerInvoiceDiscrepancyReasonControls GetInvoiceResultBuyerInvoiceDiscrepancyReason = "controls"
-	GetInvoiceResultBuyerInvoiceDiscrepancyReasonCurrency GetInvoiceResultBuyerInvoiceDiscrepancyReason = "currency"
+	GetInvoiceResultBuyerInvoiceDiscrepancyReasonAmount       GetInvoiceResultBuyerInvoiceDiscrepancyReason = "amount"
+	GetInvoiceResultBuyerInvoiceDiscrepancyReasonControls     GetInvoiceResultBuyerInvoiceDiscrepancyReason = "controls"
+	GetInvoiceResultBuyerInvoiceDiscrepancyReasonCurrency     GetInvoiceResultBuyerInvoiceDiscrepancyReason = "currency"
+	GetInvoiceResultBuyerInvoiceDiscrepancyReasonNoPoVariance GetInvoiceResultBuyerInvoiceDiscrepancyReason = "no_po_variance"
 )
 
 // Defines values for GetInvoiceResultBuyerInvoiceDocumentType.
@@ -1435,6 +1466,7 @@ const (
 
 // Defines values for GetInvoiceResultBuyerInvoiceMatchBasis.
 const (
+	GetInvoiceResultBuyerInvoiceMatchBasisNoPoHistory   GetInvoiceResultBuyerInvoiceMatchBasis = "no_po_history"
 	GetInvoiceResultBuyerInvoiceMatchBasisPurchaseOrder GetInvoiceResultBuyerInvoiceMatchBasis = "purchase_order"
 )
 
@@ -1451,6 +1483,12 @@ const (
 	GetInvoiceResultBuyerInvoiceMatchTypeThreeWay GetInvoiceResultBuyerInvoiceMatchType = "three_way"
 	GetInvoiceResultBuyerInvoiceMatchTypeTwoWay   GetInvoiceResultBuyerInvoiceMatchType = "two_way"
 	GetInvoiceResultBuyerInvoiceMatchTypeUsage    GetInvoiceResultBuyerInvoiceMatchType = "usage"
+)
+
+// Defines values for GetInvoiceResultBuyerInvoicePaymentRoute.
+const (
+	GetInvoiceResultBuyerInvoicePaymentRouteErp    GetInvoiceResultBuyerInvoicePaymentRoute = "erp"
+	GetInvoiceResultBuyerInvoicePaymentRoutePleaxy GetInvoiceResultBuyerInvoicePaymentRoute = "pleaxy"
 )
 
 // Defines values for GetInvoiceResultBuyerInvoiceReceiptCheckSkippedReason.
@@ -1477,6 +1515,7 @@ const (
 const (
 	GetInvoiceResultBuyerInvoiceUnverifiedReasonDebitNote           GetInvoiceResultBuyerInvoiceUnverifiedReason = "debit_note"
 	GetInvoiceResultBuyerInvoiceUnverifiedReasonNoBillingConnection GetInvoiceResultBuyerInvoiceUnverifiedReason = "no_billing_connection"
+	GetInvoiceResultBuyerInvoiceUnverifiedReasonNoPoFirstInvoice    GetInvoiceResultBuyerInvoiceUnverifiedReason = "no_po_first_invoice"
 	GetInvoiceResultBuyerInvoiceUnverifiedReasonNoPurchaseOrder     GetInvoiceResultBuyerInvoiceUnverifiedReason = "no_purchase_order"
 	GetInvoiceResultBuyerInvoiceUnverifiedReasonPayerAccountUnclear GetInvoiceResultBuyerInvoiceUnverifiedReason = "payer_account_unclear"
 )
@@ -1633,6 +1672,12 @@ const (
 	GetInvoiceResultSupplierInvoicePayment1StatusStripe GetInvoiceResultSupplierInvoicePayment1Status = "stripe"
 )
 
+// Defines values for GetInvoiceResultSupplierInvoicePaymentRoute.
+const (
+	GetInvoiceResultSupplierInvoicePaymentRouteErp    GetInvoiceResultSupplierInvoicePaymentRoute = "erp"
+	GetInvoiceResultSupplierInvoicePaymentRoutePleaxy GetInvoiceResultSupplierInvoicePaymentRoute = "pleaxy"
+)
+
 // Defines values for GetInvoiceResultSupplierInvoiceSource.
 const (
 	GetInvoiceResultSupplierInvoiceSourceDirect GetInvoiceResultSupplierInvoiceSource = "direct"
@@ -1782,9 +1827,10 @@ const (
 
 // Defines values for InvoiceBuyerViewDiscrepancyReason.
 const (
-	InvoiceBuyerViewDiscrepancyReasonAmount   InvoiceBuyerViewDiscrepancyReason = "amount"
-	InvoiceBuyerViewDiscrepancyReasonControls InvoiceBuyerViewDiscrepancyReason = "controls"
-	InvoiceBuyerViewDiscrepancyReasonCurrency InvoiceBuyerViewDiscrepancyReason = "currency"
+	InvoiceBuyerViewDiscrepancyReasonAmount       InvoiceBuyerViewDiscrepancyReason = "amount"
+	InvoiceBuyerViewDiscrepancyReasonControls     InvoiceBuyerViewDiscrepancyReason = "controls"
+	InvoiceBuyerViewDiscrepancyReasonCurrency     InvoiceBuyerViewDiscrepancyReason = "currency"
+	InvoiceBuyerViewDiscrepancyReasonNoPoVariance InvoiceBuyerViewDiscrepancyReason = "no_po_variance"
 )
 
 // Defines values for InvoiceBuyerViewDocumentType.
@@ -1811,6 +1857,7 @@ const (
 
 // Defines values for InvoiceBuyerViewMatchBasis.
 const (
+	InvoiceBuyerViewMatchBasisNoPoHistory   InvoiceBuyerViewMatchBasis = "no_po_history"
 	InvoiceBuyerViewMatchBasisPurchaseOrder InvoiceBuyerViewMatchBasis = "purchase_order"
 )
 
@@ -1827,6 +1874,12 @@ const (
 	InvoiceBuyerViewMatchTypeThreeWay InvoiceBuyerViewMatchType = "three_way"
 	InvoiceBuyerViewMatchTypeTwoWay   InvoiceBuyerViewMatchType = "two_way"
 	InvoiceBuyerViewMatchTypeUsage    InvoiceBuyerViewMatchType = "usage"
+)
+
+// Defines values for InvoiceBuyerViewPaymentRoute.
+const (
+	InvoiceBuyerViewPaymentRouteErp    InvoiceBuyerViewPaymentRoute = "erp"
+	InvoiceBuyerViewPaymentRoutePleaxy InvoiceBuyerViewPaymentRoute = "pleaxy"
 )
 
 // Defines values for InvoiceBuyerViewReceiptCheckSkippedReason.
@@ -1853,6 +1906,7 @@ const (
 const (
 	InvoiceBuyerViewUnverifiedReasonDebitNote           InvoiceBuyerViewUnverifiedReason = "debit_note"
 	InvoiceBuyerViewUnverifiedReasonNoBillingConnection InvoiceBuyerViewUnverifiedReason = "no_billing_connection"
+	InvoiceBuyerViewUnverifiedReasonNoPoFirstInvoice    InvoiceBuyerViewUnverifiedReason = "no_po_first_invoice"
 	InvoiceBuyerViewUnverifiedReasonNoPurchaseOrder     InvoiceBuyerViewUnverifiedReason = "no_purchase_order"
 	InvoiceBuyerViewUnverifiedReasonPayerAccountUnclear InvoiceBuyerViewUnverifiedReason = "payer_account_unclear"
 )
@@ -1921,6 +1975,12 @@ const (
 	InvoiceDeductionInputKindPrepayment InvoiceDeductionInputKind = "prepayment"
 )
 
+// Defines values for InvoicePaymentProblemKind.
+const (
+	InvoicePaymentProblemKindAmountDiffers InvoicePaymentProblemKind = "amount_differs"
+	InvoicePaymentProblemKindNotReceived   InvoicePaymentProblemKind = "not_received"
+)
+
 // Defines values for InvoicePaymentRecordMethod.
 const (
 	InvoicePaymentRecordMethodAch        InvoicePaymentRecordMethod = "ach"
@@ -1966,6 +2026,15 @@ const (
 	InvoiceRemittanceFileContentTypeApplicationpdf InvoiceRemittanceFileContentType = "application/pdf"
 	InvoiceRemittanceFileContentTypeImagejpeg      InvoiceRemittanceFileContentType = "image/jpeg"
 	InvoiceRemittanceFileContentTypeImagepng       InvoiceRemittanceFileContentType = "image/png"
+)
+
+// Defines values for InvoiceSettlementSource.
+const (
+	InvoiceSettlementSourceBuyerMarked       InvoiceSettlementSource = "buyer_marked"
+	InvoiceSettlementSourceNoMoneyMoved      InvoiceSettlementSource = "no_money_moved"
+	InvoiceSettlementSourceNoProblemReported InvoiceSettlementSource = "no_problem_reported"
+	InvoiceSettlementSourceStripe            InvoiceSettlementSource = "stripe"
+	InvoiceSettlementSourceSupplierConfirmed InvoiceSettlementSource = "supplier_confirmed"
 )
 
 // Defines values for InvoiceSourceDocumentContentType.
@@ -2103,6 +2172,12 @@ const (
 // Defines values for InvoiceSupplierViewPayment1Status.
 const (
 	InvoiceSupplierViewPayment1StatusStripe InvoiceSupplierViewPayment1Status = "stripe"
+)
+
+// Defines values for InvoiceSupplierViewPaymentRoute.
+const (
+	InvoiceSupplierViewPaymentRouteErp    InvoiceSupplierViewPaymentRoute = "erp"
+	InvoiceSupplierViewPaymentRoutePleaxy InvoiceSupplierViewPaymentRoute = "pleaxy"
 )
 
 // Defines values for InvoiceSupplierViewSource.
@@ -2288,9 +2363,10 @@ const (
 
 // Defines values for ListInvoicesItemBuyerInvoiceDiscrepancyReason.
 const (
-	ListInvoicesItemBuyerInvoiceDiscrepancyReasonAmount   ListInvoicesItemBuyerInvoiceDiscrepancyReason = "amount"
-	ListInvoicesItemBuyerInvoiceDiscrepancyReasonControls ListInvoicesItemBuyerInvoiceDiscrepancyReason = "controls"
-	ListInvoicesItemBuyerInvoiceDiscrepancyReasonCurrency ListInvoicesItemBuyerInvoiceDiscrepancyReason = "currency"
+	ListInvoicesItemBuyerInvoiceDiscrepancyReasonAmount       ListInvoicesItemBuyerInvoiceDiscrepancyReason = "amount"
+	ListInvoicesItemBuyerInvoiceDiscrepancyReasonControls     ListInvoicesItemBuyerInvoiceDiscrepancyReason = "controls"
+	ListInvoicesItemBuyerInvoiceDiscrepancyReasonCurrency     ListInvoicesItemBuyerInvoiceDiscrepancyReason = "currency"
+	ListInvoicesItemBuyerInvoiceDiscrepancyReasonNoPoVariance ListInvoicesItemBuyerInvoiceDiscrepancyReason = "no_po_variance"
 )
 
 // Defines values for ListInvoicesItemBuyerInvoiceDocumentType.
@@ -2317,6 +2393,7 @@ const (
 
 // Defines values for ListInvoicesItemBuyerInvoiceMatchBasis.
 const (
+	ListInvoicesItemBuyerInvoiceMatchBasisNoPoHistory   ListInvoicesItemBuyerInvoiceMatchBasis = "no_po_history"
 	ListInvoicesItemBuyerInvoiceMatchBasisPurchaseOrder ListInvoicesItemBuyerInvoiceMatchBasis = "purchase_order"
 )
 
@@ -2333,6 +2410,12 @@ const (
 	ListInvoicesItemBuyerInvoiceMatchTypeThreeWay ListInvoicesItemBuyerInvoiceMatchType = "three_way"
 	ListInvoicesItemBuyerInvoiceMatchTypeTwoWay   ListInvoicesItemBuyerInvoiceMatchType = "two_way"
 	ListInvoicesItemBuyerInvoiceMatchTypeUsage    ListInvoicesItemBuyerInvoiceMatchType = "usage"
+)
+
+// Defines values for ListInvoicesItemBuyerInvoicePaymentRoute.
+const (
+	ListInvoicesItemBuyerInvoicePaymentRouteErp    ListInvoicesItemBuyerInvoicePaymentRoute = "erp"
+	ListInvoicesItemBuyerInvoicePaymentRoutePleaxy ListInvoicesItemBuyerInvoicePaymentRoute = "pleaxy"
 )
 
 // Defines values for ListInvoicesItemBuyerInvoiceReceiptCheckSkippedReason.
@@ -2359,6 +2442,7 @@ const (
 const (
 	ListInvoicesItemBuyerInvoiceUnverifiedReasonDebitNote           ListInvoicesItemBuyerInvoiceUnverifiedReason = "debit_note"
 	ListInvoicesItemBuyerInvoiceUnverifiedReasonNoBillingConnection ListInvoicesItemBuyerInvoiceUnverifiedReason = "no_billing_connection"
+	ListInvoicesItemBuyerInvoiceUnverifiedReasonNoPoFirstInvoice    ListInvoicesItemBuyerInvoiceUnverifiedReason = "no_po_first_invoice"
 	ListInvoicesItemBuyerInvoiceUnverifiedReasonNoPurchaseOrder     ListInvoicesItemBuyerInvoiceUnverifiedReason = "no_purchase_order"
 	ListInvoicesItemBuyerInvoiceUnverifiedReasonPayerAccountUnclear ListInvoicesItemBuyerInvoiceUnverifiedReason = "payer_account_unclear"
 )
@@ -2516,6 +2600,12 @@ const (
 	ListInvoicesItemSupplierInvoicePayment1StatusStripe ListInvoicesItemSupplierInvoicePayment1Status = "stripe"
 )
 
+// Defines values for ListInvoicesItemSupplierInvoicePaymentRoute.
+const (
+	ListInvoicesItemSupplierInvoicePaymentRouteErp    ListInvoicesItemSupplierInvoicePaymentRoute = "erp"
+	ListInvoicesItemSupplierInvoicePaymentRoutePleaxy ListInvoicesItemSupplierInvoicePaymentRoute = "pleaxy"
+)
+
 // Defines values for ListInvoicesItemSupplierInvoiceSource.
 const (
 	ListInvoicesItemSupplierInvoiceSourceDirect ListInvoicesItemSupplierInvoiceSource = "direct"
@@ -2596,7 +2686,9 @@ const (
 // Defines values for NotificationType.
 const (
 	NotificationTypeAccountingSyncFailed             NotificationType = "accounting_sync_failed"
+	NotificationTypeAgentConnected                   NotificationType = "agent_connected"
 	NotificationTypeAgentRequest                     NotificationType = "agent_request"
+	NotificationTypeAgentSignedOut                   NotificationType = "agent_signed_out"
 	NotificationTypeCompanyReportReady               NotificationType = "company_report_ready"
 	NotificationTypeContractComment                  NotificationType = "contract_comment"
 	NotificationTypeContractRecheckRequested         NotificationType = "contract_recheck_requested"
@@ -2637,6 +2729,9 @@ const (
 	NotificationTypeInvoiceReminder                  NotificationType = "invoice_reminder"
 	NotificationTypeInvoiceRemittanceSent            NotificationType = "invoice_remittance_sent"
 	NotificationTypeInvoiceSubmitted                 NotificationType = "invoice_submitted"
+	NotificationTypePaymentProblemAnswered           NotificationType = "payment_problem_answered"
+	NotificationTypePaymentProblemReported           NotificationType = "payment_problem_reported"
+	NotificationTypePaymentReceiptToConfirm          NotificationType = "payment_receipt_to_confirm"
 	NotificationTypePaymentsRecordedByKey            NotificationType = "payments_recorded_by_key"
 	NotificationTypePoApprovalRequested              NotificationType = "po_approval_requested"
 	NotificationTypePoApproved                       NotificationType = "po_approved"
@@ -2741,17 +2836,21 @@ const (
 
 // Defines values for PaymentHistoryEntryAction.
 const (
-	CreditApplied   PaymentHistoryEntryAction = "credit_applied"
-	CreditRemoved   PaymentHistoryEntryAction = "credit_removed"
-	ExportWithdrawn PaymentHistoryEntryAction = "export_withdrawn"
-	Exported        PaymentHistoryEntryAction = "exported"
-	RecordWithdrawn PaymentHistoryEntryAction = "record_withdrawn"
-	Recorded        PaymentHistoryEntryAction = "recorded"
-	RemittanceSent  PaymentHistoryEntryAction = "remittance_sent"
-	StripeFailed    PaymentHistoryEntryAction = "stripe_failed"
-	StripeReleased  PaymentHistoryEntryAction = "stripe_released"
-	StripeStarted   PaymentHistoryEntryAction = "stripe_started"
-	StripeSucceeded PaymentHistoryEntryAction = "stripe_succeeded"
+	CreditApplied    PaymentHistoryEntryAction = "credit_applied"
+	CreditRemoved    PaymentHistoryEntryAction = "credit_removed"
+	ExportWithdrawn  PaymentHistoryEntryAction = "export_withdrawn"
+	Exported         PaymentHistoryEntryAction = "exported"
+	ProblemAnswered  PaymentHistoryEntryAction = "problem_answered"
+	ProblemReported  PaymentHistoryEntryAction = "problem_reported"
+	RecordWithdrawn  PaymentHistoryEntryAction = "record_withdrawn"
+	Recorded         PaymentHistoryEntryAction = "recorded"
+	RemittanceSent   PaymentHistoryEntryAction = "remittance_sent"
+	Settled          PaymentHistoryEntryAction = "settled"
+	SettlementUndone PaymentHistoryEntryAction = "settlement_undone"
+	StripeFailed     PaymentHistoryEntryAction = "stripe_failed"
+	StripeReleased   PaymentHistoryEntryAction = "stripe_released"
+	StripeStarted    PaymentHistoryEntryAction = "stripe_started"
+	StripeSucceeded  PaymentHistoryEntryAction = "stripe_succeeded"
 )
 
 // Defines values for PaymentHistoryEntryRecordMethod.
@@ -2988,8 +3087,8 @@ const (
 
 // Defines values for PurchaseRequestLineInputLineType.
 const (
-	Goods   PurchaseRequestLineInputLineType = "goods"
-	Service PurchaseRequestLineInputLineType = "service"
+	PurchaseRequestLineInputLineTypeGoods   PurchaseRequestLineInputLineType = "goods"
+	PurchaseRequestLineInputLineTypeService PurchaseRequestLineInputLineType = "service"
 )
 
 // Defines values for QuestionnaireFieldDefDocType.
@@ -3084,9 +3183,10 @@ const (
 
 // Defines values for RecordPaymentResultDiscrepancyReason.
 const (
-	RecordPaymentResultDiscrepancyReasonAmount   RecordPaymentResultDiscrepancyReason = "amount"
-	RecordPaymentResultDiscrepancyReasonControls RecordPaymentResultDiscrepancyReason = "controls"
-	RecordPaymentResultDiscrepancyReasonCurrency RecordPaymentResultDiscrepancyReason = "currency"
+	RecordPaymentResultDiscrepancyReasonAmount       RecordPaymentResultDiscrepancyReason = "amount"
+	RecordPaymentResultDiscrepancyReasonControls     RecordPaymentResultDiscrepancyReason = "controls"
+	RecordPaymentResultDiscrepancyReasonCurrency     RecordPaymentResultDiscrepancyReason = "currency"
+	RecordPaymentResultDiscrepancyReasonNoPoVariance RecordPaymentResultDiscrepancyReason = "no_po_variance"
 )
 
 // Defines values for RecordPaymentResultDocumentType.
@@ -3113,6 +3213,7 @@ const (
 
 // Defines values for RecordPaymentResultMatchBasis.
 const (
+	RecordPaymentResultMatchBasisNoPoHistory   RecordPaymentResultMatchBasis = "no_po_history"
 	RecordPaymentResultMatchBasisPurchaseOrder RecordPaymentResultMatchBasis = "purchase_order"
 )
 
@@ -3129,6 +3230,12 @@ const (
 	RecordPaymentResultMatchTypeThreeWay RecordPaymentResultMatchType = "three_way"
 	RecordPaymentResultMatchTypeTwoWay   RecordPaymentResultMatchType = "two_way"
 	RecordPaymentResultMatchTypeUsage    RecordPaymentResultMatchType = "usage"
+)
+
+// Defines values for RecordPaymentResultPaymentRoute.
+const (
+	RecordPaymentResultPaymentRouteErp    RecordPaymentResultPaymentRoute = "erp"
+	RecordPaymentResultPaymentRoutePleaxy RecordPaymentResultPaymentRoute = "pleaxy"
 )
 
 // Defines values for RecordPaymentResultReceiptCheckSkippedReason.
@@ -3155,6 +3262,7 @@ const (
 const (
 	RecordPaymentResultUnverifiedReasonDebitNote           RecordPaymentResultUnverifiedReason = "debit_note"
 	RecordPaymentResultUnverifiedReasonNoBillingConnection RecordPaymentResultUnverifiedReason = "no_billing_connection"
+	RecordPaymentResultUnverifiedReasonNoPoFirstInvoice    RecordPaymentResultUnverifiedReason = "no_po_first_invoice"
 	RecordPaymentResultUnverifiedReasonNoPurchaseOrder     RecordPaymentResultUnverifiedReason = "no_purchase_order"
 	RecordPaymentResultUnverifiedReasonPayerAccountUnclear RecordPaymentResultUnverifiedReason = "payer_account_unclear"
 )
@@ -3254,9 +3362,10 @@ const (
 
 // Defines values for RemoveInvoiceReplacementLinkResultDiscrepancyReason.
 const (
-	RemoveInvoiceReplacementLinkResultDiscrepancyReasonAmount   RemoveInvoiceReplacementLinkResultDiscrepancyReason = "amount"
-	RemoveInvoiceReplacementLinkResultDiscrepancyReasonControls RemoveInvoiceReplacementLinkResultDiscrepancyReason = "controls"
-	RemoveInvoiceReplacementLinkResultDiscrepancyReasonCurrency RemoveInvoiceReplacementLinkResultDiscrepancyReason = "currency"
+	RemoveInvoiceReplacementLinkResultDiscrepancyReasonAmount       RemoveInvoiceReplacementLinkResultDiscrepancyReason = "amount"
+	RemoveInvoiceReplacementLinkResultDiscrepancyReasonControls     RemoveInvoiceReplacementLinkResultDiscrepancyReason = "controls"
+	RemoveInvoiceReplacementLinkResultDiscrepancyReasonCurrency     RemoveInvoiceReplacementLinkResultDiscrepancyReason = "currency"
+	RemoveInvoiceReplacementLinkResultDiscrepancyReasonNoPoVariance RemoveInvoiceReplacementLinkResultDiscrepancyReason = "no_po_variance"
 )
 
 // Defines values for RemoveInvoiceReplacementLinkResultDocumentType.
@@ -3284,6 +3393,7 @@ const (
 
 // Defines values for RemoveInvoiceReplacementLinkResultMatchBasis.
 const (
+	RemoveInvoiceReplacementLinkResultMatchBasisNoPoHistory   RemoveInvoiceReplacementLinkResultMatchBasis = "no_po_history"
 	RemoveInvoiceReplacementLinkResultMatchBasisPurchaseOrder RemoveInvoiceReplacementLinkResultMatchBasis = "purchase_order"
 )
 
@@ -3300,6 +3410,12 @@ const (
 	RemoveInvoiceReplacementLinkResultMatchTypeThreeWay RemoveInvoiceReplacementLinkResultMatchType = "three_way"
 	RemoveInvoiceReplacementLinkResultMatchTypeTwoWay   RemoveInvoiceReplacementLinkResultMatchType = "two_way"
 	RemoveInvoiceReplacementLinkResultMatchTypeUsage    RemoveInvoiceReplacementLinkResultMatchType = "usage"
+)
+
+// Defines values for RemoveInvoiceReplacementLinkResultPaymentRoute.
+const (
+	RemoveInvoiceReplacementLinkResultPaymentRouteErp    RemoveInvoiceReplacementLinkResultPaymentRoute = "erp"
+	RemoveInvoiceReplacementLinkResultPaymentRoutePleaxy RemoveInvoiceReplacementLinkResultPaymentRoute = "pleaxy"
 )
 
 // Defines values for RemoveInvoiceReplacementLinkResultReceiptCheckSkippedReason.
@@ -3326,6 +3442,7 @@ const (
 const (
 	DebitNote           RemoveInvoiceReplacementLinkResultUnverifiedReason = "debit_note"
 	NoBillingConnection RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_billing_connection"
+	NoPoFirstInvoice    RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_po_first_invoice"
 	NoPurchaseOrder     RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_purchase_order"
 	PayerAccountUnclear RemoveInvoiceReplacementLinkResultUnverifiedReason = "payer_account_unclear"
 )
@@ -3338,6 +3455,25 @@ const (
 	McaInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "mca_invoice"
 	OspInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "osp_invoice"
 	UsageApiClosedMonth RemoveInvoiceReplacementLinkResultUsageSource = "usage_api_closed_month"
+)
+
+// Defines values for RequestFileUploadInputContentType.
+const (
+	RequestFileUploadInputContentTypeApplicationmsword                                                  RequestFileUploadInputContentType = "application/msword"
+	RequestFileUploadInputContentTypeApplicationpdf                                                     RequestFileUploadInputContentType = "application/pdf"
+	RequestFileUploadInputContentTypeApplicationvndMsExcel                                              RequestFileUploadInputContentType = "application/vnd.ms-excel"
+	RequestFileUploadInputContentTypeApplicationvndOpenxmlformatsOfficedocumentSpreadsheetmlSheet       RequestFileUploadInputContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+	RequestFileUploadInputContentTypeApplicationvndOpenxmlformatsOfficedocumentWordprocessingmlDocument RequestFileUploadInputContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+	RequestFileUploadInputContentTypeImagejpeg                                                          RequestFileUploadInputContentType = "image/jpeg"
+	RequestFileUploadInputContentTypeImagepng                                                           RequestFileUploadInputContentType = "image/png"
+	RequestFileUploadInputContentTypeTextcsv                                                            RequestFileUploadInputContentType = "text/csv"
+	RequestFileUploadInputContentTypeTextplain                                                          RequestFileUploadInputContentType = "text/plain"
+)
+
+// Defines values for RequestTypeDefaultsLineType.
+const (
+	RequestTypeDefaultsLineTypeGoods   RequestTypeDefaultsLineType = "goods"
+	RequestTypeDefaultsLineTypeService RequestTypeDefaultsLineType = "service"
 )
 
 // Defines values for RotateWebhookSecretResultEvents.
@@ -3539,8 +3675,8 @@ const (
 
 // Defines values for StripePaymentStatusPaymentMethodType.
 const (
-	StripePaymentStatusPaymentMethodTypeCard          StripePaymentStatusPaymentMethodType = "card"
-	StripePaymentStatusPaymentMethodTypeUsBankAccount StripePaymentStatusPaymentMethodType = "us_bank_account"
+	Card          StripePaymentStatusPaymentMethodType = "card"
+	UsBankAccount StripePaymentStatusPaymentMethodType = "us_bank_account"
 )
 
 // Defines values for StripePaymentStatusQuoteCurrency.
@@ -3554,6 +3690,7 @@ const (
 	BankDetailsHeld      StripePaymentStatusReason = "bank_details_held"
 	NotApproved          StripePaymentStatusReason = "not_approved"
 	NotConfigured        StripePaymentStatusReason = "not_configured"
+	PaidInErp            StripePaymentStatusReason = "paid_in_erp"
 	PaymentLocked        StripePaymentStatusReason = "payment_locked"
 	SupplierNotConnected StripePaymentStatusReason = "supplier_not_connected"
 	SupplierNotOnPleaxy  StripePaymentStatusReason = "supplier_not_on_pleaxy"
@@ -3678,11 +3815,26 @@ const (
 	SupplierCreditNoteViewSubmittedFormatUbl  SupplierCreditNoteViewSubmittedFormat = "ubl"
 )
 
+// Defines values for SupplierPaymentProblemViewKind.
+const (
+	SupplierPaymentProblemViewKindAmountDiffers SupplierPaymentProblemViewKind = "amount_differs"
+	SupplierPaymentProblemViewKindNotReceived   SupplierPaymentProblemViewKind = "not_received"
+)
+
 // Defines values for SupplierRemittanceViewFileContentType.
 const (
-	SupplierRemittanceViewFileContentTypeApplicationpdf SupplierRemittanceViewFileContentType = "application/pdf"
-	SupplierRemittanceViewFileContentTypeImagejpeg      SupplierRemittanceViewFileContentType = "image/jpeg"
-	SupplierRemittanceViewFileContentTypeImagepng       SupplierRemittanceViewFileContentType = "image/png"
+	Applicationpdf SupplierRemittanceViewFileContentType = "application/pdf"
+	Imagejpeg      SupplierRemittanceViewFileContentType = "image/jpeg"
+	Imagepng       SupplierRemittanceViewFileContentType = "image/png"
+)
+
+// Defines values for SupplierSettlementViewSource.
+const (
+	BuyerMarked       SupplierSettlementViewSource = "buyer_marked"
+	NoMoneyMoved      SupplierSettlementViewSource = "no_money_moved"
+	NoProblemReported SupplierSettlementViewSource = "no_problem_reported"
+	Stripe            SupplierSettlementViewSource = "stripe"
+	SupplierConfirmed SupplierSettlementViewSource = "supplier_confirmed"
 )
 
 // Defines values for SyncEventDocumentType.
@@ -4019,26 +4171,30 @@ type AddInvoiceReplacementLinksResult struct {
 	MatchBasis                  *AddInvoiceReplacementLinksResultMatchBasis        `json:"matchBasis,omitempty"`
 	MatchStatus                 *AddInvoiceReplacementLinksResultMatchStatus       `json:"matchStatus,omitempty"`
 	MatchType                   *AddInvoiceReplacementLinksResultMatchType         `json:"matchType,omitempty"`
+	NoPoComparison              *NoPoComparison                                    `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                              `json:"paid,omitempty"`
 	PaidAt                      *string                                            `json:"paidAt,omitempty"`
 	PartyDetails                *struct {
 		Buyer    *InvoicePartyDetails `json:"buyer,omitempty"`
 		Supplier *InvoicePartyDetails `json:"supplier,omitempty"`
 	} `json:"partyDetails,omitempty"`
-	Payment               *InvoicePaymentRecord  `json:"payment,omitempty"`
-	PaymentCurrencyAmount *InvoiceCurrencyAmount `json:"paymentCurrencyAmount,omitempty"`
-	PaymentHistory        *[]PaymentHistoryEntry `json:"paymentHistory,omitempty"`
-	Po                    *string                `json:"po,omitempty"`
-	PoLineNo              *float64               `json:"poLineNo,omitempty"`
-	PossibleDuplicates    *[]InvoiceDuplicateRef `json:"possibleDuplicates,omitempty"`
-	PreviousExportedAt    *string                `json:"previousExportedAt,omitempty"`
-	RateWarnings          *[]InvoiceRateWarning  `json:"rateWarnings,omitempty"`
+	Payment               *InvoicePaymentRecord                         `json:"payment,omitempty"`
+	PaymentCurrencyAmount *InvoiceCurrencyAmount                        `json:"paymentCurrencyAmount,omitempty"`
+	PaymentHistory        *[]PaymentHistoryEntry                        `json:"paymentHistory,omitempty"`
+	PaymentProblem        *InvoicePaymentProblem                        `json:"paymentProblem,omitempty"`
+	PaymentRoute          *AddInvoiceReplacementLinksResultPaymentRoute `json:"paymentRoute,omitempty"`
+	Po                    *string                                       `json:"po,omitempty"`
+	PoLineNo              *float64                                      `json:"poLineNo,omitempty"`
+	PossibleDuplicates    *[]InvoiceDuplicateRef                        `json:"possibleDuplicates,omitempty"`
+	PreviousExportedAt    *string                                       `json:"previousExportedAt,omitempty"`
+	RateWarnings          *[]InvoiceRateWarning                         `json:"rateWarnings,omitempty"`
 	ReceiptCheckSkipped   *struct {
 		At       *string                                                    `json:"at,omitempty"`
 		Findings *[]InvoiceControlFinding                                   `json:"findings,omitempty"`
 		Reason   *AddInvoiceReplacementLinksResultReceiptCheckSkippedReason `json:"reason,omitempty"`
 	} `json:"receiptCheckSkipped,omitempty"`
-	ReceiptToleranceApplied *struct {
+	ReceiptConfirmationRemindedAt *string `json:"receiptConfirmationRemindedAt,omitempty"`
+	ReceiptToleranceApplied       *struct {
 		At    *string `json:"at,omitempty"`
 		Lines *[]struct {
 			Over     *float64 `json:"over,omitempty"`
@@ -4057,6 +4213,7 @@ type AddInvoiceReplacementLinksResult struct {
 	Replacement                   *InvoiceReplacementCheck                          `json:"replacement,omitempty"`
 	ReplacesInvoiceId             *string                                           `json:"replacesInvoiceId,omitempty"`
 	ReplacesInvoiceIds            *[]string                                         `json:"replacesInvoiceIds,omitempty"`
+	Settlement                    *InvoiceSettlement                                `json:"settlement,omitempty"`
 	SodExcludedKeys               *[]string                                         `json:"sodExcludedKeys,omitempty"`
 	Source                        *AddInvoiceReplacementLinksResultSource           `json:"source,omitempty"`
 	SourceDocument                *InvoiceSourceDocument                            `json:"sourceDocument,omitempty"`
@@ -4104,6 +4261,9 @@ type AddInvoiceReplacementLinksResultMatchStatus string
 
 // AddInvoiceReplacementLinksResultMatchType defines model for AddInvoiceReplacementLinksResult.MatchType.
 type AddInvoiceReplacementLinksResultMatchType string
+
+// AddInvoiceReplacementLinksResultPaymentRoute defines model for AddInvoiceReplacementLinksResult.PaymentRoute.
+type AddInvoiceReplacementLinksResultPaymentRoute string
 
 // AddInvoiceReplacementLinksResultReceiptCheckSkippedReason defines model for AddInvoiceReplacementLinksResult.ReceiptCheckSkipped.Reason.
 type AddInvoiceReplacementLinksResultReceiptCheckSkippedReason string
@@ -4729,6 +4889,9 @@ type BudgetCheckInput struct {
 	// Amount The document's amount, in `currency`.
 	Amount float64 `json:"amount"`
 
+	// Blanket A blanket order (billed as used, up to `amount`): what is checked is `expectedMonthly` for the current period's months within its term, never `amount`.
+	Blanket *bool `json:"blanket,omitempty"`
+
 	// CostCenter The cost center code (or name) the document books to. Without one there is nothing to check (no_budget).
 	CostCenter *string `json:"costCenter,omitempty"`
 
@@ -4737,6 +4900,12 @@ type BudgetCheckInput struct {
 
 	// ExcludeOrderId An existing order being edited, so it doesn't count against itself.
 	ExcludeOrderId *string `json:"excludeOrderId,omitempty"`
+
+	// ExpectedMonthly With blanket: what the order is expected to bill each month, in `currency`.
+	ExpectedMonthly *float64 `json:"expectedMonthly,omitempty"`
+
+	// ValidUntil With blanket: the last day it runs (YYYY-MM-DD), its lines' latest validUntil; open-ended when absent.
+	ValidUntil *string `json:"validUntil,omitempty"`
 }
 
 // BudgetControlSettings defines model for BudgetControlSettings.
@@ -4934,8 +5103,11 @@ type ConvertPurchaseRequestInput struct {
 
 	// BillToParty Who the supplier invoices, when it isn't the buyer's company profile billing details. Left out, the order copies those details as they are now (company name, billing address, tax id).
 	BillToParty *BillToPartyInput `json:"billToParty,omitempty"`
-	BudgetOwner *string           `json:"budgetOwner,omitempty"`
-	BuyerName   *string           `json:"buyerName,omitempty"`
+
+	// Blanket A blanket order: billed as used, up to its amount. Its amount never uses the cost center's budget at once; expectedMonthly does, month by month, and its invoices as they are approved. Cloud-provider orders are blanket orders either way.
+	Blanket     *bool   `json:"blanket,omitempty"`
+	BudgetOwner *string `json:"budgetOwner,omitempty"`
+	BuyerName   *string `json:"buyerName,omitempty"`
 
 	// ContractId One of this workspace's contracts this order falls under: active, and with the order's supplier (400 otherwise). Optional. Invoices against the order are checked against it.
 	ContractId *string `json:"contractId,omitempty"`
@@ -4948,6 +5120,9 @@ type ConvertPurchaseRequestInput struct {
 
 	// Draft Save as a draft instead of submitting for approval. Submit it later with SubmitPurchaseOrderDraft.
 	Draft *bool `json:"draft,omitempty"`
+
+	// ExpectedMonthly A blanket or cloud order's expected billing each month, in the order's currency: what its cost center's budget reserves for it.
+	ExpectedMonthly *float64 `json:"expectedMonthly,omitempty"`
 
 	// GlCode The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it.
 	GlCode    *string          `json:"glCode,omitempty"`
@@ -5349,26 +5524,30 @@ type CreateInvoiceResultBuyerInvoice struct {
 	MatchBasis                  *CreateInvoiceResultBuyerInvoiceMatchBasis        `json:"matchBasis,omitempty"`
 	MatchStatus                 *CreateInvoiceResultBuyerInvoiceMatchStatus       `json:"matchStatus,omitempty"`
 	MatchType                   *CreateInvoiceResultBuyerInvoiceMatchType         `json:"matchType,omitempty"`
+	NoPoComparison              *NoPoComparison                                   `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                             `json:"paid,omitempty"`
 	PaidAt                      *string                                           `json:"paidAt,omitempty"`
 	PartyDetails                *struct {
 		Buyer    *InvoicePartyDetails `json:"buyer,omitempty"`
 		Supplier *InvoicePartyDetails `json:"supplier,omitempty"`
 	} `json:"partyDetails,omitempty"`
-	Payment               *InvoicePaymentRecord  `json:"payment,omitempty"`
-	PaymentCurrencyAmount *InvoiceCurrencyAmount `json:"paymentCurrencyAmount,omitempty"`
-	PaymentHistory        *[]PaymentHistoryEntry `json:"paymentHistory,omitempty"`
-	Po                    *string                `json:"po,omitempty"`
-	PoLineNo              *float64               `json:"poLineNo,omitempty"`
-	PossibleDuplicates    *[]InvoiceDuplicateRef `json:"possibleDuplicates,omitempty"`
-	PreviousExportedAt    *string                `json:"previousExportedAt,omitempty"`
-	RateWarnings          *[]InvoiceRateWarning  `json:"rateWarnings,omitempty"`
+	Payment               *InvoicePaymentRecord                        `json:"payment,omitempty"`
+	PaymentCurrencyAmount *InvoiceCurrencyAmount                       `json:"paymentCurrencyAmount,omitempty"`
+	PaymentHistory        *[]PaymentHistoryEntry                       `json:"paymentHistory,omitempty"`
+	PaymentProblem        *InvoicePaymentProblem                       `json:"paymentProblem,omitempty"`
+	PaymentRoute          *CreateInvoiceResultBuyerInvoicePaymentRoute `json:"paymentRoute,omitempty"`
+	Po                    *string                                      `json:"po,omitempty"`
+	PoLineNo              *float64                                     `json:"poLineNo,omitempty"`
+	PossibleDuplicates    *[]InvoiceDuplicateRef                       `json:"possibleDuplicates,omitempty"`
+	PreviousExportedAt    *string                                      `json:"previousExportedAt,omitempty"`
+	RateWarnings          *[]InvoiceRateWarning                        `json:"rateWarnings,omitempty"`
 	ReceiptCheckSkipped   *struct {
 		At       *string                                                   `json:"at,omitempty"`
 		Findings *[]InvoiceControlFinding                                  `json:"findings,omitempty"`
 		Reason   *CreateInvoiceResultBuyerInvoiceReceiptCheckSkippedReason `json:"reason,omitempty"`
 	} `json:"receiptCheckSkipped,omitempty"`
-	ReceiptToleranceApplied *struct {
+	ReceiptConfirmationRemindedAt *string `json:"receiptConfirmationRemindedAt,omitempty"`
+	ReceiptToleranceApplied       *struct {
 		At    *string `json:"at,omitempty"`
 		Lines *[]struct {
 			Over     *float64 `json:"over,omitempty"`
@@ -5387,6 +5566,7 @@ type CreateInvoiceResultBuyerInvoice struct {
 	Replacement                   *InvoiceReplacementCheck                         `json:"replacement,omitempty"`
 	ReplacesInvoiceId             *string                                          `json:"replacesInvoiceId,omitempty"`
 	ReplacesInvoiceIds            *[]string                                        `json:"replacesInvoiceIds,omitempty"`
+	Settlement                    *InvoiceSettlement                               `json:"settlement,omitempty"`
 	SodExcludedKeys               *[]string                                        `json:"sodExcludedKeys,omitempty"`
 	Source                        *CreateInvoiceResultBuyerInvoiceSource           `json:"source,omitempty"`
 	SourceDocument                *InvoiceSourceDocument                           `json:"sourceDocument,omitempty"`
@@ -5434,6 +5614,9 @@ type CreateInvoiceResultBuyerInvoiceMatchStatus string
 
 // CreateInvoiceResultBuyerInvoiceMatchType defines model for CreateInvoiceResultBuyerInvoice.MatchType.
 type CreateInvoiceResultBuyerInvoiceMatchType string
+
+// CreateInvoiceResultBuyerInvoicePaymentRoute defines model for CreateInvoiceResultBuyerInvoice.PaymentRoute.
+type CreateInvoiceResultBuyerInvoicePaymentRoute string
 
 // CreateInvoiceResultBuyerInvoiceReceiptCheckSkippedReason defines model for CreateInvoiceResultBuyerInvoice.ReceiptCheckSkipped.Reason.
 type CreateInvoiceResultBuyerInvoiceReceiptCheckSkippedReason string
@@ -5598,6 +5781,7 @@ type CreateInvoiceResultSupplierInvoice struct {
 	LineItems                   *[]InvoiceLineItem                               `json:"lineItems,omitempty"`
 	MatchStatus                 *CreateInvoiceResultSupplierInvoiceMatchStatus   `json:"matchStatus,omitempty"`
 	NextReminderAt              *string                                          `json:"nextReminderAt,omitempty"`
+	NoPoComparison              *NoPoComparison                                  `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                            `json:"paid,omitempty"`
 	PaidAt                      *string                                          `json:"paidAt,omitempty"`
 	PartyDetails                *struct {
@@ -5606,6 +5790,8 @@ type CreateInvoiceResultSupplierInvoice struct {
 	} `json:"partyDetails,omitempty"`
 	Payment                *CreateInvoiceResultSupplierInvoice_Payment          `json:"payment,omitempty"`
 	PaymentCurrencyAmount  *InvoiceCurrencyAmount                               `json:"paymentCurrencyAmount,omitempty"`
+	PaymentProblem         *SupplierPaymentProblemView                          `json:"paymentProblem,omitempty"`
+	PaymentRoute           *CreateInvoiceResultSupplierInvoicePaymentRoute      `json:"paymentRoute,omitempty"`
 	Po                     *string                                              `json:"po,omitempty"`
 	PoLineNo               *float64                                             `json:"poLineNo,omitempty"`
 	PossibleDuplicates     *[]InvoiceDuplicateRef                               `json:"possibleDuplicates,omitempty"`
@@ -5615,6 +5801,7 @@ type CreateInvoiceResultSupplierInvoice struct {
 	ReplacedByInvoiceIds   *[]string                                            `json:"replacedByInvoiceIds,omitempty"`
 	ReplacesInvoiceId      *string                                              `json:"replacesInvoiceId,omitempty"`
 	ReplacesInvoiceIds     *[]string                                            `json:"replacesInvoiceIds,omitempty"`
+	Settlement             *SupplierSettlementView                              `json:"settlement,omitempty"`
 	Source                 *CreateInvoiceResultSupplierInvoiceSource            `json:"source,omitempty"`
 	SourceDocument         *InvoiceSourceDocument                               `json:"sourceDocument,omitempty"`
 	SubmittedFormat        *CreateInvoiceResultSupplierInvoiceSubmittedFormat   `json:"submittedFormat,omitempty"`
@@ -5688,6 +5875,9 @@ type CreateInvoiceResultSupplierInvoicePayment1Status string
 type CreateInvoiceResultSupplierInvoice_Payment struct {
 	union json.RawMessage
 }
+
+// CreateInvoiceResultSupplierInvoicePaymentRoute defines model for CreateInvoiceResultSupplierInvoice.PaymentRoute.
+type CreateInvoiceResultSupplierInvoicePaymentRoute string
 
 // CreateInvoiceResultSupplierInvoiceSource defines model for CreateInvoiceResultSupplierInvoice.Source.
 type CreateInvoiceResultSupplierInvoiceSource string
@@ -5858,8 +6048,11 @@ type CreatePurchaseOrderInput struct {
 
 	// BillToParty Who the supplier invoices, when it isn't the buyer's company profile billing details. Left out, the order copies those details as they are now (company name, billing address, tax id).
 	BillToParty *BillToPartyInput `json:"billToParty,omitempty"`
-	BudgetOwner *string           `json:"budgetOwner,omitempty"`
-	BuyerName   *string           `json:"buyerName,omitempty"`
+
+	// Blanket A blanket order: billed as used, up to its amount. Its amount never uses the cost center's budget at once; expectedMonthly does, month by month, and its invoices as they are approved. Cloud-provider orders are blanket orders either way.
+	Blanket     *bool   `json:"blanket,omitempty"`
+	BudgetOwner *string `json:"budgetOwner,omitempty"`
+	BuyerName   *string `json:"buyerName,omitempty"`
 
 	// ContractId One of this workspace's contracts this order falls under: active, and with the order's supplier (400 otherwise). Optional. Invoices against the order are checked against it.
 	ContractId *string `json:"contractId,omitempty"`
@@ -5872,6 +6065,9 @@ type CreatePurchaseOrderInput struct {
 
 	// Draft Save as a draft instead of submitting for approval. Submit it later with SubmitPurchaseOrderDraft.
 	Draft *bool `json:"draft,omitempty"`
+
+	// ExpectedMonthly A blanket or cloud order's expected billing each month, in the order's currency: what its cost center's budget reserves for it.
+	ExpectedMonthly *float64 `json:"expectedMonthly,omitempty"`
 
 	// GlCode The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it.
 	GlCode    *string         `json:"glCode,omitempty"`
@@ -5919,6 +6115,9 @@ type CreatePurchaseOrderInputProvider string
 
 // CreatePurchaseRequestInput defines model for CreatePurchaseRequestInput.
 type CreatePurchaseRequestInput struct {
+	// Answers Answers to the type's questions, by fieldId. On an update, the whole set (omit to keep them). A draft may leave questions blank; submitting needs every required question the answers make visible.
+	Answers *[]PurchaseRequestAnswerInput `json:"answers,omitempty"`
+
 	// CostCenter The cost center (a code or name on the workspace's list, stored as its code). Required to submit when the workspace keeps a list.
 	CostCenter *string `json:"costCenter,omitempty"`
 
@@ -5942,6 +6141,9 @@ type CreatePurchaseRequestInput struct {
 
 	// QuoteImportId A quote uploaded through the quote import, to attach.
 	QuoteImportId *string `json:"quoteImportId,omitempty"`
+
+	// RequestTypeId The request type (GET /request-types). Required when the workspace has an active type. The type's GL account and line type fill in what the request leaves out.
+	RequestTypeId *string `json:"requestTypeId,omitempty"`
 
 	// Submit true submits it for approval straight away; otherwise it is saved as a draft.
 	Submit *bool `json:"submit,omitempty"`
@@ -6229,6 +6431,7 @@ type FeedValidationResult struct {
 		LineItems                   *[]InvoiceLineItem                        `json:"lineItems,omitempty"`
 		MatchStatus                 *FeedValidationResultInvoiceMatchStatus   `json:"matchStatus,omitempty"`
 		NextReminderAt              *string                                   `json:"nextReminderAt,omitempty"`
+		NoPoComparison              *NoPoComparison                           `json:"noPoComparison,omitempty"`
 		Paid                        *bool                                     `json:"paid,omitempty"`
 		PaidAt                      *string                                   `json:"paidAt,omitempty"`
 		PartyDetails                *struct {
@@ -6237,6 +6440,8 @@ type FeedValidationResult struct {
 		} `json:"partyDetails,omitempty"`
 		Payment                *FeedValidationResult_Invoice_Payment          `json:"payment,omitempty"`
 		PaymentCurrencyAmount  *InvoiceCurrencyAmount                         `json:"paymentCurrencyAmount,omitempty"`
+		PaymentProblem         *SupplierPaymentProblemView                    `json:"paymentProblem,omitempty"`
+		PaymentRoute           *FeedValidationResultInvoicePaymentRoute       `json:"paymentRoute,omitempty"`
 		Po                     *string                                        `json:"po,omitempty"`
 		PoLineNo               *float64                                       `json:"poLineNo,omitempty"`
 		PossibleDuplicates     *[]InvoiceDuplicateRef                         `json:"possibleDuplicates,omitempty"`
@@ -6246,6 +6451,7 @@ type FeedValidationResult struct {
 		ReplacedByInvoiceIds   *[]string                                      `json:"replacedByInvoiceIds,omitempty"`
 		ReplacesInvoiceId      *string                                        `json:"replacesInvoiceId,omitempty"`
 		ReplacesInvoiceIds     *[]string                                      `json:"replacesInvoiceIds,omitempty"`
+		Settlement             *SupplierSettlementView                        `json:"settlement,omitempty"`
 		SourceDocument         *InvoiceSourceDocument                         `json:"sourceDocument,omitempty"`
 		SubmittedFormat        *FeedValidationResultInvoiceSubmittedFormat    `json:"submittedFormat,omitempty"`
 		Supplier               *string                                        `json:"supplier,omitempty"`
@@ -6331,6 +6537,9 @@ type FeedValidationResult_Invoice_Payment struct {
 	union json.RawMessage
 }
 
+// FeedValidationResultInvoicePaymentRoute defines model for FeedValidationResult.Invoice.PaymentRoute.
+type FeedValidationResultInvoicePaymentRoute string
+
 // FeedValidationResultInvoiceSubmittedFormat defines model for FeedValidationResult.Invoice.SubmittedFormat.
 type FeedValidationResultInvoiceSubmittedFormat string
 
@@ -6394,6 +6603,15 @@ type FeedValidationWarning struct {
 // FeedValidationWarningCode defines model for FeedValidationWarning.Code.
 type FeedValidationWarningCode string
 
+// FileAnswerInput defines model for FileAnswerInput.
+type FileAnswerInput struct {
+	ContentType string `json:"contentType"`
+
+	// FileId The fileId the upload-url route returned
+	FileId   string `json:"fileId"`
+	FileName string `json:"fileName"`
+}
+
 // Geography defines model for Geography.
 type Geography struct {
 	PresetId      *GeographyPresetId `json:"presetId,omitempty"`
@@ -6405,11 +6623,18 @@ type GeographyPresetId string
 
 // GetBudgetStatusResult defines model for GetBudgetStatusResult.
 type GetBudgetStatusResult struct {
-	CostCenters *[]BudgetStatus        `json:"costCenters,omitempty"`
-	Currency    *string                `json:"currency,omitempty"`
-	Period      *BudgetPeriod          `json:"period,omitempty"`
-	Settings    *BudgetControlSettings `json:"settings,omitempty"`
-	Unassigned  *SpendFigures          `json:"unassigned,omitempty"`
+	CostCenters          *[]BudgetStatus        `json:"costCenters,omitempty"`
+	Currency             *string                `json:"currency,omitempty"`
+	Period               *BudgetPeriod          `json:"period,omitempty"`
+	Settings             *BudgetControlSettings `json:"settings,omitempty"`
+	Unassigned           *SpendFigures          `json:"unassigned,omitempty"`
+	UnassignedByCurrency *[]struct {
+		Actual      *float64 `json:"actual,omitempty"`
+		Committed   *float64 `json:"committed,omitempty"`
+		Currency    *string  `json:"currency,omitempty"`
+		Pending     *float64 `json:"pending,omitempty"`
+		Unconverted *float64 `json:"unconverted,omitempty"`
+	} `json:"unassignedByCurrency,omitempty"`
 }
 
 // GetBuyerWorkspaceResult defines model for GetBuyerWorkspaceResult.
@@ -6595,26 +6820,30 @@ type GetInvoiceResultBuyerInvoice struct {
 	MatchBasis                  *GetInvoiceResultBuyerInvoiceMatchBasis        `json:"matchBasis,omitempty"`
 	MatchStatus                 *GetInvoiceResultBuyerInvoiceMatchStatus       `json:"matchStatus,omitempty"`
 	MatchType                   *GetInvoiceResultBuyerInvoiceMatchType         `json:"matchType,omitempty"`
+	NoPoComparison              *NoPoComparison                                `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                          `json:"paid,omitempty"`
 	PaidAt                      *string                                        `json:"paidAt,omitempty"`
 	PartyDetails                *struct {
 		Buyer    *InvoicePartyDetails `json:"buyer,omitempty"`
 		Supplier *InvoicePartyDetails `json:"supplier,omitempty"`
 	} `json:"partyDetails,omitempty"`
-	Payment               *InvoicePaymentRecord  `json:"payment,omitempty"`
-	PaymentCurrencyAmount *InvoiceCurrencyAmount `json:"paymentCurrencyAmount,omitempty"`
-	PaymentHistory        *[]PaymentHistoryEntry `json:"paymentHistory,omitempty"`
-	Po                    *string                `json:"po,omitempty"`
-	PoLineNo              *float64               `json:"poLineNo,omitempty"`
-	PossibleDuplicates    *[]InvoiceDuplicateRef `json:"possibleDuplicates,omitempty"`
-	PreviousExportedAt    *string                `json:"previousExportedAt,omitempty"`
-	RateWarnings          *[]InvoiceRateWarning  `json:"rateWarnings,omitempty"`
+	Payment               *InvoicePaymentRecord                     `json:"payment,omitempty"`
+	PaymentCurrencyAmount *InvoiceCurrencyAmount                    `json:"paymentCurrencyAmount,omitempty"`
+	PaymentHistory        *[]PaymentHistoryEntry                    `json:"paymentHistory,omitempty"`
+	PaymentProblem        *InvoicePaymentProblem                    `json:"paymentProblem,omitempty"`
+	PaymentRoute          *GetInvoiceResultBuyerInvoicePaymentRoute `json:"paymentRoute,omitempty"`
+	Po                    *string                                   `json:"po,omitempty"`
+	PoLineNo              *float64                                  `json:"poLineNo,omitempty"`
+	PossibleDuplicates    *[]InvoiceDuplicateRef                    `json:"possibleDuplicates,omitempty"`
+	PreviousExportedAt    *string                                   `json:"previousExportedAt,omitempty"`
+	RateWarnings          *[]InvoiceRateWarning                     `json:"rateWarnings,omitempty"`
 	ReceiptCheckSkipped   *struct {
 		At       *string                                                `json:"at,omitempty"`
 		Findings *[]InvoiceControlFinding                               `json:"findings,omitempty"`
 		Reason   *GetInvoiceResultBuyerInvoiceReceiptCheckSkippedReason `json:"reason,omitempty"`
 	} `json:"receiptCheckSkipped,omitempty"`
-	ReceiptToleranceApplied *struct {
+	ReceiptConfirmationRemindedAt *string `json:"receiptConfirmationRemindedAt,omitempty"`
+	ReceiptToleranceApplied       *struct {
 		At    *string `json:"at,omitempty"`
 		Lines *[]struct {
 			Over     *float64 `json:"over,omitempty"`
@@ -6633,6 +6862,7 @@ type GetInvoiceResultBuyerInvoice struct {
 	Replacement                   *InvoiceReplacementCheck                      `json:"replacement,omitempty"`
 	ReplacesInvoiceId             *string                                       `json:"replacesInvoiceId,omitempty"`
 	ReplacesInvoiceIds            *[]string                                     `json:"replacesInvoiceIds,omitempty"`
+	Settlement                    *InvoiceSettlement                            `json:"settlement,omitempty"`
 	SodExcludedKeys               *[]string                                     `json:"sodExcludedKeys,omitempty"`
 	Source                        *GetInvoiceResultBuyerInvoiceSource           `json:"source,omitempty"`
 	SourceDocument                *InvoiceSourceDocument                        `json:"sourceDocument,omitempty"`
@@ -6680,6 +6910,9 @@ type GetInvoiceResultBuyerInvoiceMatchStatus string
 
 // GetInvoiceResultBuyerInvoiceMatchType defines model for GetInvoiceResultBuyerInvoice.MatchType.
 type GetInvoiceResultBuyerInvoiceMatchType string
+
+// GetInvoiceResultBuyerInvoicePaymentRoute defines model for GetInvoiceResultBuyerInvoice.PaymentRoute.
+type GetInvoiceResultBuyerInvoicePaymentRoute string
 
 // GetInvoiceResultBuyerInvoiceReceiptCheckSkippedReason defines model for GetInvoiceResultBuyerInvoice.ReceiptCheckSkipped.Reason.
 type GetInvoiceResultBuyerInvoiceReceiptCheckSkippedReason string
@@ -6844,6 +7077,7 @@ type GetInvoiceResultSupplierInvoice struct {
 	LineItems                   *[]InvoiceLineItem                            `json:"lineItems,omitempty"`
 	MatchStatus                 *GetInvoiceResultSupplierInvoiceMatchStatus   `json:"matchStatus,omitempty"`
 	NextReminderAt              *string                                       `json:"nextReminderAt,omitempty"`
+	NoPoComparison              *NoPoComparison                               `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                         `json:"paid,omitempty"`
 	PaidAt                      *string                                       `json:"paidAt,omitempty"`
 	PartyDetails                *struct {
@@ -6852,6 +7086,8 @@ type GetInvoiceResultSupplierInvoice struct {
 	} `json:"partyDetails,omitempty"`
 	Payment                *GetInvoiceResultSupplierInvoice_Payment          `json:"payment,omitempty"`
 	PaymentCurrencyAmount  *InvoiceCurrencyAmount                            `json:"paymentCurrencyAmount,omitempty"`
+	PaymentProblem         *SupplierPaymentProblemView                       `json:"paymentProblem,omitempty"`
+	PaymentRoute           *GetInvoiceResultSupplierInvoicePaymentRoute      `json:"paymentRoute,omitempty"`
 	Po                     *string                                           `json:"po,omitempty"`
 	PoLineNo               *float64                                          `json:"poLineNo,omitempty"`
 	PossibleDuplicates     *[]InvoiceDuplicateRef                            `json:"possibleDuplicates,omitempty"`
@@ -6862,6 +7098,7 @@ type GetInvoiceResultSupplierInvoice struct {
 	Replacement            *InvoiceReplacementCheck                          `json:"replacement,omitempty"`
 	ReplacesInvoiceId      *string                                           `json:"replacesInvoiceId,omitempty"`
 	ReplacesInvoiceIds     *[]string                                         `json:"replacesInvoiceIds,omitempty"`
+	Settlement             *SupplierSettlementView                           `json:"settlement,omitempty"`
 	Source                 *GetInvoiceResultSupplierInvoiceSource            `json:"source,omitempty"`
 	SourceDocument         *InvoiceSourceDocument                            `json:"sourceDocument,omitempty"`
 	SubmittedFormat        *GetInvoiceResultSupplierInvoiceSubmittedFormat   `json:"submittedFormat,omitempty"`
@@ -6936,6 +7173,9 @@ type GetInvoiceResultSupplierInvoicePayment1Status string
 type GetInvoiceResultSupplierInvoice_Payment struct {
 	union json.RawMessage
 }
+
+// GetInvoiceResultSupplierInvoicePaymentRoute defines model for GetInvoiceResultSupplierInvoice.PaymentRoute.
+type GetInvoiceResultSupplierInvoicePaymentRoute string
 
 // GetInvoiceResultSupplierInvoiceSource defines model for GetInvoiceResultSupplierInvoice.Source.
 type GetInvoiceResultSupplierInvoiceSource string
@@ -7024,6 +7264,11 @@ type GetOrgProfileResultRole string
 // GetPurchaseOrderResult defines model for GetPurchaseOrderResult.
 type GetPurchaseOrderResult struct {
 	union json.RawMessage
+}
+
+// GetPurchaseRequestFileResult defines model for GetPurchaseRequestFileResult.
+type GetPurchaseRequestFileResult struct {
+	Url *string `json:"url,omitempty"`
 }
 
 // GetReferenceRateResult defines model for GetReferenceRateResult.
@@ -7300,26 +7545,30 @@ type InvoiceBuyerView struct {
 	MatchBasis                  *InvoiceBuyerViewMatchBasis        `json:"matchBasis,omitempty"`
 	MatchStatus                 *InvoiceBuyerViewMatchStatus       `json:"matchStatus,omitempty"`
 	MatchType                   *InvoiceBuyerViewMatchType         `json:"matchType,omitempty"`
+	NoPoComparison              *NoPoComparison                    `json:"noPoComparison,omitempty"`
 	Paid                        *bool                              `json:"paid,omitempty"`
 	PaidAt                      *string                            `json:"paidAt,omitempty"`
 	PartyDetails                *struct {
 		Buyer    *InvoicePartyDetails `json:"buyer,omitempty"`
 		Supplier *InvoicePartyDetails `json:"supplier,omitempty"`
 	} `json:"partyDetails,omitempty"`
-	Payment               *InvoicePaymentRecord  `json:"payment,omitempty"`
-	PaymentCurrencyAmount *InvoiceCurrencyAmount `json:"paymentCurrencyAmount,omitempty"`
-	PaymentHistory        *[]PaymentHistoryEntry `json:"paymentHistory,omitempty"`
-	Po                    *string                `json:"po,omitempty"`
-	PoLineNo              *float64               `json:"poLineNo,omitempty"`
-	PossibleDuplicates    *[]InvoiceDuplicateRef `json:"possibleDuplicates,omitempty"`
-	PreviousExportedAt    *string                `json:"previousExportedAt,omitempty"`
-	RateWarnings          *[]InvoiceRateWarning  `json:"rateWarnings,omitempty"`
+	Payment               *InvoicePaymentRecord         `json:"payment,omitempty"`
+	PaymentCurrencyAmount *InvoiceCurrencyAmount        `json:"paymentCurrencyAmount,omitempty"`
+	PaymentHistory        *[]PaymentHistoryEntry        `json:"paymentHistory,omitempty"`
+	PaymentProblem        *InvoicePaymentProblem        `json:"paymentProblem,omitempty"`
+	PaymentRoute          *InvoiceBuyerViewPaymentRoute `json:"paymentRoute,omitempty"`
+	Po                    *string                       `json:"po,omitempty"`
+	PoLineNo              *float64                      `json:"poLineNo,omitempty"`
+	PossibleDuplicates    *[]InvoiceDuplicateRef        `json:"possibleDuplicates,omitempty"`
+	PreviousExportedAt    *string                       `json:"previousExportedAt,omitempty"`
+	RateWarnings          *[]InvoiceRateWarning         `json:"rateWarnings,omitempty"`
 	ReceiptCheckSkipped   *struct {
 		At       *string                                    `json:"at,omitempty"`
 		Findings *[]InvoiceControlFinding                   `json:"findings,omitempty"`
 		Reason   *InvoiceBuyerViewReceiptCheckSkippedReason `json:"reason,omitempty"`
 	} `json:"receiptCheckSkipped,omitempty"`
-	ReceiptToleranceApplied *struct {
+	ReceiptConfirmationRemindedAt *string `json:"receiptConfirmationRemindedAt,omitempty"`
+	ReceiptToleranceApplied       *struct {
 		At    *string `json:"at,omitempty"`
 		Lines *[]struct {
 			Over     *float64 `json:"over,omitempty"`
@@ -7338,6 +7587,7 @@ type InvoiceBuyerView struct {
 	Replacement                   *InvoiceReplacementCheck          `json:"replacement,omitempty"`
 	ReplacesInvoiceId             *string                           `json:"replacesInvoiceId,omitempty"`
 	ReplacesInvoiceIds            *[]string                         `json:"replacesInvoiceIds,omitempty"`
+	Settlement                    *InvoiceSettlement                `json:"settlement,omitempty"`
 	SodExcludedKeys               *[]string                         `json:"sodExcludedKeys,omitempty"`
 	Source                        *InvoiceBuyerViewSource           `json:"source,omitempty"`
 	SourceDocument                *InvoiceSourceDocument            `json:"sourceDocument,omitempty"`
@@ -7385,6 +7635,9 @@ type InvoiceBuyerViewMatchStatus string
 
 // InvoiceBuyerViewMatchType defines model for InvoiceBuyerView.MatchType.
 type InvoiceBuyerViewMatchType string
+
+// InvoiceBuyerViewPaymentRoute defines model for InvoiceBuyerView.PaymentRoute.
+type InvoiceBuyerViewPaymentRoute string
 
 // InvoiceBuyerViewReceiptCheckSkippedReason defines model for InvoiceBuyerView.ReceiptCheckSkipped.Reason.
 type InvoiceBuyerViewReceiptCheckSkippedReason string
@@ -7559,6 +7812,26 @@ type InvoicePartyDetails struct {
 	TaxIdLabel   *string   `json:"taxIdLabel,omitempty"`
 }
 
+// InvoicePaymentProblem defines model for InvoicePaymentProblem.
+type InvoicePaymentProblem struct {
+	AmountReceived *float64 `json:"amountReceived,omitempty"`
+	Answer         *struct {
+		At     *string `json:"at,omitempty"`
+		By     *string `json:"by,omitempty"`
+		ByName *string `json:"byName,omitempty"`
+		Note   *string `json:"note,omitempty"`
+	} `json:"answer,omitempty"`
+	At         *string                    `json:"at,omitempty"`
+	By         *string                    `json:"by,omitempty"`
+	ByName     *string                    `json:"byName,omitempty"`
+	Kind       *InvoicePaymentProblemKind `json:"kind,omitempty"`
+	Note       *string                    `json:"note,omitempty"`
+	ResolvedAt *string                    `json:"resolvedAt,omitempty"`
+}
+
+// InvoicePaymentProblemKind defines model for InvoicePaymentProblem.Kind.
+type InvoicePaymentProblemKind string
+
 // InvoicePaymentRecord defines model for InvoicePaymentRecord.
 type InvoicePaymentRecord struct {
 	AdviceVersion  *float64                    `json:"adviceVersion,omitempty"`
@@ -7639,6 +7912,19 @@ type InvoiceReplacementCheck struct {
 	CreditedInFull *bool    `json:"creditedInFull,omitempty"`
 	Uncredited     *float64 `json:"uncredited,omitempty"`
 }
+
+// InvoiceSettlement defines model for InvoiceSettlement.
+type InvoiceSettlement struct {
+	At        *string                  `json:"at,omitempty"`
+	By        *string                  `json:"by,omitempty"`
+	ByName    *string                  `json:"byName,omitempty"`
+	Note      *string                  `json:"note,omitempty"`
+	Source    *InvoiceSettlementSource `json:"source,omitempty"`
+	UndoUntil *string                  `json:"undoUntil,omitempty"`
+}
+
+// InvoiceSettlementSource defines model for InvoiceSettlement.Source.
+type InvoiceSettlementSource string
 
 // InvoiceSourceDocument defines model for InvoiceSourceDocument.
 type InvoiceSourceDocument struct {
@@ -7762,6 +8048,7 @@ type InvoiceSupplierView struct {
 	LineItems                   *[]InvoiceLineItem                   `json:"lineItems,omitempty"`
 	MatchStatus                 *InvoiceSupplierViewMatchStatus      `json:"matchStatus,omitempty"`
 	NextReminderAt              *string                              `json:"nextReminderAt,omitempty"`
+	NoPoComparison              *NoPoComparison                      `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                `json:"paid,omitempty"`
 	PaidAt                      *string                              `json:"paidAt,omitempty"`
 	PartyDetails                *struct {
@@ -7770,6 +8057,8 @@ type InvoiceSupplierView struct {
 	} `json:"partyDetails,omitempty"`
 	Payment                *InvoiceSupplierView_Payment          `json:"payment,omitempty"`
 	PaymentCurrencyAmount  *InvoiceCurrencyAmount                `json:"paymentCurrencyAmount,omitempty"`
+	PaymentProblem         *SupplierPaymentProblemView           `json:"paymentProblem,omitempty"`
+	PaymentRoute           *InvoiceSupplierViewPaymentRoute      `json:"paymentRoute,omitempty"`
 	Po                     *string                               `json:"po,omitempty"`
 	PoLineNo               *float64                              `json:"poLineNo,omitempty"`
 	PossibleDuplicates     *[]InvoiceDuplicateRef                `json:"possibleDuplicates,omitempty"`
@@ -7779,6 +8068,7 @@ type InvoiceSupplierView struct {
 	ReplacedByInvoiceIds   *[]string                             `json:"replacedByInvoiceIds,omitempty"`
 	ReplacesInvoiceId      *string                               `json:"replacesInvoiceId,omitempty"`
 	ReplacesInvoiceIds     *[]string                             `json:"replacesInvoiceIds,omitempty"`
+	Settlement             *SupplierSettlementView               `json:"settlement,omitempty"`
 	Source                 *InvoiceSupplierViewSource            `json:"source,omitempty"`
 	SourceDocument         *InvoiceSourceDocument                `json:"sourceDocument,omitempty"`
 	SubmittedFormat        *InvoiceSupplierViewSubmittedFormat   `json:"submittedFormat,omitempty"`
@@ -7852,6 +8142,9 @@ type InvoiceSupplierViewPayment1Status string
 type InvoiceSupplierView_Payment struct {
 	union json.RawMessage
 }
+
+// InvoiceSupplierViewPaymentRoute defines model for InvoiceSupplierView.PaymentRoute.
+type InvoiceSupplierViewPaymentRoute string
 
 // InvoiceSupplierViewSource defines model for InvoiceSupplierView.Source.
 type InvoiceSupplierViewSource string
@@ -8182,26 +8475,30 @@ type ListInvoicesItemBuyerInvoice struct {
 	MatchBasis                  *ListInvoicesItemBuyerInvoiceMatchBasis        `json:"matchBasis,omitempty"`
 	MatchStatus                 *ListInvoicesItemBuyerInvoiceMatchStatus       `json:"matchStatus,omitempty"`
 	MatchType                   *ListInvoicesItemBuyerInvoiceMatchType         `json:"matchType,omitempty"`
+	NoPoComparison              *NoPoComparison                                `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                          `json:"paid,omitempty"`
 	PaidAt                      *string                                        `json:"paidAt,omitempty"`
 	PartyDetails                *struct {
 		Buyer    *InvoicePartyDetails `json:"buyer,omitempty"`
 		Supplier *InvoicePartyDetails `json:"supplier,omitempty"`
 	} `json:"partyDetails,omitempty"`
-	Payment               *InvoicePaymentRecord  `json:"payment,omitempty"`
-	PaymentCurrencyAmount *InvoiceCurrencyAmount `json:"paymentCurrencyAmount,omitempty"`
-	PaymentHistory        *[]PaymentHistoryEntry `json:"paymentHistory,omitempty"`
-	Po                    *string                `json:"po,omitempty"`
-	PoLineNo              *float64               `json:"poLineNo,omitempty"`
-	PossibleDuplicates    *[]InvoiceDuplicateRef `json:"possibleDuplicates,omitempty"`
-	PreviousExportedAt    *string                `json:"previousExportedAt,omitempty"`
-	RateWarnings          *[]InvoiceRateWarning  `json:"rateWarnings,omitempty"`
+	Payment               *InvoicePaymentRecord                     `json:"payment,omitempty"`
+	PaymentCurrencyAmount *InvoiceCurrencyAmount                    `json:"paymentCurrencyAmount,omitempty"`
+	PaymentHistory        *[]PaymentHistoryEntry                    `json:"paymentHistory,omitempty"`
+	PaymentProblem        *InvoicePaymentProblem                    `json:"paymentProblem,omitempty"`
+	PaymentRoute          *ListInvoicesItemBuyerInvoicePaymentRoute `json:"paymentRoute,omitempty"`
+	Po                    *string                                   `json:"po,omitempty"`
+	PoLineNo              *float64                                  `json:"poLineNo,omitempty"`
+	PossibleDuplicates    *[]InvoiceDuplicateRef                    `json:"possibleDuplicates,omitempty"`
+	PreviousExportedAt    *string                                   `json:"previousExportedAt,omitempty"`
+	RateWarnings          *[]InvoiceRateWarning                     `json:"rateWarnings,omitempty"`
 	ReceiptCheckSkipped   *struct {
 		At       *string                                                `json:"at,omitempty"`
 		Findings *[]InvoiceControlFinding                               `json:"findings,omitempty"`
 		Reason   *ListInvoicesItemBuyerInvoiceReceiptCheckSkippedReason `json:"reason,omitempty"`
 	} `json:"receiptCheckSkipped,omitempty"`
-	ReceiptToleranceApplied *struct {
+	ReceiptConfirmationRemindedAt *string `json:"receiptConfirmationRemindedAt,omitempty"`
+	ReceiptToleranceApplied       *struct {
 		At    *string `json:"at,omitempty"`
 		Lines *[]struct {
 			Over     *float64 `json:"over,omitempty"`
@@ -8220,6 +8517,7 @@ type ListInvoicesItemBuyerInvoice struct {
 	Replacement                   *InvoiceReplacementCheck                      `json:"replacement,omitempty"`
 	ReplacesInvoiceId             *string                                       `json:"replacesInvoiceId,omitempty"`
 	ReplacesInvoiceIds            *[]string                                     `json:"replacesInvoiceIds,omitempty"`
+	Settlement                    *InvoiceSettlement                            `json:"settlement,omitempty"`
 	SodExcludedKeys               *[]string                                     `json:"sodExcludedKeys,omitempty"`
 	Source                        *ListInvoicesItemBuyerInvoiceSource           `json:"source,omitempty"`
 	SourceDocument                *InvoiceSourceDocument                        `json:"sourceDocument,omitempty"`
@@ -8267,6 +8565,9 @@ type ListInvoicesItemBuyerInvoiceMatchStatus string
 
 // ListInvoicesItemBuyerInvoiceMatchType defines model for ListInvoicesItemBuyerInvoice.MatchType.
 type ListInvoicesItemBuyerInvoiceMatchType string
+
+// ListInvoicesItemBuyerInvoicePaymentRoute defines model for ListInvoicesItemBuyerInvoice.PaymentRoute.
+type ListInvoicesItemBuyerInvoicePaymentRoute string
 
 // ListInvoicesItemBuyerInvoiceReceiptCheckSkippedReason defines model for ListInvoicesItemBuyerInvoice.ReceiptCheckSkipped.Reason.
 type ListInvoicesItemBuyerInvoiceReceiptCheckSkippedReason string
@@ -8431,6 +8732,7 @@ type ListInvoicesItemSupplierInvoice struct {
 	LineItems                   *[]InvoiceLineItem                            `json:"lineItems,omitempty"`
 	MatchStatus                 *ListInvoicesItemSupplierInvoiceMatchStatus   `json:"matchStatus,omitempty"`
 	NextReminderAt              *string                                       `json:"nextReminderAt,omitempty"`
+	NoPoComparison              *NoPoComparison                               `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                         `json:"paid,omitempty"`
 	PaidAt                      *string                                       `json:"paidAt,omitempty"`
 	PartyDetails                *struct {
@@ -8439,6 +8741,8 @@ type ListInvoicesItemSupplierInvoice struct {
 	} `json:"partyDetails,omitempty"`
 	Payment                *ListInvoicesItemSupplierInvoice_Payment          `json:"payment,omitempty"`
 	PaymentCurrencyAmount  *InvoiceCurrencyAmount                            `json:"paymentCurrencyAmount,omitempty"`
+	PaymentProblem         *SupplierPaymentProblemView                       `json:"paymentProblem,omitempty"`
+	PaymentRoute           *ListInvoicesItemSupplierInvoicePaymentRoute      `json:"paymentRoute,omitempty"`
 	Po                     *string                                           `json:"po,omitempty"`
 	PoLineNo               *float64                                          `json:"poLineNo,omitempty"`
 	PossibleDuplicates     *[]InvoiceDuplicateRef                            `json:"possibleDuplicates,omitempty"`
@@ -8448,6 +8752,7 @@ type ListInvoicesItemSupplierInvoice struct {
 	ReplacedByInvoiceIds   *[]string                                         `json:"replacedByInvoiceIds,omitempty"`
 	ReplacesInvoiceId      *string                                           `json:"replacesInvoiceId,omitempty"`
 	ReplacesInvoiceIds     *[]string                                         `json:"replacesInvoiceIds,omitempty"`
+	Settlement             *SupplierSettlementView                           `json:"settlement,omitempty"`
 	Source                 *ListInvoicesItemSupplierInvoiceSource            `json:"source,omitempty"`
 	SourceDocument         *InvoiceSourceDocument                            `json:"sourceDocument,omitempty"`
 	SubmittedFormat        *ListInvoicesItemSupplierInvoiceSubmittedFormat   `json:"submittedFormat,omitempty"`
@@ -8521,6 +8826,9 @@ type ListInvoicesItemSupplierInvoicePayment1Status string
 type ListInvoicesItemSupplierInvoice_Payment struct {
 	union json.RawMessage
 }
+
+// ListInvoicesItemSupplierInvoicePaymentRoute defines model for ListInvoicesItemSupplierInvoice.PaymentRoute.
+type ListInvoicesItemSupplierInvoicePaymentRoute string
 
 // ListInvoicesItemSupplierInvoiceSource defines model for ListInvoicesItemSupplierInvoice.Source.
 type ListInvoicesItemSupplierInvoiceSource string
@@ -8597,6 +8905,15 @@ type MarkAllNotificationsReadResult struct {
 	NextCursor *string  `json:"nextCursor,omitempty"`
 	Remaining  *bool    `json:"remaining,omitempty"`
 	Updated    *float64 `json:"updated,omitempty"`
+}
+
+// NoPoComparison defines model for NoPoComparison.
+type NoPoComparison struct {
+	At            *string   `json:"at,omitempty"`
+	Average       *float64  `json:"average,omitempty"`
+	DifferencePct *float64  `json:"differencePct,omitempty"`
+	InvoiceIds    *[]string `json:"invoiceIds,omitempty"`
+	TolerancePct  *float64  `json:"tolerancePct,omitempty"`
 }
 
 // Notification defines model for Notification.
@@ -8789,6 +9106,7 @@ type PaymentHistoryEntry struct {
 	At           *string                    `json:"at,omitempty"`
 	By           *string                    `json:"by,omitempty"`
 	ByName       *string                    `json:"byName,omitempty"`
+	BySupplier   *bool                      `json:"bySupplier,omitempty"`
 	CreditNoteId *string                    `json:"creditNoteId,omitempty"`
 	Record       *struct {
 		AdviceVersion *float64                         `json:"adviceVersion,omitempty"`
@@ -8886,6 +9204,7 @@ type PurchaseOrder struct {
 	ApprovalVersion       *float64                         `json:"approvalVersion,omitempty"`
 	BillTo                *string                          `json:"billTo,omitempty"`
 	BillToParty           *PurchaseOrderBillTo             `json:"billToParty,omitempty"`
+	Blanket               *bool                            `json:"blanket,omitempty"`
 	BudgetCheck           *BudgetCheck                     `json:"budgetCheck,omitempty"`
 	BudgetOwner           *string                          `json:"budgetOwner,omitempty"`
 	BuyerName             *string                          `json:"buyerName,omitempty"`
@@ -8899,6 +9218,7 @@ type PurchaseOrder struct {
 	Currency              *string                          `json:"currency,omitempty"`
 	DeliveryAddressId     *string                          `json:"deliveryAddressId,omitempty"`
 	EverSpendLimitGated   *bool                            `json:"everSpendLimitGated,omitempty"`
+	ExpectedMonthly       *float64                         `json:"expectedMonthly,omitempty"`
 	GlCode                *string                          `json:"glCode,omitempty"`
 	Id                    string                           `json:"id"`
 	InvoiceId             *string                          `json:"invoiceId,omitempty"`
@@ -9228,29 +9548,36 @@ type PurchaseOrderSupplierViewStatus string
 
 // PurchaseRequest defines model for PurchaseRequest.
 type PurchaseRequest struct {
-	Amount               *float64                    `json:"amount,omitempty"`
-	Approval             *ApprovalChain              `json:"approval,omitempty"`
-	ApprovalVersion      *float64                    `json:"approvalVersion,omitempty"`
-	BudgetCheck          *BudgetCheck                `json:"budgetCheck,omitempty"`
-	CanceledAt           *string                     `json:"canceledAt,omitempty"`
-	CanceledBy           *string                     `json:"canceledBy,omitempty"`
-	CostCenter           *string                     `json:"costCenter,omitempty"`
-	CreatedAt            *string                     `json:"createdAt,omitempty"`
-	Currency             *string                     `json:"currency,omitempty"`
-	DecidedAt            *string                     `json:"decidedAt,omitempty"`
-	Description          *string                     `json:"description,omitempty"`
-	GlCode               *string                     `json:"glCode,omitempty"`
-	Id                   string                      `json:"id"`
-	LineItems            *[]PurchaseRequestLine      `json:"lineItems,omitempty"`
-	NeededBy             *string                     `json:"neededBy,omitempty"`
-	Notes                *string                     `json:"notes,omitempty"`
-	PoId                 *string                     `json:"poId,omitempty"`
-	QuoteDocument        *PurchaseOrderQuoteDocument `json:"quoteDocument,omitempty"`
-	RejectionReason      *string                     `json:"rejectionReason,omitempty"`
-	RequesterEmployeeKey *string                     `json:"requesterEmployeeKey,omitempty"`
-	RequesterName        *string                     `json:"requesterName,omitempty"`
-	Status               *PurchaseRequestStatus      `json:"status,omitempty"`
-	SubmittedAt          *string                     `json:"submittedAt,omitempty"`
+	Amount          *float64                    `json:"amount,omitempty"`
+	Answers         *[]RequestAnswer            `json:"answers,omitempty"`
+	Approval        *ApprovalChain              `json:"approval,omitempty"`
+	ApprovalVersion *float64                    `json:"approvalVersion,omitempty"`
+	BudgetCheck     *BudgetCheck                `json:"budgetCheck,omitempty"`
+	CanceledAt      *string                     `json:"canceledAt,omitempty"`
+	CanceledBy      *string                     `json:"canceledBy,omitempty"`
+	CostCenter      *string                     `json:"costCenter,omitempty"`
+	CreatedAt       *string                     `json:"createdAt,omitempty"`
+	Currency        *string                     `json:"currency,omitempty"`
+	DecidedAt       *string                     `json:"decidedAt,omitempty"`
+	Description     *string                     `json:"description,omitempty"`
+	FormFields      *[]QuestionnaireFieldDef    `json:"formFields,omitempty"`
+	GlCode          *string                     `json:"glCode,omitempty"`
+	Id              string                      `json:"id"`
+	LineItems       *[]PurchaseRequestLine      `json:"lineItems,omitempty"`
+	NeededBy        *string                     `json:"neededBy,omitempty"`
+	Notes           *string                     `json:"notes,omitempty"`
+	PoId            *string                     `json:"poId,omitempty"`
+	QuoteDocument   *PurchaseOrderQuoteDocument `json:"quoteDocument,omitempty"`
+	RejectionReason *string                     `json:"rejectionReason,omitempty"`
+	RequestType     *struct {
+		Id      string   `json:"id"`
+		Name    *string  `json:"name,omitempty"`
+		Version *float64 `json:"version,omitempty"`
+	} `json:"requestType,omitempty"`
+	RequesterEmployeeKey *string                `json:"requesterEmployeeKey,omitempty"`
+	RequesterName        *string                `json:"requesterName,omitempty"`
+	Status               *PurchaseRequestStatus `json:"status,omitempty"`
+	SubmittedAt          *string                `json:"submittedAt,omitempty"`
 	Supplier             *struct {
 		Name                 *string `json:"name,omitempty"`
 		SupplierConnectionId *string `json:"supplierConnectionId,omitempty"`
@@ -9262,6 +9589,21 @@ type PurchaseRequest struct {
 
 // PurchaseRequestStatus defines model for PurchaseRequest.Status.
 type PurchaseRequestStatus string
+
+// PurchaseRequestAnswerInput defines model for PurchaseRequestAnswerInput.
+type PurchaseRequestAnswerInput struct {
+	// FieldId QuestionnaireFieldDef.id of a kind === 'custom' field
+	FieldId string `json:"fieldId"`
+
+	// File file questions - upload first via POST .../questionnaire-files/upload-url
+	File *FileAnswerInput `json:"file,omitempty"`
+
+	// SelectedOptionIds yes_no ("yes"/"no"), single_choice and multi_choice questions - option ids
+	SelectedOptionIds *[]string `json:"selectedOptionIds,omitempty"`
+
+	// TextAnswer text, long_text, number (e.g. "1250.5") and date (YYYY-MM-DD) questions
+	TextAnswer *string `json:"textAnswer,omitempty"`
+}
 
 // PurchaseRequestLine defines model for PurchaseRequestLine.
 type PurchaseRequestLine struct {
@@ -9541,26 +9883,30 @@ type RecordPaymentResult struct {
 	MatchBasis                  *RecordPaymentResultMatchBasis        `json:"matchBasis,omitempty"`
 	MatchStatus                 *RecordPaymentResultMatchStatus       `json:"matchStatus,omitempty"`
 	MatchType                   *RecordPaymentResultMatchType         `json:"matchType,omitempty"`
+	NoPoComparison              *NoPoComparison                       `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                 `json:"paid,omitempty"`
 	PaidAt                      *string                               `json:"paidAt,omitempty"`
 	PartyDetails                *struct {
 		Buyer    *InvoicePartyDetails `json:"buyer,omitempty"`
 		Supplier *InvoicePartyDetails `json:"supplier,omitempty"`
 	} `json:"partyDetails,omitempty"`
-	Payment               *InvoicePaymentRecord  `json:"payment,omitempty"`
-	PaymentCurrencyAmount *InvoiceCurrencyAmount `json:"paymentCurrencyAmount,omitempty"`
-	PaymentHistory        *[]PaymentHistoryEntry `json:"paymentHistory,omitempty"`
-	Po                    *string                `json:"po,omitempty"`
-	PoLineNo              *float64               `json:"poLineNo,omitempty"`
-	PossibleDuplicates    *[]InvoiceDuplicateRef `json:"possibleDuplicates,omitempty"`
-	PreviousExportedAt    *string                `json:"previousExportedAt,omitempty"`
-	RateWarnings          *[]InvoiceRateWarning  `json:"rateWarnings,omitempty"`
+	Payment               *InvoicePaymentRecord            `json:"payment,omitempty"`
+	PaymentCurrencyAmount *InvoiceCurrencyAmount           `json:"paymentCurrencyAmount,omitempty"`
+	PaymentHistory        *[]PaymentHistoryEntry           `json:"paymentHistory,omitempty"`
+	PaymentProblem        *InvoicePaymentProblem           `json:"paymentProblem,omitempty"`
+	PaymentRoute          *RecordPaymentResultPaymentRoute `json:"paymentRoute,omitempty"`
+	Po                    *string                          `json:"po,omitempty"`
+	PoLineNo              *float64                         `json:"poLineNo,omitempty"`
+	PossibleDuplicates    *[]InvoiceDuplicateRef           `json:"possibleDuplicates,omitempty"`
+	PreviousExportedAt    *string                          `json:"previousExportedAt,omitempty"`
+	RateWarnings          *[]InvoiceRateWarning            `json:"rateWarnings,omitempty"`
 	ReceiptCheckSkipped   *struct {
 		At       *string                                       `json:"at,omitempty"`
 		Findings *[]InvoiceControlFinding                      `json:"findings,omitempty"`
 		Reason   *RecordPaymentResultReceiptCheckSkippedReason `json:"reason,omitempty"`
 	} `json:"receiptCheckSkipped,omitempty"`
-	ReceiptToleranceApplied *struct {
+	ReceiptConfirmationRemindedAt *string `json:"receiptConfirmationRemindedAt,omitempty"`
+	ReceiptToleranceApplied       *struct {
 		At    *string `json:"at,omitempty"`
 		Lines *[]struct {
 			Over     *float64 `json:"over,omitempty"`
@@ -9579,6 +9925,7 @@ type RecordPaymentResult struct {
 	Replacement                   *InvoiceReplacementCheck             `json:"replacement,omitempty"`
 	ReplacesInvoiceId             *string                              `json:"replacesInvoiceId,omitempty"`
 	ReplacesInvoiceIds            *[]string                            `json:"replacesInvoiceIds,omitempty"`
+	Settlement                    *InvoiceSettlement                   `json:"settlement,omitempty"`
 	SodExcludedKeys               *[]string                            `json:"sodExcludedKeys,omitempty"`
 	Source                        *RecordPaymentResultSource           `json:"source,omitempty"`
 	SourceDocument                *InvoiceSourceDocument               `json:"sourceDocument,omitempty"`
@@ -9626,6 +9973,9 @@ type RecordPaymentResultMatchStatus string
 
 // RecordPaymentResultMatchType defines model for RecordPaymentResult.MatchType.
 type RecordPaymentResultMatchType string
+
+// RecordPaymentResultPaymentRoute defines model for RecordPaymentResult.PaymentRoute.
+type RecordPaymentResultPaymentRoute string
 
 // RecordPaymentResultReceiptCheckSkippedReason defines model for RecordPaymentResult.ReceiptCheckSkipped.Reason.
 type RecordPaymentResultReceiptCheckSkippedReason string
@@ -9878,26 +10228,30 @@ type RemoveInvoiceReplacementLinkResult struct {
 	MatchBasis                  *RemoveInvoiceReplacementLinkResultMatchBasis        `json:"matchBasis,omitempty"`
 	MatchStatus                 *RemoveInvoiceReplacementLinkResultMatchStatus       `json:"matchStatus,omitempty"`
 	MatchType                   *RemoveInvoiceReplacementLinkResultMatchType         `json:"matchType,omitempty"`
+	NoPoComparison              *NoPoComparison                                      `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                                `json:"paid,omitempty"`
 	PaidAt                      *string                                              `json:"paidAt,omitempty"`
 	PartyDetails                *struct {
 		Buyer    *InvoicePartyDetails `json:"buyer,omitempty"`
 		Supplier *InvoicePartyDetails `json:"supplier,omitempty"`
 	} `json:"partyDetails,omitempty"`
-	Payment               *InvoicePaymentRecord  `json:"payment,omitempty"`
-	PaymentCurrencyAmount *InvoiceCurrencyAmount `json:"paymentCurrencyAmount,omitempty"`
-	PaymentHistory        *[]PaymentHistoryEntry `json:"paymentHistory,omitempty"`
-	Po                    *string                `json:"po,omitempty"`
-	PoLineNo              *float64               `json:"poLineNo,omitempty"`
-	PossibleDuplicates    *[]InvoiceDuplicateRef `json:"possibleDuplicates,omitempty"`
-	PreviousExportedAt    *string                `json:"previousExportedAt,omitempty"`
-	RateWarnings          *[]InvoiceRateWarning  `json:"rateWarnings,omitempty"`
+	Payment               *InvoicePaymentRecord                           `json:"payment,omitempty"`
+	PaymentCurrencyAmount *InvoiceCurrencyAmount                          `json:"paymentCurrencyAmount,omitempty"`
+	PaymentHistory        *[]PaymentHistoryEntry                          `json:"paymentHistory,omitempty"`
+	PaymentProblem        *InvoicePaymentProblem                          `json:"paymentProblem,omitempty"`
+	PaymentRoute          *RemoveInvoiceReplacementLinkResultPaymentRoute `json:"paymentRoute,omitempty"`
+	Po                    *string                                         `json:"po,omitempty"`
+	PoLineNo              *float64                                        `json:"poLineNo,omitempty"`
+	PossibleDuplicates    *[]InvoiceDuplicateRef                          `json:"possibleDuplicates,omitempty"`
+	PreviousExportedAt    *string                                         `json:"previousExportedAt,omitempty"`
+	RateWarnings          *[]InvoiceRateWarning                           `json:"rateWarnings,omitempty"`
 	ReceiptCheckSkipped   *struct {
 		At       *string                                                      `json:"at,omitempty"`
 		Findings *[]InvoiceControlFinding                                     `json:"findings,omitempty"`
 		Reason   *RemoveInvoiceReplacementLinkResultReceiptCheckSkippedReason `json:"reason,omitempty"`
 	} `json:"receiptCheckSkipped,omitempty"`
-	ReceiptToleranceApplied *struct {
+	ReceiptConfirmationRemindedAt *string `json:"receiptConfirmationRemindedAt,omitempty"`
+	ReceiptToleranceApplied       *struct {
 		At    *string `json:"at,omitempty"`
 		Lines *[]struct {
 			Over     *float64 `json:"over,omitempty"`
@@ -9916,6 +10270,7 @@ type RemoveInvoiceReplacementLinkResult struct {
 	Replacement                   *InvoiceReplacementCheck                            `json:"replacement,omitempty"`
 	ReplacesInvoiceId             *string                                             `json:"replacesInvoiceId,omitempty"`
 	ReplacesInvoiceIds            *[]string                                           `json:"replacesInvoiceIds,omitempty"`
+	Settlement                    *InvoiceSettlement                                  `json:"settlement,omitempty"`
 	SodExcludedKeys               *[]string                                           `json:"sodExcludedKeys,omitempty"`
 	Source                        *RemoveInvoiceReplacementLinkResultSource           `json:"source,omitempty"`
 	SourceDocument                *InvoiceSourceDocument                              `json:"sourceDocument,omitempty"`
@@ -9964,6 +10319,9 @@ type RemoveInvoiceReplacementLinkResultMatchStatus string
 // RemoveInvoiceReplacementLinkResultMatchType defines model for RemoveInvoiceReplacementLinkResult.MatchType.
 type RemoveInvoiceReplacementLinkResultMatchType string
 
+// RemoveInvoiceReplacementLinkResultPaymentRoute defines model for RemoveInvoiceReplacementLinkResult.PaymentRoute.
+type RemoveInvoiceReplacementLinkResultPaymentRoute string
+
 // RemoveInvoiceReplacementLinkResultReceiptCheckSkippedReason defines model for RemoveInvoiceReplacementLinkResult.ReceiptCheckSkipped.Reason.
 type RemoveInvoiceReplacementLinkResultReceiptCheckSkippedReason string
 
@@ -9978,6 +10336,53 @@ type RemoveInvoiceReplacementLinkResultUnverifiedReason string
 
 // RemoveInvoiceReplacementLinkResultUsageSource defines model for RemoveInvoiceReplacementLinkResult.UsageSource.
 type RemoveInvoiceReplacementLinkResultUsageSource string
+
+// RequestAnswer defines model for RequestAnswer.
+type RequestAnswer struct {
+	FieldId           *string                  `json:"fieldId,omitempty"`
+	File              *QuestionnaireFileAnswer `json:"file,omitempty"`
+	Flagged           *bool                    `json:"flagged,omitempty"`
+	SelectedOptionIds *[]string                `json:"selectedOptionIds,omitempty"`
+	TextAnswer        *string                  `json:"textAnswer,omitempty"`
+}
+
+// RequestFileUploadInput defines model for RequestFileUploadInput.
+type RequestFileUploadInput struct {
+	// ContentType PDF, image, Word, Excel, CSV or text, up to 25 MB.
+	ContentType RequestFileUploadInputContentType `json:"contentType"`
+}
+
+// RequestFileUploadInputContentType PDF, image, Word, Excel, CSV or text, up to 25 MB.
+type RequestFileUploadInputContentType string
+
+// RequestPurchaseRequestFileUploadResult defines model for RequestPurchaseRequestFileUploadResult.
+type RequestPurchaseRequestFileUploadResult struct {
+	FileId    *string  `json:"fileId,omitempty"`
+	MaxBytes  *float64 `json:"maxBytes,omitempty"`
+	UploadUrl *string  `json:"uploadUrl,omitempty"`
+}
+
+// RequestType defines model for RequestType.
+type RequestType struct {
+	Active    *bool   `json:"active,omitempty"`
+	CreatedAt *string `json:"createdAt,omitempty"`
+	Defaults  *struct {
+		GlCode   *string                      `json:"glCode,omitempty"`
+		LineType *RequestTypeDefaultsLineType `json:"lineType,omitempty"`
+	} `json:"defaults,omitempty"`
+	Description *string                  `json:"description,omitempty"`
+	Fields      *[]QuestionnaireFieldDef `json:"fields,omitempty"`
+	Id          string                   `json:"id"`
+	Name        *string                  `json:"name,omitempty"`
+	Order       *float64                 `json:"order,omitempty"`
+	UpdatedAt   *string                  `json:"updatedAt,omitempty"`
+	UpdatedBy   *string                  `json:"updatedBy,omitempty"`
+	UsedAt      *string                  `json:"usedAt,omitempty"`
+	Version     *float64                 `json:"version,omitempty"`
+}
+
+// RequestTypeDefaultsLineType defines model for RequestType.Defaults.LineType.
+type RequestTypeDefaultsLineType string
 
 // RotateWebhookSecretResult defines model for RotateWebhookSecretResult.
 type RotateWebhookSecretResult struct {
@@ -10636,6 +11041,24 @@ type SupplierCreditNoteViewStatus string
 // SupplierCreditNoteViewSubmittedFormat defines model for SupplierCreditNoteView.SubmittedFormat.
 type SupplierCreditNoteViewSubmittedFormat string
 
+// SupplierPaymentProblemView defines model for SupplierPaymentProblemView.
+type SupplierPaymentProblemView struct {
+	AmountReceived *float64 `json:"amountReceived,omitempty"`
+	Answer         *struct {
+		At   *string `json:"at,omitempty"`
+		Note *string `json:"note,omitempty"`
+	} `json:"answer,omitempty"`
+	At         *string                         `json:"at,omitempty"`
+	By         *string                         `json:"by,omitempty"`
+	ByName     *string                         `json:"byName,omitempty"`
+	Kind       *SupplierPaymentProblemViewKind `json:"kind,omitempty"`
+	Note       *string                         `json:"note,omitempty"`
+	ResolvedAt *string                         `json:"resolvedAt,omitempty"`
+}
+
+// SupplierPaymentProblemViewKind defines model for SupplierPaymentProblemView.Kind.
+type SupplierPaymentProblemViewKind string
+
 // SupplierRegionRequest defines model for SupplierRegionRequest.
 type SupplierRegionRequest struct {
 	Countries *[]string `json:"countries,omitempty"`
@@ -10656,6 +11079,17 @@ type SupplierRemittanceView struct {
 
 // SupplierRemittanceViewFileContentType defines model for SupplierRemittanceView.File.ContentType.
 type SupplierRemittanceViewFileContentType string
+
+// SupplierSettlementView defines model for SupplierSettlementView.
+type SupplierSettlementView struct {
+	At        *string                       `json:"at,omitempty"`
+	ByName    *string                       `json:"byName,omitempty"`
+	Source    *SupplierSettlementViewSource `json:"source,omitempty"`
+	UndoUntil *string                       `json:"undoUntil,omitempty"`
+}
+
+// SupplierSettlementViewSource defines model for SupplierSettlementView.Source.
+type SupplierSettlementViewSource string
 
 // SyncEvent defines model for SyncEvent.
 type SyncEvent struct {
@@ -10778,8 +11212,11 @@ type UpdatePurchaseOrderInput struct {
 
 	// BillToParty Who the supplier invoices, entered on the order; `null` copies the buyer's company profile billing details as they are now. Bookkeeping: never re-triggers approval.
 	BillToParty *BillToPartyInput `json:"billToParty"`
-	BudgetOwner *string           `json:"budgetOwner,omitempty"`
-	BuyerName   *string           `json:"buyerName,omitempty"`
+
+	// Blanket Mark a draft a blanket order (billed as used, up to its amount), or not. Only while it is a draft.
+	Blanket     *bool   `json:"blanket,omitempty"`
+	BudgetOwner *string `json:"budgetOwner,omitempty"`
+	BuyerName   *string `json:"buyerName,omitempty"`
 
 	// ContractId The contract this order falls under - one of this workspace's, active, with the order's supplier (400 otherwise); `null` removes it. Bookkeeping: never re-triggers approval.
 	ContractId *string `json:"contractId"`
@@ -10792,6 +11229,9 @@ type UpdatePurchaseOrderInput struct {
 
 	// DeliveryAddressId Drafts only: the workspace delivery address an online store order ships to, copied onto the order at submit. An empty string goes back to the workspace default.
 	DeliveryAddressId *string `json:"deliveryAddressId,omitempty"`
+
+	// ExpectedMonthly A blanket or cloud order's expected billing each month, in its currency; null takes it off.
+	ExpectedMonthly *float64 `json:"expectedMonthly"`
 
 	// GlCode The GL account (spend category) the order books to, when it isn't its cost center's. Approval steps can route by it. An empty string clears it.
 	GlCode *string `json:"glCode,omitempty"`
@@ -10809,6 +11249,9 @@ type UpdatePurchaseOrderInput struct {
 
 // UpdatePurchaseRequestInput defines model for UpdatePurchaseRequestInput.
 type UpdatePurchaseRequestInput struct {
+	// Answers Answers to the type's questions, by fieldId. On an update, the whole set (omit to keep them). A draft may leave questions blank; submitting needs every required question the answers make visible.
+	Answers *[]PurchaseRequestAnswerInput `json:"answers,omitempty"`
+
 	// CostCenter The cost center (a code or name on the workspace's list, stored as its code). Required to submit when the workspace keeps a list.
 	CostCenter *string `json:"costCenter,omitempty"`
 
@@ -10832,6 +11275,9 @@ type UpdatePurchaseRequestInput struct {
 
 	// QuoteImportId A quote uploaded through the quote import, to attach.
 	QuoteImportId *string `json:"quoteImportId,omitempty"`
+
+	// RequestTypeId The request type (GET /request-types). Required when the workspace has an active type. The type's GL account and line type fill in what the request leaves out.
+	RequestTypeId *string `json:"requestTypeId,omitempty"`
 
 	// Supplier A supplier the requester suggests.
 	Supplier *PurchaseRequestSupplierInput `json:"supplier,omitempty"`
@@ -11171,6 +11617,12 @@ type GetReferenceRateParams struct {
 	To   *string `form:"to,omitempty" json:"to,omitempty"`
 }
 
+// ListRequestTypesParams defines parameters for ListRequestTypes.
+type ListRequestTypesParams struct {
+	// IncludeInactive true: also the inactive types (for the settings page).
+	IncludeInactive *bool `form:"includeInactive,omitempty" json:"includeInactive,omitempty"`
+}
+
 // GetSupplierWorkspaceParams defines parameters for GetSupplierWorkspace.
 type GetSupplierWorkspaceParams struct {
 	// From ISO 8601 date/timestamp - only items created on or after this are returned.
@@ -11272,6 +11724,9 @@ type SendShipNoticeJSONRequestBody = CreateShipNoticeInput
 
 // CreatePurchaseRequestJSONRequestBody defines body for CreatePurchaseRequest for application/json ContentType.
 type CreatePurchaseRequestJSONRequestBody = CreatePurchaseRequestInput
+
+// RequestPurchaseRequestFileUploadJSONRequestBody defines body for RequestPurchaseRequestFileUpload for application/json ContentType.
+type RequestPurchaseRequestFileUploadJSONRequestBody = RequestFileUploadInput
 
 // UpdatePurchaseRequestJSONRequestBody defines body for UpdatePurchaseRequest for application/json ContentType.
 type UpdatePurchaseRequestJSONRequestBody = UpdatePurchaseRequestInput
@@ -14475,6 +14930,11 @@ type ClientInterface interface {
 
 	CreatePurchaseRequest(ctx context.Context, body CreatePurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// RequestPurchaseRequestFileUploadWithBody request with any body
+	RequestPurchaseRequestFileUploadWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	RequestPurchaseRequestFileUpload(ctx context.Context, body RequestPurchaseRequestFileUploadJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetPurchaseRequest request
 	GetPurchaseRequest(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -14496,6 +14956,9 @@ type ClientInterface interface {
 
 	ConvertPurchaseRequest(ctx context.Context, requestId string, body ConvertPurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetPurchaseRequestFile request
+	GetPurchaseRequestFile(ctx context.Context, requestId string, fileId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// RejectPurchaseRequestWithBody request with any body
 	RejectPurchaseRequestWithBody(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -14506,6 +14969,12 @@ type ClientInterface interface {
 
 	// GetReferenceRate request
 	GetReferenceRate(ctx context.Context, params *GetReferenceRateParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListRequestTypes request
+	ListRequestTypes(ctx context.Context, params *ListRequestTypesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetRequestType request
+	GetRequestType(ctx context.Context, typeId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetAutonomySettings request
 	GetAutonomySettings(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -15871,6 +16340,30 @@ func (c *RawClient) CreatePurchaseRequest(ctx context.Context, body CreatePurcha
 	return c.Client.Do(req)
 }
 
+func (c *RawClient) RequestPurchaseRequestFileUploadWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRequestPurchaseRequestFileUploadRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) RequestPurchaseRequestFileUpload(ctx context.Context, body RequestPurchaseRequestFileUploadJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRequestPurchaseRequestFileUploadRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *RawClient) GetPurchaseRequest(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetPurchaseRequestRequest(c.Server, requestId)
 	if err != nil {
@@ -15967,6 +16460,18 @@ func (c *RawClient) ConvertPurchaseRequest(ctx context.Context, requestId string
 	return c.Client.Do(req)
 }
 
+func (c *RawClient) GetPurchaseRequestFile(ctx context.Context, requestId string, fileId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetPurchaseRequestFileRequest(c.Server, requestId, fileId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *RawClient) RejectPurchaseRequestWithBody(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewRejectPurchaseRequestRequestWithBody(c.Server, requestId, contentType, body)
 	if err != nil {
@@ -16005,6 +16510,30 @@ func (c *RawClient) SubmitPurchaseRequest(ctx context.Context, requestId string,
 
 func (c *RawClient) GetReferenceRate(ctx context.Context, params *GetReferenceRateParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetReferenceRateRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListRequestTypes(ctx context.Context, params *ListRequestTypesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListRequestTypesRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetRequestType(ctx context.Context, typeId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetRequestTypeRequest(c.Server, typeId)
 	if err != nil {
 		return nil, err
 	}
@@ -20112,6 +20641,46 @@ func NewCreatePurchaseRequestRequestWithBody(server string, contentType string, 
 	return req, nil
 }
 
+// NewRequestPurchaseRequestFileUploadRequest calls the generic RequestPurchaseRequestFileUpload builder with application/json body
+func NewRequestPurchaseRequestFileUploadRequest(server string, body RequestPurchaseRequestFileUploadJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewRequestPurchaseRequestFileUploadRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewRequestPurchaseRequestFileUploadRequestWithBody generates requests for RequestPurchaseRequestFileUpload with any type of body
+func NewRequestPurchaseRequestFileUploadRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-requests/files/upload-url")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetPurchaseRequestRequest generates requests for GetPurchaseRequest
 func NewGetPurchaseRequestRequest(server string, requestId string) (*http.Request, error) {
 	var err error
@@ -20321,6 +20890,47 @@ func NewConvertPurchaseRequestRequestWithBody(server string, requestId string, c
 	return req, nil
 }
 
+// NewGetPurchaseRequestFileRequest generates requests for GetPurchaseRequestFile
+func NewGetPurchaseRequestFileRequest(server string, requestId string, fileId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "requestId", runtime.ParamLocationPath, requestId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "fileId", runtime.ParamLocationPath, fileId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-requests/%s/files/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewRejectPurchaseRequestRequest calls the generic RejectPurchaseRequest builder with application/json body
 func NewRejectPurchaseRequestRequest(server string, requestId string, body RejectPurchaseRequestJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -20473,6 +21083,89 @@ func NewGetReferenceRateRequest(server string, params *GetReferenceRateParams) (
 		}
 
 		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListRequestTypesRequest generates requests for ListRequestTypes
+func NewListRequestTypesRequest(server string, params *ListRequestTypesParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/request-types")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.IncludeInactive != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "includeInactive", runtime.ParamLocationQuery, *params.IncludeInactive); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetRequestTypeRequest generates requests for GetRequestType
+func NewGetRequestTypeRequest(server string, typeId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "typeId", runtime.ParamLocationPath, typeId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/request-types/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
 	}
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
@@ -21466,6 +22159,11 @@ type ClientWithResponsesInterface interface {
 
 	CreatePurchaseRequestWithResponse(ctx context.Context, body CreatePurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*CreatePurchaseRequestResponse, error)
 
+	// RequestPurchaseRequestFileUploadWithBodyWithResponse request with any body
+	RequestPurchaseRequestFileUploadWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RequestPurchaseRequestFileUploadResponse, error)
+
+	RequestPurchaseRequestFileUploadWithResponse(ctx context.Context, body RequestPurchaseRequestFileUploadJSONRequestBody, reqEditors ...RequestEditorFn) (*RequestPurchaseRequestFileUploadResponse, error)
+
 	// GetPurchaseRequestWithResponse request
 	GetPurchaseRequestWithResponse(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*GetPurchaseRequestResponse, error)
 
@@ -21487,6 +22185,9 @@ type ClientWithResponsesInterface interface {
 
 	ConvertPurchaseRequestWithResponse(ctx context.Context, requestId string, body ConvertPurchaseRequestJSONRequestBody, reqEditors ...RequestEditorFn) (*ConvertPurchaseRequestResponse, error)
 
+	// GetPurchaseRequestFileWithResponse request
+	GetPurchaseRequestFileWithResponse(ctx context.Context, requestId string, fileId string, reqEditors ...RequestEditorFn) (*GetPurchaseRequestFileResponse, error)
+
 	// RejectPurchaseRequestWithBodyWithResponse request with any body
 	RejectPurchaseRequestWithBodyWithResponse(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RejectPurchaseRequestResponse, error)
 
@@ -21497,6 +22198,12 @@ type ClientWithResponsesInterface interface {
 
 	// GetReferenceRateWithResponse request
 	GetReferenceRateWithResponse(ctx context.Context, params *GetReferenceRateParams, reqEditors ...RequestEditorFn) (*GetReferenceRateResponse, error)
+
+	// ListRequestTypesWithResponse request
+	ListRequestTypesWithResponse(ctx context.Context, params *ListRequestTypesParams, reqEditors ...RequestEditorFn) (*ListRequestTypesResponse, error)
+
+	// GetRequestTypeWithResponse request
+	GetRequestTypeWithResponse(ctx context.Context, typeId string, reqEditors ...RequestEditorFn) (*GetRequestTypeResponse, error)
 
 	// GetAutonomySettingsWithResponse request
 	GetAutonomySettingsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAutonomySettingsResponse, error)
@@ -23435,6 +24142,29 @@ func (r CreatePurchaseRequestResponse) StatusCode() int {
 	return 0
 }
 
+type RequestPurchaseRequestFileUploadResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *RequestPurchaseRequestFileUploadResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r RequestPurchaseRequestFileUploadResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RequestPurchaseRequestFileUploadResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetPurchaseRequestResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -23550,6 +24280,29 @@ func (r ConvertPurchaseRequestResponse) StatusCode() int {
 	return 0
 }
 
+type GetPurchaseRequestFileResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *GetPurchaseRequestFileResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetPurchaseRequestFileResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetPurchaseRequestFileResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type RejectPurchaseRequestResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -23613,6 +24366,52 @@ func (r GetReferenceRateResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetReferenceRateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListRequestTypesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]RequestType
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListRequestTypesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListRequestTypesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetRequestTypeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *RequestType
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetRequestTypeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetRequestTypeResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -24917,6 +25716,23 @@ func (c *ClientWithResponses) CreatePurchaseRequestWithResponse(ctx context.Cont
 	return ParseCreatePurchaseRequestResponse(rsp)
 }
 
+// RequestPurchaseRequestFileUploadWithBodyWithResponse request with arbitrary body returning *RequestPurchaseRequestFileUploadResponse
+func (c *ClientWithResponses) RequestPurchaseRequestFileUploadWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RequestPurchaseRequestFileUploadResponse, error) {
+	rsp, err := c.RequestPurchaseRequestFileUploadWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRequestPurchaseRequestFileUploadResponse(rsp)
+}
+
+func (c *ClientWithResponses) RequestPurchaseRequestFileUploadWithResponse(ctx context.Context, body RequestPurchaseRequestFileUploadJSONRequestBody, reqEditors ...RequestEditorFn) (*RequestPurchaseRequestFileUploadResponse, error) {
+	rsp, err := c.RequestPurchaseRequestFileUpload(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRequestPurchaseRequestFileUploadResponse(rsp)
+}
+
 // GetPurchaseRequestWithResponse request returning *GetPurchaseRequestResponse
 func (c *ClientWithResponses) GetPurchaseRequestWithResponse(ctx context.Context, requestId string, reqEditors ...RequestEditorFn) (*GetPurchaseRequestResponse, error) {
 	rsp, err := c.GetPurchaseRequest(ctx, requestId, reqEditors...)
@@ -24986,6 +25802,15 @@ func (c *ClientWithResponses) ConvertPurchaseRequestWithResponse(ctx context.Con
 	return ParseConvertPurchaseRequestResponse(rsp)
 }
 
+// GetPurchaseRequestFileWithResponse request returning *GetPurchaseRequestFileResponse
+func (c *ClientWithResponses) GetPurchaseRequestFileWithResponse(ctx context.Context, requestId string, fileId string, reqEditors ...RequestEditorFn) (*GetPurchaseRequestFileResponse, error) {
+	rsp, err := c.GetPurchaseRequestFile(ctx, requestId, fileId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetPurchaseRequestFileResponse(rsp)
+}
+
 // RejectPurchaseRequestWithBodyWithResponse request with arbitrary body returning *RejectPurchaseRequestResponse
 func (c *ClientWithResponses) RejectPurchaseRequestWithBodyWithResponse(ctx context.Context, requestId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RejectPurchaseRequestResponse, error) {
 	rsp, err := c.RejectPurchaseRequestWithBody(ctx, requestId, contentType, body, reqEditors...)
@@ -25019,6 +25844,24 @@ func (c *ClientWithResponses) GetReferenceRateWithResponse(ctx context.Context, 
 		return nil, err
 	}
 	return ParseGetReferenceRateResponse(rsp)
+}
+
+// ListRequestTypesWithResponse request returning *ListRequestTypesResponse
+func (c *ClientWithResponses) ListRequestTypesWithResponse(ctx context.Context, params *ListRequestTypesParams, reqEditors ...RequestEditorFn) (*ListRequestTypesResponse, error) {
+	rsp, err := c.ListRequestTypes(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListRequestTypesResponse(rsp)
+}
+
+// GetRequestTypeWithResponse request returning *GetRequestTypeResponse
+func (c *ClientWithResponses) GetRequestTypeWithResponse(ctx context.Context, typeId string, reqEditors ...RequestEditorFn) (*GetRequestTypeResponse, error) {
+	rsp, err := c.GetRequestType(ctx, typeId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetRequestTypeResponse(rsp)
 }
 
 // GetAutonomySettingsWithResponse request returning *GetAutonomySettingsResponse
@@ -27867,6 +28710,39 @@ func ParseCreatePurchaseRequestResponse(rsp *http.Response) (*CreatePurchaseRequ
 	return response, nil
 }
 
+// ParseRequestPurchaseRequestFileUploadResponse parses an HTTP response from a RequestPurchaseRequestFileUploadWithResponse call
+func ParseRequestPurchaseRequestFileUploadResponse(rsp *http.Response) (*RequestPurchaseRequestFileUploadResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RequestPurchaseRequestFileUploadResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest RequestPurchaseRequestFileUploadResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetPurchaseRequestResponse parses an HTTP response from a GetPurchaseRequestWithResponse call
 func ParseGetPurchaseRequestResponse(rsp *http.Response) (*GetPurchaseRequestResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -28032,6 +28908,39 @@ func ParseConvertPurchaseRequestResponse(rsp *http.Response) (*ConvertPurchaseRe
 	return response, nil
 }
 
+// ParseGetPurchaseRequestFileResponse parses an HTTP response from a GetPurchaseRequestFileWithResponse call
+func ParseGetPurchaseRequestFileResponse(rsp *http.Response) (*GetPurchaseRequestFileResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetPurchaseRequestFileResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetPurchaseRequestFileResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseRejectPurchaseRequestResponse parses an HTTP response from a RejectPurchaseRequestWithResponse call
 func ParseRejectPurchaseRequestResponse(rsp *http.Response) (*RejectPurchaseRequestResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -28114,6 +29023,72 @@ func ParseGetReferenceRateResponse(rsp *http.Response) (*GetReferenceRateRespons
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest GetReferenceRateResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListRequestTypesResponse parses an HTTP response from a ListRequestTypesWithResponse call
+func ParseListRequestTypesResponse(rsp *http.Response) (*ListRequestTypesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListRequestTypesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []RequestType
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetRequestTypeResponse parses an HTTP response from a GetRequestTypeWithResponse call
+func ParseGetRequestTypeResponse(rsp *http.Response) (*GetRequestTypeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetRequestTypeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest RequestType
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

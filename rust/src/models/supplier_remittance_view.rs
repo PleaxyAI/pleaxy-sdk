@@ -15,10 +15,10 @@ use serde::{Deserialize, Serialize};
 pub struct SupplierRemittanceView {
     #[serde(rename = "id")]
     pub id: String,
-    #[serde(rename = "sentAt", skip_serializing_if = "Option::is_none")]
-    pub sent_at: Option<String>,
     #[serde(rename = "note", skip_serializing_if = "Option::is_none")]
     pub note: Option<String>,
+    #[serde(rename = "sentAt", skip_serializing_if = "Option::is_none")]
+    pub sent_at: Option<String>,
     #[serde(rename = "file", skip_serializing_if = "Option::is_none")]
     pub file: Option<models::SupplierRemittanceViewFile>,
 }
@@ -27,8 +27,8 @@ impl SupplierRemittanceView {
     pub fn new(id: String) -> SupplierRemittanceView {
         SupplierRemittanceView {
             id,
-            sent_at: None,
             note: None,
+            sent_at: None,
             file: None,
         }
     }

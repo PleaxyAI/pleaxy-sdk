@@ -1,8 +1,9 @@
 from typing import Literal, Set, cast
 
-RecordPaymentResultMatchBasis = Literal["purchase_order"]
+RecordPaymentResultMatchBasis = Literal["no_po_history", "purchase_order"]
 
 RECORD_PAYMENT_RESULT_MATCH_BASIS_VALUES: Set[RecordPaymentResultMatchBasis] = {
+    "no_po_history",
     "purchase_order",
 }
 

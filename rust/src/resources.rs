@@ -82,6 +82,11 @@ impl Client {
         PurchaseRequests(self)
     }
 
+    /// RequestTypes operations.
+    pub fn request_types(&self) -> RequestTypes<'_> {
+        RequestTypes(self)
+    }
+
     /// Settlement operations.
     pub fn settlement(&self) -> Settlement<'_> {
         Settlement(self)
@@ -1380,6 +1385,22 @@ impl<'a> PurchaseRequests<'a> {
         crate::apis::purchase_requests_api::get_purchase_request(&self.0.config, request_id).await
     }
 
+    pub async fn get_purchase_request_file(
+        &self,
+        request_id: &str,
+        file_id: &str,
+    ) -> Result<
+        crate::models::GetPurchaseRequestFileResult,
+        crate::apis::Error<crate::apis::purchase_requests_api::GetPurchaseRequestFileError>,
+    > {
+        crate::apis::purchase_requests_api::get_purchase_request_file(
+            &self.0.config,
+            request_id,
+            file_id,
+        )
+        .await
+    }
+
     pub async fn list_purchase_requests(
         &self,
         status: Option<&str>,
@@ -1414,6 +1435,22 @@ impl<'a> PurchaseRequests<'a> {
         .await
     }
 
+    pub async fn request_purchase_request_file_upload(
+        &self,
+        request_file_upload_input: crate::models::RequestFileUploadInput,
+    ) -> Result<
+        crate::models::RequestPurchaseRequestFileUploadResult,
+        crate::apis::Error<
+            crate::apis::purchase_requests_api::RequestPurchaseRequestFileUploadError,
+        >,
+    > {
+        crate::apis::purchase_requests_api::request_purchase_request_file_upload(
+            &self.0.config,
+            request_file_upload_input,
+        )
+        .await
+    }
+
     pub async fn submit_purchase_request(
         &self,
         request_id: &str,
@@ -1439,6 +1476,32 @@ impl<'a> PurchaseRequests<'a> {
             update_purchase_request_input,
         )
         .await
+    }
+}
+
+/// RequestTypes operations: `client.request_types()`.
+#[derive(Debug, Clone, Copy)]
+pub struct RequestTypes<'a>(&'a Client);
+
+impl<'a> RequestTypes<'a> {
+    pub async fn get_request_type(
+        &self,
+        type_id: &str,
+    ) -> Result<
+        crate::models::RequestType,
+        crate::apis::Error<crate::apis::request_types_api::GetRequestTypeError>,
+    > {
+        crate::apis::request_types_api::get_request_type(&self.0.config, type_id).await
+    }
+
+    pub async fn list_request_types(
+        &self,
+        include_inactive: Option<bool>,
+    ) -> Result<
+        Vec<crate::models::RequestType>,
+        crate::apis::Error<crate::apis::request_types_api::ListRequestTypesError>,
+    > {
+        crate::apis::request_types_api::list_request_types(&self.0.config, include_inactive).await
     }
 }
 

@@ -22,8 +22,11 @@ import ai.pleaxy.model.ApprovePurchaseRequestInput;
 import ai.pleaxy.model.ConvertPurchaseRequestInput;
 import ai.pleaxy.model.ConvertPurchaseRequestResult;
 import ai.pleaxy.model.CreatePurchaseRequestInput;
+import ai.pleaxy.model.GetPurchaseRequestFileResult;
 import ai.pleaxy.model.PurchaseRequest;
 import ai.pleaxy.model.RejectPurchaseRequestInput;
+import ai.pleaxy.model.RequestFileUploadInput;
+import ai.pleaxy.model.RequestPurchaseRequestFileUploadResult;
 import ai.pleaxy.model.UpdatePurchaseRequestInput;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -483,6 +486,86 @@ public class PurchaseRequestsApi {
   }
 
   /**
+   * [Buyer] A short-lived link to a file answering one of the request&#39;s questions, for whoever may see the request
+   * 
+   * @param requestId  (required)
+   * @param fileId  (required)
+   * @return GetPurchaseRequestFileResult
+   * @throws ApiException if fails to make API call
+   */
+  public GetPurchaseRequestFileResult getPurchaseRequestFile(String requestId, String fileId) throws ApiException {
+    ApiResponse<GetPurchaseRequestFileResult> localVarResponse = getPurchaseRequestFileWithHttpInfo(requestId, fileId);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] A short-lived link to a file answering one of the request&#39;s questions, for whoever may see the request
+   * 
+   * @param requestId  (required)
+   * @param fileId  (required)
+   * @return ApiResponse&lt;GetPurchaseRequestFileResult&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<GetPurchaseRequestFileResult> getPurchaseRequestFileWithHttpInfo(String requestId, String fileId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getPurchaseRequestFileRequestBuilder(requestId, fileId);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("getPurchaseRequestFile", localVarResponse);
+        }
+        return new ApiResponse<GetPurchaseRequestFileResult>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<GetPurchaseRequestFileResult>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder getPurchaseRequestFileRequestBuilder(String requestId, String fileId) throws ApiException {
+    // verify the required parameter 'requestId' is set
+    if (requestId == null) {
+      throw new ApiException(400, "Missing the required parameter 'requestId' when calling getPurchaseRequestFile");
+    }
+    // verify the required parameter 'fileId' is set
+    if (fileId == null) {
+      throw new ApiException(400, "Missing the required parameter 'fileId' when calling getPurchaseRequestFile");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/purchase-requests/{requestId}/files/{fileId}"
+        .replace("{requestId}", ApiClient.urlEncode(requestId.toString()))
+        .replace("{fileId}", ApiClient.urlEncode(fileId.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
    * [Buyer] Purchase requests the caller can see, newest first: their own, everyone&#39;s with purchase order access, and any waiting on them
    * 
    * @param status  (optional)
@@ -645,6 +728,84 @@ public class PurchaseRequestsApi {
 
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(rejectPurchaseRequestInput);
+      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] A presigned URL to upload the answer to a request form&#39;s &#39;file&#39; question (PDF, image, Word, Excel, CSV or text, up to 25 MB). PUT the file there, then save the answer with the returned fileId. Any workspace member, before or after the request exists.
+   * 
+   * @param requestFileUploadInput  (required)
+   * @return RequestPurchaseRequestFileUploadResult
+   * @throws ApiException if fails to make API call
+   */
+  public RequestPurchaseRequestFileUploadResult requestPurchaseRequestFileUpload(RequestFileUploadInput requestFileUploadInput) throws ApiException {
+    ApiResponse<RequestPurchaseRequestFileUploadResult> localVarResponse = requestPurchaseRequestFileUploadWithHttpInfo(requestFileUploadInput);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] A presigned URL to upload the answer to a request form&#39;s &#39;file&#39; question (PDF, image, Word, Excel, CSV or text, up to 25 MB). PUT the file there, then save the answer with the returned fileId. Any workspace member, before or after the request exists.
+   * 
+   * @param requestFileUploadInput  (required)
+   * @return ApiResponse&lt;RequestPurchaseRequestFileUploadResult&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<RequestPurchaseRequestFileUploadResult> requestPurchaseRequestFileUploadWithHttpInfo(RequestFileUploadInput requestFileUploadInput) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = requestPurchaseRequestFileUploadRequestBuilder(requestFileUploadInput);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("requestPurchaseRequestFileUpload", localVarResponse);
+        }
+        return new ApiResponse<RequestPurchaseRequestFileUploadResult>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<RequestPurchaseRequestFileUploadResult>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder requestPurchaseRequestFileUploadRequestBuilder(RequestFileUploadInput requestFileUploadInput) throws ApiException {
+    // verify the required parameter 'requestFileUploadInput' is set
+    if (requestFileUploadInput == null) {
+      throw new ApiException(400, "Missing the required parameter 'requestFileUploadInput' when calling requestPurchaseRequestFileUpload");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/purchase-requests/files/upload-url";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(requestFileUploadInput);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);

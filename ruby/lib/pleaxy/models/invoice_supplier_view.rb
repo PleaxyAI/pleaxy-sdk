@@ -53,6 +53,10 @@ module Pleaxy
 
     attr_accessor :match_status
 
+    attr_accessor :no_po_comparison
+
+    attr_accessor :payment_route
+
     attr_accessor :paid
 
     attr_accessor :due_in_days
@@ -125,6 +129,10 @@ module Pleaxy
 
     attr_accessor :has_original_pdf
 
+    attr_accessor :settlement
+
+    attr_accessor :payment_problem
+
     attr_accessor :bank_details_confirmation
 
     attr_accessor :base_currency_amount
@@ -185,6 +193,8 @@ module Pleaxy
         :'bills_no_po_line' => :'billsNoPoLine',
         :'party_details' => :'partyDetails',
         :'match_status' => :'matchStatus',
+        :'no_po_comparison' => :'noPoComparison',
+        :'payment_route' => :'paymentRoute',
         :'paid' => :'paid',
         :'due_in_days' => :'dueInDays',
         :'due_date' => :'dueDate',
@@ -221,6 +231,8 @@ module Pleaxy
         :'remittance_instructions' => :'remittanceInstructions',
         :'source_document' => :'sourceDocument',
         :'has_original_pdf' => :'hasOriginalPdf',
+        :'settlement' => :'settlement',
+        :'payment_problem' => :'paymentProblem',
         :'bank_details_confirmation' => :'bankDetailsConfirmation',
         :'base_currency_amount' => :'baseCurrencyAmount',
         :'approval' => :'approval',
@@ -259,6 +271,8 @@ module Pleaxy
         :'bills_no_po_line' => :'Boolean',
         :'party_details' => :'InvoiceBuyerViewPartyDetails',
         :'match_status' => :'String',
+        :'no_po_comparison' => :'NoPoComparison',
+        :'payment_route' => :'String',
         :'paid' => :'Boolean',
         :'due_in_days' => :'Float',
         :'due_date' => :'String',
@@ -295,6 +309,8 @@ module Pleaxy
         :'remittance_instructions' => :'RemittanceInstructions',
         :'source_document' => :'InvoiceSourceDocument',
         :'has_original_pdf' => :'Boolean',
+        :'settlement' => :'SupplierSettlementView',
+        :'payment_problem' => :'SupplierPaymentProblemView',
         :'bank_details_confirmation' => :'SupplierBankDetailsConfirmationView',
         :'base_currency_amount' => :'InvoiceBaseCurrencyAmount',
         :'approval' => :'SupplierApprovalView',
@@ -405,6 +421,14 @@ module Pleaxy
 
       if attributes.key?(:'match_status')
         self.match_status = attributes[:'match_status']
+      end
+
+      if attributes.key?(:'no_po_comparison')
+        self.no_po_comparison = attributes[:'no_po_comparison']
+      end
+
+      if attributes.key?(:'payment_route')
+        self.payment_route = attributes[:'payment_route']
       end
 
       if attributes.key?(:'paid')
@@ -571,6 +595,14 @@ module Pleaxy
         self.has_original_pdf = attributes[:'has_original_pdf']
       end
 
+      if attributes.key?(:'settlement')
+        self.settlement = attributes[:'settlement']
+      end
+
+      if attributes.key?(:'payment_problem')
+        self.payment_problem = attributes[:'payment_problem']
+      end
+
       if attributes.key?(:'bank_details_confirmation')
         self.bank_details_confirmation = attributes[:'bank_details_confirmation']
       end
@@ -625,6 +657,8 @@ module Pleaxy
       return false if @id.nil?
       match_status_validator = EnumAttributeValidator.new('String', ["pending", "matched", "discrepancy", "unverified"])
       return false unless match_status_validator.valid?(@match_status)
+      payment_route_validator = EnumAttributeValidator.new('String', ["pleaxy", "erp"])
+      return false unless payment_route_validator.valid?(@payment_route)
       due_date_source_validator = EnumAttributeValidator.new('String', ["default", "stated"])
       return false unless due_date_source_validator.valid?(@due_date_source)
       source_validator = EnumAttributeValidator.new('String', ["manual", "po-flip", "direct", "feed"])
@@ -648,6 +682,16 @@ module Pleaxy
         fail ArgumentError, "invalid value for \"match_status\", must be one of #{validator.allowable_values}."
       end
       @match_status = match_status
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] payment_route Object to be assigned
+    def payment_route=(payment_route)
+      validator = EnumAttributeValidator.new('String', ["pleaxy", "erp"])
+      unless validator.valid?(payment_route)
+        fail ArgumentError, "invalid value for \"payment_route\", must be one of #{validator.allowable_values}."
+      end
+      @payment_route = payment_route
     end
 
     # Custom attribute writer method checking allowed values (enum).
@@ -734,6 +778,8 @@ module Pleaxy
           bills_no_po_line == o.bills_no_po_line &&
           party_details == o.party_details &&
           match_status == o.match_status &&
+          no_po_comparison == o.no_po_comparison &&
+          payment_route == o.payment_route &&
           paid == o.paid &&
           due_in_days == o.due_in_days &&
           due_date == o.due_date &&
@@ -770,6 +816,8 @@ module Pleaxy
           remittance_instructions == o.remittance_instructions &&
           source_document == o.source_document &&
           has_original_pdf == o.has_original_pdf &&
+          settlement == o.settlement &&
+          payment_problem == o.payment_problem &&
           bank_details_confirmation == o.bank_details_confirmation &&
           base_currency_amount == o.base_currency_amount &&
           approval == o.approval &&
@@ -789,7 +837,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, paid, due_in_days, due_date, paid_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, submitted_format, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, source_document, has_original_pdf, bank_details_confirmation, base_currency_amount, approval, payment, withdrawn_payment, remittances, buyer_workspace_id, next_reminder_at].hash
+      [supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, no_po_comparison, payment_route, paid, due_in_days, due_date, paid_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, submitted_format, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, source_document, has_original_pdf, settlement, payment_problem, bank_details_confirmation, base_currency_amount, approval, payment, withdrawn_payment, remittances, buyer_workspace_id, next_reminder_at].hash
     end
 
     # Builds the object from hash

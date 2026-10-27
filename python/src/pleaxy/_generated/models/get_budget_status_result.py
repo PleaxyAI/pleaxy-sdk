@@ -9,6 +9,9 @@ if TYPE_CHECKING:
     from ..models.budget_control_settings import BudgetControlSettings
     from ..models.budget_period import BudgetPeriod
     from ..models.budget_status import BudgetStatus
+    from ..models.get_budget_status_result_unassigned_by_currency_item import (
+        GetBudgetStatusResultUnassignedByCurrencyItem,
+    )
     from ..models.spend_figures import SpendFigures
 
 
@@ -24,6 +27,7 @@ class GetBudgetStatusResult:
         currency (Union[Unset, str]):
         cost_centers (Union[Unset, List['BudgetStatus']]):
         unassigned (Union[Unset, SpendFigures]):
+        unassigned_by_currency (Union[Unset, List['GetBudgetStatusResultUnassignedByCurrencyItem']]):
     """
 
     settings: Union[Unset, "BudgetControlSettings"] = UNSET
@@ -31,6 +35,9 @@ class GetBudgetStatusResult:
     currency: Union[Unset, str] = UNSET
     cost_centers: Union[Unset, List["BudgetStatus"]] = UNSET
     unassigned: Union[Unset, "SpendFigures"] = UNSET
+    unassigned_by_currency: Union[
+        Unset, List["GetBudgetStatusResultUnassignedByCurrencyItem"]
+    ] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -55,6 +62,13 @@ class GetBudgetStatusResult:
         if not isinstance(self.unassigned, Unset):
             unassigned = self.unassigned.to_dict()
 
+        unassigned_by_currency: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.unassigned_by_currency, Unset):
+            unassigned_by_currency = []
+            for unassigned_by_currency_item_data in self.unassigned_by_currency:
+                unassigned_by_currency_item = unassigned_by_currency_item_data.to_dict()
+                unassigned_by_currency.append(unassigned_by_currency_item)
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -68,6 +82,8 @@ class GetBudgetStatusResult:
             field_dict["costCenters"] = cost_centers
         if unassigned is not UNSET:
             field_dict["unassigned"] = unassigned
+        if unassigned_by_currency is not UNSET:
+            field_dict["unassignedByCurrency"] = unassigned_by_currency
 
         return field_dict
 
@@ -76,6 +92,9 @@ class GetBudgetStatusResult:
         from ..models.budget_control_settings import BudgetControlSettings
         from ..models.budget_period import BudgetPeriod
         from ..models.budget_status import BudgetStatus
+        from ..models.get_budget_status_result_unassigned_by_currency_item import (
+            GetBudgetStatusResultUnassignedByCurrencyItem,
+        )
         from ..models.spend_figures import SpendFigures
 
         d = src_dict.copy()
@@ -109,12 +128,24 @@ class GetBudgetStatusResult:
         else:
             unassigned = SpendFigures.from_dict(_unassigned)
 
+        unassigned_by_currency = []
+        _unassigned_by_currency = d.pop("unassignedByCurrency", UNSET)
+        for unassigned_by_currency_item_data in _unassigned_by_currency or []:
+            unassigned_by_currency_item = (
+                GetBudgetStatusResultUnassignedByCurrencyItem.from_dict(
+                    unassigned_by_currency_item_data
+                )
+            )
+
+            unassigned_by_currency.append(unassigned_by_currency_item)
+
         get_budget_status_result = cls(
             settings=settings,
             period=period,
             currency=currency,
             cost_centers=cost_centers,
             unassigned=unassigned,
+            unassigned_by_currency=unassigned_by_currency,
         )
 
         get_budget_status_result.additional_properties = d

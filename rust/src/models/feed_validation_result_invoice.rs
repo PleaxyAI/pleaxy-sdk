@@ -23,6 +23,8 @@ pub struct FeedValidationResultInvoice {
     pub late_fee_terms: Option<models::LateFeeTerms>,
     #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
     pub amount: Option<f64>,
+    #[serde(rename = "settlement", skip_serializing_if = "Option::is_none")]
+    pub settlement: Option<models::SupplierSettlementView>,
     #[serde(rename = "approval", skip_serializing_if = "Option::is_none")]
     pub approval: Option<models::SupplierApprovalView>,
     #[serde(
@@ -52,6 +54,10 @@ pub struct FeedValidationResultInvoice {
     pub party_details: Option<models::InvoiceBuyerViewPartyDetails>,
     #[serde(rename = "matchStatus", skip_serializing_if = "Option::is_none")]
     pub match_status: Option<MatchStatus>,
+    #[serde(rename = "noPoComparison", skip_serializing_if = "Option::is_none")]
+    pub no_po_comparison: Option<models::NoPoComparison>,
+    #[serde(rename = "paymentRoute", skip_serializing_if = "Option::is_none")]
+    pub payment_route: Option<PaymentRoute>,
     #[serde(rename = "paid", skip_serializing_if = "Option::is_none")]
     pub paid: Option<bool>,
     #[serde(rename = "dueInDays", skip_serializing_if = "Option::is_none")]
@@ -64,6 +70,8 @@ pub struct FeedValidationResultInvoice {
     pub payment: Option<models::InvoiceSupplierViewPayment>,
     #[serde(rename = "remittances", skip_serializing_if = "Option::is_none")]
     pub remittances: Option<Vec<models::SupplierRemittanceView>>,
+    #[serde(rename = "paymentProblem", skip_serializing_if = "Option::is_none")]
+    pub payment_problem: Option<models::SupplierPaymentProblemView>,
     #[serde(rename = "dueDateSource", skip_serializing_if = "Option::is_none")]
     pub due_date_source: Option<DueDateSource>,
     #[serde(rename = "lastRemindedAt", skip_serializing_if = "Option::is_none")]
@@ -164,6 +172,7 @@ impl FeedValidationResultInvoice {
             supplier_org_id: None,
             late_fee_terms: None,
             amount: None,
+            settlement: None,
             approval: None,
             supplier_connection_id: None,
             currency: None,
@@ -177,12 +186,15 @@ impl FeedValidationResultInvoice {
             bills_no_po_line: None,
             party_details: None,
             match_status: None,
+            no_po_comparison: None,
+            payment_route: None,
             paid: None,
             due_in_days: None,
             due_date: None,
             paid_at: None,
             payment: None,
             remittances: None,
+            payment_problem: None,
             due_date_source: None,
             last_reminded_at: None,
             rejection: None,
@@ -238,6 +250,20 @@ pub enum MatchStatus {
 impl Default for MatchStatus {
     fn default() -> MatchStatus {
         Self::Pending
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum PaymentRoute {
+    #[serde(rename = "pleaxy")]
+    Pleaxy,
+    #[serde(rename = "erp")]
+    Erp,
+}
+
+impl Default for PaymentRoute {
+    fn default() -> PaymentRoute {
+        Self::Pleaxy
     }
 }
 ///

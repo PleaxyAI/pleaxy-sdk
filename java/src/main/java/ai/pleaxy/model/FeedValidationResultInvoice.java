@@ -32,10 +32,13 @@ import ai.pleaxy.model.InvoiceRejection;
 import ai.pleaxy.model.InvoiceSourceDocument;
 import ai.pleaxy.model.InvoiceSupplierViewPayment;
 import ai.pleaxy.model.LateFeeTerms;
+import ai.pleaxy.model.NoPoComparison;
 import ai.pleaxy.model.RemittanceInstructions;
 import ai.pleaxy.model.SupplierApprovalView;
 import ai.pleaxy.model.SupplierBankDetailsConfirmationView;
+import ai.pleaxy.model.SupplierPaymentProblemView;
 import ai.pleaxy.model.SupplierRemittanceView;
+import ai.pleaxy.model.SupplierSettlementView;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -57,6 +60,7 @@ import ai.pleaxy.client.ApiClient;
   FeedValidationResultInvoice.JSON_PROPERTY_SUPPLIER_ORG_ID,
   FeedValidationResultInvoice.JSON_PROPERTY_LATE_FEE_TERMS,
   FeedValidationResultInvoice.JSON_PROPERTY_AMOUNT,
+  FeedValidationResultInvoice.JSON_PROPERTY_SETTLEMENT,
   FeedValidationResultInvoice.JSON_PROPERTY_APPROVAL,
   FeedValidationResultInvoice.JSON_PROPERTY_SUPPLIER_CONNECTION_ID,
   FeedValidationResultInvoice.JSON_PROPERTY_CURRENCY,
@@ -70,12 +74,15 @@ import ai.pleaxy.client.ApiClient;
   FeedValidationResultInvoice.JSON_PROPERTY_BILLS_NO_PO_LINE,
   FeedValidationResultInvoice.JSON_PROPERTY_PARTY_DETAILS,
   FeedValidationResultInvoice.JSON_PROPERTY_MATCH_STATUS,
+  FeedValidationResultInvoice.JSON_PROPERTY_NO_PO_COMPARISON,
+  FeedValidationResultInvoice.JSON_PROPERTY_PAYMENT_ROUTE,
   FeedValidationResultInvoice.JSON_PROPERTY_PAID,
   FeedValidationResultInvoice.JSON_PROPERTY_DUE_IN_DAYS,
   FeedValidationResultInvoice.JSON_PROPERTY_DUE_DATE,
   FeedValidationResultInvoice.JSON_PROPERTY_PAID_AT,
   FeedValidationResultInvoice.JSON_PROPERTY_PAYMENT,
   FeedValidationResultInvoice.JSON_PROPERTY_REMITTANCES,
+  FeedValidationResultInvoice.JSON_PROPERTY_PAYMENT_PROBLEM,
   FeedValidationResultInvoice.JSON_PROPERTY_DUE_DATE_SOURCE,
   FeedValidationResultInvoice.JSON_PROPERTY_LAST_REMINDED_AT,
   FeedValidationResultInvoice.JSON_PROPERTY_REJECTION,
@@ -134,6 +141,10 @@ public class FeedValidationResultInvoice {
   public static final String JSON_PROPERTY_AMOUNT = "amount";
   @javax.annotation.Nullable
   private Double amount;
+
+  public static final String JSON_PROPERTY_SETTLEMENT = "settlement";
+  @javax.annotation.Nullable
+  private SupplierSettlementView settlement;
 
   public static final String JSON_PROPERTY_APPROVAL = "approval";
   @javax.annotation.Nullable
@@ -226,6 +237,49 @@ public class FeedValidationResultInvoice {
   @javax.annotation.Nullable
   private MatchStatusEnum matchStatus;
 
+  public static final String JSON_PROPERTY_NO_PO_COMPARISON = "noPoComparison";
+  @javax.annotation.Nullable
+  private NoPoComparison noPoComparison;
+
+  /**
+   * Gets or Sets paymentRoute
+   */
+  public enum PaymentRouteEnum {
+    PLEAXY(String.valueOf("pleaxy")),
+    
+    ERP(String.valueOf("erp"));
+
+    private String value;
+
+    PaymentRouteEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static PaymentRouteEnum fromValue(String value) {
+      for (PaymentRouteEnum b : PaymentRouteEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_PAYMENT_ROUTE = "paymentRoute";
+  @javax.annotation.Nullable
+  private PaymentRouteEnum paymentRoute;
+
   public static final String JSON_PROPERTY_PAID = "paid";
   @javax.annotation.Nullable
   private Boolean paid;
@@ -249,6 +303,10 @@ public class FeedValidationResultInvoice {
   public static final String JSON_PROPERTY_REMITTANCES = "remittances";
   @javax.annotation.Nullable
   private List<SupplierRemittanceView> remittances = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_PAYMENT_PROBLEM = "paymentProblem";
+  @javax.annotation.Nullable
+  private SupplierPaymentProblemView paymentProblem;
 
   /**
    * Gets or Sets dueDateSource
@@ -690,6 +748,30 @@ public class FeedValidationResultInvoice {
   }
 
 
+  public FeedValidationResultInvoice settlement(@javax.annotation.Nullable SupplierSettlementView settlement) {
+    this.settlement = settlement;
+    return this;
+  }
+
+  /**
+   * Get settlement
+   * @return settlement
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SETTLEMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SupplierSettlementView getSettlement() {
+    return settlement;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SETTLEMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSettlement(@javax.annotation.Nullable SupplierSettlementView settlement) {
+    this.settlement = settlement;
+  }
+
+
   public FeedValidationResultInvoice approval(@javax.annotation.Nullable SupplierApprovalView approval) {
     this.approval = approval;
     return this;
@@ -1010,6 +1092,54 @@ public class FeedValidationResultInvoice {
   }
 
 
+  public FeedValidationResultInvoice noPoComparison(@javax.annotation.Nullable NoPoComparison noPoComparison) {
+    this.noPoComparison = noPoComparison;
+    return this;
+  }
+
+  /**
+   * Get noPoComparison
+   * @return noPoComparison
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_NO_PO_COMPARISON)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public NoPoComparison getNoPoComparison() {
+    return noPoComparison;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_NO_PO_COMPARISON)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setNoPoComparison(@javax.annotation.Nullable NoPoComparison noPoComparison) {
+    this.noPoComparison = noPoComparison;
+  }
+
+
+  public FeedValidationResultInvoice paymentRoute(@javax.annotation.Nullable PaymentRouteEnum paymentRoute) {
+    this.paymentRoute = paymentRoute;
+    return this;
+  }
+
+  /**
+   * Get paymentRoute
+   * @return paymentRoute
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PAYMENT_ROUTE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PaymentRouteEnum getPaymentRoute() {
+    return paymentRoute;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PAYMENT_ROUTE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaymentRoute(@javax.annotation.Nullable PaymentRouteEnum paymentRoute) {
+    this.paymentRoute = paymentRoute;
+  }
+
+
   public FeedValidationResultInvoice paid(@javax.annotation.Nullable Boolean paid) {
     this.paid = paid;
     return this;
@@ -1159,6 +1289,30 @@ public class FeedValidationResultInvoice {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setRemittances(@javax.annotation.Nullable List<SupplierRemittanceView> remittances) {
     this.remittances = remittances;
+  }
+
+
+  public FeedValidationResultInvoice paymentProblem(@javax.annotation.Nullable SupplierPaymentProblemView paymentProblem) {
+    this.paymentProblem = paymentProblem;
+    return this;
+  }
+
+  /**
+   * Get paymentProblem
+   * @return paymentProblem
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PAYMENT_PROBLEM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SupplierPaymentProblemView getPaymentProblem() {
+    return paymentProblem;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PAYMENT_PROBLEM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaymentProblem(@javax.annotation.Nullable SupplierPaymentProblemView paymentProblem) {
+    this.paymentProblem = paymentProblem;
   }
 
 
@@ -2123,6 +2277,7 @@ public class FeedValidationResultInvoice {
         Objects.equals(this.supplierOrgId, feedValidationResultInvoice.supplierOrgId) &&
         Objects.equals(this.lateFeeTerms, feedValidationResultInvoice.lateFeeTerms) &&
         Objects.equals(this.amount, feedValidationResultInvoice.amount) &&
+        Objects.equals(this.settlement, feedValidationResultInvoice.settlement) &&
         Objects.equals(this.approval, feedValidationResultInvoice.approval) &&
         Objects.equals(this.supplierConnectionId, feedValidationResultInvoice.supplierConnectionId) &&
         Objects.equals(this.currency, feedValidationResultInvoice.currency) &&
@@ -2136,12 +2291,15 @@ public class FeedValidationResultInvoice {
         Objects.equals(this.billsNoPoLine, feedValidationResultInvoice.billsNoPoLine) &&
         Objects.equals(this.partyDetails, feedValidationResultInvoice.partyDetails) &&
         Objects.equals(this.matchStatus, feedValidationResultInvoice.matchStatus) &&
+        Objects.equals(this.noPoComparison, feedValidationResultInvoice.noPoComparison) &&
+        Objects.equals(this.paymentRoute, feedValidationResultInvoice.paymentRoute) &&
         Objects.equals(this.paid, feedValidationResultInvoice.paid) &&
         Objects.equals(this.dueInDays, feedValidationResultInvoice.dueInDays) &&
         Objects.equals(this.dueDate, feedValidationResultInvoice.dueDate) &&
         Objects.equals(this.paidAt, feedValidationResultInvoice.paidAt) &&
         Objects.equals(this.payment, feedValidationResultInvoice.payment) &&
         Objects.equals(this.remittances, feedValidationResultInvoice.remittances) &&
+        Objects.equals(this.paymentProblem, feedValidationResultInvoice.paymentProblem) &&
         Objects.equals(this.dueDateSource, feedValidationResultInvoice.dueDateSource) &&
         Objects.equals(this.lastRemindedAt, feedValidationResultInvoice.lastRemindedAt) &&
         Objects.equals(this.rejection, feedValidationResultInvoice.rejection) &&
@@ -2182,7 +2340,7 @@ public class FeedValidationResultInvoice {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, buyerOrgId, supplierOrgId, lateFeeTerms, amount, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, paid, dueInDays, dueDate, paidAt, payment, remittances, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, bankDetailsConfirmation, sourceDocument, hasOriginalPdf, baseCurrencyAmount, withdrawnPayment, buyerWorkspaceId, nextReminderAt);
+    return Objects.hash(supplier, buyerOrgId, supplierOrgId, lateFeeTerms, amount, settlement, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, noPoComparison, paymentRoute, paid, dueInDays, dueDate, paidAt, payment, remittances, paymentProblem, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, bankDetailsConfirmation, sourceDocument, hasOriginalPdf, baseCurrencyAmount, withdrawnPayment, buyerWorkspaceId, nextReminderAt);
   }
 
   @Override
@@ -2194,6 +2352,7 @@ public class FeedValidationResultInvoice {
     sb.append("    supplierOrgId: ").append(toIndentedString(supplierOrgId)).append("\n");
     sb.append("    lateFeeTerms: ").append(toIndentedString(lateFeeTerms)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    settlement: ").append(toIndentedString(settlement)).append("\n");
     sb.append("    approval: ").append(toIndentedString(approval)).append("\n");
     sb.append("    supplierConnectionId: ").append(toIndentedString(supplierConnectionId)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
@@ -2207,12 +2366,15 @@ public class FeedValidationResultInvoice {
     sb.append("    billsNoPoLine: ").append(toIndentedString(billsNoPoLine)).append("\n");
     sb.append("    partyDetails: ").append(toIndentedString(partyDetails)).append("\n");
     sb.append("    matchStatus: ").append(toIndentedString(matchStatus)).append("\n");
+    sb.append("    noPoComparison: ").append(toIndentedString(noPoComparison)).append("\n");
+    sb.append("    paymentRoute: ").append(toIndentedString(paymentRoute)).append("\n");
     sb.append("    paid: ").append(toIndentedString(paid)).append("\n");
     sb.append("    dueInDays: ").append(toIndentedString(dueInDays)).append("\n");
     sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
     sb.append("    paidAt: ").append(toIndentedString(paidAt)).append("\n");
     sb.append("    payment: ").append(toIndentedString(payment)).append("\n");
     sb.append("    remittances: ").append(toIndentedString(remittances)).append("\n");
+    sb.append("    paymentProblem: ").append(toIndentedString(paymentProblem)).append("\n");
     sb.append("    dueDateSource: ").append(toIndentedString(dueDateSource)).append("\n");
     sb.append("    lastRemindedAt: ").append(toIndentedString(lastRemindedAt)).append("\n");
     sb.append("    rejection: ").append(toIndentedString(rejection)).append("\n");
@@ -2321,6 +2483,11 @@ public class FeedValidationResultInvoice {
       joiner.add(String.format("%samount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAmount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `settlement` to the URL query string
+    if (getSettlement() != null) {
+      joiner.add(getSettlement().toUrlQueryString(prefix + "settlement" + suffix));
+    }
+
     // add `approval` to the URL query string
     if (getApproval() != null) {
       joiner.add(getApproval().toUrlQueryString(prefix + "approval" + suffix));
@@ -2391,6 +2558,16 @@ public class FeedValidationResultInvoice {
       joiner.add(String.format("%smatchStatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMatchStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `noPoComparison` to the URL query string
+    if (getNoPoComparison() != null) {
+      joiner.add(getNoPoComparison().toUrlQueryString(prefix + "noPoComparison" + suffix));
+    }
+
+    // add `paymentRoute` to the URL query string
+    if (getPaymentRoute() != null) {
+      joiner.add(String.format("%spaymentRoute%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPaymentRoute()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
     // add `paid` to the URL query string
     if (getPaid() != null) {
       joiner.add(String.format("%spaid%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPaid()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -2424,6 +2601,11 @@ public class FeedValidationResultInvoice {
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
+    }
+
+    // add `paymentProblem` to the URL query string
+    if (getPaymentProblem() != null) {
+      joiner.add(getPaymentProblem().toUrlQueryString(prefix + "paymentProblem" + suffix));
     }
 
     // add `dueDateSource` to the URL query string

@@ -99,7 +99,7 @@ class BudgetControlResource:
         self._transport = transport
 
     def check_budget(self, *, body: BudgetCheckInput) -> BudgetCheck:
-        """[Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or off. Writes nothing."""
+        """[Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount's currency: within, over, no_budget or off. Writes nothing."""
         return self._transport.call(
             "pleaxy._generated.api.budget_control.check_budget", body=body
         )
@@ -932,6 +932,16 @@ class PurchaseRequestsResource:
             request_id=request_id,
         )
 
+    def get_purchase_request_file(
+        self, request_id: str, file_id: str
+    ) -> GetPurchaseRequestFileResult:
+        """[Buyer] A short-lived link to a file answering one of the request's questions, for whoever may see the request"""
+        return self._transport.call(
+            "pleaxy._generated.api.purchase_requests.get_purchase_request_file",
+            request_id=request_id,
+            file_id=file_id,
+        )
+
     def list_purchase_requests(
         self,
         *,
@@ -957,6 +967,15 @@ class PurchaseRequestsResource:
             body=body,
         )
 
+    def request_purchase_request_file_upload(
+        self, *, body: RequestFileUploadInput
+    ) -> RequestPurchaseRequestFileUploadResult:
+        """[Buyer] A presigned URL to upload the answer to a request form's 'file' question (PDF, image, Word, Excel, CSV or text, up to 25 MB). PUT the file there, then save the answer with the returned fileId. Any workspace member, before or after the request exists."""
+        return self._transport.call(
+            "pleaxy._generated.api.purchase_requests.request_purchase_request_file_upload",
+            body=body,
+        )
+
     def submit_purchase_request(self, request_id: str) -> PurchaseRequest:
         """[Buyer] The requester submits a draft for approval. Refused (409) over budget when budgets are enforced."""
         return self._transport.call(
@@ -972,6 +991,26 @@ class PurchaseRequestsResource:
             "pleaxy._generated.api.purchase_requests.update_purchase_request",
             request_id=request_id,
             body=body,
+        )
+
+
+class RequestTypesResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def get_request_type(self, type_id: str) -> RequestType:
+        """[Buyer] One request type, active or not, with its intake form"""
+        return self._transport.call(
+            "pleaxy._generated.api.request_types.get_request_type", type_id=type_id
+        )
+
+    def list_request_types(
+        self, *, include_inactive: Union[Unset, bool] = UNSET
+    ) -> List["RequestType"]:
+        """[Buyer] The workspace's request types in picker order, each with its intake form; active ones unless includeInactive=true"""
+        return self._transport.call(
+            "pleaxy._generated.api.request_types.list_request_types",
+            include_inactive=include_inactive,
         )
 
 
@@ -1084,6 +1123,7 @@ class Resources:
         self.org_profiles = OrgProfilesResource(transport)
         self.purchase_orders = PurchaseOrdersResource(transport)
         self.purchase_requests = PurchaseRequestsResource(transport)
+        self.request_types = RequestTypesResource(transport)
         self.settlement = SettlementResource(transport)
         self.supplier_connections = SupplierConnectionsResource(transport)
         self.workspaces = WorkspacesResource(transport)

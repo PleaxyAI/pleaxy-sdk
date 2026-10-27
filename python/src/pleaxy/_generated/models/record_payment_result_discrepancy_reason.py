@@ -1,6 +1,8 @@
 from typing import Literal, Set, cast
 
-RecordPaymentResultDiscrepancyReason = Literal["amount", "controls", "currency"]
+RecordPaymentResultDiscrepancyReason = Literal[
+    "amount", "controls", "currency", "no_po_variance"
+]
 
 RECORD_PAYMENT_RESULT_DISCREPANCY_REASON_VALUES: Set[
     RecordPaymentResultDiscrepancyReason
@@ -8,6 +10,7 @@ RECORD_PAYMENT_RESULT_DISCREPANCY_REASON_VALUES: Set[
     "amount",
     "controls",
     "currency",
+    "no_po_variance",
 }
 
 

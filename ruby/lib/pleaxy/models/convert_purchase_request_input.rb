@@ -55,6 +55,12 @@ module Pleaxy
 
     attr_accessor :budget_owner
 
+    # A blanket order: billed as used, up to its amount. Its amount never uses the cost center's budget at once; expectedMonthly does, month by month, and its invoices as they are approved. Cloud-provider orders are blanket orders either way.
+    attr_accessor :blanket
+
+    # A blanket or cloud order's expected billing each month, in the order's currency: what its cost center's budget reserves for it.
+    attr_accessor :expected_monthly
+
     attr_accessor :buyer_name
 
     attr_accessor :supplier_site
@@ -117,6 +123,8 @@ module Pleaxy
         :'cost_center' => :'costCenter',
         :'gl_code' => :'glCode',
         :'budget_owner' => :'budgetOwner',
+        :'blanket' => :'blanket',
+        :'expected_monthly' => :'expectedMonthly',
         :'buyer_name' => :'buyerName',
         :'supplier_site' => :'supplierSite',
         :'supplier_contact_email' => :'supplierContactEmail',
@@ -151,6 +159,8 @@ module Pleaxy
         :'cost_center' => :'String',
         :'gl_code' => :'String',
         :'budget_owner' => :'String',
+        :'blanket' => :'Boolean',
+        :'expected_monthly' => :'Float',
         :'buyer_name' => :'String',
         :'supplier_site' => :'String',
         :'supplier_contact_email' => :'String',
@@ -242,6 +252,14 @@ module Pleaxy
         self.budget_owner = attributes[:'budget_owner']
       end
 
+      if attributes.key?(:'blanket')
+        self.blanket = attributes[:'blanket']
+      end
+
+      if attributes.key?(:'expected_monthly')
+        self.expected_monthly = attributes[:'expected_monthly']
+      end
+
       if attributes.key?(:'buyer_name')
         self.buyer_name = attributes[:'buyer_name']
       end
@@ -311,6 +329,10 @@ module Pleaxy
         invalid_properties.push('invalid value for "gl_code", the character length must be smaller than or equal to 40.')
       end
 
+      if !@expected_monthly.nil? && @expected_monthly < 0
+        invalid_properties.push('invalid value for "expected_monthly", must be greater than or equal to 0.')
+      end
+
       if !@supplier_contact_email.nil? && @supplier_contact_email.to_s.length > 254
         invalid_properties.push('invalid value for "supplier_contact_email", the character length must be smaller than or equal to 254.')
       end
@@ -344,6 +366,7 @@ module Pleaxy
       return false if !@bill_to.nil? && @bill_to.to_s.length > 500
       return false if !@cost_center.nil? && @cost_center.to_s.length > 200
       return false if !@gl_code.nil? && @gl_code.to_s.length > 40
+      return false if !@expected_monthly.nil? && @expected_monthly < 0
       return false if !@supplier_contact_email.nil? && @supplier_contact_email.to_s.length > 254
       return false if !@contract_id.nil? && @contract_id.to_s.length > 60
       return false if !@quote_import_id.nil? && @quote_import_id.to_s.length > 20
@@ -457,6 +480,20 @@ module Pleaxy
     end
 
     # Custom attribute writer method with validation
+    # @param [Object] expected_monthly Value to be assigned
+    def expected_monthly=(expected_monthly)
+      if expected_monthly.nil?
+        fail ArgumentError, 'expected_monthly cannot be nil'
+      end
+
+      if expected_monthly < 0
+        fail ArgumentError, 'invalid value for "expected_monthly", must be greater than or equal to 0.'
+      end
+
+      @expected_monthly = expected_monthly
+    end
+
+    # Custom attribute writer method with validation
     # @param [Object] supplier_contact_email Value to be assigned
     def supplier_contact_email=(supplier_contact_email)
       if supplier_contact_email.nil?
@@ -531,6 +568,8 @@ module Pleaxy
           cost_center == o.cost_center &&
           gl_code == o.gl_code &&
           budget_owner == o.budget_owner &&
+          blanket == o.blanket &&
+          expected_monthly == o.expected_monthly &&
           buyer_name == o.buyer_name &&
           supplier_site == o.supplier_site &&
           supplier_contact_email == o.supplier_contact_email &&
@@ -551,7 +590,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [po_number, supplier, matching, receiver_employee_key, supplier_region_id, supplier_connection_id, currency, provider, payer_accounts, bill_to_party, bill_to, cost_center, gl_code, budget_owner, buyer_name, supplier_site, supplier_contact_email, notes, contract_id, quote_import_id, sow_import_id, draft, line_items].hash
+      [po_number, supplier, matching, receiver_employee_key, supplier_region_id, supplier_connection_id, currency, provider, payer_accounts, bill_to_party, bill_to, cost_center, gl_code, budget_owner, blanket, expected_monthly, buyer_name, supplier_site, supplier_contact_email, notes, contract_id, quote_import_id, sow_import_id, draft, line_items].hash
     end
 
     # Builds the object from hash

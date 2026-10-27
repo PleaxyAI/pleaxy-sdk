@@ -31,6 +31,10 @@ class UpdatePurchaseOrderInput:
         delivery_address_id (Union[Unset, str]): Drafts only: the workspace delivery address an online store order ships
             to, copied onto the order at submit. An empty string goes back to the workspace default.
         budget_owner (Union[Unset, str]):
+        blanket (Union[Unset, bool]): Mark a draft a blanket order (billed as used, up to its amount), or not. Only
+            while it is a draft.
+        expected_monthly (Union[None, Unset, float]): A blanket or cloud order's expected billing each month, in its
+            currency; null takes it off.
         buyer_name (Union[Unset, str]):
         notes (Union[Unset, str]):
         contract_id (Union[None, Unset, str]): The contract this order falls under - one of this workspace's, active,
@@ -49,6 +53,8 @@ class UpdatePurchaseOrderInput:
     gl_code: Union[Unset, str] = UNSET
     delivery_address_id: Union[Unset, str] = UNSET
     budget_owner: Union[Unset, str] = UNSET
+    blanket: Union[Unset, bool] = UNSET
+    expected_monthly: Union[None, Unset, float] = UNSET
     buyer_name: Union[Unset, str] = UNSET
     notes: Union[Unset, str] = UNSET
     contract_id: Union[None, Unset, str] = UNSET
@@ -79,6 +85,14 @@ class UpdatePurchaseOrderInput:
         delivery_address_id = self.delivery_address_id
 
         budget_owner = self.budget_owner
+
+        blanket = self.blanket
+
+        expected_monthly: Union[None, Unset, float]
+        if isinstance(self.expected_monthly, Unset):
+            expected_monthly = UNSET
+        else:
+            expected_monthly = self.expected_monthly
 
         buyer_name = self.buyer_name
 
@@ -121,6 +135,10 @@ class UpdatePurchaseOrderInput:
             field_dict["deliveryAddressId"] = delivery_address_id
         if budget_owner is not UNSET:
             field_dict["budgetOwner"] = budget_owner
+        if blanket is not UNSET:
+            field_dict["blanket"] = blanket
+        if expected_monthly is not UNSET:
+            field_dict["expectedMonthly"] = expected_monthly
         if buyer_name is not UNSET:
             field_dict["buyerName"] = buyer_name
         if notes is not UNSET:
@@ -166,6 +184,17 @@ class UpdatePurchaseOrderInput:
 
         budget_owner = d.pop("budgetOwner", UNSET)
 
+        blanket = d.pop("blanket", UNSET)
+
+        def _parse_expected_monthly(data: object) -> Union[None, Unset, float]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, float], data)
+
+        expected_monthly = _parse_expected_monthly(d.pop("expectedMonthly", UNSET))
+
         buyer_name = d.pop("buyerName", UNSET)
 
         notes = d.pop("notes", UNSET)
@@ -206,6 +235,8 @@ class UpdatePurchaseOrderInput:
             gl_code=gl_code,
             delivery_address_id=delivery_address_id,
             budget_owner=budget_owner,
+            blanket=blanket,
+            expected_monthly=expected_monthly,
             buyer_name=buyer_name,
             notes=notes,
             contract_id=contract_id,

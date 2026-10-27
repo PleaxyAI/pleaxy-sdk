@@ -19,7 +19,7 @@ module Pleaxy
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # [Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or off. Writes nothing.
+    # [Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount's currency: within, over, no_budget or off. Writes nothing.
     # @param budget_check_input [BudgetCheckInput] 
     # @param [Hash] opts the optional parameters
     # @return [BudgetCheck]
@@ -28,7 +28,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or off. Writes nothing.
+    # [Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount&#39;s currency: within, over, no_budget or off. Writes nothing.
     # @param budget_check_input [BudgetCheckInput] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(BudgetCheck, Integer, Hash)>] BudgetCheck data, response status code and response headers

@@ -87,7 +87,7 @@ public class BudgetControlApi {
   }
 
   /**
-   * [Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or off. Writes nothing.
+   * [Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount&#39;s currency: within, over, no_budget or off. Writes nothing.
    * 
    * @param budgetCheckInput  (required)
    * @return BudgetCheck
@@ -99,7 +99,7 @@ public class BudgetControlApi {
   }
 
   /**
-   * [Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or off. Writes nothing.
+   * [Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount&#39;s currency: within, over, no_budget or off. Writes nothing.
    * 
    * @param budgetCheckInput  (required)
    * @return ApiResponse&lt;BudgetCheck&gt;

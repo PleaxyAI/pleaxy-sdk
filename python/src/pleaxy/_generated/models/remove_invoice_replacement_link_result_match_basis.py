@@ -1,10 +1,13 @@
 from typing import Literal, Set, cast
 
-RemoveInvoiceReplacementLinkResultMatchBasis = Literal["purchase_order"]
+RemoveInvoiceReplacementLinkResultMatchBasis = Literal[
+    "no_po_history", "purchase_order"
+]
 
 REMOVE_INVOICE_REPLACEMENT_LINK_RESULT_MATCH_BASIS_VALUES: Set[
     RemoveInvoiceReplacementLinkResultMatchBasis
 ] = {
+    "no_po_history",
     "purchase_order",
 }
 

@@ -108,6 +108,7 @@ pub mod notifications_api;
 pub mod org_profiles_api;
 pub mod purchase_orders_api;
 pub mod purchase_requests_api;
+pub mod request_types_api;
 pub mod settlement_api;
 pub mod supplier_connections_api;
 pub mod workspaces_api;

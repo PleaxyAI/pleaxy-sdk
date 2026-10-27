@@ -69,17 +69,17 @@ impl InvoicePaymentRecord {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Status {
+    #[serde(rename = "stripe")]
+    Stripe,
     #[serde(rename = "exported")]
     Exported,
     #[serde(rename = "recorded")]
     Recorded,
-    #[serde(rename = "stripe")]
-    Stripe,
 }
 
 impl Default for Status {
     fn default() -> Status {
-        Self::Exported
+        Self::Stripe
     }
 }
 ///

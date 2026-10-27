@@ -1,7 +1,7 @@
 from typing import Literal, Set, cast
 
 RemoveInvoiceReplacementLinkResultDiscrepancyReason = Literal[
-    "amount", "controls", "currency"
+    "amount", "controls", "currency", "no_po_variance"
 ]
 
 REMOVE_INVOICE_REPLACEMENT_LINK_RESULT_DISCREPANCY_REASON_VALUES: Set[
@@ -10,6 +10,7 @@ REMOVE_INVOICE_REPLACEMENT_LINK_RESULT_DISCREPANCY_REASON_VALUES: Set[
     "amount",
     "controls",
     "currency",
+    "no_po_variance",
 }
 
 

@@ -88,7 +88,7 @@ export class BudgetControlResource {
   constructor(private readonly transport: Transport) {}
 
   /**
-   * [Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or off. Writes nothing.
+   * [Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount's currency: within, over, no_budget or off. Writes nothing.
    */
   checkBudget(body: RequestBody<"CheckBudget">, options?: RequestOptions): Promise<ResponseBody<"CheckBudget">> {
     return this.transport.request("post", "/budget-control/check", { path: undefined, body, options }) as Promise<ResponseBody<"CheckBudget">>;
@@ -723,6 +723,13 @@ export class PurchaseRequestsResource {
   }
 
   /**
+   * [Buyer] A short-lived link to a file answering one of the request's questions, for whoever may see the request
+   */
+  getPurchaseRequestFile(requestId: string, fileId: string, options?: RequestOptions): Promise<ResponseBody<"GetPurchaseRequestFile">> {
+    return this.transport.request("get", "/purchase-requests/{requestId}/files/{fileId}", { path: { requestId, fileId }, options }) as Promise<ResponseBody<"GetPurchaseRequestFile">>;
+  }
+
+  /**
    * [Buyer] Purchase requests the caller can see, newest first: their own, everyone's with purchase order access, and any waiting on them
    */
   listPurchaseRequests(query?: QueryParams<"ListPurchaseRequests">, options?: RequestOptions): Promise<ResponseBody<"ListPurchaseRequests">> {
@@ -737,6 +744,13 @@ export class PurchaseRequestsResource {
   }
 
   /**
+   * [Buyer] A presigned URL to upload the answer to a request form's 'file' question (PDF, image, Word, Excel, CSV or text, up to 25 MB). PUT the file there, then save the answer with the returned fileId. Any workspace member, before or after the request exists.
+   */
+  requestPurchaseRequestFileUpload(body: RequestBody<"RequestPurchaseRequestFileUpload">, options?: RequestOptions): Promise<ResponseBody<"RequestPurchaseRequestFileUpload">> {
+    return this.transport.request("post", "/purchase-requests/files/upload-url", { path: undefined, body, options }) as Promise<ResponseBody<"RequestPurchaseRequestFileUpload">>;
+  }
+
+  /**
    * [Buyer] The requester submits a draft for approval. Refused (409) over budget when budgets are enforced.
    */
   submitPurchaseRequest(requestId: string, options?: RequestOptions): Promise<ResponseBody<"SubmitPurchaseRequest">> {
@@ -748,6 +762,24 @@ export class PurchaseRequestsResource {
    */
   updatePurchaseRequest(requestId: string, body: RequestBody<"UpdatePurchaseRequest">, options?: RequestOptions): Promise<ResponseBody<"UpdatePurchaseRequest">> {
     return this.transport.request("patch", "/purchase-requests/{requestId}", { path: { requestId }, body, options }) as Promise<ResponseBody<"UpdatePurchaseRequest">>;
+  }
+}
+
+export class RequestTypesResource {
+  constructor(private readonly transport: Transport) {}
+
+  /**
+   * [Buyer] One request type, active or not, with its intake form
+   */
+  getRequestType(typeId: string, options?: RequestOptions): Promise<ResponseBody<"GetRequestType">> {
+    return this.transport.request("get", "/request-types/{typeId}", { path: { typeId }, options }) as Promise<ResponseBody<"GetRequestType">>;
+  }
+
+  /**
+   * [Buyer] The workspace's request types in picker order, each with its intake form; active ones unless includeInactive=true
+   */
+  listRequestTypes(query?: QueryParams<"ListRequestTypes">, options?: RequestOptions): Promise<ResponseBody<"ListRequestTypes">> {
+    return this.transport.request("get", "/request-types", { path: undefined, query, options }) as Promise<ResponseBody<"ListRequestTypes">>;
   }
 }
 
@@ -830,6 +862,7 @@ export class Resources {
   readonly orgProfiles: OrgProfilesResource;
   readonly purchaseOrders: PurchaseOrdersResource;
   readonly purchaseRequests: PurchaseRequestsResource;
+  readonly requestTypes: RequestTypesResource;
   readonly settlement: SettlementResource;
   readonly supplierConnections: SupplierConnectionsResource;
   readonly workspaces: WorkspacesResource;
@@ -851,6 +884,7 @@ export class Resources {
     this.orgProfiles = new OrgProfilesResource(transport);
     this.purchaseOrders = new PurchaseOrdersResource(transport);
     this.purchaseRequests = new PurchaseRequestsResource(transport);
+    this.requestTypes = new RequestTypesResource(transport);
     this.settlement = new SettlementResource(transport);
     this.supplierConnections = new SupplierConnectionsResource(transport);
     this.workspaces = new WorkspacesResource(transport);

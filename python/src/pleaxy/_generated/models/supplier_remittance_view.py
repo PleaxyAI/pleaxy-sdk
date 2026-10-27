@@ -17,23 +17,23 @@ class SupplierRemittanceView:
     """
     Attributes:
         id (str):
-        sent_at (Union[Unset, str]):
         note (Union[Unset, str]):
+        sent_at (Union[Unset, str]):
         file (Union[Unset, SupplierRemittanceViewFile]):
     """
 
     id: str
-    sent_at: Union[Unset, str] = UNSET
     note: Union[Unset, str] = UNSET
+    sent_at: Union[Unset, str] = UNSET
     file: Union[Unset, "SupplierRemittanceViewFile"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         id = self.id
 
-        sent_at = self.sent_at
-
         note = self.note
+
+        sent_at = self.sent_at
 
         file: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.file, Unset):
@@ -46,10 +46,10 @@ class SupplierRemittanceView:
                 "id": id,
             }
         )
-        if sent_at is not UNSET:
-            field_dict["sentAt"] = sent_at
         if note is not UNSET:
             field_dict["note"] = note
+        if sent_at is not UNSET:
+            field_dict["sentAt"] = sent_at
         if file is not UNSET:
             field_dict["file"] = file
 
@@ -62,9 +62,9 @@ class SupplierRemittanceView:
         d = src_dict.copy()
         id = d.pop("id")
 
-        sent_at = d.pop("sentAt", UNSET)
-
         note = d.pop("note", UNSET)
+
+        sent_at = d.pop("sentAt", UNSET)
 
         _file = d.pop("file", UNSET)
         file: Union[Unset, SupplierRemittanceViewFile]
@@ -75,8 +75,8 @@ class SupplierRemittanceView:
 
         supplier_remittance_view = cls(
             id=id,
-            sent_at=sent_at,
             note=note,
+            sent_at=sent_at,
             file=file,
         )
 

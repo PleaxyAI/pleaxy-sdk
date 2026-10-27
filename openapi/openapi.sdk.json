@@ -3799,6 +3799,9 @@
                           "amount": {
                             "type": "number"
                           },
+                          "settlement": {
+                            "$ref": "#/components/schemas/InvoiceSettlement"
+                          },
                           "approvalVersion": {
                             "type": "number"
                           },
@@ -3890,13 +3893,25 @@
                               "no_purchase_order",
                               "no_billing_connection",
                               "debit_note",
-                              "payer_account_unclear"
+                              "payer_account_unclear",
+                              "no_po_first_invoice"
                             ]
                           },
                           "matchBasis": {
                             "type": "string",
                             "enum": [
-                              "purchase_order"
+                              "purchase_order",
+                              "no_po_history"
+                            ]
+                          },
+                          "noPoComparison": {
+                            "$ref": "#/components/schemas/NoPoComparison"
+                          },
+                          "paymentRoute": {
+                            "type": "string",
+                            "enum": [
+                              "pleaxy",
+                              "erp"
                             ]
                           },
                           "receiptCheckSkipped": {
@@ -3982,7 +3997,8 @@
                             "enum": [
                               "amount",
                               "currency",
-                              "controls"
+                              "controls",
+                              "no_po_variance"
                             ]
                           },
                           "controlFindings": {
@@ -4017,6 +4033,12 @@
                             "items": {
                               "$ref": "#/components/schemas/PaymentHistoryEntry"
                             }
+                          },
+                          "paymentProblem": {
+                            "$ref": "#/components/schemas/InvoicePaymentProblem"
+                          },
+                          "receiptConfirmationRemindedAt": {
+                            "type": "string"
                           },
                           "exportAvailableFrom": {
                             "type": "string"
@@ -4308,6 +4330,16 @@
                               "unverified"
                             ]
                           },
+                          "noPoComparison": {
+                            "$ref": "#/components/schemas/NoPoComparison"
+                          },
+                          "paymentRoute": {
+                            "type": "string",
+                            "enum": [
+                              "pleaxy",
+                              "erp"
+                            ]
+                          },
                           "paid": {
                             "type": "boolean"
                           },
@@ -4470,6 +4502,12 @@
                           },
                           "hasOriginalPdf": {
                             "type": "boolean"
+                          },
+                          "settlement": {
+                            "$ref": "#/components/schemas/SupplierSettlementView"
+                          },
+                          "paymentProblem": {
+                            "$ref": "#/components/schemas/SupplierPaymentProblemView"
                           },
                           "bankDetailsConfirmation": {
                             "$ref": "#/components/schemas/SupplierBankDetailsConfirmationView"
@@ -5975,6 +6013,9 @@
                         "amount": {
                           "type": "number"
                         },
+                        "settlement": {
+                          "$ref": "#/components/schemas/InvoiceSettlement"
+                        },
                         "approvalVersion": {
                           "type": "number"
                         },
@@ -6066,13 +6107,25 @@
                             "no_purchase_order",
                             "no_billing_connection",
                             "debit_note",
-                            "payer_account_unclear"
+                            "payer_account_unclear",
+                            "no_po_first_invoice"
                           ]
                         },
                         "matchBasis": {
                           "type": "string",
                           "enum": [
-                            "purchase_order"
+                            "purchase_order",
+                            "no_po_history"
+                          ]
+                        },
+                        "noPoComparison": {
+                          "$ref": "#/components/schemas/NoPoComparison"
+                        },
+                        "paymentRoute": {
+                          "type": "string",
+                          "enum": [
+                            "pleaxy",
+                            "erp"
                           ]
                         },
                         "receiptCheckSkipped": {
@@ -6158,7 +6211,8 @@
                           "enum": [
                             "amount",
                             "currency",
-                            "controls"
+                            "controls",
+                            "no_po_variance"
                           ]
                         },
                         "controlFindings": {
@@ -6193,6 +6247,12 @@
                           "items": {
                             "$ref": "#/components/schemas/PaymentHistoryEntry"
                           }
+                        },
+                        "paymentProblem": {
+                          "$ref": "#/components/schemas/InvoicePaymentProblem"
+                        },
+                        "receiptConfirmationRemindedAt": {
+                          "type": "string"
                         },
                         "exportAvailableFrom": {
                           "type": "string"
@@ -6485,6 +6545,16 @@
                             "unverified"
                           ]
                         },
+                        "noPoComparison": {
+                          "$ref": "#/components/schemas/NoPoComparison"
+                        },
+                        "paymentRoute": {
+                          "type": "string",
+                          "enum": [
+                            "pleaxy",
+                            "erp"
+                          ]
+                        },
                         "paid": {
                           "type": "boolean"
                         },
@@ -6648,6 +6718,12 @@
                         },
                         "hasOriginalPdf": {
                           "type": "boolean"
+                        },
+                        "settlement": {
+                          "$ref": "#/components/schemas/SupplierSettlementView"
+                        },
+                        "paymentProblem": {
+                          "$ref": "#/components/schemas/SupplierPaymentProblemView"
                         },
                         "bankDetailsConfirmation": {
                           "$ref": "#/components/schemas/SupplierBankDetailsConfirmationView"
@@ -7634,6 +7710,9 @@
                         "amount": {
                           "type": "number"
                         },
+                        "settlement": {
+                          "$ref": "#/components/schemas/InvoiceSettlement"
+                        },
                         "approvalVersion": {
                           "type": "number"
                         },
@@ -7725,13 +7804,25 @@
                             "no_purchase_order",
                             "no_billing_connection",
                             "debit_note",
-                            "payer_account_unclear"
+                            "payer_account_unclear",
+                            "no_po_first_invoice"
                           ]
                         },
                         "matchBasis": {
                           "type": "string",
                           "enum": [
-                            "purchase_order"
+                            "purchase_order",
+                            "no_po_history"
+                          ]
+                        },
+                        "noPoComparison": {
+                          "$ref": "#/components/schemas/NoPoComparison"
+                        },
+                        "paymentRoute": {
+                          "type": "string",
+                          "enum": [
+                            "pleaxy",
+                            "erp"
                           ]
                         },
                         "receiptCheckSkipped": {
@@ -7817,7 +7908,8 @@
                           "enum": [
                             "amount",
                             "currency",
-                            "controls"
+                            "controls",
+                            "no_po_variance"
                           ]
                         },
                         "controlFindings": {
@@ -7852,6 +7944,12 @@
                           "items": {
                             "$ref": "#/components/schemas/PaymentHistoryEntry"
                           }
+                        },
+                        "paymentProblem": {
+                          "$ref": "#/components/schemas/InvoicePaymentProblem"
+                        },
+                        "receiptConfirmationRemindedAt": {
+                          "type": "string"
                         },
                         "exportAvailableFrom": {
                           "type": "string"
@@ -8144,6 +8242,16 @@
                             "unverified"
                           ]
                         },
+                        "noPoComparison": {
+                          "$ref": "#/components/schemas/NoPoComparison"
+                        },
+                        "paymentRoute": {
+                          "type": "string",
+                          "enum": [
+                            "pleaxy",
+                            "erp"
+                          ]
+                        },
                         "paid": {
                           "type": "boolean"
                         },
@@ -8307,6 +8415,12 @@
                         },
                         "hasOriginalPdf": {
                           "type": "boolean"
+                        },
+                        "settlement": {
+                          "$ref": "#/components/schemas/SupplierSettlementView"
+                        },
+                        "paymentProblem": {
+                          "$ref": "#/components/schemas/SupplierPaymentProblemView"
                         },
                         "bankDetailsConfirmation": {
                           "$ref": "#/components/schemas/SupplierBankDetailsConfirmationView"
@@ -8642,6 +8756,9 @@
                     "amount": {
                       "type": "number"
                     },
+                    "settlement": {
+                      "$ref": "#/components/schemas/InvoiceSettlement"
+                    },
                     "approvalVersion": {
                       "type": "number"
                     },
@@ -8733,13 +8850,25 @@
                         "no_purchase_order",
                         "no_billing_connection",
                         "debit_note",
-                        "payer_account_unclear"
+                        "payer_account_unclear",
+                        "no_po_first_invoice"
                       ]
                     },
                     "matchBasis": {
                       "type": "string",
                       "enum": [
-                        "purchase_order"
+                        "purchase_order",
+                        "no_po_history"
+                      ]
+                    },
+                    "noPoComparison": {
+                      "$ref": "#/components/schemas/NoPoComparison"
+                    },
+                    "paymentRoute": {
+                      "type": "string",
+                      "enum": [
+                        "pleaxy",
+                        "erp"
                       ]
                     },
                     "receiptCheckSkipped": {
@@ -8825,7 +8954,8 @@
                       "enum": [
                         "amount",
                         "currency",
-                        "controls"
+                        "controls",
+                        "no_po_variance"
                       ]
                     },
                     "controlFindings": {
@@ -8860,6 +8990,12 @@
                       "items": {
                         "$ref": "#/components/schemas/PaymentHistoryEntry"
                       }
+                    },
+                    "paymentProblem": {
+                      "$ref": "#/components/schemas/InvoicePaymentProblem"
+                    },
+                    "receiptConfirmationRemindedAt": {
+                      "type": "string"
                     },
                     "exportAvailableFrom": {
                       "type": "string"
@@ -9153,6 +9289,9 @@
                     "amount": {
                       "type": "number"
                     },
+                    "settlement": {
+                      "$ref": "#/components/schemas/InvoiceSettlement"
+                    },
                     "approvalVersion": {
                       "type": "number"
                     },
@@ -9244,13 +9383,25 @@
                         "no_purchase_order",
                         "no_billing_connection",
                         "debit_note",
-                        "payer_account_unclear"
+                        "payer_account_unclear",
+                        "no_po_first_invoice"
                       ]
                     },
                     "matchBasis": {
                       "type": "string",
                       "enum": [
-                        "purchase_order"
+                        "purchase_order",
+                        "no_po_history"
+                      ]
+                    },
+                    "noPoComparison": {
+                      "$ref": "#/components/schemas/NoPoComparison"
+                    },
+                    "paymentRoute": {
+                      "type": "string",
+                      "enum": [
+                        "pleaxy",
+                        "erp"
                       ]
                     },
                     "receiptCheckSkipped": {
@@ -9336,7 +9487,8 @@
                       "enum": [
                         "amount",
                         "currency",
-                        "controls"
+                        "controls",
+                        "no_po_variance"
                       ]
                     },
                     "controlFindings": {
@@ -9371,6 +9523,12 @@
                       "items": {
                         "$ref": "#/components/schemas/PaymentHistoryEntry"
                       }
+                    },
+                    "paymentProblem": {
+                      "$ref": "#/components/schemas/InvoicePaymentProblem"
+                    },
+                    "receiptConfirmationRemindedAt": {
+                      "type": "string"
                     },
                     "exportAvailableFrom": {
                       "type": "string"
@@ -9925,6 +10083,9 @@
                     "amount": {
                       "type": "number"
                     },
+                    "settlement": {
+                      "$ref": "#/components/schemas/InvoiceSettlement"
+                    },
                     "approvalVersion": {
                       "type": "number"
                     },
@@ -10016,13 +10177,25 @@
                         "no_purchase_order",
                         "no_billing_connection",
                         "debit_note",
-                        "payer_account_unclear"
+                        "payer_account_unclear",
+                        "no_po_first_invoice"
                       ]
                     },
                     "matchBasis": {
                       "type": "string",
                       "enum": [
-                        "purchase_order"
+                        "purchase_order",
+                        "no_po_history"
+                      ]
+                    },
+                    "noPoComparison": {
+                      "$ref": "#/components/schemas/NoPoComparison"
+                    },
+                    "paymentRoute": {
+                      "type": "string",
+                      "enum": [
+                        "pleaxy",
+                        "erp"
                       ]
                     },
                     "receiptCheckSkipped": {
@@ -10108,7 +10281,8 @@
                       "enum": [
                         "amount",
                         "currency",
-                        "controls"
+                        "controls",
+                        "no_po_variance"
                       ]
                     },
                     "controlFindings": {
@@ -10143,6 +10317,12 @@
                       "items": {
                         "$ref": "#/components/schemas/PaymentHistoryEntry"
                       }
+                    },
+                    "paymentProblem": {
+                      "$ref": "#/components/schemas/InvoicePaymentProblem"
+                    },
+                    "receiptConfirmationRemindedAt": {
+                      "type": "string"
                     },
                     "exportAvailableFrom": {
                       "type": "string"
@@ -11002,6 +11182,36 @@
                     },
                     "unassigned": {
                       "$ref": "#/components/schemas/SpendFigures"
+                    },
+                    "unassignedByCurrency": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "committed": {
+                            "type": "number"
+                          },
+                          "actual": {
+                            "type": "number"
+                          },
+                          "pending": {
+                            "type": "number"
+                          },
+                          "unconverted": {
+                            "type": "number"
+                          },
+                          "currency": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "committed",
+                          "actual",
+                          "pending",
+                          "unconverted",
+                          "currency"
+                        ]
+                      }
                     }
                   },
                   "required": [
@@ -11032,7 +11242,7 @@
     "/v1/workspaces/{regionId}/budget-control/check": {
       "post": {
         "operationId": "CheckBudget",
-        "summary": "[Buyer] Preview the budget check for an amount on a cost center: within, over, no_budget, no_rate or off. Writes nothing.",
+        "summary": "[Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount's currency: within, over, no_budget or off. Writes nothing.",
         "parameters": [
           {
             "name": "regionId",
@@ -12751,6 +12961,73 @@
         ]
       }
     },
+    "/v1/workspaces/{regionId}/purchase-requests/files/upload-url": {
+      "post": {
+        "operationId": "RequestPurchaseRequestFileUpload",
+        "summary": "[Buyer] A presigned URL to upload the answer to a request form's 'file' question (PDF, image, Word, Excel, CSV or text, up to 25 MB). PUT the file there, then save the answer with the returned fileId. Any workspace member, before or after the request exists.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestFileUploadDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fileId": {
+                      "type": "string"
+                    },
+                    "uploadUrl": {
+                      "type": "string"
+                    },
+                    "maxBytes": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "fileId",
+                    "uploadUrl",
+                    "maxBytes"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "purchase-requests"
+        ]
+      }
+    },
     "/v1/workspaces/{regionId}/purchase-requests/{requestId}": {
       "get": {
         "operationId": "GetPurchaseRequest",
@@ -12837,6 +13114,71 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PurchaseRequest"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "purchase-requests"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/purchase-requests/{requestId}/files/{fileId}": {
+      "get": {
+        "operationId": "GetPurchaseRequestFile",
+        "summary": "[Buyer] A short-lived link to a file answering one of the request's questions, for whoever may see the request",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "requestId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "url"
+                  ]
                 }
               }
             }
@@ -13141,6 +13483,108 @@
         },
         "tags": [
           "purchase-requests"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/request-types": {
+      "get": {
+        "operationId": "ListRequestTypes",
+        "summary": "[Buyer] The workspace's request types in picker order, each with its intake form; active ones unless includeInactive=true",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "includeInactive",
+            "required": false,
+            "in": "query",
+            "description": "true: also the inactive types (for the settings page).",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RequestType"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "request-types"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/request-types/{typeId}": {
+      "get": {
+        "operationId": "GetRequestType",
+        "summary": "[Buyer] One request type, active or not, with its intake form",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "typeId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestType"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "request-types"
         ]
       }
     },
@@ -13816,6 +14260,27 @@
           "enabled"
         ]
       },
+      "FileAnswerDto": {
+        "type": "object",
+        "properties": {
+          "fileId": {
+            "type": "string",
+            "description": "The fileId the upload-url route returned"
+          },
+          "fileName": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "contentType": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "fileId",
+          "fileName",
+          "contentType"
+        ]
+      },
       "UpdateReminderSettingsDto": {
         "type": "object",
         "properties": {
@@ -14194,6 +14659,15 @@
           "budgetOwner": {
             "type": "string"
           },
+          "blanket": {
+            "type": "boolean",
+            "description": "A blanket order: billed as used, up to its amount. Its amount never uses the cost center's budget at once; expectedMonthly does, month by month, and its invoices as they are approved. Cloud-provider orders are blanket orders either way."
+          },
+          "expectedMonthly": {
+            "type": "number",
+            "minimum": 0,
+            "description": "A blanket or cloud order's expected billing each month, in the order's currency: what its cost center's budget reserves for it."
+          },
           "buyerName": {
             "type": "string"
           },
@@ -14286,6 +14760,16 @@
           },
           "budgetOwner": {
             "type": "string"
+          },
+          "blanket": {
+            "type": "boolean",
+            "description": "Mark a draft a blanket order (billed as used, up to its amount), or not. Only while it is a draft."
+          },
+          "expectedMonthly": {
+            "type": "number",
+            "nullable": true,
+            "minimum": 0,
+            "description": "A blanket or cloud order's expected billing each month, in its currency; null takes it off."
           },
           "buyerName": {
             "type": "string"
@@ -15266,6 +15750,19 @@
             "type": "string",
             "maxLength": 64,
             "description": "An existing order being edited, so it doesn't count against itself."
+          },
+          "blanket": {
+            "type": "boolean",
+            "description": "A blanket order (billed as used, up to `amount`): what is checked is `expectedMonthly` for the current period's months within its term, never `amount`."
+          },
+          "expectedMonthly": {
+            "type": "number",
+            "minimum": 0,
+            "description": "With blanket: what the order is expected to bill each month, in `currency`."
+          },
+          "validUntil": {
+            "type": "string",
+            "description": "With blanket: the last day it runs (YYYY-MM-DD), its lines' latest validUntil; open-ended when absent."
           }
         },
         "required": [
@@ -15547,6 +16044,37 @@
           "unitPrice"
         ]
       },
+      "PurchaseRequestAnswerDto": {
+        "type": "object",
+        "properties": {
+          "fieldId": {
+            "type": "string",
+            "description": "QuestionnaireFieldDef.id of a kind === 'custom' field"
+          },
+          "textAnswer": {
+            "type": "string",
+            "description": "text, long_text, number (e.g. \"1250.5\") and date (YYYY-MM-DD) questions"
+          },
+          "selectedOptionIds": {
+            "description": "yes_no (\"yes\"/\"no\"), single_choice and multi_choice questions - option ids",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "file": {
+            "description": "file questions - upload first via POST .../questionnaire-files/upload-url",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FileAnswerDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "fieldId"
+        ]
+      },
       "CreatePurchaseRequestDto": {
         "type": "object",
         "properties": {
@@ -15604,6 +16132,18 @@
             "maxLength": 2000,
             "description": "Anything procurement should know."
           },
+          "requestTypeId": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "The request type (GET /request-types). Required when the workspace has an active type. The type's GL account and line type fill in what the request leaves out."
+          },
+          "answers": {
+            "description": "Answers to the type's questions, by fieldId. On an update, the whole set (omit to keep them). A draft may leave questions blank; submitting needs every required question the answers make visible.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseRequestAnswerDto"
+            }
+          },
           "submit": {
             "type": "boolean",
             "description": "true submits it for approval straight away; otherwise it is saved as a draft."
@@ -15612,6 +16152,29 @@
         "required": [
           "title",
           "lineItems"
+        ]
+      },
+      "RequestFileUploadDto": {
+        "type": "object",
+        "properties": {
+          "contentType": {
+            "type": "string",
+            "enum": [
+              "application/pdf",
+              "image/png",
+              "image/jpeg",
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+              "application/msword",
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+              "application/vnd.ms-excel",
+              "text/csv",
+              "text/plain"
+            ],
+            "description": "PDF, image, Word, Excel, CSV or text, up to 25 MB."
+          }
+        },
+        "required": [
+          "contentType"
         ]
       },
       "UpdatePurchaseRequestDto": {
@@ -15670,6 +16233,18 @@
             "type": "string",
             "maxLength": 2000,
             "description": "Anything procurement should know."
+          },
+          "requestTypeId": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "The request type (GET /request-types). Required when the workspace has an active type. The type's GL account and line type fill in what the request leaves out."
+          },
+          "answers": {
+            "description": "Answers to the type's questions, by fieldId. On an update, the whole set (omit to keep them). A draft may leave questions blank; submitting needs every required question the answers make visible.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseRequestAnswerDto"
+            }
           }
         }
       },
@@ -15775,6 +16350,15 @@
           },
           "budgetOwner": {
             "type": "string"
+          },
+          "blanket": {
+            "type": "boolean",
+            "description": "A blanket order: billed as used, up to its amount. Its amount never uses the cost center's budget at once; expectedMonthly does, month by month, and its invoices as they are approved. Cloud-provider orders are blanket orders either way."
+          },
+          "expectedMonthly": {
+            "type": "number",
+            "minimum": 0,
+            "description": "A blanket or cloud order's expected billing each month, in the order's currency: what its cost center's budget reserves for it."
           },
           "buyerName": {
             "type": "string"
@@ -16974,6 +17558,9 @@
               "invoice_approved",
               "invoice_paid",
               "invoice_payment_withdrawn",
+              "payment_problem_reported",
+              "payment_problem_answered",
+              "payment_receipt_to_confirm",
               "payments_recorded_by_key",
               "accounting_sync_failed",
               "invoice_remittance_sent",
@@ -17026,7 +17613,9 @@
               "copilot_degraded",
               "copilot_packs_low",
               "copilot_packs_empty",
-              "copilot_payg_cap"
+              "copilot_payg_cap",
+              "agent_connected",
+              "agent_signed_out"
             ]
           },
           "title": {
@@ -17504,6 +18093,12 @@
           },
           "glCode": {
             "type": "string"
+          },
+          "blanket": {
+            "type": "boolean"
+          },
+          "expectedMonthly": {
+            "type": "number"
           },
           "submittedAt": {
             "type": "string"
@@ -19527,6 +20122,9 @@
           "amount": {
             "type": "number"
           },
+          "settlement": {
+            "$ref": "#/components/schemas/InvoiceSettlement"
+          },
           "approvalVersion": {
             "type": "number"
           },
@@ -19618,13 +20216,25 @@
               "no_purchase_order",
               "no_billing_connection",
               "debit_note",
-              "payer_account_unclear"
+              "payer_account_unclear",
+              "no_po_first_invoice"
             ]
           },
           "matchBasis": {
             "type": "string",
             "enum": [
-              "purchase_order"
+              "purchase_order",
+              "no_po_history"
+            ]
+          },
+          "noPoComparison": {
+            "$ref": "#/components/schemas/NoPoComparison"
+          },
+          "paymentRoute": {
+            "type": "string",
+            "enum": [
+              "pleaxy",
+              "erp"
             ]
           },
           "receiptCheckSkipped": {
@@ -19710,7 +20320,8 @@
             "enum": [
               "amount",
               "currency",
-              "controls"
+              "controls",
+              "no_po_variance"
             ]
           },
           "controlFindings": {
@@ -19745,6 +20356,12 @@
             "items": {
               "$ref": "#/components/schemas/PaymentHistoryEntry"
             }
+          },
+          "paymentProblem": {
+            "$ref": "#/components/schemas/InvoicePaymentProblem"
+          },
+          "receiptConfirmationRemindedAt": {
+            "type": "string"
           },
           "exportAvailableFrom": {
             "type": "string"
@@ -19958,6 +20575,40 @@
           "viewerIsSupplierMember"
         ]
       },
+      "InvoiceSettlement": {
+        "type": "object",
+        "properties": {
+          "at": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "stripe",
+              "supplier_confirmed",
+              "no_money_moved",
+              "no_problem_reported",
+              "buyer_marked"
+            ]
+          },
+          "by": {
+            "type": "string"
+          },
+          "byName": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "undoUntil": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "at",
+          "source"
+        ]
+      },
       "InvoiceLineItem": {
         "type": "object",
         "properties": {
@@ -20006,6 +20657,34 @@
         },
         "required": [
           "addressLines"
+        ]
+      },
+      "NoPoComparison": {
+        "type": "object",
+        "properties": {
+          "average": {
+            "type": "number"
+          },
+          "invoiceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "differencePct": {
+            "type": "number"
+          },
+          "tolerancePct": {
+            "type": "number"
+          },
+          "at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "invoiceIds",
+          "tolerancePct",
+          "at"
         ]
       },
       "InvoiceControlFinding": {
@@ -20075,9 +20754,9 @@
           "status": {
             "type": "string",
             "enum": [
+              "stripe",
               "exported",
-              "recorded",
-              "stripe"
+              "recorded"
             ]
           },
           "stripe": {
@@ -20306,7 +20985,11 @@
               "stripe_succeeded",
               "remittance_sent",
               "credit_applied",
-              "credit_removed"
+              "credit_removed",
+              "settled",
+              "settlement_undone",
+              "problem_reported",
+              "problem_answered"
             ]
           },
           "at": {
@@ -20317,6 +21000,9 @@
           },
           "byName": {
             "type": "string"
+          },
+          "bySupplier": {
+            "type": "boolean"
           },
           "remittanceId": {
             "type": "string"
@@ -20486,6 +21172,66 @@
         },
         "required": [
           "at"
+        ]
+      },
+      "InvoicePaymentProblem": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "not_received",
+              "amount_differs"
+            ]
+          },
+          "amountReceived": {
+            "type": "number"
+          },
+          "note": {
+            "type": "string"
+          },
+          "at": {
+            "type": "string"
+          },
+          "by": {
+            "type": "string"
+          },
+          "byName": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "object",
+            "properties": {
+              "note": {
+                "type": "string"
+              },
+              "at": {
+                "type": "string"
+              },
+              "by": {
+                "type": "string"
+              },
+              "byName": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "note",
+              "at",
+              "by",
+              "byName"
+            ]
+          },
+          "resolvedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "note",
+          "at",
+          "by",
+          "byName"
         ]
       },
       "InvoiceRejection": {
@@ -21123,6 +21869,16 @@
               "unverified"
             ]
           },
+          "noPoComparison": {
+            "$ref": "#/components/schemas/NoPoComparison"
+          },
+          "paymentRoute": {
+            "type": "string",
+            "enum": [
+              "pleaxy",
+              "erp"
+            ]
+          },
           "paid": {
             "type": "boolean"
           },
@@ -21285,6 +22041,12 @@
           },
           "hasOriginalPdf": {
             "type": "boolean"
+          },
+          "settlement": {
+            "$ref": "#/components/schemas/SupplierSettlementView"
+          },
+          "paymentProblem": {
+            "$ref": "#/components/schemas/SupplierPaymentProblemView"
           },
           "bankDetailsConfirmation": {
             "$ref": "#/components/schemas/SupplierBankDetailsConfirmationView"
@@ -21528,6 +22290,86 @@
           "baseCurrencyAmount"
         ]
       },
+      "SupplierSettlementView": {
+        "type": "object",
+        "properties": {
+          "at": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "stripe",
+              "supplier_confirmed",
+              "no_money_moved",
+              "no_problem_reported",
+              "buyer_marked"
+            ]
+          },
+          "undoUntil": {
+            "type": "string"
+          },
+          "byName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "at",
+          "source"
+        ]
+      },
+      "SupplierPaymentProblemView": {
+        "type": "object",
+        "properties": {
+          "at": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "not_received",
+              "amount_differs"
+            ]
+          },
+          "amountReceived": {
+            "type": "number"
+          },
+          "note": {
+            "type": "string"
+          },
+          "by": {
+            "type": "string"
+          },
+          "byName": {
+            "type": "string"
+          },
+          "resolvedAt": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "object",
+            "properties": {
+              "note": {
+                "type": "string"
+              },
+              "at": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "note",
+              "at"
+            ]
+          }
+        },
+        "required": [
+          "at",
+          "kind",
+          "note",
+          "by",
+          "byName"
+        ]
+      },
       "SupplierBankDetailsConfirmationView": {
         "type": "object",
         "properties": {
@@ -21613,10 +22455,10 @@
           "id": {
             "type": "string"
           },
-          "sentAt": {
+          "note": {
             "type": "string"
           },
-          "note": {
+          "sentAt": {
             "type": "string"
           },
           "file": {
@@ -22129,6 +22971,9 @@
               "amount": {
                 "type": "number"
               },
+              "settlement": {
+                "$ref": "#/components/schemas/SupplierSettlementView"
+              },
               "approval": {
                 "$ref": "#/components/schemas/SupplierApprovalView"
               },
@@ -22183,6 +23028,16 @@
                   "matched",
                   "discrepancy",
                   "unverified"
+                ]
+              },
+              "noPoComparison": {
+                "$ref": "#/components/schemas/NoPoComparison"
+              },
+              "paymentRoute": {
+                "type": "string",
+                "enum": [
+                  "pleaxy",
+                  "erp"
                 ]
               },
               "paid": {
@@ -22305,6 +23160,9 @@
                 "items": {
                   "$ref": "#/components/schemas/SupplierRemittanceView"
                 }
+              },
+              "paymentProblem": {
+                "$ref": "#/components/schemas/SupplierPaymentProblemView"
               },
               "dueDateSource": {
                 "type": "string",
@@ -24534,6 +25392,37 @@
           "notes": {
             "type": "string"
           },
+          "requestType": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "version": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "version"
+            ]
+          },
+          "formFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionnaireFieldDef"
+            }
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RequestAnswer"
+            }
+          },
           "status": {
             "type": "string",
             "enum": [
@@ -24620,6 +25509,98 @@
           "unitPrice"
         ]
       },
+      "RequestAnswer": {
+        "type": "object",
+        "properties": {
+          "fieldId": {
+            "type": "string"
+          },
+          "textAnswer": {
+            "type": "string"
+          },
+          "selectedOptionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "file": {
+            "$ref": "#/components/schemas/QuestionnaireFileAnswer"
+          },
+          "flagged": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "fieldId"
+        ]
+      },
+      "RequestType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "order": {
+            "type": "number"
+          },
+          "defaults": {
+            "type": "object",
+            "properties": {
+              "glCode": {
+                "type": "string"
+              },
+              "lineType": {
+                "type": "string",
+                "enum": [
+                  "goods",
+                  "service"
+                ]
+              }
+            }
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionnaireFieldDef"
+            }
+          },
+          "version": {
+            "type": "number"
+          },
+          "usedAt": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "active",
+          "order",
+          "fields",
+          "version",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
       "StripePaymentStatus": {
         "type": "object",
         "properties": {
@@ -24633,6 +25614,7 @@
               "not_approved",
               "bank_details_held",
               "payment_locked",
+              "paid_in_erp",
               "supplier_not_on_pleaxy",
               "supplier_not_connected",
               "unsupported_currency",

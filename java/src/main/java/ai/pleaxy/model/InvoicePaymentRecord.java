@@ -60,11 +60,11 @@ public class InvoicePaymentRecord {
    * Gets or Sets status
    */
   public enum StatusEnum {
+    STRIPE(String.valueOf("stripe")),
+    
     EXPORTED(String.valueOf("exported")),
     
-    RECORDED(String.valueOf("recorded")),
-    
-    STRIPE(String.valueOf("stripe"));
+    RECORDED(String.valueOf("recorded"));
 
     private String value;
 

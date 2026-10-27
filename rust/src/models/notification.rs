@@ -139,6 +139,12 @@ pub enum Type {
     InvoicePaid,
     #[serde(rename = "invoice_payment_withdrawn")]
     InvoicePaymentWithdrawn,
+    #[serde(rename = "payment_problem_reported")]
+    PaymentProblemReported,
+    #[serde(rename = "payment_problem_answered")]
+    PaymentProblemAnswered,
+    #[serde(rename = "payment_receipt_to_confirm")]
+    PaymentReceiptToConfirm,
     #[serde(rename = "payments_recorded_by_key")]
     PaymentsRecordedByKey,
     #[serde(rename = "accounting_sync_failed")]
@@ -245,6 +251,10 @@ pub enum Type {
     CopilotPacksEmpty,
     #[serde(rename = "copilot_payg_cap")]
     CopilotPaygCap,
+    #[serde(rename = "agent_connected")]
+    AgentConnected,
+    #[serde(rename = "agent_signed_out")]
+    AgentSignedOut,
 }
 
 impl Default for Type {

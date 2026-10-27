@@ -27,13 +27,25 @@ module Pleaxy
     # An existing order being edited, so it doesn't count against itself.
     attr_accessor :exclude_order_id
 
+    # A blanket order (billed as used, up to `amount`): what is checked is `expectedMonthly` for the current period's months within its term, never `amount`.
+    attr_accessor :blanket
+
+    # With blanket: what the order is expected to bill each month, in `currency`.
+    attr_accessor :expected_monthly
+
+    # With blanket: the last day it runs (YYYY-MM-DD), its lines' latest validUntil; open-ended when absent.
+    attr_accessor :valid_until
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'cost_center' => :'costCenter',
         :'amount' => :'amount',
         :'currency' => :'currency',
-        :'exclude_order_id' => :'excludeOrderId'
+        :'exclude_order_id' => :'excludeOrderId',
+        :'blanket' => :'blanket',
+        :'expected_monthly' => :'expectedMonthly',
+        :'valid_until' => :'validUntil'
       }
     end
 
@@ -48,7 +60,10 @@ module Pleaxy
         :'cost_center' => :'String',
         :'amount' => :'Float',
         :'currency' => :'String',
-        :'exclude_order_id' => :'String'
+        :'exclude_order_id' => :'String',
+        :'blanket' => :'Boolean',
+        :'expected_monthly' => :'Float',
+        :'valid_until' => :'String'
       }
     end
 
@@ -92,6 +107,18 @@ module Pleaxy
       if attributes.key?(:'exclude_order_id')
         self.exclude_order_id = attributes[:'exclude_order_id']
       end
+
+      if attributes.key?(:'blanket')
+        self.blanket = attributes[:'blanket']
+      end
+
+      if attributes.key?(:'expected_monthly')
+        self.expected_monthly = attributes[:'expected_monthly']
+      end
+
+      if attributes.key?(:'valid_until')
+        self.valid_until = attributes[:'valid_until']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -119,6 +146,10 @@ module Pleaxy
         invalid_properties.push('invalid value for "exclude_order_id", the character length must be smaller than or equal to 64.')
       end
 
+      if !@expected_monthly.nil? && @expected_monthly < 0
+        invalid_properties.push('invalid value for "expected_monthly", must be greater than or equal to 0.')
+      end
+
       invalid_properties
     end
 
@@ -131,6 +162,7 @@ module Pleaxy
       return false if @amount < 0
       return false if @currency.nil?
       return false if !@exclude_order_id.nil? && @exclude_order_id.to_s.length > 64
+      return false if !@expected_monthly.nil? && @expected_monthly < 0
       true
     end
 
@@ -176,6 +208,20 @@ module Pleaxy
       @exclude_order_id = exclude_order_id
     end
 
+    # Custom attribute writer method with validation
+    # @param [Object] expected_monthly Value to be assigned
+    def expected_monthly=(expected_monthly)
+      if expected_monthly.nil?
+        fail ArgumentError, 'expected_monthly cannot be nil'
+      end
+
+      if expected_monthly < 0
+        fail ArgumentError, 'invalid value for "expected_monthly", must be greater than or equal to 0.'
+      end
+
+      @expected_monthly = expected_monthly
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
@@ -184,7 +230,10 @@ module Pleaxy
           cost_center == o.cost_center &&
           amount == o.amount &&
           currency == o.currency &&
-          exclude_order_id == o.exclude_order_id
+          exclude_order_id == o.exclude_order_id &&
+          blanket == o.blanket &&
+          expected_monthly == o.expected_monthly &&
+          valid_until == o.valid_until
     end
 
     # @see the `==` method
@@ -196,7 +245,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [cost_center, amount, currency, exclude_order_id].hash
+      [cost_center, amount, currency, exclude_order_id, blanket, expected_monthly, valid_until].hash
     end
 
     # Builds the object from hash

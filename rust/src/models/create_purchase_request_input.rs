@@ -43,6 +43,12 @@ pub struct CreatePurchaseRequestInput {
     /// Anything procurement should know.
     #[serde(rename = "notes", skip_serializing_if = "Option::is_none")]
     pub notes: Option<String>,
+    /// The request type (GET /request-types). Required when the workspace has an active type. The type's GL account and line type fill in what the request leaves out.
+    #[serde(rename = "requestTypeId", skip_serializing_if = "Option::is_none")]
+    pub request_type_id: Option<String>,
+    /// Answers to the type's questions, by fieldId. On an update, the whole set (omit to keep them). A draft may leave questions blank; submitting needs every required question the answers make visible.
+    #[serde(rename = "answers", skip_serializing_if = "Option::is_none")]
+    pub answers: Option<Vec<models::PurchaseRequestAnswerInput>>,
     /// true submits it for approval straight away; otherwise it is saved as a draft.
     #[serde(rename = "submit", skip_serializing_if = "Option::is_none")]
     pub submit: Option<bool>,
@@ -64,6 +70,8 @@ impl CreatePurchaseRequestInput {
             needed_by: None,
             quote_import_id: None,
             notes: None,
+            request_type_id: None,
+            answers: None,
             submit: None,
         }
     }

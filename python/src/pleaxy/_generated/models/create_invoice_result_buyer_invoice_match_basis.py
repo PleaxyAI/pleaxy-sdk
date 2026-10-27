@@ -1,10 +1,11 @@
 from typing import Literal, Set, cast
 
-CreateInvoiceResultBuyerInvoiceMatchBasis = Literal["purchase_order"]
+CreateInvoiceResultBuyerInvoiceMatchBasis = Literal["no_po_history", "purchase_order"]
 
 CREATE_INVOICE_RESULT_BUYER_INVOICE_MATCH_BASIS_VALUES: Set[
     CreateInvoiceResultBuyerInvoiceMatchBasis
 ] = {
+    "no_po_history",
     "purchase_order",
 }
 

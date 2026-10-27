@@ -41,6 +41,17 @@ pub struct UpdatePurchaseOrderInput {
     pub delivery_address_id: Option<String>,
     #[serde(rename = "budgetOwner", skip_serializing_if = "Option::is_none")]
     pub budget_owner: Option<String>,
+    /// Mark a draft a blanket order (billed as used, up to its amount), or not. Only while it is a draft.
+    #[serde(rename = "blanket", skip_serializing_if = "Option::is_none")]
+    pub blanket: Option<bool>,
+    /// A blanket or cloud order's expected billing each month, in its currency; null takes it off.
+    #[serde(
+        rename = "expectedMonthly",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub expected_monthly: Option<Option<f64>>,
     #[serde(rename = "buyerName", skip_serializing_if = "Option::is_none")]
     pub buyer_name: Option<String>,
     #[serde(rename = "notes", skip_serializing_if = "Option::is_none")]
@@ -82,6 +93,8 @@ impl UpdatePurchaseOrderInput {
             gl_code: None,
             delivery_address_id: None,
             budget_owner: None,
+            blanket: None,
+            expected_monthly: None,
             buyer_name: None,
             notes: None,
             contract_id: None,

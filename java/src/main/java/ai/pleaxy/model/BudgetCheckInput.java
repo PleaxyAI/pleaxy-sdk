@@ -36,7 +36,10 @@ import ai.pleaxy.client.ApiClient;
   BudgetCheckInput.JSON_PROPERTY_COST_CENTER,
   BudgetCheckInput.JSON_PROPERTY_AMOUNT,
   BudgetCheckInput.JSON_PROPERTY_CURRENCY,
-  BudgetCheckInput.JSON_PROPERTY_EXCLUDE_ORDER_ID
+  BudgetCheckInput.JSON_PROPERTY_EXCLUDE_ORDER_ID,
+  BudgetCheckInput.JSON_PROPERTY_BLANKET,
+  BudgetCheckInput.JSON_PROPERTY_EXPECTED_MONTHLY,
+  BudgetCheckInput.JSON_PROPERTY_VALID_UNTIL
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class BudgetCheckInput {
@@ -55,6 +58,18 @@ public class BudgetCheckInput {
   public static final String JSON_PROPERTY_EXCLUDE_ORDER_ID = "excludeOrderId";
   @javax.annotation.Nullable
   private String excludeOrderId;
+
+  public static final String JSON_PROPERTY_BLANKET = "blanket";
+  @javax.annotation.Nullable
+  private Boolean blanket;
+
+  public static final String JSON_PROPERTY_EXPECTED_MONTHLY = "expectedMonthly";
+  @javax.annotation.Nullable
+  private Double expectedMonthly;
+
+  public static final String JSON_PROPERTY_VALID_UNTIL = "validUntil";
+  @javax.annotation.Nullable
+  private String validUntil;
 
   public BudgetCheckInput() { 
   }
@@ -156,6 +171,79 @@ public class BudgetCheckInput {
   }
 
 
+  public BudgetCheckInput blanket(@javax.annotation.Nullable Boolean blanket) {
+    this.blanket = blanket;
+    return this;
+  }
+
+  /**
+   * A blanket order (billed as used, up to &#x60;amount&#x60;): what is checked is &#x60;expectedMonthly&#x60; for the current period&#39;s months within its term, never &#x60;amount&#x60;.
+   * @return blanket
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BLANKET)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getBlanket() {
+    return blanket;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BLANKET)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBlanket(@javax.annotation.Nullable Boolean blanket) {
+    this.blanket = blanket;
+  }
+
+
+  public BudgetCheckInput expectedMonthly(@javax.annotation.Nullable Double expectedMonthly) {
+    this.expectedMonthly = expectedMonthly;
+    return this;
+  }
+
+  /**
+   * With blanket: what the order is expected to bill each month, in &#x60;currency&#x60;.
+   * minimum: 0
+   * @return expectedMonthly
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EXPECTED_MONTHLY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getExpectedMonthly() {
+    return expectedMonthly;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EXPECTED_MONTHLY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setExpectedMonthly(@javax.annotation.Nullable Double expectedMonthly) {
+    this.expectedMonthly = expectedMonthly;
+  }
+
+
+  public BudgetCheckInput validUntil(@javax.annotation.Nullable String validUntil) {
+    this.validUntil = validUntil;
+    return this;
+  }
+
+  /**
+   * With blanket: the last day it runs (YYYY-MM-DD), its lines&#39; latest validUntil; open-ended when absent.
+   * @return validUntil
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_VALID_UNTIL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getValidUntil() {
+    return validUntil;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_VALID_UNTIL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setValidUntil(@javax.annotation.Nullable String validUntil) {
+    this.validUntil = validUntil;
+  }
+
+
   /**
    * Return true if this BudgetCheckInput object is equal to o.
    */
@@ -171,12 +259,15 @@ public class BudgetCheckInput {
     return Objects.equals(this.costCenter, budgetCheckInput.costCenter) &&
         Objects.equals(this.amount, budgetCheckInput.amount) &&
         Objects.equals(this.currency, budgetCheckInput.currency) &&
-        Objects.equals(this.excludeOrderId, budgetCheckInput.excludeOrderId);
+        Objects.equals(this.excludeOrderId, budgetCheckInput.excludeOrderId) &&
+        Objects.equals(this.blanket, budgetCheckInput.blanket) &&
+        Objects.equals(this.expectedMonthly, budgetCheckInput.expectedMonthly) &&
+        Objects.equals(this.validUntil, budgetCheckInput.validUntil);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(costCenter, amount, currency, excludeOrderId);
+    return Objects.hash(costCenter, amount, currency, excludeOrderId, blanket, expectedMonthly, validUntil);
   }
 
   @Override
@@ -187,6 +278,9 @@ public class BudgetCheckInput {
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    excludeOrderId: ").append(toIndentedString(excludeOrderId)).append("\n");
+    sb.append("    blanket: ").append(toIndentedString(blanket)).append("\n");
+    sb.append("    expectedMonthly: ").append(toIndentedString(expectedMonthly)).append("\n");
+    sb.append("    validUntil: ").append(toIndentedString(validUntil)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -252,6 +346,21 @@ public class BudgetCheckInput {
     // add `excludeOrderId` to the URL query string
     if (getExcludeOrderId() != null) {
       joiner.add(String.format("%sexcludeOrderId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExcludeOrderId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `blanket` to the URL query string
+    if (getBlanket() != null) {
+      joiner.add(String.format("%sblanket%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBlanket()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `expectedMonthly` to the URL query string
+    if (getExpectedMonthly() != null) {
+      joiner.add(String.format("%sexpectedMonthly%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpectedMonthly()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `validUntil` to the URL query string
+    if (getValidUntil() != null) {
+      joiner.add(String.format("%svalidUntil%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getValidUntil()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
