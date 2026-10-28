@@ -344,6 +344,70 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Both] Whether this invoice's payment waits on its supplier's bank account (supplier risk): hold is first_payment (the billing lane's account isn't approved yet) or differs_from_file (the invoice names other details than the approved account); absent when it can be paid. A Buyer caller also gets the lane's account on file (numbers masked) and supplierKey. Exporting it for payment waits; recording a payment made elsewhere and paying through Pleaxy don't. Takes the same ?buyer= as GetInvoice.
+    # @param invoice_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :buyer 
+    # @return [GetInvoiceBankAccountResult]
+    def get_invoice_bank_account(invoice_id, opts = {})
+      data, _status_code, _headers = get_invoice_bank_account_with_http_info(invoice_id, opts)
+      data
+    end
+
+    # [Both] Whether this invoice&#39;s payment waits on its supplier&#39;s bank account (supplier risk): hold is first_payment (the billing lane&#39;s account isn&#39;t approved yet) or differs_from_file (the invoice names other details than the approved account); absent when it can be paid. A Buyer caller also gets the lane&#39;s account on file (numbers masked) and supplierKey. Exporting it for payment waits; recording a payment made elsewhere and paying through Pleaxy don&#39;t. Takes the same ?buyer&#x3D; as GetInvoice.
+    # @param invoice_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :buyer 
+    # @return [Array<(GetInvoiceBankAccountResult, Integer, Hash)>] GetInvoiceBankAccountResult data, response status code and response headers
+    def get_invoice_bank_account_with_http_info(invoice_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: InvoicesApi.get_invoice_bank_account ...'
+      end
+      # verify the required parameter 'invoice_id' is set
+      if @api_client.config.client_side_validation && invoice_id.nil?
+        fail ArgumentError, "Missing the required parameter 'invoice_id' when calling InvoicesApi.get_invoice_bank_account"
+      end
+      # resource path
+      local_var_path = '/invoices/{invoiceId}/bank-account'.sub('{' + 'invoiceId' + '}', CGI.escape(invoice_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'buyer'] = opts[:'buyer'] if !opts[:'buyer'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'GetInvoiceBankAccountResult'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"InvoicesApi.get_invoice_bank_account",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: InvoicesApi#get_invoice_bank_account\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] Download an export again: the same CSV, rebuilt from the invoices still exported under that export ID. 404 EXPORT_NOT_FOUND when none are.
     # @param export_id [String] 
     # @param [Hash] opts the optional parameters

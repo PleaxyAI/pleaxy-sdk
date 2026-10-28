@@ -125,6 +125,8 @@ module Pleaxy
 
     attr_accessor :remittance_instructions
 
+    attr_accessor :bank_lane
+
     attr_accessor :source_document
 
     attr_accessor :has_original_pdf
@@ -229,6 +231,7 @@ module Pleaxy
         :'payment_currency_amount' => :'paymentCurrencyAmount',
         :'tax_currency_amount' => :'taxCurrencyAmount',
         :'remittance_instructions' => :'remittanceInstructions',
+        :'bank_lane' => :'bankLane',
         :'source_document' => :'sourceDocument',
         :'has_original_pdf' => :'hasOriginalPdf',
         :'settlement' => :'settlement',
@@ -307,6 +310,7 @@ module Pleaxy
         :'payment_currency_amount' => :'InvoiceCurrencyAmount',
         :'tax_currency_amount' => :'InvoiceCurrencyAmount',
         :'remittance_instructions' => :'RemittanceInstructions',
+        :'bank_lane' => :'String',
         :'source_document' => :'InvoiceSourceDocument',
         :'has_original_pdf' => :'Boolean',
         :'settlement' => :'SupplierSettlementView',
@@ -587,6 +591,10 @@ module Pleaxy
         self.remittance_instructions = attributes[:'remittance_instructions']
       end
 
+      if attributes.key?(:'bank_lane')
+        self.bank_lane = attributes[:'bank_lane']
+      end
+
       if attributes.key?(:'source_document')
         self.source_document = attributes[:'source_document']
       end
@@ -814,6 +822,7 @@ module Pleaxy
           payment_currency_amount == o.payment_currency_amount &&
           tax_currency_amount == o.tax_currency_amount &&
           remittance_instructions == o.remittance_instructions &&
+          bank_lane == o.bank_lane &&
           source_document == o.source_document &&
           has_original_pdf == o.has_original_pdf &&
           settlement == o.settlement &&
@@ -837,7 +846,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, no_po_comparison, payment_route, paid, due_in_days, due_date, paid_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, submitted_format, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, source_document, has_original_pdf, settlement, payment_problem, bank_details_confirmation, base_currency_amount, approval, payment, withdrawn_payment, remittances, buyer_workspace_id, next_reminder_at].hash
+      [supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, no_po_comparison, payment_route, paid, due_in_days, due_date, paid_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, submitted_format, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, bank_lane, source_document, has_original_pdf, settlement, payment_problem, bank_details_confirmation, base_currency_amount, approval, payment, withdrawn_payment, remittances, buyer_workspace_id, next_reminder_at].hash
     end
 
     # Builds the object from hash

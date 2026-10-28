@@ -169,6 +169,8 @@ pub enum Type {
     InvoiceBankDetailsToConfirm,
     #[serde(rename = "invoice_bank_details_confirmed")]
     InvoiceBankDetailsConfirmed,
+    #[serde(rename = "invoice_bank_account_to_approve")]
+    InvoiceBankAccountToApprove,
     #[serde(rename = "invoice_bank_details_disputed")]
     InvoiceBankDetailsDisputed,
     #[serde(rename = "invoice_bank_details_changed")]

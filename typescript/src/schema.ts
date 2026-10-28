@@ -831,6 +831,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/invoices/{invoiceId}/bank-account": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Both] Whether this invoice's payment waits on its supplier's bank account (supplier risk): hold is first_payment (the billing lane's account isn't approved yet) or differs_from_file (the invoice names other details than the approved account); absent when it can be paid. A Buyer caller also gets the lane's account on file (numbers masked) and supplierKey. Exporting it for payment waits; recording a payment made elsewhere and paying through Pleaxy don't. Takes the same ?buyer= as GetInvoice. */
+        get: operations["GetInvoiceBankAccount"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/invoices/{invoiceId}/approval/reassign": {
         parameters: {
             query?: never;
@@ -979,6 +996,40 @@ export interface paths {
         put?: never;
         /** [Supplier] Send a reminder for an invoice waiting on approval, or a payment reminder for an approved, unpaid one. At most one a day per invoice. When two buyers issued the same invoice id, add ?buyer=<buyer Workspace ID> (409 INVOICE_ID_AMBIGUOUS otherwise). */
         post: operations["RemindInvoice"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/bank-accounts/review": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Suppliers' bank accounts waiting for approval: a billing lane's first account (status unverified) or a change (status changing, with pendingChange). Invoices paid to them wait until they are approved. Numbers masked to the last four. */
+        get: operations["ListBankAccountsToApprove"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/bank-accounts/suppliers/{connectionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] A supplier's bank accounts on file, one per billing lane (payee and currency): details masked to the last four, status unverified|verified|changing, how each was approved (approval.verification: supplier_confirmed|buyer_approved|paid_before, approval.check.method) and the last 10 events. */
+        get: operations["ListSupplierBankAccounts"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2848,7 +2899,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
+            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -3693,6 +3744,7 @@ export interface components {
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
             remittanceCheck?: components["schemas"]["RemittanceCheck"];
             bankDetailsConfirmation?: components["schemas"]["BankDetailsConfirmation"];
+            bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
@@ -4135,6 +4187,7 @@ export interface components {
             paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
             taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
+            bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
             settlement?: components["schemas"]["SupplierSettlementView"];
@@ -4485,6 +4538,7 @@ export interface components {
                 taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
                 remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
                 bankDetailsConfirmation?: components["schemas"]["SupplierBankDetailsConfirmationView"];
+                bankLane?: string;
                 sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
                 hasOriginalPdf?: boolean;
                 baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
@@ -4611,6 +4665,65 @@ export interface components {
             prepayment?: boolean;
             reference?: string;
         };
+        SupplierBankAccount: {
+            id: string;
+            supplierKey?: string;
+            laneKey?: string;
+            payeeName?: string;
+            currency?: string;
+            details?: components["schemas"]["RemittanceInstructions"];
+            /** @enum {string} */
+            status?: "unverified" | "verified" | "changing";
+            learnedFrom?: {
+                invoiceId?: string;
+                /** @enum {string} */
+                side?: "buyer" | "supplier";
+            };
+            approval?: components["schemas"]["SupplierBankAccountApproval"];
+            pendingChange?: {
+                details?: components["schemas"]["RemittanceInstructions"];
+                invoiceId?: string;
+                /** @enum {string} */
+                side?: "buyer" | "supplier";
+                at?: string;
+            };
+            history?: components["schemas"]["SupplierBankAccountHistoryEntry"][];
+            /** Format: double */
+            version?: number;
+            createdAt?: string;
+            updatedAt?: string;
+        };
+        SupplierBankAccountApproval: {
+            /** @enum {string} */
+            verification?: "supplier_confirmed" | "buyer_approved" | "paid_before";
+            at?: string;
+            by?: {
+                sub?: string;
+                name?: string;
+                /** @enum {string} */
+                side?: "buyer" | "supplier";
+            };
+            check?: components["schemas"]["BankCheck"];
+            invoiceId?: string;
+        };
+        BankCheck: {
+            /** @enum {string} */
+            method?: "bank_letter" | "none" | "other" | "call" | "email" | "supplier_portal";
+            detail?: string;
+            note?: string;
+        };
+        SupplierBankAccountHistoryEntry: {
+            at?: string;
+            /** @enum {string} */
+            event?: "approved" | "learned" | "seeded" | "change_proposed" | "change_rejected";
+            masked?: string;
+            invoiceId?: string;
+            by?: string;
+            /** @enum {string} */
+            verification?: "supplier_confirmed" | "buyer_approved" | "paid_before";
+            /** @enum {string} */
+            check?: "bank_letter" | "none" | "other" | "call" | "email" | "supplier_portal";
+        };
         ErrorParams: {
             [key: string]: string | number | boolean;
         };
@@ -4664,6 +4777,36 @@ export interface components {
                     sizeBytes?: number;
                 };
             }[];
+        };
+        BankAccountView: {
+            id: string;
+            supplierKey?: string;
+            laneKey?: string;
+            payeeName?: string;
+            currency?: string;
+            details?: components["schemas"]["RemittanceInstructions"];
+            /** @enum {string} */
+            status?: "unverified" | "verified" | "changing";
+            learnedFrom?: {
+                invoiceId?: string;
+                /** @enum {string} */
+                side?: "buyer" | "supplier";
+            };
+            approval?: components["schemas"]["SupplierBankAccountApproval"];
+            pendingChange?: {
+                details?: components["schemas"]["RemittanceInstructions"];
+                invoiceId?: string;
+                /** @enum {string} */
+                side?: "buyer" | "supplier";
+                at?: string;
+            };
+            history?: components["schemas"]["SupplierBankAccountHistoryEntry"][];
+            /** Format: double */
+            version?: number;
+            createdAt?: string;
+            updatedAt?: string;
+            connectionId?: string;
+            supplierName?: string;
         };
         BudgetControlSettings: {
             /** @enum {string} */
@@ -4738,7 +4881,7 @@ export interface components {
             note?: string;
             lines?: components["schemas"]["OrderConfirmationLine"][];
             /** @enum {string} */
-            source?: "cxml" | "portal" | "api" | "email";
+            source?: "cxml" | "email" | "portal" | "api";
             createdAt?: string;
             decision?: components["schemas"]["OrderConfirmationDecision"];
         };
@@ -4785,7 +4928,7 @@ export interface components {
             lines?: components["schemas"]["ShipNoticeLine"][];
             note?: string;
             /** @enum {string} */
-            source?: "cxml" | "portal" | "api" | "email";
+            source?: "cxml" | "email" | "portal" | "api";
             createdAt?: string;
             updatedAt?: string;
             receipts?: {
@@ -5682,6 +5825,7 @@ export interface components {
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
             remittanceCheck?: components["schemas"]["RemittanceCheck"];
             bankDetailsConfirmation?: components["schemas"]["BankDetailsConfirmation"];
+            bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
@@ -5761,6 +5905,7 @@ export interface components {
             paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
             taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
+            bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
             settlement?: components["schemas"]["SupplierSettlementView"];
@@ -6287,6 +6432,7 @@ export interface components {
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
             remittanceCheck?: components["schemas"]["RemittanceCheck"];
             bankDetailsConfirmation?: components["schemas"]["BankDetailsConfirmation"];
+            bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
@@ -6366,6 +6512,7 @@ export interface components {
             paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
             taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
+            bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
             settlement?: components["schemas"]["SupplierSettlementView"];
@@ -6733,6 +6880,7 @@ export interface components {
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
             remittanceCheck?: components["schemas"]["RemittanceCheck"];
             bankDetailsConfirmation?: components["schemas"]["BankDetailsConfirmation"];
+            bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
@@ -6812,6 +6960,7 @@ export interface components {
             paymentCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
             taxCurrencyAmount?: components["schemas"]["InvoiceCurrencyAmount"];
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
+            bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
             settlement?: components["schemas"]["SupplierSettlementView"];
@@ -7011,6 +7160,7 @@ export interface components {
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
             remittanceCheck?: components["schemas"]["RemittanceCheck"];
             bankDetailsConfirmation?: components["schemas"]["BankDetailsConfirmation"];
+            bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
@@ -7148,10 +7298,17 @@ export interface components {
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
             remittanceCheck?: components["schemas"]["RemittanceCheck"];
             bankDetailsConfirmation?: components["schemas"]["BankDetailsConfirmation"];
+            bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
             viewerIsSupplierMember?: boolean;
+        };
+        GetInvoiceBankAccountResult: {
+            /** @enum {string} */
+            hold?: "first_payment" | "differs_from_file";
+            account?: components["schemas"]["SupplierBankAccount"];
+            supplierKey?: string;
         };
         RecordPaymentResult: {
             alreadyRecorded?: boolean;
@@ -7284,6 +7441,7 @@ export interface components {
             remittanceInstructions?: components["schemas"]["RemittanceInstructions"];
             remittanceCheck?: components["schemas"]["RemittanceCheck"];
             bankDetailsConfirmation?: components["schemas"]["BankDetailsConfirmation"];
+            bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
@@ -9269,6 +9427,38 @@ export interface operations {
             };
         };
     };
+    GetInvoiceBankAccount: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                invoiceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetInvoiceBankAccountResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     ReassignInvoiceApprovalStage: {
         parameters: {
             query?: never;
@@ -9574,6 +9764,64 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["InvoiceSupplierView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListBankAccountsToApprove: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BankAccountView"][];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListSupplierBankAccounts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                connectionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BankAccountView"][];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

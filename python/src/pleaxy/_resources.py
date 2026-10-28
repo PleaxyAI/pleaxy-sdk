@@ -85,6 +85,26 @@ class AutomationRulesResource:
         )
 
 
+class BankAccountsResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def list_bank_accounts_to_approve(self) -> List["BankAccountView"]:
+        """[Buyer] Suppliers' bank accounts waiting for approval: a billing lane's first account (status unverified) or a change (status changing, with pendingChange). Invoices paid to them wait until they are approved. Numbers masked to the last four."""
+        return self._transport.call(
+            "pleaxy._generated.api.bank_accounts.list_bank_accounts_to_approve"
+        )
+
+    def list_supplier_bank_accounts(
+        self, connection_id: str
+    ) -> List["BankAccountView"]:
+        """[Buyer] A supplier's bank accounts on file, one per billing lane (payee and currency): details masked to the last four, status unverified|verified|changing, how each was approved (approval.verification: supplier_confirmed|buyer_approved|paid_before, approval.check.method) and the last 10 events."""
+        return self._transport.call(
+            "pleaxy._generated.api.bank_accounts.list_supplier_bank_accounts",
+            connection_id=connection_id,
+        )
+
+
 class BillingResource:
     def __init__(self, transport: Transport) -> None:
         self._transport = transport
@@ -535,6 +555,16 @@ class InvoicesResource:
         """[Both] Get a single invoice, or with a credit note's id (CN-…) that credit note; documentType says which. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>. A Buyer caller also gets, on a replaced invoice, replacement (whether its credit notes cover it in full), and on a replacement, uncreditedOriginals (credit and rebill)."""
         return self._transport.call(
             "pleaxy._generated.api.invoices.get_invoice",
+            invoice_id=invoice_id,
+            buyer=buyer,
+        )
+
+    def get_invoice_bank_account(
+        self, invoice_id: str, *, buyer: Union[Unset, str] = UNSET
+    ) -> GetInvoiceBankAccountResult:
+        """[Both] Whether this invoice's payment waits on its supplier's bank account (supplier risk): hold is first_payment (the billing lane's account isn't approved yet) or differs_from_file (the invoice names other details than the approved account); absent when it can be paid. A Buyer caller also gets the lane's account on file (numbers masked) and supplierKey. Exporting it for payment waits; recording a payment made elsewhere and paying through Pleaxy don't. Takes the same ?buyer= as GetInvoice."""
+        return self._transport.call(
+            "pleaxy._generated.api.invoices.get_invoice_bank_account",
             invoice_id=invoice_id,
             buyer=buyer,
         )
@@ -1111,6 +1141,7 @@ class Resources:
         self.approval_settings = ApprovalSettingsResource(transport)
         self.approvals = ApprovalsResource(transport)
         self.automation_rules = AutomationRulesResource(transport)
+        self.bank_accounts = BankAccountsResource(transport)
         self.billing = BillingResource(transport)
         self.budget_control = BudgetControlResource(transport)
         self.cloud_connections = CloudConnectionsResource(transport)

@@ -93,12 +93,12 @@ impl Default for Operation {
 pub enum Source {
     #[serde(rename = "cxml")]
     Cxml,
+    #[serde(rename = "email")]
+    Email,
     #[serde(rename = "portal")]
     Portal,
     #[serde(rename = "api")]
     Api,
-    #[serde(rename = "email")]
-    Email,
 }
 
 impl Default for Source {

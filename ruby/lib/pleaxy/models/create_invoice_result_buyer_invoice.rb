@@ -183,6 +183,8 @@ module Pleaxy
 
     attr_accessor :bank_details_confirmation
 
+    attr_accessor :bank_lane
+
     attr_accessor :source_document
 
     attr_accessor :has_original_pdf
@@ -304,6 +306,7 @@ module Pleaxy
         :'remittance_instructions' => :'remittanceInstructions',
         :'remittance_check' => :'remittanceCheck',
         :'bank_details_confirmation' => :'bankDetailsConfirmation',
+        :'bank_lane' => :'bankLane',
         :'source_document' => :'sourceDocument',
         :'has_original_pdf' => :'hasOriginalPdf',
         :'base_currency_amount' => :'baseCurrencyAmount',
@@ -405,6 +408,7 @@ module Pleaxy
         :'remittance_instructions' => :'RemittanceInstructions',
         :'remittance_check' => :'RemittanceCheck',
         :'bank_details_confirmation' => :'BankDetailsConfirmation',
+        :'bank_lane' => :'String',
         :'source_document' => :'InvoiceSourceDocument',
         :'has_original_pdf' => :'Boolean',
         :'base_currency_amount' => :'InvoiceBaseCurrencyAmount',
@@ -805,6 +809,10 @@ module Pleaxy
         self.bank_details_confirmation = attributes[:'bank_details_confirmation']
       end
 
+      if attributes.key?(:'bank_lane')
+        self.bank_lane = attributes[:'bank_lane']
+      end
+
       if attributes.key?(:'source_document')
         self.source_document = attributes[:'source_document']
       end
@@ -1097,6 +1105,7 @@ module Pleaxy
           remittance_instructions == o.remittance_instructions &&
           remittance_check == o.remittance_check &&
           bank_details_confirmation == o.bank_details_confirmation &&
+          bank_lane == o.bank_lane &&
           source_document == o.source_document &&
           has_original_pdf == o.has_original_pdf &&
           base_currency_amount == o.base_currency_amount &&
@@ -1114,7 +1123,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, settlement, approval_version, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, usage_amount, usage_amount_simulated, usage_simulated_after_disconnect, usage_currency, usage_source, tolerance_pct, match_status, unverified_reason, match_basis, no_po_comparison, payment_route, receipt_check_skipped, receipt_tolerance_applied, match_type, discrepancy_reason, control_findings, paid, due_in_days, due_date, paid_at, payment, remittances, payment_history, payment_problem, receipt_confirmation_reminded_at, export_available_from, previous_exported_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, sod_excluded_keys, submitted_format, submitted_by, feed_payload_hash, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, rate_warnings, remittance_instructions, remittance_check, bank_details_confirmation, source_document, has_original_pdf, base_currency_amount, viewer_is_supplier_member, replacement, uncredited_originals].hash
+      [supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, settlement, approval_version, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, usage_amount, usage_amount_simulated, usage_simulated_after_disconnect, usage_currency, usage_source, tolerance_pct, match_status, unverified_reason, match_basis, no_po_comparison, payment_route, receipt_check_skipped, receipt_tolerance_applied, match_type, discrepancy_reason, control_findings, paid, due_in_days, due_date, paid_at, payment, remittances, payment_history, payment_problem, receipt_confirmation_reminded_at, export_available_from, previous_exported_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, sod_excluded_keys, submitted_format, submitted_by, feed_payload_hash, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, rate_warnings, remittance_instructions, remittance_check, bank_details_confirmation, bank_lane, source_document, has_original_pdf, base_currency_amount, viewer_is_supplier_member, replacement, uncredited_originals].hash
     end
 
     # Builds the object from hash

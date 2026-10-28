@@ -149,6 +149,7 @@ import ai.pleaxy.client.ApiClient;
   AddInvoiceReplacementLinksResult.JSON_PROPERTY_REMITTANCE_INSTRUCTIONS,
   AddInvoiceReplacementLinksResult.JSON_PROPERTY_REMITTANCE_CHECK,
   AddInvoiceReplacementLinksResult.JSON_PROPERTY_BANK_DETAILS_CONFIRMATION,
+  AddInvoiceReplacementLinksResult.JSON_PROPERTY_BANK_LANE,
   AddInvoiceReplacementLinksResult.JSON_PROPERTY_SOURCE_DOCUMENT,
   AddInvoiceReplacementLinksResult.JSON_PROPERTY_HAS_ORIGINAL_PDF,
   AddInvoiceReplacementLinksResult.JSON_PROPERTY_BASE_CURRENCY_AMOUNT,
@@ -982,6 +983,10 @@ public class AddInvoiceReplacementLinksResult {
   public static final String JSON_PROPERTY_BANK_DETAILS_CONFIRMATION = "bankDetailsConfirmation";
   @javax.annotation.Nullable
   private BankDetailsConfirmation bankDetailsConfirmation;
+
+  public static final String JSON_PROPERTY_BANK_LANE = "bankLane";
+  @javax.annotation.Nullable
+  private String bankLane;
 
   public static final String JSON_PROPERTY_SOURCE_DOCUMENT = "sourceDocument";
   @javax.annotation.Nullable
@@ -3202,6 +3207,30 @@ public class AddInvoiceReplacementLinksResult {
   }
 
 
+  public AddInvoiceReplacementLinksResult bankLane(@javax.annotation.Nullable String bankLane) {
+    this.bankLane = bankLane;
+    return this;
+  }
+
+  /**
+   * Get bankLane
+   * @return bankLane
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BANK_LANE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getBankLane() {
+    return bankLane;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BANK_LANE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBankLane(@javax.annotation.Nullable String bankLane) {
+    this.bankLane = bankLane;
+  }
+
+
   public AddInvoiceReplacementLinksResult sourceDocument(@javax.annotation.Nullable InvoiceSourceDocument sourceDocument) {
     this.sourceDocument = sourceDocument;
     return this;
@@ -3396,6 +3425,7 @@ public class AddInvoiceReplacementLinksResult {
         Objects.equals(this.remittanceInstructions, addInvoiceReplacementLinksResult.remittanceInstructions) &&
         Objects.equals(this.remittanceCheck, addInvoiceReplacementLinksResult.remittanceCheck) &&
         Objects.equals(this.bankDetailsConfirmation, addInvoiceReplacementLinksResult.bankDetailsConfirmation) &&
+        Objects.equals(this.bankLane, addInvoiceReplacementLinksResult.bankLane) &&
         Objects.equals(this.sourceDocument, addInvoiceReplacementLinksResult.sourceDocument) &&
         Objects.equals(this.hasOriginalPdf, addInvoiceReplacementLinksResult.hasOriginalPdf) &&
         Objects.equals(this.baseCurrencyAmount, addInvoiceReplacementLinksResult.baseCurrencyAmount) &&
@@ -3404,7 +3434,7 @@ public class AddInvoiceReplacementLinksResult {
 
   @Override
   public int hashCode() {
-    return Objects.hash(replacement, uncreditedOriginals, supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, settlement, approvalVersion, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, usageAmount, usageAmountSimulated, usageSimulatedAfterDisconnect, usageCurrency, usageSource, tolerancePct, matchStatus, unverifiedReason, matchBasis, noPoComparison, paymentRoute, receiptCheckSkipped, receiptToleranceApplied, matchType, discrepancyReason, controlFindings, paid, dueInDays, dueDate, paidAt, payment, remittances, paymentHistory, paymentProblem, receiptConfirmationRemindedAt, exportAvailableFrom, previousExportedAt, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, sodExcludedKeys, submittedFormat, submittedBy, feedPayloadHash, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, rateWarnings, remittanceInstructions, remittanceCheck, bankDetailsConfirmation, sourceDocument, hasOriginalPdf, baseCurrencyAmount, viewerIsSupplierMember);
+    return Objects.hash(replacement, uncreditedOriginals, supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, settlement, approvalVersion, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, usageAmount, usageAmountSimulated, usageSimulatedAfterDisconnect, usageCurrency, usageSource, tolerancePct, matchStatus, unverifiedReason, matchBasis, noPoComparison, paymentRoute, receiptCheckSkipped, receiptToleranceApplied, matchType, discrepancyReason, controlFindings, paid, dueInDays, dueDate, paidAt, payment, remittances, paymentHistory, paymentProblem, receiptConfirmationRemindedAt, exportAvailableFrom, previousExportedAt, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, sodExcludedKeys, submittedFormat, submittedBy, feedPayloadHash, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, rateWarnings, remittanceInstructions, remittanceCheck, bankDetailsConfirmation, bankLane, sourceDocument, hasOriginalPdf, baseCurrencyAmount, viewerIsSupplierMember);
   }
 
   @Override
@@ -3497,6 +3527,7 @@ public class AddInvoiceReplacementLinksResult {
     sb.append("    remittanceInstructions: ").append(toIndentedString(remittanceInstructions)).append("\n");
     sb.append("    remittanceCheck: ").append(toIndentedString(remittanceCheck)).append("\n");
     sb.append("    bankDetailsConfirmation: ").append(toIndentedString(bankDetailsConfirmation)).append("\n");
+    sb.append("    bankLane: ").append(toIndentedString(bankLane)).append("\n");
     sb.append("    sourceDocument: ").append(toIndentedString(sourceDocument)).append("\n");
     sb.append("    hasOriginalPdf: ").append(toIndentedString(hasOriginalPdf)).append("\n");
     sb.append("    baseCurrencyAmount: ").append(toIndentedString(baseCurrencyAmount)).append("\n");
@@ -4056,6 +4087,11 @@ public class AddInvoiceReplacementLinksResult {
     // add `bankDetailsConfirmation` to the URL query string
     if (getBankDetailsConfirmation() != null) {
       joiner.add(getBankDetailsConfirmation().toUrlQueryString(prefix + "bankDetailsConfirmation" + suffix));
+    }
+
+    // add `bankLane` to the URL query string
+    if (getBankLane() != null) {
+      joiner.add(String.format("%sbankLane%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBankLane()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `sourceDocument` to the URL query string

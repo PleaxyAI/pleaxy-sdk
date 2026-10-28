@@ -185,6 +185,7 @@ class CreateInvoiceResultBuyerInvoice:
         remittance_instructions (Union[Unset, RemittanceInstructions]):
         remittance_check (Union[Unset, RemittanceCheck]):
         bank_details_confirmation (Union[Unset, BankDetailsConfirmation]):
+        bank_lane (Union[Unset, str]):
         source_document (Union[Unset, InvoiceSourceDocument]):
         has_original_pdf (Union[Unset, bool]):
         base_currency_amount (Union[Unset, InvoiceBaseCurrencyAmount]):
@@ -287,6 +288,7 @@ class CreateInvoiceResultBuyerInvoice:
     remittance_instructions: Union[Unset, "RemittanceInstructions"] = UNSET
     remittance_check: Union[Unset, "RemittanceCheck"] = UNSET
     bank_details_confirmation: Union[Unset, "BankDetailsConfirmation"] = UNSET
+    bank_lane: Union[Unset, str] = UNSET
     source_document: Union[Unset, "InvoiceSourceDocument"] = UNSET
     has_original_pdf: Union[Unset, bool] = UNSET
     base_currency_amount: Union[Unset, "InvoiceBaseCurrencyAmount"] = UNSET
@@ -585,6 +587,8 @@ class CreateInvoiceResultBuyerInvoice:
         if not isinstance(self.bank_details_confirmation, Unset):
             bank_details_confirmation = self.bank_details_confirmation.to_dict()
 
+        bank_lane = self.bank_lane
+
         source_document: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.source_document, Unset):
             source_document = self.source_document.to_dict()
@@ -785,6 +789,8 @@ class CreateInvoiceResultBuyerInvoice:
             field_dict["remittanceCheck"] = remittance_check
         if bank_details_confirmation is not UNSET:
             field_dict["bankDetailsConfirmation"] = bank_details_confirmation
+        if bank_lane is not UNSET:
+            field_dict["bankLane"] = bank_lane
         if source_document is not UNSET:
             field_dict["sourceDocument"] = source_document
         if has_original_pdf is not UNSET:
@@ -1263,6 +1269,8 @@ class CreateInvoiceResultBuyerInvoice:
                 _bank_details_confirmation
             )
 
+        bank_lane = d.pop("bankLane", UNSET)
+
         _source_document = d.pop("sourceDocument", UNSET)
         source_document: Union[Unset, InvoiceSourceDocument]
         if isinstance(_source_document, Unset):
@@ -1384,6 +1392,7 @@ class CreateInvoiceResultBuyerInvoice:
             remittance_instructions=remittance_instructions,
             remittance_check=remittance_check,
             bank_details_confirmation=bank_details_confirmation,
+            bank_lane=bank_lane,
             source_document=source_document,
             has_original_pdf=has_original_pdf,
             base_currency_amount=base_currency_amount,

@@ -220,6 +220,8 @@ pub struct ListInvoicesItem {
         skip_serializing_if = "Option::is_none"
     )]
     pub bank_details_confirmation: Option<models::SupplierBankDetailsConfirmationView>,
+    #[serde(rename = "bankLane", skip_serializing_if = "Option::is_none")]
+    pub bank_lane: Option<String>,
     #[serde(rename = "sourceDocument", skip_serializing_if = "Option::is_none")]
     pub source_document: Option<models::InvoiceSourceDocument>,
     #[serde(rename = "hasOriginalPdf", skip_serializing_if = "Option::is_none")]
@@ -374,6 +376,7 @@ impl ListInvoicesItem {
             remittance_instructions: None,
             remittance_check: None,
             bank_details_confirmation: None,
+            bank_lane: None,
             source_document: None,
             has_original_pdf: None,
             base_currency_amount: None,

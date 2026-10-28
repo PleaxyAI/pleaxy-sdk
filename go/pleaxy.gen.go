@@ -357,6 +357,35 @@ const (
 	AutomationRuleSetViewProcessPurchaseOrder  AutomationRuleSetViewProcess = "purchase_order"
 )
 
+// Defines values for BankAccountViewLearnedFromSide.
+const (
+	BankAccountViewLearnedFromSideBuyer    BankAccountViewLearnedFromSide = "buyer"
+	BankAccountViewLearnedFromSideSupplier BankAccountViewLearnedFromSide = "supplier"
+)
+
+// Defines values for BankAccountViewPendingChangeSide.
+const (
+	BankAccountViewPendingChangeSideBuyer    BankAccountViewPendingChangeSide = "buyer"
+	BankAccountViewPendingChangeSideSupplier BankAccountViewPendingChangeSide = "supplier"
+)
+
+// Defines values for BankAccountViewStatus.
+const (
+	BankAccountViewStatusChanging   BankAccountViewStatus = "changing"
+	BankAccountViewStatusUnverified BankAccountViewStatus = "unverified"
+	BankAccountViewStatusVerified   BankAccountViewStatus = "verified"
+)
+
+// Defines values for BankCheckMethod.
+const (
+	BankCheckMethodBankLetter     BankCheckMethod = "bank_letter"
+	BankCheckMethodCall           BankCheckMethod = "call"
+	BankCheckMethodEmail          BankCheckMethod = "email"
+	BankCheckMethodNone           BankCheckMethod = "none"
+	BankCheckMethodOther          BankCheckMethod = "other"
+	BankCheckMethodSupplierPortal BankCheckMethod = "supplier_portal"
+)
+
 // Defines values for BankDetailsConfirmationConfirmedVia.
 const (
 	BankDetailsConfirmationConfirmedViaPhone    BankDetailsConfirmationConfirmedVia = "phone"
@@ -1370,6 +1399,12 @@ const (
 	GeographyPresetIdLatam                 GeographyPresetId = "latam"
 	GeographyPresetIdNamer                 GeographyPresetId = "namer"
 	GeographyPresetIdUk                    GeographyPresetId = "uk"
+)
+
+// Defines values for GetInvoiceBankAccountResultHold.
+const (
+	DiffersFromFile GetInvoiceBankAccountResultHold = "differs_from_file"
+	FirstPayment    GetInvoiceBankAccountResultHold = "first_payment"
 )
 
 // Defines values for GetInvoiceResultBuyerCreditNoteCloudProvider.
@@ -2713,6 +2748,7 @@ const (
 	NotificationTypeCreditNoteRejected               NotificationType = "credit_note_rejected"
 	NotificationTypeInvoiceApprovalRequested         NotificationType = "invoice_approval_requested"
 	NotificationTypeInvoiceApproved                  NotificationType = "invoice_approved"
+	NotificationTypeInvoiceBankAccountToApprove      NotificationType = "invoice_bank_account_to_approve"
 	NotificationTypeInvoiceBankDetailsChanged        NotificationType = "invoice_bank_details_changed"
 	NotificationTypeInvoiceBankDetailsConfirmed      NotificationType = "invoice_bank_details_confirmed"
 	NotificationTypeInvoiceBankDetailsDisputed       NotificationType = "invoice_bank_details_disputed"
@@ -3098,11 +3134,11 @@ const (
 
 // Defines values for QuestionnaireFieldDefDocType.
 const (
-	BankLetter      QuestionnaireFieldDefDocType = "bank_letter"
-	BusinessLicense QuestionnaireFieldDefDocType = "business_license"
-	Coi             QuestionnaireFieldDefDocType = "coi"
-	W8ben           QuestionnaireFieldDefDocType = "w8ben"
-	W9              QuestionnaireFieldDefDocType = "w9"
+	QuestionnaireFieldDefDocTypeBankLetter      QuestionnaireFieldDefDocType = "bank_letter"
+	QuestionnaireFieldDefDocTypeBusinessLicense QuestionnaireFieldDefDocType = "business_license"
+	QuestionnaireFieldDefDocTypeCoi             QuestionnaireFieldDefDocType = "coi"
+	QuestionnaireFieldDefDocTypeW8ben           QuestionnaireFieldDefDocType = "w8ben"
+	QuestionnaireFieldDefDocTypeW9              QuestionnaireFieldDefDocType = "w9"
 )
 
 // Defines values for QuestionnaireFieldDefKind.
@@ -3716,6 +3752,64 @@ const (
 	SupplierApprovalViewStatusRejected SupplierApprovalViewStatus = "rejected"
 )
 
+// Defines values for SupplierBankAccountLearnedFromSide.
+const (
+	SupplierBankAccountLearnedFromSideBuyer    SupplierBankAccountLearnedFromSide = "buyer"
+	SupplierBankAccountLearnedFromSideSupplier SupplierBankAccountLearnedFromSide = "supplier"
+)
+
+// Defines values for SupplierBankAccountPendingChangeSide.
+const (
+	SupplierBankAccountPendingChangeSideBuyer    SupplierBankAccountPendingChangeSide = "buyer"
+	SupplierBankAccountPendingChangeSideSupplier SupplierBankAccountPendingChangeSide = "supplier"
+)
+
+// Defines values for SupplierBankAccountStatus.
+const (
+	Changing   SupplierBankAccountStatus = "changing"
+	Unverified SupplierBankAccountStatus = "unverified"
+	Verified   SupplierBankAccountStatus = "verified"
+)
+
+// Defines values for SupplierBankAccountApprovalBySide.
+const (
+	SupplierBankAccountApprovalBySideBuyer    SupplierBankAccountApprovalBySide = "buyer"
+	SupplierBankAccountApprovalBySideSupplier SupplierBankAccountApprovalBySide = "supplier"
+)
+
+// Defines values for SupplierBankAccountApprovalVerification.
+const (
+	SupplierBankAccountApprovalVerificationBuyerApproved     SupplierBankAccountApprovalVerification = "buyer_approved"
+	SupplierBankAccountApprovalVerificationPaidBefore        SupplierBankAccountApprovalVerification = "paid_before"
+	SupplierBankAccountApprovalVerificationSupplierConfirmed SupplierBankAccountApprovalVerification = "supplier_confirmed"
+)
+
+// Defines values for SupplierBankAccountHistoryEntryCheck.
+const (
+	SupplierBankAccountHistoryEntryCheckBankLetter     SupplierBankAccountHistoryEntryCheck = "bank_letter"
+	SupplierBankAccountHistoryEntryCheckCall           SupplierBankAccountHistoryEntryCheck = "call"
+	SupplierBankAccountHistoryEntryCheckEmail          SupplierBankAccountHistoryEntryCheck = "email"
+	SupplierBankAccountHistoryEntryCheckNone           SupplierBankAccountHistoryEntryCheck = "none"
+	SupplierBankAccountHistoryEntryCheckOther          SupplierBankAccountHistoryEntryCheck = "other"
+	SupplierBankAccountHistoryEntryCheckSupplierPortal SupplierBankAccountHistoryEntryCheck = "supplier_portal"
+)
+
+// Defines values for SupplierBankAccountHistoryEntryEvent.
+const (
+	Approved       SupplierBankAccountHistoryEntryEvent = "approved"
+	ChangeProposed SupplierBankAccountHistoryEntryEvent = "change_proposed"
+	ChangeRejected SupplierBankAccountHistoryEntryEvent = "change_rejected"
+	Learned        SupplierBankAccountHistoryEntryEvent = "learned"
+	Seeded         SupplierBankAccountHistoryEntryEvent = "seeded"
+)
+
+// Defines values for SupplierBankAccountHistoryEntryVerification.
+const (
+	SupplierBankAccountHistoryEntryVerificationBuyerApproved     SupplierBankAccountHistoryEntryVerification = "buyer_approved"
+	SupplierBankAccountHistoryEntryVerificationPaidBefore        SupplierBankAccountHistoryEntryVerification = "paid_before"
+	SupplierBankAccountHistoryEntryVerificationSupplierConfirmed SupplierBankAccountHistoryEntryVerification = "supplier_confirmed"
+)
+
 // Defines values for SupplierBankDetailsConfirmationViewChangedFields.
 const (
 	SupplierBankDetailsConfirmationViewChangedFieldsAccountNumber  SupplierBankDetailsConfirmationViewChangedFields = "accountNumber"
@@ -3780,7 +3874,7 @@ const (
 
 // Defines values for SupplierCreditNoteViewPoEffect1Kind.
 const (
-	None SupplierCreditNoteViewPoEffect1Kind = "none"
+	SupplierCreditNoteViewPoEffect1KindNone SupplierCreditNoteViewPoEffect1Kind = "none"
 )
 
 // Defines values for SupplierCreditNoteViewPoEffect1Why.
@@ -4017,14 +4111,14 @@ const (
 
 // Defines values for WebhookEndpointViewLastErrorCode.
 const (
-	WebhookEndpointViewLastErrorCodeBlockedAddress WebhookEndpointViewLastErrorCode = "blocked_address"
-	WebhookEndpointViewLastErrorCodeEndpointOff    WebhookEndpointViewLastErrorCode = "endpoint_off"
-	WebhookEndpointViewLastErrorCodeFailed         WebhookEndpointViewLastErrorCode = "failed"
-	WebhookEndpointViewLastErrorCodeHttpStatus     WebhookEndpointViewLastErrorCode = "http_status"
-	WebhookEndpointViewLastErrorCodeRedirect       WebhookEndpointViewLastErrorCode = "redirect"
-	WebhookEndpointViewLastErrorCodeTimeout        WebhookEndpointViewLastErrorCode = "timeout"
-	WebhookEndpointViewLastErrorCodeTooLarge       WebhookEndpointViewLastErrorCode = "too_large"
-	WebhookEndpointViewLastErrorCodeUnreachable    WebhookEndpointViewLastErrorCode = "unreachable"
+	BlockedAddress WebhookEndpointViewLastErrorCode = "blocked_address"
+	EndpointOff    WebhookEndpointViewLastErrorCode = "endpoint_off"
+	Failed         WebhookEndpointViewLastErrorCode = "failed"
+	HttpStatus     WebhookEndpointViewLastErrorCode = "http_status"
+	Redirect       WebhookEndpointViewLastErrorCode = "redirect"
+	Timeout        WebhookEndpointViewLastErrorCode = "timeout"
+	TooLarge       WebhookEndpointViewLastErrorCode = "too_large"
+	Unreachable    WebhookEndpointViewLastErrorCode = "unreachable"
 )
 
 // Defines values for ListEmployeesParamsRole.
@@ -4064,8 +4158,8 @@ const (
 
 // Defines values for MarkAllNotificationsReadParamsAudience.
 const (
-	MarkAllNotificationsReadParamsAudienceBuyer    MarkAllNotificationsReadParamsAudience = "buyer"
-	MarkAllNotificationsReadParamsAudienceSupplier MarkAllNotificationsReadParamsAudience = "supplier"
+	Buyer    MarkAllNotificationsReadParamsAudience = "buyer"
+	Supplier MarkAllNotificationsReadParamsAudience = "supplier"
 )
 
 // Defines values for GetPurchaseOrderDocumentParamsFormat.
@@ -4142,6 +4236,7 @@ type AddInvoiceReplacementLinksResult struct {
 	Approval                    *ApprovalChain                                     `json:"approval,omitempty"`
 	ApprovalVersion             *float64                                           `json:"approvalVersion,omitempty"`
 	BankDetailsConfirmation     *BankDetailsConfirmation                           `json:"bankDetailsConfirmation,omitempty"`
+	BankLane                    *string                                            `json:"bankLane,omitempty"`
 	BaseCurrencyAmount          *InvoiceBaseCurrencyAmount                         `json:"baseCurrencyAmount,omitempty"`
 	BillsNoPoLine               *bool                                              `json:"billsNoPoLine,omitempty"`
 	BuyerOrgId                  *string                                            `json:"buyerOrgId,omitempty"`
@@ -4748,6 +4843,53 @@ type AwsCloudConnectionInit struct {
 	ExternalId                *string `json:"externalId,omitempty"`
 	PlatformAwsAccountId      *string `json:"platformAwsAccountId,omitempty"`
 }
+
+// BankAccountView defines model for BankAccountView.
+type BankAccountView struct {
+	Approval     *SupplierBankAccountApproval       `json:"approval,omitempty"`
+	ConnectionId *string                            `json:"connectionId,omitempty"`
+	CreatedAt    *string                            `json:"createdAt,omitempty"`
+	Currency     *string                            `json:"currency,omitempty"`
+	Details      *RemittanceInstructions            `json:"details,omitempty"`
+	History      *[]SupplierBankAccountHistoryEntry `json:"history,omitempty"`
+	Id           string                             `json:"id"`
+	LaneKey      *string                            `json:"laneKey,omitempty"`
+	LearnedFrom  *struct {
+		InvoiceId *string                         `json:"invoiceId,omitempty"`
+		Side      *BankAccountViewLearnedFromSide `json:"side,omitempty"`
+	} `json:"learnedFrom,omitempty"`
+	PayeeName     *string `json:"payeeName,omitempty"`
+	PendingChange *struct {
+		At        *string                           `json:"at,omitempty"`
+		Details   *RemittanceInstructions           `json:"details,omitempty"`
+		InvoiceId *string                           `json:"invoiceId,omitempty"`
+		Side      *BankAccountViewPendingChangeSide `json:"side,omitempty"`
+	} `json:"pendingChange,omitempty"`
+	Status       *BankAccountViewStatus `json:"status,omitempty"`
+	SupplierKey  *string                `json:"supplierKey,omitempty"`
+	SupplierName *string                `json:"supplierName,omitempty"`
+	UpdatedAt    *string                `json:"updatedAt,omitempty"`
+	Version      *float64               `json:"version,omitempty"`
+}
+
+// BankAccountViewLearnedFromSide defines model for BankAccountView.LearnedFrom.Side.
+type BankAccountViewLearnedFromSide string
+
+// BankAccountViewPendingChangeSide defines model for BankAccountView.PendingChange.Side.
+type BankAccountViewPendingChangeSide string
+
+// BankAccountViewStatus defines model for BankAccountView.Status.
+type BankAccountViewStatus string
+
+// BankCheck defines model for BankCheck.
+type BankCheck struct {
+	Detail *string          `json:"detail,omitempty"`
+	Method *BankCheckMethod `json:"method,omitempty"`
+	Note   *string          `json:"note,omitempty"`
+}
+
+// BankCheckMethod defines model for BankCheck.Method.
+type BankCheckMethod string
 
 // BankDetailsConfirmation defines model for BankDetailsConfirmation.
 type BankDetailsConfirmation struct {
@@ -5500,6 +5642,7 @@ type CreateInvoiceResultBuyerInvoice struct {
 	Approval                    *ApprovalChain                                    `json:"approval,omitempty"`
 	ApprovalVersion             *float64                                          `json:"approvalVersion,omitempty"`
 	BankDetailsConfirmation     *BankDetailsConfirmation                          `json:"bankDetailsConfirmation,omitempty"`
+	BankLane                    *string                                           `json:"bankLane,omitempty"`
 	BaseCurrencyAmount          *InvoiceBaseCurrencyAmount                        `json:"baseCurrencyAmount,omitempty"`
 	BillsNoPoLine               *bool                                             `json:"billsNoPoLine,omitempty"`
 	BuyerOrgId                  *string                                           `json:"buyerOrgId,omitempty"`
@@ -5761,6 +5904,7 @@ type CreateInvoiceResultSupplierInvoice struct {
 	Amount                      *float64                                         `json:"amount,omitempty"`
 	Approval                    *SupplierApprovalView                            `json:"approval,omitempty"`
 	BankDetailsConfirmation     *SupplierBankDetailsConfirmationView             `json:"bankDetailsConfirmation,omitempty"`
+	BankLane                    *string                                          `json:"bankLane,omitempty"`
 	BaseCurrencyAmount          *InvoiceBaseCurrencyAmount                       `json:"baseCurrencyAmount,omitempty"`
 	BillsNoPoLine               *bool                                            `json:"billsNoPoLine,omitempty"`
 	BuyerOrgId                  *string                                          `json:"buyerOrgId,omitempty"`
@@ -6413,6 +6557,7 @@ type FeedValidationResult struct {
 		Amount                      *float64                                  `json:"amount,omitempty"`
 		Approval                    *SupplierApprovalView                     `json:"approval,omitempty"`
 		BankDetailsConfirmation     *SupplierBankDetailsConfirmationView      `json:"bankDetailsConfirmation,omitempty"`
+		BankLane                    *string                                   `json:"bankLane,omitempty"`
 		BaseCurrencyAmount          *InvoiceBaseCurrencyAmount                `json:"baseCurrencyAmount,omitempty"`
 		BillsNoPoLine               *bool                                     `json:"billsNoPoLine,omitempty"`
 		BuyerOrgId                  *string                                   `json:"buyerOrgId,omitempty"`
@@ -6678,6 +6823,16 @@ type GetBuyerWorkspaceResult_RecentPurchaseOrders_Item struct {
 	union json.RawMessage
 }
 
+// GetInvoiceBankAccountResult defines model for GetInvoiceBankAccountResult.
+type GetInvoiceBankAccountResult struct {
+	Account     *SupplierBankAccount             `json:"account,omitempty"`
+	Hold        *GetInvoiceBankAccountResultHold `json:"hold,omitempty"`
+	SupplierKey *string                          `json:"supplierKey,omitempty"`
+}
+
+// GetInvoiceBankAccountResultHold defines model for GetInvoiceBankAccountResult.Hold.
+type GetInvoiceBankAccountResultHold string
+
 // GetInvoiceResult defines model for GetInvoiceResult.
 type GetInvoiceResult struct {
 	union json.RawMessage
@@ -6796,6 +6951,7 @@ type GetInvoiceResultBuyerInvoice struct {
 	Approval                    *ApprovalChain                                 `json:"approval,omitempty"`
 	ApprovalVersion             *float64                                       `json:"approvalVersion,omitempty"`
 	BankDetailsConfirmation     *BankDetailsConfirmation                       `json:"bankDetailsConfirmation,omitempty"`
+	BankLane                    *string                                        `json:"bankLane,omitempty"`
 	BaseCurrencyAmount          *InvoiceBaseCurrencyAmount                     `json:"baseCurrencyAmount,omitempty"`
 	BillsNoPoLine               *bool                                          `json:"billsNoPoLine,omitempty"`
 	BuyerOrgId                  *string                                        `json:"buyerOrgId,omitempty"`
@@ -7057,6 +7213,7 @@ type GetInvoiceResultSupplierInvoice struct {
 	Amount                      *float64                                      `json:"amount,omitempty"`
 	Approval                    *SupplierApprovalView                         `json:"approval,omitempty"`
 	BankDetailsConfirmation     *SupplierBankDetailsConfirmationView          `json:"bankDetailsConfirmation,omitempty"`
+	BankLane                    *string                                       `json:"bankLane,omitempty"`
 	BaseCurrencyAmount          *InvoiceBaseCurrencyAmount                    `json:"baseCurrencyAmount,omitempty"`
 	BillsNoPoLine               *bool                                         `json:"billsNoPoLine,omitempty"`
 	BuyerOrgId                  *string                                       `json:"buyerOrgId,omitempty"`
@@ -7521,6 +7678,7 @@ type InvoiceBuyerView struct {
 	Approval                    *ApprovalChain                     `json:"approval,omitempty"`
 	ApprovalVersion             *float64                           `json:"approvalVersion,omitempty"`
 	BankDetailsConfirmation     *BankDetailsConfirmation           `json:"bankDetailsConfirmation,omitempty"`
+	BankLane                    *string                            `json:"bankLane,omitempty"`
 	BaseCurrencyAmount          *InvoiceBaseCurrencyAmount         `json:"baseCurrencyAmount,omitempty"`
 	BillsNoPoLine               *bool                              `json:"billsNoPoLine,omitempty"`
 	BuyerOrgId                  *string                            `json:"buyerOrgId,omitempty"`
@@ -8029,6 +8187,7 @@ type InvoiceSupplierView struct {
 	Amount                      *float64                             `json:"amount,omitempty"`
 	Approval                    *SupplierApprovalView                `json:"approval,omitempty"`
 	BankDetailsConfirmation     *SupplierBankDetailsConfirmationView `json:"bankDetailsConfirmation,omitempty"`
+	BankLane                    *string                              `json:"bankLane,omitempty"`
 	BaseCurrencyAmount          *InvoiceBaseCurrencyAmount           `json:"baseCurrencyAmount,omitempty"`
 	BillsNoPoLine               *bool                                `json:"billsNoPoLine,omitempty"`
 	BuyerOrgId                  *string                              `json:"buyerOrgId,omitempty"`
@@ -8452,6 +8611,7 @@ type ListInvoicesItemBuyerInvoice struct {
 	Approval                    *ApprovalChain                                 `json:"approval,omitempty"`
 	ApprovalVersion             *float64                                       `json:"approvalVersion,omitempty"`
 	BankDetailsConfirmation     *BankDetailsConfirmation                       `json:"bankDetailsConfirmation,omitempty"`
+	BankLane                    *string                                        `json:"bankLane,omitempty"`
 	BaseCurrencyAmount          *InvoiceBaseCurrencyAmount                     `json:"baseCurrencyAmount,omitempty"`
 	BillsNoPoLine               *bool                                          `json:"billsNoPoLine,omitempty"`
 	BuyerOrgId                  *string                                        `json:"buyerOrgId,omitempty"`
@@ -8713,6 +8873,7 @@ type ListInvoicesItemSupplierInvoice struct {
 	Amount                      *float64                                      `json:"amount,omitempty"`
 	Approval                    *SupplierApprovalView                         `json:"approval,omitempty"`
 	BankDetailsConfirmation     *SupplierBankDetailsConfirmationView          `json:"bankDetailsConfirmation,omitempty"`
+	BankLane                    *string                                       `json:"bankLane,omitempty"`
 	BaseCurrencyAmount          *InvoiceBaseCurrencyAmount                    `json:"baseCurrencyAmount,omitempty"`
 	BillsNoPoLine               *bool                                         `json:"billsNoPoLine,omitempty"`
 	BuyerOrgId                  *string                                       `json:"buyerOrgId,omitempty"`
@@ -9860,6 +10021,7 @@ type RecordPaymentResult struct {
 	Approval                    *ApprovalChain                        `json:"approval,omitempty"`
 	ApprovalVersion             *float64                              `json:"approvalVersion,omitempty"`
 	BankDetailsConfirmation     *BankDetailsConfirmation              `json:"bankDetailsConfirmation,omitempty"`
+	BankLane                    *string                               `json:"bankLane,omitempty"`
 	BaseCurrencyAmount          *InvoiceBaseCurrencyAmount            `json:"baseCurrencyAmount,omitempty"`
 	BillsNoPoLine               *bool                                 `json:"billsNoPoLine,omitempty"`
 	BuyerOrgId                  *string                               `json:"buyerOrgId,omitempty"`
@@ -10205,6 +10367,7 @@ type RemoveInvoiceReplacementLinkResult struct {
 	Approval                    *ApprovalChain                                       `json:"approval,omitempty"`
 	ApprovalVersion             *float64                                             `json:"approvalVersion,omitempty"`
 	BankDetailsConfirmation     *BankDetailsConfirmation                             `json:"bankDetailsConfirmation,omitempty"`
+	BankLane                    *string                                              `json:"bankLane,omitempty"`
 	BaseCurrencyAmount          *InvoiceBaseCurrencyAmount                           `json:"baseCurrencyAmount,omitempty"`
 	BillsNoPoLine               *bool                                                `json:"billsNoPoLine,omitempty"`
 	BuyerOrgId                  *string                                              `json:"buyerOrgId,omitempty"`
@@ -10924,6 +11087,80 @@ type SupplierApprovalView struct {
 // SupplierApprovalViewStatus defines model for SupplierApprovalView.Status.
 type SupplierApprovalViewStatus string
 
+// SupplierBankAccount defines model for SupplierBankAccount.
+type SupplierBankAccount struct {
+	Approval    *SupplierBankAccountApproval       `json:"approval,omitempty"`
+	CreatedAt   *string                            `json:"createdAt,omitempty"`
+	Currency    *string                            `json:"currency,omitempty"`
+	Details     *RemittanceInstructions            `json:"details,omitempty"`
+	History     *[]SupplierBankAccountHistoryEntry `json:"history,omitempty"`
+	Id          string                             `json:"id"`
+	LaneKey     *string                            `json:"laneKey,omitempty"`
+	LearnedFrom *struct {
+		InvoiceId *string                             `json:"invoiceId,omitempty"`
+		Side      *SupplierBankAccountLearnedFromSide `json:"side,omitempty"`
+	} `json:"learnedFrom,omitempty"`
+	PayeeName     *string `json:"payeeName,omitempty"`
+	PendingChange *struct {
+		At        *string                               `json:"at,omitempty"`
+		Details   *RemittanceInstructions               `json:"details,omitempty"`
+		InvoiceId *string                               `json:"invoiceId,omitempty"`
+		Side      *SupplierBankAccountPendingChangeSide `json:"side,omitempty"`
+	} `json:"pendingChange,omitempty"`
+	Status      *SupplierBankAccountStatus `json:"status,omitempty"`
+	SupplierKey *string                    `json:"supplierKey,omitempty"`
+	UpdatedAt   *string                    `json:"updatedAt,omitempty"`
+	Version     *float64                   `json:"version,omitempty"`
+}
+
+// SupplierBankAccountLearnedFromSide defines model for SupplierBankAccount.LearnedFrom.Side.
+type SupplierBankAccountLearnedFromSide string
+
+// SupplierBankAccountPendingChangeSide defines model for SupplierBankAccount.PendingChange.Side.
+type SupplierBankAccountPendingChangeSide string
+
+// SupplierBankAccountStatus defines model for SupplierBankAccount.Status.
+type SupplierBankAccountStatus string
+
+// SupplierBankAccountApproval defines model for SupplierBankAccountApproval.
+type SupplierBankAccountApproval struct {
+	At *string `json:"at,omitempty"`
+	By *struct {
+		Name *string                            `json:"name,omitempty"`
+		Side *SupplierBankAccountApprovalBySide `json:"side,omitempty"`
+		Sub  *string                            `json:"sub,omitempty"`
+	} `json:"by,omitempty"`
+	Check        *BankCheck                               `json:"check,omitempty"`
+	InvoiceId    *string                                  `json:"invoiceId,omitempty"`
+	Verification *SupplierBankAccountApprovalVerification `json:"verification,omitempty"`
+}
+
+// SupplierBankAccountApprovalBySide defines model for SupplierBankAccountApproval.By.Side.
+type SupplierBankAccountApprovalBySide string
+
+// SupplierBankAccountApprovalVerification defines model for SupplierBankAccountApproval.Verification.
+type SupplierBankAccountApprovalVerification string
+
+// SupplierBankAccountHistoryEntry defines model for SupplierBankAccountHistoryEntry.
+type SupplierBankAccountHistoryEntry struct {
+	At           *string                                      `json:"at,omitempty"`
+	By           *string                                      `json:"by,omitempty"`
+	Check        *SupplierBankAccountHistoryEntryCheck        `json:"check,omitempty"`
+	Event        *SupplierBankAccountHistoryEntryEvent        `json:"event,omitempty"`
+	InvoiceId    *string                                      `json:"invoiceId,omitempty"`
+	Masked       *string                                      `json:"masked,omitempty"`
+	Verification *SupplierBankAccountHistoryEntryVerification `json:"verification,omitempty"`
+}
+
+// SupplierBankAccountHistoryEntryCheck defines model for SupplierBankAccountHistoryEntry.Check.
+type SupplierBankAccountHistoryEntryCheck string
+
+// SupplierBankAccountHistoryEntryEvent defines model for SupplierBankAccountHistoryEntry.Event.
+type SupplierBankAccountHistoryEntryEvent string
+
+// SupplierBankAccountHistoryEntryVerification defines model for SupplierBankAccountHistoryEntry.Verification.
+type SupplierBankAccountHistoryEntryVerification string
+
 // SupplierBankDetailsConfirmationView defines model for SupplierBankDetailsConfirmationView.
 type SupplierBankDetailsConfirmationView struct {
 	ChangedFields   *[]SupplierBankDetailsConfirmationViewChangedFields `json:"changedFields,omitempty"`
@@ -11466,6 +11703,11 @@ type ListInvoiceCounterpartiesParams struct {
 
 // GetInvoiceParams defines parameters for GetInvoice.
 type GetInvoiceParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
+
+// GetInvoiceBankAccountParams defines parameters for GetInvoiceBankAccount.
+type GetInvoiceBankAccountParams struct {
 	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
 }
 
@@ -14677,6 +14919,12 @@ type ClientInterface interface {
 
 	UpdateAutomationRules(ctx context.Context, process string, body UpdateAutomationRulesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ListBankAccountsToApprove request
+	ListBankAccountsToApprove(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListSupplierBankAccounts request
+	ListSupplierBankAccounts(ctx context.Context, connectionId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetBudgetControl request
 	GetBudgetControl(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -14779,6 +15027,9 @@ type ClientInterface interface {
 
 	// ApproveInvoice request
 	ApproveInvoice(ctx context.Context, invoiceId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetInvoiceBankAccount request
+	GetInvoiceBankAccount(ctx context.Context, invoiceId string, params *GetInvoiceBankAccountParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetInvoiceDocument request
 	GetInvoiceDocument(ctx context.Context, invoiceId string, params *GetInvoiceDocumentParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -15171,6 +15422,30 @@ func (c *RawClient) UpdateAutomationRulesWithBody(ctx context.Context, process s
 
 func (c *RawClient) UpdateAutomationRules(ctx context.Context, process string, body UpdateAutomationRulesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUpdateAutomationRulesRequest(c.Server, process, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListBankAccountsToApprove(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListBankAccountsToApproveRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListSupplierBankAccounts(ctx context.Context, connectionId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListSupplierBankAccountsRequest(c.Server, connectionId)
 	if err != nil {
 		return nil, err
 	}
@@ -15627,6 +15902,18 @@ func (c *RawClient) ReassignInvoiceApprovalStage(ctx context.Context, invoiceId 
 
 func (c *RawClient) ApproveInvoice(ctx context.Context, invoiceId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewApproveInvoiceRequest(c.Server, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetInvoiceBankAccount(ctx context.Context, invoiceId string, params *GetInvoiceBankAccountParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetInvoiceBankAccountRequest(c.Server, invoiceId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -17091,6 +17378,67 @@ func NewUpdateAutomationRulesRequestWithBody(server string, process string, cont
 	return req, nil
 }
 
+// NewListBankAccountsToApproveRequest generates requests for ListBankAccountsToApprove
+func NewListBankAccountsToApproveRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/bank-accounts/review")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListSupplierBankAccountsRequest generates requests for ListSupplierBankAccounts
+func NewListSupplierBankAccountsRequest(server string, connectionId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "connectionId", runtime.ParamLocationPath, connectionId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/bank-accounts/suppliers/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetBudgetControlRequest generates requests for GetBudgetControl
 func NewGetBudgetControlRequest(server string) (*http.Request, error) {
 	var err error
@@ -18294,6 +18642,62 @@ func NewApproveInvoiceRequest(server string, invoiceId string) (*http.Request, e
 	}
 
 	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetInvoiceBankAccountRequest generates requests for GetInvoiceBankAccount
+func NewGetInvoiceBankAccountRequest(server string, invoiceId string, params *GetInvoiceBankAccountParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invoiceId", runtime.ParamLocationPath, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/invoices/%s/bank-account", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -21906,6 +22310,12 @@ type ClientWithResponsesInterface interface {
 
 	UpdateAutomationRulesWithResponse(ctx context.Context, process string, body UpdateAutomationRulesJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateAutomationRulesResponse, error)
 
+	// ListBankAccountsToApproveWithResponse request
+	ListBankAccountsToApproveWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListBankAccountsToApproveResponse, error)
+
+	// ListSupplierBankAccountsWithResponse request
+	ListSupplierBankAccountsWithResponse(ctx context.Context, connectionId string, reqEditors ...RequestEditorFn) (*ListSupplierBankAccountsResponse, error)
+
 	// GetBudgetControlWithResponse request
 	GetBudgetControlWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetBudgetControlResponse, error)
 
@@ -22008,6 +22418,9 @@ type ClientWithResponsesInterface interface {
 
 	// ApproveInvoiceWithResponse request
 	ApproveInvoiceWithResponse(ctx context.Context, invoiceId string, reqEditors ...RequestEditorFn) (*ApproveInvoiceResponse, error)
+
+	// GetInvoiceBankAccountWithResponse request
+	GetInvoiceBankAccountWithResponse(ctx context.Context, invoiceId string, params *GetInvoiceBankAccountParams, reqEditors ...RequestEditorFn) (*GetInvoiceBankAccountResponse, error)
 
 	// GetInvoiceDocumentWithResponse request
 	GetInvoiceDocumentWithResponse(ctx context.Context, invoiceId string, params *GetInvoiceDocumentParams, reqEditors ...RequestEditorFn) (*GetInvoiceDocumentResponse, error)
@@ -22455,6 +22868,52 @@ func (r UpdateAutomationRulesResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r UpdateAutomationRulesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListBankAccountsToApproveResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]BankAccountView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListBankAccountsToApproveResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListBankAccountsToApproveResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListSupplierBankAccountsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]BankAccountView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListSupplierBankAccountsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListSupplierBankAccountsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -23074,6 +23533,29 @@ func (r ApproveInvoiceResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r ApproveInvoiceResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetInvoiceBankAccountResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *GetInvoiceBankAccountResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetInvoiceBankAccountResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetInvoiceBankAccountResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -24875,6 +25357,24 @@ func (c *ClientWithResponses) UpdateAutomationRulesWithResponse(ctx context.Cont
 	return ParseUpdateAutomationRulesResponse(rsp)
 }
 
+// ListBankAccountsToApproveWithResponse request returning *ListBankAccountsToApproveResponse
+func (c *ClientWithResponses) ListBankAccountsToApproveWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListBankAccountsToApproveResponse, error) {
+	rsp, err := c.ListBankAccountsToApprove(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListBankAccountsToApproveResponse(rsp)
+}
+
+// ListSupplierBankAccountsWithResponse request returning *ListSupplierBankAccountsResponse
+func (c *ClientWithResponses) ListSupplierBankAccountsWithResponse(ctx context.Context, connectionId string, reqEditors ...RequestEditorFn) (*ListSupplierBankAccountsResponse, error) {
+	rsp, err := c.ListSupplierBankAccounts(ctx, connectionId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListSupplierBankAccountsResponse(rsp)
+}
+
 // GetBudgetControlWithResponse request returning *GetBudgetControlResponse
 func (c *ClientWithResponses) GetBudgetControlWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetBudgetControlResponse, error) {
 	rsp, err := c.GetBudgetControl(ctx, reqEditors...)
@@ -25204,6 +25704,15 @@ func (c *ClientWithResponses) ApproveInvoiceWithResponse(ctx context.Context, in
 		return nil, err
 	}
 	return ParseApproveInvoiceResponse(rsp)
+}
+
+// GetInvoiceBankAccountWithResponse request returning *GetInvoiceBankAccountResponse
+func (c *ClientWithResponses) GetInvoiceBankAccountWithResponse(ctx context.Context, invoiceId string, params *GetInvoiceBankAccountParams, reqEditors ...RequestEditorFn) (*GetInvoiceBankAccountResponse, error) {
+	rsp, err := c.GetInvoiceBankAccount(ctx, invoiceId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetInvoiceBankAccountResponse(rsp)
 }
 
 // GetInvoiceDocumentWithResponse request returning *GetInvoiceDocumentResponse
@@ -26313,6 +26822,72 @@ func ParseUpdateAutomationRulesResponse(rsp *http.Response) (*UpdateAutomationRu
 	return response, nil
 }
 
+// ParseListBankAccountsToApproveResponse parses an HTTP response from a ListBankAccountsToApproveWithResponse call
+func ParseListBankAccountsToApproveResponse(rsp *http.Response) (*ListBankAccountsToApproveResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListBankAccountsToApproveResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []BankAccountView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListSupplierBankAccountsResponse parses an HTTP response from a ListSupplierBankAccountsWithResponse call
+func ParseListSupplierBankAccountsResponse(rsp *http.Response) (*ListSupplierBankAccountsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListSupplierBankAccountsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []BankAccountView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetBudgetControlResponse parses an HTTP response from a GetBudgetControlWithResponse call
 func ParseGetBudgetControlResponse(rsp *http.Response) (*GetBudgetControlResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -27177,6 +27752,39 @@ func ParseApproveInvoiceResponse(rsp *http.Response) (*ApproveInvoiceResponse, e
 			return nil, err
 		}
 		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetInvoiceBankAccountResponse parses an HTTP response from a GetInvoiceBankAccountWithResponse call
+func ParseGetInvoiceBankAccountResponse(rsp *http.Response) (*GetInvoiceBankAccountResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetInvoiceBankAccountResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetInvoiceBankAccountResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest ApiError

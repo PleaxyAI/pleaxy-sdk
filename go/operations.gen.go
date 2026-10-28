@@ -409,6 +409,18 @@ func (c *Client) GetInvoice(ctx context.Context, invoiceId string, params *GetIn
 	return resp.JSON200, nil
 }
 
+// GetInvoiceBankAccount - [Both] Whether this invoice's payment waits on its supplier's bank account (supplier risk): hold is first_payment (the billing lane's account isn't approved yet) or differs_from_file (the invoice names other details than the approved account); absent when it can be paid. A Buyer caller also gets the lane's account on file (numbers masked) and supplierKey. Exporting it for payment waits; recording a payment made elsewhere and paying through Pleaxy don't. Takes the same ?buyer= as GetInvoice.
+func (c *Client) GetInvoiceBankAccount(ctx context.Context, invoiceId string, params *GetInvoiceBankAccountParams) (*GetInvoiceBankAccountResult, error) {
+	resp, err := c.api.GetInvoiceBankAccountWithResponse(ctx, invoiceId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // GetInvoiceDocument - [Both] An invoice as a UBL 2.1 Invoice (?format=ubl, the default and only format), for the buyer's ERP to book or the supplier's archive: the lines, document-level discounts and charges, tax and withholdings, prepayments, the supplier's payment instructions, the PO and contract it bills. The supplier's view whoever asks: no matching, findings or approvals. Takes the same ?buyer= as GetInvoice.
 func (c *Client) GetInvoiceDocument(ctx context.Context, invoiceId string, params *GetInvoiceDocumentParams) ([]byte, error) {
 	resp, err := c.api.GetInvoiceDocumentWithResponse(ctx, invoiceId, params)
@@ -673,6 +685,18 @@ func (c *Client) ListApprovals(ctx context.Context) (*ApprovalQueue, error) {
 	return resp.JSON200, nil
 }
 
+// ListBankAccountsToApprove - [Buyer] Suppliers' bank accounts waiting for approval: a billing lane's first account (status unverified) or a change (status changing, with pendingChange). Invoices paid to them wait until they are approved. Numbers masked to the last four.
+func (c *Client) ListBankAccountsToApprove(ctx context.Context) (*[]BankAccountView, error) {
+	resp, err := c.api.ListBankAccountsToApproveWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // ListCloudConnections - [Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`, oldest first - pass `cursor` back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page). 'view' on suppliers or on invoices.
 func (c *Client) ListCloudConnections(ctx context.Context, params *ListCloudConnectionsParams) (*ListCloudConnectionsResult, error) {
 	resp, err := c.api.ListCloudConnectionsWithResponse(ctx, params)
@@ -796,6 +820,18 @@ func (c *Client) ListPurchaseRequests(ctx context.Context, params *ListPurchaseR
 // ListRequestTypes - [Buyer] The workspace's request types in picker order, each with its intake form; active ones unless includeInactive=true
 func (c *Client) ListRequestTypes(ctx context.Context, params *ListRequestTypesParams) (*[]RequestType, error) {
 	resp, err := c.api.ListRequestTypesWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// ListSupplierBankAccounts - [Buyer] A supplier's bank accounts on file, one per billing lane (payee and currency): details masked to the last four, status unverified|verified|changing, how each was approved (approval.verification: supplier_confirmed|buyer_approved|paid_before, approval.check.method) and the last 10 events.
+func (c *Client) ListSupplierBankAccounts(ctx context.Context, connectionId string) (*[]BankAccountView, error) {
+	resp, err := c.api.ListSupplierBankAccountsWithResponse(ctx, connectionId)
 	if err != nil {
 		return nil, err
 	}

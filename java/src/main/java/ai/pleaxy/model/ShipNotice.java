@@ -137,11 +137,11 @@ public class ShipNotice {
   public enum SourceEnum {
     CXML(String.valueOf("cxml")),
     
+    EMAIL(String.valueOf("email")),
+    
     PORTAL(String.valueOf("portal")),
     
-    API(String.valueOf("api")),
-    
-    EMAIL(String.valueOf("email"));
+    API(String.valueOf("api"));
 
     private String value;
 

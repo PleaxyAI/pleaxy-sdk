@@ -135,6 +135,14 @@ from .automation_rule_set_view import AutomationRuleSetView
 from .automation_rule_set_view_process import AutomationRuleSetViewProcess
 from .autonomy_settings import AutonomySettings
 from .aws_cloud_connection_init import AwsCloudConnectionInit
+from .bank_account_view import BankAccountView
+from .bank_account_view_learned_from import BankAccountViewLearnedFrom
+from .bank_account_view_learned_from_side import BankAccountViewLearnedFromSide
+from .bank_account_view_pending_change import BankAccountViewPendingChange
+from .bank_account_view_pending_change_side import BankAccountViewPendingChangeSide
+from .bank_account_view_status import BankAccountViewStatus
+from .bank_check import BankCheck
+from .bank_check_method import BankCheckMethod
 from .bank_details_confirmation import BankDetailsConfirmation
 from .bank_details_confirmation_confirmed_by import BankDetailsConfirmationConfirmedBy
 from .bank_details_confirmation_confirmed_via import BankDetailsConfirmationConfirmedVia
@@ -600,6 +608,8 @@ from .get_budget_status_result_unassigned_by_currency_item import (
     GetBudgetStatusResultUnassignedByCurrencyItem,
 )
 from .get_buyer_workspace_result import GetBuyerWorkspaceResult
+from .get_invoice_bank_account_result import GetInvoiceBankAccountResult
+from .get_invoice_bank_account_result_hold import GetInvoiceBankAccountResultHold
 from .get_invoice_document_format import GetInvoiceDocumentFormat
 from .get_invoice_remittance_document_format import GetInvoiceRemittanceDocumentFormat
 from .get_invoice_result_buyer_credit_note import GetInvoiceResultBuyerCreditNote
@@ -1641,6 +1651,30 @@ from .stripe_payment_status_state import StripePaymentStatusState
 from .substitute_item_input import SubstituteItemInput
 from .supplier_approval_view import SupplierApprovalView
 from .supplier_approval_view_status import SupplierApprovalViewStatus
+from .supplier_bank_account import SupplierBankAccount
+from .supplier_bank_account_approval import SupplierBankAccountApproval
+from .supplier_bank_account_approval_by import SupplierBankAccountApprovalBy
+from .supplier_bank_account_approval_by_side import SupplierBankAccountApprovalBySide
+from .supplier_bank_account_approval_verification import (
+    SupplierBankAccountApprovalVerification,
+)
+from .supplier_bank_account_history_entry import SupplierBankAccountHistoryEntry
+from .supplier_bank_account_history_entry_check import (
+    SupplierBankAccountHistoryEntryCheck,
+)
+from .supplier_bank_account_history_entry_event import (
+    SupplierBankAccountHistoryEntryEvent,
+)
+from .supplier_bank_account_history_entry_verification import (
+    SupplierBankAccountHistoryEntryVerification,
+)
+from .supplier_bank_account_learned_from import SupplierBankAccountLearnedFrom
+from .supplier_bank_account_learned_from_side import SupplierBankAccountLearnedFromSide
+from .supplier_bank_account_pending_change import SupplierBankAccountPendingChange
+from .supplier_bank_account_pending_change_side import (
+    SupplierBankAccountPendingChangeSide,
+)
+from .supplier_bank_account_status import SupplierBankAccountStatus
 from .supplier_bank_details_confirmation_view import SupplierBankDetailsConfirmationView
 from .supplier_bank_details_confirmation_view_changed_fields_item import (
     SupplierBankDetailsConfirmationViewChangedFieldsItem,
@@ -1845,6 +1879,14 @@ __all__ = (
     "AutomationRuleSetViewProcess",
     "AutonomySettings",
     "AwsCloudConnectionInit",
+    "BankAccountView",
+    "BankAccountViewLearnedFrom",
+    "BankAccountViewLearnedFromSide",
+    "BankAccountViewPendingChange",
+    "BankAccountViewPendingChangeSide",
+    "BankAccountViewStatus",
+    "BankCheck",
+    "BankCheckMethod",
     "BankDetailsConfirmation",
     "BankDetailsConfirmationConfirmedBy",
     "BankDetailsConfirmationConfirmedVia",
@@ -2078,6 +2120,8 @@ __all__ = (
     "GetBudgetStatusResult",
     "GetBudgetStatusResultUnassignedByCurrencyItem",
     "GetBuyerWorkspaceResult",
+    "GetInvoiceBankAccountResult",
+    "GetInvoiceBankAccountResultHold",
     "GetInvoiceDocumentFormat",
     "GetInvoiceRemittanceDocumentFormat",
     "GetInvoiceResultBuyerCreditNote",
@@ -2655,6 +2699,20 @@ __all__ = (
     "SubstituteItemInput",
     "SupplierApprovalView",
     "SupplierApprovalViewStatus",
+    "SupplierBankAccount",
+    "SupplierBankAccountApproval",
+    "SupplierBankAccountApprovalBy",
+    "SupplierBankAccountApprovalBySide",
+    "SupplierBankAccountApprovalVerification",
+    "SupplierBankAccountHistoryEntry",
+    "SupplierBankAccountHistoryEntryCheck",
+    "SupplierBankAccountHistoryEntryEvent",
+    "SupplierBankAccountHistoryEntryVerification",
+    "SupplierBankAccountLearnedFrom",
+    "SupplierBankAccountLearnedFromSide",
+    "SupplierBankAccountPendingChange",
+    "SupplierBankAccountPendingChangeSide",
+    "SupplierBankAccountStatus",
     "SupplierBankDetailsConfirmationView",
     "SupplierBankDetailsConfirmationViewChangedFieldsItem",
     "SupplierBankDetailsConfirmationViewConfirmedVia",

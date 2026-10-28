@@ -22,6 +22,11 @@ impl Client {
         AutomationRules(self)
     }
 
+    /// BankAccounts operations.
+    pub fn bank_accounts(&self) -> BankAccounts<'_> {
+        BankAccounts(self)
+    }
+
     /// Billing operations.
     pub fn billing(&self) -> Billing<'_> {
         Billing(self)
@@ -212,6 +217,32 @@ impl<'a> AutomationRules<'a> {
             update_automation_rules_input,
         )
         .await
+    }
+}
+
+/// BankAccounts operations: `client.bank_accounts()`.
+#[derive(Debug, Clone, Copy)]
+pub struct BankAccounts<'a>(&'a Client);
+
+impl<'a> BankAccounts<'a> {
+    pub async fn list_bank_accounts_to_approve(
+        &self,
+    ) -> Result<
+        Vec<crate::models::BankAccountView>,
+        crate::apis::Error<crate::apis::bank_accounts_api::ListBankAccountsToApproveError>,
+    > {
+        crate::apis::bank_accounts_api::list_bank_accounts_to_approve(&self.0.config).await
+    }
+
+    pub async fn list_supplier_bank_accounts(
+        &self,
+        connection_id: &str,
+    ) -> Result<
+        Vec<crate::models::BankAccountView>,
+        crate::apis::Error<crate::apis::bank_accounts_api::ListSupplierBankAccountsError>,
+    > {
+        crate::apis::bank_accounts_api::list_supplier_bank_accounts(&self.0.config, connection_id)
+            .await
     }
 }
 
@@ -824,6 +855,17 @@ impl<'a> Invoices<'a> {
         crate::apis::Error<crate::apis::invoices_api::GetInvoiceError>,
     > {
         crate::apis::invoices_api::get_invoice(&self.0.config, invoice_id, buyer).await
+    }
+
+    pub async fn get_invoice_bank_account(
+        &self,
+        invoice_id: &str,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::GetInvoiceBankAccountResult,
+        crate::apis::Error<crate::apis::invoices_api::GetInvoiceBankAccountError>,
+    > {
+        crate::apis::invoices_api::get_invoice_bank_account(&self.0.config, invoice_id, buyer).await
     }
 
     pub async fn get_payment_export(

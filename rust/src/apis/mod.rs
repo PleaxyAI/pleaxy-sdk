@@ -96,6 +96,7 @@ pub mod api_keys_api;
 pub mod approval_settings_api;
 pub mod approvals_api;
 pub mod automation_rules_api;
+pub mod bank_accounts_api;
 pub mod billing_api;
 pub mod budget_control_api;
 pub mod cloud_connections_api;

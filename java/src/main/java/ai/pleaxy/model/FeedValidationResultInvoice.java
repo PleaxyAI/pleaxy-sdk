@@ -113,6 +113,7 @@ import ai.pleaxy.client.ApiClient;
   FeedValidationResultInvoice.JSON_PROPERTY_TAX_CURRENCY_AMOUNT,
   FeedValidationResultInvoice.JSON_PROPERTY_REMITTANCE_INSTRUCTIONS,
   FeedValidationResultInvoice.JSON_PROPERTY_BANK_DETAILS_CONFIRMATION,
+  FeedValidationResultInvoice.JSON_PROPERTY_BANK_LANE,
   FeedValidationResultInvoice.JSON_PROPERTY_SOURCE_DOCUMENT,
   FeedValidationResultInvoice.JSON_PROPERTY_HAS_ORIGINAL_PDF,
   FeedValidationResultInvoice.JSON_PROPERTY_BASE_CURRENCY_AMOUNT,
@@ -600,6 +601,10 @@ public class FeedValidationResultInvoice {
   public static final String JSON_PROPERTY_BANK_DETAILS_CONFIRMATION = "bankDetailsConfirmation";
   @javax.annotation.Nullable
   private SupplierBankDetailsConfirmationView bankDetailsConfirmation;
+
+  public static final String JSON_PROPERTY_BANK_LANE = "bankLane";
+  @javax.annotation.Nullable
+  private String bankLane;
 
   public static final String JSON_PROPERTY_SOURCE_DOCUMENT = "sourceDocument";
   @javax.annotation.Nullable
@@ -2116,6 +2121,30 @@ public class FeedValidationResultInvoice {
   }
 
 
+  public FeedValidationResultInvoice bankLane(@javax.annotation.Nullable String bankLane) {
+    this.bankLane = bankLane;
+    return this;
+  }
+
+  /**
+   * Get bankLane
+   * @return bankLane
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BANK_LANE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getBankLane() {
+    return bankLane;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BANK_LANE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBankLane(@javax.annotation.Nullable String bankLane) {
+    this.bankLane = bankLane;
+  }
+
+
   public FeedValidationResultInvoice sourceDocument(@javax.annotation.Nullable InvoiceSourceDocument sourceDocument) {
     this.sourceDocument = sourceDocument;
     return this;
@@ -2330,6 +2359,7 @@ public class FeedValidationResultInvoice {
         Objects.equals(this.taxCurrencyAmount, feedValidationResultInvoice.taxCurrencyAmount) &&
         Objects.equals(this.remittanceInstructions, feedValidationResultInvoice.remittanceInstructions) &&
         Objects.equals(this.bankDetailsConfirmation, feedValidationResultInvoice.bankDetailsConfirmation) &&
+        Objects.equals(this.bankLane, feedValidationResultInvoice.bankLane) &&
         Objects.equals(this.sourceDocument, feedValidationResultInvoice.sourceDocument) &&
         Objects.equals(this.hasOriginalPdf, feedValidationResultInvoice.hasOriginalPdf) &&
         Objects.equals(this.baseCurrencyAmount, feedValidationResultInvoice.baseCurrencyAmount) &&
@@ -2340,7 +2370,7 @@ public class FeedValidationResultInvoice {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, buyerOrgId, supplierOrgId, lateFeeTerms, amount, settlement, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, noPoComparison, paymentRoute, paid, dueInDays, dueDate, paidAt, payment, remittances, paymentProblem, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, bankDetailsConfirmation, sourceDocument, hasOriginalPdf, baseCurrencyAmount, withdrawnPayment, buyerWorkspaceId, nextReminderAt);
+    return Objects.hash(supplier, buyerOrgId, supplierOrgId, lateFeeTerms, amount, settlement, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, noPoComparison, paymentRoute, paid, dueInDays, dueDate, paidAt, payment, remittances, paymentProblem, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, bankDetailsConfirmation, bankLane, sourceDocument, hasOriginalPdf, baseCurrencyAmount, withdrawnPayment, buyerWorkspaceId, nextReminderAt);
   }
 
   @Override
@@ -2405,6 +2435,7 @@ public class FeedValidationResultInvoice {
     sb.append("    taxCurrencyAmount: ").append(toIndentedString(taxCurrencyAmount)).append("\n");
     sb.append("    remittanceInstructions: ").append(toIndentedString(remittanceInstructions)).append("\n");
     sb.append("    bankDetailsConfirmation: ").append(toIndentedString(bankDetailsConfirmation)).append("\n");
+    sb.append("    bankLane: ").append(toIndentedString(bankLane)).append("\n");
     sb.append("    sourceDocument: ").append(toIndentedString(sourceDocument)).append("\n");
     sb.append("    hasOriginalPdf: ").append(toIndentedString(hasOriginalPdf)).append("\n");
     sb.append("    baseCurrencyAmount: ").append(toIndentedString(baseCurrencyAmount)).append("\n");
@@ -2802,6 +2833,11 @@ public class FeedValidationResultInvoice {
     // add `bankDetailsConfirmation` to the URL query string
     if (getBankDetailsConfirmation() != null) {
       joiner.add(getBankDetailsConfirmation().toUrlQueryString(prefix + "bankDetailsConfirmation" + suffix));
+    }
+
+    // add `bankLane` to the URL query string
+    if (getBankLane() != null) {
+      joiner.add(String.format("%sbankLane%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBankLane()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `sourceDocument` to the URL query string

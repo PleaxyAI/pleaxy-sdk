@@ -148,6 +148,8 @@ pub struct GetInvoiceResultSupplierInvoice {
         skip_serializing_if = "Option::is_none"
     )]
     pub remittance_instructions: Option<models::RemittanceInstructions>,
+    #[serde(rename = "bankLane", skip_serializing_if = "Option::is_none")]
+    pub bank_lane: Option<String>,
     #[serde(rename = "sourceDocument", skip_serializing_if = "Option::is_none")]
     pub source_document: Option<models::InvoiceSourceDocument>,
     #[serde(rename = "hasOriginalPdf", skip_serializing_if = "Option::is_none")]
@@ -237,6 +239,7 @@ impl GetInvoiceResultSupplierInvoice {
             payment_currency_amount: None,
             tax_currency_amount: None,
             remittance_instructions: None,
+            bank_lane: None,
             source_document: None,
             has_original_pdf: None,
             settlement: None,

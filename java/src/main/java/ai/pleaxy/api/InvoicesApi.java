@@ -24,6 +24,7 @@ import ai.pleaxy.model.CreateFeedInvoiceInput;
 import ai.pleaxy.model.CreateInvoiceResult;
 import ai.pleaxy.model.CreateManualInvoiceInput;
 import java.io.File;
+import ai.pleaxy.model.GetInvoiceBankAccountResult;
 import ai.pleaxy.model.GetInvoiceResult;
 import ai.pleaxy.model.InvoiceBuyerView;
 import ai.pleaxy.model.InvoiceSupplierView;
@@ -473,6 +474,96 @@ public class InvoicesApi {
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/invoices/{invoiceId}"
+        .replace("{invoiceId}", ApiClient.urlEncode(invoiceId.toString()));
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "buyer";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("buyer", buyer));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Both] Whether this invoice&#39;s payment waits on its supplier&#39;s bank account (supplier risk): hold is first_payment (the billing lane&#39;s account isn&#39;t approved yet) or differs_from_file (the invoice names other details than the approved account); absent when it can be paid. A Buyer caller also gets the lane&#39;s account on file (numbers masked) and supplierKey. Exporting it for payment waits; recording a payment made elsewhere and paying through Pleaxy don&#39;t. Takes the same ?buyer&#x3D; as GetInvoice.
+   * 
+   * @param invoiceId  (required)
+   * @param buyer  (optional)
+   * @return GetInvoiceBankAccountResult
+   * @throws ApiException if fails to make API call
+   */
+  public GetInvoiceBankAccountResult getInvoiceBankAccount(String invoiceId, String buyer) throws ApiException {
+    ApiResponse<GetInvoiceBankAccountResult> localVarResponse = getInvoiceBankAccountWithHttpInfo(invoiceId, buyer);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Both] Whether this invoice&#39;s payment waits on its supplier&#39;s bank account (supplier risk): hold is first_payment (the billing lane&#39;s account isn&#39;t approved yet) or differs_from_file (the invoice names other details than the approved account); absent when it can be paid. A Buyer caller also gets the lane&#39;s account on file (numbers masked) and supplierKey. Exporting it for payment waits; recording a payment made elsewhere and paying through Pleaxy don&#39;t. Takes the same ?buyer&#x3D; as GetInvoice.
+   * 
+   * @param invoiceId  (required)
+   * @param buyer  (optional)
+   * @return ApiResponse&lt;GetInvoiceBankAccountResult&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<GetInvoiceBankAccountResult> getInvoiceBankAccountWithHttpInfo(String invoiceId, String buyer) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getInvoiceBankAccountRequestBuilder(invoiceId, buyer);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("getInvoiceBankAccount", localVarResponse);
+        }
+        return new ApiResponse<GetInvoiceBankAccountResult>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<GetInvoiceBankAccountResult>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder getInvoiceBankAccountRequestBuilder(String invoiceId, String buyer) throws ApiException {
+    // verify the required parameter 'invoiceId' is set
+    if (invoiceId == null) {
+      throw new ApiException(400, "Missing the required parameter 'invoiceId' when calling getInvoiceBankAccount");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/invoices/{invoiceId}/bank-account"
         .replace("{invoiceId}", ApiClient.urlEncode(invoiceId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();

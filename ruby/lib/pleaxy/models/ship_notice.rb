@@ -206,7 +206,7 @@ module Pleaxy
       warn '[DEPRECATED] the `valid?` method is obsolete'
       status_validator = EnumAttributeValidator.new('String', ["canceled", "planned", "shipped"])
       return false unless status_validator.valid?(@status)
-      source_validator = EnumAttributeValidator.new('String', ["cxml", "portal", "api", "email"])
+      source_validator = EnumAttributeValidator.new('String', ["cxml", "email", "portal", "api"])
       return false unless source_validator.valid?(@source)
       true
     end
@@ -224,7 +224,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] source Object to be assigned
     def source=(source)
-      validator = EnumAttributeValidator.new('String', ["cxml", "portal", "api", "email"])
+      validator = EnumAttributeValidator.new('String', ["cxml", "email", "portal", "api"])
       unless validator.valid?(source)
         fail ArgumentError, "invalid value for \"source\", must be one of #{validator.allowable_values}."
       end

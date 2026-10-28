@@ -73,6 +73,24 @@ export class AutomationRulesResource {
   }
 }
 
+export class BankAccountsResource {
+  constructor(private readonly transport: Transport) {}
+
+  /**
+   * [Buyer] Suppliers' bank accounts waiting for approval: a billing lane's first account (status unverified) or a change (status changing, with pendingChange). Invoices paid to them wait until they are approved. Numbers masked to the last four.
+   */
+  listBankAccountsToApprove(options?: RequestOptions): Promise<ResponseBody<"ListBankAccountsToApprove">> {
+    return this.transport.request("get", "/bank-accounts/review", { path: undefined, options }) as Promise<ResponseBody<"ListBankAccountsToApprove">>;
+  }
+
+  /**
+   * [Buyer] A supplier's bank accounts on file, one per billing lane (payee and currency): details masked to the last four, status unverified|verified|changing, how each was approved (approval.verification: supplier_confirmed|buyer_approved|paid_before, approval.check.method) and the last 10 events.
+   */
+  listSupplierBankAccounts(connectionId: string, options?: RequestOptions): Promise<ResponseBody<"ListSupplierBankAccounts">> {
+    return this.transport.request("get", "/bank-accounts/suppliers/{connectionId}", { path: { connectionId }, options }) as Promise<ResponseBody<"ListSupplierBankAccounts">>;
+  }
+}
+
 export class BillingResource {
   constructor(private readonly transport: Transport) {}
 
@@ -410,6 +428,13 @@ export class InvoicesResource {
    */
   getInvoice(invoiceId: string, query?: QueryParams<"GetInvoice">, options?: RequestOptions): Promise<ResponseBody<"GetInvoice">> {
     return this.transport.request("get", "/invoices/{invoiceId}", { path: { invoiceId }, query, options }) as Promise<ResponseBody<"GetInvoice">>;
+  }
+
+  /**
+   * [Both] Whether this invoice's payment waits on its supplier's bank account (supplier risk): hold is first_payment (the billing lane's account isn't approved yet) or differs_from_file (the invoice names other details than the approved account); absent when it can be paid. A Buyer caller also gets the lane's account on file (numbers masked) and supplierKey. Exporting it for payment waits; recording a payment made elsewhere and paying through Pleaxy don't. Takes the same ?buyer= as GetInvoice.
+   */
+  getInvoiceBankAccount(invoiceId: string, query?: QueryParams<"GetInvoiceBankAccount">, options?: RequestOptions): Promise<ResponseBody<"GetInvoiceBankAccount">> {
+    return this.transport.request("get", "/invoices/{invoiceId}/bank-account", { path: { invoiceId }, query, options }) as Promise<ResponseBody<"GetInvoiceBankAccount">>;
   }
 
   /**
@@ -850,6 +875,7 @@ export class Resources {
   readonly approvalSettings: ApprovalSettingsResource;
   readonly approvals: ApprovalsResource;
   readonly automationRules: AutomationRulesResource;
+  readonly bankAccounts: BankAccountsResource;
   readonly billing: BillingResource;
   readonly budgetControl: BudgetControlResource;
   readonly cloudConnections: CloudConnectionsResource;
@@ -872,6 +898,7 @@ export class Resources {
     this.approvalSettings = new ApprovalSettingsResource(transport);
     this.approvals = new ApprovalsResource(transport);
     this.automationRules = new AutomationRulesResource(transport);
+    this.bankAccounts = new BankAccountsResource(transport);
     this.billing = new BillingResource(transport);
     this.budgetControl = new BudgetControlResource(transport);
     this.cloudConnections = new CloudConnectionsResource(transport);

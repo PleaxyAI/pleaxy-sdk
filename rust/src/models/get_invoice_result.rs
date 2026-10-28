@@ -272,6 +272,8 @@ pub struct GetInvoiceResult {
         skip_serializing_if = "Option::is_none"
     )]
     pub bank_details_confirmation: Option<models::SupplierBankDetailsConfirmationView>,
+    #[serde(rename = "bankLane", skip_serializing_if = "Option::is_none")]
+    pub bank_lane: Option<String>,
     #[serde(rename = "hasOriginalPdf", skip_serializing_if = "Option::is_none")]
     pub has_original_pdf: Option<bool>,
     #[serde(rename = "baseCurrencyAmount", skip_serializing_if = "Option::is_none")]
@@ -397,6 +399,7 @@ impl GetInvoiceResult {
             remittance_instructions: None,
             remittance_check: None,
             bank_details_confirmation: None,
+            bank_lane: None,
             has_original_pdf: None,
             base_currency_amount: None,
             viewer_is_supplier_member: None,

@@ -146,6 +146,7 @@ class InvoiceSupplierView:
         payment_currency_amount (Union[Unset, InvoiceCurrencyAmount]):
         tax_currency_amount (Union[Unset, InvoiceCurrencyAmount]):
         remittance_instructions (Union[Unset, RemittanceInstructions]):
+        bank_lane (Union[Unset, str]):
         source_document (Union[Unset, InvoiceSourceDocument]):
         has_original_pdf (Union[Unset, bool]):
         settlement (Union[Unset, SupplierSettlementView]):
@@ -216,6 +217,7 @@ class InvoiceSupplierView:
     payment_currency_amount: Union[Unset, "InvoiceCurrencyAmount"] = UNSET
     tax_currency_amount: Union[Unset, "InvoiceCurrencyAmount"] = UNSET
     remittance_instructions: Union[Unset, "RemittanceInstructions"] = UNSET
+    bank_lane: Union[Unset, str] = UNSET
     source_document: Union[Unset, "InvoiceSourceDocument"] = UNSET
     has_original_pdf: Union[Unset, bool] = UNSET
     settlement: Union[Unset, "SupplierSettlementView"] = UNSET
@@ -429,6 +431,8 @@ class InvoiceSupplierView:
         if not isinstance(self.remittance_instructions, Unset):
             remittance_instructions = self.remittance_instructions.to_dict()
 
+        bank_lane = self.bank_lane
+
         source_document: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.source_document, Unset):
             source_document = self.source_document.to_dict()
@@ -599,6 +603,8 @@ class InvoiceSupplierView:
             field_dict["taxCurrencyAmount"] = tax_currency_amount
         if remittance_instructions is not UNSET:
             field_dict["remittanceInstructions"] = remittance_instructions
+        if bank_lane is not UNSET:
+            field_dict["bankLane"] = bank_lane
         if source_document is not UNSET:
             field_dict["sourceDocument"] = source_document
         if has_original_pdf is not UNSET:
@@ -899,6 +905,8 @@ class InvoiceSupplierView:
                 _remittance_instructions
             )
 
+        bank_lane = d.pop("bankLane", UNSET)
+
         _source_document = d.pop("sourceDocument", UNSET)
         source_document: Union[Unset, InvoiceSourceDocument]
         if isinstance(_source_document, Unset):
@@ -1066,6 +1074,7 @@ class InvoiceSupplierView:
             payment_currency_amount=payment_currency_amount,
             tax_currency_amount=tax_currency_amount,
             remittance_instructions=remittance_instructions,
+            bank_lane=bank_lane,
             source_document=source_document,
             has_original_pdf=has_original_pdf,
             settlement=settlement,

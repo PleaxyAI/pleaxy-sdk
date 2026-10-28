@@ -4332,6 +4332,9 @@
                           "bankDetailsConfirmation": {
                             "$ref": "#/components/schemas/BankDetailsConfirmation"
                           },
+                          "bankLane": {
+                            "type": "string"
+                          },
                           "sourceDocument": {
                             "$ref": "#/components/schemas/InvoiceSourceDocument"
                           },
@@ -4613,6 +4616,9 @@
                           },
                           "remittanceInstructions": {
                             "$ref": "#/components/schemas/RemittanceInstructions"
+                          },
+                          "bankLane": {
+                            "type": "string"
                           },
                           "sourceDocument": {
                             "$ref": "#/components/schemas/InvoiceSourceDocument"
@@ -6547,6 +6553,9 @@
                         "bankDetailsConfirmation": {
                           "$ref": "#/components/schemas/BankDetailsConfirmation"
                         },
+                        "bankLane": {
+                          "type": "string"
+                        },
                         "sourceDocument": {
                           "$ref": "#/components/schemas/InvoiceSourceDocument"
                         },
@@ -6829,6 +6838,9 @@
                         },
                         "remittanceInstructions": {
                           "$ref": "#/components/schemas/RemittanceInstructions"
+                        },
+                        "bankLane": {
+                          "type": "string"
                         },
                         "sourceDocument": {
                           "$ref": "#/components/schemas/InvoiceSourceDocument"
@@ -8244,6 +8256,9 @@
                         "bankDetailsConfirmation": {
                           "$ref": "#/components/schemas/BankDetailsConfirmation"
                         },
+                        "bankLane": {
+                          "type": "string"
+                        },
                         "sourceDocument": {
                           "$ref": "#/components/schemas/InvoiceSourceDocument"
                         },
@@ -8526,6 +8541,9 @@
                         },
                         "remittanceInstructions": {
                           "$ref": "#/components/schemas/RemittanceInstructions"
+                        },
+                        "bankLane": {
+                          "type": "string"
                         },
                         "sourceDocument": {
                           "$ref": "#/components/schemas/InvoiceSourceDocument"
@@ -9290,6 +9308,9 @@
                     "bankDetailsConfirmation": {
                       "$ref": "#/components/schemas/BankDetailsConfirmation"
                     },
+                    "bankLane": {
+                      "type": "string"
+                    },
                     "sourceDocument": {
                       "$ref": "#/components/schemas/InvoiceSourceDocument"
                     },
@@ -9823,6 +9844,9 @@
                     "bankDetailsConfirmation": {
                       "$ref": "#/components/schemas/BankDetailsConfirmation"
                     },
+                    "bankLane": {
+                      "type": "string"
+                    },
                     "sourceDocument": {
                       "$ref": "#/components/schemas/InvoiceSourceDocument"
                     },
@@ -10057,6 +10081,78 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/InvoiceBuyerView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "invoices"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/invoices/{invoiceId}/bank-account": {
+      "get": {
+        "operationId": "GetInvoiceBankAccount",
+        "summary": "[Both] Whether this invoice's payment waits on its supplier's bank account (supplier risk): hold is first_payment (the billing lane's account isn't approved yet) or differs_from_file (the invoice names other details than the approved account); absent when it can be paid. A Buyer caller also gets the lane's account on file (numbers masked) and supplierKey. Exporting it for payment waits; recording a payment made elsewhere and paying through Pleaxy don't. Takes the same ?buyer= as GetInvoice.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoiceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "hold": {
+                      "type": "string",
+                      "enum": [
+                        "first_payment",
+                        "differs_from_file"
+                      ]
+                    },
+                    "account": {
+                      "$ref": "#/components/schemas/SupplierBankAccount"
+                    },
+                    "supplierKey": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -10616,6 +10712,9 @@
                     "bankDetailsConfirmation": {
                       "$ref": "#/components/schemas/BankDetailsConfirmation"
                     },
+                    "bankLane": {
+                      "type": "string"
+                    },
                     "sourceDocument": {
                       "$ref": "#/components/schemas/InvoiceSourceDocument"
                     },
@@ -11147,6 +11246,102 @@
         },
         "tags": [
           "invoices"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/bank-accounts/review": {
+      "get": {
+        "operationId": "ListBankAccountsToApprove",
+        "summary": "[Buyer] Suppliers' bank accounts waiting for approval: a billing lane's first account (status unverified) or a change (status changing, with pendingChange). Invoices paid to them wait until they are approved. Numbers masked to the last four.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BankAccountView"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "bank-accounts"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/bank-accounts/suppliers/{connectionId}": {
+      "get": {
+        "operationId": "ListSupplierBankAccounts",
+        "summary": "[Buyer] A supplier's bank accounts on file, one per billing lane (payee and currency): details masked to the last four, status unverified|verified|changing, how each was approved (approval.verification: supplier_confirmed|buyer_approved|paid_before, approval.check.method) and the last 10 events.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "connectionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BankAccountView"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "bank-accounts"
         ]
       }
     },
@@ -17669,6 +17864,7 @@
               "invoice_entered_by_buyer",
               "invoice_bank_details_to_confirm",
               "invoice_bank_details_confirmed",
+              "invoice_bank_account_to_approve",
               "invoice_bank_details_disputed",
               "invoice_bank_details_changed",
               "invoice_needs_approver",
@@ -20641,6 +20837,9 @@
           "bankDetailsConfirmation": {
             "$ref": "#/components/schemas/BankDetailsConfirmation"
           },
+          "bankLane": {
+            "type": "string"
+          },
           "sourceDocument": {
             "$ref": "#/components/schemas/InvoiceSourceDocument"
           },
@@ -22139,6 +22338,9 @@
           "remittanceInstructions": {
             "$ref": "#/components/schemas/RemittanceInstructions"
           },
+          "bankLane": {
+            "type": "string"
+          },
           "sourceDocument": {
             "$ref": "#/components/schemas/InvoiceSourceDocument"
           },
@@ -23406,6 +23608,9 @@
               "bankDetailsConfirmation": {
                 "$ref": "#/components/schemas/SupplierBankDetailsConfirmationView"
               },
+              "bankLane": {
+                "type": "string"
+              },
               "sourceDocument": {
                 "$ref": "#/components/schemas/InvoiceSourceDocument"
               },
@@ -23874,6 +24079,239 @@
           "available"
         ]
       },
+      "SupplierBankAccount": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "supplierKey": {
+            "type": "string"
+          },
+          "laneKey": {
+            "type": "string"
+          },
+          "payeeName": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "details": {
+            "$ref": "#/components/schemas/RemittanceInstructions"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "unverified",
+              "verified",
+              "changing"
+            ]
+          },
+          "learnedFrom": {
+            "type": "object",
+            "properties": {
+              "invoiceId": {
+                "type": "string"
+              },
+              "side": {
+                "type": "string",
+                "enum": [
+                  "buyer",
+                  "supplier"
+                ]
+              }
+            },
+            "required": [
+              "invoiceId",
+              "side"
+            ]
+          },
+          "approval": {
+            "$ref": "#/components/schemas/SupplierBankAccountApproval"
+          },
+          "pendingChange": {
+            "type": "object",
+            "properties": {
+              "details": {
+                "$ref": "#/components/schemas/RemittanceInstructions"
+              },
+              "invoiceId": {
+                "type": "string"
+              },
+              "side": {
+                "type": "string",
+                "enum": [
+                  "buyer",
+                  "supplier"
+                ]
+              },
+              "at": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "details",
+              "invoiceId",
+              "side",
+              "at"
+            ]
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupplierBankAccountHistoryEntry"
+            }
+          },
+          "version": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "supplierKey",
+          "laneKey",
+          "payeeName",
+          "currency",
+          "details",
+          "status",
+          "history",
+          "version",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "SupplierBankAccountApproval": {
+        "type": "object",
+        "properties": {
+          "verification": {
+            "type": "string",
+            "enum": [
+              "supplier_confirmed",
+              "buyer_approved",
+              "paid_before"
+            ]
+          },
+          "at": {
+            "type": "string"
+          },
+          "by": {
+            "type": "object",
+            "properties": {
+              "sub": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "side": {
+                "type": "string",
+                "enum": [
+                  "buyer",
+                  "supplier"
+                ]
+              }
+            },
+            "required": [
+              "sub",
+              "name",
+              "side"
+            ]
+          },
+          "check": {
+            "$ref": "#/components/schemas/BankCheck"
+          },
+          "invoiceId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "verification",
+          "at"
+        ]
+      },
+      "BankCheck": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "enum": [
+              "bank_letter",
+              "none",
+              "other",
+              "call",
+              "email",
+              "supplier_portal"
+            ]
+          },
+          "detail": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "method"
+        ]
+      },
+      "SupplierBankAccountHistoryEntry": {
+        "type": "object",
+        "properties": {
+          "at": {
+            "type": "string"
+          },
+          "event": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "learned",
+              "seeded",
+              "change_proposed",
+              "change_rejected"
+            ]
+          },
+          "masked": {
+            "type": "string"
+          },
+          "invoiceId": {
+            "type": "string"
+          },
+          "by": {
+            "type": "string"
+          },
+          "verification": {
+            "type": "string",
+            "enum": [
+              "supplier_confirmed",
+              "buyer_approved",
+              "paid_before"
+            ]
+          },
+          "check": {
+            "type": "string",
+            "enum": [
+              "bank_letter",
+              "none",
+              "other",
+              "call",
+              "email",
+              "supplier_portal"
+            ]
+          }
+        },
+        "required": [
+          "at",
+          "event",
+          "masked"
+        ]
+      },
       "ErrorParams": {
         "type": "object",
         "properties": {},
@@ -24071,6 +24509,120 @@
           "paid",
           "amountDue",
           "remittances"
+        ]
+      },
+      "BankAccountView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "supplierKey": {
+            "type": "string"
+          },
+          "laneKey": {
+            "type": "string"
+          },
+          "payeeName": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "details": {
+            "$ref": "#/components/schemas/RemittanceInstructions"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "unverified",
+              "verified",
+              "changing"
+            ]
+          },
+          "learnedFrom": {
+            "type": "object",
+            "properties": {
+              "invoiceId": {
+                "type": "string"
+              },
+              "side": {
+                "type": "string",
+                "enum": [
+                  "buyer",
+                  "supplier"
+                ]
+              }
+            },
+            "required": [
+              "invoiceId",
+              "side"
+            ]
+          },
+          "approval": {
+            "$ref": "#/components/schemas/SupplierBankAccountApproval"
+          },
+          "pendingChange": {
+            "type": "object",
+            "properties": {
+              "details": {
+                "$ref": "#/components/schemas/RemittanceInstructions"
+              },
+              "invoiceId": {
+                "type": "string"
+              },
+              "side": {
+                "type": "string",
+                "enum": [
+                  "buyer",
+                  "supplier"
+                ]
+              },
+              "at": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "details",
+              "invoiceId",
+              "side",
+              "at"
+            ]
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupplierBankAccountHistoryEntry"
+            }
+          },
+          "version": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "connectionId": {
+            "type": "string"
+          },
+          "supplierName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "supplierKey",
+          "laneKey",
+          "payeeName",
+          "currency",
+          "details",
+          "status",
+          "history",
+          "version",
+          "createdAt",
+          "updatedAt"
         ]
       },
       "BudgetControlSettings": {
@@ -24313,9 +24865,9 @@
             "type": "string",
             "enum": [
               "cxml",
+              "email",
               "portal",
-              "api",
-              "email"
+              "api"
             ]
           },
           "createdAt": {
@@ -24472,9 +25024,9 @@
             "type": "string",
             "enum": [
               "cxml",
+              "email",
               "portal",
-              "api",
-              "email"
+              "api"
             ]
           },
           "createdAt": {
