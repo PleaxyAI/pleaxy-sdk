@@ -1036,6 +1036,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/screening/review": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Suppliers whose sanctions screening has a possible match to review (status possible_match) or a confirmed one (confirmed_match). Payments to them wait; a supplier with a confirmed match takes no new orders or buyer-entered invoices. Empty while screening is off. */
+        get: operations["ListScreeningMatches"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/screening/suppliers/{connectionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] A supplier's sanctions screening: { enabled, screening? } with status clear|possible_match|confirmed_match, the names screened (subjects: its name, an earlier name, its bank accounts' payees), the list versions, and matches - each the listed entry it resembles (list, names, countries, programmes), the score, and its state open|dismissed|confirmed|closed with who decided and why. */
+        get: operations["GetSupplierScreening"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/budget-control": {
         parameters: {
             query?: never;
@@ -2899,7 +2933,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
+            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -4807,6 +4841,73 @@ export interface components {
             updatedAt?: string;
             connectionId?: string;
             supplierName?: string;
+        };
+        SupplierScreening: {
+            connectionId?: string;
+            supplierKey?: string;
+            supplierName?: string;
+            /** @enum {string} */
+            status?: "clear" | "possible_match" | "confirmed_match" | "not_screened";
+            checkedAt?: string;
+            listVersions?: {
+                eu?: string;
+                uk?: string;
+                ofac?: string;
+                un?: string;
+            };
+            subjects?: components["schemas"]["ScreenSubject"][];
+            countries?: string[];
+            matches?: components["schemas"]["ScreeningMatch"][];
+            history?: {
+                at?: string;
+                /** @enum {string} */
+                event?: "closed" | "confirmed" | "dismissed" | "screened" | "reopened";
+                matchId?: string;
+                by?: string;
+            }[];
+            /** Format: double */
+            version?: number;
+        };
+        ScreenSubject: {
+            /** @enum {string} */
+            role?: "name" | "former_name" | "payee";
+            name?: string;
+        };
+        ScreeningMatch: {
+            id: string;
+            entryId?: string;
+            /** @enum {string} */
+            list?: "eu" | "uk" | "ofac" | "un" | "jurisdiction";
+            entryName?: string;
+            matchedName?: string;
+            subject?: components["schemas"]["ScreenSubject"];
+            /** Format: double */
+            score?: number;
+            countryMismatch?: boolean;
+            entry?: {
+                /** @enum {string} */
+                kind?: "other" | "entity" | "individual";
+                names?: string[];
+                countries?: string[];
+                programmes?: string[];
+                identifiers?: {
+                    type?: string;
+                    value?: string;
+                }[];
+                listedOn?: string;
+            };
+            listVersion?: string;
+            /** @enum {string} */
+            state?: "closed" | "confirmed" | "open" | "dismissed";
+            foundAt?: string;
+            decidedAt?: string;
+            decidedBy?: {
+                sub?: string;
+                name?: string;
+            };
+            reason?: string;
+            /** @enum {string} */
+            closedReason?: "entry_removed" | "no_longer_matches";
         };
         BudgetControlSettings: {
             /** @enum {string} */
@@ -7468,6 +7569,10 @@ export interface components {
             /** Format: double */
             refused?: number;
         };
+        GetSupplierScreeningResult: {
+            enabled?: boolean;
+            screening?: components["schemas"]["SupplierScreening"];
+        };
         GetBudgetStatusResult: {
             settings?: components["schemas"]["BudgetControlSettings"];
             period?: components["schemas"]["BudgetPeriod"];
@@ -9822,6 +9927,64 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BankAccountView"][];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListScreeningMatches: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SupplierScreening"][];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetSupplierScreening: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                connectionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetSupplierScreeningResult"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

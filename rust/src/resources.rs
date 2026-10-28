@@ -92,6 +92,11 @@ impl Client {
         RequestTypes(self)
     }
 
+    /// Screening operations.
+    pub fn screening(&self) -> Screening<'_> {
+        Screening(self)
+    }
+
     /// Settlement operations.
     pub fn settlement(&self) -> Settlement<'_> {
         Settlement(self)
@@ -1544,6 +1549,31 @@ impl<'a> RequestTypes<'a> {
         crate::apis::Error<crate::apis::request_types_api::ListRequestTypesError>,
     > {
         crate::apis::request_types_api::list_request_types(&self.0.config, include_inactive).await
+    }
+}
+
+/// Screening operations: `client.screening()`.
+#[derive(Debug, Clone, Copy)]
+pub struct Screening<'a>(&'a Client);
+
+impl<'a> Screening<'a> {
+    pub async fn get_supplier_screening(
+        &self,
+        connection_id: &str,
+    ) -> Result<
+        crate::models::GetSupplierScreeningResult,
+        crate::apis::Error<crate::apis::screening_api::GetSupplierScreeningError>,
+    > {
+        crate::apis::screening_api::get_supplier_screening(&self.0.config, connection_id).await
+    }
+
+    pub async fn list_screening_matches(
+        &self,
+    ) -> Result<
+        Vec<crate::models::SupplierScreening>,
+        crate::apis::Error<crate::apis::screening_api::ListScreeningMatchesError>,
+    > {
+        crate::apis::screening_api::list_screening_matches(&self.0.config).await
     }
 }
 

@@ -625,6 +625,18 @@ func (c *Client) GetStripePayment(ctx context.Context, invoiceId string) (*Strip
 	return resp.JSON200, nil
 }
 
+// GetSupplierScreening - [Buyer] A supplier's sanctions screening: { enabled, screening? } with status clear|possible_match|confirmed_match, the names screened (subjects: its name, an earlier name, its bank accounts' payees), the list versions, and matches - each the listed entry it resembles (list, names, countries, programmes), the score, and its state open|dismissed|confirmed|closed with who decided and why.
+func (c *Client) GetSupplierScreening(ctx context.Context, connectionId string) (*GetSupplierScreeningResult, error) {
+	resp, err := c.api.GetSupplierScreeningWithResponse(ctx, connectionId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // GetSupplierWorkspace - [Supplier] Get the supplier workspace snapshot - optionally scoped to a createdAt range via ?from=&to=. ?lists=none returns incomingPOs and supplierInvoices empty, without reading them (page them with ListPurchaseOrdersPage and ListInvoicesPage). ?lists=active returns only the ones still in play (as GetBuyerWorkspace), with recentIncomingPOs and recentSupplierInvoices, the newest 10 of each.
 func (c *Client) GetSupplierWorkspace(ctx context.Context, params *GetSupplierWorkspaceParams) (*GetSupplierWorkspaceResult, error) {
 	resp, err := c.api.GetSupplierWorkspaceWithResponse(ctx, params)
@@ -820,6 +832,18 @@ func (c *Client) ListPurchaseRequests(ctx context.Context, params *ListPurchaseR
 // ListRequestTypes - [Buyer] The workspace's request types in picker order, each with its intake form; active ones unless includeInactive=true
 func (c *Client) ListRequestTypes(ctx context.Context, params *ListRequestTypesParams) (*[]RequestType, error) {
 	resp, err := c.api.ListRequestTypesWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// ListScreeningMatches - [Buyer] Suppliers whose sanctions screening has a possible match to review (status possible_match) or a confirmed one (confirmed_match). Payments to them wait; a supplier with a confirmed match takes no new orders or buyer-entered invoices. Empty while screening is off.
+func (c *Client) ListScreeningMatches(ctx context.Context) (*[]SupplierScreening, error) {
+	resp, err := c.api.ListScreeningMatchesWithResponse(ctx)
 	if err != nil {
 		return nil, err
 	}

@@ -12,6 +12,7 @@ import ai.pleaxy.api.FulfillmentApi;
 import ai.pleaxy.api.PurchaseRequestsApi;
 import ai.pleaxy.api.RequestTypesApi;
 import ai.pleaxy.api.BankAccountsApi;
+import ai.pleaxy.api.ScreeningApi;
 import ai.pleaxy.api.EmployeesApi;
 import ai.pleaxy.api.ExchangeRatesApi;
 import ai.pleaxy.api.InvoicesApi;
@@ -62,6 +63,7 @@ public final class PleaxyClient {
   private final PurchaseRequestsApi purchaseRequests;
   private final RequestTypesApi requestTypes;
   private final BankAccountsApi bankAccounts;
+  private final ScreeningApi screening;
   private final BudgetControlApi budgetControl;
   private final EmployeesApi employees;
   private final ExchangeRatesApi exchangeRates;
@@ -109,6 +111,7 @@ public final class PleaxyClient {
     this.purchaseRequests = new PurchaseRequestsApi(apiClient);
     this.requestTypes = new RequestTypesApi(apiClient);
     this.bankAccounts = new BankAccountsApi(apiClient);
+    this.screening = new ScreeningApi(apiClient);
     this.budgetControl = new BudgetControlApi(apiClient);
     this.employees = new EmployeesApi(apiClient);
     this.exchangeRates = new ExchangeRatesApi(apiClient);
@@ -183,6 +186,11 @@ public final class PleaxyClient {
   /** Suppliers' bank accounts on file and why a payment waits for one. */
   public BankAccountsApi bankAccounts() {
     return bankAccounts;
+  }
+
+  /** Suppliers' sanctions screening: which wait on a review, and why. Deciding on a match is a person's, in the app. */
+  public ScreeningApi screening() {
+    return screening;
   }
 
   /** Budget control operations. */

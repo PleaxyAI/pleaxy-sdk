@@ -83,6 +83,7 @@ NotificationType = Literal[
     "supplier_connection_rejected",
     "supplier_connection_submitted",
     "supplier_late_fee_terms_changed",
+    "supplier_screening_match",
     "support_case_opened",
     "support_case_updated",
 ]
@@ -170,6 +171,7 @@ NOTIFICATION_TYPE_VALUES: Set[NotificationType] = {
     "supplier_connection_rejected",
     "supplier_connection_submitted",
     "supplier_late_fee_terms_changed",
+    "supplier_screening_match",
     "support_case_opened",
     "support_case_updated",
 }

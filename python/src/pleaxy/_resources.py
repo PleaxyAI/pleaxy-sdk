@@ -1044,6 +1044,24 @@ class RequestTypesResource:
         )
 
 
+class ScreeningResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def get_supplier_screening(self, connection_id: str) -> GetSupplierScreeningResult:
+        """[Buyer] A supplier's sanctions screening: { enabled, screening? } with status clear|possible_match|confirmed_match, the names screened (subjects: its name, an earlier name, its bank accounts' payees), the list versions, and matches - each the listed entry it resembles (list, names, countries, programmes), the score, and its state open|dismissed|confirmed|closed with who decided and why."""
+        return self._transport.call(
+            "pleaxy._generated.api.screening.get_supplier_screening",
+            connection_id=connection_id,
+        )
+
+    def list_screening_matches(self) -> List["SupplierScreening"]:
+        """[Buyer] Suppliers whose sanctions screening has a possible match to review (status possible_match) or a confirmed one (confirmed_match). Payments to them wait; a supplier with a confirmed match takes no new orders or buyer-entered invoices. Empty while screening is off."""
+        return self._transport.call(
+            "pleaxy._generated.api.screening.list_screening_matches"
+        )
+
+
 class SettlementResource:
     def __init__(self, transport: Transport) -> None:
         self._transport = transport
@@ -1155,6 +1173,7 @@ class Resources:
         self.purchase_orders = PurchaseOrdersResource(transport)
         self.purchase_requests = PurchaseRequestsResource(transport)
         self.request_types = RequestTypesResource(transport)
+        self.screening = ScreeningResource(transport)
         self.settlement = SettlementResource(transport)
         self.supplier_connections = SupplierConnectionsResource(transport)
         self.workspaces = WorkspacesResource(transport)

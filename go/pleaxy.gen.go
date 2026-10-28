@@ -2807,6 +2807,7 @@ const (
 	NotificationTypeSupplierConnectionRejected       NotificationType = "supplier_connection_rejected"
 	NotificationTypeSupplierConnectionSubmitted      NotificationType = "supplier_connection_submitted"
 	NotificationTypeSupplierLateFeeTermsChanged      NotificationType = "supplier_late_fee_terms_changed"
+	NotificationTypeSupplierScreeningMatch           NotificationType = "supplier_screening_match"
 	NotificationTypeSupportCaseOpened                NotificationType = "support_case_opened"
 	NotificationTypeSupportCaseUpdated               NotificationType = "support_case_updated"
 )
@@ -3552,6 +3553,43 @@ const (
 	RotateWebhookSecretResultLastErrorCodeUnreachable    RotateWebhookSecretResultLastErrorCode = "unreachable"
 )
 
+// Defines values for ScreenSubjectRole.
+const (
+	FormerName ScreenSubjectRole = "former_name"
+	Name       ScreenSubjectRole = "name"
+	Payee      ScreenSubjectRole = "payee"
+)
+
+// Defines values for ScreeningMatchClosedReason.
+const (
+	EntryRemoved    ScreeningMatchClosedReason = "entry_removed"
+	NoLongerMatches ScreeningMatchClosedReason = "no_longer_matches"
+)
+
+// Defines values for ScreeningMatchEntryKind.
+const (
+	ScreeningMatchEntryKindEntity     ScreeningMatchEntryKind = "entity"
+	ScreeningMatchEntryKindIndividual ScreeningMatchEntryKind = "individual"
+	ScreeningMatchEntryKindOther      ScreeningMatchEntryKind = "other"
+)
+
+// Defines values for ScreeningMatchList.
+const (
+	ScreeningMatchListEu           ScreeningMatchList = "eu"
+	ScreeningMatchListJurisdiction ScreeningMatchList = "jurisdiction"
+	ScreeningMatchListOfac         ScreeningMatchList = "ofac"
+	ScreeningMatchListUk           ScreeningMatchList = "uk"
+	ScreeningMatchListUn           ScreeningMatchList = "un"
+)
+
+// Defines values for ScreeningMatchState.
+const (
+	ScreeningMatchStateClosed    ScreeningMatchState = "closed"
+	ScreeningMatchStateConfirmed ScreeningMatchState = "confirmed"
+	ScreeningMatchStateDismissed ScreeningMatchState = "dismissed"
+	ScreeningMatchStateOpen      ScreeningMatchState = "open"
+)
+
 // Defines values for SelfApprovalRecordBasis.
 const (
 	SelfApprovalRecordBasisSoleEligibleApprover SelfApprovalRecordBasis = "sole_eligible_approver"
@@ -3901,10 +3939,10 @@ const (
 
 // Defines values for SupplierCreditNoteViewStatus.
 const (
-	Accepted          SupplierCreditNoteViewStatus = "accepted"
-	PendingAcceptance SupplierCreditNoteViewStatus = "pending_acceptance"
-	Rejected          SupplierCreditNoteViewStatus = "rejected"
-	Void              SupplierCreditNoteViewStatus = "void"
+	SupplierCreditNoteViewStatusAccepted          SupplierCreditNoteViewStatus = "accepted"
+	SupplierCreditNoteViewStatusPendingAcceptance SupplierCreditNoteViewStatus = "pending_acceptance"
+	SupplierCreditNoteViewStatusRejected          SupplierCreditNoteViewStatus = "rejected"
+	SupplierCreditNoteViewStatusVoid              SupplierCreditNoteViewStatus = "void"
 )
 
 // Defines values for SupplierCreditNoteViewSubmittedFormat.
@@ -3925,6 +3963,23 @@ const (
 	Applicationpdf SupplierRemittanceViewFileContentType = "application/pdf"
 	Imagejpeg      SupplierRemittanceViewFileContentType = "image/jpeg"
 	Imagepng       SupplierRemittanceViewFileContentType = "image/png"
+)
+
+// Defines values for SupplierScreeningHistoryEvent.
+const (
+	SupplierScreeningHistoryEventClosed    SupplierScreeningHistoryEvent = "closed"
+	SupplierScreeningHistoryEventConfirmed SupplierScreeningHistoryEvent = "confirmed"
+	SupplierScreeningHistoryEventDismissed SupplierScreeningHistoryEvent = "dismissed"
+	SupplierScreeningHistoryEventReopened  SupplierScreeningHistoryEvent = "reopened"
+	SupplierScreeningHistoryEventScreened  SupplierScreeningHistoryEvent = "screened"
+)
+
+// Defines values for SupplierScreeningStatus.
+const (
+	Clear          SupplierScreeningStatus = "clear"
+	ConfirmedMatch SupplierScreeningStatus = "confirmed_match"
+	NotScreened    SupplierScreeningStatus = "not_screened"
+	PossibleMatch  SupplierScreeningStatus = "possible_match"
 )
 
 // Defines values for SupplierSettlementViewSource.
@@ -4005,30 +4060,30 @@ const (
 
 // Defines values for UpdateOrgProfileInputGeographyPresetId.
 const (
-	UpdateOrgProfileInputGeographyPresetIdApac                  UpdateOrgProfileInputGeographyPresetId = "apac"
-	UpdateOrgProfileInputGeographyPresetIdContinentAfrica       UpdateOrgProfileInputGeographyPresetId = "continent-africa"
-	UpdateOrgProfileInputGeographyPresetIdContinentAntarctica   UpdateOrgProfileInputGeographyPresetId = "continent-antarctica"
-	UpdateOrgProfileInputGeographyPresetIdContinentAsia         UpdateOrgProfileInputGeographyPresetId = "continent-asia"
-	UpdateOrgProfileInputGeographyPresetIdContinentEurope       UpdateOrgProfileInputGeographyPresetId = "continent-europe"
-	UpdateOrgProfileInputGeographyPresetIdContinentNorthAmerica UpdateOrgProfileInputGeographyPresetId = "continent-north-america"
-	UpdateOrgProfileInputGeographyPresetIdContinentOceania      UpdateOrgProfileInputGeographyPresetId = "continent-oceania"
-	UpdateOrgProfileInputGeographyPresetIdContinentSouthAmerica UpdateOrgProfileInputGeographyPresetId = "continent-south-america"
-	UpdateOrgProfileInputGeographyPresetIdEea                   UpdateOrgProfileInputGeographyPresetId = "eea"
-	UpdateOrgProfileInputGeographyPresetIdEmea                  UpdateOrgProfileInputGeographyPresetId = "emea"
-	UpdateOrgProfileInputGeographyPresetIdEu                    UpdateOrgProfileInputGeographyPresetId = "eu"
-	UpdateOrgProfileInputGeographyPresetIdGlobal                UpdateOrgProfileInputGeographyPresetId = "global"
-	UpdateOrgProfileInputGeographyPresetIdLatam                 UpdateOrgProfileInputGeographyPresetId = "latam"
-	UpdateOrgProfileInputGeographyPresetIdNamer                 UpdateOrgProfileInputGeographyPresetId = "namer"
-	UpdateOrgProfileInputGeographyPresetIdUk                    UpdateOrgProfileInputGeographyPresetId = "uk"
+	Apac                  UpdateOrgProfileInputGeographyPresetId = "apac"
+	ContinentAfrica       UpdateOrgProfileInputGeographyPresetId = "continent-africa"
+	ContinentAntarctica   UpdateOrgProfileInputGeographyPresetId = "continent-antarctica"
+	ContinentAsia         UpdateOrgProfileInputGeographyPresetId = "continent-asia"
+	ContinentEurope       UpdateOrgProfileInputGeographyPresetId = "continent-europe"
+	ContinentNorthAmerica UpdateOrgProfileInputGeographyPresetId = "continent-north-america"
+	ContinentOceania      UpdateOrgProfileInputGeographyPresetId = "continent-oceania"
+	ContinentSouthAmerica UpdateOrgProfileInputGeographyPresetId = "continent-south-america"
+	Eea                   UpdateOrgProfileInputGeographyPresetId = "eea"
+	Emea                  UpdateOrgProfileInputGeographyPresetId = "emea"
+	Eu                    UpdateOrgProfileInputGeographyPresetId = "eu"
+	Global                UpdateOrgProfileInputGeographyPresetId = "global"
+	Latam                 UpdateOrgProfileInputGeographyPresetId = "latam"
+	Namer                 UpdateOrgProfileInputGeographyPresetId = "namer"
+	Uk                    UpdateOrgProfileInputGeographyPresetId = "uk"
 )
 
 // Defines values for ValidateFeedInvoiceResultCreditNoteCreditNoteReason.
 const (
-	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonOther           ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "other"
-	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonPriceAdjustment ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "price_adjustment"
-	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonRebate          ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "rebate"
-	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonReturnedGoods   ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "returned_goods"
-	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonServiceCredit   ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "service_credit"
+	Other           ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "other"
+	PriceAdjustment ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "price_adjustment"
+	Rebate          ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "rebate"
+	ReturnedGoods   ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "returned_goods"
+	ServiceCredit   ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "service_credit"
 )
 
 // Defines values for ValidateFeedInvoiceResultCreditNoteDocumentType.
@@ -4111,14 +4166,14 @@ const (
 
 // Defines values for WebhookEndpointViewLastErrorCode.
 const (
-	BlockedAddress WebhookEndpointViewLastErrorCode = "blocked_address"
-	EndpointOff    WebhookEndpointViewLastErrorCode = "endpoint_off"
-	Failed         WebhookEndpointViewLastErrorCode = "failed"
-	HttpStatus     WebhookEndpointViewLastErrorCode = "http_status"
-	Redirect       WebhookEndpointViewLastErrorCode = "redirect"
-	Timeout        WebhookEndpointViewLastErrorCode = "timeout"
-	TooLarge       WebhookEndpointViewLastErrorCode = "too_large"
-	Unreachable    WebhookEndpointViewLastErrorCode = "unreachable"
+	WebhookEndpointViewLastErrorCodeBlockedAddress WebhookEndpointViewLastErrorCode = "blocked_address"
+	WebhookEndpointViewLastErrorCodeEndpointOff    WebhookEndpointViewLastErrorCode = "endpoint_off"
+	WebhookEndpointViewLastErrorCodeFailed         WebhookEndpointViewLastErrorCode = "failed"
+	WebhookEndpointViewLastErrorCodeHttpStatus     WebhookEndpointViewLastErrorCode = "http_status"
+	WebhookEndpointViewLastErrorCodeRedirect       WebhookEndpointViewLastErrorCode = "redirect"
+	WebhookEndpointViewLastErrorCodeTimeout        WebhookEndpointViewLastErrorCode = "timeout"
+	WebhookEndpointViewLastErrorCodeTooLarge       WebhookEndpointViewLastErrorCode = "too_large"
+	WebhookEndpointViewLastErrorCodeUnreachable    WebhookEndpointViewLastErrorCode = "unreachable"
 )
 
 // Defines values for ListEmployeesParamsRole.
@@ -7444,6 +7499,12 @@ type GetReferenceRateResult struct {
 	Reference *ReferenceRate `json:"reference,omitempty"`
 }
 
+// GetSupplierScreeningResult defines model for GetSupplierScreeningResult.
+type GetSupplierScreeningResult struct {
+	Enabled   *bool              `json:"enabled,omitempty"`
+	Screening *SupplierScreening `json:"screening,omitempty"`
+}
+
 // GetSupplierWorkspaceResult defines model for GetSupplierWorkspaceResult.
 type GetSupplierWorkspaceResult struct {
 	IncomingPOs            *[]GetSupplierWorkspaceResult_IncomingPOs_Item            `json:"incomingPOs,omitempty"`
@@ -10592,6 +10653,60 @@ type SameDomainAcknowledgement struct {
 	Domain     *string   `json:"domain,omitempty"`
 }
 
+// ScreenSubject defines model for ScreenSubject.
+type ScreenSubject struct {
+	Name *string            `json:"name,omitempty"`
+	Role *ScreenSubjectRole `json:"role,omitempty"`
+}
+
+// ScreenSubjectRole defines model for ScreenSubject.Role.
+type ScreenSubjectRole string
+
+// ScreeningMatch defines model for ScreeningMatch.
+type ScreeningMatch struct {
+	ClosedReason    *ScreeningMatchClosedReason `json:"closedReason,omitempty"`
+	CountryMismatch *bool                       `json:"countryMismatch,omitempty"`
+	DecidedAt       *string                     `json:"decidedAt,omitempty"`
+	DecidedBy       *struct {
+		Name *string `json:"name,omitempty"`
+		Sub  *string `json:"sub,omitempty"`
+	} `json:"decidedBy,omitempty"`
+	Entry *struct {
+		Countries   *[]string `json:"countries,omitempty"`
+		Identifiers *[]struct {
+			Type  *string `json:"type,omitempty"`
+			Value *string `json:"value,omitempty"`
+		} `json:"identifiers,omitempty"`
+		Kind       *ScreeningMatchEntryKind `json:"kind,omitempty"`
+		ListedOn   *string                  `json:"listedOn,omitempty"`
+		Names      *[]string                `json:"names,omitempty"`
+		Programmes *[]string                `json:"programmes,omitempty"`
+	} `json:"entry,omitempty"`
+	EntryId     *string              `json:"entryId,omitempty"`
+	EntryName   *string              `json:"entryName,omitempty"`
+	FoundAt     *string              `json:"foundAt,omitempty"`
+	Id          string               `json:"id"`
+	List        *ScreeningMatchList  `json:"list,omitempty"`
+	ListVersion *string              `json:"listVersion,omitempty"`
+	MatchedName *string              `json:"matchedName,omitempty"`
+	Reason      *string              `json:"reason,omitempty"`
+	Score       *float64             `json:"score,omitempty"`
+	State       *ScreeningMatchState `json:"state,omitempty"`
+	Subject     *ScreenSubject       `json:"subject,omitempty"`
+}
+
+// ScreeningMatchClosedReason defines model for ScreeningMatch.ClosedReason.
+type ScreeningMatchClosedReason string
+
+// ScreeningMatchEntryKind defines model for ScreeningMatch.Entry.Kind.
+type ScreeningMatchEntryKind string
+
+// ScreeningMatchList defines model for ScreeningMatch.List.
+type ScreeningMatchList string
+
+// ScreeningMatchState defines model for ScreeningMatch.State.
+type ScreeningMatchState string
+
 // SelfApprovalRecord defines model for SelfApprovalRecord.
 type SelfApprovalRecord struct {
 	Basis                 *SelfApprovalRecordBasis           `json:"basis,omitempty"`
@@ -11333,6 +11448,37 @@ type SupplierRemittanceView struct {
 
 // SupplierRemittanceViewFileContentType defines model for SupplierRemittanceView.File.ContentType.
 type SupplierRemittanceViewFileContentType string
+
+// SupplierScreening defines model for SupplierScreening.
+type SupplierScreening struct {
+	CheckedAt    *string   `json:"checkedAt,omitempty"`
+	ConnectionId *string   `json:"connectionId,omitempty"`
+	Countries    *[]string `json:"countries,omitempty"`
+	History      *[]struct {
+		At      *string                        `json:"at,omitempty"`
+		By      *string                        `json:"by,omitempty"`
+		Event   *SupplierScreeningHistoryEvent `json:"event,omitempty"`
+		MatchId *string                        `json:"matchId,omitempty"`
+	} `json:"history,omitempty"`
+	ListVersions *struct {
+		Eu   *string `json:"eu,omitempty"`
+		Ofac *string `json:"ofac,omitempty"`
+		Uk   *string `json:"uk,omitempty"`
+		Un   *string `json:"un,omitempty"`
+	} `json:"listVersions,omitempty"`
+	Matches      *[]ScreeningMatch        `json:"matches,omitempty"`
+	Status       *SupplierScreeningStatus `json:"status,omitempty"`
+	Subjects     *[]ScreenSubject         `json:"subjects,omitempty"`
+	SupplierKey  *string                  `json:"supplierKey,omitempty"`
+	SupplierName *string                  `json:"supplierName,omitempty"`
+	Version      *float64                 `json:"version,omitempty"`
+}
+
+// SupplierScreeningHistoryEvent defines model for SupplierScreening.History.Event.
+type SupplierScreeningHistoryEvent string
+
+// SupplierScreeningStatus defines model for SupplierScreening.Status.
+type SupplierScreeningStatus string
 
 // SupplierSettlementView defines model for SupplierSettlementView.
 type SupplierSettlementView struct {
@@ -15244,6 +15390,12 @@ type ClientInterface interface {
 	// GetRequestType request
 	GetRequestType(ctx context.Context, typeId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ListScreeningMatches request
+	ListScreeningMatches(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetSupplierScreening request
+	GetSupplierScreening(ctx context.Context, connectionId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetAutonomySettings request
 	GetAutonomySettings(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -16838,6 +16990,30 @@ func (c *RawClient) ListRequestTypes(ctx context.Context, params *ListRequestTyp
 
 func (c *RawClient) GetRequestType(ctx context.Context, typeId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetRequestTypeRequest(c.Server, typeId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListScreeningMatches(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListScreeningMatchesRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetSupplierScreening(ctx context.Context, connectionId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetSupplierScreeningRequest(c.Server, connectionId)
 	if err != nil {
 		return nil, err
 	}
@@ -21597,6 +21773,67 @@ func NewGetRequestTypeRequest(server string, typeId string) (*http.Request, erro
 	return req, nil
 }
 
+// NewListScreeningMatchesRequest generates requests for ListScreeningMatches
+func NewListScreeningMatchesRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/screening/review")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetSupplierScreeningRequest generates requests for GetSupplierScreening
+func NewGetSupplierScreeningRequest(server string, connectionId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "connectionId", runtime.ParamLocationPath, connectionId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/screening/suppliers/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetAutonomySettingsRequest generates requests for GetAutonomySettings
 func NewGetAutonomySettingsRequest(server string) (*http.Request, error) {
 	var err error
@@ -22634,6 +22871,12 @@ type ClientWithResponsesInterface interface {
 
 	// GetRequestTypeWithResponse request
 	GetRequestTypeWithResponse(ctx context.Context, typeId string, reqEditors ...RequestEditorFn) (*GetRequestTypeResponse, error)
+
+	// ListScreeningMatchesWithResponse request
+	ListScreeningMatchesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListScreeningMatchesResponse, error)
+
+	// GetSupplierScreeningWithResponse request
+	GetSupplierScreeningWithResponse(ctx context.Context, connectionId string, reqEditors ...RequestEditorFn) (*GetSupplierScreeningResponse, error)
 
 	// GetAutonomySettingsWithResponse request
 	GetAutonomySettingsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAutonomySettingsResponse, error)
@@ -24917,6 +25160,52 @@ func (r GetRequestTypeResponse) StatusCode() int {
 	return 0
 }
 
+type ListScreeningMatchesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]SupplierScreening
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListScreeningMatchesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListScreeningMatchesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetSupplierScreeningResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *GetSupplierScreeningResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetSupplierScreeningResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetSupplierScreeningResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetAutonomySettingsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -26388,6 +26677,24 @@ func (c *ClientWithResponses) GetRequestTypeWithResponse(ctx context.Context, ty
 		return nil, err
 	}
 	return ParseGetRequestTypeResponse(rsp)
+}
+
+// ListScreeningMatchesWithResponse request returning *ListScreeningMatchesResponse
+func (c *ClientWithResponses) ListScreeningMatchesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListScreeningMatchesResponse, error) {
+	rsp, err := c.ListScreeningMatches(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListScreeningMatchesResponse(rsp)
+}
+
+// GetSupplierScreeningWithResponse request returning *GetSupplierScreeningResponse
+func (c *ClientWithResponses) GetSupplierScreeningWithResponse(ctx context.Context, connectionId string, reqEditors ...RequestEditorFn) (*GetSupplierScreeningResponse, error) {
+	rsp, err := c.GetSupplierScreening(ctx, connectionId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetSupplierScreeningResponse(rsp)
 }
 
 // GetAutonomySettingsWithResponse request returning *GetAutonomySettingsResponse
@@ -29714,6 +30021,72 @@ func ParseGetRequestTypeResponse(rsp *http.Response) (*GetRequestTypeResponse, e
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest RequestType
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListScreeningMatchesResponse parses an HTTP response from a ListScreeningMatchesWithResponse call
+func ParseListScreeningMatchesResponse(rsp *http.Response) (*ListScreeningMatchesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListScreeningMatchesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []SupplierScreening
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetSupplierScreeningResponse parses an HTTP response from a GetSupplierScreeningWithResponse call
+func ParseGetSupplierScreeningResponse(rsp *http.Response) (*GetSupplierScreeningResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetSupplierScreeningResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetSupplierScreeningResult
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

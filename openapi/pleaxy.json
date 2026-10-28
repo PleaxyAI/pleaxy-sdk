@@ -3220,6 +3220,81 @@
         ]
       }
     },
+    "/screening/review": {
+      "get": {
+        "operationId": "ListScreeningMatches",
+        "summary": "[Buyer] Suppliers whose sanctions screening has a possible match to review (status possible_match) or a confirmed one (confirmed_match). Payments to them wait; a supplier with a confirmed match takes no new orders or buyer-entered invoices. Empty while screening is off.",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SupplierScreening"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "screening"
+        ]
+      }
+    },
+    "/screening/suppliers/{connectionId}": {
+      "get": {
+        "operationId": "GetSupplierScreening",
+        "summary": "[Buyer] A supplier's sanctions screening: { enabled, screening? } with status clear|possible_match|confirmed_match, the names screened (subjects: its name, an earlier name, its bank accounts' payees), the list versions, and matches - each the listed entry it resembles (list, names, countries, programmes), the score, and its state open|dismissed|confirmed|closed with who decided and why.",
+        "parameters": [
+          {
+            "name": "connectionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSupplierScreeningResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "screening"
+        ]
+      }
+    },
     "/budget-control": {
       "get": {
         "operationId": "GetBudgetControl",
@@ -8958,6 +9033,7 @@
               "invoice_bank_details_to_confirm",
               "invoice_bank_details_confirmed",
               "invoice_bank_account_to_approve",
+              "supplier_screening_match",
               "invoice_bank_details_disputed",
               "invoice_bank_details_changed",
               "invoice_needs_approver",
@@ -15040,6 +15116,241 @@
           },
           "supplierName": {
             "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "SupplierScreening": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          },
+          "supplierKey": {
+            "type": "string"
+          },
+          "supplierName": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "clear",
+              "possible_match",
+              "confirmed_match",
+              "not_screened"
+            ]
+          },
+          "checkedAt": {
+            "type": "string"
+          },
+          "listVersions": {
+            "type": "object",
+            "properties": {
+              "eu": {
+                "type": "string"
+              },
+              "uk": {
+                "type": "string"
+              },
+              "ofac": {
+                "type": "string"
+              },
+              "un": {
+                "type": "string"
+              }
+            }
+          },
+          "subjects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScreenSubject"
+            }
+          },
+          "countries": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "matches": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScreeningMatch"
+            }
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "at": {
+                  "type": "string"
+                },
+                "event": {
+                  "type": "string",
+                  "enum": [
+                    "closed",
+                    "confirmed",
+                    "dismissed",
+                    "screened",
+                    "reopened"
+                  ]
+                },
+                "matchId": {
+                  "type": "string"
+                },
+                "by": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "version": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ScreenSubject": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "name",
+              "former_name",
+              "payee"
+            ]
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ScreeningMatch": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "entryId": {
+            "type": "string"
+          },
+          "list": {
+            "type": "string",
+            "enum": [
+              "eu",
+              "uk",
+              "ofac",
+              "un",
+              "jurisdiction"
+            ]
+          },
+          "entryName": {
+            "type": "string"
+          },
+          "matchedName": {
+            "type": "string"
+          },
+          "subject": {
+            "$ref": "#/components/schemas/ScreenSubject"
+          },
+          "score": {
+            "type": "number",
+            "format": "double"
+          },
+          "countryMismatch": {
+            "type": "boolean"
+          },
+          "entry": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "other",
+                  "entity",
+                  "individual"
+                ]
+              },
+              "names": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "countries": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "programmes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "identifiers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "listedOn": {
+                "type": "string"
+              }
+            }
+          },
+          "listVersion": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "closed",
+              "confirmed",
+              "open",
+              "dismissed"
+            ]
+          },
+          "foundAt": {
+            "type": "string"
+          },
+          "decidedAt": {
+            "type": "string"
+          },
+          "decidedBy": {
+            "type": "object",
+            "properties": {
+              "sub": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "reason": {
+            "type": "string"
+          },
+          "closedReason": {
+            "type": "string",
+            "enum": [
+              "entry_removed",
+              "no_longer_matches"
+            ]
           }
         },
         "required": [
@@ -24076,6 +24387,17 @@
           "refused": {
             "type": "number",
             "format": "double"
+          }
+        }
+      },
+      "GetSupplierScreeningResult": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "screening": {
+            "$ref": "#/components/schemas/SupplierScreening"
           }
         }
       },

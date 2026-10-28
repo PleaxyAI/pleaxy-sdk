@@ -839,6 +839,7 @@ from .get_org_profile_result_role import GetOrgProfileResultRole
 from .get_purchase_order_document_format import GetPurchaseOrderDocumentFormat
 from .get_purchase_request_file_result import GetPurchaseRequestFileResult
 from .get_reference_rate_result import GetReferenceRateResult
+from .get_supplier_screening_result import GetSupplierScreeningResult
 from .get_supplier_workspace_result import GetSupplierWorkspaceResult
 from .image_ref import ImageRef
 from .inbound_email import InboundEmail
@@ -1572,6 +1573,16 @@ from .rotate_webhook_secret_result_last_error_code import (
     RotateWebhookSecretResultLastErrorCode,
 )
 from .same_domain_acknowledgement import SameDomainAcknowledgement
+from .screen_subject import ScreenSubject
+from .screen_subject_role import ScreenSubjectRole
+from .screening_match import ScreeningMatch
+from .screening_match_closed_reason import ScreeningMatchClosedReason
+from .screening_match_decided_by import ScreeningMatchDecidedBy
+from .screening_match_entry import ScreeningMatchEntry
+from .screening_match_entry_identifiers_item import ScreeningMatchEntryIdentifiersItem
+from .screening_match_entry_kind import ScreeningMatchEntryKind
+from .screening_match_list import ScreeningMatchList
+from .screening_match_state import ScreeningMatchState
 from .self_approval_record import SelfApprovalRecord
 from .self_approval_record_basis import SelfApprovalRecordBasis
 from .self_approval_record_waived_exclusion import SelfApprovalRecordWaivedExclusion
@@ -1732,6 +1743,11 @@ from .supplier_remittance_view_file import SupplierRemittanceViewFile
 from .supplier_remittance_view_file_content_type import (
     SupplierRemittanceViewFileContentType,
 )
+from .supplier_screening import SupplierScreening
+from .supplier_screening_history_item import SupplierScreeningHistoryItem
+from .supplier_screening_history_item_event import SupplierScreeningHistoryItemEvent
+from .supplier_screening_list_versions import SupplierScreeningListVersions
+from .supplier_screening_status import SupplierScreeningStatus
 from .supplier_settlement_view import SupplierSettlementView
 from .supplier_settlement_view_source import SupplierSettlementViewSource
 from .sync_event import SyncEvent
@@ -2207,6 +2223,7 @@ __all__ = (
     "GetPurchaseOrderDocumentFormat",
     "GetPurchaseRequestFileResult",
     "GetReferenceRateResult",
+    "GetSupplierScreeningResult",
     "GetSupplierWorkspaceResult",
     "ImageRef",
     "InboundEmail",
@@ -2642,6 +2659,16 @@ __all__ = (
     "RotateWebhookSecretResultEventsItem",
     "RotateWebhookSecretResultLastErrorCode",
     "SameDomainAcknowledgement",
+    "ScreeningMatch",
+    "ScreeningMatchClosedReason",
+    "ScreeningMatchDecidedBy",
+    "ScreeningMatchEntry",
+    "ScreeningMatchEntryIdentifiersItem",
+    "ScreeningMatchEntryKind",
+    "ScreeningMatchList",
+    "ScreeningMatchState",
+    "ScreenSubject",
+    "ScreenSubjectRole",
     "SelfApprovalRecord",
     "SelfApprovalRecordBasis",
     "SelfApprovalRecordWaivedExclusion",
@@ -2742,6 +2769,11 @@ __all__ = (
     "SupplierRemittanceView",
     "SupplierRemittanceViewFile",
     "SupplierRemittanceViewFileContentType",
+    "SupplierScreening",
+    "SupplierScreeningHistoryItem",
+    "SupplierScreeningHistoryItemEvent",
+    "SupplierScreeningListVersions",
+    "SupplierScreeningStatus",
     "SupplierSettlementView",
     "SupplierSettlementViewSource",
     "SyncEvent",

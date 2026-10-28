@@ -189,6 +189,8 @@ public class Notification {
     
     INVOICE_BANK_ACCOUNT_TO_APPROVE(String.valueOf("invoice_bank_account_to_approve")),
     
+    SUPPLIER_SCREENING_MATCH(String.valueOf("supplier_screening_match")),
+    
     INVOICE_BANK_DETAILS_DISPUTED(String.valueOf("invoice_bank_details_disputed")),
     
     INVOICE_BANK_DETAILS_CHANGED(String.valueOf("invoice_bank_details_changed")),

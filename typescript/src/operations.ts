@@ -808,6 +808,24 @@ export class RequestTypesResource {
   }
 }
 
+export class ScreeningResource {
+  constructor(private readonly transport: Transport) {}
+
+  /**
+   * [Buyer] A supplier's sanctions screening: { enabled, screening? } with status clear|possible_match|confirmed_match, the names screened (subjects: its name, an earlier name, its bank accounts' payees), the list versions, and matches - each the listed entry it resembles (list, names, countries, programmes), the score, and its state open|dismissed|confirmed|closed with who decided and why.
+   */
+  getSupplierScreening(connectionId: string, options?: RequestOptions): Promise<ResponseBody<"GetSupplierScreening">> {
+    return this.transport.request("get", "/screening/suppliers/{connectionId}", { path: { connectionId }, options }) as Promise<ResponseBody<"GetSupplierScreening">>;
+  }
+
+  /**
+   * [Buyer] Suppliers whose sanctions screening has a possible match to review (status possible_match) or a confirmed one (confirmed_match). Payments to them wait; a supplier with a confirmed match takes no new orders or buyer-entered invoices. Empty while screening is off.
+   */
+  listScreeningMatches(options?: RequestOptions): Promise<ResponseBody<"ListScreeningMatches">> {
+    return this.transport.request("get", "/screening/review", { path: undefined, options }) as Promise<ResponseBody<"ListScreeningMatches">>;
+  }
+}
+
 export class SettlementResource {
   constructor(private readonly transport: Transport) {}
 
@@ -889,6 +907,7 @@ export class Resources {
   readonly purchaseOrders: PurchaseOrdersResource;
   readonly purchaseRequests: PurchaseRequestsResource;
   readonly requestTypes: RequestTypesResource;
+  readonly screening: ScreeningResource;
   readonly settlement: SettlementResource;
   readonly supplierConnections: SupplierConnectionsResource;
   readonly workspaces: WorkspacesResource;
@@ -912,6 +931,7 @@ export class Resources {
     this.purchaseOrders = new PurchaseOrdersResource(transport);
     this.purchaseRequests = new PurchaseRequestsResource(transport);
     this.requestTypes = new RequestTypesResource(transport);
+    this.screening = new ScreeningResource(transport);
     this.settlement = new SettlementResource(transport);
     this.supplierConnections = new SupplierConnectionsResource(transport);
     this.workspaces = new WorkspacesResource(transport);
