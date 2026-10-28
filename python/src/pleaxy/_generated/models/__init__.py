@@ -140,6 +140,8 @@ from .bank_account_view_learned_from import BankAccountViewLearnedFrom
 from .bank_account_view_learned_from_side import BankAccountViewLearnedFromSide
 from .bank_account_view_pending_change import BankAccountViewPendingChange
 from .bank_account_view_pending_change_side import BankAccountViewPendingChangeSide
+from .bank_account_view_reveals_item import BankAccountViewRevealsItem
+from .bank_account_view_reveals_item_by import BankAccountViewRevealsItemBy
 from .bank_account_view_status import BankAccountViewStatus
 from .bank_check import BankCheck
 from .bank_check_method import BankCheckMethod
@@ -1685,6 +1687,8 @@ from .supplier_bank_account_pending_change import SupplierBankAccountPendingChan
 from .supplier_bank_account_pending_change_side import (
     SupplierBankAccountPendingChangeSide,
 )
+from .supplier_bank_account_reveals_item import SupplierBankAccountRevealsItem
+from .supplier_bank_account_reveals_item_by import SupplierBankAccountRevealsItemBy
 from .supplier_bank_account_status import SupplierBankAccountStatus
 from .supplier_bank_details_confirmation_view import SupplierBankDetailsConfirmationView
 from .supplier_bank_details_confirmation_view_changed_fields_item import (
@@ -1743,6 +1747,18 @@ from .supplier_remittance_view_file import SupplierRemittanceViewFile
 from .supplier_remittance_view_file_content_type import (
     SupplierRemittanceViewFileContentType,
 )
+from .supplier_risk import SupplierRisk
+from .supplier_risk_bank import SupplierRiskBank
+from .supplier_risk_bank_state import SupplierRiskBankState
+from .supplier_risk_bank_status import SupplierRiskBankStatus
+from .supplier_risk_flagged_answers import SupplierRiskFlaggedAnswers
+from .supplier_risk_flagged_answers_state import SupplierRiskFlaggedAnswersState
+from .supplier_risk_level import SupplierRiskLevel
+from .supplier_risk_missing_documents import SupplierRiskMissingDocuments
+from .supplier_risk_missing_documents_state import SupplierRiskMissingDocumentsState
+from .supplier_risk_screening import SupplierRiskScreening
+from .supplier_risk_screening_state import SupplierRiskScreeningState
+from .supplier_risk_screening_status import SupplierRiskScreeningStatus
 from .supplier_screening import SupplierScreening
 from .supplier_screening_history_item import SupplierScreeningHistoryItem
 from .supplier_screening_history_item_event import SupplierScreeningHistoryItemEvent
@@ -1900,6 +1916,8 @@ __all__ = (
     "BankAccountViewLearnedFromSide",
     "BankAccountViewPendingChange",
     "BankAccountViewPendingChangeSide",
+    "BankAccountViewRevealsItem",
+    "BankAccountViewRevealsItemBy",
     "BankAccountViewStatus",
     "BankCheck",
     "BankCheckMethod",
@@ -2739,6 +2757,8 @@ __all__ = (
     "SupplierBankAccountLearnedFromSide",
     "SupplierBankAccountPendingChange",
     "SupplierBankAccountPendingChangeSide",
+    "SupplierBankAccountRevealsItem",
+    "SupplierBankAccountRevealsItemBy",
     "SupplierBankAccountStatus",
     "SupplierBankDetailsConfirmationView",
     "SupplierBankDetailsConfirmationViewChangedFieldsItem",
@@ -2769,6 +2789,18 @@ __all__ = (
     "SupplierRemittanceView",
     "SupplierRemittanceViewFile",
     "SupplierRemittanceViewFileContentType",
+    "SupplierRisk",
+    "SupplierRiskBank",
+    "SupplierRiskBankState",
+    "SupplierRiskBankStatus",
+    "SupplierRiskFlaggedAnswers",
+    "SupplierRiskFlaggedAnswersState",
+    "SupplierRiskLevel",
+    "SupplierRiskMissingDocuments",
+    "SupplierRiskMissingDocumentsState",
+    "SupplierRiskScreening",
+    "SupplierRiskScreeningState",
+    "SupplierRiskScreeningStatus",
     "SupplierScreening",
     "SupplierScreeningHistoryItem",
     "SupplierScreeningHistoryItemEvent",

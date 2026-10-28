@@ -625,6 +625,18 @@ func (c *Client) GetStripePayment(ctx context.Context, invoiceId string) (*Strip
 	return resp.JSON200, nil
 }
 
+// GetSupplierRisk - [Buyer] One supplier's risk, by its connection id: as ListSupplierRisk, with bank.status none|approved|waiting|changing and the screening's status and checkedAt.
+func (c *Client) GetSupplierRisk(ctx context.Context, connectionId string) (*SupplierRisk, error) {
+	resp, err := c.api.GetSupplierRiskWithResponse(ctx, connectionId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // GetSupplierScreening - [Buyer] A supplier's sanctions screening: { enabled, screening? } with status clear|possible_match|confirmed_match, the names screened (subjects: its name, an earlier name, its bank accounts' payees), the list versions, and matches - each the listed entry it resembles (list, names, countries, programmes), the score, and its state open|dismissed|confirmed|closed with who decided and why.
 func (c *Client) GetSupplierScreening(ctx context.Context, connectionId string) (*GetSupplierScreeningResult, error) {
 	resp, err := c.api.GetSupplierScreeningWithResponse(ctx, connectionId)
@@ -856,6 +868,18 @@ func (c *Client) ListScreeningMatches(ctx context.Context) (*[]SupplierScreening
 // ListSupplierBankAccounts - [Buyer] A supplier's bank accounts on file, one per billing lane (payee and currency): details masked to the last four, status unverified|verified|changing, how each was approved (approval.verification: supplier_confirmed|buyer_approved|paid_before, approval.check.method) and the last 10 events.
 func (c *Client) ListSupplierBankAccounts(ctx context.Context, connectionId string) (*[]BankAccountView, error) {
 	resp, err := c.api.ListSupplierBankAccountsWithResponse(ctx, connectionId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// ListSupplierRisk - [Buyer] Each supplier's risk: level ok|attention|blocked (blocked = a confirmed sanctions match; never a score), and its rows - bank (accounts waiting for approval), screening (status), flaggedAnswers (count) and missingDocuments (the questions' labels), each with a state ok|attention|blocked|none. A screening that isn't flagged shows as none here; read one supplier for its full screening and bank status.
+func (c *Client) ListSupplierRisk(ctx context.Context) (*[]SupplierRisk, error) {
+	resp, err := c.api.ListSupplierRiskWithResponse(ctx)
 	if err != nil {
 		return nil, err
 	}

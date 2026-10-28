@@ -5073,6 +5073,81 @@
         ]
       }
     },
+    "/supplier-risk": {
+      "get": {
+        "operationId": "ListSupplierRisk",
+        "summary": "[Buyer] Each supplier's risk: level ok|attention|blocked (blocked = a confirmed sanctions match; never a score), and its rows - bank (accounts waiting for approval), screening (status), flaggedAnswers (count) and missingDocuments (the questions' labels), each with a state ok|attention|blocked|none. A screening that isn't flagged shows as none here; read one supplier for its full screening and bank status.",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SupplierRisk"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "supplier-risk"
+        ]
+      }
+    },
+    "/supplier-risk/{connectionId}": {
+      "get": {
+        "operationId": "GetSupplierRisk",
+        "summary": "[Buyer] One supplier's risk, by its connection id: as ListSupplierRisk, with bank.status none|approved|waiting|changing and the screening's status and checkedAt.",
+        "parameters": [
+          {
+            "name": "connectionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupplierRisk"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "supplier-risk"
+        ]
+      }
+    },
     "/invoices/{invoiceId}/stripe-payment": {
       "get": {
         "operationId": "GetStripePayment",
@@ -9036,6 +9111,7 @@
               "supplier_screening_match",
               "invoice_bank_details_disputed",
               "invoice_bank_details_changed",
+              "supplier_bank_details_changed",
               "invoice_needs_approver",
               "ses_approval_requested",
               "ses_auto_approved",
@@ -14729,6 +14805,28 @@
               "$ref": "#/components/schemas/SupplierBankAccountHistoryEntry"
             }
           },
+          "reveals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "at": {
+                  "type": "string"
+                },
+                "by": {
+                  "type": "object",
+                  "properties": {
+                    "sub": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "version": {
             "type": "number",
             "format": "double"
@@ -15099,6 +15197,28 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/SupplierBankAccountHistoryEntry"
+            }
+          },
+          "reveals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "at": {
+                  "type": "string"
+                },
+                "by": {
+                  "type": "object",
+                  "properties": {
+                    "sub": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
             }
           },
           "version": {
@@ -16759,6 +16879,117 @@
           },
           "flagged": {
             "type": "boolean"
+          }
+        }
+      },
+      "SupplierRisk": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          },
+          "supplierName": {
+            "type": "string"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "attention",
+              "blocked"
+            ]
+          },
+          "bank": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "string",
+                "enum": [
+                  "ok",
+                  "none",
+                  "attention",
+                  "blocked"
+                ]
+              },
+              "waiting": {
+                "type": "number",
+                "format": "double"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "approved",
+                  "none",
+                  "changing",
+                  "waiting"
+                ]
+              }
+            }
+          },
+          "screening": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "string",
+                "enum": [
+                  "ok",
+                  "none",
+                  "attention",
+                  "blocked"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "off",
+                  "clear",
+                  "possible_match",
+                  "confirmed_match",
+                  "not_screened"
+                ]
+              },
+              "checkedAt": {
+                "type": "string"
+              }
+            }
+          },
+          "flaggedAnswers": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "string",
+                "enum": [
+                  "ok",
+                  "none",
+                  "attention",
+                  "blocked"
+                ]
+              },
+              "count": {
+                "type": "number",
+                "format": "double"
+              }
+            }
+          },
+          "missingDocuments": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "string",
+                "enum": [
+                  "ok",
+                  "none",
+                  "attention",
+                  "blocked"
+                ]
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       },

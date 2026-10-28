@@ -1116,6 +1116,24 @@ class SupplierConnectionsResource:
         )
 
 
+class SupplierRiskResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def get_supplier_risk(self, connection_id: str) -> SupplierRisk:
+        """[Buyer] One supplier's risk, by its connection id: as ListSupplierRisk, with bank.status none|approved|waiting|changing and the screening's status and checkedAt."""
+        return self._transport.call(
+            "pleaxy._generated.api.supplier_risk.get_supplier_risk",
+            connection_id=connection_id,
+        )
+
+    def list_supplier_risk(self) -> List["SupplierRisk"]:
+        """[Buyer] Each supplier's risk: level ok|attention|blocked (blocked = a confirmed sanctions match; never a score), and its rows - bank (accounts waiting for approval), screening (status), flaggedAnswers (count) and missingDocuments (the questions' labels), each with a state ok|attention|blocked|none. A screening that isn't flagged shows as none here; read one supplier for its full screening and bank status."""
+        return self._transport.call(
+            "pleaxy._generated.api.supplier_risk.list_supplier_risk"
+        )
+
+
 class WorkspacesResource:
     def __init__(self, transport: Transport) -> None:
         self._transport = transport
@@ -1176,4 +1194,5 @@ class Resources:
         self.screening = ScreeningResource(transport)
         self.settlement = SettlementResource(transport)
         self.supplier_connections = SupplierConnectionsResource(transport)
+        self.supplier_risk = SupplierRiskResource(transport)
         self.workspaces = WorkspacesResource(transport)

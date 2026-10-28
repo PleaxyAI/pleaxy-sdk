@@ -12,6 +12,7 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.bank_account_view_learned_from import BankAccountViewLearnedFrom
     from ..models.bank_account_view_pending_change import BankAccountViewPendingChange
+    from ..models.bank_account_view_reveals_item import BankAccountViewRevealsItem
     from ..models.remittance_instructions import RemittanceInstructions
     from ..models.supplier_bank_account_approval import SupplierBankAccountApproval
     from ..models.supplier_bank_account_history_entry import (
@@ -37,6 +38,7 @@ class BankAccountView:
         approval (Union[Unset, SupplierBankAccountApproval]):
         pending_change (Union[Unset, BankAccountViewPendingChange]):
         history (Union[Unset, List['SupplierBankAccountHistoryEntry']]):
+        reveals (Union[Unset, List['BankAccountViewRevealsItem']]):
         version (Union[Unset, float]):
         created_at (Union[Unset, str]):
         updated_at (Union[Unset, str]):
@@ -55,6 +57,7 @@ class BankAccountView:
     approval: Union[Unset, "SupplierBankAccountApproval"] = UNSET
     pending_change: Union[Unset, "BankAccountViewPendingChange"] = UNSET
     history: Union[Unset, List["SupplierBankAccountHistoryEntry"]] = UNSET
+    reveals: Union[Unset, List["BankAccountViewRevealsItem"]] = UNSET
     version: Union[Unset, float] = UNSET
     created_at: Union[Unset, str] = UNSET
     updated_at: Union[Unset, str] = UNSET
@@ -100,6 +103,13 @@ class BankAccountView:
                 history_item = history_item_data.to_dict()
                 history.append(history_item)
 
+        reveals: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.reveals, Unset):
+            reveals = []
+            for reveals_item_data in self.reveals:
+                reveals_item = reveals_item_data.to_dict()
+                reveals.append(reveals_item)
+
         version = self.version
 
         created_at = self.created_at
@@ -137,6 +147,8 @@ class BankAccountView:
             field_dict["pendingChange"] = pending_change
         if history is not UNSET:
             field_dict["history"] = history
+        if reveals is not UNSET:
+            field_dict["reveals"] = reveals
         if version is not UNSET:
             field_dict["version"] = version
         if created_at is not UNSET:
@@ -156,6 +168,7 @@ class BankAccountView:
         from ..models.bank_account_view_pending_change import (
             BankAccountViewPendingChange,
         )
+        from ..models.bank_account_view_reveals_item import BankAccountViewRevealsItem
         from ..models.remittance_instructions import RemittanceInstructions
         from ..models.supplier_bank_account_approval import SupplierBankAccountApproval
         from ..models.supplier_bank_account_history_entry import (
@@ -215,6 +228,13 @@ class BankAccountView:
 
             history.append(history_item)
 
+        reveals = []
+        _reveals = d.pop("reveals", UNSET)
+        for reveals_item_data in _reveals or []:
+            reveals_item = BankAccountViewRevealsItem.from_dict(reveals_item_data)
+
+            reveals.append(reveals_item)
+
         version = d.pop("version", UNSET)
 
         created_at = d.pop("createdAt", UNSET)
@@ -237,6 +257,7 @@ class BankAccountView:
             approval=approval,
             pending_change=pending_change,
             history=history,
+            reveals=reveals,
             version=version,
             created_at=created_at,
             updated_at=updated_at,

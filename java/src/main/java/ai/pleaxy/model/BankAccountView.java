@@ -24,6 +24,7 @@ import ai.pleaxy.model.SupplierBankAccountApproval;
 import ai.pleaxy.model.SupplierBankAccountHistoryEntry;
 import ai.pleaxy.model.SupplierBankAccountLearnedFrom;
 import ai.pleaxy.model.SupplierBankAccountPendingChange;
+import ai.pleaxy.model.SupplierBankAccountRevealsInner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -51,6 +52,7 @@ import ai.pleaxy.client.ApiClient;
   BankAccountView.JSON_PROPERTY_APPROVAL,
   BankAccountView.JSON_PROPERTY_PENDING_CHANGE,
   BankAccountView.JSON_PROPERTY_HISTORY,
+  BankAccountView.JSON_PROPERTY_REVEALS,
   BankAccountView.JSON_PROPERTY_VERSION,
   BankAccountView.JSON_PROPERTY_CREATED_AT,
   BankAccountView.JSON_PROPERTY_UPDATED_AT,
@@ -139,6 +141,10 @@ public class BankAccountView {
   public static final String JSON_PROPERTY_HISTORY = "history";
   @javax.annotation.Nullable
   private List<SupplierBankAccountHistoryEntry> history = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_REVEALS = "reveals";
+  @javax.annotation.Nullable
+  private List<SupplierBankAccountRevealsInner> reveals = new ArrayList<>();
 
   public static final String JSON_PROPERTY_VERSION = "version";
   @javax.annotation.Nullable
@@ -435,6 +441,38 @@ public class BankAccountView {
   }
 
 
+  public BankAccountView reveals(@javax.annotation.Nullable List<SupplierBankAccountRevealsInner> reveals) {
+    this.reveals = reveals;
+    return this;
+  }
+
+  public BankAccountView addRevealsItem(SupplierBankAccountRevealsInner revealsItem) {
+    if (this.reveals == null) {
+      this.reveals = new ArrayList<>();
+    }
+    this.reveals.add(revealsItem);
+    return this;
+  }
+
+  /**
+   * Get reveals
+   * @return reveals
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REVEALS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<SupplierBankAccountRevealsInner> getReveals() {
+    return reveals;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REVEALS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReveals(@javax.annotation.Nullable List<SupplierBankAccountRevealsInner> reveals) {
+    this.reveals = reveals;
+  }
+
+
   public BankAccountView version(@javax.annotation.Nullable Double version) {
     this.version = version;
     return this;
@@ -578,6 +616,7 @@ public class BankAccountView {
         Objects.equals(this.approval, bankAccountView.approval) &&
         Objects.equals(this.pendingChange, bankAccountView.pendingChange) &&
         Objects.equals(this.history, bankAccountView.history) &&
+        Objects.equals(this.reveals, bankAccountView.reveals) &&
         Objects.equals(this.version, bankAccountView.version) &&
         Objects.equals(this.createdAt, bankAccountView.createdAt) &&
         Objects.equals(this.updatedAt, bankAccountView.updatedAt) &&
@@ -587,7 +626,7 @@ public class BankAccountView {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, supplierKey, laneKey, payeeName, currency, details, status, learnedFrom, approval, pendingChange, history, version, createdAt, updatedAt, connectionId, supplierName);
+    return Objects.hash(id, supplierKey, laneKey, payeeName, currency, details, status, learnedFrom, approval, pendingChange, history, reveals, version, createdAt, updatedAt, connectionId, supplierName);
   }
 
   @Override
@@ -605,6 +644,7 @@ public class BankAccountView {
     sb.append("    approval: ").append(toIndentedString(approval)).append("\n");
     sb.append("    pendingChange: ").append(toIndentedString(pendingChange)).append("\n");
     sb.append("    history: ").append(toIndentedString(history)).append("\n");
+    sb.append("    reveals: ").append(toIndentedString(reveals)).append("\n");
     sb.append("    version: ").append(toIndentedString(version)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
@@ -712,6 +752,16 @@ public class BankAccountView {
       for (int i = 0; i < getHistory().size(); i++) {
         if (getHistory().get(i) != null) {
           joiner.add(getHistory().get(i).toUrlQueryString(String.format("%shistory%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `reveals` to the URL query string
+    if (getReveals() != null) {
+      for (int i = 0; i < getReveals().size(); i++) {
+        if (getReveals().get(i) != null) {
+          joiner.add(getReveals().get(i).toUrlQueryString(String.format("%sreveals%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }

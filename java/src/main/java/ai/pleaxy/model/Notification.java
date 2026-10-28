@@ -195,6 +195,8 @@ public class Notification {
     
     INVOICE_BANK_DETAILS_CHANGED(String.valueOf("invoice_bank_details_changed")),
     
+    SUPPLIER_BANK_DETAILS_CHANGED(String.valueOf("supplier_bank_details_changed")),
+    
     INVOICE_NEEDS_APPROVER(String.valueOf("invoice_needs_approver")),
     
     SES_APPROVAL_REQUESTED(String.valueOf("ses_approval_requested")),

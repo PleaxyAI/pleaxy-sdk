@@ -107,6 +107,11 @@ impl Client {
         SupplierConnections(self)
     }
 
+    /// SupplierRisk operations.
+    pub fn supplier_risk(&self) -> SupplierRisk<'_> {
+        SupplierRisk(self)
+    }
+
     /// Workspaces operations.
     pub fn workspaces(&self) -> Workspaces<'_> {
         Workspaces(self)
@@ -1657,6 +1662,31 @@ impl<'a> SupplierConnections<'a> {
             set_connection_currencies_input,
         )
         .await
+    }
+}
+
+/// SupplierRisk operations: `client.supplier_risk()`.
+#[derive(Debug, Clone, Copy)]
+pub struct SupplierRisk<'a>(&'a Client);
+
+impl<'a> SupplierRisk<'a> {
+    pub async fn get_supplier_risk(
+        &self,
+        connection_id: &str,
+    ) -> Result<
+        crate::models::SupplierRisk,
+        crate::apis::Error<crate::apis::supplier_risk_api::GetSupplierRiskError>,
+    > {
+        crate::apis::supplier_risk_api::get_supplier_risk(&self.0.config, connection_id).await
+    }
+
+    pub async fn list_supplier_risk(
+        &self,
+    ) -> Result<
+        Vec<crate::models::SupplierRisk>,
+        crate::apis::Error<crate::apis::supplier_risk_api::ListSupplierRiskError>,
+    > {
+        crate::apis::supplier_risk_api::list_supplier_risk(&self.0.config).await
     }
 }
 

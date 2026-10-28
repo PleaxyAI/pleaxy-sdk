@@ -35,6 +35,8 @@ pub struct BankAccountView {
     pub pending_change: Option<models::SupplierBankAccountPendingChange>,
     #[serde(rename = "history", skip_serializing_if = "Option::is_none")]
     pub history: Option<Vec<models::SupplierBankAccountHistoryEntry>>,
+    #[serde(rename = "reveals", skip_serializing_if = "Option::is_none")]
+    pub reveals: Option<Vec<models::SupplierBankAccountRevealsInner>>,
     #[serde(rename = "version", skip_serializing_if = "Option::is_none")]
     pub version: Option<f64>,
     #[serde(rename = "createdAt", skip_serializing_if = "Option::is_none")]
@@ -61,6 +63,7 @@ impl BankAccountView {
             approval: None,
             pending_change: None,
             history: None,
+            reveals: None,
             version: None,
             created_at: None,
             updated_at: None,

@@ -2801,6 +2801,7 @@ const (
 	NotificationTypeSesApproved                      NotificationType = "ses_approved"
 	NotificationTypeSesAutoApproved                  NotificationType = "ses_auto_approved"
 	NotificationTypeSesRejected                      NotificationType = "ses_rejected"
+	NotificationTypeSupplierBankDetailsChanged       NotificationType = "supplier_bank_details_changed"
 	NotificationTypeSupplierConnectionApproved       NotificationType = "supplier_connection_approved"
 	NotificationTypeSupplierConnectionInvited        NotificationType = "supplier_connection_invited"
 	NotificationTypeSupplierConnectionRegionMismatch NotificationType = "supplier_connection_region_mismatch"
@@ -3804,9 +3805,9 @@ const (
 
 // Defines values for SupplierBankAccountStatus.
 const (
-	Changing   SupplierBankAccountStatus = "changing"
-	Unverified SupplierBankAccountStatus = "unverified"
-	Verified   SupplierBankAccountStatus = "verified"
+	SupplierBankAccountStatusChanging   SupplierBankAccountStatus = "changing"
+	SupplierBankAccountStatusUnverified SupplierBankAccountStatus = "unverified"
+	SupplierBankAccountStatusVerified   SupplierBankAccountStatus = "verified"
 )
 
 // Defines values for SupplierBankAccountApprovalBySide.
@@ -3965,6 +3966,62 @@ const (
 	Imagepng       SupplierRemittanceViewFileContentType = "image/png"
 )
 
+// Defines values for SupplierRiskBankState.
+const (
+	SupplierRiskBankStateAttention SupplierRiskBankState = "attention"
+	SupplierRiskBankStateBlocked   SupplierRiskBankState = "blocked"
+	SupplierRiskBankStateNone      SupplierRiskBankState = "none"
+	SupplierRiskBankStateOk        SupplierRiskBankState = "ok"
+)
+
+// Defines values for SupplierRiskBankStatus.
+const (
+	SupplierRiskBankStatusApproved SupplierRiskBankStatus = "approved"
+	SupplierRiskBankStatusChanging SupplierRiskBankStatus = "changing"
+	SupplierRiskBankStatusNone     SupplierRiskBankStatus = "none"
+	SupplierRiskBankStatusWaiting  SupplierRiskBankStatus = "waiting"
+)
+
+// Defines values for SupplierRiskFlaggedAnswersState.
+const (
+	SupplierRiskFlaggedAnswersStateAttention SupplierRiskFlaggedAnswersState = "attention"
+	SupplierRiskFlaggedAnswersStateBlocked   SupplierRiskFlaggedAnswersState = "blocked"
+	SupplierRiskFlaggedAnswersStateNone      SupplierRiskFlaggedAnswersState = "none"
+	SupplierRiskFlaggedAnswersStateOk        SupplierRiskFlaggedAnswersState = "ok"
+)
+
+// Defines values for SupplierRiskLevel.
+const (
+	SupplierRiskLevelAttention SupplierRiskLevel = "attention"
+	SupplierRiskLevelBlocked   SupplierRiskLevel = "blocked"
+	SupplierRiskLevelOk        SupplierRiskLevel = "ok"
+)
+
+// Defines values for SupplierRiskMissingDocumentsState.
+const (
+	SupplierRiskMissingDocumentsStateAttention SupplierRiskMissingDocumentsState = "attention"
+	SupplierRiskMissingDocumentsStateBlocked   SupplierRiskMissingDocumentsState = "blocked"
+	SupplierRiskMissingDocumentsStateNone      SupplierRiskMissingDocumentsState = "none"
+	SupplierRiskMissingDocumentsStateOk        SupplierRiskMissingDocumentsState = "ok"
+)
+
+// Defines values for SupplierRiskScreeningState.
+const (
+	Attention SupplierRiskScreeningState = "attention"
+	Blocked   SupplierRiskScreeningState = "blocked"
+	None      SupplierRiskScreeningState = "none"
+	Ok        SupplierRiskScreeningState = "ok"
+)
+
+// Defines values for SupplierRiskScreeningStatus.
+const (
+	SupplierRiskScreeningStatusClear          SupplierRiskScreeningStatus = "clear"
+	SupplierRiskScreeningStatusConfirmedMatch SupplierRiskScreeningStatus = "confirmed_match"
+	SupplierRiskScreeningStatusNotScreened    SupplierRiskScreeningStatus = "not_screened"
+	SupplierRiskScreeningStatusOff            SupplierRiskScreeningStatus = "off"
+	SupplierRiskScreeningStatusPossibleMatch  SupplierRiskScreeningStatus = "possible_match"
+)
+
 // Defines values for SupplierScreeningHistoryEvent.
 const (
 	SupplierScreeningHistoryEventClosed    SupplierScreeningHistoryEvent = "closed"
@@ -3976,10 +4033,10 @@ const (
 
 // Defines values for SupplierScreeningStatus.
 const (
-	Clear          SupplierScreeningStatus = "clear"
-	ConfirmedMatch SupplierScreeningStatus = "confirmed_match"
-	NotScreened    SupplierScreeningStatus = "not_screened"
-	PossibleMatch  SupplierScreeningStatus = "possible_match"
+	SupplierScreeningStatusClear          SupplierScreeningStatus = "clear"
+	SupplierScreeningStatusConfirmedMatch SupplierScreeningStatus = "confirmed_match"
+	SupplierScreeningStatusNotScreened    SupplierScreeningStatus = "not_screened"
+	SupplierScreeningStatusPossibleMatch  SupplierScreeningStatus = "possible_match"
 )
 
 // Defines values for SupplierSettlementViewSource.
@@ -4920,6 +4977,13 @@ type BankAccountView struct {
 		InvoiceId *string                           `json:"invoiceId,omitempty"`
 		Side      *BankAccountViewPendingChangeSide `json:"side,omitempty"`
 	} `json:"pendingChange,omitempty"`
+	Reveals *[]struct {
+		At *string `json:"at,omitempty"`
+		By *struct {
+			Name *string `json:"name,omitempty"`
+			Sub  *string `json:"sub,omitempty"`
+		} `json:"by,omitempty"`
+	} `json:"reveals,omitempty"`
 	Status       *BankAccountViewStatus `json:"status,omitempty"`
 	SupplierKey  *string                `json:"supplierKey,omitempty"`
 	SupplierName *string                `json:"supplierName,omitempty"`
@@ -11222,6 +11286,13 @@ type SupplierBankAccount struct {
 		InvoiceId *string                               `json:"invoiceId,omitempty"`
 		Side      *SupplierBankAccountPendingChangeSide `json:"side,omitempty"`
 	} `json:"pendingChange,omitempty"`
+	Reveals *[]struct {
+		At *string `json:"at,omitempty"`
+		By *struct {
+			Name *string `json:"name,omitempty"`
+			Sub  *string `json:"sub,omitempty"`
+		} `json:"by,omitempty"`
+	} `json:"reveals,omitempty"`
 	Status      *SupplierBankAccountStatus `json:"status,omitempty"`
 	SupplierKey *string                    `json:"supplierKey,omitempty"`
 	UpdatedAt   *string                    `json:"updatedAt,omitempty"`
@@ -11448,6 +11519,52 @@ type SupplierRemittanceView struct {
 
 // SupplierRemittanceViewFileContentType defines model for SupplierRemittanceView.File.ContentType.
 type SupplierRemittanceViewFileContentType string
+
+// SupplierRisk defines model for SupplierRisk.
+type SupplierRisk struct {
+	Bank *struct {
+		State   *SupplierRiskBankState  `json:"state,omitempty"`
+		Status  *SupplierRiskBankStatus `json:"status,omitempty"`
+		Waiting *float64                `json:"waiting,omitempty"`
+	} `json:"bank,omitempty"`
+	ConnectionId   *string `json:"connectionId,omitempty"`
+	FlaggedAnswers *struct {
+		Count *float64                         `json:"count,omitempty"`
+		State *SupplierRiskFlaggedAnswersState `json:"state,omitempty"`
+	} `json:"flaggedAnswers,omitempty"`
+	Level            *SupplierRiskLevel `json:"level,omitempty"`
+	MissingDocuments *struct {
+		Fields *[]string                          `json:"fields,omitempty"`
+		State  *SupplierRiskMissingDocumentsState `json:"state,omitempty"`
+	} `json:"missingDocuments,omitempty"`
+	Screening *struct {
+		CheckedAt *string                      `json:"checkedAt,omitempty"`
+		State     *SupplierRiskScreeningState  `json:"state,omitempty"`
+		Status    *SupplierRiskScreeningStatus `json:"status,omitempty"`
+	} `json:"screening,omitempty"`
+	SupplierName *string `json:"supplierName,omitempty"`
+}
+
+// SupplierRiskBankState defines model for SupplierRisk.Bank.State.
+type SupplierRiskBankState string
+
+// SupplierRiskBankStatus defines model for SupplierRisk.Bank.Status.
+type SupplierRiskBankStatus string
+
+// SupplierRiskFlaggedAnswersState defines model for SupplierRisk.FlaggedAnswers.State.
+type SupplierRiskFlaggedAnswersState string
+
+// SupplierRiskLevel defines model for SupplierRisk.Level.
+type SupplierRiskLevel string
+
+// SupplierRiskMissingDocumentsState defines model for SupplierRisk.MissingDocuments.State.
+type SupplierRiskMissingDocumentsState string
+
+// SupplierRiskScreeningState defines model for SupplierRisk.Screening.State.
+type SupplierRiskScreeningState string
+
+// SupplierRiskScreeningStatus defines model for SupplierRisk.Screening.Status.
+type SupplierRiskScreeningStatus string
 
 // SupplierScreening defines model for SupplierScreening.
 type SupplierScreening struct {
@@ -15423,6 +15540,12 @@ type ClientInterface interface {
 
 	SetInvoiceFeed(ctx context.Context, connectionId string, body SetInvoiceFeedJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ListSupplierRisk request
+	ListSupplierRisk(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetSupplierRisk request
+	GetSupplierRisk(ctx context.Context, connectionId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ListSyncEvents request
 	ListSyncEvents(ctx context.Context, params *ListSyncEventsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -17134,6 +17257,30 @@ func (c *RawClient) SetInvoiceFeedWithBody(ctx context.Context, connectionId str
 
 func (c *RawClient) SetInvoiceFeed(ctx context.Context, connectionId string, body SetInvoiceFeedJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSetInvoiceFeedRequest(c.Server, connectionId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListSupplierRisk(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListSupplierRiskRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetSupplierRisk(ctx context.Context, connectionId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetSupplierRiskRequest(c.Server, connectionId)
 	if err != nil {
 		return nil, err
 	}
@@ -22159,6 +22306,67 @@ func NewSetInvoiceFeedRequestWithBody(server string, connectionId string, conten
 	return req, nil
 }
 
+// NewListSupplierRiskRequest generates requests for ListSupplierRisk
+func NewListSupplierRiskRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/supplier-risk")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetSupplierRiskRequest generates requests for GetSupplierRisk
+func NewGetSupplierRiskRequest(server string, connectionId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "connectionId", runtime.ParamLocationPath, connectionId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/supplier-risk/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewListSyncEventsRequest generates requests for ListSyncEvents
 func NewListSyncEventsRequest(server string, params *ListSyncEventsParams) (*http.Request, error) {
 	var err error
@@ -22904,6 +23112,12 @@ type ClientWithResponsesInterface interface {
 	SetInvoiceFeedWithBodyWithResponse(ctx context.Context, connectionId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetInvoiceFeedResponse, error)
 
 	SetInvoiceFeedWithResponse(ctx context.Context, connectionId string, body SetInvoiceFeedJSONRequestBody, reqEditors ...RequestEditorFn) (*SetInvoiceFeedResponse, error)
+
+	// ListSupplierRiskWithResponse request
+	ListSupplierRiskWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListSupplierRiskResponse, error)
+
+	// GetSupplierRiskWithResponse request
+	GetSupplierRiskWithResponse(ctx context.Context, connectionId string, reqEditors ...RequestEditorFn) (*GetSupplierRiskResponse, error)
 
 	// ListSyncEventsWithResponse request
 	ListSyncEventsWithResponse(ctx context.Context, params *ListSyncEventsParams, reqEditors ...RequestEditorFn) (*ListSyncEventsResponse, error)
@@ -25367,6 +25581,52 @@ func (r SetInvoiceFeedResponse) StatusCode() int {
 	return 0
 }
 
+type ListSupplierRiskResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]SupplierRisk
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListSupplierRiskResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListSupplierRiskResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetSupplierRiskResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *SupplierRisk
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetSupplierRiskResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetSupplierRiskResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type ListSyncEventsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -26782,6 +27042,24 @@ func (c *ClientWithResponses) SetInvoiceFeedWithResponse(ctx context.Context, co
 		return nil, err
 	}
 	return ParseSetInvoiceFeedResponse(rsp)
+}
+
+// ListSupplierRiskWithResponse request returning *ListSupplierRiskResponse
+func (c *ClientWithResponses) ListSupplierRiskWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListSupplierRiskResponse, error) {
+	rsp, err := c.ListSupplierRisk(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListSupplierRiskResponse(rsp)
+}
+
+// GetSupplierRiskWithResponse request returning *GetSupplierRiskResponse
+func (c *ClientWithResponses) GetSupplierRiskWithResponse(ctx context.Context, connectionId string, reqEditors ...RequestEditorFn) (*GetSupplierRiskResponse, error) {
+	rsp, err := c.GetSupplierRisk(ctx, connectionId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetSupplierRiskResponse(rsp)
 }
 
 // ListSyncEventsWithResponse request returning *ListSyncEventsResponse
@@ -30318,6 +30596,72 @@ func ParseSetInvoiceFeedResponse(rsp *http.Response) (*SetInvoiceFeedResponse, e
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest SetInvoiceFeedResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListSupplierRiskResponse parses an HTTP response from a ListSupplierRiskWithResponse call
+func ParseListSupplierRiskResponse(rsp *http.Response) (*ListSupplierRiskResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListSupplierRiskResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []SupplierRisk
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetSupplierRiskResponse parses an HTTP response from a GetSupplierRiskWithResponse call
+func ParseGetSupplierRiskResponse(rsp *http.Response) (*GetSupplierRiskResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetSupplierRiskResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SupplierRisk
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

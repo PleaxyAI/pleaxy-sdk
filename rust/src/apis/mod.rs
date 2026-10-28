@@ -113,6 +113,7 @@ pub mod request_types_api;
 pub mod screening_api;
 pub mod settlement_api;
 pub mod supplier_connections_api;
+pub mod supplier_risk_api;
 pub mod workspaces_api;
 
 pub mod configuration;

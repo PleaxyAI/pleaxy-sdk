@@ -177,6 +177,8 @@ pub enum Type {
     InvoiceBankDetailsDisputed,
     #[serde(rename = "invoice_bank_details_changed")]
     InvoiceBankDetailsChanged,
+    #[serde(rename = "supplier_bank_details_changed")]
+    SupplierBankDetailsChanged,
     #[serde(rename = "invoice_needs_approver")]
     InvoiceNeedsApprover,
     #[serde(rename = "ses_approval_requested")]

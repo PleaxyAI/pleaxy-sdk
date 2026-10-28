@@ -869,6 +869,24 @@ export class SupplierConnectionsResource {
   }
 }
 
+export class SupplierRiskResource {
+  constructor(private readonly transport: Transport) {}
+
+  /**
+   * [Buyer] One supplier's risk, by its connection id: as ListSupplierRisk, with bank.status none|approved|waiting|changing and the screening's status and checkedAt.
+   */
+  getSupplierRisk(connectionId: string, options?: RequestOptions): Promise<ResponseBody<"GetSupplierRisk">> {
+    return this.transport.request("get", "/supplier-risk/{connectionId}", { path: { connectionId }, options }) as Promise<ResponseBody<"GetSupplierRisk">>;
+  }
+
+  /**
+   * [Buyer] Each supplier's risk: level ok|attention|blocked (blocked = a confirmed sanctions match; never a score), and its rows - bank (accounts waiting for approval), screening (status), flaggedAnswers (count) and missingDocuments (the questions' labels), each with a state ok|attention|blocked|none. A screening that isn't flagged shows as none here; read one supplier for its full screening and bank status.
+   */
+  listSupplierRisk(options?: RequestOptions): Promise<ResponseBody<"ListSupplierRisk">> {
+    return this.transport.request("get", "/supplier-risk", { path: undefined, options }) as Promise<ResponseBody<"ListSupplierRisk">>;
+  }
+}
+
 export class WorkspacesResource {
   constructor(private readonly transport: Transport) {}
 
@@ -910,6 +928,7 @@ export class Resources {
   readonly screening: ScreeningResource;
   readonly settlement: SettlementResource;
   readonly supplierConnections: SupplierConnectionsResource;
+  readonly supplierRisk: SupplierRiskResource;
   readonly workspaces: WorkspacesResource;
 
   constructor(transport: Transport) {
@@ -934,6 +953,7 @@ export class Resources {
     this.screening = new ScreeningResource(transport);
     this.settlement = new SettlementResource(transport);
     this.supplierConnections = new SupplierConnectionsResource(transport);
+    this.supplierRisk = new SupplierRiskResource(transport);
     this.workspaces = new WorkspacesResource(transport);
   }
 }

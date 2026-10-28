@@ -37,6 +37,8 @@ module Pleaxy
 
     attr_accessor :history
 
+    attr_accessor :reveals
+
     attr_accessor :version
 
     attr_accessor :created_at
@@ -83,6 +85,7 @@ module Pleaxy
         :'approval' => :'approval',
         :'pending_change' => :'pendingChange',
         :'history' => :'history',
+        :'reveals' => :'reveals',
         :'version' => :'version',
         :'created_at' => :'createdAt',
         :'updated_at' => :'updatedAt',
@@ -110,6 +113,7 @@ module Pleaxy
         :'approval' => :'SupplierBankAccountApproval',
         :'pending_change' => :'SupplierBankAccountPendingChange',
         :'history' => :'Array<SupplierBankAccountHistoryEntry>',
+        :'reveals' => :'Array<SupplierBankAccountRevealsInner>',
         :'version' => :'Float',
         :'created_at' => :'String',
         :'updated_at' => :'String',
@@ -187,6 +191,12 @@ module Pleaxy
         end
       end
 
+      if attributes.key?(:'reveals')
+        if (value = attributes[:'reveals']).is_a?(Array)
+          self.reveals = value
+        end
+      end
+
       if attributes.key?(:'version')
         self.version = attributes[:'version']
       end
@@ -256,6 +266,7 @@ module Pleaxy
           approval == o.approval &&
           pending_change == o.pending_change &&
           history == o.history &&
+          reveals == o.reveals &&
           version == o.version &&
           created_at == o.created_at &&
           updated_at == o.updated_at &&
@@ -272,7 +283,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, supplier_key, lane_key, payee_name, currency, details, status, learned_from, approval, pending_change, history, version, created_at, updated_at, connection_id, supplier_name].hash
+      [id, supplier_key, lane_key, payee_name, currency, details, status, learned_from, approval, pending_change, history, reveals, version, created_at, updated_at, connection_id, supplier_name].hash
     end
 
     # Builds the object from hash
