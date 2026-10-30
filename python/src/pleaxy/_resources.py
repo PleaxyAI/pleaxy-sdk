@@ -11,6 +11,48 @@ if TYPE_CHECKING:
     from ._transport import Transport
 
 
+class AiProvidersResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def add_ai_provider_supplier(self, provider: str) -> AddAiProviderSupplierResult:
+        """[Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create' on suppliers."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_providers.add_ai_provider_supplier",
+            provider=provider,
+        )
+
+    def create_ai_provider(self, *, body: CreateAiProviderInput) -> AiProvider:
+        """[Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_providers.create_ai_provider", body=body
+        )
+
+    def delete_ai_provider(self, id: str) -> DeleteAiProviderResult:
+        """[Buyer] Disconnect a direct AI provider: the connection and its encrypted key are deleted; its AI lines stay as history. Revoke the key at the provider too. Logged-in users only, 'edit' on suppliers."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_providers.delete_ai_provider", id=id
+        )
+
+    def list_ai_invoicers(self) -> List["ListAiInvoicersItem"]:
+        """[Buyer] The AI invoicers Pleaxy pre-creates as suppliers: names, the legal entities they invoice from by region, billing currencies, billing kinds, invoice sender domains, and whether each can be connected. 'view' on suppliers or on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_providers.list_ai_invoicers"
+        )
+
+    def list_ai_providers(self) -> List["AiProvider"]:
+        """[Buyer] The workspace's direct AI provider connections (OpenAI, Anthropic, Mistral, Snowflake): status, last sync, and the key's last four characters - never the key. 'view' on suppliers or on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_providers.list_ai_providers"
+        )
+
+    def sync_ai_provider(self, id: str) -> AiProvider:
+        """[Buyer] Read a direct AI provider's cost and usage reports now (at most every 15 minutes); a pending Snowflake key pair is verified first. 'create' on suppliers or 'edit' on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_providers.sync_ai_provider", id=id
+        )
+
+
 class AiSpendResource:
     def __init__(self, transport: Transport) -> None:
         self._transport = transport
@@ -1234,6 +1276,7 @@ class Resources:
     """Every resource, one per API area."""
 
     def __init__(self, transport: Transport) -> None:
+        self.ai_providers = AiProvidersResource(transport)
         self.ai_spend = AiSpendResource(transport)
         self.api_keys = ApiKeysResource(transport)
         self.approval_settings = ApprovalSettingsResource(transport)

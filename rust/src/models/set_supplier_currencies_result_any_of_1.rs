@@ -56,6 +56,8 @@ pub struct SetSupplierCurrenciesResultAnyOf1 {
     pub rejection_reason: Option<String>,
     #[serde(rename = "cloudProvider", skip_serializing_if = "Option::is_none")]
     pub cloud_provider: Option<CloudProvider>,
+    #[serde(rename = "aiProvider", skip_serializing_if = "Option::is_none")]
+    pub ai_provider: Option<AiProvider>,
     #[serde(rename = "billingCurrency", skip_serializing_if = "Option::is_none")]
     pub billing_currency: Option<String>,
     #[serde(rename = "paymentCurrency", skip_serializing_if = "Option::is_none")]
@@ -147,6 +149,7 @@ impl SetSupplierCurrenciesResultAnyOf1 {
             reviewed_by: None,
             rejection_reason: None,
             cloud_provider: None,
+            ai_provider: None,
             billing_currency: None,
             payment_currency: None,
             off_platform_invoices_recorded: None,
@@ -209,5 +212,39 @@ pub enum CloudProvider {
 impl Default for CloudProvider {
     fn default() -> CloudProvider {
         Self::Aws
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum AiProvider {
+    #[serde(rename = "openai")]
+    Openai,
+    #[serde(rename = "anthropic")]
+    Anthropic,
+    #[serde(rename = "mistral")]
+    Mistral,
+    #[serde(rename = "cohere")]
+    Cohere,
+    #[serde(rename = "xai")]
+    Xai,
+    #[serde(rename = "openrouter")]
+    Openrouter,
+    #[serde(rename = "snowflake")]
+    Snowflake,
+    #[serde(rename = "databricks")]
+    Databricks,
+    #[serde(rename = "coreweave")]
+    Coreweave,
+    #[serde(rename = "lambda")]
+    Lambda,
+    #[serde(rename = "nebius")]
+    Nebius,
+    #[serde(rename = "crusoe")]
+    Crusoe,
+}
+
+impl Default for AiProvider {
+    fn default() -> AiProvider {
+        Self::Openai
     }
 }

@@ -4,6 +4,18 @@ package pleaxy
 
 import "context"
 
+// AddAiProviderSupplier - [Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create' on suppliers.
+func (c *Client) AddAiProviderSupplier(ctx context.Context, provider string) (*AddAiProviderSupplierResult, error) {
+	resp, err := c.api.AddAiProviderSupplierWithResponse(ctx, provider)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
 // AddCloudProviderAsSupplier - [Buyer] Add a cloud provider (aws, gcp, azure, oci) to the suppliers list without connecting an account - nothing is read from the provider, so nothing is billed in the buyer's cloud account. Idempotent: returns the provider's existing supplier row when there is one. Connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier with that name already has an onboarding under way or approved.
 func (c *Client) AddCloudProviderAsSupplier(ctx context.Context, provider string) (*AddCloudProviderAsSupplierResult, error) {
 	resp, err := c.api.AddCloudProviderAsSupplierWithResponse(ctx, provider)
@@ -160,6 +172,18 @@ func (c *Client) ConvertPurchaseRequest(ctx context.Context, requestId string, b
 	return resp.JSON201, nil
 }
 
+// CreateAiProvider - [Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers.
+func (c *Client) CreateAiProvider(ctx context.Context, body CreateAiProviderJSONRequestBody) (*AiProvider, error) {
+	resp, err := c.api.CreateAiProviderWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
 // CreateApiKey - [Both, admin] Create an API key
 func (c *Client) CreateApiKey(ctx context.Context, body CreateApiKeyJSONRequestBody) (*CreateApiKeyResult, error) {
 	resp, err := c.api.CreateApiKeyWithResponse(ctx, body)
@@ -235,6 +259,18 @@ func (c *Client) CreateWebhook(ctx context.Context, body CreateWebhookJSONReques
 // DeclineConfirmationChanges - [Buyer] Keep the order as it is instead of the supplier's new quantities and prices: { reason? } (500 characters, shown to the supplier). Answers the confirmation with its decision; the supplier is told (po_changes_declined). The same 409s as ApplyConfirmationChanges.
 func (c *Client) DeclineConfirmationChanges(ctx context.Context, poId string, confirmationId string, body DeclineConfirmationChangesJSONRequestBody) (*OrderConfirmation, error) {
 	resp, err := c.api.DeclineConfirmationChangesWithResponse(ctx, poId, confirmationId, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// DeleteAiProvider - [Buyer] Disconnect a direct AI provider: the connection and its encrypted key are deleted; its AI lines stay as history. Revoke the key at the provider too. Logged-in users only, 'edit' on suppliers.
+func (c *Client) DeleteAiProvider(ctx context.Context, id string) (*DeleteAiProviderResult, error) {
+	resp, err := c.api.DeleteAiProviderWithResponse(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -707,6 +743,30 @@ func (c *Client) InitCloudConnection(ctx context.Context, provider string) (*int
 		return nil, err
 	}
 	return resp.JSON201, nil
+}
+
+// ListAiInvoicers - [Buyer] The AI invoicers Pleaxy pre-creates as suppliers: names, the legal entities they invoice from by region, billing currencies, billing kinds, invoice sender domains, and whether each can be connected. 'view' on suppliers or on invoices.
+func (c *Client) ListAiInvoicers(ctx context.Context) (*[]ListAiInvoicersItem, error) {
+	resp, err := c.api.ListAiInvoicersWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// ListAiProviders - [Buyer] The workspace's direct AI provider connections (OpenAI, Anthropic, Mistral, Snowflake): status, last sync, and the key's last four characters - never the key. 'view' on suppliers or on invoices.
+func (c *Client) ListAiProviders(ctx context.Context) (*[]AiProvider, error) {
+	resp, err := c.api.ListAiProvidersWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
 }
 
 // ListAiRateCards - [Buyer] The public list prices Pleaxy keeps for AI models, by invoicer, vendor, model, meter and region, with effective dates and the pricing page each was taken from. With on (YYYY-MM-DD), only the entry in force that day. A price change is a new entry, never an edit. 'view' on suppliers or on invoices.
@@ -1265,6 +1325,18 @@ func (c *Client) SubmitPurchaseRequest(ctx context.Context, requestId string) (*
 		return nil, err
 	}
 	return resp.JSON200, nil
+}
+
+// SyncAiProvider - [Buyer] Read a direct AI provider's cost and usage reports now (at most every 15 minutes); a pending Snowflake key pair is verified first. 'create' on suppliers or 'edit' on invoices.
+func (c *Client) SyncAiProvider(ctx context.Context, id string) (*AiProvider, error) {
+	resp, err := c.api.SyncAiProviderWithResponse(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
 }
 
 // SyncCloudConnection - [Buyer] Manually sync one connected cloud account's billing data now (rate-limited). 'create' on suppliers or 'edit' on invoices.

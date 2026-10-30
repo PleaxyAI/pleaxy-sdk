@@ -2,6 +2,11 @@
 use crate::Client;
 
 impl Client {
+    /// AiProviders operations.
+    pub fn ai_providers(&self) -> AiProviders<'_> {
+        AiProviders(self)
+    }
+
     /// AiSpend operations.
     pub fn ai_spend(&self) -> AiSpend<'_> {
         AiSpend(self)
@@ -120,6 +125,71 @@ impl Client {
     /// Workspaces operations.
     pub fn workspaces(&self) -> Workspaces<'_> {
         Workspaces(self)
+    }
+}
+
+/// AiProviders operations: `client.ai_providers()`.
+#[derive(Debug, Clone, Copy)]
+pub struct AiProviders<'a>(&'a Client);
+
+impl<'a> AiProviders<'a> {
+    pub async fn add_ai_provider_supplier(
+        &self,
+        provider: &str,
+    ) -> Result<
+        crate::models::AddAiProviderSupplierResult,
+        crate::apis::Error<crate::apis::ai_providers_api::AddAiProviderSupplierError>,
+    > {
+        crate::apis::ai_providers_api::add_ai_provider_supplier(&self.0.config, provider).await
+    }
+
+    pub async fn create_ai_provider(
+        &self,
+        create_ai_provider_input: crate::models::CreateAiProviderInput,
+    ) -> Result<
+        crate::models::AiProvider,
+        crate::apis::Error<crate::apis::ai_providers_api::CreateAiProviderError>,
+    > {
+        crate::apis::ai_providers_api::create_ai_provider(&self.0.config, create_ai_provider_input)
+            .await
+    }
+
+    pub async fn delete_ai_provider(
+        &self,
+        id: &str,
+    ) -> Result<
+        crate::models::DeleteAiProviderResult,
+        crate::apis::Error<crate::apis::ai_providers_api::DeleteAiProviderError>,
+    > {
+        crate::apis::ai_providers_api::delete_ai_provider(&self.0.config, id).await
+    }
+
+    pub async fn list_ai_invoicers(
+        &self,
+    ) -> Result<
+        Vec<crate::models::ListAiInvoicersItem>,
+        crate::apis::Error<crate::apis::ai_providers_api::ListAiInvoicersError>,
+    > {
+        crate::apis::ai_providers_api::list_ai_invoicers(&self.0.config).await
+    }
+
+    pub async fn list_ai_providers(
+        &self,
+    ) -> Result<
+        Vec<crate::models::AiProvider>,
+        crate::apis::Error<crate::apis::ai_providers_api::ListAiProvidersError>,
+    > {
+        crate::apis::ai_providers_api::list_ai_providers(&self.0.config).await
+    }
+
+    pub async fn sync_ai_provider(
+        &self,
+        id: &str,
+    ) -> Result<
+        crate::models::AiProvider,
+        crate::apis::Error<crate::apis::ai_providers_api::SyncAiProviderError>,
+    > {
+        crate::apis::ai_providers_api::sync_ai_provider(&self.0.config, id).await
     }
 }
 

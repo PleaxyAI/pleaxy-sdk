@@ -1464,6 +1464,92 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ai-providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] The workspace's direct AI provider connections (OpenAI, Anthropic, Mistral, Snowflake): status, last sync, and the key's last four characters - never the key. 'view' on suppliers or on invoices. */
+        get: operations["ListAiProviders"];
+        put?: never;
+        /** [Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers. */
+        post: operations["CreateAiProvider"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-providers/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** [Buyer] Disconnect a direct AI provider: the connection and its encrypted key are deleted; its AI lines stay as history. Revoke the key at the provider too. Logged-in users only, 'edit' on suppliers. */
+        delete: operations["DeleteAiProvider"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-providers/{id}/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Read a direct AI provider's cost and usage reports now (at most every 15 minutes); a pending Snowflake key pair is verified first. 'create' on suppliers or 'edit' on invoices. */
+        post: operations["SyncAiProvider"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-providers/{provider}/supplier": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create' on suppliers. */
+        post: operations["AddAiProviderSupplier"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-invoicers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] The AI invoicers Pleaxy pre-creates as suppliers: names, the legal entities they invoice from by region, billing currencies, billing kinds, invoice sender domains, and whether each can be connected. 'view' on suppliers or on invoices. */
+        get: operations["ListAiInvoicers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/purchase-orders/{poId}/emails": {
         parameters: {
             query?: never;
@@ -2550,6 +2636,25 @@ export interface components {
             costCenter?: string;
             poId?: string;
             period?: string;
+        };
+        SnowflakeConnectionInput: {
+            account: string;
+            user: string;
+            warehouse: string;
+            role?: string;
+        };
+        CreditPriceInput: {
+            /** Format: double */
+            amount: number;
+            currency: string;
+            /** @enum {string} */
+            kind: "on_demand" | "capacity" | "commit";
+        };
+        CreateAiProviderInput: {
+            provider: string;
+            key?: string;
+            snowflake?: components["schemas"]["SnowflakeConnectionInput"];
+            creditPrice?: components["schemas"]["CreditPriceInput"];
         };
         PurchaseRequestSupplierInput: {
             /** @description The supplier's name, as the requester knows it. */
@@ -5273,7 +5378,7 @@ export interface components {
             notReadable?: {
                 invoicerId?: string;
                 /** @enum {string} */
-                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
                 label?: string;
                 /** @enum {string} */
                 reason?: "needs_current_cost" | "not_synced_yet";
@@ -5294,7 +5399,7 @@ export interface components {
             key?: string;
             label?: string;
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
             invoicerId?: string;
             currency?: string;
             /** Format: double */
@@ -5352,7 +5457,7 @@ export interface components {
         AiUsageLine: {
             invoicerId?: string;
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
             /** @enum {string} */
             vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "google" | "meta" | "amazon" | "microsoft" | "deepseek" | "nvidia";
             model?: string;
@@ -5423,7 +5528,7 @@ export interface components {
         };
         AiRateCardEntry: {
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
             /** @enum {string} */
             vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "google" | "meta" | "amazon" | "microsoft" | "deepseek" | "nvidia";
             model?: string;
@@ -5438,6 +5543,40 @@ export interface components {
             effectiveFrom?: string;
             effectiveTo?: string;
             sourceUrl?: string;
+        };
+        AiProvider: {
+            id: string;
+            /** @enum {string} */
+            provider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            accountLabel?: string;
+            keyHint?: string;
+            /** @enum {string} */
+            status?: "connected" | "pending";
+            connectedAt?: string;
+            connectedBy?: string;
+            snowflake?: {
+                account?: string;
+                user?: string;
+                warehouse?: string;
+                role?: string;
+                publicKeyPem?: string;
+                publicKeyFingerprint?: string;
+            };
+            creditPrice?: {
+                /** Format: double */
+                amount?: number;
+                currency?: string;
+                /** @enum {string} */
+                kind?: "capacity" | "on_demand" | "commit";
+            };
+            supplierConnectionId?: string;
+            lastSyncedAt?: string;
+            /** @enum {string} */
+            lastSyncStatus?: "error" | "ok" | "throttled";
+            lastSyncError?: string;
+            /** @enum {string} */
+            lastSyncErrorCode?: "throttled" | "access_revoked" | "platform_config" | "data_not_enabled" | "unknown";
+            currency?: string;
         };
         PurchaseOrderEmails: {
             address?: string;
@@ -5837,6 +5976,8 @@ export interface components {
             rejectionReason?: string;
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+            /** @enum {string} */
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -5883,6 +6024,8 @@ export interface components {
             rejectionReason?: string;
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+            /** @enum {string} */
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -5926,6 +6069,8 @@ export interface components {
             rejectionReason?: string;
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+            /** @enum {string} */
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -5975,6 +6120,8 @@ export interface components {
             rejectionReason?: string;
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+            /** @enum {string} */
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -6020,6 +6167,8 @@ export interface components {
             rejectionReason?: string;
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+            /** @enum {string} */
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -7988,6 +8137,80 @@ export interface components {
         };
         ListWebhookDeliveriesResult: {
             deliveries?: components["schemas"]["WebhookDelivery"][];
+        };
+        DeleteAiProviderResult: {
+            id: string;
+            provider?: string;
+        };
+        AddAiProviderSupplierResult: {
+            id: string;
+            buyerOrgId?: string;
+            buyerName?: string;
+            supplierOrgId?: string;
+            supplierName?: string;
+            invitedAsName?: string;
+            supplierContactEmail?: string;
+            /** @enum {string} */
+            status?: "pending_invite" | "invited" | "in_progress" | "submitted" | "approved" | "rejected";
+            questionnaireTemplateId?: string;
+            /** Format: double */
+            questionnaireTemplateVersion?: number;
+            fields?: components["schemas"]["QuestionnaireFieldDef"][];
+            responses?: components["schemas"]["QuestionnaireResponseItem"][];
+            createdAt?: string;
+            invitedAt?: string;
+            respondedAt?: string;
+            reviewedAt?: string;
+            reviewedBy?: string;
+            rejectionReason?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+            /** @enum {string} */
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            billingCurrency?: string;
+            paymentCurrency?: string;
+            offPlatformInvoicesRecorded?: boolean;
+            supplierRegion?: components["schemas"]["SupplierRegionRequest"];
+            acceptedRegionName?: string;
+            acceptedRegionMatchesRequest?: boolean;
+            invoiceFeedEnabled?: boolean;
+            invoiceFeedUpdatedAt?: string;
+            invoiceFeedUpdatedBy?: string;
+            feedLastAttemptAt?: string;
+            feedLastAcceptedAt?: string;
+            /** Format: double */
+            feedAcceptedCount?: number;
+            feedLastRefusedAt?: string;
+            feedLastRefusedCode?: string;
+            feedLastValidAt?: string;
+            /** Format: double */
+            feedValidCount?: number;
+            lateFeeTerms?: components["schemas"]["LateFeeTerms"];
+            lateFeeTermsUpdatedAt?: string;
+            lateFeeTermsAttestedAt?: string;
+            lateFeeTermsAttestationVersion?: string;
+        };
+        ListAiInvoicersItem: {
+            /** @enum {string} */
+            id: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            name?: string;
+            legalEntities?: {
+                /** @enum {string} */
+                region?: "default" | "eu" | "us";
+                name?: string;
+                country?: string;
+            }[];
+            billingCurrencies?: string[];
+            billing?: ("invoice" | "prepaid_credits")[];
+            senderDomains?: string[];
+            /** @enum {string} */
+            credential?: "none" | "admin_key" | "key_pair";
+            /** @enum {string} */
+            tier?: "direct" | "data_platform" | "host" | "neocloud";
+            /** @enum {string} */
+            shape?: "tokens" | "capacity" | "credits";
+            contactHint?: string;
+            connectable?: boolean;
         };
         RequestPurchaseRequestFileUploadResult: {
             fileId?: string;
@@ -11157,6 +11380,184 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AiRateCardEntry"][];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListAiProviders: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiProvider"][];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CreateAiProvider: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateAiProviderInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiProvider"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    DeleteAiProvider: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeleteAiProviderResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SyncAiProvider: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiProvider"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AddAiProviderSupplier: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                provider: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AddAiProviderSupplierResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListAiInvoicers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListAiInvoicersItem"][];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

@@ -3,6 +3,10 @@ from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.add_cloud_provider_as_supplier_result_ai_provider import (
+    AddCloudProviderAsSupplierResultAiProvider,
+    check_add_cloud_provider_as_supplier_result_ai_provider,
+)
 from ..models.add_cloud_provider_as_supplier_result_cloud_provider import (
     AddCloudProviderAsSupplierResultCloudProvider,
     check_add_cloud_provider_as_supplier_result_cloud_provider,
@@ -46,6 +50,7 @@ class AddCloudProviderAsSupplierResult:
         reviewed_by (Union[Unset, str]):
         rejection_reason (Union[Unset, str]):
         cloud_provider (Union[Unset, AddCloudProviderAsSupplierResultCloudProvider]):
+        ai_provider (Union[Unset, AddCloudProviderAsSupplierResultAiProvider]):
         billing_currency (Union[Unset, str]):
         payment_currency (Union[Unset, str]):
         off_platform_invoices_recorded (Union[Unset, bool]):
@@ -87,6 +92,7 @@ class AddCloudProviderAsSupplierResult:
     reviewed_by: Union[Unset, str] = UNSET
     rejection_reason: Union[Unset, str] = UNSET
     cloud_provider: Union[Unset, AddCloudProviderAsSupplierResultCloudProvider] = UNSET
+    ai_provider: Union[Unset, AddCloudProviderAsSupplierResultAiProvider] = UNSET
     billing_currency: Union[Unset, str] = UNSET
     payment_currency: Union[Unset, str] = UNSET
     off_platform_invoices_recorded: Union[Unset, bool] = UNSET
@@ -161,6 +167,10 @@ class AddCloudProviderAsSupplierResult:
         cloud_provider: Union[Unset, str] = UNSET
         if not isinstance(self.cloud_provider, Unset):
             cloud_provider = self.cloud_provider
+
+        ai_provider: Union[Unset, str] = UNSET
+        if not isinstance(self.ai_provider, Unset):
+            ai_provider = self.ai_provider
 
         billing_currency = self.billing_currency
 
@@ -249,6 +259,8 @@ class AddCloudProviderAsSupplierResult:
             field_dict["rejectionReason"] = rejection_reason
         if cloud_provider is not UNSET:
             field_dict["cloudProvider"] = cloud_provider
+        if ai_provider is not UNSET:
+            field_dict["aiProvider"] = ai_provider
         if billing_currency is not UNSET:
             field_dict["billingCurrency"] = billing_currency
         if payment_currency is not UNSET:
@@ -362,6 +374,15 @@ class AddCloudProviderAsSupplierResult:
                 _cloud_provider
             )
 
+        _ai_provider = d.pop("aiProvider", UNSET)
+        ai_provider: Union[Unset, AddCloudProviderAsSupplierResultAiProvider]
+        if isinstance(_ai_provider, Unset):
+            ai_provider = UNSET
+        else:
+            ai_provider = check_add_cloud_provider_as_supplier_result_ai_provider(
+                _ai_provider
+            )
+
         billing_currency = d.pop("billingCurrency", UNSET)
 
         payment_currency = d.pop("paymentCurrency", UNSET)
@@ -434,6 +455,7 @@ class AddCloudProviderAsSupplierResult:
             reviewed_by=reviewed_by,
             rejection_reason=rejection_reason,
             cloud_provider=cloud_provider,
+            ai_provider=ai_provider,
             billing_currency=billing_currency,
             payment_currency=payment_currency,
             off_platform_invoices_recorded=off_platform_invoices_recorded,

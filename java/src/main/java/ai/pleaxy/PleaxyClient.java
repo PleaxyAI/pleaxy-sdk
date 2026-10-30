@@ -14,6 +14,7 @@ import ai.pleaxy.api.RequestTypesApi;
 import ai.pleaxy.api.BankAccountsApi;
 import ai.pleaxy.api.ScreeningApi;
 import ai.pleaxy.api.SupplierRiskApi;
+import ai.pleaxy.api.AiProvidersApi;
 import ai.pleaxy.api.AiSpendApi;
 import ai.pleaxy.api.EmployeesApi;
 import ai.pleaxy.api.ExchangeRatesApi;
@@ -68,6 +69,7 @@ public final class PleaxyClient {
   private final ScreeningApi screening;
   private final SupplierRiskApi supplierRisk;
   private final AiSpendApi aiSpend;
+  private final AiProvidersApi aiProviders;
   private final BudgetControlApi budgetControl;
   private final EmployeesApi employees;
   private final ExchangeRatesApi exchangeRates;
@@ -118,6 +120,7 @@ public final class PleaxyClient {
     this.screening = new ScreeningApi(apiClient);
     this.supplierRisk = new SupplierRiskApi(apiClient);
     this.aiSpend = new AiSpendApi(apiClient);
+    this.aiProviders = new AiProvidersApi(apiClient);
     this.budgetControl = new BudgetControlApi(apiClient);
     this.employees = new EmployeesApi(apiClient);
     this.exchangeRates = new ExchangeRatesApi(apiClient);
@@ -207,6 +210,11 @@ public final class PleaxyClient {
   /** AI spend: figures by invoicer, vendor, model and cost center, usage lines, rate cards, and the check against open orders. */
   public AiSpendApi aiSpend() {
     return aiSpend;
+  }
+
+  /** AI providers connected by admin key (OpenAI, Anthropic, Mistral, Snowflake), the AI invoicers, and adding one as a supplier. */
+  public AiProvidersApi aiProviders() {
+    return aiProviders;
   }
 
   /** Budget control operations. */

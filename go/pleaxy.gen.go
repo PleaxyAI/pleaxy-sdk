@@ -23,6 +23,56 @@ const (
 	SessionScopes = "session.Scopes"
 )
 
+// Defines values for AddAiProviderSupplierResultAiProvider.
+const (
+	AddAiProviderSupplierResultAiProviderAnthropic  AddAiProviderSupplierResultAiProvider = "anthropic"
+	AddAiProviderSupplierResultAiProviderCohere     AddAiProviderSupplierResultAiProvider = "cohere"
+	AddAiProviderSupplierResultAiProviderCoreweave  AddAiProviderSupplierResultAiProvider = "coreweave"
+	AddAiProviderSupplierResultAiProviderCrusoe     AddAiProviderSupplierResultAiProvider = "crusoe"
+	AddAiProviderSupplierResultAiProviderDatabricks AddAiProviderSupplierResultAiProvider = "databricks"
+	AddAiProviderSupplierResultAiProviderLambda     AddAiProviderSupplierResultAiProvider = "lambda"
+	AddAiProviderSupplierResultAiProviderMistral    AddAiProviderSupplierResultAiProvider = "mistral"
+	AddAiProviderSupplierResultAiProviderNebius     AddAiProviderSupplierResultAiProvider = "nebius"
+	AddAiProviderSupplierResultAiProviderOpenai     AddAiProviderSupplierResultAiProvider = "openai"
+	AddAiProviderSupplierResultAiProviderOpenrouter AddAiProviderSupplierResultAiProvider = "openrouter"
+	AddAiProviderSupplierResultAiProviderSnowflake  AddAiProviderSupplierResultAiProvider = "snowflake"
+	AddAiProviderSupplierResultAiProviderXai        AddAiProviderSupplierResultAiProvider = "xai"
+)
+
+// Defines values for AddAiProviderSupplierResultCloudProvider.
+const (
+	AddAiProviderSupplierResultCloudProviderAws   AddAiProviderSupplierResultCloudProvider = "aws"
+	AddAiProviderSupplierResultCloudProviderAzure AddAiProviderSupplierResultCloudProvider = "azure"
+	AddAiProviderSupplierResultCloudProviderGcp   AddAiProviderSupplierResultCloudProvider = "gcp"
+	AddAiProviderSupplierResultCloudProviderOci   AddAiProviderSupplierResultCloudProvider = "oci"
+)
+
+// Defines values for AddAiProviderSupplierResultStatus.
+const (
+	AddAiProviderSupplierResultStatusApproved      AddAiProviderSupplierResultStatus = "approved"
+	AddAiProviderSupplierResultStatusInProgress    AddAiProviderSupplierResultStatus = "in_progress"
+	AddAiProviderSupplierResultStatusInvited       AddAiProviderSupplierResultStatus = "invited"
+	AddAiProviderSupplierResultStatusPendingInvite AddAiProviderSupplierResultStatus = "pending_invite"
+	AddAiProviderSupplierResultStatusRejected      AddAiProviderSupplierResultStatus = "rejected"
+	AddAiProviderSupplierResultStatusSubmitted     AddAiProviderSupplierResultStatus = "submitted"
+)
+
+// Defines values for AddCloudProviderAsSupplierResultAiProvider.
+const (
+	AddCloudProviderAsSupplierResultAiProviderAnthropic  AddCloudProviderAsSupplierResultAiProvider = "anthropic"
+	AddCloudProviderAsSupplierResultAiProviderCohere     AddCloudProviderAsSupplierResultAiProvider = "cohere"
+	AddCloudProviderAsSupplierResultAiProviderCoreweave  AddCloudProviderAsSupplierResultAiProvider = "coreweave"
+	AddCloudProviderAsSupplierResultAiProviderCrusoe     AddCloudProviderAsSupplierResultAiProvider = "crusoe"
+	AddCloudProviderAsSupplierResultAiProviderDatabricks AddCloudProviderAsSupplierResultAiProvider = "databricks"
+	AddCloudProviderAsSupplierResultAiProviderLambda     AddCloudProviderAsSupplierResultAiProvider = "lambda"
+	AddCloudProviderAsSupplierResultAiProviderMistral    AddCloudProviderAsSupplierResultAiProvider = "mistral"
+	AddCloudProviderAsSupplierResultAiProviderNebius     AddCloudProviderAsSupplierResultAiProvider = "nebius"
+	AddCloudProviderAsSupplierResultAiProviderOpenai     AddCloudProviderAsSupplierResultAiProvider = "openai"
+	AddCloudProviderAsSupplierResultAiProviderOpenrouter AddCloudProviderAsSupplierResultAiProvider = "openrouter"
+	AddCloudProviderAsSupplierResultAiProviderSnowflake  AddCloudProviderAsSupplierResultAiProvider = "snowflake"
+	AddCloudProviderAsSupplierResultAiProviderXai        AddCloudProviderAsSupplierResultAiProvider = "xai"
+)
+
 // Defines values for AddCloudProviderAsSupplierResultCloudProvider.
 const (
 	AddCloudProviderAsSupplierResultCloudProviderAws   AddCloudProviderAsSupplierResultCloudProvider = "aws"
@@ -136,6 +186,51 @@ const (
 	AddInvoiceReplacementLinksResultUsageSourceMcaInvoice          AddInvoiceReplacementLinksResultUsageSource = "mca_invoice"
 	AddInvoiceReplacementLinksResultUsageSourceOspInvoice          AddInvoiceReplacementLinksResultUsageSource = "osp_invoice"
 	AddInvoiceReplacementLinksResultUsageSourceUsageApiClosedMonth AddInvoiceReplacementLinksResultUsageSource = "usage_api_closed_month"
+)
+
+// Defines values for AiProviderCreditPriceKind.
+const (
+	AiProviderCreditPriceKindCapacity AiProviderCreditPriceKind = "capacity"
+	AiProviderCreditPriceKindCommit   AiProviderCreditPriceKind = "commit"
+	AiProviderCreditPriceKindOnDemand AiProviderCreditPriceKind = "on_demand"
+)
+
+// Defines values for AiProviderLastSyncErrorCode.
+const (
+	AiProviderLastSyncErrorCodeAccessRevoked  AiProviderLastSyncErrorCode = "access_revoked"
+	AiProviderLastSyncErrorCodeDataNotEnabled AiProviderLastSyncErrorCode = "data_not_enabled"
+	AiProviderLastSyncErrorCodePlatformConfig AiProviderLastSyncErrorCode = "platform_config"
+	AiProviderLastSyncErrorCodeThrottled      AiProviderLastSyncErrorCode = "throttled"
+	AiProviderLastSyncErrorCodeUnknown        AiProviderLastSyncErrorCode = "unknown"
+)
+
+// Defines values for AiProviderLastSyncStatus.
+const (
+	AiProviderLastSyncStatusError     AiProviderLastSyncStatus = "error"
+	AiProviderLastSyncStatusOk        AiProviderLastSyncStatus = "ok"
+	AiProviderLastSyncStatusThrottled AiProviderLastSyncStatus = "throttled"
+)
+
+// Defines values for AiProviderProvider.
+const (
+	AiProviderProviderAnthropic  AiProviderProvider = "anthropic"
+	AiProviderProviderCohere     AiProviderProvider = "cohere"
+	AiProviderProviderCoreweave  AiProviderProvider = "coreweave"
+	AiProviderProviderCrusoe     AiProviderProvider = "crusoe"
+	AiProviderProviderDatabricks AiProviderProvider = "databricks"
+	AiProviderProviderLambda     AiProviderProvider = "lambda"
+	AiProviderProviderMistral    AiProviderProvider = "mistral"
+	AiProviderProviderNebius     AiProviderProvider = "nebius"
+	AiProviderProviderOpenai     AiProviderProvider = "openai"
+	AiProviderProviderOpenrouter AiProviderProvider = "openrouter"
+	AiProviderProviderSnowflake  AiProviderProvider = "snowflake"
+	AiProviderProviderXai        AiProviderProvider = "xai"
+)
+
+// Defines values for AiProviderStatus.
+const (
+	AiProviderStatusConnected AiProviderStatus = "connected"
+	AiProviderStatusPending   AiProviderStatus = "pending"
 )
 
 // Defines values for AiRateCardEntryInvoicer.
@@ -1440,6 +1535,13 @@ const (
 	CreditNoteHistoryEntryActionVoided   CreditNoteHistoryEntryAction = "voided"
 )
 
+// Defines values for CreditPriceInputKind.
+const (
+	Capacity CreditPriceInputKind = "capacity"
+	Commit   CreditPriceInputKind = "commit"
+	OnDemand CreditPriceInputKind = "on_demand"
+)
+
 // Defines values for FeedAttemptFormat.
 const (
 	FeedAttemptFormatCxml FeedAttemptFormat = "cxml"
@@ -2564,6 +2666,57 @@ const (
 	LineItemInputScopeTypeCustom  LineItemInputScopeType = "custom"
 	LineItemInputScopeTypeService LineItemInputScopeType = "service"
 	LineItemInputScopeTypeSku     LineItemInputScopeType = "sku"
+)
+
+// Defines values for ListAiInvoicersItemBilling.
+const (
+	ListAiInvoicersItemBillingInvoice        ListAiInvoicersItemBilling = "invoice"
+	ListAiInvoicersItemBillingPrepaidCredits ListAiInvoicersItemBilling = "prepaid_credits"
+)
+
+// Defines values for ListAiInvoicersItemCredential.
+const (
+	ListAiInvoicersItemCredentialAdminKey ListAiInvoicersItemCredential = "admin_key"
+	ListAiInvoicersItemCredentialKeyPair  ListAiInvoicersItemCredential = "key_pair"
+	ListAiInvoicersItemCredentialNone     ListAiInvoicersItemCredential = "none"
+)
+
+// Defines values for ListAiInvoicersItemId.
+const (
+	ListAiInvoicersItemIdAnthropic  ListAiInvoicersItemId = "anthropic"
+	ListAiInvoicersItemIdCohere     ListAiInvoicersItemId = "cohere"
+	ListAiInvoicersItemIdCoreweave  ListAiInvoicersItemId = "coreweave"
+	ListAiInvoicersItemIdCrusoe     ListAiInvoicersItemId = "crusoe"
+	ListAiInvoicersItemIdDatabricks ListAiInvoicersItemId = "databricks"
+	ListAiInvoicersItemIdLambda     ListAiInvoicersItemId = "lambda"
+	ListAiInvoicersItemIdMistral    ListAiInvoicersItemId = "mistral"
+	ListAiInvoicersItemIdNebius     ListAiInvoicersItemId = "nebius"
+	ListAiInvoicersItemIdOpenai     ListAiInvoicersItemId = "openai"
+	ListAiInvoicersItemIdOpenrouter ListAiInvoicersItemId = "openrouter"
+	ListAiInvoicersItemIdSnowflake  ListAiInvoicersItemId = "snowflake"
+	ListAiInvoicersItemIdXai        ListAiInvoicersItemId = "xai"
+)
+
+// Defines values for ListAiInvoicersItemLegalEntitiesRegion.
+const (
+	ListAiInvoicersItemLegalEntitiesRegionDefault ListAiInvoicersItemLegalEntitiesRegion = "default"
+	ListAiInvoicersItemLegalEntitiesRegionEu      ListAiInvoicersItemLegalEntitiesRegion = "eu"
+	ListAiInvoicersItemLegalEntitiesRegionUs      ListAiInvoicersItemLegalEntitiesRegion = "us"
+)
+
+// Defines values for ListAiInvoicersItemShape.
+const (
+	ListAiInvoicersItemShapeCapacity ListAiInvoicersItemShape = "capacity"
+	ListAiInvoicersItemShapeCredits  ListAiInvoicersItemShape = "credits"
+	ListAiInvoicersItemShapeTokens   ListAiInvoicersItemShape = "tokens"
+)
+
+// Defines values for ListAiInvoicersItemTier.
+const (
+	ListAiInvoicersItemTierDataPlatform ListAiInvoicersItemTier = "data_platform"
+	ListAiInvoicersItemTierDirect       ListAiInvoicersItemTier = "direct"
+	ListAiInvoicersItemTierHost         ListAiInvoicersItemTier = "host"
+	ListAiInvoicersItemTierNeocloud     ListAiInvoicersItemTier = "neocloud"
 )
 
 // Defines values for ListInvoicesItemBuyerCreditNoteCloudProvider.
@@ -3716,11 +3869,11 @@ const (
 
 // Defines values for RemoveInvoiceReplacementLinkResultUnverifiedReason.
 const (
-	DebitNote           RemoveInvoiceReplacementLinkResultUnverifiedReason = "debit_note"
-	NoBillingConnection RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_billing_connection"
-	NoPoFirstInvoice    RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_po_first_invoice"
-	NoPurchaseOrder     RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_purchase_order"
-	PayerAccountUnclear RemoveInvoiceReplacementLinkResultUnverifiedReason = "payer_account_unclear"
+	RemoveInvoiceReplacementLinkResultUnverifiedReasonDebitNote           RemoveInvoiceReplacementLinkResultUnverifiedReason = "debit_note"
+	RemoveInvoiceReplacementLinkResultUnverifiedReasonNoBillingConnection RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_billing_connection"
+	RemoveInvoiceReplacementLinkResultUnverifiedReasonNoPoFirstInvoice    RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_po_first_invoice"
+	RemoveInvoiceReplacementLinkResultUnverifiedReasonNoPurchaseOrder     RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_purchase_order"
+	RemoveInvoiceReplacementLinkResultUnverifiedReasonPayerAccountUnclear RemoveInvoiceReplacementLinkResultUnverifiedReason = "payer_account_unclear"
 )
 
 // Defines values for RemoveInvoiceReplacementLinkResultUsageSource.
@@ -3836,6 +3989,22 @@ const (
 	SpendLimitReview       SelfApprovalRecordWaivedExclusion = "spend-limit review"
 )
 
+// Defines values for SetInvoiceFeedResult0AiProvider.
+const (
+	SetInvoiceFeedResult0AiProviderAnthropic  SetInvoiceFeedResult0AiProvider = "anthropic"
+	SetInvoiceFeedResult0AiProviderCohere     SetInvoiceFeedResult0AiProvider = "cohere"
+	SetInvoiceFeedResult0AiProviderCoreweave  SetInvoiceFeedResult0AiProvider = "coreweave"
+	SetInvoiceFeedResult0AiProviderCrusoe     SetInvoiceFeedResult0AiProvider = "crusoe"
+	SetInvoiceFeedResult0AiProviderDatabricks SetInvoiceFeedResult0AiProvider = "databricks"
+	SetInvoiceFeedResult0AiProviderLambda     SetInvoiceFeedResult0AiProvider = "lambda"
+	SetInvoiceFeedResult0AiProviderMistral    SetInvoiceFeedResult0AiProvider = "mistral"
+	SetInvoiceFeedResult0AiProviderNebius     SetInvoiceFeedResult0AiProvider = "nebius"
+	SetInvoiceFeedResult0AiProviderOpenai     SetInvoiceFeedResult0AiProvider = "openai"
+	SetInvoiceFeedResult0AiProviderOpenrouter SetInvoiceFeedResult0AiProvider = "openrouter"
+	SetInvoiceFeedResult0AiProviderSnowflake  SetInvoiceFeedResult0AiProvider = "snowflake"
+	SetInvoiceFeedResult0AiProviderXai        SetInvoiceFeedResult0AiProvider = "xai"
+)
+
 // Defines values for SetInvoiceFeedResult0CloudProvider.
 const (
 	SetInvoiceFeedResult0CloudProviderAws   SetInvoiceFeedResult0CloudProvider = "aws"
@@ -3862,6 +4031,22 @@ const (
 	SetInvoiceFeedResult0StatusPendingInvite SetInvoiceFeedResult0Status = "pending_invite"
 	SetInvoiceFeedResult0StatusRejected      SetInvoiceFeedResult0Status = "rejected"
 	SetInvoiceFeedResult0StatusSubmitted     SetInvoiceFeedResult0Status = "submitted"
+)
+
+// Defines values for SetInvoiceFeedResult1AiProvider.
+const (
+	SetInvoiceFeedResult1AiProviderAnthropic  SetInvoiceFeedResult1AiProvider = "anthropic"
+	SetInvoiceFeedResult1AiProviderCohere     SetInvoiceFeedResult1AiProvider = "cohere"
+	SetInvoiceFeedResult1AiProviderCoreweave  SetInvoiceFeedResult1AiProvider = "coreweave"
+	SetInvoiceFeedResult1AiProviderCrusoe     SetInvoiceFeedResult1AiProvider = "crusoe"
+	SetInvoiceFeedResult1AiProviderDatabricks SetInvoiceFeedResult1AiProvider = "databricks"
+	SetInvoiceFeedResult1AiProviderLambda     SetInvoiceFeedResult1AiProvider = "lambda"
+	SetInvoiceFeedResult1AiProviderMistral    SetInvoiceFeedResult1AiProvider = "mistral"
+	SetInvoiceFeedResult1AiProviderNebius     SetInvoiceFeedResult1AiProvider = "nebius"
+	SetInvoiceFeedResult1AiProviderOpenai     SetInvoiceFeedResult1AiProvider = "openai"
+	SetInvoiceFeedResult1AiProviderOpenrouter SetInvoiceFeedResult1AiProvider = "openrouter"
+	SetInvoiceFeedResult1AiProviderSnowflake  SetInvoiceFeedResult1AiProvider = "snowflake"
+	SetInvoiceFeedResult1AiProviderXai        SetInvoiceFeedResult1AiProvider = "xai"
 )
 
 // Defines values for SetInvoiceFeedResult1CloudProvider.
@@ -3892,6 +4077,22 @@ const (
 	SetInvoiceFeedResult1StatusSubmitted     SetInvoiceFeedResult1Status = "submitted"
 )
 
+// Defines values for SetSupplierCurrenciesResult0AiProvider.
+const (
+	SetSupplierCurrenciesResult0AiProviderAnthropic  SetSupplierCurrenciesResult0AiProvider = "anthropic"
+	SetSupplierCurrenciesResult0AiProviderCohere     SetSupplierCurrenciesResult0AiProvider = "cohere"
+	SetSupplierCurrenciesResult0AiProviderCoreweave  SetSupplierCurrenciesResult0AiProvider = "coreweave"
+	SetSupplierCurrenciesResult0AiProviderCrusoe     SetSupplierCurrenciesResult0AiProvider = "crusoe"
+	SetSupplierCurrenciesResult0AiProviderDatabricks SetSupplierCurrenciesResult0AiProvider = "databricks"
+	SetSupplierCurrenciesResult0AiProviderLambda     SetSupplierCurrenciesResult0AiProvider = "lambda"
+	SetSupplierCurrenciesResult0AiProviderMistral    SetSupplierCurrenciesResult0AiProvider = "mistral"
+	SetSupplierCurrenciesResult0AiProviderNebius     SetSupplierCurrenciesResult0AiProvider = "nebius"
+	SetSupplierCurrenciesResult0AiProviderOpenai     SetSupplierCurrenciesResult0AiProvider = "openai"
+	SetSupplierCurrenciesResult0AiProviderOpenrouter SetSupplierCurrenciesResult0AiProvider = "openrouter"
+	SetSupplierCurrenciesResult0AiProviderSnowflake  SetSupplierCurrenciesResult0AiProvider = "snowflake"
+	SetSupplierCurrenciesResult0AiProviderXai        SetSupplierCurrenciesResult0AiProvider = "xai"
+)
+
 // Defines values for SetSupplierCurrenciesResult0CloudProvider.
 const (
 	SetSupplierCurrenciesResult0CloudProviderAws   SetSupplierCurrenciesResult0CloudProvider = "aws"
@@ -3908,6 +4109,22 @@ const (
 	SetSupplierCurrenciesResult0StatusPendingInvite SetSupplierCurrenciesResult0Status = "pending_invite"
 	SetSupplierCurrenciesResult0StatusRejected      SetSupplierCurrenciesResult0Status = "rejected"
 	SetSupplierCurrenciesResult0StatusSubmitted     SetSupplierCurrenciesResult0Status = "submitted"
+)
+
+// Defines values for SetSupplierCurrenciesResult1AiProvider.
+const (
+	Anthropic  SetSupplierCurrenciesResult1AiProvider = "anthropic"
+	Cohere     SetSupplierCurrenciesResult1AiProvider = "cohere"
+	Coreweave  SetSupplierCurrenciesResult1AiProvider = "coreweave"
+	Crusoe     SetSupplierCurrenciesResult1AiProvider = "crusoe"
+	Databricks SetSupplierCurrenciesResult1AiProvider = "databricks"
+	Lambda     SetSupplierCurrenciesResult1AiProvider = "lambda"
+	Mistral    SetSupplierCurrenciesResult1AiProvider = "mistral"
+	Nebius     SetSupplierCurrenciesResult1AiProvider = "nebius"
+	Openai     SetSupplierCurrenciesResult1AiProvider = "openai"
+	Openrouter SetSupplierCurrenciesResult1AiProvider = "openrouter"
+	Snowflake  SetSupplierCurrenciesResult1AiProvider = "snowflake"
+	Xai        SetSupplierCurrenciesResult1AiProvider = "xai"
 )
 
 // Defines values for SetSupplierCurrenciesResult1CloudProvider.
@@ -4240,10 +4457,10 @@ const (
 
 // Defines values for SupplierRiskScreeningState.
 const (
-	SupplierRiskScreeningStateAttention SupplierRiskScreeningState = "attention"
-	SupplierRiskScreeningStateBlocked   SupplierRiskScreeningState = "blocked"
-	SupplierRiskScreeningStateNone      SupplierRiskScreeningState = "none"
-	SupplierRiskScreeningStateOk        SupplierRiskScreeningState = "ok"
+	Attention SupplierRiskScreeningState = "attention"
+	Blocked   SupplierRiskScreeningState = "blocked"
+	None      SupplierRiskScreeningState = "none"
+	Ok        SupplierRiskScreeningState = "ok"
 )
 
 // Defines values for SupplierRiskScreeningStatus.
@@ -4257,11 +4474,11 @@ const (
 
 // Defines values for SupplierScreeningHistoryEvent.
 const (
-	SupplierScreeningHistoryEventClosed    SupplierScreeningHistoryEvent = "closed"
-	SupplierScreeningHistoryEventConfirmed SupplierScreeningHistoryEvent = "confirmed"
-	SupplierScreeningHistoryEventDismissed SupplierScreeningHistoryEvent = "dismissed"
-	SupplierScreeningHistoryEventReopened  SupplierScreeningHistoryEvent = "reopened"
-	SupplierScreeningHistoryEventScreened  SupplierScreeningHistoryEvent = "screened"
+	Closed    SupplierScreeningHistoryEvent = "closed"
+	Confirmed SupplierScreeningHistoryEvent = "confirmed"
+	Dismissed SupplierScreeningHistoryEvent = "dismissed"
+	Reopened  SupplierScreeningHistoryEvent = "reopened"
+	Screened  SupplierScreeningHistoryEvent = "screened"
 )
 
 // Defines values for SupplierScreeningStatus.
@@ -4350,21 +4567,21 @@ const (
 
 // Defines values for UpdateOrgProfileInputGeographyPresetId.
 const (
-	Apac                  UpdateOrgProfileInputGeographyPresetId = "apac"
-	ContinentAfrica       UpdateOrgProfileInputGeographyPresetId = "continent-africa"
-	ContinentAntarctica   UpdateOrgProfileInputGeographyPresetId = "continent-antarctica"
-	ContinentAsia         UpdateOrgProfileInputGeographyPresetId = "continent-asia"
-	ContinentEurope       UpdateOrgProfileInputGeographyPresetId = "continent-europe"
-	ContinentNorthAmerica UpdateOrgProfileInputGeographyPresetId = "continent-north-america"
-	ContinentOceania      UpdateOrgProfileInputGeographyPresetId = "continent-oceania"
-	ContinentSouthAmerica UpdateOrgProfileInputGeographyPresetId = "continent-south-america"
-	Eea                   UpdateOrgProfileInputGeographyPresetId = "eea"
-	Emea                  UpdateOrgProfileInputGeographyPresetId = "emea"
-	Eu                    UpdateOrgProfileInputGeographyPresetId = "eu"
-	Global                UpdateOrgProfileInputGeographyPresetId = "global"
-	Latam                 UpdateOrgProfileInputGeographyPresetId = "latam"
-	Namer                 UpdateOrgProfileInputGeographyPresetId = "namer"
-	Uk                    UpdateOrgProfileInputGeographyPresetId = "uk"
+	UpdateOrgProfileInputGeographyPresetIdApac                  UpdateOrgProfileInputGeographyPresetId = "apac"
+	UpdateOrgProfileInputGeographyPresetIdContinentAfrica       UpdateOrgProfileInputGeographyPresetId = "continent-africa"
+	UpdateOrgProfileInputGeographyPresetIdContinentAntarctica   UpdateOrgProfileInputGeographyPresetId = "continent-antarctica"
+	UpdateOrgProfileInputGeographyPresetIdContinentAsia         UpdateOrgProfileInputGeographyPresetId = "continent-asia"
+	UpdateOrgProfileInputGeographyPresetIdContinentEurope       UpdateOrgProfileInputGeographyPresetId = "continent-europe"
+	UpdateOrgProfileInputGeographyPresetIdContinentNorthAmerica UpdateOrgProfileInputGeographyPresetId = "continent-north-america"
+	UpdateOrgProfileInputGeographyPresetIdContinentOceania      UpdateOrgProfileInputGeographyPresetId = "continent-oceania"
+	UpdateOrgProfileInputGeographyPresetIdContinentSouthAmerica UpdateOrgProfileInputGeographyPresetId = "continent-south-america"
+	UpdateOrgProfileInputGeographyPresetIdEea                   UpdateOrgProfileInputGeographyPresetId = "eea"
+	UpdateOrgProfileInputGeographyPresetIdEmea                  UpdateOrgProfileInputGeographyPresetId = "emea"
+	UpdateOrgProfileInputGeographyPresetIdEu                    UpdateOrgProfileInputGeographyPresetId = "eu"
+	UpdateOrgProfileInputGeographyPresetIdGlobal                UpdateOrgProfileInputGeographyPresetId = "global"
+	UpdateOrgProfileInputGeographyPresetIdLatam                 UpdateOrgProfileInputGeographyPresetId = "latam"
+	UpdateOrgProfileInputGeographyPresetIdNamer                 UpdateOrgProfileInputGeographyPresetId = "namer"
+	UpdateOrgProfileInputGeographyPresetIdUk                    UpdateOrgProfileInputGeographyPresetId = "uk"
 )
 
 // Defines values for ValidateFeedInvoiceResultCreditNoteCreditNoteReason.
@@ -4523,10 +4740,64 @@ const (
 	ListPurchaseRequestsParamsStatusRejected        ListPurchaseRequestsParamsStatus = "rejected"
 )
 
+// AddAiProviderSupplierResult defines model for AddAiProviderSupplierResult.
+type AddAiProviderSupplierResult struct {
+	AcceptedRegionMatchesRequest   *bool                                     `json:"acceptedRegionMatchesRequest,omitempty"`
+	AcceptedRegionName             *string                                   `json:"acceptedRegionName,omitempty"`
+	AiProvider                     *AddAiProviderSupplierResultAiProvider    `json:"aiProvider,omitempty"`
+	BillingCurrency                *string                                   `json:"billingCurrency,omitempty"`
+	BuyerName                      *string                                   `json:"buyerName,omitempty"`
+	BuyerOrgId                     *string                                   `json:"buyerOrgId,omitempty"`
+	CloudProvider                  *AddAiProviderSupplierResultCloudProvider `json:"cloudProvider,omitempty"`
+	CreatedAt                      *string                                   `json:"createdAt,omitempty"`
+	FeedAcceptedCount              *float64                                  `json:"feedAcceptedCount,omitempty"`
+	FeedLastAcceptedAt             *string                                   `json:"feedLastAcceptedAt,omitempty"`
+	FeedLastAttemptAt              *string                                   `json:"feedLastAttemptAt,omitempty"`
+	FeedLastRefusedAt              *string                                   `json:"feedLastRefusedAt,omitempty"`
+	FeedLastRefusedCode            *string                                   `json:"feedLastRefusedCode,omitempty"`
+	FeedLastValidAt                *string                                   `json:"feedLastValidAt,omitempty"`
+	FeedValidCount                 *float64                                  `json:"feedValidCount,omitempty"`
+	Fields                         *[]QuestionnaireFieldDef                  `json:"fields,omitempty"`
+	Id                             string                                    `json:"id"`
+	InvitedAsName                  *string                                   `json:"invitedAsName,omitempty"`
+	InvitedAt                      *string                                   `json:"invitedAt,omitempty"`
+	InvoiceFeedEnabled             *bool                                     `json:"invoiceFeedEnabled,omitempty"`
+	InvoiceFeedUpdatedAt           *string                                   `json:"invoiceFeedUpdatedAt,omitempty"`
+	InvoiceFeedUpdatedBy           *string                                   `json:"invoiceFeedUpdatedBy,omitempty"`
+	LateFeeTerms                   *LateFeeTerms                             `json:"lateFeeTerms,omitempty"`
+	LateFeeTermsAttestationVersion *string                                   `json:"lateFeeTermsAttestationVersion,omitempty"`
+	LateFeeTermsAttestedAt         *string                                   `json:"lateFeeTermsAttestedAt,omitempty"`
+	LateFeeTermsUpdatedAt          *string                                   `json:"lateFeeTermsUpdatedAt,omitempty"`
+	OffPlatformInvoicesRecorded    *bool                                     `json:"offPlatformInvoicesRecorded,omitempty"`
+	PaymentCurrency                *string                                   `json:"paymentCurrency,omitempty"`
+	QuestionnaireTemplateId        *string                                   `json:"questionnaireTemplateId,omitempty"`
+	QuestionnaireTemplateVersion   *float64                                  `json:"questionnaireTemplateVersion,omitempty"`
+	RejectionReason                *string                                   `json:"rejectionReason,omitempty"`
+	RespondedAt                    *string                                   `json:"respondedAt,omitempty"`
+	Responses                      *[]QuestionnaireResponseItem              `json:"responses,omitempty"`
+	ReviewedAt                     *string                                   `json:"reviewedAt,omitempty"`
+	ReviewedBy                     *string                                   `json:"reviewedBy,omitempty"`
+	Status                         *AddAiProviderSupplierResultStatus        `json:"status,omitempty"`
+	SupplierContactEmail           *string                                   `json:"supplierContactEmail,omitempty"`
+	SupplierName                   *string                                   `json:"supplierName,omitempty"`
+	SupplierOrgId                  *string                                   `json:"supplierOrgId,omitempty"`
+	SupplierRegion                 *SupplierRegionRequest                    `json:"supplierRegion,omitempty"`
+}
+
+// AddAiProviderSupplierResultAiProvider defines model for AddAiProviderSupplierResult.AiProvider.
+type AddAiProviderSupplierResultAiProvider string
+
+// AddAiProviderSupplierResultCloudProvider defines model for AddAiProviderSupplierResult.CloudProvider.
+type AddAiProviderSupplierResultCloudProvider string
+
+// AddAiProviderSupplierResultStatus defines model for AddAiProviderSupplierResult.Status.
+type AddAiProviderSupplierResultStatus string
+
 // AddCloudProviderAsSupplierResult defines model for AddCloudProviderAsSupplierResult.
 type AddCloudProviderAsSupplierResult struct {
 	AcceptedRegionMatchesRequest   *bool                                          `json:"acceptedRegionMatchesRequest,omitempty"`
 	AcceptedRegionName             *string                                        `json:"acceptedRegionName,omitempty"`
+	AiProvider                     *AddCloudProviderAsSupplierResultAiProvider    `json:"aiProvider,omitempty"`
 	BillingCurrency                *string                                        `json:"billingCurrency,omitempty"`
 	BuyerName                      *string                                        `json:"buyerName,omitempty"`
 	BuyerOrgId                     *string                                        `json:"buyerOrgId,omitempty"`
@@ -4565,6 +4836,9 @@ type AddCloudProviderAsSupplierResult struct {
 	SupplierOrgId                  *string                                        `json:"supplierOrgId,omitempty"`
 	SupplierRegion                 *SupplierRegionRequest                         `json:"supplierRegion,omitempty"`
 }
+
+// AddCloudProviderAsSupplierResultAiProvider defines model for AddCloudProviderAsSupplierResult.AiProvider.
+type AddCloudProviderAsSupplierResultAiProvider string
 
 // AddCloudProviderAsSupplierResultCloudProvider defines model for AddCloudProviderAsSupplierResult.CloudProvider.
 type AddCloudProviderAsSupplierResultCloudProvider string
@@ -4738,6 +5012,51 @@ type AiMeterQuantity struct {
 	Quantity *float64 `json:"quantity,omitempty"`
 	Unit     *string  `json:"unit,omitempty"`
 }
+
+// AiProvider defines model for AiProvider.
+type AiProvider struct {
+	AccountLabel *string `json:"accountLabel,omitempty"`
+	ConnectedAt  *string `json:"connectedAt,omitempty"`
+	ConnectedBy  *string `json:"connectedBy,omitempty"`
+	CreditPrice  *struct {
+		Amount   *float64                   `json:"amount,omitempty"`
+		Currency *string                    `json:"currency,omitempty"`
+		Kind     *AiProviderCreditPriceKind `json:"kind,omitempty"`
+	} `json:"creditPrice,omitempty"`
+	Currency          *string                      `json:"currency,omitempty"`
+	Id                string                       `json:"id"`
+	KeyHint           *string                      `json:"keyHint,omitempty"`
+	LastSyncError     *string                      `json:"lastSyncError,omitempty"`
+	LastSyncErrorCode *AiProviderLastSyncErrorCode `json:"lastSyncErrorCode,omitempty"`
+	LastSyncStatus    *AiProviderLastSyncStatus    `json:"lastSyncStatus,omitempty"`
+	LastSyncedAt      *string                      `json:"lastSyncedAt,omitempty"`
+	Provider          *AiProviderProvider          `json:"provider,omitempty"`
+	Snowflake         *struct {
+		Account              *string `json:"account,omitempty"`
+		PublicKeyFingerprint *string `json:"publicKeyFingerprint,omitempty"`
+		PublicKeyPem         *string `json:"publicKeyPem,omitempty"`
+		Role                 *string `json:"role,omitempty"`
+		User                 *string `json:"user,omitempty"`
+		Warehouse            *string `json:"warehouse,omitempty"`
+	} `json:"snowflake,omitempty"`
+	Status               *AiProviderStatus `json:"status,omitempty"`
+	SupplierConnectionId *string           `json:"supplierConnectionId,omitempty"`
+}
+
+// AiProviderCreditPriceKind defines model for AiProvider.CreditPrice.Kind.
+type AiProviderCreditPriceKind string
+
+// AiProviderLastSyncErrorCode defines model for AiProvider.LastSyncErrorCode.
+type AiProviderLastSyncErrorCode string
+
+// AiProviderLastSyncStatus defines model for AiProvider.LastSyncStatus.
+type AiProviderLastSyncStatus string
+
+// AiProviderProvider defines model for AiProvider.Provider.
+type AiProviderProvider string
+
+// AiProviderStatus defines model for AiProvider.Status.
+type AiProviderStatus string
 
 // AiPurchaseOrderLineRemaining defines model for AiPurchaseOrderLineRemaining.
 type AiPurchaseOrderLineRemaining struct {
@@ -5896,6 +6215,14 @@ type ConvertPurchaseRequestResult struct {
 	Request       *PurchaseRequest `json:"request,omitempty"`
 }
 
+// CreateAiProviderInput defines model for CreateAiProviderInput.
+type CreateAiProviderInput struct {
+	CreditPrice *CreditPriceInput         `json:"creditPrice,omitempty"`
+	Key         *string                   `json:"key,omitempty"`
+	Provider    string                    `json:"provider"`
+	Snowflake   *SnowflakeConnectionInput `json:"snowflake,omitempty"`
+}
+
 // CreateApiKeyInput defines model for CreateApiKeyInput.
 type CreateApiKeyInput struct {
 	// Label Human-readable label, e.g. "Billing agent - prod"
@@ -6958,6 +7285,16 @@ type CreditNoteHistoryEntry struct {
 // CreditNoteHistoryEntryAction defines model for CreditNoteHistoryEntry.Action.
 type CreditNoteHistoryEntryAction string
 
+// CreditPriceInput defines model for CreditPriceInput.
+type CreditPriceInput struct {
+	Amount   float64              `json:"amount"`
+	Currency string               `json:"currency"`
+	Kind     CreditPriceInputKind `json:"kind"`
+}
+
+// CreditPriceInputKind defines model for CreditPriceInput.Kind.
+type CreditPriceInputKind string
+
 // CurrencyAmountInput defines model for CurrencyAmountInput.
 type CurrencyAmountInput struct {
 	// AmountBreakdown taxes.totalAmount is required on taxCurrencyAmount.
@@ -6993,6 +7330,12 @@ type CurrencyExchangeDetailsInput struct {
 // DeclineConfirmationChangesInput defines model for DeclineConfirmationChangesInput.
 type DeclineConfirmationChangesInput struct {
 	Reason *string `json:"reason,omitempty"`
+}
+
+// DeleteAiProviderResult defines model for DeleteAiProviderResult.
+type DeleteAiProviderResult struct {
+	Id       string  `json:"id"`
+	Provider *string `json:"provider,omitempty"`
 }
 
 // DiscoverAzureScopesInput defines model for DiscoverAzureScopesInput.
@@ -9054,6 +9397,43 @@ type LineItemInputRuleType string
 
 // LineItemInputScopeType defines model for LineItemInput.ScopeType.
 type LineItemInputScopeType string
+
+// ListAiInvoicersItem defines model for ListAiInvoicersItem.
+type ListAiInvoicersItem struct {
+	Billing           *[]ListAiInvoicersItemBilling  `json:"billing,omitempty"`
+	BillingCurrencies *[]string                      `json:"billingCurrencies,omitempty"`
+	Connectable       *bool                          `json:"connectable,omitempty"`
+	ContactHint       *string                        `json:"contactHint,omitempty"`
+	Credential        *ListAiInvoicersItemCredential `json:"credential,omitempty"`
+	Id                ListAiInvoicersItemId          `json:"id"`
+	LegalEntities     *[]struct {
+		Country *string                                 `json:"country,omitempty"`
+		Name    *string                                 `json:"name,omitempty"`
+		Region  *ListAiInvoicersItemLegalEntitiesRegion `json:"region,omitempty"`
+	} `json:"legalEntities,omitempty"`
+	Name          *string                   `json:"name,omitempty"`
+	SenderDomains *[]string                 `json:"senderDomains,omitempty"`
+	Shape         *ListAiInvoicersItemShape `json:"shape,omitempty"`
+	Tier          *ListAiInvoicersItemTier  `json:"tier,omitempty"`
+}
+
+// ListAiInvoicersItemBilling defines model for ListAiInvoicersItem.Billing.
+type ListAiInvoicersItemBilling string
+
+// ListAiInvoicersItemCredential defines model for ListAiInvoicersItem.Credential.
+type ListAiInvoicersItemCredential string
+
+// ListAiInvoicersItemId defines model for ListAiInvoicersItem.Id.
+type ListAiInvoicersItemId string
+
+// ListAiInvoicersItemLegalEntitiesRegion defines model for ListAiInvoicersItem.LegalEntities.Region.
+type ListAiInvoicersItemLegalEntitiesRegion string
+
+// ListAiInvoicersItemShape defines model for ListAiInvoicersItem.Shape.
+type ListAiInvoicersItemShape string
+
+// ListAiInvoicersItemTier defines model for ListAiInvoicersItem.Tier.
+type ListAiInvoicersItemTier string
 
 // ListCloudConnectionsResult defines model for ListCloudConnectionsResult.
 type ListCloudConnectionsResult struct {
@@ -11306,6 +11686,7 @@ type SetInvoiceFeedResult struct {
 type SetInvoiceFeedResult0 struct {
 	AcceptedRegionMatchesRequest   *bool                               `json:"acceptedRegionMatchesRequest,omitempty"`
 	AcceptedRegionName             *string                             `json:"acceptedRegionName,omitempty"`
+	AiProvider                     *SetInvoiceFeedResult0AiProvider    `json:"aiProvider,omitempty"`
 	BillingCurrency                *string                             `json:"billingCurrency,omitempty"`
 	BuyerName                      *string                             `json:"buyerName,omitempty"`
 	BuyerOrgId                     *string                             `json:"buyerOrgId,omitempty"`
@@ -11346,6 +11727,9 @@ type SetInvoiceFeedResult0 struct {
 	SupplierRegion                 *SupplierRegionRequest              `json:"supplierRegion,omitempty"`
 }
 
+// SetInvoiceFeedResult0AiProvider defines model for SetInvoiceFeedResult.0.AiProvider.
+type SetInvoiceFeedResult0AiProvider string
+
 // SetInvoiceFeedResult0CloudProvider defines model for SetInvoiceFeedResult.0.CloudProvider.
 type SetInvoiceFeedResult0CloudProvider string
 
@@ -11359,6 +11743,7 @@ type SetInvoiceFeedResult0Status string
 type SetInvoiceFeedResult1 struct {
 	AcceptedRegionMatchesRequest   *bool                               `json:"acceptedRegionMatchesRequest,omitempty"`
 	AcceptedRegionName             *string                             `json:"acceptedRegionName,omitempty"`
+	AiProvider                     *SetInvoiceFeedResult1AiProvider    `json:"aiProvider,omitempty"`
 	BillingCurrency                *string                             `json:"billingCurrency,omitempty"`
 	BuyerName                      *string                             `json:"buyerName,omitempty"`
 	BuyerOrgId                     *string                             `json:"buyerOrgId,omitempty"`
@@ -11398,6 +11783,9 @@ type SetInvoiceFeedResult1 struct {
 	SupplierRegion                 *SupplierRegionRequest              `json:"supplierRegion,omitempty"`
 }
 
+// SetInvoiceFeedResult1AiProvider defines model for SetInvoiceFeedResult.1.AiProvider.
+type SetInvoiceFeedResult1AiProvider string
+
 // SetInvoiceFeedResult1CloudProvider defines model for SetInvoiceFeedResult.1.CloudProvider.
 type SetInvoiceFeedResult1CloudProvider string
 
@@ -11416,6 +11804,7 @@ type SetSupplierCurrenciesResult struct {
 type SetSupplierCurrenciesResult0 struct {
 	AcceptedRegionMatchesRequest   *bool                                      `json:"acceptedRegionMatchesRequest,omitempty"`
 	AcceptedRegionName             *string                                    `json:"acceptedRegionName,omitempty"`
+	AiProvider                     *SetSupplierCurrenciesResult0AiProvider    `json:"aiProvider,omitempty"`
 	BillingCurrency                *string                                    `json:"billingCurrency,omitempty"`
 	BuyerName                      *string                                    `json:"buyerName,omitempty"`
 	BuyerOrgId                     *string                                    `json:"buyerOrgId,omitempty"`
@@ -11455,6 +11844,9 @@ type SetSupplierCurrenciesResult0 struct {
 	SupplierRegion                 *SupplierRegionRequest                     `json:"supplierRegion,omitempty"`
 }
 
+// SetSupplierCurrenciesResult0AiProvider defines model for SetSupplierCurrenciesResult.0.AiProvider.
+type SetSupplierCurrenciesResult0AiProvider string
+
 // SetSupplierCurrenciesResult0CloudProvider defines model for SetSupplierCurrenciesResult.0.CloudProvider.
 type SetSupplierCurrenciesResult0CloudProvider string
 
@@ -11465,6 +11857,7 @@ type SetSupplierCurrenciesResult0Status string
 type SetSupplierCurrenciesResult1 struct {
 	AcceptedRegionMatchesRequest   *bool                                      `json:"acceptedRegionMatchesRequest,omitempty"`
 	AcceptedRegionName             *string                                    `json:"acceptedRegionName,omitempty"`
+	AiProvider                     *SetSupplierCurrenciesResult1AiProvider    `json:"aiProvider,omitempty"`
 	BillingCurrency                *string                                    `json:"billingCurrency,omitempty"`
 	BuyerName                      *string                                    `json:"buyerName,omitempty"`
 	BuyerOrgId                     *string                                    `json:"buyerOrgId,omitempty"`
@@ -11502,6 +11895,9 @@ type SetSupplierCurrenciesResult1 struct {
 	SupplierOrgId                  *string                                    `json:"supplierOrgId,omitempty"`
 	SupplierRegion                 *SupplierRegionRequest                     `json:"supplierRegion,omitempty"`
 }
+
+// SetSupplierCurrenciesResult1AiProvider defines model for SetSupplierCurrenciesResult.1.AiProvider.
+type SetSupplierCurrenciesResult1AiProvider string
 
 // SetSupplierCurrenciesResult1CloudProvider defines model for SetSupplierCurrenciesResult.1.CloudProvider.
 type SetSupplierCurrenciesResult1CloudProvider string
@@ -11552,6 +11948,14 @@ type ShipNoticeLine struct {
 type ShipNoticeLineInput struct {
 	LineNo float64 `json:"lineNo"`
 	Qty    float64 `json:"qty"`
+}
+
+// SnowflakeConnectionInput defines model for SnowflakeConnectionInput.
+type SnowflakeConnectionInput struct {
+	Account   string  `json:"account"`
+	Role      *string `json:"role,omitempty"`
+	User      string  `json:"user"`
+	Warehouse string  `json:"warehouse"`
 }
 
 // SolePayerWaiverRecord defines model for SolePayerWaiverRecord.
@@ -12640,6 +13044,9 @@ type ListSyncEventsParams struct {
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 	Limit *string `form:"limit,omitempty" json:"limit,omitempty"`
 }
+
+// CreateAiProviderJSONRequestBody defines body for CreateAiProvider for application/json ContentType.
+type CreateAiProviderJSONRequestBody = CreateAiProviderInput
 
 // CheckAiSpendJSONRequestBody defines body for CheckAiSpend for application/json ContentType.
 type CheckAiSpendJSONRequestBody = CheckAiSpendInput
@@ -15630,6 +16037,26 @@ func WithRequestEditorFn(fn RequestEditorFn) ClientOption {
 
 // The interface specification for the client above.
 type ClientInterface interface {
+	// ListAiInvoicers request
+	ListAiInvoicers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListAiProviders request
+	ListAiProviders(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateAiProviderWithBody request with any body
+	CreateAiProviderWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateAiProvider(ctx context.Context, body CreateAiProviderJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteAiProvider request
+	DeleteAiProvider(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SyncAiProvider request
+	SyncAiProvider(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AddAiProviderSupplier request
+	AddAiProviderSupplier(ctx context.Context, provider string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ListAiRateCards request
 	ListAiRateCards(ctx context.Context, params *ListAiRateCardsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -16065,6 +16492,90 @@ type ClientInterface interface {
 
 	// TestWebhook request
 	TestWebhook(ctx context.Context, webhookId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+}
+
+func (c *RawClient) ListAiInvoicers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListAiInvoicersRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListAiProviders(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListAiProvidersRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CreateAiProviderWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateAiProviderRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CreateAiProvider(ctx context.Context, body CreateAiProviderJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateAiProviderRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) DeleteAiProvider(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteAiProviderRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SyncAiProvider(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSyncAiProviderRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) AddAiProviderSupplier(ctx context.Context, provider string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddAiProviderSupplierRequest(c.Server, provider)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
 }
 
 func (c *RawClient) ListAiRateCards(ctx context.Context, params *ListAiRateCardsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -17961,6 +18472,202 @@ func (c *RawClient) TestWebhook(ctx context.Context, webhookId string, reqEditor
 		return nil, err
 	}
 	return c.Client.Do(req)
+}
+
+// NewListAiInvoicersRequest generates requests for ListAiInvoicers
+func NewListAiInvoicersRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-invoicers")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListAiProvidersRequest generates requests for ListAiProviders
+func NewListAiProvidersRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-providers")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreateAiProviderRequest calls the generic CreateAiProvider builder with application/json body
+func NewCreateAiProviderRequest(server string, body CreateAiProviderJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateAiProviderRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreateAiProviderRequestWithBody generates requests for CreateAiProvider with any type of body
+func NewCreateAiProviderRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-providers")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteAiProviderRequest generates requests for DeleteAiProvider
+func NewDeleteAiProviderRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-providers/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSyncAiProviderRequest generates requests for SyncAiProvider
+func NewSyncAiProviderRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-providers/%s/sync", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAddAiProviderSupplierRequest generates requests for AddAiProviderSupplier
+func NewAddAiProviderSupplierRequest(server string, provider string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "provider", runtime.ParamLocationPath, provider)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-providers/%s/supplier", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
 }
 
 // NewListAiRateCardsRequest generates requests for ListAiRateCards
@@ -23624,6 +24331,26 @@ func WithBaseURL(baseURL string) ClientOption {
 
 // ClientWithResponsesInterface is the interface specification for the client with responses above.
 type ClientWithResponsesInterface interface {
+	// ListAiInvoicersWithResponse request
+	ListAiInvoicersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListAiInvoicersResponse, error)
+
+	// ListAiProvidersWithResponse request
+	ListAiProvidersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListAiProvidersResponse, error)
+
+	// CreateAiProviderWithBodyWithResponse request with any body
+	CreateAiProviderWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateAiProviderResponse, error)
+
+	CreateAiProviderWithResponse(ctx context.Context, body CreateAiProviderJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateAiProviderResponse, error)
+
+	// DeleteAiProviderWithResponse request
+	DeleteAiProviderWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*DeleteAiProviderResponse, error)
+
+	// SyncAiProviderWithResponse request
+	SyncAiProviderWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SyncAiProviderResponse, error)
+
+	// AddAiProviderSupplierWithResponse request
+	AddAiProviderSupplierWithResponse(ctx context.Context, provider string, reqEditors ...RequestEditorFn) (*AddAiProviderSupplierResponse, error)
+
 	// ListAiRateCardsWithResponse request
 	ListAiRateCardsWithResponse(ctx context.Context, params *ListAiRateCardsParams, reqEditors ...RequestEditorFn) (*ListAiRateCardsResponse, error)
 
@@ -24059,6 +24786,144 @@ type ClientWithResponsesInterface interface {
 
 	// TestWebhookWithResponse request
 	TestWebhookWithResponse(ctx context.Context, webhookId string, reqEditors ...RequestEditorFn) (*TestWebhookResponse, error)
+}
+
+type ListAiInvoicersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]ListAiInvoicersItem
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListAiInvoicersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListAiInvoicersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListAiProvidersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]AiProvider
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListAiProvidersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListAiProvidersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateAiProviderResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *AiProvider
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateAiProviderResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateAiProviderResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteAiProviderResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *DeleteAiProviderResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteAiProviderResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteAiProviderResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SyncAiProviderResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *AiProvider
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r SyncAiProviderResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SyncAiProviderResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AddAiProviderSupplierResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *AddAiProviderSupplierResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r AddAiProviderSupplierResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AddAiProviderSupplierResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
 }
 
 type ListAiRateCardsResponse struct {
@@ -26815,6 +27680,68 @@ func (r TestWebhookResponse) StatusCode() int {
 	return 0
 }
 
+// ListAiInvoicersWithResponse request returning *ListAiInvoicersResponse
+func (c *ClientWithResponses) ListAiInvoicersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListAiInvoicersResponse, error) {
+	rsp, err := c.ListAiInvoicers(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListAiInvoicersResponse(rsp)
+}
+
+// ListAiProvidersWithResponse request returning *ListAiProvidersResponse
+func (c *ClientWithResponses) ListAiProvidersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListAiProvidersResponse, error) {
+	rsp, err := c.ListAiProviders(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListAiProvidersResponse(rsp)
+}
+
+// CreateAiProviderWithBodyWithResponse request with arbitrary body returning *CreateAiProviderResponse
+func (c *ClientWithResponses) CreateAiProviderWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateAiProviderResponse, error) {
+	rsp, err := c.CreateAiProviderWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateAiProviderResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateAiProviderWithResponse(ctx context.Context, body CreateAiProviderJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateAiProviderResponse, error) {
+	rsp, err := c.CreateAiProvider(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateAiProviderResponse(rsp)
+}
+
+// DeleteAiProviderWithResponse request returning *DeleteAiProviderResponse
+func (c *ClientWithResponses) DeleteAiProviderWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*DeleteAiProviderResponse, error) {
+	rsp, err := c.DeleteAiProvider(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteAiProviderResponse(rsp)
+}
+
+// SyncAiProviderWithResponse request returning *SyncAiProviderResponse
+func (c *ClientWithResponses) SyncAiProviderWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SyncAiProviderResponse, error) {
+	rsp, err := c.SyncAiProvider(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSyncAiProviderResponse(rsp)
+}
+
+// AddAiProviderSupplierWithResponse request returning *AddAiProviderSupplierResponse
+func (c *ClientWithResponses) AddAiProviderSupplierWithResponse(ctx context.Context, provider string, reqEditors ...RequestEditorFn) (*AddAiProviderSupplierResponse, error) {
+	rsp, err := c.AddAiProviderSupplier(ctx, provider, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddAiProviderSupplierResponse(rsp)
+}
+
 // ListAiRateCardsWithResponse request returning *ListAiRateCardsResponse
 func (c *ClientWithResponses) ListAiRateCardsWithResponse(ctx context.Context, params *ListAiRateCardsParams, reqEditors ...RequestEditorFn) (*ListAiRateCardsResponse, error) {
 	rsp, err := c.ListAiRateCards(ctx, params, reqEditors...)
@@ -28197,6 +29124,204 @@ func (c *ClientWithResponses) TestWebhookWithResponse(ctx context.Context, webho
 		return nil, err
 	}
 	return ParseTestWebhookResponse(rsp)
+}
+
+// ParseListAiInvoicersResponse parses an HTTP response from a ListAiInvoicersWithResponse call
+func ParseListAiInvoicersResponse(rsp *http.Response) (*ListAiInvoicersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListAiInvoicersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []ListAiInvoicersItem
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListAiProvidersResponse parses an HTTP response from a ListAiProvidersWithResponse call
+func ParseListAiProvidersResponse(rsp *http.Response) (*ListAiProvidersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListAiProvidersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []AiProvider
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateAiProviderResponse parses an HTTP response from a CreateAiProviderWithResponse call
+func ParseCreateAiProviderResponse(rsp *http.Response) (*CreateAiProviderResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateAiProviderResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest AiProvider
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteAiProviderResponse parses an HTTP response from a DeleteAiProviderWithResponse call
+func ParseDeleteAiProviderResponse(rsp *http.Response) (*DeleteAiProviderResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteAiProviderResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest DeleteAiProviderResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSyncAiProviderResponse parses an HTTP response from a SyncAiProviderWithResponse call
+func ParseSyncAiProviderResponse(rsp *http.Response) (*SyncAiProviderResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SyncAiProviderResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest AiProvider
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAddAiProviderSupplierResponse parses an HTTP response from a AddAiProviderSupplierWithResponse call
+func ParseAddAiProviderSupplierResponse(rsp *http.Response) (*AddAiProviderSupplierResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AddAiProviderSupplierResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest AddAiProviderSupplierResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
 }
 
 // ParseListAiRateCardsResponse parses an HTTP response from a ListAiRateCardsWithResponse call

@@ -58,6 +58,7 @@ import ai.pleaxy.client.ApiClient;
   SetSupplierCurrenciesResultAnyOf.JSON_PROPERTY_REVIEWED_BY,
   SetSupplierCurrenciesResultAnyOf.JSON_PROPERTY_REJECTION_REASON,
   SetSupplierCurrenciesResultAnyOf.JSON_PROPERTY_CLOUD_PROVIDER,
+  SetSupplierCurrenciesResultAnyOf.JSON_PROPERTY_AI_PROVIDER,
   SetSupplierCurrenciesResultAnyOf.JSON_PROPERTY_BILLING_CURRENCY,
   SetSupplierCurrenciesResultAnyOf.JSON_PROPERTY_PAYMENT_CURRENCY,
   SetSupplierCurrenciesResultAnyOf.JSON_PROPERTY_OFF_PLATFORM_INVOICES_RECORDED,
@@ -238,6 +239,65 @@ public class SetSupplierCurrenciesResultAnyOf {
   public static final String JSON_PROPERTY_CLOUD_PROVIDER = "cloudProvider";
   @javax.annotation.Nullable
   private CloudProviderEnum cloudProvider;
+
+  /**
+   * Gets or Sets aiProvider
+   */
+  public enum AiProviderEnum {
+    OPENAI(String.valueOf("openai")),
+    
+    ANTHROPIC(String.valueOf("anthropic")),
+    
+    MISTRAL(String.valueOf("mistral")),
+    
+    COHERE(String.valueOf("cohere")),
+    
+    XAI(String.valueOf("xai")),
+    
+    OPENROUTER(String.valueOf("openrouter")),
+    
+    SNOWFLAKE(String.valueOf("snowflake")),
+    
+    DATABRICKS(String.valueOf("databricks")),
+    
+    COREWEAVE(String.valueOf("coreweave")),
+    
+    LAMBDA(String.valueOf("lambda")),
+    
+    NEBIUS(String.valueOf("nebius")),
+    
+    CRUSOE(String.valueOf("crusoe"));
+
+    private String value;
+
+    AiProviderEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static AiProviderEnum fromValue(String value) {
+      for (AiProviderEnum b : AiProviderEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_AI_PROVIDER = "aiProvider";
+  @javax.annotation.Nullable
+  private AiProviderEnum aiProvider;
 
   public static final String JSON_PROPERTY_BILLING_CURRENCY = "billingCurrency";
   @javax.annotation.Nullable
@@ -794,6 +854,30 @@ public class SetSupplierCurrenciesResultAnyOf {
   }
 
 
+  public SetSupplierCurrenciesResultAnyOf aiProvider(@javax.annotation.Nullable AiProviderEnum aiProvider) {
+    this.aiProvider = aiProvider;
+    return this;
+  }
+
+  /**
+   * Get aiProvider
+   * @return aiProvider
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AI_PROVIDER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public AiProviderEnum getAiProvider() {
+    return aiProvider;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AI_PROVIDER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAiProvider(@javax.annotation.Nullable AiProviderEnum aiProvider) {
+    this.aiProvider = aiProvider;
+  }
+
+
   public SetSupplierCurrenciesResultAnyOf billingCurrency(@javax.annotation.Nullable String billingCurrency) {
     this.billingCurrency = billingCurrency;
     return this;
@@ -1305,6 +1389,7 @@ public class SetSupplierCurrenciesResultAnyOf {
         Objects.equals(this.reviewedBy, setSupplierCurrenciesResultAnyOf.reviewedBy) &&
         Objects.equals(this.rejectionReason, setSupplierCurrenciesResultAnyOf.rejectionReason) &&
         Objects.equals(this.cloudProvider, setSupplierCurrenciesResultAnyOf.cloudProvider) &&
+        Objects.equals(this.aiProvider, setSupplierCurrenciesResultAnyOf.aiProvider) &&
         Objects.equals(this.billingCurrency, setSupplierCurrenciesResultAnyOf.billingCurrency) &&
         Objects.equals(this.paymentCurrency, setSupplierCurrenciesResultAnyOf.paymentCurrency) &&
         Objects.equals(this.offPlatformInvoicesRecorded, setSupplierCurrenciesResultAnyOf.offPlatformInvoicesRecorded) &&
@@ -1329,7 +1414,7 @@ public class SetSupplierCurrenciesResultAnyOf {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, buyerOrgId, buyerName, supplierOrgId, supplierName, invitedAsName, supplierContactEmail, status, questionnaireTemplateId, questionnaireTemplateVersion, fields, responses, createdAt, invitedAt, respondedAt, reviewedAt, reviewedBy, rejectionReason, cloudProvider, billingCurrency, paymentCurrency, offPlatformInvoicesRecorded, supplierRegion, acceptedRegionName, acceptedRegionMatchesRequest, invoiceFeedEnabled, invoiceFeedUpdatedAt, invoiceFeedUpdatedBy, feedLastAttemptAt, feedLastAcceptedAt, feedAcceptedCount, feedLastRefusedAt, feedLastRefusedCode, feedLastValidAt, feedValidCount, lateFeeTerms, lateFeeTermsUpdatedAt, lateFeeTermsAttestedAt, lateFeeTermsAttestationVersion);
+    return Objects.hash(id, buyerOrgId, buyerName, supplierOrgId, supplierName, invitedAsName, supplierContactEmail, status, questionnaireTemplateId, questionnaireTemplateVersion, fields, responses, createdAt, invitedAt, respondedAt, reviewedAt, reviewedBy, rejectionReason, cloudProvider, aiProvider, billingCurrency, paymentCurrency, offPlatformInvoicesRecorded, supplierRegion, acceptedRegionName, acceptedRegionMatchesRequest, invoiceFeedEnabled, invoiceFeedUpdatedAt, invoiceFeedUpdatedBy, feedLastAttemptAt, feedLastAcceptedAt, feedAcceptedCount, feedLastRefusedAt, feedLastRefusedCode, feedLastValidAt, feedValidCount, lateFeeTerms, lateFeeTermsUpdatedAt, lateFeeTermsAttestedAt, lateFeeTermsAttestationVersion);
   }
 
   @Override
@@ -1355,6 +1440,7 @@ public class SetSupplierCurrenciesResultAnyOf {
     sb.append("    reviewedBy: ").append(toIndentedString(reviewedBy)).append("\n");
     sb.append("    rejectionReason: ").append(toIndentedString(rejectionReason)).append("\n");
     sb.append("    cloudProvider: ").append(toIndentedString(cloudProvider)).append("\n");
+    sb.append("    aiProvider: ").append(toIndentedString(aiProvider)).append("\n");
     sb.append("    billingCurrency: ").append(toIndentedString(billingCurrency)).append("\n");
     sb.append("    paymentCurrency: ").append(toIndentedString(paymentCurrency)).append("\n");
     sb.append("    offPlatformInvoicesRecorded: ").append(toIndentedString(offPlatformInvoicesRecorded)).append("\n");
@@ -1525,6 +1611,11 @@ public class SetSupplierCurrenciesResultAnyOf {
     // add `cloudProvider` to the URL query string
     if (getCloudProvider() != null) {
       joiner.add(String.format("%scloudProvider%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCloudProvider()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `aiProvider` to the URL query string
+    if (getAiProvider() != null) {
+      joiner.add(String.format("%saiProvider%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAiProvider()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `billingCurrency` to the URL query string

@@ -77,13 +77,13 @@ public class AiUsageLine {
     
     ANTHROPIC(String.valueOf("anthropic")),
     
-    OPENROUTER(String.valueOf("openrouter")),
-    
     MISTRAL(String.valueOf("mistral")),
     
     COHERE(String.valueOf("cohere")),
     
     XAI(String.valueOf("xai")),
+    
+    OPENROUTER(String.valueOf("openrouter")),
     
     SNOWFLAKE(String.valueOf("snowflake")),
     

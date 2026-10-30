@@ -1,6 +1,17 @@
 """Contains all the data models used in inputs/outputs"""
 
+from .add_ai_provider_supplier_result import AddAiProviderSupplierResult
+from .add_ai_provider_supplier_result_ai_provider import (
+    AddAiProviderSupplierResultAiProvider,
+)
+from .add_ai_provider_supplier_result_cloud_provider import (
+    AddAiProviderSupplierResultCloudProvider,
+)
+from .add_ai_provider_supplier_result_status import AddAiProviderSupplierResultStatus
 from .add_cloud_provider_as_supplier_result import AddCloudProviderAsSupplierResult
+from .add_cloud_provider_as_supplier_result_ai_provider import (
+    AddCloudProviderAsSupplierResultAiProvider,
+)
 from .add_cloud_provider_as_supplier_result_cloud_provider import (
     AddCloudProviderAsSupplierResultCloudProvider,
 )
@@ -64,6 +75,14 @@ from .add_invoice_replacement_links_result_usage_source import (
 )
 from .add_replacement_links_input import AddReplacementLinksInput
 from .ai_meter_quantity import AiMeterQuantity
+from .ai_provider import AiProvider
+from .ai_provider_credit_price import AiProviderCreditPrice
+from .ai_provider_credit_price_kind import AiProviderCreditPriceKind
+from .ai_provider_last_sync_error_code import AiProviderLastSyncErrorCode
+from .ai_provider_last_sync_status import AiProviderLastSyncStatus
+from .ai_provider_provider import AiProviderProvider
+from .ai_provider_snowflake import AiProviderSnowflake
+from .ai_provider_status import AiProviderStatus
 from .ai_purchase_order_line_remaining import AiPurchaseOrderLineRemaining
 from .ai_rate_card_entry import AiRateCardEntry
 from .ai_rate_card_entry_invoicer import AiRateCardEntryInvoicer
@@ -270,6 +289,7 @@ from .convert_purchase_request_input import ConvertPurchaseRequestInput
 from .convert_purchase_request_input_matching import ConvertPurchaseRequestInputMatching
 from .convert_purchase_request_input_provider import ConvertPurchaseRequestInputProvider
 from .convert_purchase_request_result import ConvertPurchaseRequestResult
+from .create_ai_provider_input import CreateAiProviderInput
 from .create_api_key_input import CreateApiKeyInput
 from .create_api_key_input_procurement_role import CreateApiKeyInputProcurementRole
 from .create_api_key_input_scopes_item import CreateApiKeyInputScopesItem
@@ -538,9 +558,12 @@ from .create_webhook_result_last_error_code import CreateWebhookResultLastErrorC
 from .credit_note_application import CreditNoteApplication
 from .credit_note_history_entry import CreditNoteHistoryEntry
 from .credit_note_history_entry_action import CreditNoteHistoryEntryAction
+from .credit_price_input import CreditPriceInput
+from .credit_price_input_kind import CreditPriceInputKind
 from .currency_amount_input import CurrencyAmountInput
 from .currency_exchange_details_input import CurrencyExchangeDetailsInput
 from .decline_confirmation_changes_input import DeclineConfirmationChangesInput
+from .delete_ai_provider_result import DeleteAiProviderResult
 from .discover_azure_scopes_input import DiscoverAzureScopesInput
 from .employee_summary import EmployeeSummary
 from .error_params import ErrorParams
@@ -1083,6 +1106,18 @@ from .line_item_price_source import LineItemPriceSource
 from .line_item_punchout_ref import LineItemPunchoutRef
 from .line_item_rule_type import LineItemRuleType
 from .line_item_scope_type import LineItemScopeType
+from .list_ai_invoicers_item import ListAiInvoicersItem
+from .list_ai_invoicers_item_billing_item import ListAiInvoicersItemBillingItem
+from .list_ai_invoicers_item_credential import ListAiInvoicersItemCredential
+from .list_ai_invoicers_item_id import ListAiInvoicersItemId
+from .list_ai_invoicers_item_legal_entities_item import (
+    ListAiInvoicersItemLegalEntitiesItem,
+)
+from .list_ai_invoicers_item_legal_entities_item_region import (
+    ListAiInvoicersItemLegalEntitiesItemRegion,
+)
+from .list_ai_invoicers_item_shape import ListAiInvoicersItemShape
+from .list_ai_invoicers_item_tier import ListAiInvoicersItemTier
 from .list_employees_role import ListEmployeesRole
 from .list_invoice_counterparties_result import ListInvoiceCounterpartiesResult
 from .list_invoices_item_buyer_credit_note import ListInvoicesItemBuyerCreditNote
@@ -1638,6 +1673,9 @@ from .set_connection_currencies_input import SetConnectionCurrenciesInput
 from .set_exchange_rate_warning_result import SetExchangeRateWarningResult
 from .set_invoice_feed_input import SetInvoiceFeedInput
 from .set_invoice_feed_result_type_0 import SetInvoiceFeedResultType0
+from .set_invoice_feed_result_type_0_ai_provider import (
+    SetInvoiceFeedResultType0AiProvider,
+)
 from .set_invoice_feed_result_type_0_cloud_provider import (
     SetInvoiceFeedResultType0CloudProvider,
 )
@@ -1646,6 +1684,9 @@ from .set_invoice_feed_result_type_0_feed_readiness import (
 )
 from .set_invoice_feed_result_type_0_status import SetInvoiceFeedResultType0Status
 from .set_invoice_feed_result_type_1 import SetInvoiceFeedResultType1
+from .set_invoice_feed_result_type_1_ai_provider import (
+    SetInvoiceFeedResultType1AiProvider,
+)
 from .set_invoice_feed_result_type_1_cloud_provider import (
     SetInvoiceFeedResultType1CloudProvider,
 )
@@ -1654,6 +1695,9 @@ from .set_invoice_feed_result_type_1_feed_readiness import (
 )
 from .set_invoice_feed_result_type_1_status import SetInvoiceFeedResultType1Status
 from .set_supplier_currencies_result_type_0 import SetSupplierCurrenciesResultType0
+from .set_supplier_currencies_result_type_0_ai_provider import (
+    SetSupplierCurrenciesResultType0AiProvider,
+)
 from .set_supplier_currencies_result_type_0_cloud_provider import (
     SetSupplierCurrenciesResultType0CloudProvider,
 )
@@ -1661,6 +1705,9 @@ from .set_supplier_currencies_result_type_0_status import (
     SetSupplierCurrenciesResultType0Status,
 )
 from .set_supplier_currencies_result_type_1 import SetSupplierCurrenciesResultType1
+from .set_supplier_currencies_result_type_1_ai_provider import (
+    SetSupplierCurrenciesResultType1AiProvider,
+)
 from .set_supplier_currencies_result_type_1_cloud_provider import (
     SetSupplierCurrenciesResultType1CloudProvider,
 )
@@ -1674,6 +1721,7 @@ from .ship_notice_line_input import ShipNoticeLineInput
 from .ship_notice_receipts_item import ShipNoticeReceiptsItem
 from .ship_notice_source import ShipNoticeSource
 from .ship_notice_status import ShipNoticeStatus
+from .snowflake_connection_input import SnowflakeConnectionInput
 from .sole_payer_waiver_record import SolePayerWaiverRecord
 from .spend_figures import SpendFigures
 from .spend_limit_breach import SpendLimitBreach
@@ -1857,7 +1905,12 @@ from .webhook_endpoint_view_events_item import WebhookEndpointViewEventsItem
 from .webhook_endpoint_view_last_error_code import WebhookEndpointViewLastErrorCode
 
 __all__ = (
+    "AddAiProviderSupplierResult",
+    "AddAiProviderSupplierResultAiProvider",
+    "AddAiProviderSupplierResultCloudProvider",
+    "AddAiProviderSupplierResultStatus",
     "AddCloudProviderAsSupplierResult",
+    "AddCloudProviderAsSupplierResultAiProvider",
     "AddCloudProviderAsSupplierResultCloudProvider",
     "AddCloudProviderAsSupplierResultStatus",
     "AddInvoiceReplacementLinksResult",
@@ -1881,6 +1934,14 @@ __all__ = (
     "AddInvoiceReplacementLinksResultUsageSource",
     "AddReplacementLinksInput",
     "AiMeterQuantity",
+    "AiProvider",
+    "AiProviderCreditPrice",
+    "AiProviderCreditPriceKind",
+    "AiProviderLastSyncErrorCode",
+    "AiProviderLastSyncStatus",
+    "AiProviderProvider",
+    "AiProviderSnowflake",
+    "AiProviderStatus",
     "AiPurchaseOrderLineRemaining",
     "AiRateCardEntry",
     "AiRateCardEntryInvoicer",
@@ -2061,6 +2122,7 @@ __all__ = (
     "ConvertPurchaseRequestInputMatching",
     "ConvertPurchaseRequestInputProvider",
     "ConvertPurchaseRequestResult",
+    "CreateAiProviderInput",
     "CreateApiKeyInput",
     "CreateApiKeyInputProcurementRole",
     "CreateApiKeyInputScopesItem",
@@ -2173,9 +2235,12 @@ __all__ = (
     "CreditNoteApplication",
     "CreditNoteHistoryEntry",
     "CreditNoteHistoryEntryAction",
+    "CreditPriceInput",
+    "CreditPriceInputKind",
     "CurrencyAmountInput",
     "CurrencyExchangeDetailsInput",
     "DeclineConfirmationChangesInput",
+    "DeleteAiProviderResult",
     "DiscoverAzureScopesInput",
     "EmployeeSummary",
     "ErrorParams",
@@ -2462,6 +2527,14 @@ __all__ = (
     "LineItemPunchoutRef",
     "LineItemRuleType",
     "LineItemScopeType",
+    "ListAiInvoicersItem",
+    "ListAiInvoicersItemBillingItem",
+    "ListAiInvoicersItemCredential",
+    "ListAiInvoicersItemId",
+    "ListAiInvoicersItemLegalEntitiesItem",
+    "ListAiInvoicersItemLegalEntitiesItemRegion",
+    "ListAiInvoicersItemShape",
+    "ListAiInvoicersItemTier",
     "ListEmployeesRole",
     "ListInvoiceCounterpartiesResult",
     "ListInvoicesItemBuyerCreditNote",
@@ -2773,17 +2846,21 @@ __all__ = (
     "SetExchangeRateWarningResult",
     "SetInvoiceFeedInput",
     "SetInvoiceFeedResultType0",
+    "SetInvoiceFeedResultType0AiProvider",
     "SetInvoiceFeedResultType0CloudProvider",
     "SetInvoiceFeedResultType0FeedReadiness",
     "SetInvoiceFeedResultType0Status",
     "SetInvoiceFeedResultType1",
+    "SetInvoiceFeedResultType1AiProvider",
     "SetInvoiceFeedResultType1CloudProvider",
     "SetInvoiceFeedResultType1FeedReadiness",
     "SetInvoiceFeedResultType1Status",
     "SetSupplierCurrenciesResultType0",
+    "SetSupplierCurrenciesResultType0AiProvider",
     "SetSupplierCurrenciesResultType0CloudProvider",
     "SetSupplierCurrenciesResultType0Status",
     "SetSupplierCurrenciesResultType1",
+    "SetSupplierCurrenciesResultType1AiProvider",
     "SetSupplierCurrenciesResultType1CloudProvider",
     "SetSupplierCurrenciesResultType1Status",
     "SetWarningPctInput",
@@ -2793,6 +2870,7 @@ __all__ = (
     "ShipNoticeReceiptsItem",
     "ShipNoticeSource",
     "ShipNoticeStatus",
+    "SnowflakeConnectionInput",
     "SolePayerWaiverRecord",
     "SpendFigures",
     "SpendLimitBreach",

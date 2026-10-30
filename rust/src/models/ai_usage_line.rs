@@ -90,14 +90,14 @@ pub enum Invoicer {
     Openai,
     #[serde(rename = "anthropic")]
     Anthropic,
-    #[serde(rename = "openrouter")]
-    Openrouter,
     #[serde(rename = "mistral")]
     Mistral,
     #[serde(rename = "cohere")]
     Cohere,
     #[serde(rename = "xai")]
     Xai,
+    #[serde(rename = "openrouter")]
+    Openrouter,
     #[serde(rename = "snowflake")]
     Snowflake,
     #[serde(rename = "databricks")]

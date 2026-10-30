@@ -576,6 +576,23 @@
                         "oci"
                       ]
                     },
+                    "aiProvider": {
+                      "type": "string",
+                      "enum": [
+                        "openai",
+                        "anthropic",
+                        "mistral",
+                        "cohere",
+                        "xai",
+                        "openrouter",
+                        "snowflake",
+                        "databricks",
+                        "coreweave",
+                        "lambda",
+                        "nebius",
+                        "crusoe"
+                      ]
+                    },
                     "billingCurrency": {
                       "type": "string"
                     },
@@ -1395,6 +1412,23 @@
                             "oci"
                           ]
                         },
+                        "aiProvider": {
+                          "type": "string",
+                          "enum": [
+                            "openai",
+                            "anthropic",
+                            "mistral",
+                            "cohere",
+                            "xai",
+                            "openrouter",
+                            "snowflake",
+                            "databricks",
+                            "coreweave",
+                            "lambda",
+                            "nebius",
+                            "crusoe"
+                          ]
+                        },
                         "billingCurrency": {
                           "type": "string"
                         },
@@ -1534,6 +1568,23 @@
                             "gcp",
                             "azure",
                             "oci"
+                          ]
+                        },
+                        "aiProvider": {
+                          "type": "string",
+                          "enum": [
+                            "openai",
+                            "anthropic",
+                            "mistral",
+                            "cohere",
+                            "xai",
+                            "openrouter",
+                            "snowflake",
+                            "databricks",
+                            "coreweave",
+                            "lambda",
+                            "nebius",
+                            "crusoe"
                           ]
                         },
                         "billingCurrency": {
@@ -1762,6 +1813,23 @@
                             "oci"
                           ]
                         },
+                        "aiProvider": {
+                          "type": "string",
+                          "enum": [
+                            "openai",
+                            "anthropic",
+                            "mistral",
+                            "cohere",
+                            "xai",
+                            "openrouter",
+                            "snowflake",
+                            "databricks",
+                            "coreweave",
+                            "lambda",
+                            "nebius",
+                            "crusoe"
+                          ]
+                        },
                         "billingCurrency": {
                           "type": "string"
                         },
@@ -1913,6 +1981,23 @@
                             "gcp",
                             "azure",
                             "oci"
+                          ]
+                        },
+                        "aiProvider": {
+                          "type": "string",
+                          "enum": [
+                            "openai",
+                            "anthropic",
+                            "mistral",
+                            "cohere",
+                            "xai",
+                            "openrouter",
+                            "snowflake",
+                            "databricks",
+                            "coreweave",
+                            "lambda",
+                            "nebius",
+                            "crusoe"
                           ]
                         },
                         "billingCurrency": {
@@ -13303,6 +13388,583 @@
         ]
       }
     },
+    "/v1/workspaces/{regionId}/ai-providers": {
+      "get": {
+        "operationId": "ListAiProviders",
+        "summary": "[Buyer] The workspace's direct AI provider connections (OpenAI, Anthropic, Mistral, Snowflake): status, last sync, and the key's last four characters - never the key. 'view' on suppliers or on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AiProvider"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-providers"
+        ]
+      },
+      "post": {
+        "operationId": "CreateAiProvider",
+        "summary": "[Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAiProviderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiProvider"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-providers"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/ai-providers/{id}": {
+      "delete": {
+        "operationId": "DeleteAiProvider",
+        "summary": "[Buyer] Disconnect a direct AI provider: the connection and its encrypted key are deleted; its AI lines stay as history. Revoke the key at the provider too. Logged-in users only, 'edit' on suppliers.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "provider": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "provider"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-providers"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/ai-providers/{id}/sync": {
+      "post": {
+        "operationId": "SyncAiProvider",
+        "summary": "[Buyer] Read a direct AI provider's cost and usage reports now (at most every 15 minutes); a pending Snowflake key pair is verified first. 'create' on suppliers or 'edit' on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiProvider"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-providers"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/ai-providers/{provider}/supplier": {
+      "post": {
+        "operationId": "AddAiProviderSupplier",
+        "summary": "[Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create' on suppliers.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "provider",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "buyerOrgId": {
+                      "type": "string"
+                    },
+                    "buyerName": {
+                      "type": "string"
+                    },
+                    "supplierOrgId": {
+                      "type": "string"
+                    },
+                    "supplierName": {
+                      "type": "string"
+                    },
+                    "invitedAsName": {
+                      "type": "string"
+                    },
+                    "supplierContactEmail": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pending_invite",
+                        "invited",
+                        "in_progress",
+                        "submitted",
+                        "approved",
+                        "rejected"
+                      ]
+                    },
+                    "questionnaireTemplateId": {
+                      "type": "string"
+                    },
+                    "questionnaireTemplateVersion": {
+                      "type": "number"
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QuestionnaireFieldDef"
+                      }
+                    },
+                    "responses": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QuestionnaireResponseItem"
+                      }
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "invitedAt": {
+                      "type": "string"
+                    },
+                    "respondedAt": {
+                      "type": "string"
+                    },
+                    "reviewedAt": {
+                      "type": "string"
+                    },
+                    "reviewedBy": {
+                      "type": "string"
+                    },
+                    "rejectionReason": {
+                      "type": "string"
+                    },
+                    "cloudProvider": {
+                      "type": "string",
+                      "enum": [
+                        "aws",
+                        "gcp",
+                        "azure",
+                        "oci"
+                      ]
+                    },
+                    "aiProvider": {
+                      "type": "string",
+                      "enum": [
+                        "openai",
+                        "anthropic",
+                        "mistral",
+                        "cohere",
+                        "xai",
+                        "openrouter",
+                        "snowflake",
+                        "databricks",
+                        "coreweave",
+                        "lambda",
+                        "nebius",
+                        "crusoe"
+                      ]
+                    },
+                    "billingCurrency": {
+                      "type": "string"
+                    },
+                    "paymentCurrency": {
+                      "type": "string"
+                    },
+                    "offPlatformInvoicesRecorded": {
+                      "type": "boolean"
+                    },
+                    "supplierRegion": {
+                      "$ref": "#/components/schemas/SupplierRegionRequest"
+                    },
+                    "acceptedRegionName": {
+                      "type": "string"
+                    },
+                    "acceptedRegionMatchesRequest": {
+                      "type": "boolean"
+                    },
+                    "invoiceFeedEnabled": {
+                      "type": "boolean"
+                    },
+                    "invoiceFeedUpdatedAt": {
+                      "type": "string"
+                    },
+                    "invoiceFeedUpdatedBy": {
+                      "type": "string"
+                    },
+                    "feedLastAttemptAt": {
+                      "type": "string"
+                    },
+                    "feedLastAcceptedAt": {
+                      "type": "string"
+                    },
+                    "feedAcceptedCount": {
+                      "type": "number"
+                    },
+                    "feedLastRefusedAt": {
+                      "type": "string"
+                    },
+                    "feedLastRefusedCode": {
+                      "type": "string"
+                    },
+                    "feedLastValidAt": {
+                      "type": "string"
+                    },
+                    "feedValidCount": {
+                      "type": "number"
+                    },
+                    "lateFeeTerms": {
+                      "$ref": "#/components/schemas/LateFeeTerms"
+                    },
+                    "lateFeeTermsUpdatedAt": {
+                      "type": "string"
+                    },
+                    "lateFeeTermsAttestedAt": {
+                      "type": "string"
+                    },
+                    "lateFeeTermsAttestationVersion": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "buyerOrgId",
+                    "buyerName",
+                    "supplierName",
+                    "status",
+                    "questionnaireTemplateVersion",
+                    "fields",
+                    "responses",
+                    "createdAt"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-providers"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/ai-invoicers": {
+      "get": {
+        "operationId": "ListAiInvoicers",
+        "summary": "[Buyer] The AI invoicers Pleaxy pre-creates as suppliers: names, the legal entities they invoice from by region, billing currencies, billing kinds, invoice sender domains, and whether each can be connected. 'view' on suppliers or on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "enum": [
+                          "openai",
+                          "anthropic",
+                          "mistral",
+                          "cohere",
+                          "xai",
+                          "openrouter",
+                          "snowflake",
+                          "databricks",
+                          "coreweave",
+                          "lambda",
+                          "nebius",
+                          "crusoe"
+                        ]
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "legalEntities": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "default",
+                                "eu",
+                                "us"
+                              ]
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "country": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "region",
+                            "name",
+                            "country"
+                          ]
+                        }
+                      },
+                      "billingCurrencies": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "billing": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "invoice",
+                            "prepaid_credits"
+                          ]
+                        }
+                      },
+                      "senderDomains": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "credential": {
+                        "type": "string",
+                        "enum": [
+                          "none",
+                          "admin_key",
+                          "key_pair"
+                        ]
+                      },
+                      "tier": {
+                        "type": "string",
+                        "enum": [
+                          "direct",
+                          "data_platform",
+                          "host",
+                          "neocloud"
+                        ]
+                      },
+                      "shape": {
+                        "type": "string",
+                        "enum": [
+                          "tokens",
+                          "capacity",
+                          "credits"
+                        ]
+                      },
+                      "contactHint": {
+                        "type": "string"
+                      },
+                      "connectable": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "legalEntities",
+                      "billingCurrencies",
+                      "billing",
+                      "senderDomains",
+                      "credential",
+                      "tier",
+                      "shape",
+                      "connectable"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-providers"
+        ]
+      }
+    },
     "/v1/workspaces/{regionId}/purchase-orders/{poId}/emails": {
       "get": {
         "operationId": "ListPurchaseOrderEmails",
@@ -16698,6 +17360,79 @@
             "pattern": "^\\d{4}-(0[1-9]|1[0-2])$"
           }
         }
+      },
+      "SnowflakeConnectionDto": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{1,99}$"
+          },
+          "user": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_$]{1,255}$"
+          },
+          "warehouse": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_$]{1,255}$"
+          },
+          "role": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_$]{1,255}$"
+          }
+        },
+        "required": [
+          "account",
+          "user",
+          "warehouse"
+        ]
+      },
+      "CreditPriceDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "minimum": 0
+          },
+          "currency": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "on_demand",
+              "capacity",
+              "commit"
+            ]
+          }
+        },
+        "required": [
+          "amount",
+          "currency",
+          "kind"
+        ]
+      },
+      "CreateAiProviderDto": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "key": {
+            "type": "string",
+            "maxLength": 400
+          },
+          "snowflake": {
+            "$ref": "#/components/schemas/SnowflakeConnectionDto"
+          },
+          "creditPrice": {
+            "$ref": "#/components/schemas/CreditPriceDto"
+          }
+        },
+        "required": [
+          "provider"
+        ]
       },
       "PurchaseRequestSupplierDto": {
         "type": "object",
@@ -26402,10 +27137,10 @@
                     "oci",
                     "openai",
                     "anthropic",
-                    "openrouter",
                     "mistral",
                     "cohere",
                     "xai",
+                    "openrouter",
                     "snowflake",
                     "databricks",
                     "coreweave",
@@ -26481,10 +27216,10 @@
               "oci",
               "openai",
               "anthropic",
-              "openrouter",
               "mistral",
               "cohere",
               "xai",
+              "openrouter",
               "snowflake",
               "databricks",
               "coreweave",
@@ -26660,10 +27395,10 @@
               "oci",
               "openai",
               "anthropic",
-              "openrouter",
               "mistral",
               "cohere",
               "xai",
+              "openrouter",
               "snowflake",
               "databricks",
               "coreweave",
@@ -26921,10 +27656,10 @@
               "oci",
               "openai",
               "anthropic",
-              "openrouter",
               "mistral",
               "cohere",
               "xai",
+              "openrouter",
               "snowflake",
               "databricks",
               "coreweave",
@@ -27018,6 +27753,139 @@
           "currency",
           "effectiveFrom",
           "sourceUrl"
+        ]
+      },
+      "AiProvider": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "openai",
+              "anthropic",
+              "mistral",
+              "cohere",
+              "xai",
+              "openrouter",
+              "snowflake",
+              "databricks",
+              "coreweave",
+              "lambda",
+              "nebius",
+              "crusoe"
+            ]
+          },
+          "accountLabel": {
+            "type": "string"
+          },
+          "keyHint": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "connected",
+              "pending"
+            ]
+          },
+          "connectedAt": {
+            "type": "string"
+          },
+          "connectedBy": {
+            "type": "string"
+          },
+          "snowflake": {
+            "type": "object",
+            "properties": {
+              "account": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              },
+              "warehouse": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              },
+              "publicKeyPem": {
+                "type": "string"
+              },
+              "publicKeyFingerprint": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "account",
+              "user",
+              "warehouse"
+            ]
+          },
+          "creditPrice": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "number"
+              },
+              "currency": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "capacity",
+                  "on_demand",
+                  "commit"
+                ]
+              }
+            },
+            "required": [
+              "amount",
+              "currency",
+              "kind"
+            ]
+          },
+          "supplierConnectionId": {
+            "type": "string"
+          },
+          "lastSyncedAt": {
+            "type": "string"
+          },
+          "lastSyncStatus": {
+            "type": "string",
+            "enum": [
+              "error",
+              "ok",
+              "throttled"
+            ]
+          },
+          "lastSyncError": {
+            "type": "string"
+          },
+          "lastSyncErrorCode": {
+            "type": "string",
+            "enum": [
+              "throttled",
+              "access_revoked",
+              "platform_config",
+              "data_not_enabled",
+              "unknown"
+            ]
+          },
+          "currency": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "provider",
+          "accountLabel",
+          "status",
+          "connectedAt"
         ]
       },
       "PurchaseOrderEmails": {

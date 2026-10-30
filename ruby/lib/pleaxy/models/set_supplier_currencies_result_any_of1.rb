@@ -49,6 +49,8 @@ module Pleaxy
 
     attr_accessor :cloud_provider
 
+    attr_accessor :ai_provider
+
     attr_accessor :billing_currency
 
     attr_accessor :payment_currency
@@ -133,6 +135,7 @@ module Pleaxy
         :'reviewed_by' => :'reviewedBy',
         :'rejection_reason' => :'rejectionReason',
         :'cloud_provider' => :'cloudProvider',
+        :'ai_provider' => :'aiProvider',
         :'billing_currency' => :'billingCurrency',
         :'payment_currency' => :'paymentCurrency',
         :'off_platform_invoices_recorded' => :'offPlatformInvoicesRecorded',
@@ -182,6 +185,7 @@ module Pleaxy
         :'reviewed_by' => :'String',
         :'rejection_reason' => :'String',
         :'cloud_provider' => :'String',
+        :'ai_provider' => :'String',
         :'billing_currency' => :'String',
         :'payment_currency' => :'String',
         :'off_platform_invoices_recorded' => :'Boolean',
@@ -297,6 +301,10 @@ module Pleaxy
         self.cloud_provider = attributes[:'cloud_provider']
       end
 
+      if attributes.key?(:'ai_provider')
+        self.ai_provider = attributes[:'ai_provider']
+      end
+
       if attributes.key?(:'billing_currency')
         self.billing_currency = attributes[:'billing_currency']
       end
@@ -403,6 +411,8 @@ module Pleaxy
       return false unless status_validator.valid?(@status)
       cloud_provider_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci"])
       return false unless cloud_provider_validator.valid?(@cloud_provider)
+      ai_provider_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe"])
+      return false unless ai_provider_validator.valid?(@ai_provider)
       true
     end
 
@@ -424,6 +434,16 @@ module Pleaxy
         fail ArgumentError, "invalid value for \"cloud_provider\", must be one of #{validator.allowable_values}."
       end
       @cloud_provider = cloud_provider
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] ai_provider Object to be assigned
+    def ai_provider=(ai_provider)
+      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe"])
+      unless validator.valid?(ai_provider)
+        fail ArgumentError, "invalid value for \"ai_provider\", must be one of #{validator.allowable_values}."
+      end
+      @ai_provider = ai_provider
     end
 
     # Checks equality by comparing each attribute.
@@ -448,6 +468,7 @@ module Pleaxy
           reviewed_by == o.reviewed_by &&
           rejection_reason == o.rejection_reason &&
           cloud_provider == o.cloud_provider &&
+          ai_provider == o.ai_provider &&
           billing_currency == o.billing_currency &&
           payment_currency == o.payment_currency &&
           off_platform_invoices_recorded == o.off_platform_invoices_recorded &&
@@ -480,7 +501,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, buyer_org_id, buyer_name, supplier_org_id, supplier_name, invited_as_name, supplier_contact_email, status, questionnaire_template_id, questionnaire_template_version, created_at, invited_at, responded_at, reviewed_at, reviewed_by, rejection_reason, cloud_provider, billing_currency, payment_currency, off_platform_invoices_recorded, supplier_region, accepted_region_name, accepted_region_matches_request, invoice_feed_enabled, invoice_feed_updated_at, invoice_feed_updated_by, feed_last_attempt_at, feed_last_accepted_at, feed_accepted_count, feed_last_refused_at, feed_last_refused_code, feed_last_valid_at, feed_valid_count, late_fee_terms, late_fee_terms_updated_at, late_fee_terms_attested_at, late_fee_terms_attestation_version, questionnaire_redacted].hash
+      [id, buyer_org_id, buyer_name, supplier_org_id, supplier_name, invited_as_name, supplier_contact_email, status, questionnaire_template_id, questionnaire_template_version, created_at, invited_at, responded_at, reviewed_at, reviewed_by, rejection_reason, cloud_provider, ai_provider, billing_currency, payment_currency, off_platform_invoices_recorded, supplier_region, accepted_region_name, accepted_region_matches_request, invoice_feed_enabled, invoice_feed_updated_at, invoice_feed_updated_by, feed_last_attempt_at, feed_last_accepted_at, feed_accepted_count, feed_last_refused_at, feed_last_refused_code, feed_last_valid_at, feed_valid_count, late_fee_terms, late_fee_terms_updated_at, late_fee_terms_attested_at, late_fee_terms_attestation_version, questionnaire_redacted].hash
     end
 
     # Builds the object from hash
