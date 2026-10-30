@@ -167,7 +167,7 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @invoicer.nil?
-      invoicer_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci", "openai", "anthropic", "openrouter", "mistral", "cohere", "xai", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe"])
+      invoicer_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci", "openai", "anthropic", "openrouter", "mistral", "cohere", "xai", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft"])
       return false unless invoicer_validator.valid?(@invoicer)
       return false if @vendor.nil?
       vendor_validator = EnumAttributeValidator.new('String', ["anthropic", "openai", "google", "meta", "mistral", "amazon", "microsoft", "cohere", "xai", "deepseek", "snowflake", "databricks", "nvidia", "unknown"])
@@ -175,7 +175,7 @@ module Pleaxy
       return false if @model.nil?
       return false if @model !~ Regexp.new(/^[A-Za-z0-9][A-Za-z0-9._:\/-]{0,119}$/)
       return false if @meter.nil?
-      meter_validator = EnumAttributeValidator.new('String', ["input_tokens", "output_tokens", "cached_input_tokens", "cache_write_tokens", "batch_input_tokens", "batch_output_tokens", "images", "audio_seconds", "embeddings_tokens", "requests", "gpu_hours", "ptu_hours", "model_units_hours", "cluster_hours", "other", "prepaid_credit"])
+      meter_validator = EnumAttributeValidator.new('String', ["input_tokens", "output_tokens", "cached_input_tokens", "cache_write_tokens", "batch_input_tokens", "batch_output_tokens", "images", "audio_seconds", "embeddings_tokens", "requests", "gpu_hours", "ptu_hours", "model_units_hours", "cluster_hours", "other", "seats", "prepaid_credit"])
       return false unless meter_validator.valid?(@meter)
       return false if !@region.nil? && @region.to_s.length > 40
       true
@@ -184,7 +184,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] invoicer Object to be assigned
     def invoicer=(invoicer)
-      validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci", "openai", "anthropic", "openrouter", "mistral", "cohere", "xai", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe"])
+      validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci", "openai", "anthropic", "openrouter", "mistral", "cohere", "xai", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft"])
       unless validator.valid?(invoicer)
         fail ArgumentError, "invalid value for \"invoicer\", must be one of #{validator.allowable_values}."
       end
@@ -219,7 +219,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] meter Object to be assigned
     def meter=(meter)
-      validator = EnumAttributeValidator.new('String', ["input_tokens", "output_tokens", "cached_input_tokens", "cache_write_tokens", "batch_input_tokens", "batch_output_tokens", "images", "audio_seconds", "embeddings_tokens", "requests", "gpu_hours", "ptu_hours", "model_units_hours", "cluster_hours", "other", "prepaid_credit"])
+      validator = EnumAttributeValidator.new('String', ["input_tokens", "output_tokens", "cached_input_tokens", "cache_write_tokens", "batch_input_tokens", "batch_output_tokens", "images", "audio_seconds", "embeddings_tokens", "requests", "gpu_hours", "ptu_hours", "model_units_hours", "cluster_hours", "other", "seats", "prepaid_credit"])
       unless validator.valid?(meter)
         fail ArgumentError, "invalid value for \"meter\", must be one of #{validator.allowable_values}."
       end

@@ -128,11 +128,11 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      invoicer_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci", "openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe"])
+      invoicer_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci", "openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft"])
       return false unless invoicer_validator.valid?(@invoicer)
-      vendor_validator = EnumAttributeValidator.new('String', ["unknown", "openai", "anthropic", "mistral", "cohere", "xai", "snowflake", "databricks", "google", "meta", "amazon", "microsoft", "deepseek", "nvidia"])
+      vendor_validator = EnumAttributeValidator.new('String', ["unknown", "openai", "anthropic", "mistral", "cohere", "xai", "snowflake", "databricks", "microsoft", "google", "meta", "amazon", "deepseek", "nvidia"])
       return false unless vendor_validator.valid?(@vendor)
-      meter_validator = EnumAttributeValidator.new('String', ["images", "other", "input_tokens", "output_tokens", "cached_input_tokens", "cache_write_tokens", "batch_input_tokens", "batch_output_tokens", "audio_seconds", "embeddings_tokens", "requests", "gpu_hours", "ptu_hours", "model_units_hours", "cluster_hours"])
+      meter_validator = EnumAttributeValidator.new('String', ["images", "other", "input_tokens", "output_tokens", "cached_input_tokens", "cache_write_tokens", "batch_input_tokens", "batch_output_tokens", "audio_seconds", "embeddings_tokens", "requests", "gpu_hours", "ptu_hours", "model_units_hours", "cluster_hours", "seats"])
       return false unless meter_validator.valid?(@meter)
       true
     end
@@ -140,7 +140,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] invoicer Object to be assigned
     def invoicer=(invoicer)
-      validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci", "openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe"])
+      validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci", "openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft"])
       unless validator.valid?(invoicer)
         fail ArgumentError, "invalid value for \"invoicer\", must be one of #{validator.allowable_values}."
       end
@@ -150,7 +150,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] vendor Object to be assigned
     def vendor=(vendor)
-      validator = EnumAttributeValidator.new('String', ["unknown", "openai", "anthropic", "mistral", "cohere", "xai", "snowflake", "databricks", "google", "meta", "amazon", "microsoft", "deepseek", "nvidia"])
+      validator = EnumAttributeValidator.new('String', ["unknown", "openai", "anthropic", "mistral", "cohere", "xai", "snowflake", "databricks", "microsoft", "google", "meta", "amazon", "deepseek", "nvidia"])
       unless validator.valid?(vendor)
         fail ArgumentError, "invalid value for \"vendor\", must be one of #{validator.allowable_values}."
       end
@@ -160,7 +160,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] meter Object to be assigned
     def meter=(meter)
-      validator = EnumAttributeValidator.new('String', ["images", "other", "input_tokens", "output_tokens", "cached_input_tokens", "cache_write_tokens", "batch_input_tokens", "batch_output_tokens", "audio_seconds", "embeddings_tokens", "requests", "gpu_hours", "ptu_hours", "model_units_hours", "cluster_hours"])
+      validator = EnumAttributeValidator.new('String', ["images", "other", "input_tokens", "output_tokens", "cached_input_tokens", "cache_write_tokens", "batch_input_tokens", "batch_output_tokens", "audio_seconds", "embeddings_tokens", "requests", "gpu_hours", "ptu_hours", "model_units_hours", "cluster_hours", "seats"])
       unless validator.valid?(meter)
         fail ArgumentError, "invalid value for \"meter\", must be one of #{validator.allowable_values}."
       end

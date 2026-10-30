@@ -109,7 +109,9 @@ public class InvoiceControlFinding {
     
     AI_DOUBLE_BILLED(String.valueOf("ai_double_billed")),
     
-    AI_COMMITMENT_EXCEEDED(String.valueOf("ai_commitment_exceeded"));
+    AI_COMMITMENT_EXCEEDED(String.valueOf("ai_commitment_exceeded")),
+    
+    AI_SEATS_ABOVE_ACTIVE(String.valueOf("ai_seats_above_active"));
 
     private String value;
 

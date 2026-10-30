@@ -5147,6 +5147,89 @@
         ]
       }
     },
+    "/ai-spend/seats": {
+      "get": {
+        "operationId": "ListAiSeatCounts",
+        "summary": "[Buyer] The seat products' active users recorded for a month (default this month): what seat invoice lines and seat commitments are held to. 'view' on suppliers or on invoices.",
+        "parameters": [
+          {
+            "name": "period",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AiSeatCount"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      },
+      "put": {
+        "operationId": "SetAiSeatCount",
+        "summary": "[Buyer] Records a seat product's active users for a month, as the identity provider (Okta, Entra, Google Workspace, ...) or the provider's admin console reports them - from a person, a script or an agent; Pleaxy reads no identity provider itself. An invoice billing more seats than that is a finding. 'edit' on invoices.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetAiSeatCountInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiSeatCount"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      }
+    },
     "/ai-spend/limits": {
       "get": {
         "operationId": "ListAiSpendLimits",
@@ -7059,7 +7142,10 @@
               "coreweave",
               "lambda",
               "nebius",
-              "crusoe"
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
             ],
             "description": "Who bills the line: a cloud or an AI provider."
           },
@@ -7106,6 +7192,7 @@
               "model_units_hours",
               "cluster_hours",
               "other",
+              "seats",
               "prepaid_credit"
             ],
             "description": "The meter; prepaid_credit for a prepaid credit purchase drawn down by the cost report."
@@ -7531,7 +7618,10 @@
               "coreweave",
               "lambda",
               "nebius",
-              "crusoe"
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
             ],
             "description": "Who bills the line: a cloud or an AI provider."
           },
@@ -7578,6 +7668,7 @@
               "model_units_hours",
               "cluster_hours",
               "other",
+              "seats",
               "prepaid_credit"
             ],
             "description": "The meter; prepaid_credit for a prepaid credit purchase drawn down by the cost report."
@@ -8989,6 +9080,71 @@
         "required": [
           "rules",
           "version"
+        ]
+      },
+      "SetAiSeatCountInput": {
+        "type": "object",
+        "properties": {
+          "invoicer": {
+            "type": "string",
+            "enum": [
+              "aws",
+              "gcp",
+              "azure",
+              "oci",
+              "openai",
+              "anthropic",
+              "openrouter",
+              "mistral",
+              "cohere",
+              "xai",
+              "snowflake",
+              "databricks",
+              "coreweave",
+              "lambda",
+              "nebius",
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
+            ],
+            "description": "Who bills the seats."
+          },
+          "product": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9._-]{0,79}$",
+            "description": "The seat product, as the order line names it (its ai.model), e.g. chatgpt-enterprise."
+          },
+          "period": {
+            "type": "string",
+            "pattern": "^\\d{4}-(0[1-9]|1[0-2])$",
+            "description": "The month, YYYY-MM."
+          },
+          "activeUsers": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10000000,
+            "description": "Active users in the identity provider that month: those holding a seat who signed in.",
+            "format": "double"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "okta",
+              "entra",
+              "google_workspace",
+              "jumpcloud",
+              "provider_console",
+              "manual"
+            ]
+          }
+        },
+        "required": [
+          "invoicer",
+          "product",
+          "period",
+          "activeUsers",
+          "source"
         ]
       },
       "SetAiSpendLimitInput": {
@@ -11738,7 +11894,10 @@
               "coreweave",
               "lambda",
               "nebius",
-              "crusoe"
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
             ]
           },
           "vendor": {
@@ -11752,10 +11911,10 @@
               "xai",
               "snowflake",
               "databricks",
+              "microsoft",
               "google",
               "meta",
               "amazon",
-              "microsoft",
               "deepseek",
               "nvidia"
             ]
@@ -11781,6 +11940,7 @@
               "ptu_hours",
               "model_units_hours",
               "cluster_hours",
+              "seats",
               "prepaid_credit"
             ]
           },
@@ -13511,7 +13671,10 @@
                   "coreweave",
                   "lambda",
                   "nebius",
-                  "crusoe"
+                  "crusoe",
+                  "cursor",
+                  "github",
+                  "microsoft"
                 ]
               },
               "vendor": {
@@ -13525,10 +13688,10 @@
                   "xai",
                   "snowflake",
                   "databricks",
+                  "microsoft",
                   "google",
                   "meta",
                   "amazon",
-                  "microsoft",
                   "deepseek",
                   "nvidia"
                 ]
@@ -13554,6 +13717,7 @@
                   "ptu_hours",
                   "model_units_hours",
                   "cluster_hours",
+                  "seats",
                   "prepaid_credit"
                 ]
               },
@@ -13647,7 +13811,8 @@
               "ai_tokens_mismatch",
               "ai_capacity_underused",
               "ai_double_billed",
-              "ai_commitment_exceeded"
+              "ai_commitment_exceeded",
+              "ai_seats_above_active"
             ]
           },
           "message": {
@@ -16166,7 +16331,8 @@
                     "ai_tokens_mismatch",
                     "ai_capacity_underused",
                     "ai_double_billed",
-                    "ai_commitment_exceeded"
+                    "ai_commitment_exceeded",
+                    "ai_seats_above_active"
                   ]
                 },
                 "message": {
@@ -17190,7 +17356,10 @@
               "coreweave",
               "lambda",
               "nebius",
-              "crusoe"
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
             ]
           },
           "accountLabel": {
@@ -18122,7 +18291,10 @@
                     "coreweave",
                     "lambda",
                     "nebius",
-                    "crusoe"
+                    "crusoe",
+                    "cursor",
+                    "github",
+                    "microsoft"
                   ]
                 },
                 "label": {
@@ -18191,7 +18363,10 @@
               "coreweave",
               "lambda",
               "nebius",
-              "crusoe"
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
             ]
           },
           "invoicerId": {
@@ -18359,7 +18534,10 @@
               "coreweave",
               "lambda",
               "nebius",
-              "crusoe"
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
             ]
           },
           "vendor": {
@@ -18373,10 +18551,10 @@
               "xai",
               "snowflake",
               "databricks",
+              "microsoft",
               "google",
               "meta",
               "amazon",
-              "microsoft",
               "deepseek",
               "nvidia"
             ]
@@ -18387,6 +18565,7 @@
           "shape": {
             "type": "string",
             "enum": [
+              "seats",
               "capacity",
               "tokens",
               "credits"
@@ -18409,7 +18588,8 @@
               "gpu_hours",
               "ptu_hours",
               "model_units_hours",
-              "cluster_hours"
+              "cluster_hours",
+              "seats"
             ]
           },
           "region": {
@@ -18433,7 +18613,8 @@
               "1M_tokens",
               "seconds",
               "model_unit_hours",
-              "units"
+              "units",
+              "seat_months"
             ]
           },
           "credits": {
@@ -18599,7 +18780,10 @@
               "coreweave",
               "lambda",
               "nebius",
-              "crusoe"
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
             ]
           },
           "vendor": {
@@ -18613,10 +18797,10 @@
               "xai",
               "snowflake",
               "databricks",
+              "microsoft",
               "google",
               "meta",
               "amazon",
-              "microsoft",
               "deepseek",
               "nvidia"
             ]
@@ -18641,7 +18825,8 @@
               "gpu_hours",
               "ptu_hours",
               "model_units_hours",
-              "cluster_hours"
+              "cluster_hours",
+              "seats"
             ]
           },
           "region": {
@@ -18658,7 +18843,8 @@
               "1M_tokens",
               "seconds",
               "model_unit_hours",
-              "units"
+              "units",
+              "seat_months"
             ]
           },
           "unitPrice": {
@@ -18703,7 +18889,10 @@
               "coreweave",
               "lambda",
               "nebius",
-              "crusoe"
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
             ]
           },
           "period": {
@@ -18747,7 +18936,10 @@
                   "coreweave",
                   "lambda",
                   "nebius",
-                  "crusoe"
+                  "crusoe",
+                  "cursor",
+                  "github",
+                  "microsoft"
                 ]
               },
               "vendor": {
@@ -18761,10 +18953,10 @@
                   "xai",
                   "snowflake",
                   "databricks",
+                  "microsoft",
                   "google",
                   "meta",
                   "amazon",
-                  "microsoft",
                   "deepseek",
                   "nvidia"
                 ]
@@ -18789,7 +18981,8 @@
                   "gpu_hours",
                   "ptu_hours",
                   "model_units_hours",
-                  "cluster_hours"
+                  "cluster_hours",
+                  "seats"
                 ]
               },
               "region": {
@@ -18808,7 +19001,8 @@
               "1M_tokens",
               "seconds",
               "model_unit_hours",
-              "units"
+              "units",
+              "seat_months"
             ]
           },
           "qty": {
@@ -18852,6 +19046,7 @@
           "kind": {
             "type": "string",
             "enum": [
+              "seats",
               "prepaid_credit",
               "capacity",
               "spend"
@@ -18900,7 +19095,10 @@
                   "coreweave",
                   "lambda",
                   "nebius",
-                  "crusoe"
+                  "crusoe",
+                  "cursor",
+                  "github",
+                  "microsoft"
                 ]
               },
               "vendor": {
@@ -18914,10 +19112,10 @@
                   "xai",
                   "snowflake",
                   "databricks",
+                  "microsoft",
                   "google",
                   "meta",
                   "amazon",
-                  "microsoft",
                   "deepseek",
                   "nvidia"
                 ]
@@ -19201,6 +19399,62 @@
                 "type": "string"
               }
             }
+          }
+        }
+      },
+      "AiSeatCount": {
+        "type": "object",
+        "properties": {
+          "invoicer": {
+            "type": "string",
+            "enum": [
+              "aws",
+              "gcp",
+              "azure",
+              "oci",
+              "openai",
+              "anthropic",
+              "mistral",
+              "cohere",
+              "xai",
+              "openrouter",
+              "snowflake",
+              "databricks",
+              "coreweave",
+              "lambda",
+              "nebius",
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
+            ]
+          },
+          "product": {
+            "type": "string"
+          },
+          "period": {
+            "type": "string"
+          },
+          "activeUsers": {
+            "type": "number",
+            "format": "double"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "manual",
+              "okta",
+              "entra",
+              "google_workspace",
+              "jumpcloud",
+              "provider_console"
+            ]
+          },
+          "recordedAt": {
+            "type": "string"
+          },
+          "recordedBy": {
+            "type": "string"
           }
         }
       },
@@ -20723,7 +20977,10 @@
               "coreweave",
               "lambda",
               "nebius",
-              "crusoe"
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
             ]
           },
           "billingCurrency": {
@@ -20890,7 +21147,10 @@
                   "coreweave",
                   "lambda",
                   "nebius",
-                  "crusoe"
+                  "crusoe",
+                  "cursor",
+                  "github",
+                  "microsoft"
                 ]
               },
               "billingCurrency": {
@@ -21043,7 +21303,10 @@
                   "coreweave",
                   "lambda",
                   "nebius",
-                  "crusoe"
+                  "crusoe",
+                  "cursor",
+                  "github",
+                  "microsoft"
                 ]
               },
               "billingCurrency": {
@@ -21226,7 +21489,10 @@
                   "coreweave",
                   "lambda",
                   "nebius",
-                  "crusoe"
+                  "crusoe",
+                  "cursor",
+                  "github",
+                  "microsoft"
                 ]
               },
               "billingCurrency": {
@@ -21390,7 +21656,10 @@
                   "coreweave",
                   "lambda",
                   "nebius",
-                  "crusoe"
+                  "crusoe",
+                  "cursor",
+                  "github",
+                  "microsoft"
                 ]
               },
               "billingCurrency": {
@@ -27968,7 +28237,10 @@
               "coreweave",
               "lambda",
               "nebius",
-              "crusoe"
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
             ]
           },
           "billingCurrency": {
@@ -28055,7 +28327,10 @@
               "coreweave",
               "lambda",
               "nebius",
-              "crusoe"
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
             ]
           },
           "name": {
@@ -28116,6 +28391,7 @@
           "tier": {
             "type": "string",
             "enum": [
+              "seats",
               "direct",
               "data_platform",
               "host",
@@ -28125,6 +28401,7 @@
           "shape": {
             "type": "string",
             "enum": [
+              "seats",
               "capacity",
               "tokens",
               "credits"

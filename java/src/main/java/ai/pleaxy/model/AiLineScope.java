@@ -75,7 +75,13 @@ public class AiLineScope {
     
     NEBIUS(String.valueOf("nebius")),
     
-    CRUSOE(String.valueOf("crusoe"));
+    CRUSOE(String.valueOf("crusoe")),
+    
+    CURSOR(String.valueOf("cursor")),
+    
+    GITHUB(String.valueOf("github")),
+    
+    MICROSOFT(String.valueOf("microsoft"));
 
     private String value;
 
@@ -128,13 +134,13 @@ public class AiLineScope {
     
     DATABRICKS(String.valueOf("databricks")),
     
+    MICROSOFT(String.valueOf("microsoft")),
+    
     GOOGLE(String.valueOf("google")),
     
     META(String.valueOf("meta")),
     
     AMAZON(String.valueOf("amazon")),
-    
-    MICROSOFT(String.valueOf("microsoft")),
     
     DEEPSEEK(String.valueOf("deepseek")),
     
@@ -208,6 +214,8 @@ public class AiLineScope {
     MODEL_UNITS_HOURS(String.valueOf("model_units_hours")),
     
     CLUSTER_HOURS(String.valueOf("cluster_hours")),
+    
+    SEATS(String.valueOf("seats")),
     
     PREPAID_CREDIT(String.valueOf("prepaid_credit"));
 

@@ -439,6 +439,64 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Buyer] The seat products' active users recorded for a month (default this month): what seat invoice lines and seat commitments are held to. 'view' on suppliers or on invoices.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :period 
+    # @return [Array<AiSeatCount>]
+    def list_ai_seat_counts(opts = {})
+      data, _status_code, _headers = list_ai_seat_counts_with_http_info(opts)
+      data
+    end
+
+    # [Buyer] The seat products&#39; active users recorded for a month (default this month): what seat invoice lines and seat commitments are held to. &#39;view&#39; on suppliers or on invoices.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :period 
+    # @return [Array<(Array<AiSeatCount>, Integer, Hash)>] Array<AiSeatCount> data, response status code and response headers
+    def list_ai_seat_counts_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.list_ai_seat_counts ...'
+      end
+      # resource path
+      local_var_path = '/ai-spend/seats'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'period'] = opts[:'period'] if !opts[:'period'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Array<AiSeatCount>'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.list_ai_seat_counts",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#list_ai_seat_counts\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase orders.
     # @param [Hash] opts the optional parameters
     # @return [ListAiSpendLimitsResult]
@@ -959,6 +1017,72 @@ module Pleaxy
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AiSpendApi#set_ai_renewal_rule\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Buyer] Records a seat product's active users for a month, as the identity provider (Okta, Entra, Google Workspace, ...) or the provider's admin console reports them - from a person, a script or an agent; Pleaxy reads no identity provider itself. An invoice billing more seats than that is a finding. 'edit' on invoices.
+    # @param set_ai_seat_count_input [SetAiSeatCountInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [AiSeatCount]
+    def set_ai_seat_count(set_ai_seat_count_input, opts = {})
+      data, _status_code, _headers = set_ai_seat_count_with_http_info(set_ai_seat_count_input, opts)
+      data
+    end
+
+    # [Buyer] Records a seat product&#39;s active users for a month, as the identity provider (Okta, Entra, Google Workspace, ...) or the provider&#39;s admin console reports them - from a person, a script or an agent; Pleaxy reads no identity provider itself. An invoice billing more seats than that is a finding. &#39;edit&#39; on invoices.
+    # @param set_ai_seat_count_input [SetAiSeatCountInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(AiSeatCount, Integer, Hash)>] AiSeatCount data, response status code and response headers
+    def set_ai_seat_count_with_http_info(set_ai_seat_count_input, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.set_ai_seat_count ...'
+      end
+      # verify the required parameter 'set_ai_seat_count_input' is set
+      if @api_client.config.client_side_validation && set_ai_seat_count_input.nil?
+        fail ArgumentError, "Missing the required parameter 'set_ai_seat_count_input' when calling AiSpendApi.set_ai_seat_count"
+      end
+      # resource path
+      local_var_path = '/ai-spend/seats'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(set_ai_seat_count_input)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AiSeatCount'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.set_ai_seat_count",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#set_ai_seat_count\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

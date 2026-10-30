@@ -16,6 +16,7 @@ AiRateCardEntryMeter = Literal[
     "output_tokens",
     "ptu_hours",
     "requests",
+    "seats",
 ]
 
 AI_RATE_CARD_ENTRY_METER_VALUES: Set[AiRateCardEntryMeter] = {
@@ -34,6 +35,7 @@ AI_RATE_CARD_ENTRY_METER_VALUES: Set[AiRateCardEntryMeter] = {
     "output_tokens",
     "ptu_hours",
     "requests",
+    "seats",
 }
 
 

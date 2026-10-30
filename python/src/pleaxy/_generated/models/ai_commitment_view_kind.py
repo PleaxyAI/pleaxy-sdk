@@ -1,10 +1,11 @@
 from typing import Literal, Set, cast
 
-AiCommitmentViewKind = Literal["capacity", "prepaid_credit", "spend"]
+AiCommitmentViewKind = Literal["capacity", "prepaid_credit", "seats", "spend"]
 
 AI_COMMITMENT_VIEW_KIND_VALUES: Set[AiCommitmentViewKind] = {
     "capacity",
     "prepaid_credit",
+    "seats",
     "spend",
 }
 

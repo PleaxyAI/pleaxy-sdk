@@ -76,7 +76,13 @@ public class ListAiInvoicersItem {
     
     NEBIUS(String.valueOf("nebius")),
     
-    CRUSOE(String.valueOf("crusoe"));
+    CRUSOE(String.valueOf("crusoe")),
+    
+    CURSOR(String.valueOf("cursor")),
+    
+    GITHUB(String.valueOf("github")),
+    
+    MICROSOFT(String.valueOf("microsoft"));
 
     private String value;
 
@@ -209,6 +215,8 @@ public class ListAiInvoicersItem {
    * Gets or Sets tier
    */
   public enum TierEnum {
+    SEATS(String.valueOf("seats")),
+    
     DIRECT(String.valueOf("direct")),
     
     DATA_PLATFORM(String.valueOf("data_platform")),
@@ -252,6 +260,8 @@ public class ListAiInvoicersItem {
    * Gets or Sets shape
    */
   public enum ShapeEnum {
+    SEATS(String.valueOf("seats")),
+    
     CAPACITY(String.valueOf("capacity")),
     
     TOKENS(String.valueOf("tokens")),

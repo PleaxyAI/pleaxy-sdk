@@ -17,6 +17,7 @@ InvoiceLineItemAiMeter = Literal[
     "prepaid_credit",
     "ptu_hours",
     "requests",
+    "seats",
 ]
 
 INVOICE_LINE_ITEM_AI_METER_VALUES: Set[InvoiceLineItemAiMeter] = {
@@ -36,6 +37,7 @@ INVOICE_LINE_ITEM_AI_METER_VALUES: Set[InvoiceLineItemAiMeter] = {
     "prepaid_credit",
     "ptu_hours",
     "requests",
+    "seats",
 }
 
 

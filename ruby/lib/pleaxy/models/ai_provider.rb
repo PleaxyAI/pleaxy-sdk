@@ -223,7 +223,7 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @id.nil?
-      provider_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe"])
+      provider_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft"])
       return false unless provider_validator.valid?(@provider)
       status_validator = EnumAttributeValidator.new('String', ["connected", "pending"])
       return false unless status_validator.valid?(@status)
@@ -237,7 +237,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] provider Object to be assigned
     def provider=(provider)
-      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe"])
+      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft"])
       unless validator.valid?(provider)
         fail ArgumentError, "invalid value for \"provider\", must be one of #{validator.allowable_values}."
       end

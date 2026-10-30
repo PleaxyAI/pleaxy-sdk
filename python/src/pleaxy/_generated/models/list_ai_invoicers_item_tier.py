@@ -1,12 +1,15 @@
 from typing import Literal, Set, cast
 
-ListAiInvoicersItemTier = Literal["data_platform", "direct", "host", "neocloud"]
+ListAiInvoicersItemTier = Literal[
+    "data_platform", "direct", "host", "neocloud", "seats"
+]
 
 LIST_AI_INVOICERS_ITEM_TIER_VALUES: Set[ListAiInvoicersItemTier] = {
     "data_platform",
     "direct",
     "host",
     "neocloud",
+    "seats",
 }
 
 

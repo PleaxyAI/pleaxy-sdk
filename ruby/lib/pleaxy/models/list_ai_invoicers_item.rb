@@ -191,13 +191,13 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @id.nil?
-      id_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe"])
+      id_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft"])
       return false unless id_validator.valid?(@id)
       credential_validator = EnumAttributeValidator.new('String', ["none", "admin_key", "key_pair"])
       return false unless credential_validator.valid?(@credential)
-      tier_validator = EnumAttributeValidator.new('String', ["direct", "data_platform", "host", "neocloud"])
+      tier_validator = EnumAttributeValidator.new('String', ["seats", "direct", "data_platform", "host", "neocloud"])
       return false unless tier_validator.valid?(@tier)
-      shape_validator = EnumAttributeValidator.new('String', ["capacity", "tokens", "credits"])
+      shape_validator = EnumAttributeValidator.new('String', ["seats", "capacity", "tokens", "credits"])
       return false unless shape_validator.valid?(@shape)
       true
     end
@@ -205,7 +205,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] id Object to be assigned
     def id=(id)
-      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe"])
+      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft"])
       unless validator.valid?(id)
         fail ArgumentError, "invalid value for \"id\", must be one of #{validator.allowable_values}."
       end
@@ -225,7 +225,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] tier Object to be assigned
     def tier=(tier)
-      validator = EnumAttributeValidator.new('String', ["direct", "data_platform", "host", "neocloud"])
+      validator = EnumAttributeValidator.new('String', ["seats", "direct", "data_platform", "host", "neocloud"])
       unless validator.valid?(tier)
         fail ArgumentError, "invalid value for \"tier\", must be one of #{validator.allowable_values}."
       end
@@ -235,7 +235,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] shape Object to be assigned
     def shape=(shape)
-      validator = EnumAttributeValidator.new('String', ["capacity", "tokens", "credits"])
+      validator = EnumAttributeValidator.new('String', ["seats", "capacity", "tokens", "credits"])
       unless validator.valid?(shape)
         fail ArgumentError, "invalid value for \"shape\", must be one of #{validator.allowable_values}."
       end

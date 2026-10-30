@@ -100,6 +100,13 @@ export class AiSpendResource {
   }
 
   /**
+   * [Buyer] The seat products' active users recorded for a month (default this month): what seat invoice lines and seat commitments are held to. 'view' on suppliers or on invoices.
+   */
+  listAiSeatCounts(query?: QueryParams<"ListAiSeatCounts">, options?: RequestOptions): Promise<ResponseBody<"ListAiSeatCounts">> {
+    return this.transport.request("get", "/ai-spend/seats", { path: undefined, query, options }) as Promise<ResponseBody<"ListAiSeatCounts">>;
+  }
+
+  /**
    * [Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase orders.
    */
   listAiSpendLimits(options?: RequestOptions): Promise<ResponseBody<"ListAiSpendLimits">> {
@@ -153,6 +160,13 @@ export class AiSpendResource {
    */
   setAiRenewalRule(body: RequestBody<"SetAiRenewalRule">, options?: RequestOptions): Promise<ResponseBody<"SetAiRenewalRule">> {
     return this.transport.request("put", "/ai-spend/renewal-rule", { path: undefined, body, options }) as Promise<ResponseBody<"SetAiRenewalRule">>;
+  }
+
+  /**
+   * [Buyer] Records a seat product's active users for a month, as the identity provider (Okta, Entra, Google Workspace, ...) or the provider's admin console reports them - from a person, a script or an agent; Pleaxy reads no identity provider itself. An invoice billing more seats than that is a finding. 'edit' on invoices.
+   */
+  setAiSeatCount(body: RequestBody<"SetAiSeatCount">, options?: RequestOptions): Promise<ResponseBody<"SetAiSeatCount">> {
+    return this.transport.request("put", "/ai-spend/seats", { path: undefined, body, options }) as Promise<ResponseBody<"SetAiSeatCount">>;
   }
 
   /**

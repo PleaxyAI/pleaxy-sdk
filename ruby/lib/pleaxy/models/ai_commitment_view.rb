@@ -232,7 +232,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      kind_validator = EnumAttributeValidator.new('String', ["prepaid_credit", "capacity", "spend"])
+      kind_validator = EnumAttributeValidator.new('String', ["seats", "prepaid_credit", "capacity", "spend"])
       return false unless kind_validator.valid?(@kind)
       true
     end
@@ -240,7 +240,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] kind Object to be assigned
     def kind=(kind)
-      validator = EnumAttributeValidator.new('String', ["prepaid_credit", "capacity", "spend"])
+      validator = EnumAttributeValidator.new('String', ["seats", "prepaid_credit", "capacity", "spend"])
       unless validator.valid?(kind)
         fail ArgumentError, "invalid value for \"kind\", must be one of #{validator.allowable_values}."
       end

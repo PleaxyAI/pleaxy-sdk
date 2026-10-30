@@ -17,6 +17,7 @@ AiLineScopeMeter = Literal[
     "prepaid_credit",
     "ptu_hours",
     "requests",
+    "seats",
 ]
 
 AI_LINE_SCOPE_METER_VALUES: Set[AiLineScopeMeter] = {
@@ -36,6 +37,7 @@ AI_LINE_SCOPE_METER_VALUES: Set[AiLineScopeMeter] = {
     "prepaid_credit",
     "ptu_hours",
     "requests",
+    "seats",
 }
 
 

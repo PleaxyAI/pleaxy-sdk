@@ -829,6 +829,18 @@ func (c *Client) ListAiRateCards(ctx context.Context, params *ListAiRateCardsPar
 	return resp.JSON200, nil
 }
 
+// ListAiSeatCounts - [Buyer] The seat products' active users recorded for a month (default this month): what seat invoice lines and seat commitments are held to. 'view' on suppliers or on invoices.
+func (c *Client) ListAiSeatCounts(ctx context.Context, params *ListAiSeatCountsParams) (*[]AiSeatCount, error) {
+	resp, err := c.api.ListAiSeatCountsWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // ListAiSpendLimits - [Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase orders.
 func (c *Client) ListAiSpendLimits(ctx context.Context) (*ListAiSpendLimitsResult, error) {
 	resp, err := c.api.ListAiSpendLimitsWithResponse(ctx)
@@ -1366,6 +1378,18 @@ func (c *Client) SetAiLimitCredential(ctx context.Context, invoicerId string, bo
 // SetAiRenewalRule - [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, 'create' on purchase orders.
 func (c *Client) SetAiRenewalRule(ctx context.Context, body SetAiRenewalRuleJSONRequestBody) (*AiRenewalRule, error) {
 	resp, err := c.api.SetAiRenewalRuleWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// SetAiSeatCount - [Buyer] Records a seat product's active users for a month, as the identity provider (Okta, Entra, Google Workspace, ...) or the provider's admin console reports them - from a person, a script or an agent; Pleaxy reads no identity provider itself. An invoice billing more seats than that is a finding. 'edit' on invoices.
+func (c *Client) SetAiSeatCount(ctx context.Context, body SetAiSeatCountJSONRequestBody) (*AiSeatCount, error) {
+	resp, err := c.api.SetAiSeatCountWithResponse(ctx, body)
 	if err != nil {
 		return nil, err
 	}

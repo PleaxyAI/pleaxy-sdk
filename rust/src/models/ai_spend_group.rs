@@ -92,6 +92,12 @@ pub enum Invoicer {
     Nebius,
     #[serde(rename = "crusoe")]
     Crusoe,
+    #[serde(rename = "cursor")]
+    Cursor,
+    #[serde(rename = "github")]
+    Github,
+    #[serde(rename = "microsoft")]
+    Microsoft,
 }
 
 impl Default for Invoicer {

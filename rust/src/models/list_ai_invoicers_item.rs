@@ -81,6 +81,12 @@ pub enum Id {
     Nebius,
     #[serde(rename = "crusoe")]
     Crusoe,
+    #[serde(rename = "cursor")]
+    Cursor,
+    #[serde(rename = "github")]
+    Github,
+    #[serde(rename = "microsoft")]
+    Microsoft,
 }
 
 impl Default for Id {
@@ -121,6 +127,8 @@ impl Default for Credential {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Tier {
+    #[serde(rename = "seats")]
+    Seats,
     #[serde(rename = "direct")]
     Direct,
     #[serde(rename = "data_platform")]
@@ -133,12 +141,14 @@ pub enum Tier {
 
 impl Default for Tier {
     fn default() -> Tier {
-        Self::Direct
+        Self::Seats
     }
 }
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Shape {
+    #[serde(rename = "seats")]
+    Seats,
     #[serde(rename = "capacity")]
     Capacity,
     #[serde(rename = "tokens")]
@@ -149,6 +159,6 @@ pub enum Shape {
 
 impl Default for Shape {
     fn default() -> Shape {
-        Self::Capacity
+        Self::Seats
     }
 }

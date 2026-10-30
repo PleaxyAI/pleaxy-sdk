@@ -1654,6 +1654,24 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ai-spend/seats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] The seat products' active users recorded for a month (default this month): what seat invoice lines and seat commitments are held to. 'view' on suppliers or on invoices. */
+        get: operations["ListAiSeatCounts"];
+        /** [Buyer] Records a seat product's active users for a month, as the identity provider (Okta, Entra, Google Workspace, ...) or the provider's admin console reports them - from a person, a script or an agent; Pleaxy reads no identity provider itself. An invoice billing more seats than that is a finding. 'edit' on invoices. */
+        put: operations["SetAiSeatCount"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ai-spend/limits": {
         parameters: {
             query?: never;
@@ -2225,7 +2243,7 @@ export interface components {
              * @description Who bills the line: a cloud or an AI provider.
              * @enum {string}
              */
-            invoicer: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            invoicer: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             /**
              * @description The model's maker.
              * @enum {string}
@@ -2237,7 +2255,7 @@ export interface components {
              * @description The meter; prepaid_credit for a prepaid credit purchase drawn down by the cost report.
              * @enum {string}
              */
-            meter: "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "images" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours" | "other" | "prepaid_credit";
+            meter: "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "images" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours" | "other" | "seats" | "prepaid_credit";
             /** @description The region, where the model is priced by region. */
             region?: string;
         };
@@ -2399,7 +2417,7 @@ export interface components {
              * @description Who bills the line: a cloud or an AI provider.
              * @enum {string}
              */
-            invoicer: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            invoicer: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             /**
              * @description The model's maker.
              * @enum {string}
@@ -2411,7 +2429,7 @@ export interface components {
              * @description The meter; prepaid_credit for a prepaid credit purchase drawn down by the cost report.
              * @enum {string}
              */
-            meter: "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "images" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours" | "other" | "prepaid_credit";
+            meter: "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "images" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours" | "other" | "seats" | "prepaid_credit";
             /** @description The region, where the model is priced by region. */
             region?: string;
             /** @description The month of usage the line bills, YYYY-MM. Defaults to the month before the invoice date. */
@@ -2898,6 +2916,24 @@ export interface components {
              * @description The version the rules were read at (GetAiAttribution's version); 0 for the first save.
              */
             version: number;
+        };
+        SetAiSeatCountInput: {
+            /**
+             * @description Who bills the seats.
+             * @enum {string}
+             */
+            invoicer: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            /** @description The seat product, as the order line names it (its ai.model), e.g. chatgpt-enterprise. */
+            product: string;
+            /** @description The month, YYYY-MM. */
+            period: string;
+            /**
+             * Format: double
+             * @description Active users in the identity provider that month: those holding a seat who signed in.
+             */
+            activeUsers: number;
+            /** @enum {string} */
+            source: "okta" | "entra" | "google_workspace" | "jumpcloud" | "provider_console" | "manual";
         };
         SetAiSpendLimitInput: {
             /** @description The invoicer the order covers: a cloud connection or AI provider id with a limits credential. */
@@ -3758,12 +3794,12 @@ export interface components {
         };
         AiLineScope: {
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             /** @enum {string} */
-            vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "google" | "meta" | "amazon" | "microsoft" | "deepseek" | "nvidia";
+            vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "microsoft" | "google" | "meta" | "amazon" | "deepseek" | "nvidia";
             model?: string;
             /** @enum {string} */
-            meter?: "images" | "other" | "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours" | "prepaid_credit";
+            meter?: "images" | "other" | "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours" | "seats" | "prepaid_credit";
             region?: string;
         };
         ApprovalChain: {
@@ -4311,12 +4347,12 @@ export interface components {
             charge?: number;
             ai?: {
                 /** @enum {string} */
-                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
                 /** @enum {string} */
-                vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "google" | "meta" | "amazon" | "microsoft" | "deepseek" | "nvidia";
+                vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "microsoft" | "google" | "meta" | "amazon" | "deepseek" | "nvidia";
                 model?: string;
                 /** @enum {string} */
-                meter?: "images" | "other" | "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours" | "prepaid_credit";
+                meter?: "images" | "other" | "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours" | "seats" | "prepaid_credit";
                 region?: string;
                 period?: string;
             };
@@ -4339,7 +4375,7 @@ export interface components {
         };
         InvoiceControlFinding: {
             /** @enum {string} */
-            code?: "usage_grew" | "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled" | "ai_rate_above_contract" | "ai_rate_above_list" | "ai_price_cut_not_applied" | "ai_cache_discount_missing" | "ai_batch_discount_missing" | "ai_tokens_mismatch" | "ai_capacity_underused" | "ai_double_billed" | "ai_commitment_exceeded";
+            code?: "usage_grew" | "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled" | "ai_rate_above_contract" | "ai_rate_above_list" | "ai_price_cut_not_applied" | "ai_cache_discount_missing" | "ai_batch_discount_missing" | "ai_tokens_mismatch" | "ai_capacity_underused" | "ai_double_billed" | "ai_commitment_exceeded" | "ai_seats_above_active";
             message?: string;
             messageId?: string;
             params?: components["schemas"]["ServerMessageParams"];
@@ -5127,7 +5163,7 @@ export interface components {
                 /** Format: double */
                 poLineNo?: number;
                 /** @enum {string} */
-                code?: "usage_grew" | "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled" | "ai_rate_above_contract" | "ai_rate_above_list" | "ai_price_cut_not_applied" | "ai_cache_discount_missing" | "ai_batch_discount_missing" | "ai_tokens_mismatch" | "ai_capacity_underused" | "ai_double_billed" | "ai_commitment_exceeded";
+                code?: "usage_grew" | "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled" | "ai_rate_above_contract" | "ai_rate_above_list" | "ai_price_cut_not_applied" | "ai_cache_discount_missing" | "ai_batch_discount_missing" | "ai_tokens_mismatch" | "ai_capacity_underused" | "ai_double_billed" | "ai_commitment_exceeded" | "ai_seats_above_active";
                 message?: string;
                 /** Format: double */
                 invoiceLine?: number;
@@ -5439,7 +5475,7 @@ export interface components {
         AiProvider: {
             id: string;
             /** @enum {string} */
-            provider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            provider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             accountLabel?: string;
             keyHint?: string;
             /** @enum {string} */
@@ -5708,7 +5744,7 @@ export interface components {
             notReadable?: {
                 invoicerId?: string;
                 /** @enum {string} */
-                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
                 label?: string;
                 /** @enum {string} */
                 reason?: "needs_current_cost" | "not_synced_yet";
@@ -5729,7 +5765,7 @@ export interface components {
             key?: string;
             label?: string;
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             invoicerId?: string;
             currency?: string;
             /** Format: double */
@@ -5787,20 +5823,20 @@ export interface components {
         AiUsageLine: {
             invoicerId?: string;
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             /** @enum {string} */
-            vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "google" | "meta" | "amazon" | "microsoft" | "deepseek" | "nvidia";
+            vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "microsoft" | "google" | "meta" | "amazon" | "deepseek" | "nvidia";
             model?: string;
             /** @enum {string} */
-            shape?: "capacity" | "tokens" | "credits";
+            shape?: "seats" | "capacity" | "tokens" | "credits";
             /** @enum {string} */
-            meter?: "images" | "other" | "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours";
+            meter?: "images" | "other" | "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours" | "seats";
             region?: string;
             day?: string;
             /** Format: double */
             quantity?: number;
             /** @enum {string} */
-            unit?: "images" | "requests" | "gpu_hours" | "ptu_hours" | "tokens" | "1M_tokens" | "seconds" | "model_unit_hours" | "units";
+            unit?: "images" | "requests" | "gpu_hours" | "ptu_hours" | "tokens" | "1M_tokens" | "seconds" | "model_unit_hours" | "units" | "seat_months";
             credits?: {
                 /** Format: double */
                 quantity?: number;
@@ -5858,15 +5894,15 @@ export interface components {
         };
         AiRateCardEntry: {
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             /** @enum {string} */
-            vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "google" | "meta" | "amazon" | "microsoft" | "deepseek" | "nvidia";
+            vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "microsoft" | "google" | "meta" | "amazon" | "deepseek" | "nvidia";
             model?: string;
             /** @enum {string} */
-            meter?: "images" | "other" | "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours";
+            meter?: "images" | "other" | "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours" | "seats";
             region?: string;
             /** @enum {string} */
-            unit?: "images" | "requests" | "gpu_hours" | "ptu_hours" | "tokens" | "1M_tokens" | "seconds" | "model_unit_hours" | "units";
+            unit?: "images" | "requests" | "gpu_hours" | "ptu_hours" | "tokens" | "1M_tokens" | "seconds" | "model_unit_hours" | "units" | "seat_months";
             /** Format: double */
             unitPrice?: number;
             currency?: string;
@@ -5877,7 +5913,7 @@ export interface components {
         AiPoLineSuggestions: {
             invoicerId?: string;
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             period?: string;
             provider?: string;
             supplierConnectionId?: string;
@@ -5886,16 +5922,16 @@ export interface components {
         AiPoLineSuggestion: {
             ai?: {
                 /** @enum {string} */
-                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
                 /** @enum {string} */
-                vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "google" | "meta" | "amazon" | "microsoft" | "deepseek" | "nvidia";
+                vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "microsoft" | "google" | "meta" | "amazon" | "deepseek" | "nvidia";
                 model?: string;
                 /** @enum {string} */
-                meter?: "images" | "other" | "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours";
+                meter?: "images" | "other" | "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours" | "seats";
                 region?: string;
             };
             /** @enum {string} */
-            unit?: "images" | "requests" | "gpu_hours" | "ptu_hours" | "tokens" | "1M_tokens" | "seconds" | "model_unit_hours" | "units";
+            unit?: "images" | "requests" | "gpu_hours" | "ptu_hours" | "tokens" | "1M_tokens" | "seconds" | "model_unit_hours" | "units" | "seat_months";
             /** Format: double */
             qty?: number;
             /** Format: double */
@@ -5912,7 +5948,7 @@ export interface components {
         };
         AiCommitmentView: {
             /** @enum {string} */
-            kind?: "prepaid_credit" | "capacity" | "spend";
+            kind?: "seats" | "prepaid_credit" | "capacity" | "spend";
             contractId?: string;
             contractTitle?: string;
             termId?: string;
@@ -5923,9 +5959,9 @@ export interface components {
             description?: string;
             ai?: {
                 /** @enum {string} */
-                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
                 /** @enum {string} */
-                vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "google" | "meta" | "amazon" | "microsoft" | "deepseek" | "nvidia";
+                vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "microsoft" | "google" | "meta" | "amazon" | "deepseek" | "nvidia";
                 model?: string;
                 meter?: string;
             };
@@ -6027,6 +6063,18 @@ export interface components {
                 threshold?: number;
                 sentAt?: string;
             };
+        };
+        AiSeatCount: {
+            /** @enum {string} */
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            product?: string;
+            period?: string;
+            /** Format: double */
+            activeUsers?: number;
+            /** @enum {string} */
+            source?: "manual" | "okta" | "entra" | "google_workspace" | "jumpcloud" | "provider_console";
+            recordedAt?: string;
+            recordedBy?: string;
         };
         AiLimitCredential: {
             invoicerId?: string;
@@ -6486,7 +6534,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -6534,7 +6582,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -6579,7 +6627,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -6630,7 +6678,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -6677,7 +6725,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8597,7 +8645,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8623,7 +8671,7 @@ export interface components {
         };
         ListAiInvoicersItem: {
             /** @enum {string} */
-            id: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            id: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
             name?: string;
             legalEntities?: {
                 /** @enum {string} */
@@ -8637,9 +8685,9 @@ export interface components {
             /** @enum {string} */
             credential?: "none" | "admin_key" | "key_pair";
             /** @enum {string} */
-            tier?: "direct" | "data_platform" | "host" | "neocloud";
+            tier?: "seats" | "direct" | "data_platform" | "host" | "neocloud";
             /** @enum {string} */
-            shape?: "capacity" | "tokens" | "credits";
+            shape?: "seats" | "capacity" | "tokens" | "credits";
             contactHint?: string;
             connectable?: boolean;
         };
@@ -12315,6 +12363,68 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AiCostCentersResponse"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListAiSeatCounts: {
+        parameters: {
+            query?: {
+                period?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiSeatCount"][];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SetAiSeatCount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SetAiSeatCountInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiSeatCount"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

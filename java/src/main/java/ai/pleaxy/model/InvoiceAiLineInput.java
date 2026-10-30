@@ -76,7 +76,13 @@ public class InvoiceAiLineInput {
     
     NEBIUS(String.valueOf("nebius")),
     
-    CRUSOE(String.valueOf("crusoe"));
+    CRUSOE(String.valueOf("crusoe")),
+    
+    CURSOR(String.valueOf("cursor")),
+    
+    GITHUB(String.valueOf("github")),
+    
+    MICROSOFT(String.valueOf("microsoft"));
 
     private String value;
 
@@ -209,6 +215,8 @@ public class InvoiceAiLineInput {
     CLUSTER_HOURS(String.valueOf("cluster_hours")),
     
     OTHER(String.valueOf("other")),
+    
+    SEATS(String.valueOf("seats")),
     
     PREPAID_CREDIT(String.valueOf("prepaid_credit"));
 

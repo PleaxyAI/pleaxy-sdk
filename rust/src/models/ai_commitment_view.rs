@@ -78,6 +78,8 @@ impl AiCommitmentView {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Kind {
+    #[serde(rename = "seats")]
+    Seats,
     #[serde(rename = "prepaid_credit")]
     PrepaidCredit,
     #[serde(rename = "capacity")]
@@ -88,6 +90,6 @@ pub enum Kind {
 
 impl Default for Kind {
     fn default() -> Kind {
-        Self::PrepaidCredit
+        Self::Seats
     }
 }

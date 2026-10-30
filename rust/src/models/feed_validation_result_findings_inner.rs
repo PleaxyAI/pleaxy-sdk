@@ -97,6 +97,8 @@ pub enum Code {
     AiDoubleBilled,
     #[serde(rename = "ai_commitment_exceeded")]
     AiCommitmentExceeded,
+    #[serde(rename = "ai_seats_above_active")]
+    AiSeatsAboveActive,
 }
 
 impl Default for Code {

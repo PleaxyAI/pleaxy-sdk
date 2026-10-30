@@ -71,6 +71,12 @@ pub enum Invoicer {
     Nebius,
     #[serde(rename = "crusoe")]
     Crusoe,
+    #[serde(rename = "cursor")]
+    Cursor,
+    #[serde(rename = "github")]
+    Github,
+    #[serde(rename = "microsoft")]
+    Microsoft,
 }
 
 impl Default for Invoicer {
@@ -97,14 +103,14 @@ pub enum Vendor {
     Snowflake,
     #[serde(rename = "databricks")]
     Databricks,
+    #[serde(rename = "microsoft")]
+    Microsoft,
     #[serde(rename = "google")]
     Google,
     #[serde(rename = "meta")]
     Meta,
     #[serde(rename = "amazon")]
     Amazon,
-    #[serde(rename = "microsoft")]
-    Microsoft,
     #[serde(rename = "deepseek")]
     Deepseek,
     #[serde(rename = "nvidia")]
@@ -149,6 +155,8 @@ pub enum Meter {
     ModelUnitsHours,
     #[serde(rename = "cluster_hours")]
     ClusterHours,
+    #[serde(rename = "seats")]
+    Seats,
 }
 
 impl Default for Meter {

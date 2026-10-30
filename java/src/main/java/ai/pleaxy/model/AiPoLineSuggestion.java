@@ -71,7 +71,9 @@ public class AiPoLineSuggestion {
     
     MODEL_UNIT_HOURS(String.valueOf("model_unit_hours")),
     
-    UNITS(String.valueOf("units"));
+    UNITS(String.valueOf("units")),
+    
+    SEAT_MONTHS(String.valueOf("seat_months"));
 
     private String value;
 

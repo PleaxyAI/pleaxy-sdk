@@ -168,7 +168,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      unit_validator = EnumAttributeValidator.new('String', ["images", "requests", "gpu_hours", "ptu_hours", "tokens", "1M_tokens", "seconds", "model_unit_hours", "units"])
+      unit_validator = EnumAttributeValidator.new('String', ["images", "requests", "gpu_hours", "ptu_hours", "tokens", "1M_tokens", "seconds", "model_unit_hours", "units", "seat_months"])
       return false unless unit_validator.valid?(@unit)
       price_source_validator = EnumAttributeValidator.new('String', ["list", "contract", "billed"])
       return false unless price_source_validator.valid?(@price_source)
@@ -178,7 +178,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] unit Object to be assigned
     def unit=(unit)
-      validator = EnumAttributeValidator.new('String', ["images", "requests", "gpu_hours", "ptu_hours", "tokens", "1M_tokens", "seconds", "model_unit_hours", "units"])
+      validator = EnumAttributeValidator.new('String', ["images", "requests", "gpu_hours", "ptu_hours", "tokens", "1M_tokens", "seconds", "model_unit_hours", "units", "seat_months"])
       unless validator.valid?(unit)
         fail ArgumentError, "invalid value for \"unit\", must be one of #{validator.allowable_values}."
       end

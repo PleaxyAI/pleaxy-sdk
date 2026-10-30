@@ -17,6 +17,7 @@ InvoiceAiLineInputMeter = Literal[
     "prepaid_credit",
     "ptu_hours",
     "requests",
+    "seats",
 ]
 
 INVOICE_AI_LINE_INPUT_METER_VALUES: Set[InvoiceAiLineInputMeter] = {
@@ -36,6 +37,7 @@ INVOICE_AI_LINE_INPUT_METER_VALUES: Set[InvoiceAiLineInputMeter] = {
     "prepaid_credit",
     "ptu_hours",
     "requests",
+    "seats",
 }
 
 

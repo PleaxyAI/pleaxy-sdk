@@ -271,6 +271,16 @@ impl<'a> AiSpend<'a> {
             .await
     }
 
+    pub async fn list_ai_seat_counts(
+        &self,
+        period: Option<&str>,
+    ) -> Result<
+        Vec<crate::models::AiSeatCount>,
+        crate::apis::Error<crate::apis::ai_spend_api::ListAiSeatCountsError>,
+    > {
+        crate::apis::ai_spend_api::list_ai_seat_counts(&self.0.config, period).await
+    }
+
     pub async fn list_ai_spend_limits(
         &self,
     ) -> Result<
@@ -373,6 +383,16 @@ impl<'a> AiSpend<'a> {
     > {
         crate::apis::ai_spend_api::set_ai_renewal_rule(&self.0.config, set_ai_renewal_rule_input)
             .await
+    }
+
+    pub async fn set_ai_seat_count(
+        &self,
+        set_ai_seat_count_input: crate::models::SetAiSeatCountInput,
+    ) -> Result<
+        crate::models::AiSeatCount,
+        crate::apis::Error<crate::apis::ai_spend_api::SetAiSeatCountError>,
+    > {
+        crate::apis::ai_spend_api::set_ai_seat_count(&self.0.config, set_ai_seat_count_input).await
     }
 
     pub async fn set_ai_spend_limit(

@@ -118,6 +118,14 @@ class AiSpendResource:
             on=on,
         )
 
+    def list_ai_seat_counts(
+        self, *, period: Union[Unset, str] = UNSET
+    ) -> List["AiSeatCount"]:
+        """[Buyer] The seat products' active users recorded for a month (default this month): what seat invoice lines and seat commitments are held to. 'view' on suppliers or on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.list_ai_seat_counts", period=period
+        )
+
     def list_ai_spend_limits(self) -> ListAiSpendLimitsResult:
         """[Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase orders."""
         return self._transport.call(
@@ -192,6 +200,12 @@ class AiSpendResource:
         """[Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, 'create' on purchase orders."""
         return self._transport.call(
             "pleaxy._generated.api.ai_spend.set_ai_renewal_rule", body=body
+        )
+
+    def set_ai_seat_count(self, *, body: SetAiSeatCountInput) -> AiSeatCount:
+        """[Buyer] Records a seat product's active users for a month, as the identity provider (Okta, Entra, Google Workspace, ...) or the provider's admin console reports them - from a person, a script or an agent; Pleaxy reads no identity provider itself. An invoice billing more seats than that is a finding. 'edit' on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.set_ai_seat_count", body=body
         )
 
     def set_ai_spend_limit(

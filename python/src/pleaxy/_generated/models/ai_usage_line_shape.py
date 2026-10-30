@@ -1,10 +1,11 @@
 from typing import Literal, Set, cast
 
-AiUsageLineShape = Literal["capacity", "credits", "tokens"]
+AiUsageLineShape = Literal["capacity", "credits", "seats", "tokens"]
 
 AI_USAGE_LINE_SHAPE_VALUES: Set[AiUsageLineShape] = {
     "capacity",
     "credits",
+    "seats",
     "tokens",
 }
 

@@ -72,6 +72,8 @@ pub enum Unit {
     ModelUnitHours,
     #[serde(rename = "units")]
     Units,
+    #[serde(rename = "seat_months")]
+    SeatMonths,
 }
 
 impl Default for Unit {

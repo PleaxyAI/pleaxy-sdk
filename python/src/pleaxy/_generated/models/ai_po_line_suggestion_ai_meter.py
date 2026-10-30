@@ -16,6 +16,7 @@ AiPoLineSuggestionAiMeter = Literal[
     "output_tokens",
     "ptu_hours",
     "requests",
+    "seats",
 ]
 
 AI_PO_LINE_SUGGESTION_AI_METER_VALUES: Set[AiPoLineSuggestionAiMeter] = {
@@ -34,6 +35,7 @@ AI_PO_LINE_SUGGESTION_AI_METER_VALUES: Set[AiPoLineSuggestionAiMeter] = {
     "output_tokens",
     "ptu_hours",
     "requests",
+    "seats",
 }
 
 

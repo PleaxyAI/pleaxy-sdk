@@ -24,6 +24,7 @@ import ai.pleaxy.model.AiLimitCredential;
 import ai.pleaxy.model.AiPoLineSuggestions;
 import ai.pleaxy.model.AiRateCardEntry;
 import ai.pleaxy.model.AiRenewalRule;
+import ai.pleaxy.model.AiSeatCount;
 import ai.pleaxy.model.AiSpendCheckResponse;
 import ai.pleaxy.model.AiSpendLimit;
 import ai.pleaxy.model.AiSpendResponse;
@@ -36,6 +37,7 @@ import ai.pleaxy.model.RemoveAiLimitCredentialResult;
 import ai.pleaxy.model.SetAiAttributionInput;
 import ai.pleaxy.model.SetAiLimitCredentialInput;
 import ai.pleaxy.model.SetAiRenewalRuleInput;
+import ai.pleaxy.model.SetAiSeatCountInput;
 import ai.pleaxy.model.SetAiSpendLimitInput;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -634,6 +636,89 @@ public class AiSpendApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("model", model));
     localVarQueryParameterBaseName = "on";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("on", on));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] The seat products&#39; active users recorded for a month (default this month): what seat invoice lines and seat commitments are held to. &#39;view&#39; on suppliers or on invoices.
+   * 
+   * @param period  (optional)
+   * @return List&lt;AiSeatCount&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public List<AiSeatCount> listAiSeatCounts(String period) throws ApiException {
+    ApiResponse<List<AiSeatCount>> localVarResponse = listAiSeatCountsWithHttpInfo(period);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] The seat products&#39; active users recorded for a month (default this month): what seat invoice lines and seat commitments are held to. &#39;view&#39; on suppliers or on invoices.
+   * 
+   * @param period  (optional)
+   * @return ApiResponse&lt;List&lt;AiSeatCount&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<List<AiSeatCount>> listAiSeatCountsWithHttpInfo(String period) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = listAiSeatCountsRequestBuilder(period);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("listAiSeatCounts", localVarResponse);
+        }
+        return new ApiResponse<List<AiSeatCount>>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<AiSeatCount>>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder listAiSeatCountsRequestBuilder(String period) throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/seats";
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "period";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("period", period));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
@@ -1285,6 +1370,84 @@ public class AiSpendApi {
 
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(setAiRenewalRuleInput);
+      localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] Records a seat product&#39;s active users for a month, as the identity provider (Okta, Entra, Google Workspace, ...) or the provider&#39;s admin console reports them - from a person, a script or an agent; Pleaxy reads no identity provider itself. An invoice billing more seats than that is a finding. &#39;edit&#39; on invoices.
+   * 
+   * @param setAiSeatCountInput  (required)
+   * @return AiSeatCount
+   * @throws ApiException if fails to make API call
+   */
+  public AiSeatCount setAiSeatCount(SetAiSeatCountInput setAiSeatCountInput) throws ApiException {
+    ApiResponse<AiSeatCount> localVarResponse = setAiSeatCountWithHttpInfo(setAiSeatCountInput);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Records a seat product&#39;s active users for a month, as the identity provider (Okta, Entra, Google Workspace, ...) or the provider&#39;s admin console reports them - from a person, a script or an agent; Pleaxy reads no identity provider itself. An invoice billing more seats than that is a finding. &#39;edit&#39; on invoices.
+   * 
+   * @param setAiSeatCountInput  (required)
+   * @return ApiResponse&lt;AiSeatCount&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<AiSeatCount> setAiSeatCountWithHttpInfo(SetAiSeatCountInput setAiSeatCountInput) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = setAiSeatCountRequestBuilder(setAiSeatCountInput);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("setAiSeatCount", localVarResponse);
+        }
+        return new ApiResponse<AiSeatCount>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<AiSeatCount>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder setAiSeatCountRequestBuilder(SetAiSeatCountInput setAiSeatCountInput) throws ApiException {
+    // verify the required parameter 'setAiSeatCountInput' is set
+    if (setAiSeatCountInput == null) {
+      throw new ApiException(400, "Missing the required parameter 'setAiSeatCountInput' when calling setAiSeatCount");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/seats";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(setAiSeatCountInput);
       localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);

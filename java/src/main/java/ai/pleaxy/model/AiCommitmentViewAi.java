@@ -74,7 +74,13 @@ public class AiCommitmentViewAi {
     
     NEBIUS(String.valueOf("nebius")),
     
-    CRUSOE(String.valueOf("crusoe"));
+    CRUSOE(String.valueOf("crusoe")),
+    
+    CURSOR(String.valueOf("cursor")),
+    
+    GITHUB(String.valueOf("github")),
+    
+    MICROSOFT(String.valueOf("microsoft"));
 
     private String value;
 
@@ -127,13 +133,13 @@ public class AiCommitmentViewAi {
     
     DATABRICKS(String.valueOf("databricks")),
     
+    MICROSOFT(String.valueOf("microsoft")),
+    
     GOOGLE(String.valueOf("google")),
     
     META(String.valueOf("meta")),
     
     AMAZON(String.valueOf("amazon")),
-    
-    MICROSOFT(String.valueOf("microsoft")),
     
     DEEPSEEK(String.valueOf("deepseek")),
     

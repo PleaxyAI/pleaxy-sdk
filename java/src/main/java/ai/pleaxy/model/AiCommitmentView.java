@@ -59,6 +59,8 @@ public class AiCommitmentView {
    * Gets or Sets kind
    */
   public enum KindEnum {
+    SEATS(String.valueOf("seats")),
+    
     PREPAID_CREDIT(String.valueOf("prepaid_credit")),
     
     CAPACITY(String.valueOf("capacity")),

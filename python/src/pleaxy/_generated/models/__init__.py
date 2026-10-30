@@ -137,6 +137,9 @@ from .ai_rate_card_entry_vendor import AiRateCardEntryVendor
 from .ai_renewal_rule import AiRenewalRule
 from .ai_renewal_rule_last_run import AiRenewalRuleLastRun
 from .ai_renewal_rule_last_run_drafts_item import AiRenewalRuleLastRunDraftsItem
+from .ai_seat_count import AiSeatCount
+from .ai_seat_count_invoicer import AiSeatCountInvoicer
+from .ai_seat_count_source import AiSeatCountSource
 from .ai_service_figure import AiServiceFigure
 from .ai_spend_check_budget import AiSpendCheckBudget
 from .ai_spend_check_purchase_order_line import AiSpendCheckPurchaseOrderLine
@@ -1738,6 +1741,9 @@ from .service_entry_sheet_queue_item_releases_item import (
 from .set_ai_attribution_input import SetAiAttributionInput
 from .set_ai_limit_credential_input import SetAiLimitCredentialInput
 from .set_ai_renewal_rule_input import SetAiRenewalRuleInput
+from .set_ai_seat_count_input import SetAiSeatCountInput
+from .set_ai_seat_count_input_invoicer import SetAiSeatCountInputInvoicer
+from .set_ai_seat_count_input_source import SetAiSeatCountInputSource
 from .set_ai_spend_limit_input import SetAiSpendLimitInput
 from .set_connection_currencies_input import SetConnectionCurrenciesInput
 from .set_exchange_rate_warning_result import SetExchangeRateWarningResult
@@ -2060,6 +2066,9 @@ __all__ = (
     "AiRenewalRule",
     "AiRenewalRuleLastRun",
     "AiRenewalRuleLastRunDraftsItem",
+    "AiSeatCount",
+    "AiSeatCountInvoicer",
+    "AiSeatCountSource",
     "AiServiceFigure",
     "AiSpendCheckBudget",
     "AiSpendCheckPurchaseOrderLine",
@@ -2975,6 +2984,9 @@ __all__ = (
     "SetAiAttributionInput",
     "SetAiLimitCredentialInput",
     "SetAiRenewalRuleInput",
+    "SetAiSeatCountInput",
+    "SetAiSeatCountInputInvoicer",
+    "SetAiSeatCountInputSource",
     "SetAiSpendLimitInput",
     "SetConnectionCurrenciesInput",
     "SetExchangeRateWarningResult",

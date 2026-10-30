@@ -16,6 +16,7 @@ AiUsageLineMeter = Literal[
     "output_tokens",
     "ptu_hours",
     "requests",
+    "seats",
 ]
 
 AI_USAGE_LINE_METER_VALUES: Set[AiUsageLineMeter] = {
@@ -34,6 +35,7 @@ AI_USAGE_LINE_METER_VALUES: Set[AiUsageLineMeter] = {
     "output_tokens",
     "ptu_hours",
     "requests",
+    "seats",
 }
 
 

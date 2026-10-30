@@ -29,8 +29,11 @@ const (
 	AddAiProviderSupplierResultAiProviderCohere     AddAiProviderSupplierResultAiProvider = "cohere"
 	AddAiProviderSupplierResultAiProviderCoreweave  AddAiProviderSupplierResultAiProvider = "coreweave"
 	AddAiProviderSupplierResultAiProviderCrusoe     AddAiProviderSupplierResultAiProvider = "crusoe"
+	AddAiProviderSupplierResultAiProviderCursor     AddAiProviderSupplierResultAiProvider = "cursor"
 	AddAiProviderSupplierResultAiProviderDatabricks AddAiProviderSupplierResultAiProvider = "databricks"
+	AddAiProviderSupplierResultAiProviderGithub     AddAiProviderSupplierResultAiProvider = "github"
 	AddAiProviderSupplierResultAiProviderLambda     AddAiProviderSupplierResultAiProvider = "lambda"
+	AddAiProviderSupplierResultAiProviderMicrosoft  AddAiProviderSupplierResultAiProvider = "microsoft"
 	AddAiProviderSupplierResultAiProviderMistral    AddAiProviderSupplierResultAiProvider = "mistral"
 	AddAiProviderSupplierResultAiProviderNebius     AddAiProviderSupplierResultAiProvider = "nebius"
 	AddAiProviderSupplierResultAiProviderOpenai     AddAiProviderSupplierResultAiProvider = "openai"
@@ -63,8 +66,11 @@ const (
 	AddCloudProviderAsSupplierResultAiProviderCohere     AddCloudProviderAsSupplierResultAiProvider = "cohere"
 	AddCloudProviderAsSupplierResultAiProviderCoreweave  AddCloudProviderAsSupplierResultAiProvider = "coreweave"
 	AddCloudProviderAsSupplierResultAiProviderCrusoe     AddCloudProviderAsSupplierResultAiProvider = "crusoe"
+	AddCloudProviderAsSupplierResultAiProviderCursor     AddCloudProviderAsSupplierResultAiProvider = "cursor"
 	AddCloudProviderAsSupplierResultAiProviderDatabricks AddCloudProviderAsSupplierResultAiProvider = "databricks"
+	AddCloudProviderAsSupplierResultAiProviderGithub     AddCloudProviderAsSupplierResultAiProvider = "github"
 	AddCloudProviderAsSupplierResultAiProviderLambda     AddCloudProviderAsSupplierResultAiProvider = "lambda"
+	AddCloudProviderAsSupplierResultAiProviderMicrosoft  AddCloudProviderAsSupplierResultAiProvider = "microsoft"
 	AddCloudProviderAsSupplierResultAiProviderMistral    AddCloudProviderAsSupplierResultAiProvider = "mistral"
 	AddCloudProviderAsSupplierResultAiProviderNebius     AddCloudProviderAsSupplierResultAiProvider = "nebius"
 	AddCloudProviderAsSupplierResultAiProviderOpenai     AddCloudProviderAsSupplierResultAiProvider = "openai"
@@ -209,9 +215,12 @@ const (
 	AiCommitmentViewAiInvoicerCohere     AiCommitmentViewAiInvoicer = "cohere"
 	AiCommitmentViewAiInvoicerCoreweave  AiCommitmentViewAiInvoicer = "coreweave"
 	AiCommitmentViewAiInvoicerCrusoe     AiCommitmentViewAiInvoicer = "crusoe"
+	AiCommitmentViewAiInvoicerCursor     AiCommitmentViewAiInvoicer = "cursor"
 	AiCommitmentViewAiInvoicerDatabricks AiCommitmentViewAiInvoicer = "databricks"
 	AiCommitmentViewAiInvoicerGcp        AiCommitmentViewAiInvoicer = "gcp"
+	AiCommitmentViewAiInvoicerGithub     AiCommitmentViewAiInvoicer = "github"
 	AiCommitmentViewAiInvoicerLambda     AiCommitmentViewAiInvoicer = "lambda"
+	AiCommitmentViewAiInvoicerMicrosoft  AiCommitmentViewAiInvoicer = "microsoft"
 	AiCommitmentViewAiInvoicerMistral    AiCommitmentViewAiInvoicer = "mistral"
 	AiCommitmentViewAiInvoicerNebius     AiCommitmentViewAiInvoicer = "nebius"
 	AiCommitmentViewAiInvoicerOci        AiCommitmentViewAiInvoicer = "oci"
@@ -243,6 +252,7 @@ const (
 const (
 	AiCommitmentViewKindCapacity      AiCommitmentViewKind = "capacity"
 	AiCommitmentViewKindPrepaidCredit AiCommitmentViewKind = "prepaid_credit"
+	AiCommitmentViewKindSeats         AiCommitmentViewKind = "seats"
 	AiCommitmentViewKindSpend         AiCommitmentViewKind = "spend"
 )
 
@@ -263,9 +273,12 @@ const (
 	AiLineScopeInvoicerCohere     AiLineScopeInvoicer = "cohere"
 	AiLineScopeInvoicerCoreweave  AiLineScopeInvoicer = "coreweave"
 	AiLineScopeInvoicerCrusoe     AiLineScopeInvoicer = "crusoe"
+	AiLineScopeInvoicerCursor     AiLineScopeInvoicer = "cursor"
 	AiLineScopeInvoicerDatabricks AiLineScopeInvoicer = "databricks"
 	AiLineScopeInvoicerGcp        AiLineScopeInvoicer = "gcp"
+	AiLineScopeInvoicerGithub     AiLineScopeInvoicer = "github"
 	AiLineScopeInvoicerLambda     AiLineScopeInvoicer = "lambda"
+	AiLineScopeInvoicerMicrosoft  AiLineScopeInvoicer = "microsoft"
 	AiLineScopeInvoicerMistral    AiLineScopeInvoicer = "mistral"
 	AiLineScopeInvoicerNebius     AiLineScopeInvoicer = "nebius"
 	AiLineScopeInvoicerOci        AiLineScopeInvoicer = "oci"
@@ -293,6 +306,7 @@ const (
 	AiLineScopeMeterPrepaidCredit     AiLineScopeMeter = "prepaid_credit"
 	AiLineScopeMeterPtuHours          AiLineScopeMeter = "ptu_hours"
 	AiLineScopeMeterRequests          AiLineScopeMeter = "requests"
+	AiLineScopeMeterSeats             AiLineScopeMeter = "seats"
 )
 
 // Defines values for AiLineScopeVendor.
@@ -321,9 +335,12 @@ const (
 	AiLineScopeInputInvoicerCohere     AiLineScopeInputInvoicer = "cohere"
 	AiLineScopeInputInvoicerCoreweave  AiLineScopeInputInvoicer = "coreweave"
 	AiLineScopeInputInvoicerCrusoe     AiLineScopeInputInvoicer = "crusoe"
+	AiLineScopeInputInvoicerCursor     AiLineScopeInputInvoicer = "cursor"
 	AiLineScopeInputInvoicerDatabricks AiLineScopeInputInvoicer = "databricks"
 	AiLineScopeInputInvoicerGcp        AiLineScopeInputInvoicer = "gcp"
+	AiLineScopeInputInvoicerGithub     AiLineScopeInputInvoicer = "github"
 	AiLineScopeInputInvoicerLambda     AiLineScopeInputInvoicer = "lambda"
+	AiLineScopeInputInvoicerMicrosoft  AiLineScopeInputInvoicer = "microsoft"
 	AiLineScopeInputInvoicerMistral    AiLineScopeInputInvoicer = "mistral"
 	AiLineScopeInputInvoicerNebius     AiLineScopeInputInvoicer = "nebius"
 	AiLineScopeInputInvoicerOci        AiLineScopeInputInvoicer = "oci"
@@ -351,6 +368,7 @@ const (
 	AiLineScopeInputMeterPrepaidCredit     AiLineScopeInputMeter = "prepaid_credit"
 	AiLineScopeInputMeterPtuHours          AiLineScopeInputMeter = "ptu_hours"
 	AiLineScopeInputMeterRequests          AiLineScopeInputMeter = "requests"
+	AiLineScopeInputMeterSeats             AiLineScopeInputMeter = "seats"
 )
 
 // Defines values for AiLineScopeInputVendor.
@@ -379,9 +397,12 @@ const (
 	AiPoLineSuggestionAiInvoicerCohere     AiPoLineSuggestionAiInvoicer = "cohere"
 	AiPoLineSuggestionAiInvoicerCoreweave  AiPoLineSuggestionAiInvoicer = "coreweave"
 	AiPoLineSuggestionAiInvoicerCrusoe     AiPoLineSuggestionAiInvoicer = "crusoe"
+	AiPoLineSuggestionAiInvoicerCursor     AiPoLineSuggestionAiInvoicer = "cursor"
 	AiPoLineSuggestionAiInvoicerDatabricks AiPoLineSuggestionAiInvoicer = "databricks"
 	AiPoLineSuggestionAiInvoicerGcp        AiPoLineSuggestionAiInvoicer = "gcp"
+	AiPoLineSuggestionAiInvoicerGithub     AiPoLineSuggestionAiInvoicer = "github"
 	AiPoLineSuggestionAiInvoicerLambda     AiPoLineSuggestionAiInvoicer = "lambda"
+	AiPoLineSuggestionAiInvoicerMicrosoft  AiPoLineSuggestionAiInvoicer = "microsoft"
 	AiPoLineSuggestionAiInvoicerMistral    AiPoLineSuggestionAiInvoicer = "mistral"
 	AiPoLineSuggestionAiInvoicerNebius     AiPoLineSuggestionAiInvoicer = "nebius"
 	AiPoLineSuggestionAiInvoicerOci        AiPoLineSuggestionAiInvoicer = "oci"
@@ -408,6 +429,7 @@ const (
 	AiPoLineSuggestionAiMeterOutputTokens      AiPoLineSuggestionAiMeter = "output_tokens"
 	AiPoLineSuggestionAiMeterPtuHours          AiPoLineSuggestionAiMeter = "ptu_hours"
 	AiPoLineSuggestionAiMeterRequests          AiPoLineSuggestionAiMeter = "requests"
+	AiPoLineSuggestionAiMeterSeats             AiPoLineSuggestionAiMeter = "seats"
 )
 
 // Defines values for AiPoLineSuggestionAiVendor.
@@ -443,6 +465,7 @@ const (
 	AiPoLineSuggestionUnitN1MTokens      AiPoLineSuggestionUnit = "1M_tokens"
 	AiPoLineSuggestionUnitPtuHours       AiPoLineSuggestionUnit = "ptu_hours"
 	AiPoLineSuggestionUnitRequests       AiPoLineSuggestionUnit = "requests"
+	AiPoLineSuggestionUnitSeatMonths     AiPoLineSuggestionUnit = "seat_months"
 	AiPoLineSuggestionUnitSeconds        AiPoLineSuggestionUnit = "seconds"
 	AiPoLineSuggestionUnitTokens         AiPoLineSuggestionUnit = "tokens"
 	AiPoLineSuggestionUnitUnits          AiPoLineSuggestionUnit = "units"
@@ -456,9 +479,12 @@ const (
 	AiPoLineSuggestionsInvoicerCohere     AiPoLineSuggestionsInvoicer = "cohere"
 	AiPoLineSuggestionsInvoicerCoreweave  AiPoLineSuggestionsInvoicer = "coreweave"
 	AiPoLineSuggestionsInvoicerCrusoe     AiPoLineSuggestionsInvoicer = "crusoe"
+	AiPoLineSuggestionsInvoicerCursor     AiPoLineSuggestionsInvoicer = "cursor"
 	AiPoLineSuggestionsInvoicerDatabricks AiPoLineSuggestionsInvoicer = "databricks"
 	AiPoLineSuggestionsInvoicerGcp        AiPoLineSuggestionsInvoicer = "gcp"
+	AiPoLineSuggestionsInvoicerGithub     AiPoLineSuggestionsInvoicer = "github"
 	AiPoLineSuggestionsInvoicerLambda     AiPoLineSuggestionsInvoicer = "lambda"
+	AiPoLineSuggestionsInvoicerMicrosoft  AiPoLineSuggestionsInvoicer = "microsoft"
 	AiPoLineSuggestionsInvoicerMistral    AiPoLineSuggestionsInvoicer = "mistral"
 	AiPoLineSuggestionsInvoicerNebius     AiPoLineSuggestionsInvoicer = "nebius"
 	AiPoLineSuggestionsInvoicerOci        AiPoLineSuggestionsInvoicer = "oci"
@@ -497,8 +523,11 @@ const (
 	AiProviderProviderCohere     AiProviderProvider = "cohere"
 	AiProviderProviderCoreweave  AiProviderProvider = "coreweave"
 	AiProviderProviderCrusoe     AiProviderProvider = "crusoe"
+	AiProviderProviderCursor     AiProviderProvider = "cursor"
 	AiProviderProviderDatabricks AiProviderProvider = "databricks"
+	AiProviderProviderGithub     AiProviderProvider = "github"
 	AiProviderProviderLambda     AiProviderProvider = "lambda"
+	AiProviderProviderMicrosoft  AiProviderProvider = "microsoft"
 	AiProviderProviderMistral    AiProviderProvider = "mistral"
 	AiProviderProviderNebius     AiProviderProvider = "nebius"
 	AiProviderProviderOpenai     AiProviderProvider = "openai"
@@ -521,9 +550,12 @@ const (
 	AiRateCardEntryInvoicerCohere     AiRateCardEntryInvoicer = "cohere"
 	AiRateCardEntryInvoicerCoreweave  AiRateCardEntryInvoicer = "coreweave"
 	AiRateCardEntryInvoicerCrusoe     AiRateCardEntryInvoicer = "crusoe"
+	AiRateCardEntryInvoicerCursor     AiRateCardEntryInvoicer = "cursor"
 	AiRateCardEntryInvoicerDatabricks AiRateCardEntryInvoicer = "databricks"
 	AiRateCardEntryInvoicerGcp        AiRateCardEntryInvoicer = "gcp"
+	AiRateCardEntryInvoicerGithub     AiRateCardEntryInvoicer = "github"
 	AiRateCardEntryInvoicerLambda     AiRateCardEntryInvoicer = "lambda"
+	AiRateCardEntryInvoicerMicrosoft  AiRateCardEntryInvoicer = "microsoft"
 	AiRateCardEntryInvoicerMistral    AiRateCardEntryInvoicer = "mistral"
 	AiRateCardEntryInvoicerNebius     AiRateCardEntryInvoicer = "nebius"
 	AiRateCardEntryInvoicerOci        AiRateCardEntryInvoicer = "oci"
@@ -550,6 +582,7 @@ const (
 	AiRateCardEntryMeterOutputTokens      AiRateCardEntryMeter = "output_tokens"
 	AiRateCardEntryMeterPtuHours          AiRateCardEntryMeter = "ptu_hours"
 	AiRateCardEntryMeterRequests          AiRateCardEntryMeter = "requests"
+	AiRateCardEntryMeterSeats             AiRateCardEntryMeter = "seats"
 )
 
 // Defines values for AiRateCardEntryUnit.
@@ -560,6 +593,7 @@ const (
 	AiRateCardEntryUnitN1MTokens      AiRateCardEntryUnit = "1M_tokens"
 	AiRateCardEntryUnitPtuHours       AiRateCardEntryUnit = "ptu_hours"
 	AiRateCardEntryUnitRequests       AiRateCardEntryUnit = "requests"
+	AiRateCardEntryUnitSeatMonths     AiRateCardEntryUnit = "seat_months"
 	AiRateCardEntryUnitSeconds        AiRateCardEntryUnit = "seconds"
 	AiRateCardEntryUnitTokens         AiRateCardEntryUnit = "tokens"
 	AiRateCardEntryUnitUnits          AiRateCardEntryUnit = "units"
@@ -583,6 +617,39 @@ const (
 	AiRateCardEntryVendorXai        AiRateCardEntryVendor = "xai"
 )
 
+// Defines values for AiSeatCountInvoicer.
+const (
+	AiSeatCountInvoicerAnthropic  AiSeatCountInvoicer = "anthropic"
+	AiSeatCountInvoicerAws        AiSeatCountInvoicer = "aws"
+	AiSeatCountInvoicerAzure      AiSeatCountInvoicer = "azure"
+	AiSeatCountInvoicerCohere     AiSeatCountInvoicer = "cohere"
+	AiSeatCountInvoicerCoreweave  AiSeatCountInvoicer = "coreweave"
+	AiSeatCountInvoicerCrusoe     AiSeatCountInvoicer = "crusoe"
+	AiSeatCountInvoicerCursor     AiSeatCountInvoicer = "cursor"
+	AiSeatCountInvoicerDatabricks AiSeatCountInvoicer = "databricks"
+	AiSeatCountInvoicerGcp        AiSeatCountInvoicer = "gcp"
+	AiSeatCountInvoicerGithub     AiSeatCountInvoicer = "github"
+	AiSeatCountInvoicerLambda     AiSeatCountInvoicer = "lambda"
+	AiSeatCountInvoicerMicrosoft  AiSeatCountInvoicer = "microsoft"
+	AiSeatCountInvoicerMistral    AiSeatCountInvoicer = "mistral"
+	AiSeatCountInvoicerNebius     AiSeatCountInvoicer = "nebius"
+	AiSeatCountInvoicerOci        AiSeatCountInvoicer = "oci"
+	AiSeatCountInvoicerOpenai     AiSeatCountInvoicer = "openai"
+	AiSeatCountInvoicerOpenrouter AiSeatCountInvoicer = "openrouter"
+	AiSeatCountInvoicerSnowflake  AiSeatCountInvoicer = "snowflake"
+	AiSeatCountInvoicerXai        AiSeatCountInvoicer = "xai"
+)
+
+// Defines values for AiSeatCountSource.
+const (
+	AiSeatCountSourceEntra           AiSeatCountSource = "entra"
+	AiSeatCountSourceGoogleWorkspace AiSeatCountSource = "google_workspace"
+	AiSeatCountSourceJumpcloud       AiSeatCountSource = "jumpcloud"
+	AiSeatCountSourceManual          AiSeatCountSource = "manual"
+	AiSeatCountSourceOkta            AiSeatCountSource = "okta"
+	AiSeatCountSourceProviderConsole AiSeatCountSource = "provider_console"
+)
+
 // Defines values for AiSpendCheckResponseOutcome.
 const (
 	AiSpendCheckResponseOutcomeFits     AiSpendCheckResponseOutcome = "fits"
@@ -599,9 +666,12 @@ const (
 	AiSpendGroupInvoicerCohere     AiSpendGroupInvoicer = "cohere"
 	AiSpendGroupInvoicerCoreweave  AiSpendGroupInvoicer = "coreweave"
 	AiSpendGroupInvoicerCrusoe     AiSpendGroupInvoicer = "crusoe"
+	AiSpendGroupInvoicerCursor     AiSpendGroupInvoicer = "cursor"
 	AiSpendGroupInvoicerDatabricks AiSpendGroupInvoicer = "databricks"
 	AiSpendGroupInvoicerGcp        AiSpendGroupInvoicer = "gcp"
+	AiSpendGroupInvoicerGithub     AiSpendGroupInvoicer = "github"
 	AiSpendGroupInvoicerLambda     AiSpendGroupInvoicer = "lambda"
+	AiSpendGroupInvoicerMicrosoft  AiSpendGroupInvoicer = "microsoft"
 	AiSpendGroupInvoicerMistral    AiSpendGroupInvoicer = "mistral"
 	AiSpendGroupInvoicerNebius     AiSpendGroupInvoicer = "nebius"
 	AiSpendGroupInvoicerOci        AiSpendGroupInvoicer = "oci"
@@ -649,9 +719,12 @@ const (
 	AiSpendResponseNotReadableInvoicerCohere     AiSpendResponseNotReadableInvoicer = "cohere"
 	AiSpendResponseNotReadableInvoicerCoreweave  AiSpendResponseNotReadableInvoicer = "coreweave"
 	AiSpendResponseNotReadableInvoicerCrusoe     AiSpendResponseNotReadableInvoicer = "crusoe"
+	AiSpendResponseNotReadableInvoicerCursor     AiSpendResponseNotReadableInvoicer = "cursor"
 	AiSpendResponseNotReadableInvoicerDatabricks AiSpendResponseNotReadableInvoicer = "databricks"
 	AiSpendResponseNotReadableInvoicerGcp        AiSpendResponseNotReadableInvoicer = "gcp"
+	AiSpendResponseNotReadableInvoicerGithub     AiSpendResponseNotReadableInvoicer = "github"
 	AiSpendResponseNotReadableInvoicerLambda     AiSpendResponseNotReadableInvoicer = "lambda"
+	AiSpendResponseNotReadableInvoicerMicrosoft  AiSpendResponseNotReadableInvoicer = "microsoft"
 	AiSpendResponseNotReadableInvoicerMistral    AiSpendResponseNotReadableInvoicer = "mistral"
 	AiSpendResponseNotReadableInvoicerNebius     AiSpendResponseNotReadableInvoicer = "nebius"
 	AiSpendResponseNotReadableInvoicerOci        AiSpendResponseNotReadableInvoicer = "oci"
@@ -681,9 +754,12 @@ const (
 	AiUsageLineInvoicerCohere     AiUsageLineInvoicer = "cohere"
 	AiUsageLineInvoicerCoreweave  AiUsageLineInvoicer = "coreweave"
 	AiUsageLineInvoicerCrusoe     AiUsageLineInvoicer = "crusoe"
+	AiUsageLineInvoicerCursor     AiUsageLineInvoicer = "cursor"
 	AiUsageLineInvoicerDatabricks AiUsageLineInvoicer = "databricks"
 	AiUsageLineInvoicerGcp        AiUsageLineInvoicer = "gcp"
+	AiUsageLineInvoicerGithub     AiUsageLineInvoicer = "github"
 	AiUsageLineInvoicerLambda     AiUsageLineInvoicer = "lambda"
+	AiUsageLineInvoicerMicrosoft  AiUsageLineInvoicer = "microsoft"
 	AiUsageLineInvoicerMistral    AiUsageLineInvoicer = "mistral"
 	AiUsageLineInvoicerNebius     AiUsageLineInvoicer = "nebius"
 	AiUsageLineInvoicerOci        AiUsageLineInvoicer = "oci"
@@ -710,12 +786,14 @@ const (
 	AiUsageLineMeterOutputTokens      AiUsageLineMeter = "output_tokens"
 	AiUsageLineMeterPtuHours          AiUsageLineMeter = "ptu_hours"
 	AiUsageLineMeterRequests          AiUsageLineMeter = "requests"
+	AiUsageLineMeterSeats             AiUsageLineMeter = "seats"
 )
 
 // Defines values for AiUsageLineShape.
 const (
 	AiUsageLineShapeCapacity AiUsageLineShape = "capacity"
 	AiUsageLineShapeCredits  AiUsageLineShape = "credits"
+	AiUsageLineShapeSeats    AiUsageLineShape = "seats"
 	AiUsageLineShapeTokens   AiUsageLineShape = "tokens"
 )
 
@@ -737,6 +815,7 @@ const (
 	AiUsageLineUnitN1MTokens      AiUsageLineUnit = "1M_tokens"
 	AiUsageLineUnitPtuHours       AiUsageLineUnit = "ptu_hours"
 	AiUsageLineUnitRequests       AiUsageLineUnit = "requests"
+	AiUsageLineUnitSeatMonths     AiUsageLineUnit = "seat_months"
 	AiUsageLineUnitSeconds        AiUsageLineUnit = "seconds"
 	AiUsageLineUnitTokens         AiUsageLineUnit = "tokens"
 	AiUsageLineUnitUnits          AiUsageLineUnit = "units"
@@ -1883,6 +1962,7 @@ const (
 	FeedValidationResultFindingsCodeAiPriceCutNotApplied          FeedValidationResultFindingsCode = "ai_price_cut_not_applied"
 	FeedValidationResultFindingsCodeAiRateAboveContract           FeedValidationResultFindingsCode = "ai_rate_above_contract"
 	FeedValidationResultFindingsCodeAiRateAboveList               FeedValidationResultFindingsCode = "ai_rate_above_list"
+	FeedValidationResultFindingsCodeAiSeatsAboveActive            FeedValidationResultFindingsCode = "ai_seats_above_active"
 	FeedValidationResultFindingsCodeAiTokensMismatch              FeedValidationResultFindingsCode = "ai_tokens_mismatch"
 	FeedValidationResultFindingsCodeCommitmentShortfallOverbilled FeedValidationResultFindingsCode = "commitment_shortfall_overbilled"
 	FeedValidationResultFindingsCodeContractCapExceeded           FeedValidationResultFindingsCode = "contract_cap_exceeded"
@@ -2527,9 +2607,12 @@ const (
 	InvoiceAiLineInputInvoicerCohere     InvoiceAiLineInputInvoicer = "cohere"
 	InvoiceAiLineInputInvoicerCoreweave  InvoiceAiLineInputInvoicer = "coreweave"
 	InvoiceAiLineInputInvoicerCrusoe     InvoiceAiLineInputInvoicer = "crusoe"
+	InvoiceAiLineInputInvoicerCursor     InvoiceAiLineInputInvoicer = "cursor"
 	InvoiceAiLineInputInvoicerDatabricks InvoiceAiLineInputInvoicer = "databricks"
 	InvoiceAiLineInputInvoicerGcp        InvoiceAiLineInputInvoicer = "gcp"
+	InvoiceAiLineInputInvoicerGithub     InvoiceAiLineInputInvoicer = "github"
 	InvoiceAiLineInputInvoicerLambda     InvoiceAiLineInputInvoicer = "lambda"
+	InvoiceAiLineInputInvoicerMicrosoft  InvoiceAiLineInputInvoicer = "microsoft"
 	InvoiceAiLineInputInvoicerMistral    InvoiceAiLineInputInvoicer = "mistral"
 	InvoiceAiLineInputInvoicerNebius     InvoiceAiLineInputInvoicer = "nebius"
 	InvoiceAiLineInputInvoicerOci        InvoiceAiLineInputInvoicer = "oci"
@@ -2557,6 +2640,7 @@ const (
 	InvoiceAiLineInputMeterPrepaidCredit     InvoiceAiLineInputMeter = "prepaid_credit"
 	InvoiceAiLineInputMeterPtuHours          InvoiceAiLineInputMeter = "ptu_hours"
 	InvoiceAiLineInputMeterRequests          InvoiceAiLineInputMeter = "requests"
+	InvoiceAiLineInputMeterSeats             InvoiceAiLineInputMeter = "seats"
 )
 
 // Defines values for InvoiceAiLineInputVendor.
@@ -2683,6 +2767,7 @@ const (
 	InvoiceControlFindingCodeAiPriceCutNotApplied          InvoiceControlFindingCode = "ai_price_cut_not_applied"
 	InvoiceControlFindingCodeAiRateAboveContract           InvoiceControlFindingCode = "ai_rate_above_contract"
 	InvoiceControlFindingCodeAiRateAboveList               InvoiceControlFindingCode = "ai_rate_above_list"
+	InvoiceControlFindingCodeAiSeatsAboveActive            InvoiceControlFindingCode = "ai_seats_above_active"
 	InvoiceControlFindingCodeAiTokensMismatch              InvoiceControlFindingCode = "ai_tokens_mismatch"
 	InvoiceControlFindingCodeCommitmentShortfallOverbilled InvoiceControlFindingCode = "commitment_shortfall_overbilled"
 	InvoiceControlFindingCodeContractCapExceeded           InvoiceControlFindingCode = "contract_cap_exceeded"
@@ -2744,9 +2829,12 @@ const (
 	InvoiceLineItemAiInvoicerCohere     InvoiceLineItemAiInvoicer = "cohere"
 	InvoiceLineItemAiInvoicerCoreweave  InvoiceLineItemAiInvoicer = "coreweave"
 	InvoiceLineItemAiInvoicerCrusoe     InvoiceLineItemAiInvoicer = "crusoe"
+	InvoiceLineItemAiInvoicerCursor     InvoiceLineItemAiInvoicer = "cursor"
 	InvoiceLineItemAiInvoicerDatabricks InvoiceLineItemAiInvoicer = "databricks"
 	InvoiceLineItemAiInvoicerGcp        InvoiceLineItemAiInvoicer = "gcp"
+	InvoiceLineItemAiInvoicerGithub     InvoiceLineItemAiInvoicer = "github"
 	InvoiceLineItemAiInvoicerLambda     InvoiceLineItemAiInvoicer = "lambda"
+	InvoiceLineItemAiInvoicerMicrosoft  InvoiceLineItemAiInvoicer = "microsoft"
 	InvoiceLineItemAiInvoicerMistral    InvoiceLineItemAiInvoicer = "mistral"
 	InvoiceLineItemAiInvoicerNebius     InvoiceLineItemAiInvoicer = "nebius"
 	InvoiceLineItemAiInvoicerOci        InvoiceLineItemAiInvoicer = "oci"
@@ -2774,6 +2862,7 @@ const (
 	InvoiceLineItemAiMeterPrepaidCredit     InvoiceLineItemAiMeter = "prepaid_credit"
 	InvoiceLineItemAiMeterPtuHours          InvoiceLineItemAiMeter = "ptu_hours"
 	InvoiceLineItemAiMeterRequests          InvoiceLineItemAiMeter = "requests"
+	InvoiceLineItemAiMeterSeats             InvoiceLineItemAiMeter = "seats"
 )
 
 // Defines values for InvoiceLineItemAiVendor.
@@ -3131,8 +3220,11 @@ const (
 	ListAiInvoicersItemIdCohere     ListAiInvoicersItemId = "cohere"
 	ListAiInvoicersItemIdCoreweave  ListAiInvoicersItemId = "coreweave"
 	ListAiInvoicersItemIdCrusoe     ListAiInvoicersItemId = "crusoe"
+	ListAiInvoicersItemIdCursor     ListAiInvoicersItemId = "cursor"
 	ListAiInvoicersItemIdDatabricks ListAiInvoicersItemId = "databricks"
+	ListAiInvoicersItemIdGithub     ListAiInvoicersItemId = "github"
 	ListAiInvoicersItemIdLambda     ListAiInvoicersItemId = "lambda"
+	ListAiInvoicersItemIdMicrosoft  ListAiInvoicersItemId = "microsoft"
 	ListAiInvoicersItemIdMistral    ListAiInvoicersItemId = "mistral"
 	ListAiInvoicersItemIdNebius     ListAiInvoicersItemId = "nebius"
 	ListAiInvoicersItemIdOpenai     ListAiInvoicersItemId = "openai"
@@ -3152,6 +3244,7 @@ const (
 const (
 	ListAiInvoicersItemShapeCapacity ListAiInvoicersItemShape = "capacity"
 	ListAiInvoicersItemShapeCredits  ListAiInvoicersItemShape = "credits"
+	ListAiInvoicersItemShapeSeats    ListAiInvoicersItemShape = "seats"
 	ListAiInvoicersItemShapeTokens   ListAiInvoicersItemShape = "tokens"
 )
 
@@ -3161,6 +3254,7 @@ const (
 	ListAiInvoicersItemTierDirect       ListAiInvoicersItemTier = "direct"
 	ListAiInvoicersItemTierHost         ListAiInvoicersItemTier = "host"
 	ListAiInvoicersItemTierNeocloud     ListAiInvoicersItemTier = "neocloud"
+	ListAiInvoicersItemTierSeats        ListAiInvoicersItemTier = "seats"
 )
 
 // Defines values for ListInvoicesItemBuyerCreditNoteCloudProvider.
@@ -4434,14 +4528,50 @@ const (
 	SpendLimitReview       SelfApprovalRecordWaivedExclusion = "spend-limit review"
 )
 
+// Defines values for SetAiSeatCountInputInvoicer.
+const (
+	SetAiSeatCountInputInvoicerAnthropic  SetAiSeatCountInputInvoicer = "anthropic"
+	SetAiSeatCountInputInvoicerAws        SetAiSeatCountInputInvoicer = "aws"
+	SetAiSeatCountInputInvoicerAzure      SetAiSeatCountInputInvoicer = "azure"
+	SetAiSeatCountInputInvoicerCohere     SetAiSeatCountInputInvoicer = "cohere"
+	SetAiSeatCountInputInvoicerCoreweave  SetAiSeatCountInputInvoicer = "coreweave"
+	SetAiSeatCountInputInvoicerCrusoe     SetAiSeatCountInputInvoicer = "crusoe"
+	SetAiSeatCountInputInvoicerCursor     SetAiSeatCountInputInvoicer = "cursor"
+	SetAiSeatCountInputInvoicerDatabricks SetAiSeatCountInputInvoicer = "databricks"
+	SetAiSeatCountInputInvoicerGcp        SetAiSeatCountInputInvoicer = "gcp"
+	SetAiSeatCountInputInvoicerGithub     SetAiSeatCountInputInvoicer = "github"
+	SetAiSeatCountInputInvoicerLambda     SetAiSeatCountInputInvoicer = "lambda"
+	SetAiSeatCountInputInvoicerMicrosoft  SetAiSeatCountInputInvoicer = "microsoft"
+	SetAiSeatCountInputInvoicerMistral    SetAiSeatCountInputInvoicer = "mistral"
+	SetAiSeatCountInputInvoicerNebius     SetAiSeatCountInputInvoicer = "nebius"
+	SetAiSeatCountInputInvoicerOci        SetAiSeatCountInputInvoicer = "oci"
+	SetAiSeatCountInputInvoicerOpenai     SetAiSeatCountInputInvoicer = "openai"
+	SetAiSeatCountInputInvoicerOpenrouter SetAiSeatCountInputInvoicer = "openrouter"
+	SetAiSeatCountInputInvoicerSnowflake  SetAiSeatCountInputInvoicer = "snowflake"
+	SetAiSeatCountInputInvoicerXai        SetAiSeatCountInputInvoicer = "xai"
+)
+
+// Defines values for SetAiSeatCountInputSource.
+const (
+	SetAiSeatCountInputSourceEntra           SetAiSeatCountInputSource = "entra"
+	SetAiSeatCountInputSourceGoogleWorkspace SetAiSeatCountInputSource = "google_workspace"
+	SetAiSeatCountInputSourceJumpcloud       SetAiSeatCountInputSource = "jumpcloud"
+	SetAiSeatCountInputSourceManual          SetAiSeatCountInputSource = "manual"
+	SetAiSeatCountInputSourceOkta            SetAiSeatCountInputSource = "okta"
+	SetAiSeatCountInputSourceProviderConsole SetAiSeatCountInputSource = "provider_console"
+)
+
 // Defines values for SetInvoiceFeedResult0AiProvider.
 const (
 	SetInvoiceFeedResult0AiProviderAnthropic  SetInvoiceFeedResult0AiProvider = "anthropic"
 	SetInvoiceFeedResult0AiProviderCohere     SetInvoiceFeedResult0AiProvider = "cohere"
 	SetInvoiceFeedResult0AiProviderCoreweave  SetInvoiceFeedResult0AiProvider = "coreweave"
 	SetInvoiceFeedResult0AiProviderCrusoe     SetInvoiceFeedResult0AiProvider = "crusoe"
+	SetInvoiceFeedResult0AiProviderCursor     SetInvoiceFeedResult0AiProvider = "cursor"
 	SetInvoiceFeedResult0AiProviderDatabricks SetInvoiceFeedResult0AiProvider = "databricks"
+	SetInvoiceFeedResult0AiProviderGithub     SetInvoiceFeedResult0AiProvider = "github"
 	SetInvoiceFeedResult0AiProviderLambda     SetInvoiceFeedResult0AiProvider = "lambda"
+	SetInvoiceFeedResult0AiProviderMicrosoft  SetInvoiceFeedResult0AiProvider = "microsoft"
 	SetInvoiceFeedResult0AiProviderMistral    SetInvoiceFeedResult0AiProvider = "mistral"
 	SetInvoiceFeedResult0AiProviderNebius     SetInvoiceFeedResult0AiProvider = "nebius"
 	SetInvoiceFeedResult0AiProviderOpenai     SetInvoiceFeedResult0AiProvider = "openai"
@@ -4484,8 +4614,11 @@ const (
 	SetInvoiceFeedResult1AiProviderCohere     SetInvoiceFeedResult1AiProvider = "cohere"
 	SetInvoiceFeedResult1AiProviderCoreweave  SetInvoiceFeedResult1AiProvider = "coreweave"
 	SetInvoiceFeedResult1AiProviderCrusoe     SetInvoiceFeedResult1AiProvider = "crusoe"
+	SetInvoiceFeedResult1AiProviderCursor     SetInvoiceFeedResult1AiProvider = "cursor"
 	SetInvoiceFeedResult1AiProviderDatabricks SetInvoiceFeedResult1AiProvider = "databricks"
+	SetInvoiceFeedResult1AiProviderGithub     SetInvoiceFeedResult1AiProvider = "github"
 	SetInvoiceFeedResult1AiProviderLambda     SetInvoiceFeedResult1AiProvider = "lambda"
+	SetInvoiceFeedResult1AiProviderMicrosoft  SetInvoiceFeedResult1AiProvider = "microsoft"
 	SetInvoiceFeedResult1AiProviderMistral    SetInvoiceFeedResult1AiProvider = "mistral"
 	SetInvoiceFeedResult1AiProviderNebius     SetInvoiceFeedResult1AiProvider = "nebius"
 	SetInvoiceFeedResult1AiProviderOpenai     SetInvoiceFeedResult1AiProvider = "openai"
@@ -4528,8 +4661,11 @@ const (
 	SetSupplierCurrenciesResult0AiProviderCohere     SetSupplierCurrenciesResult0AiProvider = "cohere"
 	SetSupplierCurrenciesResult0AiProviderCoreweave  SetSupplierCurrenciesResult0AiProvider = "coreweave"
 	SetSupplierCurrenciesResult0AiProviderCrusoe     SetSupplierCurrenciesResult0AiProvider = "crusoe"
+	SetSupplierCurrenciesResult0AiProviderCursor     SetSupplierCurrenciesResult0AiProvider = "cursor"
 	SetSupplierCurrenciesResult0AiProviderDatabricks SetSupplierCurrenciesResult0AiProvider = "databricks"
+	SetSupplierCurrenciesResult0AiProviderGithub     SetSupplierCurrenciesResult0AiProvider = "github"
 	SetSupplierCurrenciesResult0AiProviderLambda     SetSupplierCurrenciesResult0AiProvider = "lambda"
+	SetSupplierCurrenciesResult0AiProviderMicrosoft  SetSupplierCurrenciesResult0AiProvider = "microsoft"
 	SetSupplierCurrenciesResult0AiProviderMistral    SetSupplierCurrenciesResult0AiProvider = "mistral"
 	SetSupplierCurrenciesResult0AiProviderNebius     SetSupplierCurrenciesResult0AiProvider = "nebius"
 	SetSupplierCurrenciesResult0AiProviderOpenai     SetSupplierCurrenciesResult0AiProvider = "openai"
@@ -4562,8 +4698,11 @@ const (
 	SetSupplierCurrenciesResult1AiProviderCohere     SetSupplierCurrenciesResult1AiProvider = "cohere"
 	SetSupplierCurrenciesResult1AiProviderCoreweave  SetSupplierCurrenciesResult1AiProvider = "coreweave"
 	SetSupplierCurrenciesResult1AiProviderCrusoe     SetSupplierCurrenciesResult1AiProvider = "crusoe"
+	SetSupplierCurrenciesResult1AiProviderCursor     SetSupplierCurrenciesResult1AiProvider = "cursor"
 	SetSupplierCurrenciesResult1AiProviderDatabricks SetSupplierCurrenciesResult1AiProvider = "databricks"
+	SetSupplierCurrenciesResult1AiProviderGithub     SetSupplierCurrenciesResult1AiProvider = "github"
 	SetSupplierCurrenciesResult1AiProviderLambda     SetSupplierCurrenciesResult1AiProvider = "lambda"
+	SetSupplierCurrenciesResult1AiProviderMicrosoft  SetSupplierCurrenciesResult1AiProvider = "microsoft"
 	SetSupplierCurrenciesResult1AiProviderMistral    SetSupplierCurrenciesResult1AiProvider = "mistral"
 	SetSupplierCurrenciesResult1AiProviderNebius     SetSupplierCurrenciesResult1AiProvider = "nebius"
 	SetSupplierCurrenciesResult1AiProviderOpenai     SetSupplierCurrenciesResult1AiProvider = "openai"
@@ -4777,10 +4916,10 @@ const (
 
 // Defines values for SupplierCreditNoteViewCloudProvider.
 const (
-	SupplierCreditNoteViewCloudProviderAws   SupplierCreditNoteViewCloudProvider = "aws"
-	SupplierCreditNoteViewCloudProviderAzure SupplierCreditNoteViewCloudProvider = "azure"
-	SupplierCreditNoteViewCloudProviderGcp   SupplierCreditNoteViewCloudProvider = "gcp"
-	SupplierCreditNoteViewCloudProviderOci   SupplierCreditNoteViewCloudProvider = "oci"
+	Aws   SupplierCreditNoteViewCloudProvider = "aws"
+	Azure SupplierCreditNoteViewCloudProvider = "azure"
+	Gcp   SupplierCreditNoteViewCloudProvider = "gcp"
+	Oci   SupplierCreditNoteViewCloudProvider = "oci"
 )
 
 // Defines values for SupplierCreditNoteViewEnteredBy.
@@ -4902,10 +5041,10 @@ const (
 
 // Defines values for SupplierRiskScreeningState.
 const (
-	SupplierRiskScreeningStateAttention SupplierRiskScreeningState = "attention"
-	SupplierRiskScreeningStateBlocked   SupplierRiskScreeningState = "blocked"
-	SupplierRiskScreeningStateNone      SupplierRiskScreeningState = "none"
-	SupplierRiskScreeningStateOk        SupplierRiskScreeningState = "ok"
+	Attention SupplierRiskScreeningState = "attention"
+	Blocked   SupplierRiskScreeningState = "blocked"
+	None      SupplierRiskScreeningState = "none"
+	Ok        SupplierRiskScreeningState = "ok"
 )
 
 // Defines values for SupplierRiskScreeningStatus.
@@ -5798,6 +5937,23 @@ type AiRenewalRule struct {
 	OwnerSub  *string `json:"ownerSub,omitempty"`
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
+
+// AiSeatCount defines model for AiSeatCount.
+type AiSeatCount struct {
+	ActiveUsers *float64             `json:"activeUsers,omitempty"`
+	Invoicer    *AiSeatCountInvoicer `json:"invoicer,omitempty"`
+	Period      *string              `json:"period,omitempty"`
+	Product     *string              `json:"product,omitempty"`
+	RecordedAt  *string              `json:"recordedAt,omitempty"`
+	RecordedBy  *string              `json:"recordedBy,omitempty"`
+	Source      *AiSeatCountSource   `json:"source,omitempty"`
+}
+
+// AiSeatCountInvoicer defines model for AiSeatCount.Invoicer.
+type AiSeatCountInvoicer string
+
+// AiSeatCountSource defines model for AiSeatCount.Source.
+type AiSeatCountSource string
 
 // AiServiceFigure defines model for AiServiceFigure.
 type AiServiceFigure struct {
@@ -12524,6 +12680,28 @@ type SetAiRenewalRuleInput struct {
 	Enabled bool `json:"enabled"`
 }
 
+// SetAiSeatCountInput defines model for SetAiSeatCountInput.
+type SetAiSeatCountInput struct {
+	// ActiveUsers Active users in the identity provider that month: those holding a seat who signed in.
+	ActiveUsers float64 `json:"activeUsers"`
+
+	// Invoicer Who bills the seats.
+	Invoicer SetAiSeatCountInputInvoicer `json:"invoicer"`
+
+	// Period The month, YYYY-MM.
+	Period string `json:"period"`
+
+	// Product The seat product, as the order line names it (its ai.model), e.g. chatgpt-enterprise.
+	Product string                    `json:"product"`
+	Source  SetAiSeatCountInputSource `json:"source"`
+}
+
+// SetAiSeatCountInputInvoicer Who bills the seats.
+type SetAiSeatCountInputInvoicer string
+
+// SetAiSeatCountInputSource defines model for SetAiSeatCountInput.Source.
+type SetAiSeatCountInputSource string
+
 // SetAiSpendLimitInput defines model for SetAiSpendLimitInput.
 type SetAiSpendLimitInput struct {
 	// Deny Stop spend at the ceiling where the provider can (default true); false only alerts.
@@ -13685,6 +13863,11 @@ type SuggestAiPoLinesParams struct {
 	Period     *string `form:"period,omitempty" json:"period,omitempty"`
 }
 
+// ListAiSeatCountsParams defines parameters for ListAiSeatCounts.
+type ListAiSeatCountsParams struct {
+	Period *string `form:"period,omitempty" json:"period,omitempty"`
+}
+
 // GetBudgetStatusParams defines parameters for GetBudgetStatus.
 type GetBudgetStatusParams struct {
 	// CostCenter One cost center; every budgeted one when absent.
@@ -13957,6 +14140,9 @@ type SetAiSpendLimitJSONRequestBody = SetAiSpendLimitInput
 
 // SetAiRenewalRuleJSONRequestBody defines body for SetAiRenewalRule for application/json ContentType.
 type SetAiRenewalRuleJSONRequestBody = SetAiRenewalRuleInput
+
+// SetAiSeatCountJSONRequestBody defines body for SetAiSeatCount for application/json ContentType.
+type SetAiSeatCountJSONRequestBody = SetAiSeatCountInput
 
 // CreateApiKeyJSONRequestBody defines body for CreateApiKey for application/json ContentType.
 type CreateApiKeyJSONRequestBody = CreateApiKeyInput
@@ -17025,6 +17211,14 @@ type ClientInterface interface {
 
 	SetAiRenewalRule(ctx context.Context, body SetAiRenewalRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ListAiSeatCounts request
+	ListAiSeatCounts(ctx context.Context, params *ListAiSeatCountsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SetAiSeatCountWithBody request with any body
+	SetAiSeatCountWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SetAiSeatCount(ctx context.Context, body SetAiSeatCountJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ListApiKeys request
 	ListApiKeys(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -17786,6 +17980,42 @@ func (c *RawClient) SetAiRenewalRuleWithBody(ctx context.Context, contentType st
 
 func (c *RawClient) SetAiRenewalRule(ctx context.Context, body SetAiRenewalRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSetAiRenewalRuleRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListAiSeatCounts(ctx context.Context, params *ListAiSeatCountsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListAiSeatCountsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SetAiSeatCountWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetAiSeatCountRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SetAiSeatCount(ctx context.Context, body SetAiSeatCountJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetAiSeatCountRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -20690,6 +20920,95 @@ func NewSetAiRenewalRuleRequestWithBody(server string, contentType string, body 
 	}
 
 	operationPath := fmt.Sprintf("/ai-spend/renewal-rule")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewListAiSeatCountsRequest generates requests for ListAiSeatCounts
+func NewListAiSeatCountsRequest(server string, params *ListAiSeatCountsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/seats")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Period != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "period", runtime.ParamLocationQuery, *params.Period); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSetAiSeatCountRequest calls the generic SetAiSeatCount builder with application/json body
+func NewSetAiSeatCountRequest(server string, body SetAiSeatCountJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSetAiSeatCountRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewSetAiSeatCountRequestWithBody generates requests for SetAiSeatCount with any type of body
+func NewSetAiSeatCountRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/seats")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -26104,6 +26423,14 @@ type ClientWithResponsesInterface interface {
 
 	SetAiRenewalRuleWithResponse(ctx context.Context, body SetAiRenewalRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*SetAiRenewalRuleResponse, error)
 
+	// ListAiSeatCountsWithResponse request
+	ListAiSeatCountsWithResponse(ctx context.Context, params *ListAiSeatCountsParams, reqEditors ...RequestEditorFn) (*ListAiSeatCountsResponse, error)
+
+	// SetAiSeatCountWithBodyWithResponse request with any body
+	SetAiSeatCountWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetAiSeatCountResponse, error)
+
+	SetAiSeatCountWithResponse(ctx context.Context, body SetAiSeatCountJSONRequestBody, reqEditors ...RequestEditorFn) (*SetAiSeatCountResponse, error)
+
 	// ListApiKeysWithResponse request
 	ListApiKeysWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListApiKeysResponse, error)
 
@@ -27050,6 +27377,52 @@ func (r SetAiRenewalRuleResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r SetAiRenewalRuleResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListAiSeatCountsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]AiSeatCount
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListAiSeatCountsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListAiSeatCountsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SetAiSeatCountResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiSeatCount
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r SetAiSeatCountResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SetAiSeatCountResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -29973,6 +30346,32 @@ func (c *ClientWithResponses) SetAiRenewalRuleWithResponse(ctx context.Context, 
 	return ParseSetAiRenewalRuleResponse(rsp)
 }
 
+// ListAiSeatCountsWithResponse request returning *ListAiSeatCountsResponse
+func (c *ClientWithResponses) ListAiSeatCountsWithResponse(ctx context.Context, params *ListAiSeatCountsParams, reqEditors ...RequestEditorFn) (*ListAiSeatCountsResponse, error) {
+	rsp, err := c.ListAiSeatCounts(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListAiSeatCountsResponse(rsp)
+}
+
+// SetAiSeatCountWithBodyWithResponse request with arbitrary body returning *SetAiSeatCountResponse
+func (c *ClientWithResponses) SetAiSeatCountWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetAiSeatCountResponse, error) {
+	rsp, err := c.SetAiSeatCountWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetAiSeatCountResponse(rsp)
+}
+
+func (c *ClientWithResponses) SetAiSeatCountWithResponse(ctx context.Context, body SetAiSeatCountJSONRequestBody, reqEditors ...RequestEditorFn) (*SetAiSeatCountResponse, error) {
+	rsp, err := c.SetAiSeatCount(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetAiSeatCountResponse(rsp)
+}
+
 // ListApiKeysWithResponse request returning *ListApiKeysResponse
 func (c *ClientWithResponses) ListApiKeysWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListApiKeysResponse, error) {
 	rsp, err := c.ListApiKeys(ctx, reqEditors...)
@@ -32055,6 +32454,72 @@ func ParseSetAiRenewalRuleResponse(rsp *http.Response) (*SetAiRenewalRuleRespons
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest AiRenewalRule
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListAiSeatCountsResponse parses an HTTP response from a ListAiSeatCountsWithResponse call
+func ParseListAiSeatCountsResponse(rsp *http.Response) (*ListAiSeatCountsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListAiSeatCountsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []AiSeatCount
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSetAiSeatCountResponse parses an HTTP response from a SetAiSeatCountWithResponse call
+func ParseSetAiSeatCountResponse(rsp *http.Response) (*SetAiSeatCountResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SetAiSeatCountResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiSeatCount
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

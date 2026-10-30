@@ -266,7 +266,13 @@ public class AddAiProviderSupplierResult {
     
     NEBIUS(String.valueOf("nebius")),
     
-    CRUSOE(String.valueOf("crusoe"));
+    CRUSOE(String.valueOf("crusoe")),
+    
+    CURSOR(String.valueOf("cursor")),
+    
+    GITHUB(String.valueOf("github")),
+    
+    MICROSOFT(String.valueOf("microsoft"));
 
     private String value;
 
