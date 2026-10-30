@@ -841,7 +841,7 @@ func (c *Client) ListAiSeatCounts(ctx context.Context, params *ListAiSeatCountsP
 	return resp.JSON200, nil
 }
 
-// ListAiSpendLimits - [Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase orders.
+// ListAiSpendLimits - [Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at its provider (amount, month, state, what reading it back gave, every write), and for each connected AWS account the values the limits template asks for: Pleaxy's account ID and the connection's External ID. 'view' on purchase orders.
 func (c *Client) ListAiSpendLimits(ctx context.Context) (*ListAiSpendLimitsResult, error) {
 	resp, err := c.api.ListAiSpendLimitsWithResponse(ctx)
 	if err != nil {

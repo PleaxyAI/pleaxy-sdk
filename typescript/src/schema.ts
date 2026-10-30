@@ -1679,7 +1679,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** [Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase orders. */
+        /** [Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at its provider (amount, month, state, what reading it back gave, every write), and for each connected AWS account the values the limits template asks for: Pleaxy's account ID and the connection's External ID. 'view' on purchase orders. */
         get: operations["ListAiSpendLimits"];
         put?: never;
         post?: never;
@@ -8772,6 +8772,11 @@ export interface components {
         ListAiSpendLimitsResult: {
             credentials?: components["schemas"]["AiLimitCredential"][];
             limits?: components["schemas"]["AiSpendLimit"][];
+            awsSetup?: {
+                invoicerId?: string;
+                pleaxyAccountId?: string;
+                externalId?: string;
+            }[];
         };
         RemoveAiLimitCredentialResult: {
             invoicerId?: string;

@@ -19,11 +19,14 @@ module Pleaxy
 
     attr_accessor :limits
 
+    attr_accessor :aws_setup
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'credentials' => :'credentials',
-        :'limits' => :'limits'
+        :'limits' => :'limits',
+        :'aws_setup' => :'awsSetup'
       }
     end
 
@@ -36,7 +39,8 @@ module Pleaxy
     def self.openapi_types
       {
         :'credentials' => :'Array<AiLimitCredential>',
-        :'limits' => :'Array<AiSpendLimit>'
+        :'limits' => :'Array<AiSpendLimit>',
+        :'aws_setup' => :'Array<ListAiSpendLimitsResultAwsSetupInner>'
       }
     end
 
@@ -72,6 +76,12 @@ module Pleaxy
           self.limits = value
         end
       end
+
+      if attributes.key?(:'aws_setup')
+        if (value = attributes[:'aws_setup']).is_a?(Array)
+          self.aws_setup = value
+        end
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -95,7 +105,8 @@ module Pleaxy
       return true if self.equal?(o)
       self.class == o.class &&
           credentials == o.credentials &&
-          limits == o.limits
+          limits == o.limits &&
+          aws_setup == o.aws_setup
     end
 
     # @see the `==` method
@@ -107,7 +118,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [credentials, limits].hash
+      [credentials, limits, aws_setup].hash
     end
 
     # Builds the object from hash

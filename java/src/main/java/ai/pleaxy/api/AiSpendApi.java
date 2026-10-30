@@ -744,7 +744,7 @@ public class AiSpendApi {
   }
 
   /**
-   * [Buyer] The limits credentials (one per invoicer, never the key) and each order line&#39;s ceiling at its provider: amount, month, state, what reading it back gave, and every write. &#39;view&#39; on purchase orders.
+   * [Buyer] The limits credentials (one per invoicer, never the key) and each order line&#39;s ceiling at its provider (amount, month, state, what reading it back gave, every write), and for each connected AWS account the values the limits template asks for: Pleaxy&#39;s account ID and the connection&#39;s External ID. &#39;view&#39; on purchase orders.
    * 
    * @return ListAiSpendLimitsResult
    * @throws ApiException if fails to make API call
@@ -755,7 +755,7 @@ public class AiSpendApi {
   }
 
   /**
-   * [Buyer] The limits credentials (one per invoicer, never the key) and each order line&#39;s ceiling at its provider: amount, month, state, what reading it back gave, and every write. &#39;view&#39; on purchase orders.
+   * [Buyer] The limits credentials (one per invoicer, never the key) and each order line&#39;s ceiling at its provider (amount, month, state, what reading it back gave, every write), and for each connected AWS account the values the limits template asks for: Pleaxy&#39;s account ID and the connection&#39;s External ID. &#39;view&#39; on purchase orders.
    * 
    * @return ApiResponse&lt;ListAiSpendLimitsResult&gt;
    * @throws ApiException if fails to make API call

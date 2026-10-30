@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.AiLimitCredential;
 import ai.pleaxy.model.AiSpendLimit;
+import ai.pleaxy.model.ListAiSpendLimitsResultAwsSetupInner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,7 +39,8 @@ import ai.pleaxy.client.ApiClient;
  */
 @JsonPropertyOrder({
   ListAiSpendLimitsResult.JSON_PROPERTY_CREDENTIALS,
-  ListAiSpendLimitsResult.JSON_PROPERTY_LIMITS
+  ListAiSpendLimitsResult.JSON_PROPERTY_LIMITS,
+  ListAiSpendLimitsResult.JSON_PROPERTY_AWS_SETUP
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class ListAiSpendLimitsResult {
@@ -49,6 +51,10 @@ public class ListAiSpendLimitsResult {
   public static final String JSON_PROPERTY_LIMITS = "limits";
   @javax.annotation.Nullable
   private List<AiSpendLimit> limits = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_AWS_SETUP = "awsSetup";
+  @javax.annotation.Nullable
+  private List<ListAiSpendLimitsResultAwsSetupInner> awsSetup = new ArrayList<>();
 
   public ListAiSpendLimitsResult() { 
   }
@@ -117,6 +123,38 @@ public class ListAiSpendLimitsResult {
   }
 
 
+  public ListAiSpendLimitsResult awsSetup(@javax.annotation.Nullable List<ListAiSpendLimitsResultAwsSetupInner> awsSetup) {
+    this.awsSetup = awsSetup;
+    return this;
+  }
+
+  public ListAiSpendLimitsResult addAwsSetupItem(ListAiSpendLimitsResultAwsSetupInner awsSetupItem) {
+    if (this.awsSetup == null) {
+      this.awsSetup = new ArrayList<>();
+    }
+    this.awsSetup.add(awsSetupItem);
+    return this;
+  }
+
+  /**
+   * Get awsSetup
+   * @return awsSetup
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AWS_SETUP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<ListAiSpendLimitsResultAwsSetupInner> getAwsSetup() {
+    return awsSetup;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AWS_SETUP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAwsSetup(@javax.annotation.Nullable List<ListAiSpendLimitsResultAwsSetupInner> awsSetup) {
+    this.awsSetup = awsSetup;
+  }
+
+
   /**
    * Return true if this ListAiSpendLimitsResult object is equal to o.
    */
@@ -130,12 +168,13 @@ public class ListAiSpendLimitsResult {
     }
     ListAiSpendLimitsResult listAiSpendLimitsResult = (ListAiSpendLimitsResult) o;
     return Objects.equals(this.credentials, listAiSpendLimitsResult.credentials) &&
-        Objects.equals(this.limits, listAiSpendLimitsResult.limits);
+        Objects.equals(this.limits, listAiSpendLimitsResult.limits) &&
+        Objects.equals(this.awsSetup, listAiSpendLimitsResult.awsSetup);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(credentials, limits);
+    return Objects.hash(credentials, limits, awsSetup);
   }
 
   @Override
@@ -144,6 +183,7 @@ public class ListAiSpendLimitsResult {
     sb.append("class ListAiSpendLimitsResult {\n");
     sb.append("    credentials: ").append(toIndentedString(credentials)).append("\n");
     sb.append("    limits: ").append(toIndentedString(limits)).append("\n");
+    sb.append("    awsSetup: ").append(toIndentedString(awsSetup)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -206,6 +246,16 @@ public class ListAiSpendLimitsResult {
       for (int i = 0; i < getLimits().size(); i++) {
         if (getLimits().get(i) != null) {
           joiner.add(getLimits().get(i).toUrlQueryString(String.format("%slimits%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `awsSetup` to the URL query string
+    if (getAwsSetup() != null) {
+      for (int i = 0; i < getAwsSetup().size(); i++) {
+        if (getAwsSetup().get(i) != null) {
+          joiner.add(getAwsSetup().get(i).toUrlQueryString(String.format("%sawsSetup%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }

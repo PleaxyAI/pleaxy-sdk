@@ -10404,6 +10404,11 @@ type ListAiInvoicersItemTier string
 
 // ListAiSpendLimitsResult defines model for ListAiSpendLimitsResult.
 type ListAiSpendLimitsResult struct {
+	AwsSetup *[]struct {
+		ExternalId      *string `json:"externalId,omitempty"`
+		InvoicerId      *string `json:"invoicerId,omitempty"`
+		PleaxyAccountId *string `json:"pleaxyAccountId,omitempty"`
+	} `json:"awsSetup,omitempty"`
 	Credentials *[]AiLimitCredential `json:"credentials,omitempty"`
 	Limits      *[]AiSpendLimit      `json:"limits,omitempty"`
 }

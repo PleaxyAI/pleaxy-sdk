@@ -500,6 +500,8 @@ pub mod list_ai_invoicers_item_legal_entities_inner;
 pub use self::list_ai_invoicers_item_legal_entities_inner::ListAiInvoicersItemLegalEntitiesInner;
 pub mod list_ai_spend_limits_result;
 pub use self::list_ai_spend_limits_result::ListAiSpendLimitsResult;
+pub mod list_ai_spend_limits_result_aws_setup_inner;
+pub use self::list_ai_spend_limits_result_aws_setup_inner::ListAiSpendLimitsResultAwsSetupInner;
 pub mod list_cloud_connections_result;
 pub use self::list_cloud_connections_result::ListCloudConnectionsResult;
 pub mod list_invoice_counterparties_result;

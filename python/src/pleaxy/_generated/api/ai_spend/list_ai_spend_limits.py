@@ -47,8 +47,9 @@ def sync_detailed(
     client: Union[AuthenticatedClient, Client],
 ) -> Response[ListAiSpendLimitsResult]:
     """[Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at
-    its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase
-    orders.
+    its provider (amount, month, state, what reading it back gave, every write), and for each connected
+    AWS account the values the limits template asks for: Pleaxy's account ID and the connection's
+    External ID. 'view' on purchase orders.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -72,8 +73,9 @@ def sync(
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[ListAiSpendLimitsResult]:
     """[Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at
-    its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase
-    orders.
+    its provider (amount, month, state, what reading it back gave, every write), and for each connected
+    AWS account the values the limits template asks for: Pleaxy's account ID and the connection's
+    External ID. 'view' on purchase orders.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -93,8 +95,9 @@ async def asyncio_detailed(
     client: Union[AuthenticatedClient, Client],
 ) -> Response[ListAiSpendLimitsResult]:
     """[Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at
-    its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase
-    orders.
+    its provider (amount, month, state, what reading it back gave, every write), and for each connected
+    AWS account the values the limits template asks for: Pleaxy's account ID and the connection's
+    External ID. 'view' on purchase orders.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -116,8 +119,9 @@ async def asyncio(
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[ListAiSpendLimitsResult]:
     """[Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at
-    its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase
-    orders.
+    its provider (amount, month, state, what reading it back gave, every write), and for each connected
+    AWS account the values the limits template asks for: Pleaxy's account ID and the connection's
+    External ID. 'view' on purchase orders.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

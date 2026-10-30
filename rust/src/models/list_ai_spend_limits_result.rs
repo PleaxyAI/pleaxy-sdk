@@ -17,6 +17,8 @@ pub struct ListAiSpendLimitsResult {
     pub credentials: Option<Vec<models::AiLimitCredential>>,
     #[serde(rename = "limits", skip_serializing_if = "Option::is_none")]
     pub limits: Option<Vec<models::AiSpendLimit>>,
+    #[serde(rename = "awsSetup", skip_serializing_if = "Option::is_none")]
+    pub aws_setup: Option<Vec<models::ListAiSpendLimitsResultAwsSetupInner>>,
 }
 
 impl ListAiSpendLimitsResult {
@@ -24,6 +26,7 @@ impl ListAiSpendLimitsResult {
         ListAiSpendLimitsResult {
             credentials: None,
             limits: None,
+            aws_setup: None,
         }
     }
 }

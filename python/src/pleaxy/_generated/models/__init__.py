@@ -1186,6 +1186,9 @@ from .list_ai_invoicers_item_legal_entities_item_region import (
 from .list_ai_invoicers_item_shape import ListAiInvoicersItemShape
 from .list_ai_invoicers_item_tier import ListAiInvoicersItemTier
 from .list_ai_spend_limits_result import ListAiSpendLimitsResult
+from .list_ai_spend_limits_result_aws_setup_item import (
+    ListAiSpendLimitsResultAwsSetupItem,
+)
 from .list_employees_role import ListEmployeesRole
 from .list_invoice_counterparties_result import ListInvoiceCounterpartiesResult
 from .list_invoices_item_buyer_credit_note import ListInvoicesItemBuyerCreditNote
@@ -2673,6 +2676,7 @@ __all__ = (
     "ListAiInvoicersItemShape",
     "ListAiInvoicersItemTier",
     "ListAiSpendLimitsResult",
+    "ListAiSpendLimitsResultAwsSetupItem",
     "ListEmployeesRole",
     "ListInvoiceCounterpartiesResult",
     "ListInvoicesItemBuyerCreditNote",
