@@ -85,6 +85,61 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast, from which day of the month, and its last run. 'view' on purchase orders.
+    # @param [Hash] opts the optional parameters
+    # @return [AiRenewalRule]
+    def get_ai_renewal_rule(opts = {})
+      data, _status_code, _headers = get_ai_renewal_rule_with_http_info(opts)
+      data
+    end
+
+    # [Buyer] The renewal automation rule: whether next month&#39;s AI orders are drafted from the forecast, from which day of the month, and its last run. &#39;view&#39; on purchase orders.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(AiRenewalRule, Integer, Hash)>] AiRenewalRule data, response status code and response headers
+    def get_ai_renewal_rule_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.get_ai_renewal_rule ...'
+      end
+      # resource path
+      local_var_path = '/ai-spend/renewal-rule'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AiRenewalRule'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.get_ai_renewal_rule",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#get_ai_renewal_rule\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] AI spend for a period (YYYY-MM, default this month), grouped by invoicer (default), vendor, model or costCenter: month to date, forecast, last month and the change, usage by meter, and beside each invoicer the open purchase order lines raised to it with what is left. Amounts stay in each invoicer's billing currency; totals are one entry per currency. 'view' on suppliers or on invoices.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :period 
@@ -142,6 +197,61 @@ module Pleaxy
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AiSpendApi#get_ai_spend\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Buyer] The Commitments tab: each active contract term with a committed spend or reserved capacity, with what the synced AI usage has used of it, what's left and (for spend) the pace to the term's end; and each prepaid credit purchase order line with what its invoices have drawn. 'view' on suppliers or on invoices.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<AiCommitmentView>]
+    def list_ai_commitments(opts = {})
+      data, _status_code, _headers = list_ai_commitments_with_http_info(opts)
+      data
+    end
+
+    # [Buyer] The Commitments tab: each active contract term with a committed spend or reserved capacity, with what the synced AI usage has used of it, what&#39;s left and (for spend) the pace to the term&#39;s end; and each prepaid credit purchase order line with what its invoices have drawn. &#39;view&#39; on suppliers or on invoices.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(Array<AiCommitmentView>, Integer, Hash)>] Array<AiCommitmentView> data, response status code and response headers
+    def list_ai_commitments_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.list_ai_commitments ...'
+      end
+      # resource path
+      local_var_path = '/ai-spend/commitments'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Array<AiCommitmentView>'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.list_ai_commitments",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#list_ai_commitments\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -285,6 +395,194 @@ module Pleaxy
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AiSpendApi#list_ai_usage_lines\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Buyer] Drafts the same order for the month after its lines': each AI line's quantity is the forecast from this month's usage so far (its own quantity when there is none yet), every other line as it is. Returns the draft purchase order; submitting it goes through the usual approval. 'create' on purchase orders.
+    # @param po_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [PurchaseOrder]
+    def raise_next_ai_period(po_id, opts = {})
+      data, _status_code, _headers = raise_next_ai_period_with_http_info(po_id, opts)
+      data
+    end
+
+    # [Buyer] Drafts the same order for the month after its lines&#39;: each AI line&#39;s quantity is the forecast from this month&#39;s usage so far (its own quantity when there is none yet), every other line as it is. Returns the draft purchase order; submitting it goes through the usual approval. &#39;create&#39; on purchase orders.
+    # @param po_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(PurchaseOrder, Integer, Hash)>] PurchaseOrder data, response status code and response headers
+    def raise_next_ai_period_with_http_info(po_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.raise_next_ai_period ...'
+      end
+      # verify the required parameter 'po_id' is set
+      if @api_client.config.client_side_validation && po_id.nil?
+        fail ArgumentError, "Missing the required parameter 'po_id' when calling AiSpendApi.raise_next_ai_period"
+      end
+      # resource path
+      local_var_path = '/ai-spend/next-period/{poId}'.sub('{' + 'poId' + '}', CGI.escape(po_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'PurchaseOrder'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.raise_next_ai_period",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#raise_next_ai_period\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, 'create' on purchase orders.
+    # @param set_ai_renewal_rule_input [SetAiRenewalRuleInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [AiRenewalRule]
+    def set_ai_renewal_rule(set_ai_renewal_rule_input, opts = {})
+      data, _status_code, _headers = set_ai_renewal_rule_with_http_info(set_ai_renewal_rule_input, opts)
+      data
+    end
+
+    # [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month&#39;s order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, &#39;create&#39; on purchase orders.
+    # @param set_ai_renewal_rule_input [SetAiRenewalRuleInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(AiRenewalRule, Integer, Hash)>] AiRenewalRule data, response status code and response headers
+    def set_ai_renewal_rule_with_http_info(set_ai_renewal_rule_input, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.set_ai_renewal_rule ...'
+      end
+      # verify the required parameter 'set_ai_renewal_rule_input' is set
+      if @api_client.config.client_side_validation && set_ai_renewal_rule_input.nil?
+        fail ArgumentError, "Missing the required parameter 'set_ai_renewal_rule_input' when calling AiSpendApi.set_ai_renewal_rule"
+      end
+      # resource path
+      local_var_path = '/ai-spend/renewal-rule'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(set_ai_renewal_rule_input)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AiRenewalRule'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.set_ai_renewal_rule",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#set_ai_renewal_rule\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Buyer] Purchase order lines for one invoicer's AI usage in a period (default the last closed month): one per model and meter, last month's volume rounded up, priced at the active contract term's rate (or its discount off list), else the list price today, else what the month was billed at - with priceSource saying which. Nothing is saved: the order form or the Assistant raises the PO. 'view' on purchase orders.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :invoicer_id 
+    # @option opts [String] :period 
+    # @return [AiPoLineSuggestions]
+    def suggest_ai_po_lines(opts = {})
+      data, _status_code, _headers = suggest_ai_po_lines_with_http_info(opts)
+      data
+    end
+
+    # [Buyer] Purchase order lines for one invoicer&#39;s AI usage in a period (default the last closed month): one per model and meter, last month&#39;s volume rounded up, priced at the active contract term&#39;s rate (or its discount off list), else the list price today, else what the month was billed at - with priceSource saying which. Nothing is saved: the order form or the Assistant raises the PO. &#39;view&#39; on purchase orders.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :invoicer_id 
+    # @option opts [String] :period 
+    # @return [Array<(AiPoLineSuggestions, Integer, Hash)>] AiPoLineSuggestions data, response status code and response headers
+    def suggest_ai_po_lines_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.suggest_ai_po_lines ...'
+      end
+      # resource path
+      local_var_path = '/ai-spend/po-lines'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'invoicerId'] = opts[:'invoicer_id'] if !opts[:'invoicer_id'].nil?
+      query_params[:'period'] = opts[:'period'] if !opts[:'period'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AiPoLineSuggestions'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.suggest_ai_po_lines",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#suggest_ai_po_lines\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

@@ -59,6 +59,9 @@ module Pleaxy
     # The online-store cart line this line came from (store punchout spec D4). The server reads that cart's evidence and sets what the line is - its name, unit and part numbers - from it; only qty and unitPrice are yours.
     attr_accessor :punchout_ref
 
+    # An AI line (AI spend controls): the invoicer, model vendor, model, meter and region it prices. A quantity line in the meter's unit (millions of tokens, hours); invoices' AI lines are matched to it by these, never by description.
+    attr_accessor :ai
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -101,7 +104,8 @@ module Pleaxy
         :'customer_line_no' => :'customerLineNo',
         :'quote_line_no' => :'quoteLineNo',
         :'sow_line_no' => :'sowLineNo',
-        :'punchout_ref' => :'punchoutRef'
+        :'punchout_ref' => :'punchoutRef',
+        :'ai' => :'ai'
       }
     end
 
@@ -130,7 +134,8 @@ module Pleaxy
         :'customer_line_no' => :'String',
         :'quote_line_no' => :'Float',
         :'sow_line_no' => :'Float',
-        :'punchout_ref' => :'PunchoutRefInput'
+        :'punchout_ref' => :'PunchoutRefInput',
+        :'ai' => :'AiLineScopeInput'
       }
     end
 
@@ -244,6 +249,10 @@ module Pleaxy
 
       if attributes.key?(:'punchout_ref')
         self.punchout_ref = attributes[:'punchout_ref']
+      end
+
+      if attributes.key?(:'ai')
+        self.ai = attributes[:'ai']
       end
     end
 
@@ -539,7 +548,8 @@ module Pleaxy
           customer_line_no == o.customer_line_no &&
           quote_line_no == o.quote_line_no &&
           sow_line_no == o.sow_line_no &&
-          punchout_ref == o.punchout_ref
+          punchout_ref == o.punchout_ref &&
+          ai == o.ai
     end
 
     # @see the `==` method
@@ -551,7 +561,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [scope_type, scope_id, name, line_type, rule_type, unit, unit_price, qty, nte_amount, currency, payment_terms, valid_from, valid_until, due_date, customer_line_no, quote_line_no, sow_line_no, punchout_ref].hash
+      [scope_type, scope_id, name, line_type, rule_type, unit, unit_price, qty, nte_amount, currency, payment_terms, valid_from, valid_until, due_date, customer_line_no, quote_line_no, sow_line_no, punchout_ref, ai].hash
     end
 
     # Builds the object from hash

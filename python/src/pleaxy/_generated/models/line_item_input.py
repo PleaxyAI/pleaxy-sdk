@@ -18,6 +18,7 @@ from ..models.line_item_input_scope_type import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.ai_line_scope_input import AiLineScopeInput
     from ..models.punchout_ref_input import PunchoutRefInput
 
 
@@ -57,6 +58,7 @@ class LineItemInput:
         sow_line_no (Union[Unset, float]): The milestone or deliverable of the order's statement of work (sowImportId)
             this line was filled from, when Pleaxy read the SOW. Kept on the line, provenance only, like quoteLineNo.
         punchout_ref (Union[Unset, PunchoutRefInput]):
+        ai (Union[Unset, AiLineScopeInput]):
     """
 
     scope_type: LineItemInputScopeType
@@ -77,6 +79,7 @@ class LineItemInput:
     quote_line_no: Union[Unset, float] = UNSET
     sow_line_no: Union[Unset, float] = UNSET
     punchout_ref: Union[Unset, "PunchoutRefInput"] = UNSET
+    ai: Union[Unset, "AiLineScopeInput"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -124,6 +127,10 @@ class LineItemInput:
         if not isinstance(self.punchout_ref, Unset):
             punchout_ref = self.punchout_ref.to_dict()
 
+        ai: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.ai, Unset):
+            ai = self.ai.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -157,11 +164,14 @@ class LineItemInput:
             field_dict["sowLineNo"] = sow_line_no
         if punchout_ref is not UNSET:
             field_dict["punchoutRef"] = punchout_ref
+        if ai is not UNSET:
+            field_dict["ai"] = ai
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ai_line_scope_input import AiLineScopeInput
         from ..models.punchout_ref_input import PunchoutRefInput
 
         d = src_dict.copy()
@@ -218,6 +228,13 @@ class LineItemInput:
         else:
             punchout_ref = PunchoutRefInput.from_dict(_punchout_ref)
 
+        _ai = d.pop("ai", UNSET)
+        ai: Union[Unset, AiLineScopeInput]
+        if isinstance(_ai, Unset):
+            ai = UNSET
+        else:
+            ai = AiLineScopeInput.from_dict(_ai)
+
         line_item_input = cls(
             scope_type=scope_type,
             name=name,
@@ -237,6 +254,7 @@ class LineItemInput:
             quote_line_no=quote_line_no,
             sow_line_no=sow_line_no,
             punchout_ref=punchout_ref,
+            ai=ai,
         )
 
         line_item_input.additional_properties = d

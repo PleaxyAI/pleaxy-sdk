@@ -31,6 +31,8 @@ module Pleaxy
 
     attr_accessor :snowflake
 
+    attr_accessor :databricks
+
     attr_accessor :credit_price
 
     attr_accessor :supplier_connection_id
@@ -78,6 +80,7 @@ module Pleaxy
         :'connected_at' => :'connectedAt',
         :'connected_by' => :'connectedBy',
         :'snowflake' => :'snowflake',
+        :'databricks' => :'databricks',
         :'credit_price' => :'creditPrice',
         :'supplier_connection_id' => :'supplierConnectionId',
         :'last_synced_at' => :'lastSyncedAt',
@@ -104,6 +107,7 @@ module Pleaxy
         :'connected_at' => :'String',
         :'connected_by' => :'String',
         :'snowflake' => :'AiProviderSnowflake',
+        :'databricks' => :'AiProviderDatabricks',
         :'credit_price' => :'AiProviderCreditPrice',
         :'supplier_connection_id' => :'String',
         :'last_synced_at' => :'String',
@@ -167,6 +171,10 @@ module Pleaxy
 
       if attributes.key?(:'snowflake')
         self.snowflake = attributes[:'snowflake']
+      end
+
+      if attributes.key?(:'databricks')
+        self.databricks = attributes[:'databricks']
       end
 
       if attributes.key?(:'credit_price')
@@ -279,6 +287,7 @@ module Pleaxy
           connected_at == o.connected_at &&
           connected_by == o.connected_by &&
           snowflake == o.snowflake &&
+          databricks == o.databricks &&
           credit_price == o.credit_price &&
           supplier_connection_id == o.supplier_connection_id &&
           last_synced_at == o.last_synced_at &&
@@ -297,7 +306,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, provider, account_label, key_hint, status, connected_at, connected_by, snowflake, credit_price, supplier_connection_id, last_synced_at, last_sync_status, last_sync_error, last_sync_error_code, currency].hash
+      [id, provider, account_label, key_hint, status, connected_at, connected_by, snowflake, databricks, credit_price, supplier_connection_id, last_synced_at, last_sync_status, last_sync_error, last_sync_error_code, currency].hash
     end
 
     # Builds the object from hash

@@ -63,6 +63,12 @@ class AiSpendResource:
             "pleaxy._generated.api.ai_spend.check_ai_spend", body=body
         )
 
+    def get_ai_renewal_rule(self) -> AiRenewalRule:
+        """[Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast, from which day of the month, and its last run. 'view' on purchase orders."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.get_ai_renewal_rule"
+        )
+
     def get_ai_spend(
         self, *, period: Union[Unset, str] = UNSET, group_by: Union[Unset, str] = UNSET
     ) -> AiSpendResponse:
@@ -71,6 +77,12 @@ class AiSpendResource:
             "pleaxy._generated.api.ai_spend.get_ai_spend",
             period=period,
             group_by=group_by,
+        )
+
+    def list_ai_commitments(self) -> List["AiCommitmentView"]:
+        """[Buyer] The Commitments tab: each active contract term with a committed spend or reserved capacity, with what the synced AI usage has used of it, what's left and (for spend) the pace to the term's end; and each prepaid credit purchase order line with what its invoices have drawn. 'view' on suppliers or on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.list_ai_commitments"
         )
 
     def list_ai_rate_cards(
@@ -111,6 +123,31 @@ class AiSpendResource:
             cost_center=cost_center,
             limit=limit,
             cursor=cursor,
+        )
+
+    def raise_next_ai_period(self, po_id: str) -> PurchaseOrder:
+        """[Buyer] Drafts the same order for the month after its lines': each AI line's quantity is the forecast from this month's usage so far (its own quantity when there is none yet), every other line as it is. Returns the draft purchase order; submitting it goes through the usual approval. 'create' on purchase orders."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.raise_next_ai_period", po_id=po_id
+        )
+
+    def set_ai_renewal_rule(self, *, body: SetAiRenewalRuleInput) -> AiRenewalRule:
+        """[Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, 'create' on purchase orders."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.set_ai_renewal_rule", body=body
+        )
+
+    def suggest_ai_po_lines(
+        self,
+        *,
+        invoicer_id: Union[Unset, str] = UNSET,
+        period: Union[Unset, str] = UNSET,
+    ) -> AiPoLineSuggestions:
+        """[Buyer] Purchase order lines for one invoicer's AI usage in a period (default the last closed month): one per model and meter, last month's volume rounded up, priced at the active contract term's rate (or its discount off list), else the list price today, else what the month was billed at - with priceSource saying which. Nothing is saved: the order form or the Assistant raises the PO. 'view' on purchase orders."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.suggest_ai_po_lines",
+            invoicer_id=invoicer_id,
+            period=period,
         )
 
 

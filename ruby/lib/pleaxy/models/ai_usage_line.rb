@@ -238,11 +238,11 @@ module Pleaxy
       return false unless invoicer_validator.valid?(@invoicer)
       vendor_validator = EnumAttributeValidator.new('String', ["unknown", "openai", "anthropic", "mistral", "cohere", "xai", "snowflake", "databricks", "google", "meta", "amazon", "microsoft", "deepseek", "nvidia"])
       return false unless vendor_validator.valid?(@vendor)
-      shape_validator = EnumAttributeValidator.new('String', ["tokens", "capacity", "credits"])
+      shape_validator = EnumAttributeValidator.new('String', ["capacity", "tokens", "credits"])
       return false unless shape_validator.valid?(@shape)
       meter_validator = EnumAttributeValidator.new('String', ["images", "other", "input_tokens", "output_tokens", "cached_input_tokens", "cache_write_tokens", "batch_input_tokens", "batch_output_tokens", "audio_seconds", "embeddings_tokens", "requests", "gpu_hours", "ptu_hours", "model_units_hours", "cluster_hours"])
       return false unless meter_validator.valid?(@meter)
-      unit_validator = EnumAttributeValidator.new('String', ["images", "tokens", "requests", "gpu_hours", "ptu_hours", "1M_tokens", "seconds", "model_unit_hours", "units"])
+      unit_validator = EnumAttributeValidator.new('String', ["images", "requests", "gpu_hours", "ptu_hours", "tokens", "1M_tokens", "seconds", "model_unit_hours", "units"])
       return false unless unit_validator.valid?(@unit)
       source_validator = EnumAttributeValidator.new('String', ["billing_export", "cost_explorer", "cost_management", "usage_api", "cost_report", "usage_report"])
       return false unless source_validator.valid?(@source)
@@ -272,7 +272,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] shape Object to be assigned
     def shape=(shape)
-      validator = EnumAttributeValidator.new('String', ["tokens", "capacity", "credits"])
+      validator = EnumAttributeValidator.new('String', ["capacity", "tokens", "credits"])
       unless validator.valid?(shape)
         fail ArgumentError, "invalid value for \"shape\", must be one of #{validator.allowable_values}."
       end
@@ -292,7 +292,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] unit Object to be assigned
     def unit=(unit)
-      validator = EnumAttributeValidator.new('String', ["images", "tokens", "requests", "gpu_hours", "ptu_hours", "1M_tokens", "seconds", "model_unit_hours", "units"])
+      validator = EnumAttributeValidator.new('String', ["images", "requests", "gpu_hours", "ptu_hours", "tokens", "1M_tokens", "seconds", "model_unit_hours", "units"])
       unless validator.valid?(unit)
         fail ArgumentError, "invalid value for \"unit\", must be one of #{validator.allowable_values}."
       end

@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.AiLineScope;
 import ai.pleaxy.model.LineItemPunchoutRef;
 import ai.pleaxy.model.PunchoutLineOrigin;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -59,7 +60,8 @@ import ai.pleaxy.client.ApiClient;
   LineItem.JSON_PROPERTY_QUOTE_LINE_NO,
   LineItem.JSON_PROPERTY_SOW_LINE_NO,
   LineItem.JSON_PROPERTY_ORIGIN,
-  LineItem.JSON_PROPERTY_PUNCHOUT_REF
+  LineItem.JSON_PROPERTY_PUNCHOUT_REF,
+  LineItem.JSON_PROPERTY_AI
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class LineItem {
@@ -308,6 +310,10 @@ public class LineItem {
   public static final String JSON_PROPERTY_PUNCHOUT_REF = "punchoutRef";
   @javax.annotation.Nullable
   private LineItemPunchoutRef punchoutRef;
+
+  public static final String JSON_PROPERTY_AI = "ai";
+  @javax.annotation.Nullable
+  private AiLineScope ai;
 
   public LineItem() { 
   }
@@ -912,6 +918,30 @@ public class LineItem {
   }
 
 
+  public LineItem ai(@javax.annotation.Nullable AiLineScope ai) {
+    this.ai = ai;
+    return this;
+  }
+
+  /**
+   * Get ai
+   * @return ai
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AI)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public AiLineScope getAi() {
+    return ai;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AI)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAi(@javax.annotation.Nullable AiLineScope ai) {
+    this.ai = ai;
+  }
+
+
   /**
    * Return true if this LineItem object is equal to o.
    */
@@ -948,12 +978,13 @@ public class LineItem {
         Objects.equals(this.quoteLineNo, lineItem.quoteLineNo) &&
         Objects.equals(this.sowLineNo, lineItem.sowLineNo) &&
         Objects.equals(this.origin, lineItem.origin) &&
-        Objects.equals(this.punchoutRef, lineItem.punchoutRef);
+        Objects.equals(this.punchoutRef, lineItem.punchoutRef) &&
+        Objects.equals(this.ai, lineItem.ai);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(lineNo, lineType, scopeType, scopeId, name, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, dueDate, consumed, supplierSku, priceSource, customerLineNo, contractId, contractTermId, quoteLineNo, sowLineNo, origin, punchoutRef);
+    return Objects.hash(lineNo, lineType, scopeType, scopeId, name, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, dueDate, consumed, supplierSku, priceSource, customerLineNo, contractId, contractTermId, quoteLineNo, sowLineNo, origin, punchoutRef, ai);
   }
 
   @Override
@@ -985,6 +1016,7 @@ public class LineItem {
     sb.append("    sowLineNo: ").append(toIndentedString(sowLineNo)).append("\n");
     sb.append("    origin: ").append(toIndentedString(origin)).append("\n");
     sb.append("    punchoutRef: ").append(toIndentedString(punchoutRef)).append("\n");
+    sb.append("    ai: ").append(toIndentedString(ai)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -1155,6 +1187,11 @@ public class LineItem {
     // add `punchoutRef` to the URL query string
     if (getPunchoutRef() != null) {
       joiner.add(getPunchoutRef().toUrlQueryString(prefix + "punchoutRef" + suffix));
+    }
+
+    // add `ai` to the URL query string
+    if (getAi() != null) {
+      joiner.add(getAi().toUrlQueryString(prefix + "ai" + suffix));
     }
 
     return joiner.toString();

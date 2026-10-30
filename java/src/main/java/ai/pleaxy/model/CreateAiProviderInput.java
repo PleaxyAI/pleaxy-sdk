@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.CreditPriceInput;
+import ai.pleaxy.model.DatabricksConnectionInput;
 import ai.pleaxy.model.SnowflakeConnectionInput;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -38,6 +39,7 @@ import ai.pleaxy.client.ApiClient;
   CreateAiProviderInput.JSON_PROPERTY_PROVIDER,
   CreateAiProviderInput.JSON_PROPERTY_KEY,
   CreateAiProviderInput.JSON_PROPERTY_SNOWFLAKE,
+  CreateAiProviderInput.JSON_PROPERTY_DATABRICKS,
   CreateAiProviderInput.JSON_PROPERTY_CREDIT_PRICE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -53,6 +55,10 @@ public class CreateAiProviderInput {
   public static final String JSON_PROPERTY_SNOWFLAKE = "snowflake";
   @javax.annotation.Nullable
   private SnowflakeConnectionInput snowflake;
+
+  public static final String JSON_PROPERTY_DATABRICKS = "databricks";
+  @javax.annotation.Nullable
+  private DatabricksConnectionInput databricks;
 
   public static final String JSON_PROPERTY_CREDIT_PRICE = "creditPrice";
   @javax.annotation.Nullable
@@ -133,6 +139,30 @@ public class CreateAiProviderInput {
   }
 
 
+  public CreateAiProviderInput databricks(@javax.annotation.Nullable DatabricksConnectionInput databricks) {
+    this.databricks = databricks;
+    return this;
+  }
+
+  /**
+   * Get databricks
+   * @return databricks
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DATABRICKS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public DatabricksConnectionInput getDatabricks() {
+    return databricks;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DATABRICKS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDatabricks(@javax.annotation.Nullable DatabricksConnectionInput databricks) {
+    this.databricks = databricks;
+  }
+
+
   public CreateAiProviderInput creditPrice(@javax.annotation.Nullable CreditPriceInput creditPrice) {
     this.creditPrice = creditPrice;
     return this;
@@ -172,12 +202,13 @@ public class CreateAiProviderInput {
     return Objects.equals(this.provider, createAiProviderInput.provider) &&
         Objects.equals(this.key, createAiProviderInput.key) &&
         Objects.equals(this.snowflake, createAiProviderInput.snowflake) &&
+        Objects.equals(this.databricks, createAiProviderInput.databricks) &&
         Objects.equals(this.creditPrice, createAiProviderInput.creditPrice);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(provider, key, snowflake, creditPrice);
+    return Objects.hash(provider, key, snowflake, databricks, creditPrice);
   }
 
   @Override
@@ -187,6 +218,7 @@ public class CreateAiProviderInput {
     sb.append("    provider: ").append(toIndentedString(provider)).append("\n");
     sb.append("    key: ").append(toIndentedString(key)).append("\n");
     sb.append("    snowflake: ").append(toIndentedString(snowflake)).append("\n");
+    sb.append("    databricks: ").append(toIndentedString(databricks)).append("\n");
     sb.append("    creditPrice: ").append(toIndentedString(creditPrice)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -248,6 +280,11 @@ public class CreateAiProviderInput {
     // add `snowflake` to the URL query string
     if (getSnowflake() != null) {
       joiner.add(getSnowflake().toUrlQueryString(prefix + "snowflake" + suffix));
+    }
+
+    // add `databricks` to the URL query string
+    if (getDatabricks() != null) {
+      joiner.add(getDatabricks().toUrlQueryString(prefix + "databricks" + suffix));
     }
 
     // add `creditPrice` to the URL query string

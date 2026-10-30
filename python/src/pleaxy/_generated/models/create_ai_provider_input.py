@@ -7,6 +7,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.credit_price_input import CreditPriceInput
+    from ..models.databricks_connection_input import DatabricksConnectionInput
     from ..models.snowflake_connection_input import SnowflakeConnectionInput
 
 
@@ -20,12 +21,14 @@ class CreateAiProviderInput:
         provider (str):
         key (Union[Unset, str]):
         snowflake (Union[Unset, SnowflakeConnectionInput]):
+        databricks (Union[Unset, DatabricksConnectionInput]):
         credit_price (Union[Unset, CreditPriceInput]):
     """
 
     provider: str
     key: Union[Unset, str] = UNSET
     snowflake: Union[Unset, "SnowflakeConnectionInput"] = UNSET
+    databricks: Union[Unset, "DatabricksConnectionInput"] = UNSET
     credit_price: Union[Unset, "CreditPriceInput"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -37,6 +40,10 @@ class CreateAiProviderInput:
         snowflake: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.snowflake, Unset):
             snowflake = self.snowflake.to_dict()
+
+        databricks: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.databricks, Unset):
+            databricks = self.databricks.to_dict()
 
         credit_price: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.credit_price, Unset):
@@ -53,6 +60,8 @@ class CreateAiProviderInput:
             field_dict["key"] = key
         if snowflake is not UNSET:
             field_dict["snowflake"] = snowflake
+        if databricks is not UNSET:
+            field_dict["databricks"] = databricks
         if credit_price is not UNSET:
             field_dict["creditPrice"] = credit_price
 
@@ -61,6 +70,7 @@ class CreateAiProviderInput:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.credit_price_input import CreditPriceInput
+        from ..models.databricks_connection_input import DatabricksConnectionInput
         from ..models.snowflake_connection_input import SnowflakeConnectionInput
 
         d = src_dict.copy()
@@ -75,6 +85,13 @@ class CreateAiProviderInput:
         else:
             snowflake = SnowflakeConnectionInput.from_dict(_snowflake)
 
+        _databricks = d.pop("databricks", UNSET)
+        databricks: Union[Unset, DatabricksConnectionInput]
+        if isinstance(_databricks, Unset):
+            databricks = UNSET
+        else:
+            databricks = DatabricksConnectionInput.from_dict(_databricks)
+
         _credit_price = d.pop("creditPrice", UNSET)
         credit_price: Union[Unset, CreditPriceInput]
         if isinstance(_credit_price, Unset):
@@ -86,6 +103,7 @@ class CreateAiProviderInput:
             provider=provider,
             key=key,
             snowflake=snowflake,
+            databricks=databricks,
             credit_price=credit_price,
         )
 

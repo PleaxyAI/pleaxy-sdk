@@ -58,10 +58,24 @@ export class AiSpendResource {
   }
 
   /**
+   * [Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast, from which day of the month, and its last run. 'view' on purchase orders.
+   */
+  getAiRenewalRule(options?: RequestOptions): Promise<ResponseBody<"GetAiRenewalRule">> {
+    return this.transport.request("get", "/ai-spend/renewal-rule", { path: undefined, options }) as Promise<ResponseBody<"GetAiRenewalRule">>;
+  }
+
+  /**
    * [Buyer] AI spend for a period (YYYY-MM, default this month), grouped by invoicer (default), vendor, model or costCenter: month to date, forecast, last month and the change, usage by meter, and beside each invoicer the open purchase order lines raised to it with what is left. Amounts stay in each invoicer's billing currency; totals are one entry per currency. 'view' on suppliers or on invoices.
    */
   getAiSpend(query?: QueryParams<"GetAiSpend">, options?: RequestOptions): Promise<ResponseBody<"GetAiSpend">> {
     return this.transport.request("get", "/ai-spend", { path: undefined, query, options }) as Promise<ResponseBody<"GetAiSpend">>;
+  }
+
+  /**
+   * [Buyer] The Commitments tab: each active contract term with a committed spend or reserved capacity, with what the synced AI usage has used of it, what's left and (for spend) the pace to the term's end; and each prepaid credit purchase order line with what its invoices have drawn. 'view' on suppliers or on invoices.
+   */
+  listAiCommitments(options?: RequestOptions): Promise<ResponseBody<"ListAiCommitments">> {
+    return this.transport.request("get", "/ai-spend/commitments", { path: undefined, options }) as Promise<ResponseBody<"ListAiCommitments">>;
   }
 
   /**
@@ -76,6 +90,27 @@ export class AiSpendResource {
    */
   listAiUsageLines(query?: QueryParams<"ListAiUsageLines">, options?: RequestOptions): Promise<ResponseBody<"ListAiUsageLines">> {
     return this.transport.request("get", "/ai-spend/lines", { path: undefined, query, options }) as Promise<ResponseBody<"ListAiUsageLines">>;
+  }
+
+  /**
+   * [Buyer] Drafts the same order for the month after its lines': each AI line's quantity is the forecast from this month's usage so far (its own quantity when there is none yet), every other line as it is. Returns the draft purchase order; submitting it goes through the usual approval. 'create' on purchase orders.
+   */
+  raiseNextAiPeriod(poId: string, options?: RequestOptions): Promise<ResponseBody<"RaiseNextAiPeriod">> {
+    return this.transport.request("post", "/ai-spend/next-period/{poId}", { path: { poId }, options }) as Promise<ResponseBody<"RaiseNextAiPeriod">>;
+  }
+
+  /**
+   * [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, 'create' on purchase orders.
+   */
+  setAiRenewalRule(body: RequestBody<"SetAiRenewalRule">, options?: RequestOptions): Promise<ResponseBody<"SetAiRenewalRule">> {
+    return this.transport.request("put", "/ai-spend/renewal-rule", { path: undefined, body, options }) as Promise<ResponseBody<"SetAiRenewalRule">>;
+  }
+
+  /**
+   * [Buyer] Purchase order lines for one invoicer's AI usage in a period (default the last closed month): one per model and meter, last month's volume rounded up, priced at the active contract term's rate (or its discount off list), else the list price today, else what the month was billed at - with priceSource saying which. Nothing is saved: the order form or the Assistant raises the PO. 'view' on purchase orders.
+   */
+  suggestAiPoLines(query?: QueryParams<"SuggestAiPoLines">, options?: RequestOptions): Promise<ResponseBody<"SuggestAiPoLines">> {
+    return this.transport.request("get", "/ai-spend/po-lines", { path: undefined, query, options }) as Promise<ResponseBody<"SuggestAiPoLines">>;
   }
 }
 

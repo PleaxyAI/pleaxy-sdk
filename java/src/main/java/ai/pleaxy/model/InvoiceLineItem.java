@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.InvoiceLineItemAi;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,7 +39,8 @@ import ai.pleaxy.client.ApiClient;
   InvoiceLineItem.JSON_PROPERTY_UNIT_PRICE,
   InvoiceLineItem.JSON_PROPERTY_AMOUNT,
   InvoiceLineItem.JSON_PROPERTY_DISCOUNT,
-  InvoiceLineItem.JSON_PROPERTY_CHARGE
+  InvoiceLineItem.JSON_PROPERTY_CHARGE,
+  InvoiceLineItem.JSON_PROPERTY_AI
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class InvoiceLineItem {
@@ -65,6 +67,10 @@ public class InvoiceLineItem {
   public static final String JSON_PROPERTY_CHARGE = "charge";
   @javax.annotation.Nullable
   private Double charge;
+
+  public static final String JSON_PROPERTY_AI = "ai";
+  @javax.annotation.Nullable
+  private InvoiceLineItemAi ai;
 
   public InvoiceLineItem() { 
   }
@@ -213,6 +219,30 @@ public class InvoiceLineItem {
   }
 
 
+  public InvoiceLineItem ai(@javax.annotation.Nullable InvoiceLineItemAi ai) {
+    this.ai = ai;
+    return this;
+  }
+
+  /**
+   * Get ai
+   * @return ai
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AI)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceLineItemAi getAi() {
+    return ai;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AI)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAi(@javax.annotation.Nullable InvoiceLineItemAi ai) {
+    this.ai = ai;
+  }
+
+
   /**
    * Return true if this InvoiceLineItem object is equal to o.
    */
@@ -230,12 +260,13 @@ public class InvoiceLineItem {
         Objects.equals(this.unitPrice, invoiceLineItem.unitPrice) &&
         Objects.equals(this.amount, invoiceLineItem.amount) &&
         Objects.equals(this.discount, invoiceLineItem.discount) &&
-        Objects.equals(this.charge, invoiceLineItem.charge);
+        Objects.equals(this.charge, invoiceLineItem.charge) &&
+        Objects.equals(this.ai, invoiceLineItem.ai);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(description, qty, unitPrice, amount, discount, charge);
+    return Objects.hash(description, qty, unitPrice, amount, discount, charge, ai);
   }
 
   @Override
@@ -248,6 +279,7 @@ public class InvoiceLineItem {
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    discount: ").append(toIndentedString(discount)).append("\n");
     sb.append("    charge: ").append(toIndentedString(charge)).append("\n");
+    sb.append("    ai: ").append(toIndentedString(ai)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -323,6 +355,11 @@ public class InvoiceLineItem {
     // add `charge` to the URL query string
     if (getCharge() != null) {
       joiner.add(String.format("%scharge%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCharge()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `ai` to the URL query string
+    if (getAi() != null) {
+      joiner.add(getAi().toUrlQueryString(prefix + "ai" + suffix));
     }
 
     return joiner.toString();

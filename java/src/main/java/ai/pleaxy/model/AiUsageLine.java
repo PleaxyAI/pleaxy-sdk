@@ -199,9 +199,9 @@ public class AiUsageLine {
    * Gets or Sets shape
    */
   public enum ShapeEnum {
-    TOKENS(String.valueOf("tokens")),
-    
     CAPACITY(String.valueOf("capacity")),
+    
+    TOKENS(String.valueOf("tokens")),
     
     CREDITS(String.valueOf("credits"));
 
@@ -319,13 +319,13 @@ public class AiUsageLine {
   public enum UnitEnum {
     IMAGES(String.valueOf("images")),
     
-    TOKENS(String.valueOf("tokens")),
-    
     REQUESTS(String.valueOf("requests")),
     
     GPU_HOURS(String.valueOf("gpu_hours")),
     
     PTU_HOURS(String.valueOf("ptu_hours")),
+    
+    TOKENS(String.valueOf("tokens")),
     
     _1_M_TOKENS(String.valueOf("1M_tokens")),
     

@@ -197,7 +197,7 @@ module Pleaxy
       return false unless credential_validator.valid?(@credential)
       tier_validator = EnumAttributeValidator.new('String', ["direct", "data_platform", "host", "neocloud"])
       return false unless tier_validator.valid?(@tier)
-      shape_validator = EnumAttributeValidator.new('String', ["tokens", "capacity", "credits"])
+      shape_validator = EnumAttributeValidator.new('String', ["capacity", "tokens", "credits"])
       return false unless shape_validator.valid?(@shape)
       true
     end
@@ -235,7 +235,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] shape Object to be assigned
     def shape=(shape)
-      validator = EnumAttributeValidator.new('String', ["tokens", "capacity", "credits"])
+      validator = EnumAttributeValidator.new('String', ["capacity", "tokens", "credits"])
       unless validator.valid?(shape)
         fail ArgumentError, "invalid value for \"shape\", must be one of #{validator.allowable_values}."
       end

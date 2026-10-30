@@ -68,6 +68,8 @@ pub struct LineItem {
     pub origin: Option<models::PunchoutLineOrigin>,
     #[serde(rename = "punchoutRef", skip_serializing_if = "Option::is_none")]
     pub punchout_ref: Option<models::LineItemPunchoutRef>,
+    #[serde(rename = "ai", skip_serializing_if = "Option::is_none")]
+    pub ai: Option<models::AiLineScope>,
 }
 
 impl LineItem {
@@ -98,6 +100,7 @@ impl LineItem {
             sow_line_no: None,
             origin: None,
             punchout_ref: None,
+            ai: None,
         }
     }
 }

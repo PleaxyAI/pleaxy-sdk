@@ -33,16 +33,16 @@ impl AiProviderCreditPrice {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Kind {
-    #[serde(rename = "capacity")]
-    Capacity,
     #[serde(rename = "on_demand")]
     OnDemand,
+    #[serde(rename = "capacity")]
+    Capacity,
     #[serde(rename = "commit")]
     Commit,
 }
 
 impl Default for Kind {
     fn default() -> Kind {
-        Self::Capacity
+        Self::OnDemand
     }
 }

@@ -349,6 +349,18 @@ func (c *Client) FlipPurchaseOrderToInvoice(ctx context.Context, poId string, pa
 	return resp.JSON201, nil
 }
 
+// GetAiRenewalRule - [Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast, from which day of the month, and its last run. 'view' on purchase orders.
+func (c *Client) GetAiRenewalRule(ctx context.Context) (*AiRenewalRule, error) {
+	resp, err := c.api.GetAiRenewalRuleWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // GetAiSpend - [Buyer] AI spend for a period (YYYY-MM, default this month), grouped by invoicer (default), vendor, model or costCenter: month to date, forecast, last month and the change, usage by meter, and beside each invoicer the open purchase order lines raised to it with what is left. Amounts stay in each invoicer's billing currency; totals are one entry per currency. 'view' on suppliers or on invoices.
 func (c *Client) GetAiSpend(ctx context.Context, params *GetAiSpendParams) (*AiSpendResponse, error) {
 	resp, err := c.api.GetAiSpendWithResponse(ctx, params)
@@ -745,6 +757,18 @@ func (c *Client) InitCloudConnection(ctx context.Context, provider string) (*int
 	return resp.JSON201, nil
 }
 
+// ListAiCommitments - [Buyer] The Commitments tab: each active contract term with a committed spend or reserved capacity, with what the synced AI usage has used of it, what's left and (for spend) the pace to the term's end; and each prepaid credit purchase order line with what its invoices have drawn. 'view' on suppliers or on invoices.
+func (c *Client) ListAiCommitments(ctx context.Context) (*[]AiCommitmentView, error) {
+	resp, err := c.api.ListAiCommitmentsWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // ListAiInvoicers - [Buyer] The AI invoicers Pleaxy pre-creates as suppliers: names, the legal entities they invoice from by region, billing currencies, billing kinds, invoice sender domains, and whether each can be connected. 'view' on suppliers or on invoices.
 func (c *Client) ListAiInvoicers(ctx context.Context) (*[]ListAiInvoicersItem, error) {
 	resp, err := c.api.ListAiInvoicersWithResponse(ctx)
@@ -1054,6 +1078,18 @@ func (c *Client) MarkNotificationRead(ctx context.Context, notificationId string
 	return checkStatus(resp.HTTPResponse, resp.Body)
 }
 
+// RaiseNextAiPeriod - [Buyer] Drafts the same order for the month after its lines': each AI line's quantity is the forecast from this month's usage so far (its own quantity when there is none yet), every other line as it is. Returns the draft purchase order; submitting it goes through the usual approval. 'create' on purchase orders.
+func (c *Client) RaiseNextAiPeriod(ctx context.Context, poId string) (*PurchaseOrder, error) {
+	resp, err := c.api.RaiseNextAiPeriodWithResponse(ctx, poId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
 // ReassignInvoiceApprovalStage - [Buyer, administrator] Reassign one pending approval step of this invoice to a different named employee. An approval step is actionable only by the employee it names, so this is the only way to move a step whose approver is gone or unassigned.
 func (c *Client) ReassignInvoiceApprovalStage(ctx context.Context, invoiceId string, body ReassignInvoiceApprovalStageJSONRequestBody) (*InvoiceBuyerView, error) {
 	resp, err := c.api.ReassignInvoiceApprovalStageWithResponse(ctx, invoiceId, body)
@@ -1243,6 +1279,18 @@ func (c *Client) SendShipNotice(ctx context.Context, poId string, params *SendSh
 	return resp.JSON201, nil
 }
 
+// SetAiRenewalRule - [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, 'create' on purchase orders.
+func (c *Client) SetAiRenewalRule(ctx context.Context, body SetAiRenewalRuleJSONRequestBody) (*AiRenewalRule, error) {
+	resp, err := c.api.SetAiRenewalRuleWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // SetExchangeRateWarning - [Buyer] Set how far (percent, 0–100) an invoice's stated rate may be from the reference rate before the invoice is flagged. Default 5. Administrators only, signed-in session only.
 func (c *Client) SetExchangeRateWarning(ctx context.Context, body SetExchangeRateWarningJSONRequestBody) (*SetExchangeRateWarningResult, error) {
 	resp, err := c.api.SetExchangeRateWarningWithResponse(ctx, body)
@@ -1318,6 +1366,18 @@ func (c *Client) SubmitPurchaseOrderDraft(ctx context.Context, poId string) (*Pu
 // SubmitPurchaseRequest - [Buyer] The requester submits a draft for approval. Refused (409) over budget when budgets are enforced.
 func (c *Client) SubmitPurchaseRequest(ctx context.Context, requestId string) (*PurchaseRequest, error) {
 	resp, err := c.api.SubmitPurchaseRequestWithResponse(ctx, requestId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// SuggestAiPoLines - [Buyer] Purchase order lines for one invoicer's AI usage in a period (default the last closed month): one per model and meter, last month's volume rounded up, priced at the active contract term's rate (or its discount off list), else the list price today, else what the month was billed at - with priceSource saying which. Nothing is saved: the order form or the Assistant raises the PO. 'view' on purchase orders.
+func (c *Client) SuggestAiPoLines(ctx context.Context, params *SuggestAiPoLinesParams) (*AiPoLineSuggestions, error) {
+	resp, err := c.api.SuggestAiPoLinesWithResponse(ctx, params)
 	if err != nil {
 		return nil, err
 	}

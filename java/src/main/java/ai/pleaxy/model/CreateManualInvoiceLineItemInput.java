@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.InvoiceAiLineInput;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,7 +38,8 @@ import ai.pleaxy.client.ApiClient;
   CreateManualInvoiceLineItemInput.JSON_PROPERTY_QTY,
   CreateManualInvoiceLineItemInput.JSON_PROPERTY_UNIT_PRICE,
   CreateManualInvoiceLineItemInput.JSON_PROPERTY_DISCOUNT,
-  CreateManualInvoiceLineItemInput.JSON_PROPERTY_CHARGE
+  CreateManualInvoiceLineItemInput.JSON_PROPERTY_CHARGE,
+  CreateManualInvoiceLineItemInput.JSON_PROPERTY_AI
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class CreateManualInvoiceLineItemInput {
@@ -60,6 +62,10 @@ public class CreateManualInvoiceLineItemInput {
   public static final String JSON_PROPERTY_CHARGE = "charge";
   @javax.annotation.Nullable
   private Double charge;
+
+  public static final String JSON_PROPERTY_AI = "ai";
+  @javax.annotation.Nullable
+  private InvoiceAiLineInput ai;
 
   public CreateManualInvoiceLineItemInput() { 
   }
@@ -192,6 +198,30 @@ public class CreateManualInvoiceLineItemInput {
   }
 
 
+  public CreateManualInvoiceLineItemInput ai(@javax.annotation.Nullable InvoiceAiLineInput ai) {
+    this.ai = ai;
+    return this;
+  }
+
+  /**
+   * An AI line: the invoicer, model vendor, model, meter and region it bills, and the month of usage (YYYY-MM). qty is in the meter&#39;s unit (millions of tokens, hours). Held to the PO&#39;s AI line, the contract and the rate card.
+   * @return ai
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AI)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceAiLineInput getAi() {
+    return ai;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AI)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAi(@javax.annotation.Nullable InvoiceAiLineInput ai) {
+    this.ai = ai;
+  }
+
+
   /**
    * Return true if this CreateManualInvoiceLineItemInput object is equal to o.
    */
@@ -208,12 +238,13 @@ public class CreateManualInvoiceLineItemInput {
         Objects.equals(this.qty, createManualInvoiceLineItemInput.qty) &&
         Objects.equals(this.unitPrice, createManualInvoiceLineItemInput.unitPrice) &&
         Objects.equals(this.discount, createManualInvoiceLineItemInput.discount) &&
-        Objects.equals(this.charge, createManualInvoiceLineItemInput.charge);
+        Objects.equals(this.charge, createManualInvoiceLineItemInput.charge) &&
+        Objects.equals(this.ai, createManualInvoiceLineItemInput.ai);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(description, qty, unitPrice, discount, charge);
+    return Objects.hash(description, qty, unitPrice, discount, charge, ai);
   }
 
   @Override
@@ -225,6 +256,7 @@ public class CreateManualInvoiceLineItemInput {
     sb.append("    unitPrice: ").append(toIndentedString(unitPrice)).append("\n");
     sb.append("    discount: ").append(toIndentedString(discount)).append("\n");
     sb.append("    charge: ").append(toIndentedString(charge)).append("\n");
+    sb.append("    ai: ").append(toIndentedString(ai)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -295,6 +327,11 @@ public class CreateManualInvoiceLineItemInput {
     // add `charge` to the URL query string
     if (getCharge() != null) {
       joiner.add(String.format("%scharge%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCharge()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `ai` to the URL query string
+    if (getAi() != null) {
+      joiner.add(getAi().toUrlQueryString(prefix + "ai" + suffix));
     }
 
     return joiner.toString();

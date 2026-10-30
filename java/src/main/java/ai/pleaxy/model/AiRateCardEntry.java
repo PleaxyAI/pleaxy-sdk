@@ -256,13 +256,13 @@ public class AiRateCardEntry {
   public enum UnitEnum {
     IMAGES(String.valueOf("images")),
     
-    TOKENS(String.valueOf("tokens")),
-    
     REQUESTS(String.valueOf("requests")),
     
     GPU_HOURS(String.valueOf("gpu_hours")),
     
     PTU_HOURS(String.valueOf("ptu_hours")),
+    
+    TOKENS(String.valueOf("tokens")),
     
     _1_M_TOKENS(String.valueOf("1M_tokens")),
     

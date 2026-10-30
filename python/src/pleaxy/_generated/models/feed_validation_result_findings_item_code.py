@@ -1,6 +1,15 @@
 from typing import Literal, Set, cast
 
 FeedValidationResultFindingsItemCode = Literal[
+    "ai_batch_discount_missing",
+    "ai_cache_discount_missing",
+    "ai_capacity_underused",
+    "ai_commitment_exceeded",
+    "ai_double_billed",
+    "ai_price_cut_not_applied",
+    "ai_rate_above_contract",
+    "ai_rate_above_list",
+    "ai_tokens_mismatch",
     "commitment_shortfall_overbilled",
     "contract_cap_exceeded",
     "contract_check_failed",
@@ -26,6 +35,15 @@ FeedValidationResultFindingsItemCode = Literal[
 FEED_VALIDATION_RESULT_FINDINGS_ITEM_CODE_VALUES: Set[
     FeedValidationResultFindingsItemCode
 ] = {
+    "ai_batch_discount_missing",
+    "ai_cache_discount_missing",
+    "ai_capacity_underused",
+    "ai_commitment_exceeded",
+    "ai_double_billed",
+    "ai_price_cut_not_applied",
+    "ai_rate_above_contract",
+    "ai_rate_above_list",
+    "ai_tokens_mismatch",
     "commitment_shortfall_overbilled",
     "contract_cap_exceeded",
     "contract_check_failed",

@@ -1,9 +1,13 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.invoice_ai_line_input import InvoiceAiLineInput
+
 
 T = TypeVar("T", bound="CreateManualInvoiceLineItemInput")
 
@@ -20,6 +24,7 @@ class CreateManualInvoiceLineItemInput:
             + charge − discount.
         charge (Union[Unset, float]): Total charges on this line (freight, handling…), with no more decimal places than
             the buyer's currency allows (at most 2).
+        ai (Union[Unset, InvoiceAiLineInput]):
     """
 
     description: str
@@ -27,6 +32,7 @@ class CreateManualInvoiceLineItemInput:
     unit_price: float
     discount: Union[Unset, float] = UNSET
     charge: Union[Unset, float] = UNSET
+    ai: Union[Unset, "InvoiceAiLineInput"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -39,6 +45,10 @@ class CreateManualInvoiceLineItemInput:
         discount = self.discount
 
         charge = self.charge
+
+        ai: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.ai, Unset):
+            ai = self.ai.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -53,11 +63,15 @@ class CreateManualInvoiceLineItemInput:
             field_dict["discount"] = discount
         if charge is not UNSET:
             field_dict["charge"] = charge
+        if ai is not UNSET:
+            field_dict["ai"] = ai
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.invoice_ai_line_input import InvoiceAiLineInput
+
         d = src_dict.copy()
         description = d.pop("description")
 
@@ -69,12 +83,20 @@ class CreateManualInvoiceLineItemInput:
 
         charge = d.pop("charge", UNSET)
 
+        _ai = d.pop("ai", UNSET)
+        ai: Union[Unset, InvoiceAiLineInput]
+        if isinstance(_ai, Unset):
+            ai = UNSET
+        else:
+            ai = InvoiceAiLineInput.from_dict(_ai)
+
         create_manual_invoice_line_item_input = cls(
             description=description,
             qty=qty,
             unit_price=unit_price,
             discount=discount,
             charge=charge,
+            ai=ai,
         )
 
         create_manual_invoice_line_item_input.additional_properties = d

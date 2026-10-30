@@ -179,14 +179,14 @@ impl Default for Meter {
 pub enum Unit {
     #[serde(rename = "images")]
     Images,
-    #[serde(rename = "tokens")]
-    Tokens,
     #[serde(rename = "requests")]
     Requests,
     #[serde(rename = "gpu_hours")]
     GpuHours,
     #[serde(rename = "ptu_hours")]
     PtuHours,
+    #[serde(rename = "tokens")]
+    Tokens,
     #[serde(rename = "1M_tokens")]
     Variant1MTokens,
     #[serde(rename = "seconds")]

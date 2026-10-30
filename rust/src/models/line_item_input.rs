@@ -62,6 +62,9 @@ pub struct LineItemInput {
     /// The online-store cart line this line came from (store punchout spec D4). The server reads that cart's evidence and sets what the line is - its name, unit and part numbers - from it; only qty and unitPrice are yours.
     #[serde(rename = "punchoutRef", skip_serializing_if = "Option::is_none")]
     pub punchout_ref: Option<models::PunchoutRefInput>,
+    /// An AI line (AI spend controls): the invoicer, model vendor, model, meter and region it prices. A quantity line in the meter's unit (millions of tokens, hours); invoices' AI lines are matched to it by these, never by description.
+    #[serde(rename = "ai", skip_serializing_if = "Option::is_none")]
+    pub ai: Option<models::AiLineScopeInput>,
 }
 
 impl LineItemInput {
@@ -95,6 +98,7 @@ impl LineItemInput {
             quote_line_no: None,
             sow_line_no: None,
             punchout_ref: None,
+            ai: None,
         }
     }
 }

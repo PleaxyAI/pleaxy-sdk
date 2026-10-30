@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.AiProviderCreditPrice;
+import ai.pleaxy.model.AiProviderDatabricks;
 import ai.pleaxy.model.AiProviderSnowflake;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -43,6 +44,7 @@ import ai.pleaxy.client.ApiClient;
   AiProvider.JSON_PROPERTY_CONNECTED_AT,
   AiProvider.JSON_PROPERTY_CONNECTED_BY,
   AiProvider.JSON_PROPERTY_SNOWFLAKE,
+  AiProvider.JSON_PROPERTY_DATABRICKS,
   AiProvider.JSON_PROPERTY_CREDIT_PRICE,
   AiProvider.JSON_PROPERTY_SUPPLIER_CONNECTION_ID,
   AiProvider.JSON_PROPERTY_LAST_SYNCED_AT,
@@ -174,6 +176,10 @@ public class AiProvider {
   public static final String JSON_PROPERTY_SNOWFLAKE = "snowflake";
   @javax.annotation.Nullable
   private AiProviderSnowflake snowflake;
+
+  public static final String JSON_PROPERTY_DATABRICKS = "databricks";
+  @javax.annotation.Nullable
+  private AiProviderDatabricks databricks;
 
   public static final String JSON_PROPERTY_CREDIT_PRICE = "creditPrice";
   @javax.annotation.Nullable
@@ -476,6 +482,30 @@ public class AiProvider {
   }
 
 
+  public AiProvider databricks(@javax.annotation.Nullable AiProviderDatabricks databricks) {
+    this.databricks = databricks;
+    return this;
+  }
+
+  /**
+   * Get databricks
+   * @return databricks
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DATABRICKS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public AiProviderDatabricks getDatabricks() {
+    return databricks;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DATABRICKS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDatabricks(@javax.annotation.Nullable AiProviderDatabricks databricks) {
+    this.databricks = databricks;
+  }
+
+
   public AiProvider creditPrice(@javax.annotation.Nullable AiProviderCreditPrice creditPrice) {
     this.creditPrice = creditPrice;
     return this;
@@ -664,6 +694,7 @@ public class AiProvider {
         Objects.equals(this.connectedAt, aiProvider.connectedAt) &&
         Objects.equals(this.connectedBy, aiProvider.connectedBy) &&
         Objects.equals(this.snowflake, aiProvider.snowflake) &&
+        Objects.equals(this.databricks, aiProvider.databricks) &&
         Objects.equals(this.creditPrice, aiProvider.creditPrice) &&
         Objects.equals(this.supplierConnectionId, aiProvider.supplierConnectionId) &&
         Objects.equals(this.lastSyncedAt, aiProvider.lastSyncedAt) &&
@@ -675,7 +706,7 @@ public class AiProvider {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, provider, accountLabel, keyHint, status, connectedAt, connectedBy, snowflake, creditPrice, supplierConnectionId, lastSyncedAt, lastSyncStatus, lastSyncError, lastSyncErrorCode, currency);
+    return Objects.hash(id, provider, accountLabel, keyHint, status, connectedAt, connectedBy, snowflake, databricks, creditPrice, supplierConnectionId, lastSyncedAt, lastSyncStatus, lastSyncError, lastSyncErrorCode, currency);
   }
 
   @Override
@@ -690,6 +721,7 @@ public class AiProvider {
     sb.append("    connectedAt: ").append(toIndentedString(connectedAt)).append("\n");
     sb.append("    connectedBy: ").append(toIndentedString(connectedBy)).append("\n");
     sb.append("    snowflake: ").append(toIndentedString(snowflake)).append("\n");
+    sb.append("    databricks: ").append(toIndentedString(databricks)).append("\n");
     sb.append("    creditPrice: ").append(toIndentedString(creditPrice)).append("\n");
     sb.append("    supplierConnectionId: ").append(toIndentedString(supplierConnectionId)).append("\n");
     sb.append("    lastSyncedAt: ").append(toIndentedString(lastSyncedAt)).append("\n");
@@ -782,6 +814,11 @@ public class AiProvider {
     // add `snowflake` to the URL query string
     if (getSnowflake() != null) {
       joiner.add(getSnowflake().toUrlQueryString(prefix + "snowflake" + suffix));
+    }
+
+    // add `databricks` to the URL query string
+    if (getDatabricks() != null) {
+      joiner.add(getDatabricks().toUrlQueryString(prefix + "databricks" + suffix));
     }
 
     // add `creditPrice` to the URL query string

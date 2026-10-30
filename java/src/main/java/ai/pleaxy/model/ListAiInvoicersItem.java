@@ -252,9 +252,9 @@ public class ListAiInvoicersItem {
    * Gets or Sets shape
    */
   public enum ShapeEnum {
-    TOKENS(String.valueOf("tokens")),
-    
     CAPACITY(String.valueOf("capacity")),
+    
+    TOKENS(String.valueOf("tokens")),
     
     CREDITS(String.valueOf("credits"));
 

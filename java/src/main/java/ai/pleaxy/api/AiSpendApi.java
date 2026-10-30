@@ -17,12 +17,17 @@ import ai.pleaxy.client.ApiException;
 import ai.pleaxy.client.ApiResponse;
 import ai.pleaxy.client.Pair;
 
+import ai.pleaxy.model.AiCommitmentView;
+import ai.pleaxy.model.AiPoLineSuggestions;
 import ai.pleaxy.model.AiRateCardEntry;
+import ai.pleaxy.model.AiRenewalRule;
 import ai.pleaxy.model.AiSpendCheckResponse;
 import ai.pleaxy.model.AiSpendResponse;
 import ai.pleaxy.model.AiUsageLinesPage;
 import ai.pleaxy.model.ApiError;
 import ai.pleaxy.model.CheckAiSpendInput;
+import ai.pleaxy.model.PurchaseOrder;
+import ai.pleaxy.model.SetAiRenewalRuleInput;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -165,6 +170,72 @@ public class AiSpendApi {
   }
 
   /**
+   * [Buyer] The renewal automation rule: whether next month&#39;s AI orders are drafted from the forecast, from which day of the month, and its last run. &#39;view&#39; on purchase orders.
+   * 
+   * @return AiRenewalRule
+   * @throws ApiException if fails to make API call
+   */
+  public AiRenewalRule getAiRenewalRule() throws ApiException {
+    ApiResponse<AiRenewalRule> localVarResponse = getAiRenewalRuleWithHttpInfo();
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] The renewal automation rule: whether next month&#39;s AI orders are drafted from the forecast, from which day of the month, and its last run. &#39;view&#39; on purchase orders.
+   * 
+   * @return ApiResponse&lt;AiRenewalRule&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<AiRenewalRule> getAiRenewalRuleWithHttpInfo() throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getAiRenewalRuleRequestBuilder();
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("getAiRenewalRule", localVarResponse);
+        }
+        return new ApiResponse<AiRenewalRule>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<AiRenewalRule>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder getAiRenewalRuleRequestBuilder() throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/renewal-rule";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
    * [Buyer] AI spend for a period (YYYY-MM, default this month), grouped by invoicer (default), vendor, model or costCenter: month to date, forecast, last month and the change, usage by meter, and beside each invoicer the open purchase order lines raised to it with what is left. Amounts stay in each invoicer&#39;s billing currency; totals are one entry per currency. &#39;view&#39; on suppliers or on invoices.
    * 
    * @param period  (optional)
@@ -238,6 +309,72 @@ public class AiSpendApi {
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] The Commitments tab: each active contract term with a committed spend or reserved capacity, with what the synced AI usage has used of it, what&#39;s left and (for spend) the pace to the term&#39;s end; and each prepaid credit purchase order line with what its invoices have drawn. &#39;view&#39; on suppliers or on invoices.
+   * 
+   * @return List&lt;AiCommitmentView&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public List<AiCommitmentView> listAiCommitments() throws ApiException {
+    ApiResponse<List<AiCommitmentView>> localVarResponse = listAiCommitmentsWithHttpInfo();
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] The Commitments tab: each active contract term with a committed spend or reserved capacity, with what the synced AI usage has used of it, what&#39;s left and (for spend) the pace to the term&#39;s end; and each prepaid credit purchase order line with what its invoices have drawn. &#39;view&#39; on suppliers or on invoices.
+   * 
+   * @return ApiResponse&lt;List&lt;AiCommitmentView&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<List<AiCommitmentView>> listAiCommitmentsWithHttpInfo() throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = listAiCommitmentsRequestBuilder();
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("listAiCommitments", localVarResponse);
+        }
+        return new ApiResponse<List<AiCommitmentView>>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<AiCommitmentView>>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder listAiCommitmentsRequestBuilder() throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/commitments";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -429,6 +566,244 @@ public class AiSpendApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("limit", limit));
     localVarQueryParameterBaseName = "cursor";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("cursor", cursor));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] Drafts the same order for the month after its lines&#39;: each AI line&#39;s quantity is the forecast from this month&#39;s usage so far (its own quantity when there is none yet), every other line as it is. Returns the draft purchase order; submitting it goes through the usual approval. &#39;create&#39; on purchase orders.
+   * 
+   * @param poId  (required)
+   * @return PurchaseOrder
+   * @throws ApiException if fails to make API call
+   */
+  public PurchaseOrder raiseNextAiPeriod(String poId) throws ApiException {
+    ApiResponse<PurchaseOrder> localVarResponse = raiseNextAiPeriodWithHttpInfo(poId);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Drafts the same order for the month after its lines&#39;: each AI line&#39;s quantity is the forecast from this month&#39;s usage so far (its own quantity when there is none yet), every other line as it is. Returns the draft purchase order; submitting it goes through the usual approval. &#39;create&#39; on purchase orders.
+   * 
+   * @param poId  (required)
+   * @return ApiResponse&lt;PurchaseOrder&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<PurchaseOrder> raiseNextAiPeriodWithHttpInfo(String poId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = raiseNextAiPeriodRequestBuilder(poId);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("raiseNextAiPeriod", localVarResponse);
+        }
+        return new ApiResponse<PurchaseOrder>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PurchaseOrder>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder raiseNextAiPeriodRequestBuilder(String poId) throws ApiException {
+    // verify the required parameter 'poId' is set
+    if (poId == null) {
+      throw new ApiException(400, "Missing the required parameter 'poId' when calling raiseNextAiPeriod");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/next-period/{poId}"
+        .replace("{poId}", ApiClient.urlEncode(poId.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month&#39;s order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, &#39;create&#39; on purchase orders.
+   * 
+   * @param setAiRenewalRuleInput  (required)
+   * @return AiRenewalRule
+   * @throws ApiException if fails to make API call
+   */
+  public AiRenewalRule setAiRenewalRule(SetAiRenewalRuleInput setAiRenewalRuleInput) throws ApiException {
+    ApiResponse<AiRenewalRule> localVarResponse = setAiRenewalRuleWithHttpInfo(setAiRenewalRuleInput);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month&#39;s order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, &#39;create&#39; on purchase orders.
+   * 
+   * @param setAiRenewalRuleInput  (required)
+   * @return ApiResponse&lt;AiRenewalRule&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<AiRenewalRule> setAiRenewalRuleWithHttpInfo(SetAiRenewalRuleInput setAiRenewalRuleInput) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = setAiRenewalRuleRequestBuilder(setAiRenewalRuleInput);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("setAiRenewalRule", localVarResponse);
+        }
+        return new ApiResponse<AiRenewalRule>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<AiRenewalRule>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder setAiRenewalRuleRequestBuilder(SetAiRenewalRuleInput setAiRenewalRuleInput) throws ApiException {
+    // verify the required parameter 'setAiRenewalRuleInput' is set
+    if (setAiRenewalRuleInput == null) {
+      throw new ApiException(400, "Missing the required parameter 'setAiRenewalRuleInput' when calling setAiRenewalRule");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/renewal-rule";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(setAiRenewalRuleInput);
+      localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] Purchase order lines for one invoicer&#39;s AI usage in a period (default the last closed month): one per model and meter, last month&#39;s volume rounded up, priced at the active contract term&#39;s rate (or its discount off list), else the list price today, else what the month was billed at - with priceSource saying which. Nothing is saved: the order form or the Assistant raises the PO. &#39;view&#39; on purchase orders.
+   * 
+   * @param invoicerId  (optional)
+   * @param period  (optional)
+   * @return AiPoLineSuggestions
+   * @throws ApiException if fails to make API call
+   */
+  public AiPoLineSuggestions suggestAiPoLines(String invoicerId, String period) throws ApiException {
+    ApiResponse<AiPoLineSuggestions> localVarResponse = suggestAiPoLinesWithHttpInfo(invoicerId, period);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Purchase order lines for one invoicer&#39;s AI usage in a period (default the last closed month): one per model and meter, last month&#39;s volume rounded up, priced at the active contract term&#39;s rate (or its discount off list), else the list price today, else what the month was billed at - with priceSource saying which. Nothing is saved: the order form or the Assistant raises the PO. &#39;view&#39; on purchase orders.
+   * 
+   * @param invoicerId  (optional)
+   * @param period  (optional)
+   * @return ApiResponse&lt;AiPoLineSuggestions&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<AiPoLineSuggestions> suggestAiPoLinesWithHttpInfo(String invoicerId, String period) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = suggestAiPoLinesRequestBuilder(invoicerId, period);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("suggestAiPoLines", localVarResponse);
+        }
+        return new ApiResponse<AiPoLineSuggestions>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<AiPoLineSuggestions>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder suggestAiPoLinesRequestBuilder(String invoicerId, String period) throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/po-lines";
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "invoicerId";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("invoicerId", invoicerId));
+    localVarQueryParameterBaseName = "period";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("period", period));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

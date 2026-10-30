@@ -139,16 +139,16 @@ impl Default for Tier {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Shape {
-    #[serde(rename = "tokens")]
-    Tokens,
     #[serde(rename = "capacity")]
     Capacity,
+    #[serde(rename = "tokens")]
+    Tokens,
     #[serde(rename = "credits")]
     Credits,
 }
 
 impl Default for Shape {
     fn default() -> Shape {
-        Self::Tokens
+        Self::Capacity
     }
 }

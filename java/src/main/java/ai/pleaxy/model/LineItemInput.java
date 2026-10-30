@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.AiLineScopeInput;
 import ai.pleaxy.model.PunchoutRefInput;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -51,7 +52,8 @@ import ai.pleaxy.client.ApiClient;
   LineItemInput.JSON_PROPERTY_CUSTOMER_LINE_NO,
   LineItemInput.JSON_PROPERTY_QUOTE_LINE_NO,
   LineItemInput.JSON_PROPERTY_SOW_LINE_NO,
-  LineItemInput.JSON_PROPERTY_PUNCHOUT_REF
+  LineItemInput.JSON_PROPERTY_PUNCHOUT_REF,
+  LineItemInput.JSON_PROPERTY_AI
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class LineItemInput {
@@ -235,6 +237,10 @@ public class LineItemInput {
   public static final String JSON_PROPERTY_PUNCHOUT_REF = "punchoutRef";
   @javax.annotation.Nullable
   private PunchoutRefInput punchoutRef;
+
+  public static final String JSON_PROPERTY_AI = "ai";
+  @javax.annotation.Nullable
+  private AiLineScopeInput ai;
 
   public LineItemInput() { 
   }
@@ -678,6 +684,30 @@ public class LineItemInput {
   }
 
 
+  public LineItemInput ai(@javax.annotation.Nullable AiLineScopeInput ai) {
+    this.ai = ai;
+    return this;
+  }
+
+  /**
+   * An AI line (AI spend controls): the invoicer, model vendor, model, meter and region it prices. A quantity line in the meter&#39;s unit (millions of tokens, hours); invoices&#39; AI lines are matched to it by these, never by description.
+   * @return ai
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AI)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public AiLineScopeInput getAi() {
+    return ai;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AI)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAi(@javax.annotation.Nullable AiLineScopeInput ai) {
+    this.ai = ai;
+  }
+
+
   /**
    * Return true if this LineItemInput object is equal to o.
    */
@@ -707,12 +737,13 @@ public class LineItemInput {
         Objects.equals(this.customerLineNo, lineItemInput.customerLineNo) &&
         Objects.equals(this.quoteLineNo, lineItemInput.quoteLineNo) &&
         Objects.equals(this.sowLineNo, lineItemInput.sowLineNo) &&
-        Objects.equals(this.punchoutRef, lineItemInput.punchoutRef);
+        Objects.equals(this.punchoutRef, lineItemInput.punchoutRef) &&
+        Objects.equals(this.ai, lineItemInput.ai);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(scopeType, scopeId, name, lineType, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, dueDate, customerLineNo, quoteLineNo, sowLineNo, punchoutRef);
+    return Objects.hash(scopeType, scopeId, name, lineType, ruleType, unit, unitPrice, qty, nteAmount, currency, paymentTerms, validFrom, validUntil, dueDate, customerLineNo, quoteLineNo, sowLineNo, punchoutRef, ai);
   }
 
   @Override
@@ -737,6 +768,7 @@ public class LineItemInput {
     sb.append("    quoteLineNo: ").append(toIndentedString(quoteLineNo)).append("\n");
     sb.append("    sowLineNo: ").append(toIndentedString(sowLineNo)).append("\n");
     sb.append("    punchoutRef: ").append(toIndentedString(punchoutRef)).append("\n");
+    sb.append("    ai: ").append(toIndentedString(ai)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -872,6 +904,11 @@ public class LineItemInput {
     // add `punchoutRef` to the URL query string
     if (getPunchoutRef() != null) {
       joiner.add(getPunchoutRef().toUrlQueryString(prefix + "punchoutRef" + suffix));
+    }
+
+    // add `ai` to the URL query string
+    if (getAi() != null) {
+      joiner.add(getAi().toUrlQueryString(prefix + "ai" + suffix));
     }
 
     return joiner.toString();

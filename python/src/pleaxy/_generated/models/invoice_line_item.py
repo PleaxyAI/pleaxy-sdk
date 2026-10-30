@@ -1,9 +1,13 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.invoice_line_item_ai import InvoiceLineItemAi
+
 
 T = TypeVar("T", bound="InvoiceLineItem")
 
@@ -18,6 +22,7 @@ class InvoiceLineItem:
         amount (Union[Unset, float]):
         discount (Union[Unset, float]):
         charge (Union[Unset, float]):
+        ai (Union[Unset, InvoiceLineItemAi]):
     """
 
     description: Union[Unset, str] = UNSET
@@ -26,6 +31,7 @@ class InvoiceLineItem:
     amount: Union[Unset, float] = UNSET
     discount: Union[Unset, float] = UNSET
     charge: Union[Unset, float] = UNSET
+    ai: Union[Unset, "InvoiceLineItemAi"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -40,6 +46,10 @@ class InvoiceLineItem:
         discount = self.discount
 
         charge = self.charge
+
+        ai: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.ai, Unset):
+            ai = self.ai.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -56,11 +66,15 @@ class InvoiceLineItem:
             field_dict["discount"] = discount
         if charge is not UNSET:
             field_dict["charge"] = charge
+        if ai is not UNSET:
+            field_dict["ai"] = ai
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.invoice_line_item_ai import InvoiceLineItemAi
+
         d = src_dict.copy()
         description = d.pop("description", UNSET)
 
@@ -74,6 +88,13 @@ class InvoiceLineItem:
 
         charge = d.pop("charge", UNSET)
 
+        _ai = d.pop("ai", UNSET)
+        ai: Union[Unset, InvoiceLineItemAi]
+        if isinstance(_ai, Unset):
+            ai = UNSET
+        else:
+            ai = InvoiceLineItemAi.from_dict(_ai)
+
         invoice_line_item = cls(
             description=description,
             qty=qty,
@@ -81,6 +102,7 @@ class InvoiceLineItem:
             amount=amount,
             discount=discount,
             charge=charge,
+            ai=ai,
         )
 
         invoice_line_item.additional_properties = d

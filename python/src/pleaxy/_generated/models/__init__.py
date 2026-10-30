@@ -74,10 +74,33 @@ from .add_invoice_replacement_links_result_usage_source import (
     AddInvoiceReplacementLinksResultUsageSource,
 )
 from .add_replacement_links_input import AddReplacementLinksInput
+from .ai_commitment_view import AiCommitmentView
+from .ai_commitment_view_ai import AiCommitmentViewAi
+from .ai_commitment_view_ai_invoicer import AiCommitmentViewAiInvoicer
+from .ai_commitment_view_ai_vendor import AiCommitmentViewAiVendor
+from .ai_commitment_view_kind import AiCommitmentViewKind
+from .ai_line_scope import AiLineScope
+from .ai_line_scope_input import AiLineScopeInput
+from .ai_line_scope_input_invoicer import AiLineScopeInputInvoicer
+from .ai_line_scope_input_meter import AiLineScopeInputMeter
+from .ai_line_scope_input_vendor import AiLineScopeInputVendor
+from .ai_line_scope_invoicer import AiLineScopeInvoicer
+from .ai_line_scope_meter import AiLineScopeMeter
+from .ai_line_scope_vendor import AiLineScopeVendor
 from .ai_meter_quantity import AiMeterQuantity
+from .ai_po_line_suggestion import AiPoLineSuggestion
+from .ai_po_line_suggestion_ai import AiPoLineSuggestionAi
+from .ai_po_line_suggestion_ai_invoicer import AiPoLineSuggestionAiInvoicer
+from .ai_po_line_suggestion_ai_meter import AiPoLineSuggestionAiMeter
+from .ai_po_line_suggestion_ai_vendor import AiPoLineSuggestionAiVendor
+from .ai_po_line_suggestion_price_source import AiPoLineSuggestionPriceSource
+from .ai_po_line_suggestion_unit import AiPoLineSuggestionUnit
+from .ai_po_line_suggestions import AiPoLineSuggestions
+from .ai_po_line_suggestions_invoicer import AiPoLineSuggestionsInvoicer
 from .ai_provider import AiProvider
 from .ai_provider_credit_price import AiProviderCreditPrice
 from .ai_provider_credit_price_kind import AiProviderCreditPriceKind
+from .ai_provider_databricks import AiProviderDatabricks
 from .ai_provider_last_sync_error_code import AiProviderLastSyncErrorCode
 from .ai_provider_last_sync_status import AiProviderLastSyncStatus
 from .ai_provider_provider import AiProviderProvider
@@ -89,6 +112,9 @@ from .ai_rate_card_entry_invoicer import AiRateCardEntryInvoicer
 from .ai_rate_card_entry_meter import AiRateCardEntryMeter
 from .ai_rate_card_entry_unit import AiRateCardEntryUnit
 from .ai_rate_card_entry_vendor import AiRateCardEntryVendor
+from .ai_renewal_rule import AiRenewalRule
+from .ai_renewal_rule_last_run import AiRenewalRuleLastRun
+from .ai_renewal_rule_last_run_drafts_item import AiRenewalRuleLastRunDraftsItem
 from .ai_service_figure import AiServiceFigure
 from .ai_spend_check_budget import AiSpendCheckBudget
 from .ai_spend_check_purchase_order_line import AiSpendCheckPurchaseOrderLine
@@ -562,6 +588,7 @@ from .credit_price_input import CreditPriceInput
 from .credit_price_input_kind import CreditPriceInputKind
 from .currency_amount_input import CurrencyAmountInput
 from .currency_exchange_details_input import CurrencyExchangeDetailsInput
+from .databricks_connection_input import DatabricksConnectionInput
 from .decline_confirmation_changes_input import DeclineConfirmationChangesInput
 from .delete_ai_provider_result import DeleteAiProviderResult
 from .discover_azure_scopes_input import DiscoverAzureScopesInput
@@ -941,6 +968,10 @@ from .invoice_adjustment import InvoiceAdjustment
 from .invoice_adjustment_input import InvoiceAdjustmentInput
 from .invoice_adjustment_input_type import InvoiceAdjustmentInputType
 from .invoice_adjustment_type import InvoiceAdjustmentType
+from .invoice_ai_line_input import InvoiceAiLineInput
+from .invoice_ai_line_input_invoicer import InvoiceAiLineInputInvoicer
+from .invoice_ai_line_input_meter import InvoiceAiLineInputMeter
+from .invoice_ai_line_input_vendor import InvoiceAiLineInputVendor
 from .invoice_autonomy_settings import InvoiceAutonomySettings
 from .invoice_autonomy_settings_input import InvoiceAutonomySettingsInput
 from .invoice_base_currency_amount import InvoiceBaseCurrencyAmount
@@ -999,6 +1030,10 @@ from .invoice_deduction_input_kind import InvoiceDeductionInputKind
 from .invoice_deduction_kind import InvoiceDeductionKind
 from .invoice_duplicate_ref import InvoiceDuplicateRef
 from .invoice_line_item import InvoiceLineItem
+from .invoice_line_item_ai import InvoiceLineItemAi
+from .invoice_line_item_ai_invoicer import InvoiceLineItemAiInvoicer
+from .invoice_line_item_ai_meter import InvoiceLineItemAiMeter
+from .invoice_line_item_ai_vendor import InvoiceLineItemAiVendor
 from .invoice_party_details import InvoicePartyDetails
 from .invoice_payment_problem import InvoicePaymentProblem
 from .invoice_payment_problem_answer import InvoicePaymentProblemAnswer
@@ -1669,6 +1704,7 @@ from .service_entry_sheet_queue_item import ServiceEntrySheetQueueItem
 from .service_entry_sheet_queue_item_releases_item import (
     ServiceEntrySheetQueueItemReleasesItem,
 )
+from .set_ai_renewal_rule_input import SetAiRenewalRuleInput
 from .set_connection_currencies_input import SetConnectionCurrenciesInput
 from .set_exchange_rate_warning_result import SetExchangeRateWarningResult
 from .set_invoice_feed_input import SetInvoiceFeedInput
@@ -1933,10 +1969,33 @@ __all__ = (
     "AddInvoiceReplacementLinksResultUnverifiedReason",
     "AddInvoiceReplacementLinksResultUsageSource",
     "AddReplacementLinksInput",
+    "AiCommitmentView",
+    "AiCommitmentViewAi",
+    "AiCommitmentViewAiInvoicer",
+    "AiCommitmentViewAiVendor",
+    "AiCommitmentViewKind",
+    "AiLineScope",
+    "AiLineScopeInput",
+    "AiLineScopeInputInvoicer",
+    "AiLineScopeInputMeter",
+    "AiLineScopeInputVendor",
+    "AiLineScopeInvoicer",
+    "AiLineScopeMeter",
+    "AiLineScopeVendor",
     "AiMeterQuantity",
+    "AiPoLineSuggestion",
+    "AiPoLineSuggestionAi",
+    "AiPoLineSuggestionAiInvoicer",
+    "AiPoLineSuggestionAiMeter",
+    "AiPoLineSuggestionAiVendor",
+    "AiPoLineSuggestionPriceSource",
+    "AiPoLineSuggestions",
+    "AiPoLineSuggestionsInvoicer",
+    "AiPoLineSuggestionUnit",
     "AiProvider",
     "AiProviderCreditPrice",
     "AiProviderCreditPriceKind",
+    "AiProviderDatabricks",
     "AiProviderLastSyncErrorCode",
     "AiProviderLastSyncStatus",
     "AiProviderProvider",
@@ -1948,6 +2007,9 @@ __all__ = (
     "AiRateCardEntryMeter",
     "AiRateCardEntryUnit",
     "AiRateCardEntryVendor",
+    "AiRenewalRule",
+    "AiRenewalRuleLastRun",
+    "AiRenewalRuleLastRunDraftsItem",
     "AiServiceFigure",
     "AiSpendCheckBudget",
     "AiSpendCheckPurchaseOrderLine",
@@ -2239,6 +2301,7 @@ __all__ = (
     "CreditPriceInputKind",
     "CurrencyAmountInput",
     "CurrencyExchangeDetailsInput",
+    "DatabricksConnectionInput",
     "DeclineConfirmationChangesInput",
     "DeleteAiProviderResult",
     "DiscoverAzureScopesInput",
@@ -2410,6 +2473,10 @@ __all__ = (
     "InvoiceAdjustmentInput",
     "InvoiceAdjustmentInputType",
     "InvoiceAdjustmentType",
+    "InvoiceAiLineInput",
+    "InvoiceAiLineInputInvoicer",
+    "InvoiceAiLineInputMeter",
+    "InvoiceAiLineInputVendor",
     "InvoiceAutonomySettings",
     "InvoiceAutonomySettingsInput",
     "InvoiceBaseCurrencyAmount",
@@ -2452,6 +2519,10 @@ __all__ = (
     "InvoiceDeductionKind",
     "InvoiceDuplicateRef",
     "InvoiceLineItem",
+    "InvoiceLineItemAi",
+    "InvoiceLineItemAiInvoicer",
+    "InvoiceLineItemAiMeter",
+    "InvoiceLineItemAiVendor",
     "InvoicePartyDetails",
     "InvoicePaymentProblem",
     "InvoicePaymentProblemAnswer",
@@ -2842,6 +2913,7 @@ __all__ = (
     "ServerMessageParams",
     "ServiceEntrySheetQueueItem",
     "ServiceEntrySheetQueueItemReleasesItem",
+    "SetAiRenewalRuleInput",
     "SetConnectionCurrenciesInput",
     "SetExchangeRateWarningResult",
     "SetInvoiceFeedInput",

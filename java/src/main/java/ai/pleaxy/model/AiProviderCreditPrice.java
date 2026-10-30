@@ -51,9 +51,9 @@ public class AiProviderCreditPrice {
    * Gets or Sets kind
    */
   public enum KindEnum {
-    CAPACITY(String.valueOf("capacity")),
-    
     ON_DEMAND(String.valueOf("on_demand")),
+    
+    CAPACITY(String.valueOf("capacity")),
     
     COMMIT(String.valueOf("commit"));
 

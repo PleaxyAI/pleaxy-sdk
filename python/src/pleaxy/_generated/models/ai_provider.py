@@ -17,6 +17,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.ai_provider_credit_price import AiProviderCreditPrice
+    from ..models.ai_provider_databricks import AiProviderDatabricks
     from ..models.ai_provider_snowflake import AiProviderSnowflake
 
 
@@ -35,6 +36,7 @@ class AiProvider:
         connected_at (Union[Unset, str]):
         connected_by (Union[Unset, str]):
         snowflake (Union[Unset, AiProviderSnowflake]):
+        databricks (Union[Unset, AiProviderDatabricks]):
         credit_price (Union[Unset, AiProviderCreditPrice]):
         supplier_connection_id (Union[Unset, str]):
         last_synced_at (Union[Unset, str]):
@@ -52,6 +54,7 @@ class AiProvider:
     connected_at: Union[Unset, str] = UNSET
     connected_by: Union[Unset, str] = UNSET
     snowflake: Union[Unset, "AiProviderSnowflake"] = UNSET
+    databricks: Union[Unset, "AiProviderDatabricks"] = UNSET
     credit_price: Union[Unset, "AiProviderCreditPrice"] = UNSET
     supplier_connection_id: Union[Unset, str] = UNSET
     last_synced_at: Union[Unset, str] = UNSET
@@ -83,6 +86,10 @@ class AiProvider:
         snowflake: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.snowflake, Unset):
             snowflake = self.snowflake.to_dict()
+
+        databricks: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.databricks, Unset):
+            databricks = self.databricks.to_dict()
 
         credit_price: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.credit_price, Unset):
@@ -125,6 +132,8 @@ class AiProvider:
             field_dict["connectedBy"] = connected_by
         if snowflake is not UNSET:
             field_dict["snowflake"] = snowflake
+        if databricks is not UNSET:
+            field_dict["databricks"] = databricks
         if credit_price is not UNSET:
             field_dict["creditPrice"] = credit_price
         if supplier_connection_id is not UNSET:
@@ -145,6 +154,7 @@ class AiProvider:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.ai_provider_credit_price import AiProviderCreditPrice
+        from ..models.ai_provider_databricks import AiProviderDatabricks
         from ..models.ai_provider_snowflake import AiProviderSnowflake
 
         d = src_dict.copy()
@@ -178,6 +188,13 @@ class AiProvider:
             snowflake = UNSET
         else:
             snowflake = AiProviderSnowflake.from_dict(_snowflake)
+
+        _databricks = d.pop("databricks", UNSET)
+        databricks: Union[Unset, AiProviderDatabricks]
+        if isinstance(_databricks, Unset):
+            databricks = UNSET
+        else:
+            databricks = AiProviderDatabricks.from_dict(_databricks)
 
         _credit_price = d.pop("creditPrice", UNSET)
         credit_price: Union[Unset, AiProviderCreditPrice]
@@ -219,6 +236,7 @@ class AiProvider:
             connected_at=connected_at,
             connected_by=connected_by,
             snowflake=snowflake,
+            databricks=databricks,
             credit_price=credit_price,
             supplier_connection_id=supplier_connection_id,
             last_synced_at=last_synced_at,

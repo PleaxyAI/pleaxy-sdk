@@ -13,6 +13,7 @@ from ..models.line_item_scope_type import LineItemScopeType, check_line_item_sco
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.ai_line_scope import AiLineScope
     from ..models.line_item_punchout_ref import LineItemPunchoutRef
     from ..models.punchout_line_origin import PunchoutLineOrigin
 
@@ -49,6 +50,7 @@ class LineItem:
         sow_line_no (Union[Unset, float]):
         origin (Union[Unset, PunchoutLineOrigin]):
         punchout_ref (Union[Unset, LineItemPunchoutRef]):
+        ai (Union[Unset, AiLineScope]):
     """
 
     line_no: Union[Unset, float] = UNSET
@@ -76,6 +78,7 @@ class LineItem:
     sow_line_no: Union[Unset, float] = UNSET
     origin: Union[Unset, "PunchoutLineOrigin"] = UNSET
     punchout_ref: Union[Unset, "LineItemPunchoutRef"] = UNSET
+    ai: Union[Unset, "AiLineScope"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -145,6 +148,10 @@ class LineItem:
         if not isinstance(self.punchout_ref, Unset):
             punchout_ref = self.punchout_ref.to_dict()
 
+        ai: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.ai, Unset):
+            ai = self.ai.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -198,11 +205,14 @@ class LineItem:
             field_dict["origin"] = origin
         if punchout_ref is not UNSET:
             field_dict["punchoutRef"] = punchout_ref
+        if ai is not UNSET:
+            field_dict["ai"] = ai
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ai_line_scope import AiLineScope
         from ..models.line_item_punchout_ref import LineItemPunchoutRef
         from ..models.punchout_line_origin import PunchoutLineOrigin
 
@@ -294,6 +304,13 @@ class LineItem:
         else:
             punchout_ref = LineItemPunchoutRef.from_dict(_punchout_ref)
 
+        _ai = d.pop("ai", UNSET)
+        ai: Union[Unset, AiLineScope]
+        if isinstance(_ai, Unset):
+            ai = UNSET
+        else:
+            ai = AiLineScope.from_dict(_ai)
+
         line_item = cls(
             line_no=line_no,
             line_type=line_type,
@@ -320,6 +337,7 @@ class LineItem:
             sow_line_no=sow_line_no,
             origin=origin,
             punchout_ref=punchout_ref,
+            ai=ai,
         )
 
         line_item.additional_properties = d

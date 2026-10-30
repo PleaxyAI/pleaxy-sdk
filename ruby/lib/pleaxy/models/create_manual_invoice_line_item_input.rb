@@ -29,6 +29,9 @@ module Pleaxy
     # Total charges on this line (freight, handling…), with no more decimal places than the buyer's currency allows (at most 2).
     attr_accessor :charge
 
+    # An AI line: the invoicer, model vendor, model, meter and region it bills, and the month of usage (YYYY-MM). qty is in the meter's unit (millions of tokens, hours). Held to the PO's AI line, the contract and the rate card.
+    attr_accessor :ai
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -36,7 +39,8 @@ module Pleaxy
         :'qty' => :'qty',
         :'unit_price' => :'unitPrice',
         :'discount' => :'discount',
-        :'charge' => :'charge'
+        :'charge' => :'charge',
+        :'ai' => :'ai'
       }
     end
 
@@ -52,7 +56,8 @@ module Pleaxy
         :'qty' => :'Float',
         :'unit_price' => :'Float',
         :'discount' => :'Float',
-        :'charge' => :'Float'
+        :'charge' => :'Float',
+        :'ai' => :'InvoiceAiLineInput'
       }
     end
 
@@ -101,6 +106,10 @@ module Pleaxy
 
       if attributes.key?(:'charge')
         self.charge = attributes[:'charge']
+      end
+
+      if attributes.key?(:'ai')
+        self.ai = attributes[:'ai']
       end
     end
 
@@ -283,7 +292,8 @@ module Pleaxy
           qty == o.qty &&
           unit_price == o.unit_price &&
           discount == o.discount &&
-          charge == o.charge
+          charge == o.charge &&
+          ai == o.ai
     end
 
     # @see the `==` method
@@ -295,7 +305,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [description, qty, unit_price, discount, charge].hash
+      [description, qty, unit_price, discount, charge, ai].hash
     end
 
     # Builds the object from hash

@@ -188,6 +188,264 @@ const (
 	AddInvoiceReplacementLinksResultUsageSourceUsageApiClosedMonth AddInvoiceReplacementLinksResultUsageSource = "usage_api_closed_month"
 )
 
+// Defines values for AiCommitmentViewAiInvoicer.
+const (
+	AiCommitmentViewAiInvoicerAnthropic  AiCommitmentViewAiInvoicer = "anthropic"
+	AiCommitmentViewAiInvoicerAws        AiCommitmentViewAiInvoicer = "aws"
+	AiCommitmentViewAiInvoicerAzure      AiCommitmentViewAiInvoicer = "azure"
+	AiCommitmentViewAiInvoicerCohere     AiCommitmentViewAiInvoicer = "cohere"
+	AiCommitmentViewAiInvoicerCoreweave  AiCommitmentViewAiInvoicer = "coreweave"
+	AiCommitmentViewAiInvoicerCrusoe     AiCommitmentViewAiInvoicer = "crusoe"
+	AiCommitmentViewAiInvoicerDatabricks AiCommitmentViewAiInvoicer = "databricks"
+	AiCommitmentViewAiInvoicerGcp        AiCommitmentViewAiInvoicer = "gcp"
+	AiCommitmentViewAiInvoicerLambda     AiCommitmentViewAiInvoicer = "lambda"
+	AiCommitmentViewAiInvoicerMistral    AiCommitmentViewAiInvoicer = "mistral"
+	AiCommitmentViewAiInvoicerNebius     AiCommitmentViewAiInvoicer = "nebius"
+	AiCommitmentViewAiInvoicerOci        AiCommitmentViewAiInvoicer = "oci"
+	AiCommitmentViewAiInvoicerOpenai     AiCommitmentViewAiInvoicer = "openai"
+	AiCommitmentViewAiInvoicerOpenrouter AiCommitmentViewAiInvoicer = "openrouter"
+	AiCommitmentViewAiInvoicerSnowflake  AiCommitmentViewAiInvoicer = "snowflake"
+	AiCommitmentViewAiInvoicerXai        AiCommitmentViewAiInvoicer = "xai"
+)
+
+// Defines values for AiCommitmentViewAiVendor.
+const (
+	AiCommitmentViewAiVendorAmazon     AiCommitmentViewAiVendor = "amazon"
+	AiCommitmentViewAiVendorAnthropic  AiCommitmentViewAiVendor = "anthropic"
+	AiCommitmentViewAiVendorCohere     AiCommitmentViewAiVendor = "cohere"
+	AiCommitmentViewAiVendorDatabricks AiCommitmentViewAiVendor = "databricks"
+	AiCommitmentViewAiVendorDeepseek   AiCommitmentViewAiVendor = "deepseek"
+	AiCommitmentViewAiVendorGoogle     AiCommitmentViewAiVendor = "google"
+	AiCommitmentViewAiVendorMeta       AiCommitmentViewAiVendor = "meta"
+	AiCommitmentViewAiVendorMicrosoft  AiCommitmentViewAiVendor = "microsoft"
+	AiCommitmentViewAiVendorMistral    AiCommitmentViewAiVendor = "mistral"
+	AiCommitmentViewAiVendorNvidia     AiCommitmentViewAiVendor = "nvidia"
+	AiCommitmentViewAiVendorOpenai     AiCommitmentViewAiVendor = "openai"
+	AiCommitmentViewAiVendorSnowflake  AiCommitmentViewAiVendor = "snowflake"
+	AiCommitmentViewAiVendorUnknown    AiCommitmentViewAiVendor = "unknown"
+	AiCommitmentViewAiVendorXai        AiCommitmentViewAiVendor = "xai"
+)
+
+// Defines values for AiCommitmentViewKind.
+const (
+	AiCommitmentViewKindCapacity      AiCommitmentViewKind = "capacity"
+	AiCommitmentViewKindPrepaidCredit AiCommitmentViewKind = "prepaid_credit"
+	AiCommitmentViewKindSpend         AiCommitmentViewKind = "spend"
+)
+
+// Defines values for AiLineScopeInvoicer.
+const (
+	AiLineScopeInvoicerAnthropic  AiLineScopeInvoicer = "anthropic"
+	AiLineScopeInvoicerAws        AiLineScopeInvoicer = "aws"
+	AiLineScopeInvoicerAzure      AiLineScopeInvoicer = "azure"
+	AiLineScopeInvoicerCohere     AiLineScopeInvoicer = "cohere"
+	AiLineScopeInvoicerCoreweave  AiLineScopeInvoicer = "coreweave"
+	AiLineScopeInvoicerCrusoe     AiLineScopeInvoicer = "crusoe"
+	AiLineScopeInvoicerDatabricks AiLineScopeInvoicer = "databricks"
+	AiLineScopeInvoicerGcp        AiLineScopeInvoicer = "gcp"
+	AiLineScopeInvoicerLambda     AiLineScopeInvoicer = "lambda"
+	AiLineScopeInvoicerMistral    AiLineScopeInvoicer = "mistral"
+	AiLineScopeInvoicerNebius     AiLineScopeInvoicer = "nebius"
+	AiLineScopeInvoicerOci        AiLineScopeInvoicer = "oci"
+	AiLineScopeInvoicerOpenai     AiLineScopeInvoicer = "openai"
+	AiLineScopeInvoicerOpenrouter AiLineScopeInvoicer = "openrouter"
+	AiLineScopeInvoicerSnowflake  AiLineScopeInvoicer = "snowflake"
+	AiLineScopeInvoicerXai        AiLineScopeInvoicer = "xai"
+)
+
+// Defines values for AiLineScopeMeter.
+const (
+	AiLineScopeMeterAudioSeconds      AiLineScopeMeter = "audio_seconds"
+	AiLineScopeMeterBatchInputTokens  AiLineScopeMeter = "batch_input_tokens"
+	AiLineScopeMeterBatchOutputTokens AiLineScopeMeter = "batch_output_tokens"
+	AiLineScopeMeterCacheWriteTokens  AiLineScopeMeter = "cache_write_tokens"
+	AiLineScopeMeterCachedInputTokens AiLineScopeMeter = "cached_input_tokens"
+	AiLineScopeMeterClusterHours      AiLineScopeMeter = "cluster_hours"
+	AiLineScopeMeterEmbeddingsTokens  AiLineScopeMeter = "embeddings_tokens"
+	AiLineScopeMeterGpuHours          AiLineScopeMeter = "gpu_hours"
+	AiLineScopeMeterImages            AiLineScopeMeter = "images"
+	AiLineScopeMeterInputTokens       AiLineScopeMeter = "input_tokens"
+	AiLineScopeMeterModelUnitsHours   AiLineScopeMeter = "model_units_hours"
+	AiLineScopeMeterOther             AiLineScopeMeter = "other"
+	AiLineScopeMeterOutputTokens      AiLineScopeMeter = "output_tokens"
+	AiLineScopeMeterPrepaidCredit     AiLineScopeMeter = "prepaid_credit"
+	AiLineScopeMeterPtuHours          AiLineScopeMeter = "ptu_hours"
+	AiLineScopeMeterRequests          AiLineScopeMeter = "requests"
+)
+
+// Defines values for AiLineScopeVendor.
+const (
+	AiLineScopeVendorAmazon     AiLineScopeVendor = "amazon"
+	AiLineScopeVendorAnthropic  AiLineScopeVendor = "anthropic"
+	AiLineScopeVendorCohere     AiLineScopeVendor = "cohere"
+	AiLineScopeVendorDatabricks AiLineScopeVendor = "databricks"
+	AiLineScopeVendorDeepseek   AiLineScopeVendor = "deepseek"
+	AiLineScopeVendorGoogle     AiLineScopeVendor = "google"
+	AiLineScopeVendorMeta       AiLineScopeVendor = "meta"
+	AiLineScopeVendorMicrosoft  AiLineScopeVendor = "microsoft"
+	AiLineScopeVendorMistral    AiLineScopeVendor = "mistral"
+	AiLineScopeVendorNvidia     AiLineScopeVendor = "nvidia"
+	AiLineScopeVendorOpenai     AiLineScopeVendor = "openai"
+	AiLineScopeVendorSnowflake  AiLineScopeVendor = "snowflake"
+	AiLineScopeVendorUnknown    AiLineScopeVendor = "unknown"
+	AiLineScopeVendorXai        AiLineScopeVendor = "xai"
+)
+
+// Defines values for AiLineScopeInputInvoicer.
+const (
+	AiLineScopeInputInvoicerAnthropic  AiLineScopeInputInvoicer = "anthropic"
+	AiLineScopeInputInvoicerAws        AiLineScopeInputInvoicer = "aws"
+	AiLineScopeInputInvoicerAzure      AiLineScopeInputInvoicer = "azure"
+	AiLineScopeInputInvoicerCohere     AiLineScopeInputInvoicer = "cohere"
+	AiLineScopeInputInvoicerCoreweave  AiLineScopeInputInvoicer = "coreweave"
+	AiLineScopeInputInvoicerCrusoe     AiLineScopeInputInvoicer = "crusoe"
+	AiLineScopeInputInvoicerDatabricks AiLineScopeInputInvoicer = "databricks"
+	AiLineScopeInputInvoicerGcp        AiLineScopeInputInvoicer = "gcp"
+	AiLineScopeInputInvoicerLambda     AiLineScopeInputInvoicer = "lambda"
+	AiLineScopeInputInvoicerMistral    AiLineScopeInputInvoicer = "mistral"
+	AiLineScopeInputInvoicerNebius     AiLineScopeInputInvoicer = "nebius"
+	AiLineScopeInputInvoicerOci        AiLineScopeInputInvoicer = "oci"
+	AiLineScopeInputInvoicerOpenai     AiLineScopeInputInvoicer = "openai"
+	AiLineScopeInputInvoicerOpenrouter AiLineScopeInputInvoicer = "openrouter"
+	AiLineScopeInputInvoicerSnowflake  AiLineScopeInputInvoicer = "snowflake"
+	AiLineScopeInputInvoicerXai        AiLineScopeInputInvoicer = "xai"
+)
+
+// Defines values for AiLineScopeInputMeter.
+const (
+	AiLineScopeInputMeterAudioSeconds      AiLineScopeInputMeter = "audio_seconds"
+	AiLineScopeInputMeterBatchInputTokens  AiLineScopeInputMeter = "batch_input_tokens"
+	AiLineScopeInputMeterBatchOutputTokens AiLineScopeInputMeter = "batch_output_tokens"
+	AiLineScopeInputMeterCacheWriteTokens  AiLineScopeInputMeter = "cache_write_tokens"
+	AiLineScopeInputMeterCachedInputTokens AiLineScopeInputMeter = "cached_input_tokens"
+	AiLineScopeInputMeterClusterHours      AiLineScopeInputMeter = "cluster_hours"
+	AiLineScopeInputMeterEmbeddingsTokens  AiLineScopeInputMeter = "embeddings_tokens"
+	AiLineScopeInputMeterGpuHours          AiLineScopeInputMeter = "gpu_hours"
+	AiLineScopeInputMeterImages            AiLineScopeInputMeter = "images"
+	AiLineScopeInputMeterInputTokens       AiLineScopeInputMeter = "input_tokens"
+	AiLineScopeInputMeterModelUnitsHours   AiLineScopeInputMeter = "model_units_hours"
+	AiLineScopeInputMeterOther             AiLineScopeInputMeter = "other"
+	AiLineScopeInputMeterOutputTokens      AiLineScopeInputMeter = "output_tokens"
+	AiLineScopeInputMeterPrepaidCredit     AiLineScopeInputMeter = "prepaid_credit"
+	AiLineScopeInputMeterPtuHours          AiLineScopeInputMeter = "ptu_hours"
+	AiLineScopeInputMeterRequests          AiLineScopeInputMeter = "requests"
+)
+
+// Defines values for AiLineScopeInputVendor.
+const (
+	AiLineScopeInputVendorAmazon     AiLineScopeInputVendor = "amazon"
+	AiLineScopeInputVendorAnthropic  AiLineScopeInputVendor = "anthropic"
+	AiLineScopeInputVendorCohere     AiLineScopeInputVendor = "cohere"
+	AiLineScopeInputVendorDatabricks AiLineScopeInputVendor = "databricks"
+	AiLineScopeInputVendorDeepseek   AiLineScopeInputVendor = "deepseek"
+	AiLineScopeInputVendorGoogle     AiLineScopeInputVendor = "google"
+	AiLineScopeInputVendorMeta       AiLineScopeInputVendor = "meta"
+	AiLineScopeInputVendorMicrosoft  AiLineScopeInputVendor = "microsoft"
+	AiLineScopeInputVendorMistral    AiLineScopeInputVendor = "mistral"
+	AiLineScopeInputVendorNvidia     AiLineScopeInputVendor = "nvidia"
+	AiLineScopeInputVendorOpenai     AiLineScopeInputVendor = "openai"
+	AiLineScopeInputVendorSnowflake  AiLineScopeInputVendor = "snowflake"
+	AiLineScopeInputVendorUnknown    AiLineScopeInputVendor = "unknown"
+	AiLineScopeInputVendorXai        AiLineScopeInputVendor = "xai"
+)
+
+// Defines values for AiPoLineSuggestionAiInvoicer.
+const (
+	AiPoLineSuggestionAiInvoicerAnthropic  AiPoLineSuggestionAiInvoicer = "anthropic"
+	AiPoLineSuggestionAiInvoicerAws        AiPoLineSuggestionAiInvoicer = "aws"
+	AiPoLineSuggestionAiInvoicerAzure      AiPoLineSuggestionAiInvoicer = "azure"
+	AiPoLineSuggestionAiInvoicerCohere     AiPoLineSuggestionAiInvoicer = "cohere"
+	AiPoLineSuggestionAiInvoicerCoreweave  AiPoLineSuggestionAiInvoicer = "coreweave"
+	AiPoLineSuggestionAiInvoicerCrusoe     AiPoLineSuggestionAiInvoicer = "crusoe"
+	AiPoLineSuggestionAiInvoicerDatabricks AiPoLineSuggestionAiInvoicer = "databricks"
+	AiPoLineSuggestionAiInvoicerGcp        AiPoLineSuggestionAiInvoicer = "gcp"
+	AiPoLineSuggestionAiInvoicerLambda     AiPoLineSuggestionAiInvoicer = "lambda"
+	AiPoLineSuggestionAiInvoicerMistral    AiPoLineSuggestionAiInvoicer = "mistral"
+	AiPoLineSuggestionAiInvoicerNebius     AiPoLineSuggestionAiInvoicer = "nebius"
+	AiPoLineSuggestionAiInvoicerOci        AiPoLineSuggestionAiInvoicer = "oci"
+	AiPoLineSuggestionAiInvoicerOpenai     AiPoLineSuggestionAiInvoicer = "openai"
+	AiPoLineSuggestionAiInvoicerOpenrouter AiPoLineSuggestionAiInvoicer = "openrouter"
+	AiPoLineSuggestionAiInvoicerSnowflake  AiPoLineSuggestionAiInvoicer = "snowflake"
+	AiPoLineSuggestionAiInvoicerXai        AiPoLineSuggestionAiInvoicer = "xai"
+)
+
+// Defines values for AiPoLineSuggestionAiMeter.
+const (
+	AiPoLineSuggestionAiMeterAudioSeconds      AiPoLineSuggestionAiMeter = "audio_seconds"
+	AiPoLineSuggestionAiMeterBatchInputTokens  AiPoLineSuggestionAiMeter = "batch_input_tokens"
+	AiPoLineSuggestionAiMeterBatchOutputTokens AiPoLineSuggestionAiMeter = "batch_output_tokens"
+	AiPoLineSuggestionAiMeterCacheWriteTokens  AiPoLineSuggestionAiMeter = "cache_write_tokens"
+	AiPoLineSuggestionAiMeterCachedInputTokens AiPoLineSuggestionAiMeter = "cached_input_tokens"
+	AiPoLineSuggestionAiMeterClusterHours      AiPoLineSuggestionAiMeter = "cluster_hours"
+	AiPoLineSuggestionAiMeterEmbeddingsTokens  AiPoLineSuggestionAiMeter = "embeddings_tokens"
+	AiPoLineSuggestionAiMeterGpuHours          AiPoLineSuggestionAiMeter = "gpu_hours"
+	AiPoLineSuggestionAiMeterImages            AiPoLineSuggestionAiMeter = "images"
+	AiPoLineSuggestionAiMeterInputTokens       AiPoLineSuggestionAiMeter = "input_tokens"
+	AiPoLineSuggestionAiMeterModelUnitsHours   AiPoLineSuggestionAiMeter = "model_units_hours"
+	AiPoLineSuggestionAiMeterOther             AiPoLineSuggestionAiMeter = "other"
+	AiPoLineSuggestionAiMeterOutputTokens      AiPoLineSuggestionAiMeter = "output_tokens"
+	AiPoLineSuggestionAiMeterPtuHours          AiPoLineSuggestionAiMeter = "ptu_hours"
+	AiPoLineSuggestionAiMeterRequests          AiPoLineSuggestionAiMeter = "requests"
+)
+
+// Defines values for AiPoLineSuggestionAiVendor.
+const (
+	AiPoLineSuggestionAiVendorAmazon     AiPoLineSuggestionAiVendor = "amazon"
+	AiPoLineSuggestionAiVendorAnthropic  AiPoLineSuggestionAiVendor = "anthropic"
+	AiPoLineSuggestionAiVendorCohere     AiPoLineSuggestionAiVendor = "cohere"
+	AiPoLineSuggestionAiVendorDatabricks AiPoLineSuggestionAiVendor = "databricks"
+	AiPoLineSuggestionAiVendorDeepseek   AiPoLineSuggestionAiVendor = "deepseek"
+	AiPoLineSuggestionAiVendorGoogle     AiPoLineSuggestionAiVendor = "google"
+	AiPoLineSuggestionAiVendorMeta       AiPoLineSuggestionAiVendor = "meta"
+	AiPoLineSuggestionAiVendorMicrosoft  AiPoLineSuggestionAiVendor = "microsoft"
+	AiPoLineSuggestionAiVendorMistral    AiPoLineSuggestionAiVendor = "mistral"
+	AiPoLineSuggestionAiVendorNvidia     AiPoLineSuggestionAiVendor = "nvidia"
+	AiPoLineSuggestionAiVendorOpenai     AiPoLineSuggestionAiVendor = "openai"
+	AiPoLineSuggestionAiVendorSnowflake  AiPoLineSuggestionAiVendor = "snowflake"
+	AiPoLineSuggestionAiVendorUnknown    AiPoLineSuggestionAiVendor = "unknown"
+	AiPoLineSuggestionAiVendorXai        AiPoLineSuggestionAiVendor = "xai"
+)
+
+// Defines values for AiPoLineSuggestionPriceSource.
+const (
+	AiPoLineSuggestionPriceSourceBilled   AiPoLineSuggestionPriceSource = "billed"
+	AiPoLineSuggestionPriceSourceContract AiPoLineSuggestionPriceSource = "contract"
+	AiPoLineSuggestionPriceSourceList     AiPoLineSuggestionPriceSource = "list"
+)
+
+// Defines values for AiPoLineSuggestionUnit.
+const (
+	AiPoLineSuggestionUnitGpuHours       AiPoLineSuggestionUnit = "gpu_hours"
+	AiPoLineSuggestionUnitImages         AiPoLineSuggestionUnit = "images"
+	AiPoLineSuggestionUnitModelUnitHours AiPoLineSuggestionUnit = "model_unit_hours"
+	AiPoLineSuggestionUnitN1MTokens      AiPoLineSuggestionUnit = "1M_tokens"
+	AiPoLineSuggestionUnitPtuHours       AiPoLineSuggestionUnit = "ptu_hours"
+	AiPoLineSuggestionUnitRequests       AiPoLineSuggestionUnit = "requests"
+	AiPoLineSuggestionUnitSeconds        AiPoLineSuggestionUnit = "seconds"
+	AiPoLineSuggestionUnitTokens         AiPoLineSuggestionUnit = "tokens"
+	AiPoLineSuggestionUnitUnits          AiPoLineSuggestionUnit = "units"
+)
+
+// Defines values for AiPoLineSuggestionsInvoicer.
+const (
+	AiPoLineSuggestionsInvoicerAnthropic  AiPoLineSuggestionsInvoicer = "anthropic"
+	AiPoLineSuggestionsInvoicerAws        AiPoLineSuggestionsInvoicer = "aws"
+	AiPoLineSuggestionsInvoicerAzure      AiPoLineSuggestionsInvoicer = "azure"
+	AiPoLineSuggestionsInvoicerCohere     AiPoLineSuggestionsInvoicer = "cohere"
+	AiPoLineSuggestionsInvoicerCoreweave  AiPoLineSuggestionsInvoicer = "coreweave"
+	AiPoLineSuggestionsInvoicerCrusoe     AiPoLineSuggestionsInvoicer = "crusoe"
+	AiPoLineSuggestionsInvoicerDatabricks AiPoLineSuggestionsInvoicer = "databricks"
+	AiPoLineSuggestionsInvoicerGcp        AiPoLineSuggestionsInvoicer = "gcp"
+	AiPoLineSuggestionsInvoicerLambda     AiPoLineSuggestionsInvoicer = "lambda"
+	AiPoLineSuggestionsInvoicerMistral    AiPoLineSuggestionsInvoicer = "mistral"
+	AiPoLineSuggestionsInvoicerNebius     AiPoLineSuggestionsInvoicer = "nebius"
+	AiPoLineSuggestionsInvoicerOci        AiPoLineSuggestionsInvoicer = "oci"
+	AiPoLineSuggestionsInvoicerOpenai     AiPoLineSuggestionsInvoicer = "openai"
+	AiPoLineSuggestionsInvoicerOpenrouter AiPoLineSuggestionsInvoicer = "openrouter"
+	AiPoLineSuggestionsInvoicerSnowflake  AiPoLineSuggestionsInvoicer = "snowflake"
+	AiPoLineSuggestionsInvoicerXai        AiPoLineSuggestionsInvoicer = "xai"
+)
+
 // Defines values for AiProviderCreditPriceKind.
 const (
 	AiProviderCreditPriceKindCapacity AiProviderCreditPriceKind = "capacity"
@@ -1565,6 +1823,15 @@ const (
 
 // Defines values for FeedValidationResultFindingsCode.
 const (
+	FeedValidationResultFindingsCodeAiBatchDiscountMissing        FeedValidationResultFindingsCode = "ai_batch_discount_missing"
+	FeedValidationResultFindingsCodeAiCacheDiscountMissing        FeedValidationResultFindingsCode = "ai_cache_discount_missing"
+	FeedValidationResultFindingsCodeAiCapacityUnderused           FeedValidationResultFindingsCode = "ai_capacity_underused"
+	FeedValidationResultFindingsCodeAiCommitmentExceeded          FeedValidationResultFindingsCode = "ai_commitment_exceeded"
+	FeedValidationResultFindingsCodeAiDoubleBilled                FeedValidationResultFindingsCode = "ai_double_billed"
+	FeedValidationResultFindingsCodeAiPriceCutNotApplied          FeedValidationResultFindingsCode = "ai_price_cut_not_applied"
+	FeedValidationResultFindingsCodeAiRateAboveContract           FeedValidationResultFindingsCode = "ai_rate_above_contract"
+	FeedValidationResultFindingsCodeAiRateAboveList               FeedValidationResultFindingsCode = "ai_rate_above_list"
+	FeedValidationResultFindingsCodeAiTokensMismatch              FeedValidationResultFindingsCode = "ai_tokens_mismatch"
 	FeedValidationResultFindingsCodeCommitmentShortfallOverbilled FeedValidationResultFindingsCode = "commitment_shortfall_overbilled"
 	FeedValidationResultFindingsCodeContractCapExceeded           FeedValidationResultFindingsCode = "contract_cap_exceeded"
 	FeedValidationResultFindingsCodeContractCheckFailed           FeedValidationResultFindingsCode = "contract_check_failed"
@@ -2200,6 +2467,64 @@ const (
 	InvoiceAdjustmentInputTypeDiscount InvoiceAdjustmentInputType = "discount"
 )
 
+// Defines values for InvoiceAiLineInputInvoicer.
+const (
+	InvoiceAiLineInputInvoicerAnthropic  InvoiceAiLineInputInvoicer = "anthropic"
+	InvoiceAiLineInputInvoicerAws        InvoiceAiLineInputInvoicer = "aws"
+	InvoiceAiLineInputInvoicerAzure      InvoiceAiLineInputInvoicer = "azure"
+	InvoiceAiLineInputInvoicerCohere     InvoiceAiLineInputInvoicer = "cohere"
+	InvoiceAiLineInputInvoicerCoreweave  InvoiceAiLineInputInvoicer = "coreweave"
+	InvoiceAiLineInputInvoicerCrusoe     InvoiceAiLineInputInvoicer = "crusoe"
+	InvoiceAiLineInputInvoicerDatabricks InvoiceAiLineInputInvoicer = "databricks"
+	InvoiceAiLineInputInvoicerGcp        InvoiceAiLineInputInvoicer = "gcp"
+	InvoiceAiLineInputInvoicerLambda     InvoiceAiLineInputInvoicer = "lambda"
+	InvoiceAiLineInputInvoicerMistral    InvoiceAiLineInputInvoicer = "mistral"
+	InvoiceAiLineInputInvoicerNebius     InvoiceAiLineInputInvoicer = "nebius"
+	InvoiceAiLineInputInvoicerOci        InvoiceAiLineInputInvoicer = "oci"
+	InvoiceAiLineInputInvoicerOpenai     InvoiceAiLineInputInvoicer = "openai"
+	InvoiceAiLineInputInvoicerOpenrouter InvoiceAiLineInputInvoicer = "openrouter"
+	InvoiceAiLineInputInvoicerSnowflake  InvoiceAiLineInputInvoicer = "snowflake"
+	InvoiceAiLineInputInvoicerXai        InvoiceAiLineInputInvoicer = "xai"
+)
+
+// Defines values for InvoiceAiLineInputMeter.
+const (
+	InvoiceAiLineInputMeterAudioSeconds      InvoiceAiLineInputMeter = "audio_seconds"
+	InvoiceAiLineInputMeterBatchInputTokens  InvoiceAiLineInputMeter = "batch_input_tokens"
+	InvoiceAiLineInputMeterBatchOutputTokens InvoiceAiLineInputMeter = "batch_output_tokens"
+	InvoiceAiLineInputMeterCacheWriteTokens  InvoiceAiLineInputMeter = "cache_write_tokens"
+	InvoiceAiLineInputMeterCachedInputTokens InvoiceAiLineInputMeter = "cached_input_tokens"
+	InvoiceAiLineInputMeterClusterHours      InvoiceAiLineInputMeter = "cluster_hours"
+	InvoiceAiLineInputMeterEmbeddingsTokens  InvoiceAiLineInputMeter = "embeddings_tokens"
+	InvoiceAiLineInputMeterGpuHours          InvoiceAiLineInputMeter = "gpu_hours"
+	InvoiceAiLineInputMeterImages            InvoiceAiLineInputMeter = "images"
+	InvoiceAiLineInputMeterInputTokens       InvoiceAiLineInputMeter = "input_tokens"
+	InvoiceAiLineInputMeterModelUnitsHours   InvoiceAiLineInputMeter = "model_units_hours"
+	InvoiceAiLineInputMeterOther             InvoiceAiLineInputMeter = "other"
+	InvoiceAiLineInputMeterOutputTokens      InvoiceAiLineInputMeter = "output_tokens"
+	InvoiceAiLineInputMeterPrepaidCredit     InvoiceAiLineInputMeter = "prepaid_credit"
+	InvoiceAiLineInputMeterPtuHours          InvoiceAiLineInputMeter = "ptu_hours"
+	InvoiceAiLineInputMeterRequests          InvoiceAiLineInputMeter = "requests"
+)
+
+// Defines values for InvoiceAiLineInputVendor.
+const (
+	InvoiceAiLineInputVendorAmazon     InvoiceAiLineInputVendor = "amazon"
+	InvoiceAiLineInputVendorAnthropic  InvoiceAiLineInputVendor = "anthropic"
+	InvoiceAiLineInputVendorCohere     InvoiceAiLineInputVendor = "cohere"
+	InvoiceAiLineInputVendorDatabricks InvoiceAiLineInputVendor = "databricks"
+	InvoiceAiLineInputVendorDeepseek   InvoiceAiLineInputVendor = "deepseek"
+	InvoiceAiLineInputVendorGoogle     InvoiceAiLineInputVendor = "google"
+	InvoiceAiLineInputVendorMeta       InvoiceAiLineInputVendor = "meta"
+	InvoiceAiLineInputVendorMicrosoft  InvoiceAiLineInputVendor = "microsoft"
+	InvoiceAiLineInputVendorMistral    InvoiceAiLineInputVendor = "mistral"
+	InvoiceAiLineInputVendorNvidia     InvoiceAiLineInputVendor = "nvidia"
+	InvoiceAiLineInputVendorOpenai     InvoiceAiLineInputVendor = "openai"
+	InvoiceAiLineInputVendorSnowflake  InvoiceAiLineInputVendor = "snowflake"
+	InvoiceAiLineInputVendorUnknown    InvoiceAiLineInputVendor = "unknown"
+	InvoiceAiLineInputVendorXai        InvoiceAiLineInputVendor = "xai"
+)
+
 // Defines values for InvoiceBuyerViewDiscrepancyReason.
 const (
 	InvoiceBuyerViewDiscrepancyReasonAmount       InvoiceBuyerViewDiscrepancyReason = "amount"
@@ -2298,6 +2623,15 @@ const (
 
 // Defines values for InvoiceControlFindingCode.
 const (
+	InvoiceControlFindingCodeAiBatchDiscountMissing        InvoiceControlFindingCode = "ai_batch_discount_missing"
+	InvoiceControlFindingCodeAiCacheDiscountMissing        InvoiceControlFindingCode = "ai_cache_discount_missing"
+	InvoiceControlFindingCodeAiCapacityUnderused           InvoiceControlFindingCode = "ai_capacity_underused"
+	InvoiceControlFindingCodeAiCommitmentExceeded          InvoiceControlFindingCode = "ai_commitment_exceeded"
+	InvoiceControlFindingCodeAiDoubleBilled                InvoiceControlFindingCode = "ai_double_billed"
+	InvoiceControlFindingCodeAiPriceCutNotApplied          InvoiceControlFindingCode = "ai_price_cut_not_applied"
+	InvoiceControlFindingCodeAiRateAboveContract           InvoiceControlFindingCode = "ai_rate_above_contract"
+	InvoiceControlFindingCodeAiRateAboveList               InvoiceControlFindingCode = "ai_rate_above_list"
+	InvoiceControlFindingCodeAiTokensMismatch              InvoiceControlFindingCode = "ai_tokens_mismatch"
 	InvoiceControlFindingCodeCommitmentShortfallOverbilled InvoiceControlFindingCode = "commitment_shortfall_overbilled"
 	InvoiceControlFindingCodeContractCapExceeded           InvoiceControlFindingCode = "contract_cap_exceeded"
 	InvoiceControlFindingCodeContractCheckFailed           InvoiceControlFindingCode = "contract_check_failed"
@@ -2348,6 +2682,64 @@ const (
 const (
 	InvoiceDeductionInputKindCredit     InvoiceDeductionInputKind = "credit"
 	InvoiceDeductionInputKindPrepayment InvoiceDeductionInputKind = "prepayment"
+)
+
+// Defines values for InvoiceLineItemAiInvoicer.
+const (
+	InvoiceLineItemAiInvoicerAnthropic  InvoiceLineItemAiInvoicer = "anthropic"
+	InvoiceLineItemAiInvoicerAws        InvoiceLineItemAiInvoicer = "aws"
+	InvoiceLineItemAiInvoicerAzure      InvoiceLineItemAiInvoicer = "azure"
+	InvoiceLineItemAiInvoicerCohere     InvoiceLineItemAiInvoicer = "cohere"
+	InvoiceLineItemAiInvoicerCoreweave  InvoiceLineItemAiInvoicer = "coreweave"
+	InvoiceLineItemAiInvoicerCrusoe     InvoiceLineItemAiInvoicer = "crusoe"
+	InvoiceLineItemAiInvoicerDatabricks InvoiceLineItemAiInvoicer = "databricks"
+	InvoiceLineItemAiInvoicerGcp        InvoiceLineItemAiInvoicer = "gcp"
+	InvoiceLineItemAiInvoicerLambda     InvoiceLineItemAiInvoicer = "lambda"
+	InvoiceLineItemAiInvoicerMistral    InvoiceLineItemAiInvoicer = "mistral"
+	InvoiceLineItemAiInvoicerNebius     InvoiceLineItemAiInvoicer = "nebius"
+	InvoiceLineItemAiInvoicerOci        InvoiceLineItemAiInvoicer = "oci"
+	InvoiceLineItemAiInvoicerOpenai     InvoiceLineItemAiInvoicer = "openai"
+	InvoiceLineItemAiInvoicerOpenrouter InvoiceLineItemAiInvoicer = "openrouter"
+	InvoiceLineItemAiInvoicerSnowflake  InvoiceLineItemAiInvoicer = "snowflake"
+	InvoiceLineItemAiInvoicerXai        InvoiceLineItemAiInvoicer = "xai"
+)
+
+// Defines values for InvoiceLineItemAiMeter.
+const (
+	InvoiceLineItemAiMeterAudioSeconds      InvoiceLineItemAiMeter = "audio_seconds"
+	InvoiceLineItemAiMeterBatchInputTokens  InvoiceLineItemAiMeter = "batch_input_tokens"
+	InvoiceLineItemAiMeterBatchOutputTokens InvoiceLineItemAiMeter = "batch_output_tokens"
+	InvoiceLineItemAiMeterCacheWriteTokens  InvoiceLineItemAiMeter = "cache_write_tokens"
+	InvoiceLineItemAiMeterCachedInputTokens InvoiceLineItemAiMeter = "cached_input_tokens"
+	InvoiceLineItemAiMeterClusterHours      InvoiceLineItemAiMeter = "cluster_hours"
+	InvoiceLineItemAiMeterEmbeddingsTokens  InvoiceLineItemAiMeter = "embeddings_tokens"
+	InvoiceLineItemAiMeterGpuHours          InvoiceLineItemAiMeter = "gpu_hours"
+	InvoiceLineItemAiMeterImages            InvoiceLineItemAiMeter = "images"
+	InvoiceLineItemAiMeterInputTokens       InvoiceLineItemAiMeter = "input_tokens"
+	InvoiceLineItemAiMeterModelUnitsHours   InvoiceLineItemAiMeter = "model_units_hours"
+	InvoiceLineItemAiMeterOther             InvoiceLineItemAiMeter = "other"
+	InvoiceLineItemAiMeterOutputTokens      InvoiceLineItemAiMeter = "output_tokens"
+	InvoiceLineItemAiMeterPrepaidCredit     InvoiceLineItemAiMeter = "prepaid_credit"
+	InvoiceLineItemAiMeterPtuHours          InvoiceLineItemAiMeter = "ptu_hours"
+	InvoiceLineItemAiMeterRequests          InvoiceLineItemAiMeter = "requests"
+)
+
+// Defines values for InvoiceLineItemAiVendor.
+const (
+	InvoiceLineItemAiVendorAmazon     InvoiceLineItemAiVendor = "amazon"
+	InvoiceLineItemAiVendorAnthropic  InvoiceLineItemAiVendor = "anthropic"
+	InvoiceLineItemAiVendorCohere     InvoiceLineItemAiVendor = "cohere"
+	InvoiceLineItemAiVendorDatabricks InvoiceLineItemAiVendor = "databricks"
+	InvoiceLineItemAiVendorDeepseek   InvoiceLineItemAiVendor = "deepseek"
+	InvoiceLineItemAiVendorGoogle     InvoiceLineItemAiVendor = "google"
+	InvoiceLineItemAiVendorMeta       InvoiceLineItemAiVendor = "meta"
+	InvoiceLineItemAiVendorMicrosoft  InvoiceLineItemAiVendor = "microsoft"
+	InvoiceLineItemAiVendorMistral    InvoiceLineItemAiVendor = "mistral"
+	InvoiceLineItemAiVendorNvidia     InvoiceLineItemAiVendor = "nvidia"
+	InvoiceLineItemAiVendorOpenai     InvoiceLineItemAiVendor = "openai"
+	InvoiceLineItemAiVendorSnowflake  InvoiceLineItemAiVendor = "snowflake"
+	InvoiceLineItemAiVendorUnknown    InvoiceLineItemAiVendor = "unknown"
+	InvoiceLineItemAiVendorXai        InvoiceLineItemAiVendor = "xai"
 )
 
 // Defines values for InvoicePaymentProblemKind.
@@ -4113,18 +4505,18 @@ const (
 
 // Defines values for SetSupplierCurrenciesResult1AiProvider.
 const (
-	Anthropic  SetSupplierCurrenciesResult1AiProvider = "anthropic"
-	Cohere     SetSupplierCurrenciesResult1AiProvider = "cohere"
-	Coreweave  SetSupplierCurrenciesResult1AiProvider = "coreweave"
-	Crusoe     SetSupplierCurrenciesResult1AiProvider = "crusoe"
-	Databricks SetSupplierCurrenciesResult1AiProvider = "databricks"
-	Lambda     SetSupplierCurrenciesResult1AiProvider = "lambda"
-	Mistral    SetSupplierCurrenciesResult1AiProvider = "mistral"
-	Nebius     SetSupplierCurrenciesResult1AiProvider = "nebius"
-	Openai     SetSupplierCurrenciesResult1AiProvider = "openai"
-	Openrouter SetSupplierCurrenciesResult1AiProvider = "openrouter"
-	Snowflake  SetSupplierCurrenciesResult1AiProvider = "snowflake"
-	Xai        SetSupplierCurrenciesResult1AiProvider = "xai"
+	SetSupplierCurrenciesResult1AiProviderAnthropic  SetSupplierCurrenciesResult1AiProvider = "anthropic"
+	SetSupplierCurrenciesResult1AiProviderCohere     SetSupplierCurrenciesResult1AiProvider = "cohere"
+	SetSupplierCurrenciesResult1AiProviderCoreweave  SetSupplierCurrenciesResult1AiProvider = "coreweave"
+	SetSupplierCurrenciesResult1AiProviderCrusoe     SetSupplierCurrenciesResult1AiProvider = "crusoe"
+	SetSupplierCurrenciesResult1AiProviderDatabricks SetSupplierCurrenciesResult1AiProvider = "databricks"
+	SetSupplierCurrenciesResult1AiProviderLambda     SetSupplierCurrenciesResult1AiProvider = "lambda"
+	SetSupplierCurrenciesResult1AiProviderMistral    SetSupplierCurrenciesResult1AiProvider = "mistral"
+	SetSupplierCurrenciesResult1AiProviderNebius     SetSupplierCurrenciesResult1AiProvider = "nebius"
+	SetSupplierCurrenciesResult1AiProviderOpenai     SetSupplierCurrenciesResult1AiProvider = "openai"
+	SetSupplierCurrenciesResult1AiProviderOpenrouter SetSupplierCurrenciesResult1AiProvider = "openrouter"
+	SetSupplierCurrenciesResult1AiProviderSnowflake  SetSupplierCurrenciesResult1AiProvider = "snowflake"
+	SetSupplierCurrenciesResult1AiProviderXai        SetSupplierCurrenciesResult1AiProvider = "xai"
 )
 
 // Defines values for SetSupplierCurrenciesResult1CloudProvider.
@@ -4332,10 +4724,10 @@ const (
 
 // Defines values for SupplierCreditNoteViewCloudProvider.
 const (
-	Aws   SupplierCreditNoteViewCloudProvider = "aws"
-	Azure SupplierCreditNoteViewCloudProvider = "azure"
-	Gcp   SupplierCreditNoteViewCloudProvider = "gcp"
-	Oci   SupplierCreditNoteViewCloudProvider = "oci"
+	SupplierCreditNoteViewCloudProviderAws   SupplierCreditNoteViewCloudProvider = "aws"
+	SupplierCreditNoteViewCloudProviderAzure SupplierCreditNoteViewCloudProvider = "azure"
+	SupplierCreditNoteViewCloudProviderGcp   SupplierCreditNoteViewCloudProvider = "gcp"
+	SupplierCreditNoteViewCloudProviderOci   SupplierCreditNoteViewCloudProvider = "oci"
 )
 
 // Defines values for SupplierCreditNoteViewEnteredBy.
@@ -4457,10 +4849,10 @@ const (
 
 // Defines values for SupplierRiskScreeningState.
 const (
-	Attention SupplierRiskScreeningState = "attention"
-	Blocked   SupplierRiskScreeningState = "blocked"
-	None      SupplierRiskScreeningState = "none"
-	Ok        SupplierRiskScreeningState = "ok"
+	SupplierRiskScreeningStateAttention SupplierRiskScreeningState = "attention"
+	SupplierRiskScreeningStateBlocked   SupplierRiskScreeningState = "blocked"
+	SupplierRiskScreeningStateNone      SupplierRiskScreeningState = "none"
+	SupplierRiskScreeningStateOk        SupplierRiskScreeningState = "ok"
 )
 
 // Defines values for SupplierRiskScreeningStatus.
@@ -4474,11 +4866,11 @@ const (
 
 // Defines values for SupplierScreeningHistoryEvent.
 const (
-	Closed    SupplierScreeningHistoryEvent = "closed"
-	Confirmed SupplierScreeningHistoryEvent = "confirmed"
-	Dismissed SupplierScreeningHistoryEvent = "dismissed"
-	Reopened  SupplierScreeningHistoryEvent = "reopened"
-	Screened  SupplierScreeningHistoryEvent = "screened"
+	SupplierScreeningHistoryEventClosed    SupplierScreeningHistoryEvent = "closed"
+	SupplierScreeningHistoryEventConfirmed SupplierScreeningHistoryEvent = "confirmed"
+	SupplierScreeningHistoryEventDismissed SupplierScreeningHistoryEvent = "dismissed"
+	SupplierScreeningHistoryEventReopened  SupplierScreeningHistoryEvent = "reopened"
+	SupplierScreeningHistoryEventScreened  SupplierScreeningHistoryEvent = "screened"
 )
 
 // Defines values for SupplierScreeningStatus.
@@ -4586,11 +4978,11 @@ const (
 
 // Defines values for ValidateFeedInvoiceResultCreditNoteCreditNoteReason.
 const (
-	Other           ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "other"
-	PriceAdjustment ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "price_adjustment"
-	Rebate          ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "rebate"
-	ReturnedGoods   ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "returned_goods"
-	ServiceCredit   ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "service_credit"
+	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonOther           ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "other"
+	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonPriceAdjustment ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "price_adjustment"
+	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonRebate          ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "rebate"
+	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonReturnedGoods   ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "returned_goods"
+	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonServiceCredit   ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "service_credit"
 )
 
 // Defines values for ValidateFeedInvoiceResultCreditNoteDocumentType.
@@ -5006,12 +5398,141 @@ type AddReplacementLinksInput struct {
 	InvoiceIds []string `json:"invoiceIds"`
 }
 
+// AiCommitmentView defines model for AiCommitmentView.
+type AiCommitmentView struct {
+	Ai *struct {
+		Invoicer *AiCommitmentViewAiInvoicer `json:"invoicer,omitempty"`
+		Meter    *string                     `json:"meter,omitempty"`
+		Model    *string                     `json:"model,omitempty"`
+		Vendor   *AiCommitmentViewAiVendor   `json:"vendor,omitempty"`
+	} `json:"ai,omitempty"`
+	Committed     *float64              `json:"committed,omitempty"`
+	ContractId    *string               `json:"contractId,omitempty"`
+	ContractTitle *string               `json:"contractTitle,omitempty"`
+	Currency      *string               `json:"currency,omitempty"`
+	Description   *string               `json:"description,omitempty"`
+	Kind          *AiCommitmentViewKind `json:"kind,omitempty"`
+	LineNo        *float64              `json:"lineNo,omitempty"`
+	PoId          *string               `json:"poId,omitempty"`
+	Projected     *float64              `json:"projected,omitempty"`
+	Remaining     *float64              `json:"remaining,omitempty"`
+	Supplier      *string               `json:"supplier,omitempty"`
+	TermEnd       *string               `json:"termEnd,omitempty"`
+	TermId        *string               `json:"termId,omitempty"`
+	TermStart     *string               `json:"termStart,omitempty"`
+	Unit          *string               `json:"unit,omitempty"`
+	Used          *float64              `json:"used,omitempty"`
+	UsedPct       *float64              `json:"usedPct,omitempty"`
+}
+
+// AiCommitmentViewAiInvoicer defines model for AiCommitmentView.Ai.Invoicer.
+type AiCommitmentViewAiInvoicer string
+
+// AiCommitmentViewAiVendor defines model for AiCommitmentView.Ai.Vendor.
+type AiCommitmentViewAiVendor string
+
+// AiCommitmentViewKind defines model for AiCommitmentView.Kind.
+type AiCommitmentViewKind string
+
+// AiLineScope defines model for AiLineScope.
+type AiLineScope struct {
+	Invoicer *AiLineScopeInvoicer `json:"invoicer,omitempty"`
+	Meter    *AiLineScopeMeter    `json:"meter,omitempty"`
+	Model    *string              `json:"model,omitempty"`
+	Region   *string              `json:"region,omitempty"`
+	Vendor   *AiLineScopeVendor   `json:"vendor,omitempty"`
+}
+
+// AiLineScopeInvoicer defines model for AiLineScope.Invoicer.
+type AiLineScopeInvoicer string
+
+// AiLineScopeMeter defines model for AiLineScope.Meter.
+type AiLineScopeMeter string
+
+// AiLineScopeVendor defines model for AiLineScope.Vendor.
+type AiLineScopeVendor string
+
+// AiLineScopeInput defines model for AiLineScopeInput.
+type AiLineScopeInput struct {
+	// Invoicer Who bills the line: a cloud or an AI provider.
+	Invoicer AiLineScopeInputInvoicer `json:"invoicer"`
+
+	// Meter The meter; prepaid_credit for a prepaid credit purchase drawn down by the cost report.
+	Meter AiLineScopeInputMeter `json:"meter"`
+
+	// Model The model id as billed, e.g. claude-sonnet-4-5 (GET /ai-rate-cards lists them).
+	Model string `json:"model"`
+
+	// Region The region, where the model is priced by region.
+	Region *string `json:"region,omitempty"`
+
+	// Vendor The model's maker.
+	Vendor AiLineScopeInputVendor `json:"vendor"`
+}
+
+// AiLineScopeInputInvoicer Who bills the line: a cloud or an AI provider.
+type AiLineScopeInputInvoicer string
+
+// AiLineScopeInputMeter The meter; prepaid_credit for a prepaid credit purchase drawn down by the cost report.
+type AiLineScopeInputMeter string
+
+// AiLineScopeInputVendor The model's maker.
+type AiLineScopeInputVendor string
+
 // AiMeterQuantity defines model for AiMeterQuantity.
 type AiMeterQuantity struct {
 	Meter    *string  `json:"meter,omitempty"`
 	Quantity *float64 `json:"quantity,omitempty"`
 	Unit     *string  `json:"unit,omitempty"`
 }
+
+// AiPoLineSuggestion defines model for AiPoLineSuggestion.
+type AiPoLineSuggestion struct {
+	Ai *struct {
+		Invoicer *AiPoLineSuggestionAiInvoicer `json:"invoicer,omitempty"`
+		Meter    *AiPoLineSuggestionAiMeter    `json:"meter,omitempty"`
+		Model    *string                       `json:"model,omitempty"`
+		Region   *string                       `json:"region,omitempty"`
+		Vendor   *AiPoLineSuggestionAiVendor   `json:"vendor,omitempty"`
+	} `json:"ai,omitempty"`
+	ContractId     *string                        `json:"contractId,omitempty"`
+	ContractTermId *string                        `json:"contractTermId,omitempty"`
+	Currency       *string                        `json:"currency,omitempty"`
+	PeriodAmount   *float64                       `json:"periodAmount,omitempty"`
+	PeriodQuantity *float64                       `json:"periodQuantity,omitempty"`
+	PriceSource    *AiPoLineSuggestionPriceSource `json:"priceSource,omitempty"`
+	Qty            *float64                       `json:"qty,omitempty"`
+	Unit           *AiPoLineSuggestionUnit        `json:"unit,omitempty"`
+	UnitPrice      *float64                       `json:"unitPrice,omitempty"`
+}
+
+// AiPoLineSuggestionAiInvoicer defines model for AiPoLineSuggestion.Ai.Invoicer.
+type AiPoLineSuggestionAiInvoicer string
+
+// AiPoLineSuggestionAiMeter defines model for AiPoLineSuggestion.Ai.Meter.
+type AiPoLineSuggestionAiMeter string
+
+// AiPoLineSuggestionAiVendor defines model for AiPoLineSuggestion.Ai.Vendor.
+type AiPoLineSuggestionAiVendor string
+
+// AiPoLineSuggestionPriceSource defines model for AiPoLineSuggestion.PriceSource.
+type AiPoLineSuggestionPriceSource string
+
+// AiPoLineSuggestionUnit defines model for AiPoLineSuggestion.Unit.
+type AiPoLineSuggestionUnit string
+
+// AiPoLineSuggestions defines model for AiPoLineSuggestions.
+type AiPoLineSuggestions struct {
+	Invoicer             *AiPoLineSuggestionsInvoicer `json:"invoicer,omitempty"`
+	InvoicerId           *string                      `json:"invoicerId,omitempty"`
+	Lines                *[]AiPoLineSuggestion        `json:"lines,omitempty"`
+	Period               *string                      `json:"period,omitempty"`
+	Provider             *string                      `json:"provider,omitempty"`
+	SupplierConnectionId *string                      `json:"supplierConnectionId,omitempty"`
+}
+
+// AiPoLineSuggestionsInvoicer defines model for AiPoLineSuggestions.Invoicer.
+type AiPoLineSuggestionsInvoicer string
 
 // AiProvider defines model for AiProvider.
 type AiProvider struct {
@@ -5023,7 +5544,12 @@ type AiProvider struct {
 		Currency *string                    `json:"currency,omitempty"`
 		Kind     *AiProviderCreditPriceKind `json:"kind,omitempty"`
 	} `json:"creditPrice,omitempty"`
-	Currency          *string                      `json:"currency,omitempty"`
+	Currency   *string `json:"currency,omitempty"`
+	Databricks *struct {
+		ClientId    *string `json:"clientId,omitempty"`
+		Host        *string `json:"host,omitempty"`
+		WarehouseId *string `json:"warehouseId,omitempty"`
+	} `json:"databricks,omitempty"`
 	Id                string                       `json:"id"`
 	KeyHint           *string                      `json:"keyHint,omitempty"`
 	LastSyncError     *string                      `json:"lastSyncError,omitempty"`
@@ -5091,6 +5617,23 @@ type AiRateCardEntryUnit string
 
 // AiRateCardEntryVendor defines model for AiRateCardEntry.Vendor.
 type AiRateCardEntryVendor string
+
+// AiRenewalRule defines model for AiRenewalRule.
+type AiRenewalRule struct {
+	DayOfMonth *float64 `json:"dayOfMonth,omitempty"`
+	DraftedFor *string  `json:"draftedFor,omitempty"`
+	Enabled    *bool    `json:"enabled,omitempty"`
+	LastRun    *struct {
+		At     *string `json:"at,omitempty"`
+		Drafts *[]struct {
+			DraftId *string `json:"draftId,omitempty"`
+			PoId    *string `json:"poId,omitempty"`
+		} `json:"drafts,omitempty"`
+		Period *string `json:"period,omitempty"`
+	} `json:"lastRun,omitempty"`
+	OwnerSub  *string `json:"ownerSub,omitempty"`
+	UpdatedAt *string `json:"updatedAt,omitempty"`
+}
 
 // AiServiceFigure defines model for AiServiceFigure.
 type AiServiceFigure struct {
@@ -6217,10 +6760,11 @@ type ConvertPurchaseRequestResult struct {
 
 // CreateAiProviderInput defines model for CreateAiProviderInput.
 type CreateAiProviderInput struct {
-	CreditPrice *CreditPriceInput         `json:"creditPrice,omitempty"`
-	Key         *string                   `json:"key,omitempty"`
-	Provider    string                    `json:"provider"`
-	Snowflake   *SnowflakeConnectionInput `json:"snowflake,omitempty"`
+	CreditPrice *CreditPriceInput          `json:"creditPrice,omitempty"`
+	Databricks  *DatabricksConnectionInput `json:"databricks,omitempty"`
+	Key         *string                    `json:"key,omitempty"`
+	Provider    string                     `json:"provider"`
+	Snowflake   *SnowflakeConnectionInput  `json:"snowflake,omitempty"`
 }
 
 // CreateApiKeyInput defines model for CreateApiKeyInput.
@@ -7065,6 +7609,9 @@ type CreateManualInvoiceInputInvoiceKind string
 
 // CreateManualInvoiceLineItemInput defines model for CreateManualInvoiceLineItemInput.
 type CreateManualInvoiceLineItemInput struct {
+	// Ai An AI line: the invoicer, model vendor, model, meter and region it bills, and the month of usage (YYYY-MM). qty is in the meter's unit (millions of tokens, hours). Held to the PO's AI line, the contract and the rate card.
+	Ai *InvoiceAiLineInput `json:"ai,omitempty"`
+
 	// Charge Total charges on this line (freight, handling…), with no more decimal places than the buyer's currency allows (at most 2).
 	Charge      *float64 `json:"charge,omitempty"`
 	Description string   `json:"description"`
@@ -7325,6 +7872,13 @@ type CurrencyExchangeDetailsInput struct {
 
 	// TargetCurrencyCode This object's currencyCode. Filled in when omitted.
 	TargetCurrencyCode *string `json:"targetCurrencyCode,omitempty"`
+}
+
+// DatabricksConnectionInput defines model for DatabricksConnectionInput.
+type DatabricksConnectionInput struct {
+	ClientId    string `json:"clientId"`
+	Host        string `json:"host"`
+	WarehouseId string `json:"warehouseId"`
 }
 
 // DeclineConfirmationChangesInput defines model for DeclineConfirmationChangesInput.
@@ -8549,6 +9103,36 @@ type InvoiceAdjustmentInput struct {
 // InvoiceAdjustmentInputType defines model for InvoiceAdjustmentInput.Type.
 type InvoiceAdjustmentInputType string
 
+// InvoiceAiLineInput defines model for InvoiceAiLineInput.
+type InvoiceAiLineInput struct {
+	// Invoicer Who bills the line: a cloud or an AI provider.
+	Invoicer InvoiceAiLineInputInvoicer `json:"invoicer"`
+
+	// Meter The meter; prepaid_credit for a prepaid credit purchase drawn down by the cost report.
+	Meter InvoiceAiLineInputMeter `json:"meter"`
+
+	// Model The model id as billed, e.g. claude-sonnet-4-5 (GET /ai-rate-cards lists them).
+	Model string `json:"model"`
+
+	// Period The month of usage the line bills, YYYY-MM. Defaults to the month before the invoice date.
+	Period *string `json:"period,omitempty"`
+
+	// Region The region, where the model is priced by region.
+	Region *string `json:"region,omitempty"`
+
+	// Vendor The model's maker.
+	Vendor InvoiceAiLineInputVendor `json:"vendor"`
+}
+
+// InvoiceAiLineInputInvoicer Who bills the line: a cloud or an AI provider.
+type InvoiceAiLineInputInvoicer string
+
+// InvoiceAiLineInputMeter The meter; prepaid_credit for a prepaid credit purchase drawn down by the cost report.
+type InvoiceAiLineInputMeter string
+
+// InvoiceAiLineInputVendor The model's maker.
+type InvoiceAiLineInputVendor string
+
 // InvoiceAutonomySettings defines model for InvoiceAutonomySettings.
 type InvoiceAutonomySettings struct {
 	Enabled              *bool    `json:"enabled,omitempty"`
@@ -8884,6 +9468,14 @@ type InvoiceDuplicateRef struct {
 
 // InvoiceLineItem defines model for InvoiceLineItem.
 type InvoiceLineItem struct {
+	Ai *struct {
+		Invoicer *InvoiceLineItemAiInvoicer `json:"invoicer,omitempty"`
+		Meter    *InvoiceLineItemAiMeter    `json:"meter,omitempty"`
+		Model    *string                    `json:"model,omitempty"`
+		Period   *string                    `json:"period,omitempty"`
+		Region   *string                    `json:"region,omitempty"`
+		Vendor   *InvoiceLineItemAiVendor   `json:"vendor,omitempty"`
+	} `json:"ai,omitempty"`
 	Amount      *float64 `json:"amount,omitempty"`
 	Charge      *float64 `json:"charge,omitempty"`
 	Description *string  `json:"description,omitempty"`
@@ -8891,6 +9483,15 @@ type InvoiceLineItem struct {
 	Qty         *float64 `json:"qty,omitempty"`
 	UnitPrice   *float64 `json:"unitPrice,omitempty"`
 }
+
+// InvoiceLineItemAiInvoicer defines model for InvoiceLineItem.Ai.Invoicer.
+type InvoiceLineItemAiInvoicer string
+
+// InvoiceLineItemAiMeter defines model for InvoiceLineItem.Ai.Meter.
+type InvoiceLineItemAiMeter string
+
+// InvoiceLineItemAiVendor defines model for InvoiceLineItem.Ai.Vendor.
+type InvoiceLineItemAiVendor string
 
 // InvoicePartyDetails defines model for InvoicePartyDetails.
 type InvoicePartyDetails struct {
@@ -9310,6 +9911,7 @@ type LateFeeTermsStatute string
 
 // LineItem defines model for LineItem.
 type LineItem struct {
+	Ai             *AiLineScope         `json:"ai,omitempty"`
 	Consumed       *float64             `json:"consumed,omitempty"`
 	ContractId     *string              `json:"contractId,omitempty"`
 	ContractTermId *string              `json:"contractTermId,omitempty"`
@@ -9354,6 +9956,9 @@ type LineItemScopeType string
 
 // LineItemInput defines model for LineItemInput.
 type LineItemInput struct {
+	// Ai An AI line (AI spend controls): the invoicer, model vendor, model, meter and region it prices. A quantity line in the meter's unit (millions of tokens, hours); invoices' AI lines are matched to it by these, never by description.
+	Ai *AiLineScopeInput `json:"ai,omitempty"`
+
 	// Currency ISO 4217. Optional - the server writes the order's currency on every line. If sent, it must be the order's currency (any case); another currency is a 400, since Pleaxy doesn't convert currencies.
 	Currency *string `json:"currency,omitempty"`
 
@@ -11657,6 +12262,15 @@ type ServiceEntrySheetQueueItem struct {
 	SupplierOrgId *string `json:"supplierOrgId,omitempty"`
 }
 
+// SetAiRenewalRuleInput defines model for SetAiRenewalRuleInput.
+type SetAiRenewalRuleInput struct {
+	// DayOfMonth The day of the month (1-28) from which the drafts are raised. Default 25.
+	DayOfMonth *float64 `json:"dayOfMonth,omitempty"`
+
+	// Enabled Whether next month's AI orders are drafted from the forecast.
+	Enabled bool `json:"enabled"`
+}
+
 // SetConnectionCurrenciesInput defines model for SetConnectionCurrenciesInput.
 type SetConnectionCurrenciesInput struct {
 	// BillingCurrency "Bills in": the currency a supplier with no Pleaxy account invoices you in, the default for new orders and invoices to it. Refused for a supplier with an account, whose own currencies rule. null removes it (your currency is then the default).
@@ -12790,6 +13404,12 @@ type ListAiUsageLinesParams struct {
 	Cursor     *string `form:"cursor,omitempty" json:"cursor,omitempty"`
 }
 
+// SuggestAiPoLinesParams defines parameters for SuggestAiPoLines.
+type SuggestAiPoLinesParams struct {
+	InvoicerId *string `form:"invoicerId,omitempty" json:"invoicerId,omitempty"`
+	Period     *string `form:"period,omitempty" json:"period,omitempty"`
+}
+
 // GetBudgetStatusParams defines parameters for GetBudgetStatus.
 type GetBudgetStatusParams struct {
 	// CostCenter One cost center; every budgeted one when absent.
@@ -13050,6 +13670,9 @@ type CreateAiProviderJSONRequestBody = CreateAiProviderInput
 
 // CheckAiSpendJSONRequestBody defines body for CheckAiSpend for application/json ContentType.
 type CheckAiSpendJSONRequestBody = CheckAiSpendInput
+
+// SetAiRenewalRuleJSONRequestBody defines body for SetAiRenewalRule for application/json ContentType.
+type SetAiRenewalRuleJSONRequestBody = SetAiRenewalRuleInput
 
 // CreateApiKeyJSONRequestBody defines body for CreateApiKey for application/json ContentType.
 type CreateApiKeyJSONRequestBody = CreateApiKeyInput
@@ -16068,8 +16691,25 @@ type ClientInterface interface {
 
 	CheckAiSpend(ctx context.Context, body CheckAiSpendJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ListAiCommitments request
+	ListAiCommitments(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ListAiUsageLines request
 	ListAiUsageLines(ctx context.Context, params *ListAiUsageLinesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// RaiseNextAiPeriod request
+	RaiseNextAiPeriod(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SuggestAiPoLines request
+	SuggestAiPoLines(ctx context.Context, params *SuggestAiPoLinesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetAiRenewalRule request
+	GetAiRenewalRule(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SetAiRenewalRuleWithBody request with any body
+	SetAiRenewalRuleWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SetAiRenewalRule(ctx context.Context, body SetAiRenewalRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ListApiKeys request
 	ListApiKeys(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -16626,8 +17266,80 @@ func (c *RawClient) CheckAiSpend(ctx context.Context, body CheckAiSpendJSONReque
 	return c.Client.Do(req)
 }
 
+func (c *RawClient) ListAiCommitments(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListAiCommitmentsRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *RawClient) ListAiUsageLines(ctx context.Context, params *ListAiUsageLinesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewListAiUsageLinesRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) RaiseNextAiPeriod(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRaiseNextAiPeriodRequest(c.Server, poId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SuggestAiPoLines(ctx context.Context, params *SuggestAiPoLinesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSuggestAiPoLinesRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetAiRenewalRule(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAiRenewalRuleRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SetAiRenewalRuleWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetAiRenewalRuleRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SetAiRenewalRule(ctx context.Context, body SetAiRenewalRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetAiRenewalRuleRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -18872,6 +19584,33 @@ func NewCheckAiSpendRequestWithBody(server string, contentType string, body io.R
 	return req, nil
 }
 
+// NewListAiCommitmentsRequest generates requests for ListAiCommitments
+func NewListAiCommitmentsRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/commitments")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewListAiUsageLinesRequest generates requests for ListAiUsageLines
 func NewListAiUsageLinesRequest(server string, params *ListAiUsageLinesParams) (*http.Request, error) {
 	var err error
@@ -19013,6 +19752,172 @@ func NewListAiUsageLinesRequest(server string, params *ListAiUsageLinesParams) (
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewRaiseNextAiPeriodRequest generates requests for RaiseNextAiPeriod
+func NewRaiseNextAiPeriodRequest(server string, poId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/next-period/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSuggestAiPoLinesRequest generates requests for SuggestAiPoLines
+func NewSuggestAiPoLinesRequest(server string, params *SuggestAiPoLinesParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/po-lines")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.InvoicerId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "invoicerId", runtime.ParamLocationQuery, *params.InvoicerId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Period != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "period", runtime.ParamLocationQuery, *params.Period); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetAiRenewalRuleRequest generates requests for GetAiRenewalRule
+func NewGetAiRenewalRuleRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/renewal-rule")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSetAiRenewalRuleRequest calls the generic SetAiRenewalRule builder with application/json body
+func NewSetAiRenewalRuleRequest(server string, body SetAiRenewalRuleJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSetAiRenewalRuleRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewSetAiRenewalRuleRequestWithBody generates requests for SetAiRenewalRule with any type of body
+func NewSetAiRenewalRuleRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/renewal-rule")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -24362,8 +25267,25 @@ type ClientWithResponsesInterface interface {
 
 	CheckAiSpendWithResponse(ctx context.Context, body CheckAiSpendJSONRequestBody, reqEditors ...RequestEditorFn) (*CheckAiSpendResponse, error)
 
+	// ListAiCommitmentsWithResponse request
+	ListAiCommitmentsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListAiCommitmentsResponse, error)
+
 	// ListAiUsageLinesWithResponse request
 	ListAiUsageLinesWithResponse(ctx context.Context, params *ListAiUsageLinesParams, reqEditors ...RequestEditorFn) (*ListAiUsageLinesResponse, error)
+
+	// RaiseNextAiPeriodWithResponse request
+	RaiseNextAiPeriodWithResponse(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*RaiseNextAiPeriodResponse, error)
+
+	// SuggestAiPoLinesWithResponse request
+	SuggestAiPoLinesWithResponse(ctx context.Context, params *SuggestAiPoLinesParams, reqEditors ...RequestEditorFn) (*SuggestAiPoLinesResponse, error)
+
+	// GetAiRenewalRuleWithResponse request
+	GetAiRenewalRuleWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAiRenewalRuleResponse, error)
+
+	// SetAiRenewalRuleWithBodyWithResponse request with any body
+	SetAiRenewalRuleWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetAiRenewalRuleResponse, error)
+
+	SetAiRenewalRuleWithResponse(ctx context.Context, body SetAiRenewalRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*SetAiRenewalRuleResponse, error)
 
 	// ListApiKeysWithResponse request
 	ListApiKeysWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListApiKeysResponse, error)
@@ -24995,6 +25917,29 @@ func (r CheckAiSpendResponse) StatusCode() int {
 	return 0
 }
 
+type ListAiCommitmentsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]AiCommitmentView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListAiCommitmentsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListAiCommitmentsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type ListAiUsageLinesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -25012,6 +25957,98 @@ func (r ListAiUsageLinesResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r ListAiUsageLinesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type RaiseNextAiPeriodResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *PurchaseOrder
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r RaiseNextAiPeriodResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RaiseNextAiPeriodResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SuggestAiPoLinesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiPoLineSuggestions
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r SuggestAiPoLinesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SuggestAiPoLinesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetAiRenewalRuleResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiRenewalRule
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetAiRenewalRuleResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetAiRenewalRuleResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SetAiRenewalRuleResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiRenewalRule
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r SetAiRenewalRuleResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SetAiRenewalRuleResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -27777,6 +28814,15 @@ func (c *ClientWithResponses) CheckAiSpendWithResponse(ctx context.Context, body
 	return ParseCheckAiSpendResponse(rsp)
 }
 
+// ListAiCommitmentsWithResponse request returning *ListAiCommitmentsResponse
+func (c *ClientWithResponses) ListAiCommitmentsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListAiCommitmentsResponse, error) {
+	rsp, err := c.ListAiCommitments(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListAiCommitmentsResponse(rsp)
+}
+
 // ListAiUsageLinesWithResponse request returning *ListAiUsageLinesResponse
 func (c *ClientWithResponses) ListAiUsageLinesWithResponse(ctx context.Context, params *ListAiUsageLinesParams, reqEditors ...RequestEditorFn) (*ListAiUsageLinesResponse, error) {
 	rsp, err := c.ListAiUsageLines(ctx, params, reqEditors...)
@@ -27784,6 +28830,50 @@ func (c *ClientWithResponses) ListAiUsageLinesWithResponse(ctx context.Context, 
 		return nil, err
 	}
 	return ParseListAiUsageLinesResponse(rsp)
+}
+
+// RaiseNextAiPeriodWithResponse request returning *RaiseNextAiPeriodResponse
+func (c *ClientWithResponses) RaiseNextAiPeriodWithResponse(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*RaiseNextAiPeriodResponse, error) {
+	rsp, err := c.RaiseNextAiPeriod(ctx, poId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRaiseNextAiPeriodResponse(rsp)
+}
+
+// SuggestAiPoLinesWithResponse request returning *SuggestAiPoLinesResponse
+func (c *ClientWithResponses) SuggestAiPoLinesWithResponse(ctx context.Context, params *SuggestAiPoLinesParams, reqEditors ...RequestEditorFn) (*SuggestAiPoLinesResponse, error) {
+	rsp, err := c.SuggestAiPoLines(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSuggestAiPoLinesResponse(rsp)
+}
+
+// GetAiRenewalRuleWithResponse request returning *GetAiRenewalRuleResponse
+func (c *ClientWithResponses) GetAiRenewalRuleWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAiRenewalRuleResponse, error) {
+	rsp, err := c.GetAiRenewalRule(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetAiRenewalRuleResponse(rsp)
+}
+
+// SetAiRenewalRuleWithBodyWithResponse request with arbitrary body returning *SetAiRenewalRuleResponse
+func (c *ClientWithResponses) SetAiRenewalRuleWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetAiRenewalRuleResponse, error) {
+	rsp, err := c.SetAiRenewalRuleWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetAiRenewalRuleResponse(rsp)
+}
+
+func (c *ClientWithResponses) SetAiRenewalRuleWithResponse(ctx context.Context, body SetAiRenewalRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*SetAiRenewalRuleResponse, error) {
+	rsp, err := c.SetAiRenewalRule(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetAiRenewalRuleResponse(rsp)
 }
 
 // ListApiKeysWithResponse request returning *ListApiKeysResponse
@@ -29423,6 +30513,39 @@ func ParseCheckAiSpendResponse(rsp *http.Response) (*CheckAiSpendResponse, error
 	return response, nil
 }
 
+// ParseListAiCommitmentsResponse parses an HTTP response from a ListAiCommitmentsWithResponse call
+func ParseListAiCommitmentsResponse(rsp *http.Response) (*ListAiCommitmentsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListAiCommitmentsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []AiCommitmentView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseListAiUsageLinesResponse parses an HTTP response from a ListAiUsageLinesWithResponse call
 func ParseListAiUsageLinesResponse(rsp *http.Response) (*ListAiUsageLinesResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -29439,6 +30562,138 @@ func ParseListAiUsageLinesResponse(rsp *http.Response) (*ListAiUsageLinesRespons
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest AiUsageLinesPage
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRaiseNextAiPeriodResponse parses an HTTP response from a RaiseNextAiPeriodWithResponse call
+func ParseRaiseNextAiPeriodResponse(rsp *http.Response) (*RaiseNextAiPeriodResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RaiseNextAiPeriodResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest PurchaseOrder
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSuggestAiPoLinesResponse parses an HTTP response from a SuggestAiPoLinesWithResponse call
+func ParseSuggestAiPoLinesResponse(rsp *http.Response) (*SuggestAiPoLinesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SuggestAiPoLinesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiPoLineSuggestions
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetAiRenewalRuleResponse parses an HTTP response from a GetAiRenewalRuleWithResponse call
+func ParseGetAiRenewalRuleResponse(rsp *http.Response) (*GetAiRenewalRuleResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetAiRenewalRuleResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiRenewalRule
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSetAiRenewalRuleResponse parses an HTTP response from a SetAiRenewalRuleWithResponse call
+func ParseSetAiRenewalRuleResponse(rsp *http.Response) (*SetAiRenewalRuleResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SetAiRenewalRuleResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiRenewalRule
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

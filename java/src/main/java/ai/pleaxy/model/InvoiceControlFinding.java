@@ -91,7 +91,25 @@ public class InvoiceControlFinding {
     
     FIXED_DISCOUNT_MISSING(String.valueOf("fixed_discount_missing")),
     
-    COMMITMENT_SHORTFALL_OVERBILLED(String.valueOf("commitment_shortfall_overbilled"));
+    COMMITMENT_SHORTFALL_OVERBILLED(String.valueOf("commitment_shortfall_overbilled")),
+    
+    AI_RATE_ABOVE_CONTRACT(String.valueOf("ai_rate_above_contract")),
+    
+    AI_RATE_ABOVE_LIST(String.valueOf("ai_rate_above_list")),
+    
+    AI_PRICE_CUT_NOT_APPLIED(String.valueOf("ai_price_cut_not_applied")),
+    
+    AI_CACHE_DISCOUNT_MISSING(String.valueOf("ai_cache_discount_missing")),
+    
+    AI_BATCH_DISCOUNT_MISSING(String.valueOf("ai_batch_discount_missing")),
+    
+    AI_TOKENS_MISMATCH(String.valueOf("ai_tokens_mismatch")),
+    
+    AI_CAPACITY_UNDERUSED(String.valueOf("ai_capacity_underused")),
+    
+    AI_DOUBLE_BILLED(String.valueOf("ai_double_billed")),
+    
+    AI_COMMITMENT_EXCEEDED(String.valueOf("ai_commitment_exceeded"));
 
     private String value;
 

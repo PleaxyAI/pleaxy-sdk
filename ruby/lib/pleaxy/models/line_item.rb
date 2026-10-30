@@ -65,6 +65,8 @@ module Pleaxy
 
     attr_accessor :punchout_ref
 
+    attr_accessor :ai
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -114,7 +116,8 @@ module Pleaxy
         :'quote_line_no' => :'quoteLineNo',
         :'sow_line_no' => :'sowLineNo',
         :'origin' => :'origin',
-        :'punchout_ref' => :'punchoutRef'
+        :'punchout_ref' => :'punchoutRef',
+        :'ai' => :'ai'
       }
     end
 
@@ -150,7 +153,8 @@ module Pleaxy
         :'quote_line_no' => :'Float',
         :'sow_line_no' => :'Float',
         :'origin' => :'PunchoutLineOrigin',
-        :'punchout_ref' => :'LineItemPunchoutRef'
+        :'punchout_ref' => :'LineItemPunchoutRef',
+        :'ai' => :'AiLineScope'
       }
     end
 
@@ -275,6 +279,10 @@ module Pleaxy
       if attributes.key?(:'punchout_ref')
         self.punchout_ref = attributes[:'punchout_ref']
       end
+
+      if attributes.key?(:'ai')
+        self.ai = attributes[:'ai']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -369,7 +377,8 @@ module Pleaxy
           quote_line_no == o.quote_line_no &&
           sow_line_no == o.sow_line_no &&
           origin == o.origin &&
-          punchout_ref == o.punchout_ref
+          punchout_ref == o.punchout_ref &&
+          ai == o.ai
     end
 
     # @see the `==` method
@@ -381,7 +390,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [line_no, line_type, scope_type, scope_id, name, rule_type, unit, unit_price, qty, nte_amount, currency, payment_terms, valid_from, valid_until, due_date, consumed, supplier_sku, price_source, customer_line_no, contract_id, contract_term_id, quote_line_no, sow_line_no, origin, punchout_ref].hash
+      [line_no, line_type, scope_type, scope_id, name, rule_type, unit, unit_price, qty, nte_amount, currency, payment_terms, valid_from, valid_until, due_date, consumed, supplier_sku, price_source, customer_line_no, contract_id, contract_term_id, quote_line_no, sow_line_no, origin, punchout_ref, ai].hash
     end
 
     # Builds the object from hash

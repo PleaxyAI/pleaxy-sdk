@@ -25,6 +25,8 @@ pub struct InvoiceLineItem {
     pub discount: Option<f64>,
     #[serde(rename = "charge", skip_serializing_if = "Option::is_none")]
     pub charge: Option<f64>,
+    #[serde(rename = "ai", skip_serializing_if = "Option::is_none")]
+    pub ai: Option<models::InvoiceLineItemAi>,
 }
 
 impl InvoiceLineItem {
@@ -36,6 +38,7 @@ impl InvoiceLineItem {
             amount: None,
             discount: None,
             charge: None,
+            ai: None,
         }
     }
 }

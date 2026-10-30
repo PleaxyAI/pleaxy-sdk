@@ -27,6 +27,9 @@ pub struct CreateManualInvoiceLineItemInput {
     /// Total charges on this line (freight, handling…), with no more decimal places than the buyer's currency allows (at most 2).
     #[serde(rename = "charge", skip_serializing_if = "Option::is_none")]
     pub charge: Option<f64>,
+    /// An AI line: the invoicer, model vendor, model, meter and region it bills, and the month of usage (YYYY-MM). qty is in the meter's unit (millions of tokens, hours). Held to the PO's AI line, the contract and the rate card.
+    #[serde(rename = "ai", skip_serializing_if = "Option::is_none")]
+    pub ai: Option<models::InvoiceAiLineInput>,
 }
 
 impl CreateManualInvoiceLineItemInput {
@@ -37,6 +40,7 @@ impl CreateManualInvoiceLineItemInput {
             unit_price,
             discount: None,
             charge: None,
+            ai: None,
         }
     }
 }

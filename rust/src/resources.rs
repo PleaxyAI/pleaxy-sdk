@@ -208,6 +208,15 @@ impl<'a> AiSpend<'a> {
         crate::apis::ai_spend_api::check_ai_spend(&self.0.config, check_ai_spend_input).await
     }
 
+    pub async fn get_ai_renewal_rule(
+        &self,
+    ) -> Result<
+        crate::models::AiRenewalRule,
+        crate::apis::Error<crate::apis::ai_spend_api::GetAiRenewalRuleError>,
+    > {
+        crate::apis::ai_spend_api::get_ai_renewal_rule(&self.0.config).await
+    }
+
     pub async fn get_ai_spend(
         &self,
         period: Option<&str>,
@@ -217,6 +226,15 @@ impl<'a> AiSpend<'a> {
         crate::apis::Error<crate::apis::ai_spend_api::GetAiSpendError>,
     > {
         crate::apis::ai_spend_api::get_ai_spend(&self.0.config, period, group_by).await
+    }
+
+    pub async fn list_ai_commitments(
+        &self,
+    ) -> Result<
+        Vec<crate::models::AiCommitmentView>,
+        crate::apis::Error<crate::apis::ai_spend_api::ListAiCommitmentsError>,
+    > {
+        crate::apis::ai_spend_api::list_ai_commitments(&self.0.config).await
     }
 
     pub async fn list_ai_rate_cards(
@@ -257,6 +275,38 @@ impl<'a> AiSpend<'a> {
             cursor,
         )
         .await
+    }
+
+    pub async fn raise_next_ai_period(
+        &self,
+        po_id: &str,
+    ) -> Result<
+        crate::models::PurchaseOrder,
+        crate::apis::Error<crate::apis::ai_spend_api::RaiseNextAiPeriodError>,
+    > {
+        crate::apis::ai_spend_api::raise_next_ai_period(&self.0.config, po_id).await
+    }
+
+    pub async fn set_ai_renewal_rule(
+        &self,
+        set_ai_renewal_rule_input: crate::models::SetAiRenewalRuleInput,
+    ) -> Result<
+        crate::models::AiRenewalRule,
+        crate::apis::Error<crate::apis::ai_spend_api::SetAiRenewalRuleError>,
+    > {
+        crate::apis::ai_spend_api::set_ai_renewal_rule(&self.0.config, set_ai_renewal_rule_input)
+            .await
+    }
+
+    pub async fn suggest_ai_po_lines(
+        &self,
+        invoicer_id: Option<&str>,
+        period: Option<&str>,
+    ) -> Result<
+        crate::models::AiPoLineSuggestions,
+        crate::apis::Error<crate::apis::ai_spend_api::SuggestAiPoLinesError>,
+    > {
+        crate::apis::ai_spend_api::suggest_ai_po_lines(&self.0.config, invoicer_id, period).await
     }
 }
 

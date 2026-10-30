@@ -79,6 +79,24 @@ pub enum Code {
     FixedDiscountMissing,
     #[serde(rename = "commitment_shortfall_overbilled")]
     CommitmentShortfallOverbilled,
+    #[serde(rename = "ai_rate_above_contract")]
+    AiRateAboveContract,
+    #[serde(rename = "ai_rate_above_list")]
+    AiRateAboveList,
+    #[serde(rename = "ai_price_cut_not_applied")]
+    AiPriceCutNotApplied,
+    #[serde(rename = "ai_cache_discount_missing")]
+    AiCacheDiscountMissing,
+    #[serde(rename = "ai_batch_discount_missing")]
+    AiBatchDiscountMissing,
+    #[serde(rename = "ai_tokens_mismatch")]
+    AiTokensMismatch,
+    #[serde(rename = "ai_capacity_underused")]
+    AiCapacityUnderused,
+    #[serde(rename = "ai_double_billed")]
+    AiDoubleBilled,
+    #[serde(rename = "ai_commitment_exceeded")]
+    AiCommitmentExceeded,
 }
 
 impl Default for Code {
