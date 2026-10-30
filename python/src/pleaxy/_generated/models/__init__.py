@@ -74,11 +74,33 @@ from .add_invoice_replacement_links_result_usage_source import (
     AddInvoiceReplacementLinksResultUsageSource,
 )
 from .add_replacement_links_input import AddReplacementLinksInput
+from .ai_attribution_response import AiAttributionResponse
+from .ai_attribution_response_unattributed_item import (
+    AiAttributionResponseUnattributedItem,
+)
+from .ai_attribution_response_unmatched_values_item import (
+    AiAttributionResponseUnmatchedValuesItem,
+)
+from .ai_attribution_rule_input import AiAttributionRuleInput
+from .ai_attribution_rule_input_dimension import AiAttributionRuleInputDimension
+from .ai_attribution_rule_view import AiAttributionRuleView
+from .ai_attribution_rule_view_matched_item import AiAttributionRuleViewMatchedItem
 from .ai_commitment_view import AiCommitmentView
 from .ai_commitment_view_ai import AiCommitmentViewAi
 from .ai_commitment_view_ai_invoicer import AiCommitmentViewAiInvoicer
 from .ai_commitment_view_ai_vendor import AiCommitmentViewAiVendor
 from .ai_commitment_view_kind import AiCommitmentViewKind
+from .ai_cost_center_row import AiCostCenterRow
+from .ai_cost_center_row_alert import AiCostCenterRowAlert
+from .ai_cost_centers_response import AiCostCentersResponse
+from .ai_cost_centers_response_unattributed_item import (
+    AiCostCentersResponseUnattributedItem,
+)
+from .ai_limit_credential import AiLimitCredential
+from .ai_limit_credential_aws import AiLimitCredentialAws
+from .ai_limit_credential_azure import AiLimitCredentialAzure
+from .ai_limit_credential_gcp import AiLimitCredentialGcp
+from .ai_limit_credential_invoicer import AiLimitCredentialInvoicer
 from .ai_line_scope import AiLineScope
 from .ai_line_scope_input import AiLineScopeInput
 from .ai_line_scope_input_invoicer import AiLineScopeInputInvoicer
@@ -122,6 +144,13 @@ from .ai_spend_check_response import AiSpendCheckResponse
 from .ai_spend_check_response_outcome import AiSpendCheckResponseOutcome
 from .ai_spend_group import AiSpendGroup
 from .ai_spend_group_invoicer import AiSpendGroupInvoicer
+from .ai_spend_limit import AiSpendLimit
+from .ai_spend_limit_enforcement import AiSpendLimitEnforcement
+from .ai_spend_limit_history_item import AiSpendLimitHistoryItem
+from .ai_spend_limit_history_item_action import AiSpendLimitHistoryItemAction
+from .ai_spend_limit_invoicer import AiSpendLimitInvoicer
+from .ai_spend_limit_read_back import AiSpendLimitReadBack
+from .ai_spend_limit_state import AiSpendLimitState
 from .ai_spend_response import AiSpendResponse
 from .ai_spend_response_not_readable_item import AiSpendResponseNotReadableItem
 from .ai_spend_response_not_readable_item_invoicer import (
@@ -1153,6 +1182,7 @@ from .list_ai_invoicers_item_legal_entities_item_region import (
 )
 from .list_ai_invoicers_item_shape import ListAiInvoicersItemShape
 from .list_ai_invoicers_item_tier import ListAiInvoicersItemTier
+from .list_ai_spend_limits_result import ListAiSpendLimitsResult
 from .list_employees_role import ListEmployeesRole
 from .list_invoice_counterparties_result import ListInvoiceCounterpartiesResult
 from .list_invoices_item_buyer_credit_note import ListInvoicesItemBuyerCreditNote
@@ -1612,6 +1642,7 @@ from .remittance_view_remittances_item_file_content_type import (
     RemittanceViewRemittancesItemFileContentType,
 )
 from .remittance_view_status import RemittanceViewStatus
+from .remove_ai_limit_credential_result import RemoveAiLimitCredentialResult
 from .remove_invoice_replacement_link_result import RemoveInvoiceReplacementLinkResult
 from .remove_invoice_replacement_link_result_discrepancy_reason import (
     RemoveInvoiceReplacementLinkResultDiscrepancyReason,
@@ -1704,7 +1735,10 @@ from .service_entry_sheet_queue_item import ServiceEntrySheetQueueItem
 from .service_entry_sheet_queue_item_releases_item import (
     ServiceEntrySheetQueueItemReleasesItem,
 )
+from .set_ai_attribution_input import SetAiAttributionInput
+from .set_ai_limit_credential_input import SetAiLimitCredentialInput
 from .set_ai_renewal_rule_input import SetAiRenewalRuleInput
+from .set_ai_spend_limit_input import SetAiSpendLimitInput
 from .set_connection_currencies_input import SetConnectionCurrenciesInput
 from .set_exchange_rate_warning_result import SetExchangeRateWarningResult
 from .set_invoice_feed_input import SetInvoiceFeedInput
@@ -1969,11 +2003,27 @@ __all__ = (
     "AddInvoiceReplacementLinksResultUnverifiedReason",
     "AddInvoiceReplacementLinksResultUsageSource",
     "AddReplacementLinksInput",
+    "AiAttributionResponse",
+    "AiAttributionResponseUnattributedItem",
+    "AiAttributionResponseUnmatchedValuesItem",
+    "AiAttributionRuleInput",
+    "AiAttributionRuleInputDimension",
+    "AiAttributionRuleView",
+    "AiAttributionRuleViewMatchedItem",
     "AiCommitmentView",
     "AiCommitmentViewAi",
     "AiCommitmentViewAiInvoicer",
     "AiCommitmentViewAiVendor",
     "AiCommitmentViewKind",
+    "AiCostCenterRow",
+    "AiCostCenterRowAlert",
+    "AiCostCentersResponse",
+    "AiCostCentersResponseUnattributedItem",
+    "AiLimitCredential",
+    "AiLimitCredentialAws",
+    "AiLimitCredentialAzure",
+    "AiLimitCredentialGcp",
+    "AiLimitCredentialInvoicer",
     "AiLineScope",
     "AiLineScopeInput",
     "AiLineScopeInputInvoicer",
@@ -2017,6 +2067,13 @@ __all__ = (
     "AiSpendCheckResponseOutcome",
     "AiSpendGroup",
     "AiSpendGroupInvoicer",
+    "AiSpendLimit",
+    "AiSpendLimitEnforcement",
+    "AiSpendLimitHistoryItem",
+    "AiSpendLimitHistoryItemAction",
+    "AiSpendLimitInvoicer",
+    "AiSpendLimitReadBack",
+    "AiSpendLimitState",
     "AiSpendResponse",
     "AiSpendResponseNotReadableItem",
     "AiSpendResponseNotReadableItemInvoicer",
@@ -2606,6 +2663,7 @@ __all__ = (
     "ListAiInvoicersItemLegalEntitiesItemRegion",
     "ListAiInvoicersItemShape",
     "ListAiInvoicersItemTier",
+    "ListAiSpendLimitsResult",
     "ListEmployeesRole",
     "ListInvoiceCounterpartiesResult",
     "ListInvoicesItemBuyerCreditNote",
@@ -2865,6 +2923,7 @@ __all__ = (
     "RemittanceViewRemittancesItemFile",
     "RemittanceViewRemittancesItemFileContentType",
     "RemittanceViewStatus",
+    "RemoveAiLimitCredentialResult",
     "RemoveInvoiceReplacementLinkResult",
     "RemoveInvoiceReplacementLinkResultDiscrepancyReason",
     "RemoveInvoiceReplacementLinkResultDocumentType",
@@ -2913,7 +2972,10 @@ __all__ = (
     "ServerMessageParams",
     "ServiceEntrySheetQueueItem",
     "ServiceEntrySheetQueueItemReleasesItem",
+    "SetAiAttributionInput",
+    "SetAiLimitCredentialInput",
     "SetAiRenewalRuleInput",
+    "SetAiSpendLimitInput",
     "SetConnectionCurrenciesInput",
     "SetExchangeRateWarningResult",
     "SetInvoiceFeedInput",

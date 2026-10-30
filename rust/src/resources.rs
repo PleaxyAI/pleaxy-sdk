@@ -208,6 +208,16 @@ impl<'a> AiSpend<'a> {
         crate::apis::ai_spend_api::check_ai_spend(&self.0.config, check_ai_spend_input).await
     }
 
+    pub async fn get_ai_attribution(
+        &self,
+        period: Option<&str>,
+    ) -> Result<
+        crate::models::AiAttributionResponse,
+        crate::apis::Error<crate::apis::ai_spend_api::GetAiAttributionError>,
+    > {
+        crate::apis::ai_spend_api::get_ai_attribution(&self.0.config, period).await
+    }
+
     pub async fn get_ai_renewal_rule(
         &self,
     ) -> Result<
@@ -237,6 +247,16 @@ impl<'a> AiSpend<'a> {
         crate::apis::ai_spend_api::list_ai_commitments(&self.0.config).await
     }
 
+    pub async fn list_ai_cost_centers(
+        &self,
+        period: Option<&str>,
+    ) -> Result<
+        crate::models::AiCostCentersResponse,
+        crate::apis::Error<crate::apis::ai_spend_api::ListAiCostCentersError>,
+    > {
+        crate::apis::ai_spend_api::list_ai_cost_centers(&self.0.config, period).await
+    }
+
     pub async fn list_ai_rate_cards(
         &self,
         invoicer: Option<&str>,
@@ -249,6 +269,15 @@ impl<'a> AiSpend<'a> {
     > {
         crate::apis::ai_spend_api::list_ai_rate_cards(&self.0.config, invoicer, vendor, model, on)
             .await
+    }
+
+    pub async fn list_ai_spend_limits(
+        &self,
+    ) -> Result<
+        crate::models::ListAiSpendLimitsResult,
+        crate::apis::Error<crate::apis::ai_spend_api::ListAiSpendLimitsError>,
+    > {
+        crate::apis::ai_spend_api::list_ai_spend_limits(&self.0.config).await
     }
 
     pub async fn list_ai_usage_lines(
@@ -287,6 +316,54 @@ impl<'a> AiSpend<'a> {
         crate::apis::ai_spend_api::raise_next_ai_period(&self.0.config, po_id).await
     }
 
+    pub async fn remove_ai_limit_credential(
+        &self,
+        invoicer_id: &str,
+    ) -> Result<
+        crate::models::RemoveAiLimitCredentialResult,
+        crate::apis::Error<crate::apis::ai_spend_api::RemoveAiLimitCredentialError>,
+    > {
+        crate::apis::ai_spend_api::remove_ai_limit_credential(&self.0.config, invoicer_id).await
+    }
+
+    pub async fn remove_ai_spend_limit(
+        &self,
+        po_id: &str,
+        line_no: f64,
+    ) -> Result<
+        crate::models::AiSpendLimit,
+        crate::apis::Error<crate::apis::ai_spend_api::RemoveAiSpendLimitError>,
+    > {
+        crate::apis::ai_spend_api::remove_ai_spend_limit(&self.0.config, po_id, line_no).await
+    }
+
+    pub async fn set_ai_attribution(
+        &self,
+        set_ai_attribution_input: crate::models::SetAiAttributionInput,
+    ) -> Result<
+        crate::models::AiAttributionResponse,
+        crate::apis::Error<crate::apis::ai_spend_api::SetAiAttributionError>,
+    > {
+        crate::apis::ai_spend_api::set_ai_attribution(&self.0.config, set_ai_attribution_input)
+            .await
+    }
+
+    pub async fn set_ai_limit_credential(
+        &self,
+        invoicer_id: &str,
+        set_ai_limit_credential_input: crate::models::SetAiLimitCredentialInput,
+    ) -> Result<
+        crate::models::AiLimitCredential,
+        crate::apis::Error<crate::apis::ai_spend_api::SetAiLimitCredentialError>,
+    > {
+        crate::apis::ai_spend_api::set_ai_limit_credential(
+            &self.0.config,
+            invoicer_id,
+            set_ai_limit_credential_input,
+        )
+        .await
+    }
+
     pub async fn set_ai_renewal_rule(
         &self,
         set_ai_renewal_rule_input: crate::models::SetAiRenewalRuleInput,
@@ -296,6 +373,24 @@ impl<'a> AiSpend<'a> {
     > {
         crate::apis::ai_spend_api::set_ai_renewal_rule(&self.0.config, set_ai_renewal_rule_input)
             .await
+    }
+
+    pub async fn set_ai_spend_limit(
+        &self,
+        po_id: &str,
+        line_no: f64,
+        set_ai_spend_limit_input: crate::models::SetAiSpendLimitInput,
+    ) -> Result<
+        crate::models::AiSpendLimit,
+        crate::apis::Error<crate::apis::ai_spend_api::SetAiSpendLimitError>,
+    > {
+        crate::apis::ai_spend_api::set_ai_spend_limit(
+            &self.0.config,
+            po_id,
+            line_no,
+            set_ai_spend_limit_input,
+        )
+        .await
     }
 
     pub async fn suggest_ai_po_lines(

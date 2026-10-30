@@ -5026,6 +5026,356 @@
         ]
       }
     },
+    "/ai-spend/attribution": {
+      "get": {
+        "operationId": "GetAiAttribution",
+        "summary": "[Buyer] The attribution rules that map a provider dimension (tag, label, project, workspace, api_key, inference_profile, resource_group, compartment, cluster) to a cost center, in order - first match wins - with what each matched in the period, what no rule matched and the dimension values behind it. 'view' on suppliers or on invoices.",
+        "parameters": [
+          {
+            "name": "period",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiAttributionResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      },
+      "put": {
+        "operationId": "SetAiAttribution",
+        "summary": "[Buyer] Replaces every attribution rule, in order, from the version read (409 when someone saved since). A tag or label rule needs its key; the cost center must be one of the workspace's. An AWS tag or Google Cloud label rule makes the next sync split that account's AI lines by it. 'edit' on purchase orders.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetAiAttributionInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiAttributionResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      }
+    },
+    "/ai-spend/cost-centers": {
+      "get": {
+        "operationId": "ListAiCostCenters",
+        "summary": "[Buyer] Each cost center's budget, committed and actual (budget control's figures) with the month's attributed AI usage as accruing and its forecast, in the budget's currency, the percent with the forecast, and the alert threshold sent; plus what is unattributed. 'view' on purchase orders.",
+        "parameters": [
+          {
+            "name": "period",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiCostCentersResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      }
+    },
+    "/ai-spend/limits": {
+      "get": {
+        "operationId": "ListAiSpendLimits",
+        "summary": "[Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase orders.",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListAiSpendLimitsResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      }
+    },
+    "/ai-spend/limits/{poId}/{lineNo}": {
+      "put": {
+        "operationId": "SetAiSpendLimit",
+        "summary": "[Buyer] Sets an approved order line's amount as its invoicer's spending ceiling for the month (AWS Budgets, an OpenAI project limit, an Anthropic workspace limit, a Google Cloud budget or spend cap, an Azure budget), reads it back and records the write. Refused below the month to date, with the figures. Raising the line raises it; closing the order removes it. An agent's call is a request the person confirms. 'edit' on purchase orders.",
+        "parameters": [
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lineNo",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetAiSpendLimitInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiSpendLimit"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      },
+      "delete": {
+        "operationId": "RemoveAiSpendLimit",
+        "summary": "[Buyer] Removes the ceiling Pleaxy set for an order line (only one Pleaxy named) and records it. 'edit' on purchase orders.",
+        "parameters": [
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lineNo",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiSpendLimit"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      }
+    },
+    "/ai-spend/limit-credentials/{invoicerId}": {
+      "put": {
+        "operationId": "SetAiLimitCredential",
+        "summary": "[Buyer] The separate write credential for one invoicer's ceilings - an AWS limits role, a Google Cloud limits service account, an Azure limits app, or an OpenAI or Anthropic admin key - checked with one read before it is saved. Never the read-only connection's. Logged-in users only, 'edit' on suppliers.",
+        "parameters": [
+          {
+            "name": "invoicerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetAiLimitCredentialInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiLimitCredential"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      },
+      "delete": {
+        "operationId": "RemoveAiLimitCredential",
+        "summary": "[Buyer] Removes an invoicer's limits credential: Pleaxy sets no more ceilings there; the read-only connection stays as it was. Remove the role or key at the provider too. Logged-in users only, 'edit' on suppliers.",
+        "parameters": [
+          {
+            "name": "invoicerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveAiLimitCredentialResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      }
+    },
     "/purchase-orders/{poId}/emails": {
       "get": {
         "operationId": "ListPurchaseOrderEmails",
@@ -8568,6 +8918,147 @@
           "enabled"
         ]
       },
+      "AiAttributionRuleInput": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^ar_[a-f0-9]{8}$",
+            "description": "The rule's id, to keep it; a new rule gets one."
+          },
+          "invoicerId": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "Only this invoicer's lines (a cloud connection or AI provider id). Every invoicer when left out."
+          },
+          "dimension": {
+            "type": "string",
+            "enum": [
+              "tag",
+              "label",
+              "project",
+              "workspace",
+              "api_key",
+              "inference_profile",
+              "resource_group",
+              "compartment",
+              "cluster"
+            ]
+          },
+          "key": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "The tag or label key; tag and label only."
+          },
+          "value": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "description": "The value the line must carry for the dimension (and key)."
+          },
+          "costCenter": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40,
+            "description": "The cost center's code."
+          }
+        },
+        "required": [
+          "dimension",
+          "value",
+          "costCenter"
+        ]
+      },
+      "SetAiAttributionInput": {
+        "type": "object",
+        "properties": {
+          "rules": {
+            "description": "Every rule, in order: first match wins. At most 200.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiAttributionRuleInput"
+            }
+          },
+          "version": {
+            "type": "number",
+            "minimum": 0,
+            "description": "The version the rules were read at (GetAiAttribution's version); 0 for the first save.",
+            "format": "double"
+          }
+        },
+        "required": [
+          "rules",
+          "version"
+        ]
+      },
+      "SetAiSpendLimitInput": {
+        "type": "object",
+        "properties": {
+          "invoicerId": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "The invoicer the order covers: a cloud connection or AI provider id with a limits credential."
+          },
+          "target": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$",
+            "description": "OpenAI: the project (proj_...). Anthropic: the workspace (wrkspc_...). Google Cloud: the project id, for a spend cap."
+          },
+          "deny": {
+            "type": "boolean",
+            "description": "Stop spend at the ceiling where the provider can (default true); false only alerts."
+          }
+        },
+        "required": [
+          "invoicerId"
+        ]
+      },
+      "SetAiLimitCredentialInput": {
+        "type": "object",
+        "properties": {
+          "roleArn": {
+            "type": "string",
+            "pattern": "^arn:aws:iam::\\d{12}:role\\/[\\w+=,.@\\/-]{1,512}$",
+            "description": "AWS: the limits role the setup script created (budgets only), never the read-only billing role."
+          },
+          "executionRoleArn": {
+            "type": "string",
+            "pattern": "^arn:aws:iam::\\d{12}:role\\/[\\w+=,.@\\/-]{1,512}$",
+            "description": "AWS, for a ceiling that stops spend: the budget action's execution role (trusting budgets.amazonaws.com)."
+          },
+          "denyPolicyArn": {
+            "type": "string",
+            "pattern": "^arn:aws:iam::(\\d{12}|aws):policy\\/[\\w+=,.@\\/-]{1,512}$",
+            "description": "AWS: the deny policy the budget action attaches at 100%."
+          },
+          "roleNames": {
+            "description": "AWS: the roles (names, not ARNs) the deny policy is attached to, e.g. the ones your apps call Bedrock with.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[\\w+=,.@-]{1,64}$"
+            }
+          },
+          "serviceAccountEmail": {
+            "type": "string",
+            "description": "Google Cloud: the limits service account (Billing Account Costs Manager, plus spend caps where wanted)."
+          },
+          "clientId": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F-]{36}$",
+            "description": "Azure: the limits app registration's client id (Cost Management Contributor on the billing profile)."
+          },
+          "key": {
+            "type": "string",
+            "maxLength": 400,
+            "description": "OpenAI and Anthropic: a separate admin key for the limits, never the read key. Stored encrypted, never returned."
+          },
+          "notifyEmail": {
+            "type": "string",
+            "description": "Who the provider emails when a ceiling is reached (AWS budget actions, Azure budgets)."
+          }
+        }
+      },
       "PurchaseRequestSupplierInput": {
         "type": "object",
         "properties": {
@@ -10100,6 +10591,7 @@
           "type": {
             "type": "string",
             "enum": [
+              "ai_forecast_over_budget",
               "report_ready",
               "company_report_ready",
               "po_approved",
@@ -18512,6 +19004,380 @@
                       "type": "string"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      },
+      "AiAttributionResponse": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "type": "string"
+          },
+          "rules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiAttributionRuleView"
+            }
+          },
+          "version": {
+            "type": "number",
+            "format": "double"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "unattributed": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "currency": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          },
+          "unmatchedValues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "invoicerId": {
+                  "type": "string"
+                },
+                "key": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                },
+                "currency": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          }
+        }
+      },
+      "AiAttributionRuleView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "invoicerId": {
+            "type": "string"
+          },
+          "dimension": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "costCenter": {
+            "type": "string"
+          },
+          "matched": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "currency": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "AiCostCentersResponse": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "type": "string"
+          },
+          "budgetMode": {
+            "type": "string"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiCostCenterRow"
+            }
+          },
+          "unattributed": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "currency": {
+                  "type": "string"
+                },
+                "monthToDate": {
+                  "type": "number",
+                  "format": "double"
+                },
+                "forecast": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          },
+          "thresholds": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        }
+      },
+      "AiCostCenterRow": {
+        "type": "object",
+        "properties": {
+          "costCenter": {
+            "type": "string"
+          },
+          "costCenterName": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "budget": {
+            "type": "number",
+            "format": "double"
+          },
+          "committed": {
+            "type": "number",
+            "format": "double"
+          },
+          "actual": {
+            "type": "number",
+            "format": "double"
+          },
+          "accruing": {
+            "type": "number",
+            "format": "double"
+          },
+          "forecast": {
+            "type": "number",
+            "format": "double"
+          },
+          "pctWithForecast": {
+            "type": "number",
+            "format": "double"
+          },
+          "alert": {
+            "type": "object",
+            "properties": {
+              "threshold": {
+                "type": "number",
+                "format": "double"
+              },
+              "sentAt": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "AiLimitCredential": {
+        "type": "object",
+        "properties": {
+          "invoicerId": {
+            "type": "string"
+          },
+          "invoicer": {
+            "type": "string",
+            "enum": [
+              "aws",
+              "gcp",
+              "azure",
+              "openai",
+              "anthropic"
+            ]
+          },
+          "aws": {
+            "type": "object",
+            "properties": {
+              "roleArn": {
+                "type": "string"
+              },
+              "externalId": {
+                "type": "string"
+              },
+              "executionRoleArn": {
+                "type": "string"
+              },
+              "denyPolicyArn": {
+                "type": "string"
+              },
+              "roleNames": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "gcp": {
+            "type": "object",
+            "properties": {
+              "serviceAccountEmail": {
+                "type": "string"
+              }
+            }
+          },
+          "azure": {
+            "type": "object",
+            "properties": {
+              "clientId": {
+                "type": "string"
+              }
+            }
+          },
+          "keyHint": {
+            "type": "string"
+          },
+          "notifyEmail": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          }
+        }
+      },
+      "AiSpendLimit": {
+        "type": "object",
+        "properties": {
+          "poId": {
+            "type": "string"
+          },
+          "lineNo": {
+            "type": "number",
+            "format": "double"
+          },
+          "invoicerId": {
+            "type": "string"
+          },
+          "invoicer": {
+            "type": "string",
+            "enum": [
+              "aws",
+              "gcp",
+              "azure",
+              "openai",
+              "anthropic"
+            ]
+          },
+          "target": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "period": {
+            "type": "string"
+          },
+          "providerRef": {
+            "type": "string"
+          },
+          "enforcement": {
+            "type": "string",
+            "enum": [
+              "deny",
+              "alert"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "failed",
+              "removed",
+              "set"
+            ]
+          },
+          "readBack": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "number",
+                "format": "double"
+              },
+              "at": {
+                "type": "string"
+              }
+            }
+          },
+          "error": {
+            "type": "string"
+          },
+          "setAt": {
+            "type": "string"
+          },
+          "setBy": {
+            "type": "string"
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "at": {
+                  "type": "string"
+                },
+                "by": {
+                  "type": "string"
+                },
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "failed",
+                    "set",
+                    "raise",
+                    "remove"
+                  ]
+                },
+                "amount": {
+                  "type": "number",
+                  "format": "double"
+                },
+                "readBack": {
+                  "type": "number",
+                  "format": "double"
+                },
+                "error": {
+                  "type": "string"
                 }
               }
             }
@@ -27589,6 +28455,31 @@
             "items": {
               "$ref": "#/components/schemas/WebhookDelivery"
             }
+          }
+        }
+      },
+      "ListAiSpendLimitsResult": {
+        "type": "object",
+        "properties": {
+          "credentials": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiLimitCredential"
+            }
+          },
+          "limits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiSpendLimit"
+            }
+          }
+        }
+      },
+      "RemoveAiLimitCredentialResult": {
+        "type": "object",
+        "properties": {
+          "invoicerId": {
+            "type": "string"
           }
         }
       },

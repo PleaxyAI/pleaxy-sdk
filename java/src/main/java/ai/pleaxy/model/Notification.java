@@ -107,6 +107,8 @@ public class Notification {
    * Gets or Sets type
    */
   public enum TypeEnum {
+    AI_FORECAST_OVER_BUDGET(String.valueOf("ai_forecast_over_budget")),
+    
     REPORT_READY(String.valueOf("report_ready")),
     
     COMPANY_REPORT_READY(String.valueOf("company_report_ready")),

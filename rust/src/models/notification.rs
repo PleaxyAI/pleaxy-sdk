@@ -89,6 +89,8 @@ impl Default for Audience {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Type {
+    #[serde(rename = "ai_forecast_over_budget")]
+    AiForecastOverBudget,
     #[serde(rename = "report_ready")]
     ReportReady,
     #[serde(rename = "company_report_ready")]
@@ -265,6 +267,6 @@ pub enum Type {
 
 impl Default for Type {
     fn default() -> Type {
-        Self::ReportReady
+        Self::AiForecastOverBudget
     }
 }

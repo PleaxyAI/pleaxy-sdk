@@ -188,6 +188,19 @@ const (
 	AddInvoiceReplacementLinksResultUsageSourceUsageApiClosedMonth AddInvoiceReplacementLinksResultUsageSource = "usage_api_closed_month"
 )
 
+// Defines values for AiAttributionRuleInputDimension.
+const (
+	ApiKey           AiAttributionRuleInputDimension = "api_key"
+	Cluster          AiAttributionRuleInputDimension = "cluster"
+	Compartment      AiAttributionRuleInputDimension = "compartment"
+	InferenceProfile AiAttributionRuleInputDimension = "inference_profile"
+	Label            AiAttributionRuleInputDimension = "label"
+	Project          AiAttributionRuleInputDimension = "project"
+	ResourceGroup    AiAttributionRuleInputDimension = "resource_group"
+	Tag              AiAttributionRuleInputDimension = "tag"
+	Workspace        AiAttributionRuleInputDimension = "workspace"
+)
+
 // Defines values for AiCommitmentViewAiInvoicer.
 const (
 	AiCommitmentViewAiInvoicerAnthropic  AiCommitmentViewAiInvoicer = "anthropic"
@@ -231,6 +244,15 @@ const (
 	AiCommitmentViewKindCapacity      AiCommitmentViewKind = "capacity"
 	AiCommitmentViewKindPrepaidCredit AiCommitmentViewKind = "prepaid_credit"
 	AiCommitmentViewKindSpend         AiCommitmentViewKind = "spend"
+)
+
+// Defines values for AiLimitCredentialInvoicer.
+const (
+	AiLimitCredentialInvoicerAnthropic AiLimitCredentialInvoicer = "anthropic"
+	AiLimitCredentialInvoicerAws       AiLimitCredentialInvoicer = "aws"
+	AiLimitCredentialInvoicerAzure     AiLimitCredentialInvoicer = "azure"
+	AiLimitCredentialInvoicerGcp       AiLimitCredentialInvoicer = "gcp"
+	AiLimitCredentialInvoicerOpenai    AiLimitCredentialInvoicer = "openai"
 )
 
 // Defines values for AiLineScopeInvoicer.
@@ -587,6 +609,36 @@ const (
 	AiSpendGroupInvoicerOpenrouter AiSpendGroupInvoicer = "openrouter"
 	AiSpendGroupInvoicerSnowflake  AiSpendGroupInvoicer = "snowflake"
 	AiSpendGroupInvoicerXai        AiSpendGroupInvoicer = "xai"
+)
+
+// Defines values for AiSpendLimitEnforcement.
+const (
+	Alert AiSpendLimitEnforcement = "alert"
+	Deny  AiSpendLimitEnforcement = "deny"
+)
+
+// Defines values for AiSpendLimitHistoryAction.
+const (
+	AiSpendLimitHistoryActionFailed AiSpendLimitHistoryAction = "failed"
+	AiSpendLimitHistoryActionRaise  AiSpendLimitHistoryAction = "raise"
+	AiSpendLimitHistoryActionRemove AiSpendLimitHistoryAction = "remove"
+	AiSpendLimitHistoryActionSet    AiSpendLimitHistoryAction = "set"
+)
+
+// Defines values for AiSpendLimitInvoicer.
+const (
+	AiSpendLimitInvoicerAnthropic AiSpendLimitInvoicer = "anthropic"
+	AiSpendLimitInvoicerAws       AiSpendLimitInvoicer = "aws"
+	AiSpendLimitInvoicerAzure     AiSpendLimitInvoicer = "azure"
+	AiSpendLimitInvoicerGcp       AiSpendLimitInvoicer = "gcp"
+	AiSpendLimitInvoicerOpenai    AiSpendLimitInvoicer = "openai"
+)
+
+// Defines values for AiSpendLimitState.
+const (
+	AiSpendLimitStateFailed  AiSpendLimitState = "failed"
+	AiSpendLimitStateRemoved AiSpendLimitState = "removed"
+	AiSpendLimitStateSet     AiSpendLimitState = "set"
 )
 
 // Defines values for AiSpendResponseNotReadableInvoicer.
@@ -3507,6 +3559,7 @@ const (
 	NotificationTypeAgentConnected                   NotificationType = "agent_connected"
 	NotificationTypeAgentRequest                     NotificationType = "agent_request"
 	NotificationTypeAgentSignedOut                   NotificationType = "agent_signed_out"
+	NotificationTypeAiForecastOverBudget             NotificationType = "ai_forecast_over_budget"
 	NotificationTypeCompanyReportReady               NotificationType = "company_report_ready"
 	NotificationTypeContractComment                  NotificationType = "contract_comment"
 	NotificationTypeContractRecheckRequested         NotificationType = "contract_recheck_requested"
@@ -5398,6 +5451,61 @@ type AddReplacementLinksInput struct {
 	InvoiceIds []string `json:"invoiceIds"`
 }
 
+// AiAttributionResponse defines model for AiAttributionResponse.
+type AiAttributionResponse struct {
+	Period       *string                  `json:"period,omitempty"`
+	Rules        *[]AiAttributionRuleView `json:"rules,omitempty"`
+	Unattributed *[]struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Currency *string  `json:"currency,omitempty"`
+	} `json:"unattributed,omitempty"`
+	UnmatchedValues *[]struct {
+		Amount     *float64 `json:"amount,omitempty"`
+		Currency   *string  `json:"currency,omitempty"`
+		InvoicerId *string  `json:"invoicerId,omitempty"`
+		Key        *string  `json:"key,omitempty"`
+		Value      *string  `json:"value,omitempty"`
+	} `json:"unmatchedValues,omitempty"`
+	UpdatedAt *string  `json:"updatedAt,omitempty"`
+	Version   *float64 `json:"version,omitempty"`
+}
+
+// AiAttributionRuleInput defines model for AiAttributionRuleInput.
+type AiAttributionRuleInput struct {
+	// CostCenter The cost center's code.
+	CostCenter string                          `json:"costCenter"`
+	Dimension  AiAttributionRuleInputDimension `json:"dimension"`
+
+	// Id The rule's id, to keep it; a new rule gets one.
+	Id *string `json:"id,omitempty"`
+
+	// InvoicerId Only this invoicer's lines (a cloud connection or AI provider id). Every invoicer when left out.
+	InvoicerId *string `json:"invoicerId,omitempty"`
+
+	// Key The tag or label key; tag and label only.
+	Key *string `json:"key,omitempty"`
+
+	// Value The value the line must carry for the dimension (and key).
+	Value string `json:"value"`
+}
+
+// AiAttributionRuleInputDimension defines model for AiAttributionRuleInput.Dimension.
+type AiAttributionRuleInputDimension string
+
+// AiAttributionRuleView defines model for AiAttributionRuleView.
+type AiAttributionRuleView struct {
+	CostCenter *string `json:"costCenter,omitempty"`
+	Dimension  *string `json:"dimension,omitempty"`
+	Id         string  `json:"id"`
+	InvoicerId *string `json:"invoicerId,omitempty"`
+	Key        *string `json:"key,omitempty"`
+	Matched    *[]struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Currency *string  `json:"currency,omitempty"`
+	} `json:"matched,omitempty"`
+	Value *string `json:"value,omitempty"`
+}
+
 // AiCommitmentView defines model for AiCommitmentView.
 type AiCommitmentView struct {
 	Ai *struct {
@@ -5433,6 +5541,62 @@ type AiCommitmentViewAiVendor string
 
 // AiCommitmentViewKind defines model for AiCommitmentView.Kind.
 type AiCommitmentViewKind string
+
+// AiCostCenterRow defines model for AiCostCenterRow.
+type AiCostCenterRow struct {
+	Accruing *float64 `json:"accruing,omitempty"`
+	Actual   *float64 `json:"actual,omitempty"`
+	Alert    *struct {
+		SentAt    *string  `json:"sentAt,omitempty"`
+		Threshold *float64 `json:"threshold,omitempty"`
+	} `json:"alert,omitempty"`
+	Budget          *float64 `json:"budget,omitempty"`
+	Committed       *float64 `json:"committed,omitempty"`
+	CostCenter      *string  `json:"costCenter,omitempty"`
+	CostCenterName  *string  `json:"costCenterName,omitempty"`
+	Currency        *string  `json:"currency,omitempty"`
+	Forecast        *float64 `json:"forecast,omitempty"`
+	PctWithForecast *float64 `json:"pctWithForecast,omitempty"`
+}
+
+// AiCostCentersResponse defines model for AiCostCentersResponse.
+type AiCostCentersResponse struct {
+	BudgetMode   *string            `json:"budgetMode,omitempty"`
+	Period       *string            `json:"period,omitempty"`
+	Rows         *[]AiCostCenterRow `json:"rows,omitempty"`
+	Thresholds   *[]float64         `json:"thresholds,omitempty"`
+	Unattributed *[]struct {
+		Currency    *string  `json:"currency,omitempty"`
+		Forecast    *float64 `json:"forecast,omitempty"`
+		MonthToDate *float64 `json:"monthToDate,omitempty"`
+	} `json:"unattributed,omitempty"`
+}
+
+// AiLimitCredential defines model for AiLimitCredential.
+type AiLimitCredential struct {
+	Aws *struct {
+		DenyPolicyArn    *string   `json:"denyPolicyArn,omitempty"`
+		ExecutionRoleArn *string   `json:"executionRoleArn,omitempty"`
+		ExternalId       *string   `json:"externalId,omitempty"`
+		RoleArn          *string   `json:"roleArn,omitempty"`
+		RoleNames        *[]string `json:"roleNames,omitempty"`
+	} `json:"aws,omitempty"`
+	Azure *struct {
+		ClientId *string `json:"clientId,omitempty"`
+	} `json:"azure,omitempty"`
+	CreatedAt *string `json:"createdAt,omitempty"`
+	CreatedBy *string `json:"createdBy,omitempty"`
+	Gcp       *struct {
+		ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty"`
+	} `json:"gcp,omitempty"`
+	Invoicer    *AiLimitCredentialInvoicer `json:"invoicer,omitempty"`
+	InvoicerId  *string                    `json:"invoicerId,omitempty"`
+	KeyHint     *string                    `json:"keyHint,omitempty"`
+	NotifyEmail *string                    `json:"notifyEmail,omitempty"`
+}
+
+// AiLimitCredentialInvoicer defines model for AiLimitCredential.Invoicer.
+type AiLimitCredentialInvoicer string
 
 // AiLineScope defines model for AiLineScope.
 type AiLineScope struct {
@@ -5694,6 +5858,48 @@ type AiSpendGroup struct {
 
 // AiSpendGroupInvoicer defines model for AiSpendGroup.Invoicer.
 type AiSpendGroupInvoicer string
+
+// AiSpendLimit defines model for AiSpendLimit.
+type AiSpendLimit struct {
+	Amount      *float64                 `json:"amount,omitempty"`
+	Currency    *string                  `json:"currency,omitempty"`
+	Enforcement *AiSpendLimitEnforcement `json:"enforcement,omitempty"`
+	Error       *string                  `json:"error,omitempty"`
+	History     *[]struct {
+		Action   *AiSpendLimitHistoryAction `json:"action,omitempty"`
+		Amount   *float64                   `json:"amount,omitempty"`
+		At       *string                    `json:"at,omitempty"`
+		By       *string                    `json:"by,omitempty"`
+		Error    *string                    `json:"error,omitempty"`
+		ReadBack *float64                   `json:"readBack,omitempty"`
+	} `json:"history,omitempty"`
+	Invoicer    *AiSpendLimitInvoicer `json:"invoicer,omitempty"`
+	InvoicerId  *string               `json:"invoicerId,omitempty"`
+	LineNo      *float64              `json:"lineNo,omitempty"`
+	Period      *string               `json:"period,omitempty"`
+	PoId        *string               `json:"poId,omitempty"`
+	ProviderRef *string               `json:"providerRef,omitempty"`
+	ReadBack    *struct {
+		Amount *float64 `json:"amount,omitempty"`
+		At     *string  `json:"at,omitempty"`
+	} `json:"readBack,omitempty"`
+	SetAt  *string            `json:"setAt,omitempty"`
+	SetBy  *string            `json:"setBy,omitempty"`
+	State  *AiSpendLimitState `json:"state,omitempty"`
+	Target *string            `json:"target,omitempty"`
+}
+
+// AiSpendLimitEnforcement defines model for AiSpendLimit.Enforcement.
+type AiSpendLimitEnforcement string
+
+// AiSpendLimitHistoryAction defines model for AiSpendLimit.History.Action.
+type AiSpendLimitHistoryAction string
+
+// AiSpendLimitInvoicer defines model for AiSpendLimit.Invoicer.
+type AiSpendLimitInvoicer string
+
+// AiSpendLimitState defines model for AiSpendLimit.State.
+type AiSpendLimitState string
 
 // AiSpendResponse defines model for AiSpendResponse.
 type AiSpendResponse struct {
@@ -10040,6 +10246,12 @@ type ListAiInvoicersItemShape string
 // ListAiInvoicersItemTier defines model for ListAiInvoicersItem.Tier.
 type ListAiInvoicersItemTier string
 
+// ListAiSpendLimitsResult defines model for ListAiSpendLimitsResult.
+type ListAiSpendLimitsResult struct {
+	Credentials *[]AiLimitCredential `json:"credentials,omitempty"`
+	Limits      *[]AiSpendLimit      `json:"limits,omitempty"`
+}
+
 // ListCloudConnectionsResult defines model for ListCloudConnectionsResult.
 type ListCloudConnectionsResult struct {
 	union json.RawMessage
@@ -11918,6 +12130,11 @@ type RemittanceViewRemittancesFileContentType string
 // RemittanceViewStatus defines model for RemittanceView.Status.
 type RemittanceViewStatus string
 
+// RemoveAiLimitCredentialResult defines model for RemoveAiLimitCredentialResult.
+type RemoveAiLimitCredentialResult struct {
+	InvoicerId *string `json:"invoicerId,omitempty"`
+}
+
 // RemoveInvoiceReplacementLinkResult defines model for RemoveInvoiceReplacementLinkResult.
 type RemoveInvoiceReplacementLinkResult struct {
 	Adjustments                 *[]InvoiceAdjustment                                 `json:"adjustments,omitempty"`
@@ -12262,6 +12479,42 @@ type ServiceEntrySheetQueueItem struct {
 	SupplierOrgId *string `json:"supplierOrgId,omitempty"`
 }
 
+// SetAiAttributionInput defines model for SetAiAttributionInput.
+type SetAiAttributionInput struct {
+	// Rules Every rule, in order: first match wins. At most 200.
+	Rules []AiAttributionRuleInput `json:"rules"`
+
+	// Version The version the rules were read at (GetAiAttribution's version); 0 for the first save.
+	Version float64 `json:"version"`
+}
+
+// SetAiLimitCredentialInput defines model for SetAiLimitCredentialInput.
+type SetAiLimitCredentialInput struct {
+	// ClientId Azure: the limits app registration's client id (Cost Management Contributor on the billing profile).
+	ClientId *string `json:"clientId,omitempty"`
+
+	// DenyPolicyArn AWS: the deny policy the budget action attaches at 100%.
+	DenyPolicyArn *string `json:"denyPolicyArn,omitempty"`
+
+	// ExecutionRoleArn AWS, for a ceiling that stops spend: the budget action's execution role (trusting budgets.amazonaws.com).
+	ExecutionRoleArn *string `json:"executionRoleArn,omitempty"`
+
+	// Key OpenAI and Anthropic: a separate admin key for the limits, never the read key. Stored encrypted, never returned.
+	Key *string `json:"key,omitempty"`
+
+	// NotifyEmail Who the provider emails when a ceiling is reached (AWS budget actions, Azure budgets).
+	NotifyEmail *string `json:"notifyEmail,omitempty"`
+
+	// RoleArn AWS: the limits role the setup script created (budgets only), never the read-only billing role.
+	RoleArn *string `json:"roleArn,omitempty"`
+
+	// RoleNames AWS: the roles (names, not ARNs) the deny policy is attached to, e.g. the ones your apps call Bedrock with.
+	RoleNames *[]string `json:"roleNames,omitempty"`
+
+	// ServiceAccountEmail Google Cloud: the limits service account (Billing Account Costs Manager, plus spend caps where wanted).
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty"`
+}
+
 // SetAiRenewalRuleInput defines model for SetAiRenewalRuleInput.
 type SetAiRenewalRuleInput struct {
 	// DayOfMonth The day of the month (1-28) from which the drafts are raised. Default 25.
@@ -12269,6 +12522,18 @@ type SetAiRenewalRuleInput struct {
 
 	// Enabled Whether next month's AI orders are drafted from the forecast.
 	Enabled bool `json:"enabled"`
+}
+
+// SetAiSpendLimitInput defines model for SetAiSpendLimitInput.
+type SetAiSpendLimitInput struct {
+	// Deny Stop spend at the ceiling where the provider can (default true); false only alerts.
+	Deny *bool `json:"deny,omitempty"`
+
+	// InvoicerId The invoicer the order covers: a cloud connection or AI provider id with a limits credential.
+	InvoicerId string `json:"invoicerId"`
+
+	// Target OpenAI: the project (proj_...). Anthropic: the workspace (wrkspc_...). Google Cloud: the project id, for a spend cap.
+	Target *string `json:"target,omitempty"`
 }
 
 // SetConnectionCurrenciesInput defines model for SetConnectionCurrenciesInput.
@@ -13393,6 +13658,16 @@ type GetAiSpendParams struct {
 	GroupBy *string `form:"groupBy,omitempty" json:"groupBy,omitempty"`
 }
 
+// GetAiAttributionParams defines parameters for GetAiAttribution.
+type GetAiAttributionParams struct {
+	Period *string `form:"period,omitempty" json:"period,omitempty"`
+}
+
+// ListAiCostCentersParams defines parameters for ListAiCostCenters.
+type ListAiCostCentersParams struct {
+	Period *string `form:"period,omitempty" json:"period,omitempty"`
+}
+
 // ListAiUsageLinesParams defines parameters for ListAiUsageLines.
 type ListAiUsageLinesParams struct {
 	Period     *string `form:"period,omitempty" json:"period,omitempty"`
@@ -13668,8 +13943,17 @@ type ListSyncEventsParams struct {
 // CreateAiProviderJSONRequestBody defines body for CreateAiProvider for application/json ContentType.
 type CreateAiProviderJSONRequestBody = CreateAiProviderInput
 
+// SetAiAttributionJSONRequestBody defines body for SetAiAttribution for application/json ContentType.
+type SetAiAttributionJSONRequestBody = SetAiAttributionInput
+
 // CheckAiSpendJSONRequestBody defines body for CheckAiSpend for application/json ContentType.
 type CheckAiSpendJSONRequestBody = CheckAiSpendInput
+
+// SetAiLimitCredentialJSONRequestBody defines body for SetAiLimitCredential for application/json ContentType.
+type SetAiLimitCredentialJSONRequestBody = SetAiLimitCredentialInput
+
+// SetAiSpendLimitJSONRequestBody defines body for SetAiSpendLimit for application/json ContentType.
+type SetAiSpendLimitJSONRequestBody = SetAiSpendLimitInput
 
 // SetAiRenewalRuleJSONRequestBody defines body for SetAiRenewalRule for application/json ContentType.
 type SetAiRenewalRuleJSONRequestBody = SetAiRenewalRuleInput
@@ -16686,6 +16970,14 @@ type ClientInterface interface {
 	// GetAiSpend request
 	GetAiSpend(ctx context.Context, params *GetAiSpendParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetAiAttribution request
+	GetAiAttribution(ctx context.Context, params *GetAiAttributionParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SetAiAttributionWithBody request with any body
+	SetAiAttributionWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SetAiAttribution(ctx context.Context, body SetAiAttributionJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// CheckAiSpendWithBody request with any body
 	CheckAiSpendWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -16693,6 +16985,28 @@ type ClientInterface interface {
 
 	// ListAiCommitments request
 	ListAiCommitments(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListAiCostCenters request
+	ListAiCostCenters(ctx context.Context, params *ListAiCostCentersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// RemoveAiLimitCredential request
+	RemoveAiLimitCredential(ctx context.Context, invoicerId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SetAiLimitCredentialWithBody request with any body
+	SetAiLimitCredentialWithBody(ctx context.Context, invoicerId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SetAiLimitCredential(ctx context.Context, invoicerId string, body SetAiLimitCredentialJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListAiSpendLimits request
+	ListAiSpendLimits(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// RemoveAiSpendLimit request
+	RemoveAiSpendLimit(ctx context.Context, poId string, lineNo float64, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SetAiSpendLimitWithBody request with any body
+	SetAiSpendLimitWithBody(ctx context.Context, poId string, lineNo float64, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SetAiSpendLimit(ctx context.Context, poId string, lineNo float64, body SetAiSpendLimitJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ListAiUsageLines request
 	ListAiUsageLines(ctx context.Context, params *ListAiUsageLinesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -17242,6 +17556,42 @@ func (c *RawClient) GetAiSpend(ctx context.Context, params *GetAiSpendParams, re
 	return c.Client.Do(req)
 }
 
+func (c *RawClient) GetAiAttribution(ctx context.Context, params *GetAiAttributionParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAiAttributionRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SetAiAttributionWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetAiAttributionRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SetAiAttribution(ctx context.Context, body SetAiAttributionJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetAiAttributionRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *RawClient) CheckAiSpendWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewCheckAiSpendRequestWithBody(c.Server, contentType, body)
 	if err != nil {
@@ -17268,6 +17618,102 @@ func (c *RawClient) CheckAiSpend(ctx context.Context, body CheckAiSpendJSONReque
 
 func (c *RawClient) ListAiCommitments(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewListAiCommitmentsRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListAiCostCenters(ctx context.Context, params *ListAiCostCentersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListAiCostCentersRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) RemoveAiLimitCredential(ctx context.Context, invoicerId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRemoveAiLimitCredentialRequest(c.Server, invoicerId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SetAiLimitCredentialWithBody(ctx context.Context, invoicerId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetAiLimitCredentialRequestWithBody(c.Server, invoicerId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SetAiLimitCredential(ctx context.Context, invoicerId string, body SetAiLimitCredentialJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetAiLimitCredentialRequest(c.Server, invoicerId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListAiSpendLimits(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListAiSpendLimitsRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) RemoveAiSpendLimit(ctx context.Context, poId string, lineNo float64, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRemoveAiSpendLimitRequest(c.Server, poId, lineNo)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SetAiSpendLimitWithBody(ctx context.Context, poId string, lineNo float64, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetAiSpendLimitRequestWithBody(c.Server, poId, lineNo, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SetAiSpendLimit(ctx context.Context, poId string, lineNo float64, body SetAiSpendLimitJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetAiSpendLimitRequest(c.Server, poId, lineNo, body)
 	if err != nil {
 		return nil, err
 	}
@@ -19544,6 +19990,95 @@ func NewGetAiSpendRequest(server string, params *GetAiSpendParams) (*http.Reques
 	return req, nil
 }
 
+// NewGetAiAttributionRequest generates requests for GetAiAttribution
+func NewGetAiAttributionRequest(server string, params *GetAiAttributionParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/attribution")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Period != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "period", runtime.ParamLocationQuery, *params.Period); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSetAiAttributionRequest calls the generic SetAiAttribution builder with application/json body
+func NewSetAiAttributionRequest(server string, body SetAiAttributionJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSetAiAttributionRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewSetAiAttributionRequestWithBody generates requests for SetAiAttribution with any type of body
+func NewSetAiAttributionRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/attribution")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewCheckAiSpendRequest calls the generic CheckAiSpend builder with application/json body
 func NewCheckAiSpendRequest(server string, body CheckAiSpendJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -19607,6 +20142,258 @@ func NewListAiCommitmentsRequest(server string) (*http.Request, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewListAiCostCentersRequest generates requests for ListAiCostCenters
+func NewListAiCostCentersRequest(server string, params *ListAiCostCentersParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/cost-centers")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Period != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "period", runtime.ParamLocationQuery, *params.Period); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewRemoveAiLimitCredentialRequest generates requests for RemoveAiLimitCredential
+func NewRemoveAiLimitCredentialRequest(server string, invoicerId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invoicerId", runtime.ParamLocationPath, invoicerId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/limit-credentials/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSetAiLimitCredentialRequest calls the generic SetAiLimitCredential builder with application/json body
+func NewSetAiLimitCredentialRequest(server string, invoicerId string, body SetAiLimitCredentialJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSetAiLimitCredentialRequestWithBody(server, invoicerId, "application/json", bodyReader)
+}
+
+// NewSetAiLimitCredentialRequestWithBody generates requests for SetAiLimitCredential with any type of body
+func NewSetAiLimitCredentialRequestWithBody(server string, invoicerId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invoicerId", runtime.ParamLocationPath, invoicerId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/limit-credentials/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewListAiSpendLimitsRequest generates requests for ListAiSpendLimits
+func NewListAiSpendLimitsRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/limits")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewRemoveAiSpendLimitRequest generates requests for RemoveAiSpendLimit
+func NewRemoveAiSpendLimitRequest(server string, poId string, lineNo float64) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "lineNo", runtime.ParamLocationPath, lineNo)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/limits/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSetAiSpendLimitRequest calls the generic SetAiSpendLimit builder with application/json body
+func NewSetAiSpendLimitRequest(server string, poId string, lineNo float64, body SetAiSpendLimitJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSetAiSpendLimitRequestWithBody(server, poId, lineNo, "application/json", bodyReader)
+}
+
+// NewSetAiSpendLimitRequestWithBody generates requests for SetAiSpendLimit with any type of body
+func NewSetAiSpendLimitRequestWithBody(server string, poId string, lineNo float64, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "lineNo", runtime.ParamLocationPath, lineNo)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/limits/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -25262,6 +26049,14 @@ type ClientWithResponsesInterface interface {
 	// GetAiSpendWithResponse request
 	GetAiSpendWithResponse(ctx context.Context, params *GetAiSpendParams, reqEditors ...RequestEditorFn) (*GetAiSpendResponse, error)
 
+	// GetAiAttributionWithResponse request
+	GetAiAttributionWithResponse(ctx context.Context, params *GetAiAttributionParams, reqEditors ...RequestEditorFn) (*GetAiAttributionResponse, error)
+
+	// SetAiAttributionWithBodyWithResponse request with any body
+	SetAiAttributionWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetAiAttributionResponse, error)
+
+	SetAiAttributionWithResponse(ctx context.Context, body SetAiAttributionJSONRequestBody, reqEditors ...RequestEditorFn) (*SetAiAttributionResponse, error)
+
 	// CheckAiSpendWithBodyWithResponse request with any body
 	CheckAiSpendWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CheckAiSpendResponse, error)
 
@@ -25269,6 +26064,28 @@ type ClientWithResponsesInterface interface {
 
 	// ListAiCommitmentsWithResponse request
 	ListAiCommitmentsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListAiCommitmentsResponse, error)
+
+	// ListAiCostCentersWithResponse request
+	ListAiCostCentersWithResponse(ctx context.Context, params *ListAiCostCentersParams, reqEditors ...RequestEditorFn) (*ListAiCostCentersResponse, error)
+
+	// RemoveAiLimitCredentialWithResponse request
+	RemoveAiLimitCredentialWithResponse(ctx context.Context, invoicerId string, reqEditors ...RequestEditorFn) (*RemoveAiLimitCredentialResponse, error)
+
+	// SetAiLimitCredentialWithBodyWithResponse request with any body
+	SetAiLimitCredentialWithBodyWithResponse(ctx context.Context, invoicerId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetAiLimitCredentialResponse, error)
+
+	SetAiLimitCredentialWithResponse(ctx context.Context, invoicerId string, body SetAiLimitCredentialJSONRequestBody, reqEditors ...RequestEditorFn) (*SetAiLimitCredentialResponse, error)
+
+	// ListAiSpendLimitsWithResponse request
+	ListAiSpendLimitsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListAiSpendLimitsResponse, error)
+
+	// RemoveAiSpendLimitWithResponse request
+	RemoveAiSpendLimitWithResponse(ctx context.Context, poId string, lineNo float64, reqEditors ...RequestEditorFn) (*RemoveAiSpendLimitResponse, error)
+
+	// SetAiSpendLimitWithBodyWithResponse request with any body
+	SetAiSpendLimitWithBodyWithResponse(ctx context.Context, poId string, lineNo float64, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetAiSpendLimitResponse, error)
+
+	SetAiSpendLimitWithResponse(ctx context.Context, poId string, lineNo float64, body SetAiSpendLimitJSONRequestBody, reqEditors ...RequestEditorFn) (*SetAiSpendLimitResponse, error)
 
 	// ListAiUsageLinesWithResponse request
 	ListAiUsageLinesWithResponse(ctx context.Context, params *ListAiUsageLinesParams, reqEditors ...RequestEditorFn) (*ListAiUsageLinesResponse, error)
@@ -25894,6 +26711,52 @@ func (r GetAiSpendResponse) StatusCode() int {
 	return 0
 }
 
+type GetAiAttributionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiAttributionResponse
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetAiAttributionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetAiAttributionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SetAiAttributionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiAttributionResponse
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r SetAiAttributionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SetAiAttributionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type CheckAiSpendResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -25934,6 +26797,144 @@ func (r ListAiCommitmentsResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r ListAiCommitmentsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListAiCostCentersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiCostCentersResponse
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListAiCostCentersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListAiCostCentersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type RemoveAiLimitCredentialResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *RemoveAiLimitCredentialResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r RemoveAiLimitCredentialResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RemoveAiLimitCredentialResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SetAiLimitCredentialResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiLimitCredential
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r SetAiLimitCredentialResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SetAiLimitCredentialResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListAiSpendLimitsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ListAiSpendLimitsResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListAiSpendLimitsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListAiSpendLimitsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type RemoveAiSpendLimitResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiSpendLimit
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r RemoveAiSpendLimitResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RemoveAiSpendLimitResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SetAiSpendLimitResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiSpendLimit
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r SetAiSpendLimitResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SetAiSpendLimitResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -28797,6 +29798,32 @@ func (c *ClientWithResponses) GetAiSpendWithResponse(ctx context.Context, params
 	return ParseGetAiSpendResponse(rsp)
 }
 
+// GetAiAttributionWithResponse request returning *GetAiAttributionResponse
+func (c *ClientWithResponses) GetAiAttributionWithResponse(ctx context.Context, params *GetAiAttributionParams, reqEditors ...RequestEditorFn) (*GetAiAttributionResponse, error) {
+	rsp, err := c.GetAiAttribution(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetAiAttributionResponse(rsp)
+}
+
+// SetAiAttributionWithBodyWithResponse request with arbitrary body returning *SetAiAttributionResponse
+func (c *ClientWithResponses) SetAiAttributionWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetAiAttributionResponse, error) {
+	rsp, err := c.SetAiAttributionWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetAiAttributionResponse(rsp)
+}
+
+func (c *ClientWithResponses) SetAiAttributionWithResponse(ctx context.Context, body SetAiAttributionJSONRequestBody, reqEditors ...RequestEditorFn) (*SetAiAttributionResponse, error) {
+	rsp, err := c.SetAiAttribution(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetAiAttributionResponse(rsp)
+}
+
 // CheckAiSpendWithBodyWithResponse request with arbitrary body returning *CheckAiSpendResponse
 func (c *ClientWithResponses) CheckAiSpendWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CheckAiSpendResponse, error) {
 	rsp, err := c.CheckAiSpendWithBody(ctx, contentType, body, reqEditors...)
@@ -28821,6 +29848,76 @@ func (c *ClientWithResponses) ListAiCommitmentsWithResponse(ctx context.Context,
 		return nil, err
 	}
 	return ParseListAiCommitmentsResponse(rsp)
+}
+
+// ListAiCostCentersWithResponse request returning *ListAiCostCentersResponse
+func (c *ClientWithResponses) ListAiCostCentersWithResponse(ctx context.Context, params *ListAiCostCentersParams, reqEditors ...RequestEditorFn) (*ListAiCostCentersResponse, error) {
+	rsp, err := c.ListAiCostCenters(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListAiCostCentersResponse(rsp)
+}
+
+// RemoveAiLimitCredentialWithResponse request returning *RemoveAiLimitCredentialResponse
+func (c *ClientWithResponses) RemoveAiLimitCredentialWithResponse(ctx context.Context, invoicerId string, reqEditors ...RequestEditorFn) (*RemoveAiLimitCredentialResponse, error) {
+	rsp, err := c.RemoveAiLimitCredential(ctx, invoicerId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRemoveAiLimitCredentialResponse(rsp)
+}
+
+// SetAiLimitCredentialWithBodyWithResponse request with arbitrary body returning *SetAiLimitCredentialResponse
+func (c *ClientWithResponses) SetAiLimitCredentialWithBodyWithResponse(ctx context.Context, invoicerId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetAiLimitCredentialResponse, error) {
+	rsp, err := c.SetAiLimitCredentialWithBody(ctx, invoicerId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetAiLimitCredentialResponse(rsp)
+}
+
+func (c *ClientWithResponses) SetAiLimitCredentialWithResponse(ctx context.Context, invoicerId string, body SetAiLimitCredentialJSONRequestBody, reqEditors ...RequestEditorFn) (*SetAiLimitCredentialResponse, error) {
+	rsp, err := c.SetAiLimitCredential(ctx, invoicerId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetAiLimitCredentialResponse(rsp)
+}
+
+// ListAiSpendLimitsWithResponse request returning *ListAiSpendLimitsResponse
+func (c *ClientWithResponses) ListAiSpendLimitsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListAiSpendLimitsResponse, error) {
+	rsp, err := c.ListAiSpendLimits(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListAiSpendLimitsResponse(rsp)
+}
+
+// RemoveAiSpendLimitWithResponse request returning *RemoveAiSpendLimitResponse
+func (c *ClientWithResponses) RemoveAiSpendLimitWithResponse(ctx context.Context, poId string, lineNo float64, reqEditors ...RequestEditorFn) (*RemoveAiSpendLimitResponse, error) {
+	rsp, err := c.RemoveAiSpendLimit(ctx, poId, lineNo, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRemoveAiSpendLimitResponse(rsp)
+}
+
+// SetAiSpendLimitWithBodyWithResponse request with arbitrary body returning *SetAiSpendLimitResponse
+func (c *ClientWithResponses) SetAiSpendLimitWithBodyWithResponse(ctx context.Context, poId string, lineNo float64, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetAiSpendLimitResponse, error) {
+	rsp, err := c.SetAiSpendLimitWithBody(ctx, poId, lineNo, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetAiSpendLimitResponse(rsp)
+}
+
+func (c *ClientWithResponses) SetAiSpendLimitWithResponse(ctx context.Context, poId string, lineNo float64, body SetAiSpendLimitJSONRequestBody, reqEditors ...RequestEditorFn) (*SetAiSpendLimitResponse, error) {
+	rsp, err := c.SetAiSpendLimit(ctx, poId, lineNo, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetAiSpendLimitResponse(rsp)
 }
 
 // ListAiUsageLinesWithResponse request returning *ListAiUsageLinesResponse
@@ -30480,6 +31577,72 @@ func ParseGetAiSpendResponse(rsp *http.Response) (*GetAiSpendResponse, error) {
 	return response, nil
 }
 
+// ParseGetAiAttributionResponse parses an HTTP response from a GetAiAttributionWithResponse call
+func ParseGetAiAttributionResponse(rsp *http.Response) (*GetAiAttributionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetAiAttributionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiAttributionResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSetAiAttributionResponse parses an HTTP response from a SetAiAttributionWithResponse call
+func ParseSetAiAttributionResponse(rsp *http.Response) (*SetAiAttributionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SetAiAttributionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiAttributionResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseCheckAiSpendResponse parses an HTTP response from a CheckAiSpendWithResponse call
 func ParseCheckAiSpendResponse(rsp *http.Response) (*CheckAiSpendResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -30529,6 +31692,204 @@ func ParseListAiCommitmentsResponse(rsp *http.Response) (*ListAiCommitmentsRespo
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []AiCommitmentView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListAiCostCentersResponse parses an HTTP response from a ListAiCostCentersWithResponse call
+func ParseListAiCostCentersResponse(rsp *http.Response) (*ListAiCostCentersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListAiCostCentersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiCostCentersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRemoveAiLimitCredentialResponse parses an HTTP response from a RemoveAiLimitCredentialWithResponse call
+func ParseRemoveAiLimitCredentialResponse(rsp *http.Response) (*RemoveAiLimitCredentialResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RemoveAiLimitCredentialResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest RemoveAiLimitCredentialResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSetAiLimitCredentialResponse parses an HTTP response from a SetAiLimitCredentialWithResponse call
+func ParseSetAiLimitCredentialResponse(rsp *http.Response) (*SetAiLimitCredentialResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SetAiLimitCredentialResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiLimitCredential
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListAiSpendLimitsResponse parses an HTTP response from a ListAiSpendLimitsWithResponse call
+func ParseListAiSpendLimitsResponse(rsp *http.Response) (*ListAiSpendLimitsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListAiSpendLimitsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListAiSpendLimitsResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRemoveAiSpendLimitResponse parses an HTTP response from a RemoveAiSpendLimitWithResponse call
+func ParseRemoveAiSpendLimitResponse(rsp *http.Response) (*RemoveAiSpendLimitResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RemoveAiSpendLimitResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiSpendLimit
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSetAiSpendLimitResponse parses an HTTP response from a SetAiSpendLimitWithResponse call
+func ParseSetAiSpendLimitResponse(rsp *http.Response) (*SetAiSpendLimitResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SetAiSpendLimitResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiSpendLimit
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

@@ -63,6 +63,14 @@ class AiSpendResource:
             "pleaxy._generated.api.ai_spend.check_ai_spend", body=body
         )
 
+    def get_ai_attribution(
+        self, *, period: Union[Unset, str] = UNSET
+    ) -> AiAttributionResponse:
+        """[Buyer] The attribution rules that map a provider dimension (tag, label, project, workspace, api_key, inference_profile, resource_group, compartment, cluster) to a cost center, in order - first match wins - with what each matched in the period, what no rule matched and the dimension values behind it. 'view' on suppliers or on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.get_ai_attribution", period=period
+        )
+
     def get_ai_renewal_rule(self) -> AiRenewalRule:
         """[Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast, from which day of the month, and its last run. 'view' on purchase orders."""
         return self._transport.call(
@@ -85,6 +93,14 @@ class AiSpendResource:
             "pleaxy._generated.api.ai_spend.list_ai_commitments"
         )
 
+    def list_ai_cost_centers(
+        self, *, period: Union[Unset, str] = UNSET
+    ) -> AiCostCentersResponse:
+        """[Buyer] Each cost center's budget, committed and actual (budget control's figures) with the month's attributed AI usage as accruing and its forecast, in the budget's currency, the percent with the forecast, and the alert threshold sent; plus what is unattributed. 'view' on purchase orders."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.list_ai_cost_centers", period=period
+        )
+
     def list_ai_rate_cards(
         self,
         *,
@@ -100,6 +116,12 @@ class AiSpendResource:
             vendor=vendor,
             model=model,
             on=on,
+        )
+
+    def list_ai_spend_limits(self) -> ListAiSpendLimitsResult:
+        """[Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase orders."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.list_ai_spend_limits"
         )
 
     def list_ai_usage_lines(
@@ -131,10 +153,56 @@ class AiSpendResource:
             "pleaxy._generated.api.ai_spend.raise_next_ai_period", po_id=po_id
         )
 
+    def remove_ai_limit_credential(
+        self, invoicer_id: str
+    ) -> RemoveAiLimitCredentialResult:
+        """[Buyer] Removes an invoicer's limits credential: Pleaxy sets no more ceilings there; the read-only connection stays as it was. Remove the role or key at the provider too. Logged-in users only, 'edit' on suppliers."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.remove_ai_limit_credential",
+            invoicer_id=invoicer_id,
+        )
+
+    def remove_ai_spend_limit(self, po_id: str, line_no: float) -> AiSpendLimit:
+        """[Buyer] Removes the ceiling Pleaxy set for an order line (only one Pleaxy named) and records it. 'edit' on purchase orders."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.remove_ai_spend_limit",
+            po_id=po_id,
+            line_no=line_no,
+        )
+
+    def set_ai_attribution(
+        self, *, body: SetAiAttributionInput
+    ) -> AiAttributionResponse:
+        """[Buyer] Replaces every attribution rule, in order, from the version read (409 when someone saved since). A tag or label rule needs its key; the cost center must be one of the workspace's. An AWS tag or Google Cloud label rule makes the next sync split that account's AI lines by it. 'edit' on purchase orders."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.set_ai_attribution", body=body
+        )
+
+    def set_ai_limit_credential(
+        self, invoicer_id: str, *, body: SetAiLimitCredentialInput
+    ) -> AiLimitCredential:
+        """[Buyer] The separate write credential for one invoicer's ceilings - an AWS limits role, a Google Cloud limits service account, an Azure limits app, or an OpenAI or Anthropic admin key - checked with one read before it is saved. Never the read-only connection's. Logged-in users only, 'edit' on suppliers."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.set_ai_limit_credential",
+            invoicer_id=invoicer_id,
+            body=body,
+        )
+
     def set_ai_renewal_rule(self, *, body: SetAiRenewalRuleInput) -> AiRenewalRule:
         """[Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, 'create' on purchase orders."""
         return self._transport.call(
             "pleaxy._generated.api.ai_spend.set_ai_renewal_rule", body=body
+        )
+
+    def set_ai_spend_limit(
+        self, po_id: str, line_no: float, *, body: SetAiSpendLimitInput
+    ) -> AiSpendLimit:
+        """[Buyer] Sets an approved order line's amount as its invoicer's spending ceiling for the month (AWS Budgets, an OpenAI project limit, an Anthropic workspace limit, a Google Cloud budget or spend cap, an Azure budget), reads it back and records the write. Refused below the month to date, with the figures. Raising the line raises it; closing the order removes it. An agent's call is a request the person confirms. 'edit' on purchase orders."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.set_ai_spend_limit",
+            po_id=po_id,
+            line_no=line_no,
+            body=body,
         )
 
     def suggest_ai_po_lines(

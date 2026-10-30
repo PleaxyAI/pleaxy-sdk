@@ -17,17 +17,26 @@ import ai.pleaxy.client.ApiException;
 import ai.pleaxy.client.ApiResponse;
 import ai.pleaxy.client.Pair;
 
+import ai.pleaxy.model.AiAttributionResponse;
 import ai.pleaxy.model.AiCommitmentView;
+import ai.pleaxy.model.AiCostCentersResponse;
+import ai.pleaxy.model.AiLimitCredential;
 import ai.pleaxy.model.AiPoLineSuggestions;
 import ai.pleaxy.model.AiRateCardEntry;
 import ai.pleaxy.model.AiRenewalRule;
 import ai.pleaxy.model.AiSpendCheckResponse;
+import ai.pleaxy.model.AiSpendLimit;
 import ai.pleaxy.model.AiSpendResponse;
 import ai.pleaxy.model.AiUsageLinesPage;
 import ai.pleaxy.model.ApiError;
 import ai.pleaxy.model.CheckAiSpendInput;
+import ai.pleaxy.model.ListAiSpendLimitsResult;
 import ai.pleaxy.model.PurchaseOrder;
+import ai.pleaxy.model.RemoveAiLimitCredentialResult;
+import ai.pleaxy.model.SetAiAttributionInput;
+import ai.pleaxy.model.SetAiLimitCredentialInput;
 import ai.pleaxy.model.SetAiRenewalRuleInput;
+import ai.pleaxy.model.SetAiSpendLimitInput;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -160,6 +169,89 @@ public class AiSpendApi {
     } catch (IOException e) {
       throw new ApiException(e);
     }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] The attribution rules that map a provider dimension (tag, label, project, workspace, api_key, inference_profile, resource_group, compartment, cluster) to a cost center, in order - first match wins - with what each matched in the period, what no rule matched and the dimension values behind it. &#39;view&#39; on suppliers or on invoices.
+   * 
+   * @param period  (optional)
+   * @return AiAttributionResponse
+   * @throws ApiException if fails to make API call
+   */
+  public AiAttributionResponse getAiAttribution(String period) throws ApiException {
+    ApiResponse<AiAttributionResponse> localVarResponse = getAiAttributionWithHttpInfo(period);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] The attribution rules that map a provider dimension (tag, label, project, workspace, api_key, inference_profile, resource_group, compartment, cluster) to a cost center, in order - first match wins - with what each matched in the period, what no rule matched and the dimension values behind it. &#39;view&#39; on suppliers or on invoices.
+   * 
+   * @param period  (optional)
+   * @return ApiResponse&lt;AiAttributionResponse&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<AiAttributionResponse> getAiAttributionWithHttpInfo(String period) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getAiAttributionRequestBuilder(period);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("getAiAttribution", localVarResponse);
+        }
+        return new ApiResponse<AiAttributionResponse>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<AiAttributionResponse>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder getAiAttributionRequestBuilder(String period) throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/attribution";
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "period";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("period", period));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -389,6 +481,89 @@ public class AiSpendApi {
   }
 
   /**
+   * [Buyer] Each cost center&#39;s budget, committed and actual (budget control&#39;s figures) with the month&#39;s attributed AI usage as accruing and its forecast, in the budget&#39;s currency, the percent with the forecast, and the alert threshold sent; plus what is unattributed. &#39;view&#39; on purchase orders.
+   * 
+   * @param period  (optional)
+   * @return AiCostCentersResponse
+   * @throws ApiException if fails to make API call
+   */
+  public AiCostCentersResponse listAiCostCenters(String period) throws ApiException {
+    ApiResponse<AiCostCentersResponse> localVarResponse = listAiCostCentersWithHttpInfo(period);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Each cost center&#39;s budget, committed and actual (budget control&#39;s figures) with the month&#39;s attributed AI usage as accruing and its forecast, in the budget&#39;s currency, the percent with the forecast, and the alert threshold sent; plus what is unattributed. &#39;view&#39; on purchase orders.
+   * 
+   * @param period  (optional)
+   * @return ApiResponse&lt;AiCostCentersResponse&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<AiCostCentersResponse> listAiCostCentersWithHttpInfo(String period) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = listAiCostCentersRequestBuilder(period);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("listAiCostCenters", localVarResponse);
+        }
+        return new ApiResponse<AiCostCentersResponse>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<AiCostCentersResponse>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder listAiCostCentersRequestBuilder(String period) throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/cost-centers";
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "period";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("period", period));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
    * [Buyer] The public list prices Pleaxy keeps for AI models, by invoicer, vendor, model, meter and region, with effective dates and the pricing page each was taken from. With on (YYYY-MM-DD), only the entry in force that day. A price change is a new entry, never an edit. &#39;view&#39; on suppliers or on invoices.
    * 
    * @param invoicer  (optional)
@@ -470,6 +645,72 @@ public class AiSpendApi {
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] The limits credentials (one per invoicer, never the key) and each order line&#39;s ceiling at its provider: amount, month, state, what reading it back gave, and every write. &#39;view&#39; on purchase orders.
+   * 
+   * @return ListAiSpendLimitsResult
+   * @throws ApiException if fails to make API call
+   */
+  public ListAiSpendLimitsResult listAiSpendLimits() throws ApiException {
+    ApiResponse<ListAiSpendLimitsResult> localVarResponse = listAiSpendLimitsWithHttpInfo();
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] The limits credentials (one per invoicer, never the key) and each order line&#39;s ceiling at its provider: amount, month, state, what reading it back gave, and every write. &#39;view&#39; on purchase orders.
+   * 
+   * @return ApiResponse&lt;ListAiSpendLimitsResult&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<ListAiSpendLimitsResult> listAiSpendLimitsWithHttpInfo() throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = listAiSpendLimitsRequestBuilder();
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("listAiSpendLimits", localVarResponse);
+        }
+        return new ApiResponse<ListAiSpendLimitsResult>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ListAiSpendLimitsResult>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder listAiSpendLimitsRequestBuilder() throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/limits";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -664,6 +905,322 @@ public class AiSpendApi {
   }
 
   /**
+   * [Buyer] Removes an invoicer&#39;s limits credential: Pleaxy sets no more ceilings there; the read-only connection stays as it was. Remove the role or key at the provider too. Logged-in users only, &#39;edit&#39; on suppliers.
+   * 
+   * @param invoicerId  (required)
+   * @return RemoveAiLimitCredentialResult
+   * @throws ApiException if fails to make API call
+   */
+  public RemoveAiLimitCredentialResult removeAiLimitCredential(String invoicerId) throws ApiException {
+    ApiResponse<RemoveAiLimitCredentialResult> localVarResponse = removeAiLimitCredentialWithHttpInfo(invoicerId);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Removes an invoicer&#39;s limits credential: Pleaxy sets no more ceilings there; the read-only connection stays as it was. Remove the role or key at the provider too. Logged-in users only, &#39;edit&#39; on suppliers.
+   * 
+   * @param invoicerId  (required)
+   * @return ApiResponse&lt;RemoveAiLimitCredentialResult&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<RemoveAiLimitCredentialResult> removeAiLimitCredentialWithHttpInfo(String invoicerId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = removeAiLimitCredentialRequestBuilder(invoicerId);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("removeAiLimitCredential", localVarResponse);
+        }
+        return new ApiResponse<RemoveAiLimitCredentialResult>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<RemoveAiLimitCredentialResult>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder removeAiLimitCredentialRequestBuilder(String invoicerId) throws ApiException {
+    // verify the required parameter 'invoicerId' is set
+    if (invoicerId == null) {
+      throw new ApiException(400, "Missing the required parameter 'invoicerId' when calling removeAiLimitCredential");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/limit-credentials/{invoicerId}"
+        .replace("{invoicerId}", ApiClient.urlEncode(invoicerId.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("DELETE", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] Removes the ceiling Pleaxy set for an order line (only one Pleaxy named) and records it. &#39;edit&#39; on purchase orders.
+   * 
+   * @param poId  (required)
+   * @param lineNo  (required)
+   * @return AiSpendLimit
+   * @throws ApiException if fails to make API call
+   */
+  public AiSpendLimit removeAiSpendLimit(String poId, Double lineNo) throws ApiException {
+    ApiResponse<AiSpendLimit> localVarResponse = removeAiSpendLimitWithHttpInfo(poId, lineNo);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Removes the ceiling Pleaxy set for an order line (only one Pleaxy named) and records it. &#39;edit&#39; on purchase orders.
+   * 
+   * @param poId  (required)
+   * @param lineNo  (required)
+   * @return ApiResponse&lt;AiSpendLimit&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<AiSpendLimit> removeAiSpendLimitWithHttpInfo(String poId, Double lineNo) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = removeAiSpendLimitRequestBuilder(poId, lineNo);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("removeAiSpendLimit", localVarResponse);
+        }
+        return new ApiResponse<AiSpendLimit>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<AiSpendLimit>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder removeAiSpendLimitRequestBuilder(String poId, Double lineNo) throws ApiException {
+    // verify the required parameter 'poId' is set
+    if (poId == null) {
+      throw new ApiException(400, "Missing the required parameter 'poId' when calling removeAiSpendLimit");
+    }
+    // verify the required parameter 'lineNo' is set
+    if (lineNo == null) {
+      throw new ApiException(400, "Missing the required parameter 'lineNo' when calling removeAiSpendLimit");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/limits/{poId}/{lineNo}"
+        .replace("{poId}", ApiClient.urlEncode(poId.toString()))
+        .replace("{lineNo}", ApiClient.urlEncode(lineNo.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("DELETE", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] Replaces every attribution rule, in order, from the version read (409 when someone saved since). A tag or label rule needs its key; the cost center must be one of the workspace&#39;s. An AWS tag or Google Cloud label rule makes the next sync split that account&#39;s AI lines by it. &#39;edit&#39; on purchase orders.
+   * 
+   * @param setAiAttributionInput  (required)
+   * @return AiAttributionResponse
+   * @throws ApiException if fails to make API call
+   */
+  public AiAttributionResponse setAiAttribution(SetAiAttributionInput setAiAttributionInput) throws ApiException {
+    ApiResponse<AiAttributionResponse> localVarResponse = setAiAttributionWithHttpInfo(setAiAttributionInput);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Replaces every attribution rule, in order, from the version read (409 when someone saved since). A tag or label rule needs its key; the cost center must be one of the workspace&#39;s. An AWS tag or Google Cloud label rule makes the next sync split that account&#39;s AI lines by it. &#39;edit&#39; on purchase orders.
+   * 
+   * @param setAiAttributionInput  (required)
+   * @return ApiResponse&lt;AiAttributionResponse&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<AiAttributionResponse> setAiAttributionWithHttpInfo(SetAiAttributionInput setAiAttributionInput) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = setAiAttributionRequestBuilder(setAiAttributionInput);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("setAiAttribution", localVarResponse);
+        }
+        return new ApiResponse<AiAttributionResponse>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<AiAttributionResponse>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder setAiAttributionRequestBuilder(SetAiAttributionInput setAiAttributionInput) throws ApiException {
+    // verify the required parameter 'setAiAttributionInput' is set
+    if (setAiAttributionInput == null) {
+      throw new ApiException(400, "Missing the required parameter 'setAiAttributionInput' when calling setAiAttribution");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/attribution";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(setAiAttributionInput);
+      localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] The separate write credential for one invoicer&#39;s ceilings - an AWS limits role, a Google Cloud limits service account, an Azure limits app, or an OpenAI or Anthropic admin key - checked with one read before it is saved. Never the read-only connection&#39;s. Logged-in users only, &#39;edit&#39; on suppliers.
+   * 
+   * @param invoicerId  (required)
+   * @param setAiLimitCredentialInput  (required)
+   * @return AiLimitCredential
+   * @throws ApiException if fails to make API call
+   */
+  public AiLimitCredential setAiLimitCredential(String invoicerId, SetAiLimitCredentialInput setAiLimitCredentialInput) throws ApiException {
+    ApiResponse<AiLimitCredential> localVarResponse = setAiLimitCredentialWithHttpInfo(invoicerId, setAiLimitCredentialInput);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] The separate write credential for one invoicer&#39;s ceilings - an AWS limits role, a Google Cloud limits service account, an Azure limits app, or an OpenAI or Anthropic admin key - checked with one read before it is saved. Never the read-only connection&#39;s. Logged-in users only, &#39;edit&#39; on suppliers.
+   * 
+   * @param invoicerId  (required)
+   * @param setAiLimitCredentialInput  (required)
+   * @return ApiResponse&lt;AiLimitCredential&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<AiLimitCredential> setAiLimitCredentialWithHttpInfo(String invoicerId, SetAiLimitCredentialInput setAiLimitCredentialInput) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = setAiLimitCredentialRequestBuilder(invoicerId, setAiLimitCredentialInput);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("setAiLimitCredential", localVarResponse);
+        }
+        return new ApiResponse<AiLimitCredential>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<AiLimitCredential>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder setAiLimitCredentialRequestBuilder(String invoicerId, SetAiLimitCredentialInput setAiLimitCredentialInput) throws ApiException {
+    // verify the required parameter 'invoicerId' is set
+    if (invoicerId == null) {
+      throw new ApiException(400, "Missing the required parameter 'invoicerId' when calling setAiLimitCredential");
+    }
+    // verify the required parameter 'setAiLimitCredentialInput' is set
+    if (setAiLimitCredentialInput == null) {
+      throw new ApiException(400, "Missing the required parameter 'setAiLimitCredentialInput' when calling setAiLimitCredential");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/limit-credentials/{invoicerId}"
+        .replace("{invoicerId}", ApiClient.urlEncode(invoicerId.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(setAiLimitCredentialInput);
+      localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
    * [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month&#39;s order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, &#39;create&#39; on purchase orders.
    * 
    * @param setAiRenewalRuleInput  (required)
@@ -728,6 +1285,98 @@ public class AiSpendApi {
 
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(setAiRenewalRuleInput);
+      localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] Sets an approved order line&#39;s amount as its invoicer&#39;s spending ceiling for the month (AWS Budgets, an OpenAI project limit, an Anthropic workspace limit, a Google Cloud budget or spend cap, an Azure budget), reads it back and records the write. Refused below the month to date, with the figures. Raising the line raises it; closing the order removes it. An agent&#39;s call is a request the person confirms. &#39;edit&#39; on purchase orders.
+   * 
+   * @param poId  (required)
+   * @param lineNo  (required)
+   * @param setAiSpendLimitInput  (required)
+   * @return AiSpendLimit
+   * @throws ApiException if fails to make API call
+   */
+  public AiSpendLimit setAiSpendLimit(String poId, Double lineNo, SetAiSpendLimitInput setAiSpendLimitInput) throws ApiException {
+    ApiResponse<AiSpendLimit> localVarResponse = setAiSpendLimitWithHttpInfo(poId, lineNo, setAiSpendLimitInput);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Sets an approved order line&#39;s amount as its invoicer&#39;s spending ceiling for the month (AWS Budgets, an OpenAI project limit, an Anthropic workspace limit, a Google Cloud budget or spend cap, an Azure budget), reads it back and records the write. Refused below the month to date, with the figures. Raising the line raises it; closing the order removes it. An agent&#39;s call is a request the person confirms. &#39;edit&#39; on purchase orders.
+   * 
+   * @param poId  (required)
+   * @param lineNo  (required)
+   * @param setAiSpendLimitInput  (required)
+   * @return ApiResponse&lt;AiSpendLimit&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<AiSpendLimit> setAiSpendLimitWithHttpInfo(String poId, Double lineNo, SetAiSpendLimitInput setAiSpendLimitInput) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = setAiSpendLimitRequestBuilder(poId, lineNo, setAiSpendLimitInput);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("setAiSpendLimit", localVarResponse);
+        }
+        return new ApiResponse<AiSpendLimit>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<AiSpendLimit>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder setAiSpendLimitRequestBuilder(String poId, Double lineNo, SetAiSpendLimitInput setAiSpendLimitInput) throws ApiException {
+    // verify the required parameter 'poId' is set
+    if (poId == null) {
+      throw new ApiException(400, "Missing the required parameter 'poId' when calling setAiSpendLimit");
+    }
+    // verify the required parameter 'lineNo' is set
+    if (lineNo == null) {
+      throw new ApiException(400, "Missing the required parameter 'lineNo' when calling setAiSpendLimit");
+    }
+    // verify the required parameter 'setAiSpendLimitInput' is set
+    if (setAiSpendLimitInput == null) {
+      throw new ApiException(400, "Missing the required parameter 'setAiSpendLimitInput' when calling setAiSpendLimit");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/limits/{poId}/{lineNo}"
+        .replace("{poId}", ApiClient.urlEncode(poId.toString()))
+        .replace("{lineNo}", ApiClient.urlEncode(lineNo.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(setAiSpendLimitInput);
       localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);

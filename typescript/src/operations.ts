@@ -58,6 +58,13 @@ export class AiSpendResource {
   }
 
   /**
+   * [Buyer] The attribution rules that map a provider dimension (tag, label, project, workspace, api_key, inference_profile, resource_group, compartment, cluster) to a cost center, in order - first match wins - with what each matched in the period, what no rule matched and the dimension values behind it. 'view' on suppliers or on invoices.
+   */
+  getAiAttribution(query?: QueryParams<"GetAiAttribution">, options?: RequestOptions): Promise<ResponseBody<"GetAiAttribution">> {
+    return this.transport.request("get", "/ai-spend/attribution", { path: undefined, query, options }) as Promise<ResponseBody<"GetAiAttribution">>;
+  }
+
+  /**
    * [Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast, from which day of the month, and its last run. 'view' on purchase orders.
    */
   getAiRenewalRule(options?: RequestOptions): Promise<ResponseBody<"GetAiRenewalRule">> {
@@ -79,10 +86,24 @@ export class AiSpendResource {
   }
 
   /**
+   * [Buyer] Each cost center's budget, committed and actual (budget control's figures) with the month's attributed AI usage as accruing and its forecast, in the budget's currency, the percent with the forecast, and the alert threshold sent; plus what is unattributed. 'view' on purchase orders.
+   */
+  listAiCostCenters(query?: QueryParams<"ListAiCostCenters">, options?: RequestOptions): Promise<ResponseBody<"ListAiCostCenters">> {
+    return this.transport.request("get", "/ai-spend/cost-centers", { path: undefined, query, options }) as Promise<ResponseBody<"ListAiCostCenters">>;
+  }
+
+  /**
    * [Buyer] The public list prices Pleaxy keeps for AI models, by invoicer, vendor, model, meter and region, with effective dates and the pricing page each was taken from. With on (YYYY-MM-DD), only the entry in force that day. A price change is a new entry, never an edit. 'view' on suppliers or on invoices.
    */
   listAiRateCards(query?: QueryParams<"ListAiRateCards">, options?: RequestOptions): Promise<ResponseBody<"ListAiRateCards">> {
     return this.transport.request("get", "/ai-rate-cards", { path: undefined, query, options }) as Promise<ResponseBody<"ListAiRateCards">>;
+  }
+
+  /**
+   * [Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase orders.
+   */
+  listAiSpendLimits(options?: RequestOptions): Promise<ResponseBody<"ListAiSpendLimits">> {
+    return this.transport.request("get", "/ai-spend/limits", { path: undefined, options }) as Promise<ResponseBody<"ListAiSpendLimits">>;
   }
 
   /**
@@ -100,10 +121,45 @@ export class AiSpendResource {
   }
 
   /**
+   * [Buyer] Removes an invoicer's limits credential: Pleaxy sets no more ceilings there; the read-only connection stays as it was. Remove the role or key at the provider too. Logged-in users only, 'edit' on suppliers.
+   */
+  removeAiLimitCredential(invoicerId: string, options?: RequestOptions): Promise<ResponseBody<"RemoveAiLimitCredential">> {
+    return this.transport.request("delete", "/ai-spend/limit-credentials/{invoicerId}", { path: { invoicerId }, options }) as Promise<ResponseBody<"RemoveAiLimitCredential">>;
+  }
+
+  /**
+   * [Buyer] Removes the ceiling Pleaxy set for an order line (only one Pleaxy named) and records it. 'edit' on purchase orders.
+   */
+  removeAiSpendLimit(poId: string, lineNo: string, options?: RequestOptions): Promise<ResponseBody<"RemoveAiSpendLimit">> {
+    return this.transport.request("delete", "/ai-spend/limits/{poId}/{lineNo}", { path: { poId, lineNo }, options }) as Promise<ResponseBody<"RemoveAiSpendLimit">>;
+  }
+
+  /**
+   * [Buyer] Replaces every attribution rule, in order, from the version read (409 when someone saved since). A tag or label rule needs its key; the cost center must be one of the workspace's. An AWS tag or Google Cloud label rule makes the next sync split that account's AI lines by it. 'edit' on purchase orders.
+   */
+  setAiAttribution(body: RequestBody<"SetAiAttribution">, options?: RequestOptions): Promise<ResponseBody<"SetAiAttribution">> {
+    return this.transport.request("put", "/ai-spend/attribution", { path: undefined, body, options }) as Promise<ResponseBody<"SetAiAttribution">>;
+  }
+
+  /**
+   * [Buyer] The separate write credential for one invoicer's ceilings - an AWS limits role, a Google Cloud limits service account, an Azure limits app, or an OpenAI or Anthropic admin key - checked with one read before it is saved. Never the read-only connection's. Logged-in users only, 'edit' on suppliers.
+   */
+  setAiLimitCredential(invoicerId: string, body: RequestBody<"SetAiLimitCredential">, options?: RequestOptions): Promise<ResponseBody<"SetAiLimitCredential">> {
+    return this.transport.request("put", "/ai-spend/limit-credentials/{invoicerId}", { path: { invoicerId }, body, options }) as Promise<ResponseBody<"SetAiLimitCredential">>;
+  }
+
+  /**
    * [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, 'create' on purchase orders.
    */
   setAiRenewalRule(body: RequestBody<"SetAiRenewalRule">, options?: RequestOptions): Promise<ResponseBody<"SetAiRenewalRule">> {
     return this.transport.request("put", "/ai-spend/renewal-rule", { path: undefined, body, options }) as Promise<ResponseBody<"SetAiRenewalRule">>;
+  }
+
+  /**
+   * [Buyer] Sets an approved order line's amount as its invoicer's spending ceiling for the month (AWS Budgets, an OpenAI project limit, an Anthropic workspace limit, a Google Cloud budget or spend cap, an Azure budget), reads it back and records the write. Refused below the month to date, with the figures. Raising the line raises it; closing the order removes it. An agent's call is a request the person confirms. 'edit' on purchase orders.
+   */
+  setAiSpendLimit(poId: string, lineNo: string, body: RequestBody<"SetAiSpendLimit">, options?: RequestOptions): Promise<ResponseBody<"SetAiSpendLimit">> {
+    return this.transport.request("put", "/ai-spend/limits/{poId}/{lineNo}", { path: { poId, lineNo }, body, options }) as Promise<ResponseBody<"SetAiSpendLimit">>;
   }
 
   /**

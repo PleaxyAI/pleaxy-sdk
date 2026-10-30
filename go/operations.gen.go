@@ -349,6 +349,18 @@ func (c *Client) FlipPurchaseOrderToInvoice(ctx context.Context, poId string, pa
 	return resp.JSON201, nil
 }
 
+// GetAiAttribution - [Buyer] The attribution rules that map a provider dimension (tag, label, project, workspace, api_key, inference_profile, resource_group, compartment, cluster) to a cost center, in order - first match wins - with what each matched in the period, what no rule matched and the dimension values behind it. 'view' on suppliers or on invoices.
+func (c *Client) GetAiAttribution(ctx context.Context, params *GetAiAttributionParams) (*AiAttributionResponse, error) {
+	resp, err := c.api.GetAiAttributionWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // GetAiRenewalRule - [Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast, from which day of the month, and its last run. 'view' on purchase orders.
 func (c *Client) GetAiRenewalRule(ctx context.Context) (*AiRenewalRule, error) {
 	resp, err := c.api.GetAiRenewalRuleWithResponse(ctx)
@@ -769,6 +781,18 @@ func (c *Client) ListAiCommitments(ctx context.Context) (*[]AiCommitmentView, er
 	return resp.JSON200, nil
 }
 
+// ListAiCostCenters - [Buyer] Each cost center's budget, committed and actual (budget control's figures) with the month's attributed AI usage as accruing and its forecast, in the budget's currency, the percent with the forecast, and the alert threshold sent; plus what is unattributed. 'view' on purchase orders.
+func (c *Client) ListAiCostCenters(ctx context.Context, params *ListAiCostCentersParams) (*AiCostCentersResponse, error) {
+	resp, err := c.api.ListAiCostCentersWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // ListAiInvoicers - [Buyer] The AI invoicers Pleaxy pre-creates as suppliers: names, the legal entities they invoice from by region, billing currencies, billing kinds, invoice sender domains, and whether each can be connected. 'view' on suppliers or on invoices.
 func (c *Client) ListAiInvoicers(ctx context.Context) (*[]ListAiInvoicersItem, error) {
 	resp, err := c.api.ListAiInvoicersWithResponse(ctx)
@@ -796,6 +820,18 @@ func (c *Client) ListAiProviders(ctx context.Context) (*[]AiProvider, error) {
 // ListAiRateCards - [Buyer] The public list prices Pleaxy keeps for AI models, by invoicer, vendor, model, meter and region, with effective dates and the pricing page each was taken from. With on (YYYY-MM-DD), only the entry in force that day. A price change is a new entry, never an edit. 'view' on suppliers or on invoices.
 func (c *Client) ListAiRateCards(ctx context.Context, params *ListAiRateCardsParams) (*[]AiRateCardEntry, error) {
 	resp, err := c.api.ListAiRateCardsWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// ListAiSpendLimits - [Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase orders.
+func (c *Client) ListAiSpendLimits(ctx context.Context) (*ListAiSpendLimitsResult, error) {
+	resp, err := c.api.ListAiSpendLimitsWithResponse(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1198,6 +1234,30 @@ func (c *Client) RemindInvoice(ctx context.Context, invoiceId string, params *Re
 	return resp.JSON201, nil
 }
 
+// RemoveAiLimitCredential - [Buyer] Removes an invoicer's limits credential: Pleaxy sets no more ceilings there; the read-only connection stays as it was. Remove the role or key at the provider too. Logged-in users only, 'edit' on suppliers.
+func (c *Client) RemoveAiLimitCredential(ctx context.Context, invoicerId string) (*RemoveAiLimitCredentialResult, error) {
+	resp, err := c.api.RemoveAiLimitCredentialWithResponse(ctx, invoicerId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// RemoveAiSpendLimit - [Buyer] Removes the ceiling Pleaxy set for an order line (only one Pleaxy named) and records it. 'edit' on purchase orders.
+func (c *Client) RemoveAiSpendLimit(ctx context.Context, poId string, lineNo float64) (*AiSpendLimit, error) {
+	resp, err := c.api.RemoveAiSpendLimitWithResponse(ctx, poId, lineNo)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // RemoveInvoiceReplacementLink - [Buyer] Undo a replacement link entered wrongly (credit notes spec §20), on both invoices. The rejected invoice an invoice corrects on its purchase order stays linked.
 func (c *Client) RemoveInvoiceReplacementLink(ctx context.Context, invoiceId string, originalId string) (*RemoveInvoiceReplacementLinkResult, error) {
 	resp, err := c.api.RemoveInvoiceReplacementLinkWithResponse(ctx, invoiceId, originalId)
@@ -1279,9 +1339,45 @@ func (c *Client) SendShipNotice(ctx context.Context, poId string, params *SendSh
 	return resp.JSON201, nil
 }
 
+// SetAiAttribution - [Buyer] Replaces every attribution rule, in order, from the version read (409 when someone saved since). A tag or label rule needs its key; the cost center must be one of the workspace's. An AWS tag or Google Cloud label rule makes the next sync split that account's AI lines by it. 'edit' on purchase orders.
+func (c *Client) SetAiAttribution(ctx context.Context, body SetAiAttributionJSONRequestBody) (*AiAttributionResponse, error) {
+	resp, err := c.api.SetAiAttributionWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// SetAiLimitCredential - [Buyer] The separate write credential for one invoicer's ceilings - an AWS limits role, a Google Cloud limits service account, an Azure limits app, or an OpenAI or Anthropic admin key - checked with one read before it is saved. Never the read-only connection's. Logged-in users only, 'edit' on suppliers.
+func (c *Client) SetAiLimitCredential(ctx context.Context, invoicerId string, body SetAiLimitCredentialJSONRequestBody) (*AiLimitCredential, error) {
+	resp, err := c.api.SetAiLimitCredentialWithResponse(ctx, invoicerId, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // SetAiRenewalRule - [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, 'create' on purchase orders.
 func (c *Client) SetAiRenewalRule(ctx context.Context, body SetAiRenewalRuleJSONRequestBody) (*AiRenewalRule, error) {
 	resp, err := c.api.SetAiRenewalRuleWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// SetAiSpendLimit - [Buyer] Sets an approved order line's amount as its invoicer's spending ceiling for the month (AWS Budgets, an OpenAI project limit, an Anthropic workspace limit, a Google Cloud budget or spend cap, an Azure budget), reads it back and records the write. Refused below the month to date, with the figures. Raising the line raises it; closing the order removes it. An agent's call is a request the person confirms. 'edit' on purchase orders.
+func (c *Client) SetAiSpendLimit(ctx context.Context, poId string, lineNo float64, body SetAiSpendLimitJSONRequestBody) (*AiSpendLimit, error) {
+	resp, err := c.api.SetAiSpendLimitWithResponse(ctx, poId, lineNo, body)
 	if err != nil {
 		return nil, err
 	}

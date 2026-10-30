@@ -85,6 +85,64 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Buyer] The attribution rules that map a provider dimension (tag, label, project, workspace, api_key, inference_profile, resource_group, compartment, cluster) to a cost center, in order - first match wins - with what each matched in the period, what no rule matched and the dimension values behind it. 'view' on suppliers or on invoices.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :period 
+    # @return [AiAttributionResponse]
+    def get_ai_attribution(opts = {})
+      data, _status_code, _headers = get_ai_attribution_with_http_info(opts)
+      data
+    end
+
+    # [Buyer] The attribution rules that map a provider dimension (tag, label, project, workspace, api_key, inference_profile, resource_group, compartment, cluster) to a cost center, in order - first match wins - with what each matched in the period, what no rule matched and the dimension values behind it. &#39;view&#39; on suppliers or on invoices.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :period 
+    # @return [Array<(AiAttributionResponse, Integer, Hash)>] AiAttributionResponse data, response status code and response headers
+    def get_ai_attribution_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.get_ai_attribution ...'
+      end
+      # resource path
+      local_var_path = '/ai-spend/attribution'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'period'] = opts[:'period'] if !opts[:'period'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AiAttributionResponse'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.get_ai_attribution",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#get_ai_attribution\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast, from which day of the month, and its last run. 'view' on purchase orders.
     # @param [Hash] opts the optional parameters
     # @return [AiRenewalRule]
@@ -256,6 +314,64 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Buyer] Each cost center's budget, committed and actual (budget control's figures) with the month's attributed AI usage as accruing and its forecast, in the budget's currency, the percent with the forecast, and the alert threshold sent; plus what is unattributed. 'view' on purchase orders.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :period 
+    # @return [AiCostCentersResponse]
+    def list_ai_cost_centers(opts = {})
+      data, _status_code, _headers = list_ai_cost_centers_with_http_info(opts)
+      data
+    end
+
+    # [Buyer] Each cost center&#39;s budget, committed and actual (budget control&#39;s figures) with the month&#39;s attributed AI usage as accruing and its forecast, in the budget&#39;s currency, the percent with the forecast, and the alert threshold sent; plus what is unattributed. &#39;view&#39; on purchase orders.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :period 
+    # @return [Array<(AiCostCentersResponse, Integer, Hash)>] AiCostCentersResponse data, response status code and response headers
+    def list_ai_cost_centers_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.list_ai_cost_centers ...'
+      end
+      # resource path
+      local_var_path = '/ai-spend/cost-centers'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'period'] = opts[:'period'] if !opts[:'period'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AiCostCentersResponse'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.list_ai_cost_centers",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#list_ai_cost_centers\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] The public list prices Pleaxy keeps for AI models, by invoicer, vendor, model, meter and region, with effective dates and the pricing page each was taken from. With on (YYYY-MM-DD), only the entry in force that day. A price change is a new entry, never an edit. 'view' on suppliers or on invoices.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :invoicer 
@@ -319,6 +435,61 @@ module Pleaxy
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AiSpendApi#list_ai_rate_cards\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase orders.
+    # @param [Hash] opts the optional parameters
+    # @return [ListAiSpendLimitsResult]
+    def list_ai_spend_limits(opts = {})
+      data, _status_code, _headers = list_ai_spend_limits_with_http_info(opts)
+      data
+    end
+
+    # [Buyer] The limits credentials (one per invoicer, never the key) and each order line&#39;s ceiling at its provider: amount, month, state, what reading it back gave, and every write. &#39;view&#39; on purchase orders.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(ListAiSpendLimitsResult, Integer, Hash)>] ListAiSpendLimitsResult data, response status code and response headers
+    def list_ai_spend_limits_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.list_ai_spend_limits ...'
+      end
+      # resource path
+      local_var_path = '/ai-spend/limits'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'ListAiSpendLimitsResult'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.list_ai_spend_limits",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#list_ai_spend_limits\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -460,6 +631,272 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Buyer] Removes an invoicer's limits credential: Pleaxy sets no more ceilings there; the read-only connection stays as it was. Remove the role or key at the provider too. Logged-in users only, 'edit' on suppliers.
+    # @param invoicer_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [RemoveAiLimitCredentialResult]
+    def remove_ai_limit_credential(invoicer_id, opts = {})
+      data, _status_code, _headers = remove_ai_limit_credential_with_http_info(invoicer_id, opts)
+      data
+    end
+
+    # [Buyer] Removes an invoicer&#39;s limits credential: Pleaxy sets no more ceilings there; the read-only connection stays as it was. Remove the role or key at the provider too. Logged-in users only, &#39;edit&#39; on suppliers.
+    # @param invoicer_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(RemoveAiLimitCredentialResult, Integer, Hash)>] RemoveAiLimitCredentialResult data, response status code and response headers
+    def remove_ai_limit_credential_with_http_info(invoicer_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.remove_ai_limit_credential ...'
+      end
+      # verify the required parameter 'invoicer_id' is set
+      if @api_client.config.client_side_validation && invoicer_id.nil?
+        fail ArgumentError, "Missing the required parameter 'invoicer_id' when calling AiSpendApi.remove_ai_limit_credential"
+      end
+      # resource path
+      local_var_path = '/ai-spend/limit-credentials/{invoicerId}'.sub('{' + 'invoicerId' + '}', CGI.escape(invoicer_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'RemoveAiLimitCredentialResult'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.remove_ai_limit_credential",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:DELETE, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#remove_ai_limit_credential\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Buyer] Removes the ceiling Pleaxy set for an order line (only one Pleaxy named) and records it. 'edit' on purchase orders.
+    # @param po_id [String] 
+    # @param line_no [Float] 
+    # @param [Hash] opts the optional parameters
+    # @return [AiSpendLimit]
+    def remove_ai_spend_limit(po_id, line_no, opts = {})
+      data, _status_code, _headers = remove_ai_spend_limit_with_http_info(po_id, line_no, opts)
+      data
+    end
+
+    # [Buyer] Removes the ceiling Pleaxy set for an order line (only one Pleaxy named) and records it. &#39;edit&#39; on purchase orders.
+    # @param po_id [String] 
+    # @param line_no [Float] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(AiSpendLimit, Integer, Hash)>] AiSpendLimit data, response status code and response headers
+    def remove_ai_spend_limit_with_http_info(po_id, line_no, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.remove_ai_spend_limit ...'
+      end
+      # verify the required parameter 'po_id' is set
+      if @api_client.config.client_side_validation && po_id.nil?
+        fail ArgumentError, "Missing the required parameter 'po_id' when calling AiSpendApi.remove_ai_spend_limit"
+      end
+      # verify the required parameter 'line_no' is set
+      if @api_client.config.client_side_validation && line_no.nil?
+        fail ArgumentError, "Missing the required parameter 'line_no' when calling AiSpendApi.remove_ai_spend_limit"
+      end
+      # resource path
+      local_var_path = '/ai-spend/limits/{poId}/{lineNo}'.sub('{' + 'poId' + '}', CGI.escape(po_id.to_s)).sub('{' + 'lineNo' + '}', CGI.escape(line_no.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AiSpendLimit'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.remove_ai_spend_limit",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:DELETE, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#remove_ai_spend_limit\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Buyer] Replaces every attribution rule, in order, from the version read (409 when someone saved since). A tag or label rule needs its key; the cost center must be one of the workspace's. An AWS tag or Google Cloud label rule makes the next sync split that account's AI lines by it. 'edit' on purchase orders.
+    # @param set_ai_attribution_input [SetAiAttributionInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [AiAttributionResponse]
+    def set_ai_attribution(set_ai_attribution_input, opts = {})
+      data, _status_code, _headers = set_ai_attribution_with_http_info(set_ai_attribution_input, opts)
+      data
+    end
+
+    # [Buyer] Replaces every attribution rule, in order, from the version read (409 when someone saved since). A tag or label rule needs its key; the cost center must be one of the workspace&#39;s. An AWS tag or Google Cloud label rule makes the next sync split that account&#39;s AI lines by it. &#39;edit&#39; on purchase orders.
+    # @param set_ai_attribution_input [SetAiAttributionInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(AiAttributionResponse, Integer, Hash)>] AiAttributionResponse data, response status code and response headers
+    def set_ai_attribution_with_http_info(set_ai_attribution_input, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.set_ai_attribution ...'
+      end
+      # verify the required parameter 'set_ai_attribution_input' is set
+      if @api_client.config.client_side_validation && set_ai_attribution_input.nil?
+        fail ArgumentError, "Missing the required parameter 'set_ai_attribution_input' when calling AiSpendApi.set_ai_attribution"
+      end
+      # resource path
+      local_var_path = '/ai-spend/attribution'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(set_ai_attribution_input)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AiAttributionResponse'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.set_ai_attribution",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#set_ai_attribution\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Buyer] The separate write credential for one invoicer's ceilings - an AWS limits role, a Google Cloud limits service account, an Azure limits app, or an OpenAI or Anthropic admin key - checked with one read before it is saved. Never the read-only connection's. Logged-in users only, 'edit' on suppliers.
+    # @param invoicer_id [String] 
+    # @param set_ai_limit_credential_input [SetAiLimitCredentialInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [AiLimitCredential]
+    def set_ai_limit_credential(invoicer_id, set_ai_limit_credential_input, opts = {})
+      data, _status_code, _headers = set_ai_limit_credential_with_http_info(invoicer_id, set_ai_limit_credential_input, opts)
+      data
+    end
+
+    # [Buyer] The separate write credential for one invoicer&#39;s ceilings - an AWS limits role, a Google Cloud limits service account, an Azure limits app, or an OpenAI or Anthropic admin key - checked with one read before it is saved. Never the read-only connection&#39;s. Logged-in users only, &#39;edit&#39; on suppliers.
+    # @param invoicer_id [String] 
+    # @param set_ai_limit_credential_input [SetAiLimitCredentialInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(AiLimitCredential, Integer, Hash)>] AiLimitCredential data, response status code and response headers
+    def set_ai_limit_credential_with_http_info(invoicer_id, set_ai_limit_credential_input, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.set_ai_limit_credential ...'
+      end
+      # verify the required parameter 'invoicer_id' is set
+      if @api_client.config.client_side_validation && invoicer_id.nil?
+        fail ArgumentError, "Missing the required parameter 'invoicer_id' when calling AiSpendApi.set_ai_limit_credential"
+      end
+      # verify the required parameter 'set_ai_limit_credential_input' is set
+      if @api_client.config.client_side_validation && set_ai_limit_credential_input.nil?
+        fail ArgumentError, "Missing the required parameter 'set_ai_limit_credential_input' when calling AiSpendApi.set_ai_limit_credential"
+      end
+      # resource path
+      local_var_path = '/ai-spend/limit-credentials/{invoicerId}'.sub('{' + 'invoicerId' + '}', CGI.escape(invoicer_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(set_ai_limit_credential_input)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AiLimitCredential'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.set_ai_limit_credential",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#set_ai_limit_credential\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, 'create' on purchase orders.
     # @param set_ai_renewal_rule_input [SetAiRenewalRuleInput] 
     # @param [Hash] opts the optional parameters
@@ -522,6 +959,84 @@ module Pleaxy
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AiSpendApi#set_ai_renewal_rule\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Buyer] Sets an approved order line's amount as its invoicer's spending ceiling for the month (AWS Budgets, an OpenAI project limit, an Anthropic workspace limit, a Google Cloud budget or spend cap, an Azure budget), reads it back and records the write. Refused below the month to date, with the figures. Raising the line raises it; closing the order removes it. An agent's call is a request the person confirms. 'edit' on purchase orders.
+    # @param po_id [String] 
+    # @param line_no [Float] 
+    # @param set_ai_spend_limit_input [SetAiSpendLimitInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [AiSpendLimit]
+    def set_ai_spend_limit(po_id, line_no, set_ai_spend_limit_input, opts = {})
+      data, _status_code, _headers = set_ai_spend_limit_with_http_info(po_id, line_no, set_ai_spend_limit_input, opts)
+      data
+    end
+
+    # [Buyer] Sets an approved order line&#39;s amount as its invoicer&#39;s spending ceiling for the month (AWS Budgets, an OpenAI project limit, an Anthropic workspace limit, a Google Cloud budget or spend cap, an Azure budget), reads it back and records the write. Refused below the month to date, with the figures. Raising the line raises it; closing the order removes it. An agent&#39;s call is a request the person confirms. &#39;edit&#39; on purchase orders.
+    # @param po_id [String] 
+    # @param line_no [Float] 
+    # @param set_ai_spend_limit_input [SetAiSpendLimitInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(AiSpendLimit, Integer, Hash)>] AiSpendLimit data, response status code and response headers
+    def set_ai_spend_limit_with_http_info(po_id, line_no, set_ai_spend_limit_input, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.set_ai_spend_limit ...'
+      end
+      # verify the required parameter 'po_id' is set
+      if @api_client.config.client_side_validation && po_id.nil?
+        fail ArgumentError, "Missing the required parameter 'po_id' when calling AiSpendApi.set_ai_spend_limit"
+      end
+      # verify the required parameter 'line_no' is set
+      if @api_client.config.client_side_validation && line_no.nil?
+        fail ArgumentError, "Missing the required parameter 'line_no' when calling AiSpendApi.set_ai_spend_limit"
+      end
+      # verify the required parameter 'set_ai_spend_limit_input' is set
+      if @api_client.config.client_side_validation && set_ai_spend_limit_input.nil?
+        fail ArgumentError, "Missing the required parameter 'set_ai_spend_limit_input' when calling AiSpendApi.set_ai_spend_limit"
+      end
+      # resource path
+      local_var_path = '/ai-spend/limits/{poId}/{lineNo}'.sub('{' + 'poId' + '}', CGI.escape(po_id.to_s)).sub('{' + 'lineNo' + '}', CGI.escape(line_no.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(set_ai_spend_limit_input)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AiSpendLimit'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.set_ai_spend_limit",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#set_ai_spend_limit\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

@@ -1619,6 +1619,94 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ai-spend/attribution": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] The attribution rules that map a provider dimension (tag, label, project, workspace, api_key, inference_profile, resource_group, compartment, cluster) to a cost center, in order - first match wins - with what each matched in the period, what no rule matched and the dimension values behind it. 'view' on suppliers or on invoices. */
+        get: operations["GetAiAttribution"];
+        /** [Buyer] Replaces every attribution rule, in order, from the version read (409 when someone saved since). A tag or label rule needs its key; the cost center must be one of the workspace's. An AWS tag or Google Cloud label rule makes the next sync split that account's AI lines by it. 'edit' on purchase orders. */
+        put: operations["SetAiAttribution"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-spend/cost-centers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Each cost center's budget, committed and actual (budget control's figures) with the month's attributed AI usage as accruing and its forecast, in the budget's currency, the percent with the forecast, and the alert threshold sent; plus what is unattributed. 'view' on purchase orders. */
+        get: operations["ListAiCostCenters"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-spend/limits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] The limits credentials (one per invoicer, never the key) and each order line's ceiling at its provider: amount, month, state, what reading it back gave, and every write. 'view' on purchase orders. */
+        get: operations["ListAiSpendLimits"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-spend/limits/{poId}/{lineNo}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** [Buyer] Sets an approved order line's amount as its invoicer's spending ceiling for the month (AWS Budgets, an OpenAI project limit, an Anthropic workspace limit, a Google Cloud budget or spend cap, an Azure budget), reads it back and records the write. Refused below the month to date, with the figures. Raising the line raises it; closing the order removes it. An agent's call is a request the person confirms. 'edit' on purchase orders. */
+        put: operations["SetAiSpendLimit"];
+        post?: never;
+        /** [Buyer] Removes the ceiling Pleaxy set for an order line (only one Pleaxy named) and records it. 'edit' on purchase orders. */
+        delete: operations["RemoveAiSpendLimit"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-spend/limit-credentials/{invoicerId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** [Buyer] The separate write credential for one invoicer's ceilings - an AWS limits role, a Google Cloud limits service account, an Azure limits app, or an OpenAI or Anthropic admin key - checked with one read before it is saved. Never the read-only connection's. Logged-in users only, 'edit' on suppliers. */
+        put: operations["SetAiLimitCredential"];
+        post?: never;
+        /** [Buyer] Removes an invoicer's limits credential: Pleaxy sets no more ceilings there; the read-only connection stays as it was. Remove the role or key at the provider too. Logged-in users only, 'edit' on suppliers. */
+        delete: operations["RemoveAiLimitCredential"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/purchase-orders/{poId}/emails": {
         parameters: {
             query?: never;
@@ -2788,6 +2876,55 @@ export interface components {
              */
             dayOfMonth?: number;
         };
+        AiAttributionRuleInput: {
+            /** @description The rule's id, to keep it; a new rule gets one. */
+            id?: string;
+            /** @description Only this invoicer's lines (a cloud connection or AI provider id). Every invoicer when left out. */
+            invoicerId?: string;
+            /** @enum {string} */
+            dimension: "tag" | "label" | "project" | "workspace" | "api_key" | "inference_profile" | "resource_group" | "compartment" | "cluster";
+            /** @description The tag or label key; tag and label only. */
+            key?: string;
+            /** @description The value the line must carry for the dimension (and key). */
+            value: string;
+            /** @description The cost center's code. */
+            costCenter: string;
+        };
+        SetAiAttributionInput: {
+            /** @description Every rule, in order: first match wins. At most 200. */
+            rules: components["schemas"]["AiAttributionRuleInput"][];
+            /**
+             * Format: double
+             * @description The version the rules were read at (GetAiAttribution's version); 0 for the first save.
+             */
+            version: number;
+        };
+        SetAiSpendLimitInput: {
+            /** @description The invoicer the order covers: a cloud connection or AI provider id with a limits credential. */
+            invoicerId: string;
+            /** @description OpenAI: the project (proj_...). Anthropic: the workspace (wrkspc_...). Google Cloud: the project id, for a spend cap. */
+            target?: string;
+            /** @description Stop spend at the ceiling where the provider can (default true); false only alerts. */
+            deny?: boolean;
+        };
+        SetAiLimitCredentialInput: {
+            /** @description AWS: the limits role the setup script created (budgets only), never the read-only billing role. */
+            roleArn?: string;
+            /** @description AWS, for a ceiling that stops spend: the budget action's execution role (trusting budgets.amazonaws.com). */
+            executionRoleArn?: string;
+            /** @description AWS: the deny policy the budget action attaches at 100%. */
+            denyPolicyArn?: string;
+            /** @description AWS: the roles (names, not ARNs) the deny policy is attached to, e.g. the ones your apps call Bedrock with. */
+            roleNames?: string[];
+            /** @description Google Cloud: the limits service account (Billing Account Costs Manager, plus spend caps where wanted). */
+            serviceAccountEmail?: string;
+            /** @description Azure: the limits app registration's client id (Cost Management Contributor on the billing profile). */
+            clientId?: string;
+            /** @description OpenAI and Anthropic: a separate admin key for the limits, never the read key. Stored encrypted, never returned. */
+            key?: string;
+            /** @description Who the provider emails when a ceiling is reached (AWS budget actions, Azure budgets). */
+            notifyEmail?: string;
+        };
         PurchaseRequestSupplierInput: {
             /** @description The supplier's name, as the requester knows it. */
             name: string;
@@ -3287,7 +3424,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
+            type?: "ai_forecast_over_budget" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -5822,6 +5959,133 @@ export interface components {
                     draftId?: string;
                 }[];
             };
+        };
+        AiAttributionResponse: {
+            period?: string;
+            rules?: components["schemas"]["AiAttributionRuleView"][];
+            /** Format: double */
+            version?: number;
+            updatedAt?: string;
+            unattributed?: {
+                currency?: string;
+                /** Format: double */
+                amount?: number;
+            }[];
+            unmatchedValues?: {
+                invoicerId?: string;
+                key?: string;
+                value?: string;
+                currency?: string;
+                /** Format: double */
+                amount?: number;
+            }[];
+        };
+        AiAttributionRuleView: {
+            id: string;
+            invoicerId?: string;
+            dimension?: string;
+            key?: string;
+            value?: string;
+            costCenter?: string;
+            matched?: {
+                currency?: string;
+                /** Format: double */
+                amount?: number;
+            }[];
+        };
+        AiCostCentersResponse: {
+            period?: string;
+            budgetMode?: string;
+            rows?: components["schemas"]["AiCostCenterRow"][];
+            unattributed?: {
+                currency?: string;
+                /** Format: double */
+                monthToDate?: number;
+                /** Format: double */
+                forecast?: number;
+            }[];
+            thresholds?: number[];
+        };
+        AiCostCenterRow: {
+            costCenter?: string;
+            costCenterName?: string;
+            currency?: string;
+            /** Format: double */
+            budget?: number;
+            /** Format: double */
+            committed?: number;
+            /** Format: double */
+            actual?: number;
+            /** Format: double */
+            accruing?: number;
+            /** Format: double */
+            forecast?: number;
+            /** Format: double */
+            pctWithForecast?: number;
+            alert?: {
+                /** Format: double */
+                threshold?: number;
+                sentAt?: string;
+            };
+        };
+        AiLimitCredential: {
+            invoicerId?: string;
+            /** @enum {string} */
+            invoicer?: "aws" | "gcp" | "azure" | "openai" | "anthropic";
+            aws?: {
+                roleArn?: string;
+                externalId?: string;
+                executionRoleArn?: string;
+                denyPolicyArn?: string;
+                roleNames?: string[];
+            };
+            gcp?: {
+                serviceAccountEmail?: string;
+            };
+            azure?: {
+                clientId?: string;
+            };
+            keyHint?: string;
+            notifyEmail?: string;
+            createdAt?: string;
+            createdBy?: string;
+        };
+        AiSpendLimit: {
+            poId?: string;
+            /** Format: double */
+            lineNo?: number;
+            invoicerId?: string;
+            /** @enum {string} */
+            invoicer?: "aws" | "gcp" | "azure" | "openai" | "anthropic";
+            target?: string;
+            /** Format: double */
+            amount?: number;
+            currency?: string;
+            period?: string;
+            providerRef?: string;
+            /** @enum {string} */
+            enforcement?: "deny" | "alert";
+            /** @enum {string} */
+            state?: "failed" | "removed" | "set";
+            readBack?: {
+                /** Format: double */
+                amount?: number;
+                at?: string;
+            };
+            error?: string;
+            setAt?: string;
+            setBy?: string;
+            history?: {
+                at?: string;
+                by?: string;
+                /** @enum {string} */
+                action?: "failed" | "set" | "raise" | "remove";
+                /** Format: double */
+                amount?: number;
+                /** Format: double */
+                readBack?: number;
+                error?: string;
+            }[];
         };
         PurchaseOrderEmails: {
             address?: string;
@@ -8456,6 +8720,13 @@ export interface components {
         };
         ListWebhookDeliveriesResult: {
             deliveries?: components["schemas"]["WebhookDelivery"][];
+        };
+        ListAiSpendLimitsResult: {
+            credentials?: components["schemas"]["AiLimitCredential"][];
+            limits?: components["schemas"]["AiSpendLimit"][];
+        };
+        RemoveAiLimitCredentialResult: {
+            invoicerId?: string;
         };
         RequestPurchaseRequestFileUploadResult: {
             fileId?: string;
@@ -11952,6 +12223,256 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AiRenewalRule"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetAiAttribution: {
+        parameters: {
+            query?: {
+                period?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiAttributionResponse"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SetAiAttribution: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SetAiAttributionInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiAttributionResponse"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListAiCostCenters: {
+        parameters: {
+            query?: {
+                period?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiCostCentersResponse"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListAiSpendLimits: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListAiSpendLimitsResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SetAiSpendLimit: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                poId: string;
+                lineNo: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SetAiSpendLimitInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiSpendLimit"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    RemoveAiSpendLimit: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                poId: string;
+                lineNo: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiSpendLimit"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SetAiLimitCredential: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invoicerId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SetAiLimitCredentialInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiLimitCredential"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    RemoveAiLimitCredential: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invoicerId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RemoveAiLimitCredentialResult"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
