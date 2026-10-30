@@ -11,6 +11,67 @@ if TYPE_CHECKING:
     from ._transport import Transport
 
 
+class AiSpendResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def check_ai_spend(self, *, body: CheckAiSpendInput) -> AiSpendCheckResponse:
+        """[Buyer] Whether the period's AI forecast for an invoicer, a purchase order or a cost center fits what its open purchase order lines (and the cost center's budget) have left: fits, over, no_po or no_budget. Nothing is saved and nothing blocks. Name at least one of invoicerId, costCenter and poId. 'view' on suppliers or on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.check_ai_spend", body=body
+        )
+
+    def get_ai_spend(
+        self, *, period: Union[Unset, str] = UNSET, group_by: Union[Unset, str] = UNSET
+    ) -> AiSpendResponse:
+        """[Buyer] AI spend for a period (YYYY-MM, default this month), grouped by invoicer (default), vendor, model or costCenter: month to date, forecast, last month and the change, usage by meter, and beside each invoicer the open purchase order lines raised to it with what is left. Amounts stay in each invoicer's billing currency; totals are one entry per currency. 'view' on suppliers or on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.get_ai_spend",
+            period=period,
+            group_by=group_by,
+        )
+
+    def list_ai_rate_cards(
+        self,
+        *,
+        invoicer: Union[Unset, str] = UNSET,
+        vendor: Union[Unset, str] = UNSET,
+        model: Union[Unset, str] = UNSET,
+        on: Union[Unset, str] = UNSET,
+    ) -> List["AiRateCardEntry"]:
+        """[Buyer] The public list prices Pleaxy keeps for AI models, by invoicer, vendor, model, meter and region, with effective dates and the pricing page each was taken from. With on (YYYY-MM-DD), only the entry in force that day. A price change is a new entry, never an edit. 'view' on suppliers or on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.list_ai_rate_cards",
+            invoicer=invoicer,
+            vendor=vendor,
+            model=model,
+            on=on,
+        )
+
+    def list_ai_usage_lines(
+        self,
+        *,
+        period: Union[Unset, str] = UNSET,
+        invoicer_id: Union[Unset, str] = UNSET,
+        vendor: Union[Unset, str] = UNSET,
+        model: Union[Unset, str] = UNSET,
+        cost_center: Union[Unset, str] = UNSET,
+        limit: Union[Unset, str] = UNSET,
+        cursor: Union[Unset, str] = UNSET,
+    ) -> AiUsageLinesPage:
+        """[Buyer] The normalised AI usage lines behind the figures, newest day first, one page at a time (limit 1-500, default 100; pass nextCursor back as cursor). Filter by invoicerId, vendor, model or costCenter. Unmapped usage types keep their raw names with vendor unknown. 'view' on suppliers or on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.ai_spend.list_ai_usage_lines",
+            period=period,
+            invoicer_id=invoicer_id,
+            vendor=vendor,
+            model=model,
+            cost_center=cost_center,
+            limit=limit,
+            cursor=cursor,
+        )
+
+
 class ApiKeysResource:
     def __init__(self, transport: Transport) -> None:
         self._transport = transport
@@ -1173,6 +1234,7 @@ class Resources:
     """Every resource, one per API area."""
 
     def __init__(self, transport: Transport) -> None:
+        self.ai_spend = AiSpendResource(transport)
         self.api_keys = ApiKeysResource(transport)
         self.approval_settings = ApprovalSettingsResource(transport)
         self.approvals = ApprovalsResource(transport)

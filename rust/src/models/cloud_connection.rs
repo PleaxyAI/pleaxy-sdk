@@ -45,6 +45,8 @@ pub struct CloudConnection {
     pub last_sync_error: Option<String>,
     #[serde(rename = "lastSyncErrorCode", skip_serializing_if = "Option::is_none")]
     pub last_sync_error_code: Option<LastSyncErrorCode>,
+    #[serde(rename = "aiSync", skip_serializing_if = "Option::is_none")]
+    pub ai_sync: Option<models::CloudAiSyncState>,
     #[serde(rename = "dataSources", skip_serializing_if = "Option::is_none")]
     pub data_sources: Option<Vec<DataSources>>,
     #[serde(rename = "billing", skip_serializing_if = "Option::is_none")]
@@ -76,6 +78,7 @@ impl CloudConnection {
             last_sync_status: None,
             last_sync_error: None,
             last_sync_error_code: None,
+            ai_sync: None,
             data_sources: None,
             billing: None,
             gcp: None,

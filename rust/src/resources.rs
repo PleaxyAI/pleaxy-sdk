@@ -2,6 +2,11 @@
 use crate::Client;
 
 impl Client {
+    /// AiSpend operations.
+    pub fn ai_spend(&self) -> AiSpend<'_> {
+        AiSpend(self)
+    }
+
     /// ApiKeys operations.
     pub fn api_keys(&self) -> ApiKeys<'_> {
         ApiKeys(self)
@@ -115,6 +120,73 @@ impl Client {
     /// Workspaces operations.
     pub fn workspaces(&self) -> Workspaces<'_> {
         Workspaces(self)
+    }
+}
+
+/// AiSpend operations: `client.ai_spend()`.
+#[derive(Debug, Clone, Copy)]
+pub struct AiSpend<'a>(&'a Client);
+
+impl<'a> AiSpend<'a> {
+    pub async fn check_ai_spend(
+        &self,
+        check_ai_spend_input: crate::models::CheckAiSpendInput,
+    ) -> Result<
+        crate::models::AiSpendCheckResponse,
+        crate::apis::Error<crate::apis::ai_spend_api::CheckAiSpendError>,
+    > {
+        crate::apis::ai_spend_api::check_ai_spend(&self.0.config, check_ai_spend_input).await
+    }
+
+    pub async fn get_ai_spend(
+        &self,
+        period: Option<&str>,
+        group_by: Option<&str>,
+    ) -> Result<
+        crate::models::AiSpendResponse,
+        crate::apis::Error<crate::apis::ai_spend_api::GetAiSpendError>,
+    > {
+        crate::apis::ai_spend_api::get_ai_spend(&self.0.config, period, group_by).await
+    }
+
+    pub async fn list_ai_rate_cards(
+        &self,
+        invoicer: Option<&str>,
+        vendor: Option<&str>,
+        model: Option<&str>,
+        on: Option<&str>,
+    ) -> Result<
+        Vec<crate::models::AiRateCardEntry>,
+        crate::apis::Error<crate::apis::ai_spend_api::ListAiRateCardsError>,
+    > {
+        crate::apis::ai_spend_api::list_ai_rate_cards(&self.0.config, invoicer, vendor, model, on)
+            .await
+    }
+
+    pub async fn list_ai_usage_lines(
+        &self,
+        period: Option<&str>,
+        invoicer_id: Option<&str>,
+        vendor: Option<&str>,
+        model: Option<&str>,
+        cost_center: Option<&str>,
+        limit: Option<&str>,
+        cursor: Option<&str>,
+    ) -> Result<
+        crate::models::AiUsageLinesPage,
+        crate::apis::Error<crate::apis::ai_spend_api::ListAiUsageLinesError>,
+    > {
+        crate::apis::ai_spend_api::list_ai_usage_lines(
+            &self.0.config,
+            period,
+            invoicer_id,
+            vendor,
+            model,
+            cost_center,
+            limit,
+            cursor,
+        )
+        .await
     }
 }
 

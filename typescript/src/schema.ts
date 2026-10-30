@@ -1396,6 +1396,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ai-spend": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] AI spend for a period (YYYY-MM, default this month), grouped by invoicer (default), vendor, model or costCenter: month to date, forecast, last month and the change, usage by meter, and beside each invoicer the open purchase order lines raised to it with what is left. Amounts stay in each invoicer's billing currency; totals are one entry per currency. 'view' on suppliers or on invoices. */
+        get: operations["GetAiSpend"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-spend/lines": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] The normalised AI usage lines behind the figures, newest day first, one page at a time (limit 1-500, default 100; pass nextCursor back as cursor). Filter by invoicerId, vendor, model or costCenter. Unmapped usage types keep their raw names with vendor unknown. 'view' on suppliers or on invoices. */
+        get: operations["ListAiUsageLines"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-spend/check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Whether the period's AI forecast for an invoicer, a purchase order or a cost center fits what its open purchase order lines (and the cost center's budget) have left: fits, over, no_po or no_budget. Nothing is saved and nothing blocks. Name at least one of invoicerId, costCenter and poId. 'view' on suppliers or on invoices. */
+        post: operations["CheckAiSpend"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-rate-cards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] The public list prices Pleaxy keeps for AI models, by invoicer, vendor, model, meter and region, with effective dates and the pricing page each was taken from. With on (YYYY-MM-DD), only the entry in force that day. A price change is a new entry, never an edit. 'view' on suppliers or on invoices. */
+        get: operations["ListAiRateCards"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/purchase-orders/{poId}/emails": {
         parameters: {
             query?: never;
@@ -1653,6 +1721,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/approvals": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] List every purchase order and invoice in this region currently at a stage this employee can act on, plus the ones this employee has already approved or rejected */
+        get: operations["ListApprovals"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/invoices/{invoiceId}/stripe-payment": {
         parameters: {
             query?: never;
@@ -1665,23 +1750,6 @@ export interface paths {
         put?: never;
         /** [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don't cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only. */
         post: operations["StartStripePayment"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/approvals": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** [Buyer] List every purchase order and invoice in this region currently at a stage this employee can act on, plus the ones this employee has already approved or rejected */
-        get: operations["ListApprovals"];
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2477,6 +2545,12 @@ export interface components {
             description?: string;
             events?: string[];
         };
+        CheckAiSpendInput: {
+            invoicerId?: string;
+            costCenter?: string;
+            poId?: string;
+            period?: string;
+        };
         PurchaseRequestSupplierInput: {
             /** @description The supplier's name, as the requester knows it. */
             name: string;
@@ -2693,6 +2767,7 @@ export interface components {
             lastSyncError?: string;
             /** @enum {string} */
             lastSyncErrorCode?: "throttled" | "access_revoked" | "platform_config" | "data_not_enabled" | "unknown";
+            aiSync?: components["schemas"]["CloudAiSyncState"];
             dataSources?: ("invoices" | "current_cost")[];
             billing?: components["schemas"]["CloudConnectionBilling"];
             gcp?: {
@@ -2725,6 +2800,14 @@ export interface components {
             nextAttemptAt?: string;
             failedAt?: string;
             costCenter?: string;
+        };
+        CloudAiSyncState: {
+            syncedAt?: string;
+            /** @enum {string} */
+            status?: "error" | "ok" | "throttled";
+            /** @enum {string} */
+            code?: "throttled" | "access_revoked" | "platform_config" | "data_not_enabled" | "unknown";
+            message?: string;
         };
         CloudConnectionBilling: {
             finalizedInvoice?: {
@@ -5181,6 +5264,181 @@ export interface components {
             lastErrorCode?: "failed" | "http_status" | "blocked_address" | "unreachable" | "timeout" | "redirect" | "too_large" | "endpoint_off";
             deliveredAt?: string;
         };
+        AiSpendResponse: {
+            period?: string;
+            asOf?: string;
+            totals?: components["schemas"]["AiSpendTotal"][];
+            groups?: components["schemas"]["AiSpendGroup"][];
+            unattributed?: components["schemas"]["AiSpendUnattributed"][];
+            notReadable?: {
+                invoicerId?: string;
+                /** @enum {string} */
+                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+                label?: string;
+                /** @enum {string} */
+                reason?: "needs_current_cost" | "not_synced_yet";
+            }[];
+        };
+        AiSpendTotal: {
+            currency?: string;
+            /** Format: double */
+            monthToDate?: number;
+            /** Format: double */
+            forecast?: number;
+            /** Format: double */
+            lastMonth?: number;
+            /** Format: double */
+            changePct?: number;
+        };
+        AiSpendGroup: {
+            key?: string;
+            label?: string;
+            /** @enum {string} */
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            invoicerId?: string;
+            currency?: string;
+            /** Format: double */
+            monthToDate?: number;
+            /** Format: double */
+            forecast?: number;
+            /** Format: double */
+            lastMonth?: number;
+            /** Format: double */
+            changePct?: number;
+            quantities?: components["schemas"]["AiMeterQuantity"][];
+            purchaseOrders?: components["schemas"]["AiPurchaseOrderLineRemaining"][];
+            services?: components["schemas"]["AiServiceFigure"][];
+        };
+        AiMeterQuantity: {
+            meter?: string;
+            unit?: string;
+            /** Format: double */
+            quantity?: number;
+        };
+        AiPurchaseOrderLineRemaining: {
+            poId?: string;
+            /** Format: double */
+            lineNo?: number;
+            /** Format: double */
+            remaining?: number;
+        };
+        AiServiceFigure: {
+            service?: string;
+            /** Format: double */
+            monthToDate?: number;
+            /** Format: double */
+            forecast?: number;
+            /** Format: double */
+            lastMonth?: number;
+            /** Format: double */
+            changePct?: number;
+        };
+        AiSpendUnattributed: {
+            currency?: string;
+            /** Format: double */
+            monthToDate?: number;
+            /** Format: double */
+            forecast?: number;
+            /** Format: double */
+            lastMonth?: number;
+            /** Format: double */
+            changePct?: number;
+            quantities?: components["schemas"]["AiMeterQuantity"][];
+        };
+        AiUsageLinesPage: {
+            lines?: components["schemas"]["AiUsageLine"][];
+            nextCursor?: string;
+        };
+        AiUsageLine: {
+            invoicerId?: string;
+            /** @enum {string} */
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            /** @enum {string} */
+            vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "google" | "meta" | "amazon" | "microsoft" | "deepseek" | "nvidia";
+            model?: string;
+            /** @enum {string} */
+            shape?: "tokens" | "capacity" | "credits";
+            /** @enum {string} */
+            meter?: "images" | "other" | "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours";
+            region?: string;
+            day?: string;
+            /** Format: double */
+            quantity?: number;
+            /** @enum {string} */
+            unit?: "images" | "tokens" | "requests" | "gpu_hours" | "ptu_hours" | "1M_tokens" | "seconds" | "model_unit_hours" | "units";
+            credits?: {
+                /** Format: double */
+                quantity?: number;
+                /** @enum {string} */
+                unit?: "credits" | "dbu";
+                /** Format: double */
+                unitPrice?: number;
+            };
+            /** Format: double */
+            amount?: number;
+            currency?: string;
+            /** Format: double */
+            unitPrice?: number;
+            attribution?: {
+                [key: string]: string;
+            };
+            /** @enum {string} */
+            source?: "billing_export" | "cost_explorer" | "cost_management" | "usage_api" | "cost_report" | "usage_report";
+            rawService?: string;
+            rawUsageType?: string;
+        };
+        AiSpendCheckResponse: {
+            /** @enum {string} */
+            outcome?: "over" | "no_budget" | "no_po" | "fits";
+            period?: string;
+            currency?: string;
+            /** Format: double */
+            monthToDate?: number;
+            /** Format: double */
+            forecast?: number;
+            purchaseOrders?: components["schemas"]["AiSpendCheckPurchaseOrderLine"][];
+            budget?: components["schemas"]["AiSpendCheckBudget"];
+        };
+        AiSpendCheckPurchaseOrderLine: {
+            poId?: string;
+            /** Format: double */
+            lineNo?: number;
+            /** Format: double */
+            remaining?: number;
+            /** Format: double */
+            overBy?: number;
+        };
+        AiSpendCheckBudget: {
+            costCenter?: string;
+            /** Format: double */
+            budget?: number;
+            /** Format: double */
+            committed?: number;
+            /** Format: double */
+            actual?: number;
+            /** Format: double */
+            accruing?: number;
+            /** Format: double */
+            remaining?: number;
+        };
+        AiRateCardEntry: {
+            /** @enum {string} */
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe";
+            /** @enum {string} */
+            vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "google" | "meta" | "amazon" | "microsoft" | "deepseek" | "nvidia";
+            model?: string;
+            /** @enum {string} */
+            meter?: "images" | "other" | "input_tokens" | "output_tokens" | "cached_input_tokens" | "cache_write_tokens" | "batch_input_tokens" | "batch_output_tokens" | "audio_seconds" | "embeddings_tokens" | "requests" | "gpu_hours" | "ptu_hours" | "model_units_hours" | "cluster_hours";
+            region?: string;
+            /** @enum {string} */
+            unit?: "images" | "tokens" | "requests" | "gpu_hours" | "ptu_hours" | "1M_tokens" | "seconds" | "model_unit_hours" | "units";
+            /** Format: double */
+            unitPrice?: number;
+            currency?: string;
+            effectiveFrom?: string;
+            effectiveTo?: string;
+            sourceUrl?: string;
+        };
         PurchaseOrderEmails: {
             address?: string;
             emails?: components["schemas"]["InboundEmail"][];
@@ -5413,25 +5671,6 @@ export interface components {
                 fields?: string[];
             };
         };
-        StripePaymentStatus: {
-            available?: boolean;
-            /** @enum {string} */
-            reason?: "not_configured" | "not_approved" | "bank_details_held" | "payment_locked" | "paid_in_erp" | "supplier_not_on_pleaxy" | "supplier_not_connected" | "unsupported_currency" | "amount_too_small";
-            /** @enum {string} */
-            state?: "checkout_open" | "processing" | "succeeded";
-            /** @enum {string} */
-            paymentMethodType?: "card" | "us_bank_account";
-            quote?: {
-                /** Format: double */
-                amount?: number;
-                /** Format: double */
-                fee?: number;
-                /** Format: double */
-                total?: number;
-                /** @enum {string} */
-                currency?: "USD";
-            };
-        };
         ApprovalQueue: {
             purchaseOrders?: components["schemas"]["PurchaseOrder"][];
             invoices?: components["schemas"]["InvoiceBuyerView"][];
@@ -5528,6 +5767,25 @@ export interface components {
             by?: string;
             byName?: string;
             at?: string;
+        };
+        StripePaymentStatus: {
+            available?: boolean;
+            /** @enum {string} */
+            reason?: "not_configured" | "not_approved" | "bank_details_held" | "payment_locked" | "paid_in_erp" | "supplier_not_on_pleaxy" | "supplier_not_connected" | "unsupported_currency" | "amount_too_small";
+            /** @enum {string} */
+            state?: "checkout_open" | "processing" | "succeeded";
+            /** @enum {string} */
+            paymentMethodType?: "card" | "us_bank_account";
+            quote?: {
+                /** Format: double */
+                amount?: number;
+                /** Format: double */
+                fee?: number;
+                /** Format: double */
+                total?: number;
+                /** @enum {string} */
+                currency?: "USD";
+            };
         };
         ApiError: {
             /** @description The HTTP status, repeated. */
@@ -10780,6 +11038,138 @@ export interface operations {
             };
         };
     };
+    GetAiSpend: {
+        parameters: {
+            query?: {
+                period?: string;
+                groupBy?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiSpendResponse"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListAiUsageLines: {
+        parameters: {
+            query?: {
+                period?: string;
+                invoicerId?: string;
+                vendor?: string;
+                model?: string;
+                costCenter?: string;
+                limit?: string;
+                cursor?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiUsageLinesPage"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CheckAiSpend: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CheckAiSpendInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiSpendCheckResponse"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListAiRateCards: {
+        parameters: {
+            query?: {
+                invoicer?: string;
+                vendor?: string;
+                model?: string;
+                on?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiRateCardEntry"][];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     ListPurchaseOrderEmails: {
         parameters: {
             query?: {
@@ -11319,6 +11709,34 @@ export interface operations {
             };
         };
     };
+    ListApprovals: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApprovalQueue"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     GetStripePayment: {
         parameters: {
             query?: never;
@@ -11368,34 +11786,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["StartStripePaymentResult"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    ListApprovals: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApprovalQueue"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

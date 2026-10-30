@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.CloudAiSyncState;
 import ai.pleaxy.model.CloudBulkAccountView;
 import ai.pleaxy.model.CloudConnectionAzure;
 import ai.pleaxy.model.CloudConnectionBilling;
@@ -57,6 +58,7 @@ import ai.pleaxy.client.ApiClient;
   CloudConnection.JSON_PROPERTY_LAST_SYNC_STATUS,
   CloudConnection.JSON_PROPERTY_LAST_SYNC_ERROR,
   CloudConnection.JSON_PROPERTY_LAST_SYNC_ERROR_CODE,
+  CloudConnection.JSON_PROPERTY_AI_SYNC,
   CloudConnection.JSON_PROPERTY_DATA_SOURCES,
   CloudConnection.JSON_PROPERTY_BILLING,
   CloudConnection.JSON_PROPERTY_GCP,
@@ -284,6 +286,10 @@ public class CloudConnection {
   public static final String JSON_PROPERTY_LAST_SYNC_ERROR_CODE = "lastSyncErrorCode";
   @javax.annotation.Nullable
   private LastSyncErrorCodeEnum lastSyncErrorCode;
+
+  public static final String JSON_PROPERTY_AI_SYNC = "aiSync";
+  @javax.annotation.Nullable
+  private CloudAiSyncState aiSync;
 
   /**
    * Gets or Sets dataSources
@@ -727,6 +733,30 @@ public class CloudConnection {
   }
 
 
+  public CloudConnection aiSync(@javax.annotation.Nullable CloudAiSyncState aiSync) {
+    this.aiSync = aiSync;
+    return this;
+  }
+
+  /**
+   * Get aiSync
+   * @return aiSync
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AI_SYNC)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public CloudAiSyncState getAiSync() {
+    return aiSync;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AI_SYNC)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAiSync(@javax.annotation.Nullable CloudAiSyncState aiSync) {
+    this.aiSync = aiSync;
+  }
+
+
   public CloudConnection dataSources(@javax.annotation.Nullable List<DataSourcesEnum> dataSources) {
     this.dataSources = dataSources;
     return this;
@@ -883,6 +913,7 @@ public class CloudConnection {
         Objects.equals(this.lastSyncStatus, cloudConnection.lastSyncStatus) &&
         Objects.equals(this.lastSyncError, cloudConnection.lastSyncError) &&
         Objects.equals(this.lastSyncErrorCode, cloudConnection.lastSyncErrorCode) &&
+        Objects.equals(this.aiSync, cloudConnection.aiSync) &&
         Objects.equals(this.dataSources, cloudConnection.dataSources) &&
         Objects.equals(this.billing, cloudConnection.billing) &&
         Objects.equals(this.gcp, cloudConnection.gcp) &&
@@ -892,7 +923,7 @@ public class CloudConnection {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, provider, accountLabel, detail, spend, status, connectedAt, setup, bulk, roleArn, externalId, awsAccountId, lastSyncedAt, lastSyncStatus, lastSyncError, lastSyncErrorCode, dataSources, billing, gcp, oci, azure);
+    return Objects.hash(id, provider, accountLabel, detail, spend, status, connectedAt, setup, bulk, roleArn, externalId, awsAccountId, lastSyncedAt, lastSyncStatus, lastSyncError, lastSyncErrorCode, aiSync, dataSources, billing, gcp, oci, azure);
   }
 
   @Override
@@ -915,6 +946,7 @@ public class CloudConnection {
     sb.append("    lastSyncStatus: ").append(toIndentedString(lastSyncStatus)).append("\n");
     sb.append("    lastSyncError: ").append(toIndentedString(lastSyncError)).append("\n");
     sb.append("    lastSyncErrorCode: ").append(toIndentedString(lastSyncErrorCode)).append("\n");
+    sb.append("    aiSync: ").append(toIndentedString(aiSync)).append("\n");
     sb.append("    dataSources: ").append(toIndentedString(dataSources)).append("\n");
     sb.append("    billing: ").append(toIndentedString(billing)).append("\n");
     sb.append("    gcp: ").append(toIndentedString(gcp)).append("\n");
@@ -1045,6 +1077,11 @@ public class CloudConnection {
     // add `lastSyncErrorCode` to the URL query string
     if (getLastSyncErrorCode() != null) {
       joiner.add(String.format("%slastSyncErrorCode%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLastSyncErrorCode()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `aiSync` to the URL query string
+    if (getAiSync() != null) {
+      joiner.add(getAiSync().toUrlQueryString(prefix + "aiSync" + suffix));
     }
 
     // add `dataSources` to the URL query string

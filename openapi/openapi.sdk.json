@@ -13022,6 +13022,287 @@
         ]
       }
     },
+    "/v1/workspaces/{regionId}/ai-spend": {
+      "get": {
+        "operationId": "GetAiSpend",
+        "summary": "[Buyer] AI spend for a period (YYYY-MM, default this month), grouped by invoicer (default), vendor, model or costCenter: month to date, forecast, last month and the change, usage by meter, and beside each invoicer the open purchase order lines raised to it with what is left. Amounts stay in each invoicer's billing currency; totals are one entry per currency. 'view' on suppliers or on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "period",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiSpendResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/ai-spend/lines": {
+      "get": {
+        "operationId": "ListAiUsageLines",
+        "summary": "[Buyer] The normalised AI usage lines behind the figures, newest day first, one page at a time (limit 1-500, default 100; pass nextCursor back as cursor). Filter by invoicerId, vendor, model or costCenter. Unmapped usage types keep their raw names with vendor unknown. 'view' on suppliers or on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "period",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoicerId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "vendor",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "model",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "costCenter",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiUsageLinesPage"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/ai-spend/check": {
+      "post": {
+        "operationId": "CheckAiSpend",
+        "summary": "[Buyer] Whether the period's AI forecast for an invoicer, a purchase order or a cost center fits what its open purchase order lines (and the cost center's budget) have left: fits, over, no_po or no_budget. Nothing is saved and nothing blocks. Name at least one of invoicerId, costCenter and poId. 'view' on suppliers or on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckAiSpendDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiSpendCheckResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/ai-rate-cards": {
+      "get": {
+        "operationId": "ListAiRateCards",
+        "summary": "[Buyer] The public list prices Pleaxy keeps for AI models, by invoicer, vendor, model, meter and region, with effective dates and the pricing page each was taken from. With on (YYYY-MM-DD), only the entry in force that day. A price change is a new entry, never an edit. 'view' on suppliers or on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoicer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "vendor",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "model",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "on",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AiRateCardEntry"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      }
+    },
     "/v1/workspaces/{regionId}/purchase-orders/{poId}/emails": {
       "get": {
         "operationId": "ListPurchaseOrderEmails",
@@ -13995,6 +14276,47 @@
         ]
       }
     },
+    "/v1/workspaces/{regionId}/approvals": {
+      "get": {
+        "operationId": "ListApprovals",
+        "summary": "[Buyer] List every purchase order and invoice in this region currently at a stage this employee can act on, plus the ones this employee has already approved or rejected",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApprovalQueue"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "approvals"
+        ]
+      }
+    },
     "/v1/workspaces/{regionId}/invoices/{invoiceId}/stripe-payment": {
       "get": {
         "operationId": "GetStripePayment",
@@ -14109,47 +14431,6 @@
         },
         "tags": [
           "invoices"
-        ]
-      }
-    },
-    "/v1/workspaces/{regionId}/approvals": {
-      "get": {
-        "operationId": "ListApprovals",
-        "summary": "[Buyer] List every purchase order and invoice in this region currently at a stage this employee can act on, plus the ones this employee has already approved or rejected",
-        "parameters": [
-          {
-            "name": "regionId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApprovalQueue"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "approvals"
         ]
       }
     }
@@ -16397,6 +16678,27 @@
           }
         }
       },
+      "CheckAiSpendDto": {
+        "type": "object",
+        "properties": {
+          "invoicerId": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "costCenter": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "poId": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "period": {
+            "type": "string",
+            "pattern": "^\\d{4}-(0[1-9]|1[0-2])$"
+          }
+        }
+      },
       "PurchaseRequestSupplierDto": {
         "type": "object",
         "properties": {
@@ -17008,6 +17310,9 @@
               "unknown"
             ]
           },
+          "aiSync": {
+            "$ref": "#/components/schemas/CloudAiSyncState"
+          },
           "dataSources": {
             "type": "array",
             "items": {
@@ -17134,6 +17439,39 @@
           "accountId",
           "source",
           "attempts"
+        ]
+      },
+      "CloudAiSyncState": {
+        "type": "object",
+        "properties": {
+          "syncedAt": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "error",
+              "ok",
+              "throttled"
+            ]
+          },
+          "code": {
+            "type": "string",
+            "enum": [
+              "throttled",
+              "access_revoked",
+              "platform_config",
+              "data_not_enabled",
+              "unknown"
+            ]
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "syncedAt",
+          "status"
         ]
       },
       "CloudConnectionBilling": {
@@ -26020,6 +26358,668 @@
           "createdAt"
         ]
       },
+      "AiSpendResponse": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "type": "string"
+          },
+          "asOf": {
+            "type": "string"
+          },
+          "totals": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiSpendTotal"
+            }
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiSpendGroup"
+            }
+          },
+          "unattributed": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiSpendUnattributed"
+            }
+          },
+          "notReadable": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "invoicerId": {
+                  "type": "string"
+                },
+                "invoicer": {
+                  "type": "string",
+                  "enum": [
+                    "aws",
+                    "gcp",
+                    "azure",
+                    "oci",
+                    "openai",
+                    "anthropic",
+                    "openrouter",
+                    "mistral",
+                    "cohere",
+                    "xai",
+                    "snowflake",
+                    "databricks",
+                    "coreweave",
+                    "lambda",
+                    "nebius",
+                    "crusoe"
+                  ]
+                },
+                "label": {
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string",
+                  "enum": [
+                    "needs_current_cost",
+                    "not_synced_yet"
+                  ]
+                }
+              },
+              "required": [
+                "invoicerId",
+                "invoicer",
+                "label",
+                "reason"
+              ]
+            }
+          }
+        },
+        "required": [
+          "period",
+          "totals",
+          "groups"
+        ]
+      },
+      "AiSpendTotal": {
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string"
+          },
+          "monthToDate": {
+            "type": "number"
+          },
+          "forecast": {
+            "type": "number"
+          },
+          "lastMonth": {
+            "type": "number"
+          },
+          "changePct": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "currency"
+        ]
+      },
+      "AiSpendGroup": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "invoicer": {
+            "type": "string",
+            "enum": [
+              "aws",
+              "gcp",
+              "azure",
+              "oci",
+              "openai",
+              "anthropic",
+              "openrouter",
+              "mistral",
+              "cohere",
+              "xai",
+              "snowflake",
+              "databricks",
+              "coreweave",
+              "lambda",
+              "nebius",
+              "crusoe"
+            ]
+          },
+          "invoicerId": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "monthToDate": {
+            "type": "number"
+          },
+          "forecast": {
+            "type": "number"
+          },
+          "lastMonth": {
+            "type": "number"
+          },
+          "changePct": {
+            "type": "number"
+          },
+          "quantities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiMeterQuantity"
+            }
+          },
+          "purchaseOrders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiPurchaseOrderLineRemaining"
+            }
+          },
+          "services": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiServiceFigure"
+            }
+          }
+        },
+        "required": [
+          "key",
+          "label",
+          "currency",
+          "quantities"
+        ]
+      },
+      "AiMeterQuantity": {
+        "type": "object",
+        "properties": {
+          "meter": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "meter",
+          "unit",
+          "quantity"
+        ]
+      },
+      "AiPurchaseOrderLineRemaining": {
+        "type": "object",
+        "properties": {
+          "poId": {
+            "type": "string"
+          },
+          "lineNo": {
+            "type": "number"
+          },
+          "remaining": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "poId",
+          "lineNo",
+          "remaining"
+        ]
+      },
+      "AiServiceFigure": {
+        "type": "object",
+        "properties": {
+          "service": {
+            "type": "string"
+          },
+          "monthToDate": {
+            "type": "number"
+          },
+          "forecast": {
+            "type": "number"
+          },
+          "lastMonth": {
+            "type": "number"
+          },
+          "changePct": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "service"
+        ]
+      },
+      "AiSpendUnattributed": {
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string"
+          },
+          "monthToDate": {
+            "type": "number"
+          },
+          "forecast": {
+            "type": "number"
+          },
+          "lastMonth": {
+            "type": "number"
+          },
+          "changePct": {
+            "type": "number"
+          },
+          "quantities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiMeterQuantity"
+            }
+          }
+        },
+        "required": [
+          "currency",
+          "quantities"
+        ]
+      },
+      "AiUsageLinesPage": {
+        "type": "object",
+        "properties": {
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiUsageLine"
+            }
+          },
+          "nextCursor": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "lines"
+        ]
+      },
+      "AiUsageLine": {
+        "type": "object",
+        "properties": {
+          "invoicerId": {
+            "type": "string"
+          },
+          "invoicer": {
+            "type": "string",
+            "enum": [
+              "aws",
+              "gcp",
+              "azure",
+              "oci",
+              "openai",
+              "anthropic",
+              "openrouter",
+              "mistral",
+              "cohere",
+              "xai",
+              "snowflake",
+              "databricks",
+              "coreweave",
+              "lambda",
+              "nebius",
+              "crusoe"
+            ]
+          },
+          "vendor": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "openai",
+              "anthropic",
+              "mistral",
+              "cohere",
+              "xai",
+              "snowflake",
+              "databricks",
+              "google",
+              "meta",
+              "amazon",
+              "microsoft",
+              "deepseek",
+              "nvidia"
+            ]
+          },
+          "model": {
+            "type": "string"
+          },
+          "shape": {
+            "type": "string",
+            "enum": [
+              "tokens",
+              "capacity",
+              "credits"
+            ]
+          },
+          "meter": {
+            "type": "string",
+            "enum": [
+              "images",
+              "other",
+              "input_tokens",
+              "output_tokens",
+              "cached_input_tokens",
+              "cache_write_tokens",
+              "batch_input_tokens",
+              "batch_output_tokens",
+              "audio_seconds",
+              "embeddings_tokens",
+              "requests",
+              "gpu_hours",
+              "ptu_hours",
+              "model_units_hours",
+              "cluster_hours"
+            ]
+          },
+          "region": {
+            "type": "string"
+          },
+          "day": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "images",
+              "tokens",
+              "requests",
+              "gpu_hours",
+              "ptu_hours",
+              "1M_tokens",
+              "seconds",
+              "model_unit_hours",
+              "units"
+            ]
+          },
+          "credits": {
+            "type": "object",
+            "properties": {
+              "quantity": {
+                "type": "number"
+              },
+              "unit": {
+                "type": "string",
+                "enum": [
+                  "credits",
+                  "dbu"
+                ]
+              },
+              "unitPrice": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "quantity",
+              "unit"
+            ]
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "unitPrice": {
+            "type": "number"
+          },
+          "attribution": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "billing_export",
+              "cost_explorer",
+              "cost_management",
+              "usage_api",
+              "cost_report",
+              "usage_report"
+            ]
+          },
+          "rawService": {
+            "type": "string"
+          },
+          "rawUsageType": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "invoicerId",
+          "invoicer",
+          "vendor",
+          "model",
+          "shape",
+          "meter",
+          "day",
+          "quantity",
+          "unit",
+          "amount",
+          "currency",
+          "source"
+        ]
+      },
+      "AiSpendCheckResponse": {
+        "type": "object",
+        "properties": {
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "over",
+              "no_budget",
+              "no_po",
+              "fits"
+            ]
+          },
+          "period": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "monthToDate": {
+            "type": "number"
+          },
+          "forecast": {
+            "type": "number"
+          },
+          "purchaseOrders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiSpendCheckPurchaseOrderLine"
+            }
+          },
+          "budget": {
+            "$ref": "#/components/schemas/AiSpendCheckBudget"
+          }
+        },
+        "required": [
+          "outcome",
+          "period",
+          "purchaseOrders"
+        ]
+      },
+      "AiSpendCheckPurchaseOrderLine": {
+        "type": "object",
+        "properties": {
+          "poId": {
+            "type": "string"
+          },
+          "lineNo": {
+            "type": "number"
+          },
+          "remaining": {
+            "type": "number"
+          },
+          "overBy": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "poId",
+          "lineNo",
+          "remaining"
+        ]
+      },
+      "AiSpendCheckBudget": {
+        "type": "object",
+        "properties": {
+          "costCenter": {
+            "type": "string"
+          },
+          "budget": {
+            "type": "number"
+          },
+          "committed": {
+            "type": "number"
+          },
+          "actual": {
+            "type": "number"
+          },
+          "accruing": {
+            "type": "number"
+          },
+          "remaining": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "costCenter",
+          "budget",
+          "committed",
+          "actual",
+          "accruing",
+          "remaining"
+        ]
+      },
+      "AiRateCardEntry": {
+        "type": "object",
+        "properties": {
+          "invoicer": {
+            "type": "string",
+            "enum": [
+              "aws",
+              "gcp",
+              "azure",
+              "oci",
+              "openai",
+              "anthropic",
+              "openrouter",
+              "mistral",
+              "cohere",
+              "xai",
+              "snowflake",
+              "databricks",
+              "coreweave",
+              "lambda",
+              "nebius",
+              "crusoe"
+            ]
+          },
+          "vendor": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "openai",
+              "anthropic",
+              "mistral",
+              "cohere",
+              "xai",
+              "snowflake",
+              "databricks",
+              "google",
+              "meta",
+              "amazon",
+              "microsoft",
+              "deepseek",
+              "nvidia"
+            ]
+          },
+          "model": {
+            "type": "string"
+          },
+          "meter": {
+            "type": "string",
+            "enum": [
+              "images",
+              "other",
+              "input_tokens",
+              "output_tokens",
+              "cached_input_tokens",
+              "cache_write_tokens",
+              "batch_input_tokens",
+              "batch_output_tokens",
+              "audio_seconds",
+              "embeddings_tokens",
+              "requests",
+              "gpu_hours",
+              "ptu_hours",
+              "model_units_hours",
+              "cluster_hours"
+            ]
+          },
+          "region": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "images",
+              "tokens",
+              "requests",
+              "gpu_hours",
+              "ptu_hours",
+              "1M_tokens",
+              "seconds",
+              "model_unit_hours",
+              "units"
+            ]
+          },
+          "unitPrice": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "effectiveFrom": {
+            "type": "string"
+          },
+          "effectiveTo": {
+            "type": "string"
+          },
+          "sourceUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "invoicer",
+          "vendor",
+          "model",
+          "meter",
+          "unit",
+          "unitPrice",
+          "currency",
+          "effectiveFrom",
+          "sourceUrl"
+        ]
+      },
       "PurchaseOrderEmails": {
         "type": "object",
         "properties": {
@@ -26862,72 +27862,6 @@
           "missingDocuments"
         ]
       },
-      "StripePaymentStatus": {
-        "type": "object",
-        "properties": {
-          "available": {
-            "type": "boolean"
-          },
-          "reason": {
-            "type": "string",
-            "enum": [
-              "not_configured",
-              "not_approved",
-              "bank_details_held",
-              "payment_locked",
-              "paid_in_erp",
-              "supplier_not_on_pleaxy",
-              "supplier_not_connected",
-              "unsupported_currency",
-              "amount_too_small"
-            ]
-          },
-          "state": {
-            "type": "string",
-            "enum": [
-              "checkout_open",
-              "processing",
-              "succeeded"
-            ]
-          },
-          "paymentMethodType": {
-            "type": "string",
-            "enum": [
-              "card",
-              "us_bank_account"
-            ]
-          },
-          "quote": {
-            "type": "object",
-            "properties": {
-              "amount": {
-                "type": "number"
-              },
-              "fee": {
-                "type": "number"
-              },
-              "total": {
-                "type": "number"
-              },
-              "currency": {
-                "type": "string",
-                "enum": [
-                  "USD"
-                ]
-              }
-            },
-            "required": [
-              "amount",
-              "fee",
-              "total",
-              "currency"
-            ]
-          }
-        },
-        "required": [
-          "available"
-        ]
-      },
       "ApprovalQueue": {
         "type": "object",
         "properties": {
@@ -27299,6 +28233,72 @@
           "by",
           "byName",
           "at"
+        ]
+      },
+      "StripePaymentStatus": {
+        "type": "object",
+        "properties": {
+          "available": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "not_configured",
+              "not_approved",
+              "bank_details_held",
+              "payment_locked",
+              "paid_in_erp",
+              "supplier_not_on_pleaxy",
+              "supplier_not_connected",
+              "unsupported_currency",
+              "amount_too_small"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "checkout_open",
+              "processing",
+              "succeeded"
+            ]
+          },
+          "paymentMethodType": {
+            "type": "string",
+            "enum": [
+              "card",
+              "us_bank_account"
+            ]
+          },
+          "quote": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "number"
+              },
+              "fee": {
+                "type": "number"
+              },
+              "total": {
+                "type": "number"
+              },
+              "currency": {
+                "type": "string",
+                "enum": [
+                  "USD"
+                ]
+              }
+            },
+            "required": [
+              "amount",
+              "fee",
+              "total",
+              "currency"
+            ]
+          }
+        },
+        "required": [
+          "available"
         ]
       },
       "ApiError": {

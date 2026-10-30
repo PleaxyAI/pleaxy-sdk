@@ -100,6 +100,18 @@ func (c *Client) CancelPurchaseRequest(ctx context.Context, requestId string) (*
 	return resp.JSON200, nil
 }
 
+// CheckAiSpend - [Buyer] Whether the period's AI forecast for an invoicer, a purchase order or a cost center fits what its open purchase order lines (and the cost center's budget) have left: fits, over, no_po or no_budget. Nothing is saved and nothing blocks. Name at least one of invoicerId, costCenter and poId. 'view' on suppliers or on invoices.
+func (c *Client) CheckAiSpend(ctx context.Context, body CheckAiSpendJSONRequestBody) (*AiSpendCheckResponse, error) {
+	resp, err := c.api.CheckAiSpendWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // CheckBudget - [Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount's currency: within, over, no_budget or off. Writes nothing.
 func (c *Client) CheckBudget(ctx context.Context, body CheckBudgetJSONRequestBody) (*BudgetCheck, error) {
 	resp, err := c.api.CheckBudgetWithResponse(ctx, body)
@@ -299,6 +311,18 @@ func (c *Client) FlipPurchaseOrderToInvoice(ctx context.Context, poId string, pa
 		return nil, err
 	}
 	return resp.JSON201, nil
+}
+
+// GetAiSpend - [Buyer] AI spend for a period (YYYY-MM, default this month), grouped by invoicer (default), vendor, model or costCenter: month to date, forecast, last month and the change, usage by meter, and beside each invoicer the open purchase order lines raised to it with what is left. Amounts stay in each invoicer's billing currency; totals are one entry per currency. 'view' on suppliers or on invoices.
+func (c *Client) GetAiSpend(ctx context.Context, params *GetAiSpendParams) (*AiSpendResponse, error) {
+	resp, err := c.api.GetAiSpendWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
 }
 
 // GetApprovalChainSettings - [Buyer] Get the configured approval chain for a process
@@ -683,6 +707,30 @@ func (c *Client) InitCloudConnection(ctx context.Context, provider string) (*int
 		return nil, err
 	}
 	return resp.JSON201, nil
+}
+
+// ListAiRateCards - [Buyer] The public list prices Pleaxy keeps for AI models, by invoicer, vendor, model, meter and region, with effective dates and the pricing page each was taken from. With on (YYYY-MM-DD), only the entry in force that day. A price change is a new entry, never an edit. 'view' on suppliers or on invoices.
+func (c *Client) ListAiRateCards(ctx context.Context, params *ListAiRateCardsParams) (*[]AiRateCardEntry, error) {
+	resp, err := c.api.ListAiRateCardsWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// ListAiUsageLines - [Buyer] The normalised AI usage lines behind the figures, newest day first, one page at a time (limit 1-500, default 100; pass nextCursor back as cursor). Filter by invoicerId, vendor, model or costCenter. Unmapped usage types keep their raw names with vendor unknown. 'view' on suppliers or on invoices.
+func (c *Client) ListAiUsageLines(ctx context.Context, params *ListAiUsageLinesParams) (*AiUsageLinesPage, error) {
+	resp, err := c.api.ListAiUsageLinesWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
 }
 
 // ListApiKeys - [Both, admin] List API keys

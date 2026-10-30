@@ -63,6 +63,41 @@ from .add_invoice_replacement_links_result_usage_source import (
     AddInvoiceReplacementLinksResultUsageSource,
 )
 from .add_replacement_links_input import AddReplacementLinksInput
+from .ai_meter_quantity import AiMeterQuantity
+from .ai_purchase_order_line_remaining import AiPurchaseOrderLineRemaining
+from .ai_rate_card_entry import AiRateCardEntry
+from .ai_rate_card_entry_invoicer import AiRateCardEntryInvoicer
+from .ai_rate_card_entry_meter import AiRateCardEntryMeter
+from .ai_rate_card_entry_unit import AiRateCardEntryUnit
+from .ai_rate_card_entry_vendor import AiRateCardEntryVendor
+from .ai_service_figure import AiServiceFigure
+from .ai_spend_check_budget import AiSpendCheckBudget
+from .ai_spend_check_purchase_order_line import AiSpendCheckPurchaseOrderLine
+from .ai_spend_check_response import AiSpendCheckResponse
+from .ai_spend_check_response_outcome import AiSpendCheckResponseOutcome
+from .ai_spend_group import AiSpendGroup
+from .ai_spend_group_invoicer import AiSpendGroupInvoicer
+from .ai_spend_response import AiSpendResponse
+from .ai_spend_response_not_readable_item import AiSpendResponseNotReadableItem
+from .ai_spend_response_not_readable_item_invoicer import (
+    AiSpendResponseNotReadableItemInvoicer,
+)
+from .ai_spend_response_not_readable_item_reason import (
+    AiSpendResponseNotReadableItemReason,
+)
+from .ai_spend_total import AiSpendTotal
+from .ai_spend_unattributed import AiSpendUnattributed
+from .ai_usage_line import AiUsageLine
+from .ai_usage_line_attribution import AiUsageLineAttribution
+from .ai_usage_line_credits import AiUsageLineCredits
+from .ai_usage_line_credits_unit import AiUsageLineCreditsUnit
+from .ai_usage_line_invoicer import AiUsageLineInvoicer
+from .ai_usage_line_meter import AiUsageLineMeter
+from .ai_usage_line_shape import AiUsageLineShape
+from .ai_usage_line_source import AiUsageLineSource
+from .ai_usage_line_unit import AiUsageLineUnit
+from .ai_usage_line_vendor import AiUsageLineVendor
+from .ai_usage_lines_page import AiUsageLinesPage
 from .amount_breakdown_input import AmountBreakdownInput
 from .api_error import ApiError
 from .api_key_summary import ApiKeySummary
@@ -184,6 +219,10 @@ from .budget_status import BudgetStatus
 from .budget_status_period import BudgetStatusPeriod
 from .budget_status_period_kind import BudgetStatusPeriodKind
 from .cancel_purchase_order_input import CancelPurchaseOrderInput
+from .check_ai_spend_input import CheckAiSpendInput
+from .cloud_ai_sync_state import CloudAiSyncState
+from .cloud_ai_sync_state_code import CloudAiSyncStateCode
+from .cloud_ai_sync_state_status import CloudAiSyncStateStatus
 from .cloud_bulk_account_view import CloudBulkAccountView
 from .cloud_bulk_account_view_source import CloudBulkAccountViewSource
 from .cloud_bulk_account_view_state import CloudBulkAccountViewState
@@ -1841,6 +1880,37 @@ __all__ = (
     "AddInvoiceReplacementLinksResultUnverifiedReason",
     "AddInvoiceReplacementLinksResultUsageSource",
     "AddReplacementLinksInput",
+    "AiMeterQuantity",
+    "AiPurchaseOrderLineRemaining",
+    "AiRateCardEntry",
+    "AiRateCardEntryInvoicer",
+    "AiRateCardEntryMeter",
+    "AiRateCardEntryUnit",
+    "AiRateCardEntryVendor",
+    "AiServiceFigure",
+    "AiSpendCheckBudget",
+    "AiSpendCheckPurchaseOrderLine",
+    "AiSpendCheckResponse",
+    "AiSpendCheckResponseOutcome",
+    "AiSpendGroup",
+    "AiSpendGroupInvoicer",
+    "AiSpendResponse",
+    "AiSpendResponseNotReadableItem",
+    "AiSpendResponseNotReadableItemInvoicer",
+    "AiSpendResponseNotReadableItemReason",
+    "AiSpendTotal",
+    "AiSpendUnattributed",
+    "AiUsageLine",
+    "AiUsageLineAttribution",
+    "AiUsageLineCredits",
+    "AiUsageLineCreditsUnit",
+    "AiUsageLineInvoicer",
+    "AiUsageLineMeter",
+    "AiUsageLineShape",
+    "AiUsageLineSource",
+    "AiUsageLinesPage",
+    "AiUsageLineUnit",
+    "AiUsageLineVendor",
     "AmountBreakdownInput",
     "ApiError",
     "ApiKeySummary",
@@ -1956,6 +2026,10 @@ __all__ = (
     "BudgetStatusPeriod",
     "BudgetStatusPeriodKind",
     "CancelPurchaseOrderInput",
+    "CheckAiSpendInput",
+    "CloudAiSyncState",
+    "CloudAiSyncStateCode",
+    "CloudAiSyncStateStatus",
     "CloudBulkAccountView",
     "CloudBulkAccountViewSource",
     "CloudBulkAccountViewState",

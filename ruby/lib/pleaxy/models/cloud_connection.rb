@@ -47,6 +47,8 @@ module Pleaxy
 
     attr_accessor :last_sync_error_code
 
+    attr_accessor :ai_sync
+
     attr_accessor :data_sources
 
     attr_accessor :billing
@@ -98,6 +100,7 @@ module Pleaxy
         :'last_sync_status' => :'lastSyncStatus',
         :'last_sync_error' => :'lastSyncError',
         :'last_sync_error_code' => :'lastSyncErrorCode',
+        :'ai_sync' => :'aiSync',
         :'data_sources' => :'dataSources',
         :'billing' => :'billing',
         :'gcp' => :'gcp',
@@ -130,6 +133,7 @@ module Pleaxy
         :'last_sync_status' => :'String',
         :'last_sync_error' => :'String',
         :'last_sync_error_code' => :'String',
+        :'ai_sync' => :'CloudAiSyncState',
         :'data_sources' => :'Array<String>',
         :'billing' => :'CloudConnectionBilling',
         :'gcp' => :'CloudConnectionGcp',
@@ -223,6 +227,10 @@ module Pleaxy
 
       if attributes.key?(:'last_sync_error_code')
         self.last_sync_error_code = attributes[:'last_sync_error_code']
+      end
+
+      if attributes.key?(:'ai_sync')
+        self.ai_sync = attributes[:'ai_sync']
       end
 
       if attributes.key?(:'data_sources')
@@ -337,6 +345,7 @@ module Pleaxy
           last_sync_status == o.last_sync_status &&
           last_sync_error == o.last_sync_error &&
           last_sync_error_code == o.last_sync_error_code &&
+          ai_sync == o.ai_sync &&
           data_sources == o.data_sources &&
           billing == o.billing &&
           gcp == o.gcp &&
@@ -353,7 +362,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, provider, account_label, detail, spend, status, connected_at, setup, bulk, role_arn, external_id, aws_account_id, last_synced_at, last_sync_status, last_sync_error, last_sync_error_code, data_sources, billing, gcp, oci, azure].hash
+      [id, provider, account_label, detail, spend, status, connected_at, setup, bulk, role_arn, external_id, aws_account_id, last_synced_at, last_sync_status, last_sync_error, last_sync_error_code, ai_sync, data_sources, billing, gcp, oci, azure].hash
     end
 
     # Builds the object from hash

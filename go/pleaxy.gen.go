@@ -138,6 +138,223 @@ const (
 	AddInvoiceReplacementLinksResultUsageSourceUsageApiClosedMonth AddInvoiceReplacementLinksResultUsageSource = "usage_api_closed_month"
 )
 
+// Defines values for AiRateCardEntryInvoicer.
+const (
+	AiRateCardEntryInvoicerAnthropic  AiRateCardEntryInvoicer = "anthropic"
+	AiRateCardEntryInvoicerAws        AiRateCardEntryInvoicer = "aws"
+	AiRateCardEntryInvoicerAzure      AiRateCardEntryInvoicer = "azure"
+	AiRateCardEntryInvoicerCohere     AiRateCardEntryInvoicer = "cohere"
+	AiRateCardEntryInvoicerCoreweave  AiRateCardEntryInvoicer = "coreweave"
+	AiRateCardEntryInvoicerCrusoe     AiRateCardEntryInvoicer = "crusoe"
+	AiRateCardEntryInvoicerDatabricks AiRateCardEntryInvoicer = "databricks"
+	AiRateCardEntryInvoicerGcp        AiRateCardEntryInvoicer = "gcp"
+	AiRateCardEntryInvoicerLambda     AiRateCardEntryInvoicer = "lambda"
+	AiRateCardEntryInvoicerMistral    AiRateCardEntryInvoicer = "mistral"
+	AiRateCardEntryInvoicerNebius     AiRateCardEntryInvoicer = "nebius"
+	AiRateCardEntryInvoicerOci        AiRateCardEntryInvoicer = "oci"
+	AiRateCardEntryInvoicerOpenai     AiRateCardEntryInvoicer = "openai"
+	AiRateCardEntryInvoicerOpenrouter AiRateCardEntryInvoicer = "openrouter"
+	AiRateCardEntryInvoicerSnowflake  AiRateCardEntryInvoicer = "snowflake"
+	AiRateCardEntryInvoicerXai        AiRateCardEntryInvoicer = "xai"
+)
+
+// Defines values for AiRateCardEntryMeter.
+const (
+	AiRateCardEntryMeterAudioSeconds      AiRateCardEntryMeter = "audio_seconds"
+	AiRateCardEntryMeterBatchInputTokens  AiRateCardEntryMeter = "batch_input_tokens"
+	AiRateCardEntryMeterBatchOutputTokens AiRateCardEntryMeter = "batch_output_tokens"
+	AiRateCardEntryMeterCacheWriteTokens  AiRateCardEntryMeter = "cache_write_tokens"
+	AiRateCardEntryMeterCachedInputTokens AiRateCardEntryMeter = "cached_input_tokens"
+	AiRateCardEntryMeterClusterHours      AiRateCardEntryMeter = "cluster_hours"
+	AiRateCardEntryMeterEmbeddingsTokens  AiRateCardEntryMeter = "embeddings_tokens"
+	AiRateCardEntryMeterGpuHours          AiRateCardEntryMeter = "gpu_hours"
+	AiRateCardEntryMeterImages            AiRateCardEntryMeter = "images"
+	AiRateCardEntryMeterInputTokens       AiRateCardEntryMeter = "input_tokens"
+	AiRateCardEntryMeterModelUnitsHours   AiRateCardEntryMeter = "model_units_hours"
+	AiRateCardEntryMeterOther             AiRateCardEntryMeter = "other"
+	AiRateCardEntryMeterOutputTokens      AiRateCardEntryMeter = "output_tokens"
+	AiRateCardEntryMeterPtuHours          AiRateCardEntryMeter = "ptu_hours"
+	AiRateCardEntryMeterRequests          AiRateCardEntryMeter = "requests"
+)
+
+// Defines values for AiRateCardEntryUnit.
+const (
+	AiRateCardEntryUnitGpuHours       AiRateCardEntryUnit = "gpu_hours"
+	AiRateCardEntryUnitImages         AiRateCardEntryUnit = "images"
+	AiRateCardEntryUnitModelUnitHours AiRateCardEntryUnit = "model_unit_hours"
+	AiRateCardEntryUnitN1MTokens      AiRateCardEntryUnit = "1M_tokens"
+	AiRateCardEntryUnitPtuHours       AiRateCardEntryUnit = "ptu_hours"
+	AiRateCardEntryUnitRequests       AiRateCardEntryUnit = "requests"
+	AiRateCardEntryUnitSeconds        AiRateCardEntryUnit = "seconds"
+	AiRateCardEntryUnitTokens         AiRateCardEntryUnit = "tokens"
+	AiRateCardEntryUnitUnits          AiRateCardEntryUnit = "units"
+)
+
+// Defines values for AiRateCardEntryVendor.
+const (
+	AiRateCardEntryVendorAmazon     AiRateCardEntryVendor = "amazon"
+	AiRateCardEntryVendorAnthropic  AiRateCardEntryVendor = "anthropic"
+	AiRateCardEntryVendorCohere     AiRateCardEntryVendor = "cohere"
+	AiRateCardEntryVendorDatabricks AiRateCardEntryVendor = "databricks"
+	AiRateCardEntryVendorDeepseek   AiRateCardEntryVendor = "deepseek"
+	AiRateCardEntryVendorGoogle     AiRateCardEntryVendor = "google"
+	AiRateCardEntryVendorMeta       AiRateCardEntryVendor = "meta"
+	AiRateCardEntryVendorMicrosoft  AiRateCardEntryVendor = "microsoft"
+	AiRateCardEntryVendorMistral    AiRateCardEntryVendor = "mistral"
+	AiRateCardEntryVendorNvidia     AiRateCardEntryVendor = "nvidia"
+	AiRateCardEntryVendorOpenai     AiRateCardEntryVendor = "openai"
+	AiRateCardEntryVendorSnowflake  AiRateCardEntryVendor = "snowflake"
+	AiRateCardEntryVendorUnknown    AiRateCardEntryVendor = "unknown"
+	AiRateCardEntryVendorXai        AiRateCardEntryVendor = "xai"
+)
+
+// Defines values for AiSpendCheckResponseOutcome.
+const (
+	AiSpendCheckResponseOutcomeFits     AiSpendCheckResponseOutcome = "fits"
+	AiSpendCheckResponseOutcomeNoBudget AiSpendCheckResponseOutcome = "no_budget"
+	AiSpendCheckResponseOutcomeNoPo     AiSpendCheckResponseOutcome = "no_po"
+	AiSpendCheckResponseOutcomeOver     AiSpendCheckResponseOutcome = "over"
+)
+
+// Defines values for AiSpendGroupInvoicer.
+const (
+	AiSpendGroupInvoicerAnthropic  AiSpendGroupInvoicer = "anthropic"
+	AiSpendGroupInvoicerAws        AiSpendGroupInvoicer = "aws"
+	AiSpendGroupInvoicerAzure      AiSpendGroupInvoicer = "azure"
+	AiSpendGroupInvoicerCohere     AiSpendGroupInvoicer = "cohere"
+	AiSpendGroupInvoicerCoreweave  AiSpendGroupInvoicer = "coreweave"
+	AiSpendGroupInvoicerCrusoe     AiSpendGroupInvoicer = "crusoe"
+	AiSpendGroupInvoicerDatabricks AiSpendGroupInvoicer = "databricks"
+	AiSpendGroupInvoicerGcp        AiSpendGroupInvoicer = "gcp"
+	AiSpendGroupInvoicerLambda     AiSpendGroupInvoicer = "lambda"
+	AiSpendGroupInvoicerMistral    AiSpendGroupInvoicer = "mistral"
+	AiSpendGroupInvoicerNebius     AiSpendGroupInvoicer = "nebius"
+	AiSpendGroupInvoicerOci        AiSpendGroupInvoicer = "oci"
+	AiSpendGroupInvoicerOpenai     AiSpendGroupInvoicer = "openai"
+	AiSpendGroupInvoicerOpenrouter AiSpendGroupInvoicer = "openrouter"
+	AiSpendGroupInvoicerSnowflake  AiSpendGroupInvoicer = "snowflake"
+	AiSpendGroupInvoicerXai        AiSpendGroupInvoicer = "xai"
+)
+
+// Defines values for AiSpendResponseNotReadableInvoicer.
+const (
+	AiSpendResponseNotReadableInvoicerAnthropic  AiSpendResponseNotReadableInvoicer = "anthropic"
+	AiSpendResponseNotReadableInvoicerAws        AiSpendResponseNotReadableInvoicer = "aws"
+	AiSpendResponseNotReadableInvoicerAzure      AiSpendResponseNotReadableInvoicer = "azure"
+	AiSpendResponseNotReadableInvoicerCohere     AiSpendResponseNotReadableInvoicer = "cohere"
+	AiSpendResponseNotReadableInvoicerCoreweave  AiSpendResponseNotReadableInvoicer = "coreweave"
+	AiSpendResponseNotReadableInvoicerCrusoe     AiSpendResponseNotReadableInvoicer = "crusoe"
+	AiSpendResponseNotReadableInvoicerDatabricks AiSpendResponseNotReadableInvoicer = "databricks"
+	AiSpendResponseNotReadableInvoicerGcp        AiSpendResponseNotReadableInvoicer = "gcp"
+	AiSpendResponseNotReadableInvoicerLambda     AiSpendResponseNotReadableInvoicer = "lambda"
+	AiSpendResponseNotReadableInvoicerMistral    AiSpendResponseNotReadableInvoicer = "mistral"
+	AiSpendResponseNotReadableInvoicerNebius     AiSpendResponseNotReadableInvoicer = "nebius"
+	AiSpendResponseNotReadableInvoicerOci        AiSpendResponseNotReadableInvoicer = "oci"
+	AiSpendResponseNotReadableInvoicerOpenai     AiSpendResponseNotReadableInvoicer = "openai"
+	AiSpendResponseNotReadableInvoicerOpenrouter AiSpendResponseNotReadableInvoicer = "openrouter"
+	AiSpendResponseNotReadableInvoicerSnowflake  AiSpendResponseNotReadableInvoicer = "snowflake"
+	AiSpendResponseNotReadableInvoicerXai        AiSpendResponseNotReadableInvoicer = "xai"
+)
+
+// Defines values for AiSpendResponseNotReadableReason.
+const (
+	NeedsCurrentCost AiSpendResponseNotReadableReason = "needs_current_cost"
+	NotSyncedYet     AiSpendResponseNotReadableReason = "not_synced_yet"
+)
+
+// Defines values for AiUsageLineCreditsUnit.
+const (
+	AiUsageLineCreditsUnitCredits AiUsageLineCreditsUnit = "credits"
+	AiUsageLineCreditsUnitDbu     AiUsageLineCreditsUnit = "dbu"
+)
+
+// Defines values for AiUsageLineInvoicer.
+const (
+	AiUsageLineInvoicerAnthropic  AiUsageLineInvoicer = "anthropic"
+	AiUsageLineInvoicerAws        AiUsageLineInvoicer = "aws"
+	AiUsageLineInvoicerAzure      AiUsageLineInvoicer = "azure"
+	AiUsageLineInvoicerCohere     AiUsageLineInvoicer = "cohere"
+	AiUsageLineInvoicerCoreweave  AiUsageLineInvoicer = "coreweave"
+	AiUsageLineInvoicerCrusoe     AiUsageLineInvoicer = "crusoe"
+	AiUsageLineInvoicerDatabricks AiUsageLineInvoicer = "databricks"
+	AiUsageLineInvoicerGcp        AiUsageLineInvoicer = "gcp"
+	AiUsageLineInvoicerLambda     AiUsageLineInvoicer = "lambda"
+	AiUsageLineInvoicerMistral    AiUsageLineInvoicer = "mistral"
+	AiUsageLineInvoicerNebius     AiUsageLineInvoicer = "nebius"
+	AiUsageLineInvoicerOci        AiUsageLineInvoicer = "oci"
+	AiUsageLineInvoicerOpenai     AiUsageLineInvoicer = "openai"
+	AiUsageLineInvoicerOpenrouter AiUsageLineInvoicer = "openrouter"
+	AiUsageLineInvoicerSnowflake  AiUsageLineInvoicer = "snowflake"
+	AiUsageLineInvoicerXai        AiUsageLineInvoicer = "xai"
+)
+
+// Defines values for AiUsageLineMeter.
+const (
+	AiUsageLineMeterAudioSeconds      AiUsageLineMeter = "audio_seconds"
+	AiUsageLineMeterBatchInputTokens  AiUsageLineMeter = "batch_input_tokens"
+	AiUsageLineMeterBatchOutputTokens AiUsageLineMeter = "batch_output_tokens"
+	AiUsageLineMeterCacheWriteTokens  AiUsageLineMeter = "cache_write_tokens"
+	AiUsageLineMeterCachedInputTokens AiUsageLineMeter = "cached_input_tokens"
+	AiUsageLineMeterClusterHours      AiUsageLineMeter = "cluster_hours"
+	AiUsageLineMeterEmbeddingsTokens  AiUsageLineMeter = "embeddings_tokens"
+	AiUsageLineMeterGpuHours          AiUsageLineMeter = "gpu_hours"
+	AiUsageLineMeterImages            AiUsageLineMeter = "images"
+	AiUsageLineMeterInputTokens       AiUsageLineMeter = "input_tokens"
+	AiUsageLineMeterModelUnitsHours   AiUsageLineMeter = "model_units_hours"
+	AiUsageLineMeterOther             AiUsageLineMeter = "other"
+	AiUsageLineMeterOutputTokens      AiUsageLineMeter = "output_tokens"
+	AiUsageLineMeterPtuHours          AiUsageLineMeter = "ptu_hours"
+	AiUsageLineMeterRequests          AiUsageLineMeter = "requests"
+)
+
+// Defines values for AiUsageLineShape.
+const (
+	AiUsageLineShapeCapacity AiUsageLineShape = "capacity"
+	AiUsageLineShapeCredits  AiUsageLineShape = "credits"
+	AiUsageLineShapeTokens   AiUsageLineShape = "tokens"
+)
+
+// Defines values for AiUsageLineSource.
+const (
+	AiUsageLineSourceBillingExport  AiUsageLineSource = "billing_export"
+	AiUsageLineSourceCostExplorer   AiUsageLineSource = "cost_explorer"
+	AiUsageLineSourceCostManagement AiUsageLineSource = "cost_management"
+	AiUsageLineSourceCostReport     AiUsageLineSource = "cost_report"
+	AiUsageLineSourceUsageApi       AiUsageLineSource = "usage_api"
+	AiUsageLineSourceUsageReport    AiUsageLineSource = "usage_report"
+)
+
+// Defines values for AiUsageLineUnit.
+const (
+	AiUsageLineUnitGpuHours       AiUsageLineUnit = "gpu_hours"
+	AiUsageLineUnitImages         AiUsageLineUnit = "images"
+	AiUsageLineUnitModelUnitHours AiUsageLineUnit = "model_unit_hours"
+	AiUsageLineUnitN1MTokens      AiUsageLineUnit = "1M_tokens"
+	AiUsageLineUnitPtuHours       AiUsageLineUnit = "ptu_hours"
+	AiUsageLineUnitRequests       AiUsageLineUnit = "requests"
+	AiUsageLineUnitSeconds        AiUsageLineUnit = "seconds"
+	AiUsageLineUnitTokens         AiUsageLineUnit = "tokens"
+	AiUsageLineUnitUnits          AiUsageLineUnit = "units"
+)
+
+// Defines values for AiUsageLineVendor.
+const (
+	AiUsageLineVendorAmazon     AiUsageLineVendor = "amazon"
+	AiUsageLineVendorAnthropic  AiUsageLineVendor = "anthropic"
+	AiUsageLineVendorCohere     AiUsageLineVendor = "cohere"
+	AiUsageLineVendorDatabricks AiUsageLineVendor = "databricks"
+	AiUsageLineVendorDeepseek   AiUsageLineVendor = "deepseek"
+	AiUsageLineVendorGoogle     AiUsageLineVendor = "google"
+	AiUsageLineVendorMeta       AiUsageLineVendor = "meta"
+	AiUsageLineVendorMicrosoft  AiUsageLineVendor = "microsoft"
+	AiUsageLineVendorMistral    AiUsageLineVendor = "mistral"
+	AiUsageLineVendorNvidia     AiUsageLineVendor = "nvidia"
+	AiUsageLineVendorOpenai     AiUsageLineVendor = "openai"
+	AiUsageLineVendorSnowflake  AiUsageLineVendor = "snowflake"
+	AiUsageLineVendorUnknown    AiUsageLineVendor = "unknown"
+	AiUsageLineVendorXai        AiUsageLineVendor = "xai"
+)
+
 // Defines values for ApiKeySummaryProcurementRole.
 const (
 	ApiKeySummaryProcurementRoleAdministrator         ApiKeySummaryProcurementRole = "administrator"
@@ -504,6 +721,22 @@ const (
 	BudgetStatusPeriodKindMonth   BudgetStatusPeriodKind = "month"
 	BudgetStatusPeriodKindQuarter BudgetStatusPeriodKind = "quarter"
 	BudgetStatusPeriodKindYear    BudgetStatusPeriodKind = "year"
+)
+
+// Defines values for CloudAiSyncStateCode.
+const (
+	CloudAiSyncStateCodeAccessRevoked  CloudAiSyncStateCode = "access_revoked"
+	CloudAiSyncStateCodeDataNotEnabled CloudAiSyncStateCode = "data_not_enabled"
+	CloudAiSyncStateCodePlatformConfig CloudAiSyncStateCode = "platform_config"
+	CloudAiSyncStateCodeThrottled      CloudAiSyncStateCode = "throttled"
+	CloudAiSyncStateCodeUnknown        CloudAiSyncStateCode = "unknown"
+)
+
+// Defines values for CloudAiSyncStateStatus.
+const (
+	CloudAiSyncStateStatusError     CloudAiSyncStateStatus = "error"
+	CloudAiSyncStateStatusOk        CloudAiSyncStateStatus = "ok"
+	CloudAiSyncStateStatusThrottled CloudAiSyncStateStatus = "throttled"
 )
 
 // Defines values for CloudBulkAccountViewSource.
@@ -3492,12 +3725,12 @@ const (
 
 // Defines values for RemoveInvoiceReplacementLinkResultUsageSource.
 const (
-	AwsInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "aws_invoice"
-	BillingExport       RemoveInvoiceReplacementLinkResultUsageSource = "billing_export"
-	EaBalance           RemoveInvoiceReplacementLinkResultUsageSource = "ea_balance"
-	McaInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "mca_invoice"
-	OspInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "osp_invoice"
-	UsageApiClosedMonth RemoveInvoiceReplacementLinkResultUsageSource = "usage_api_closed_month"
+	RemoveInvoiceReplacementLinkResultUsageSourceAwsInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "aws_invoice"
+	RemoveInvoiceReplacementLinkResultUsageSourceBillingExport       RemoveInvoiceReplacementLinkResultUsageSource = "billing_export"
+	RemoveInvoiceReplacementLinkResultUsageSourceEaBalance           RemoveInvoiceReplacementLinkResultUsageSource = "ea_balance"
+	RemoveInvoiceReplacementLinkResultUsageSourceMcaInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "mca_invoice"
+	RemoveInvoiceReplacementLinkResultUsageSourceOspInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "osp_invoice"
+	RemoveInvoiceReplacementLinkResultUsageSourceUsageApiClosedMonth RemoveInvoiceReplacementLinkResultUsageSource = "usage_api_closed_month"
 )
 
 // Defines values for RequestFileUploadInputContentType.
@@ -3882,10 +4115,10 @@ const (
 
 // Defines values for SupplierCreditNoteViewCloudProvider.
 const (
-	SupplierCreditNoteViewCloudProviderAws   SupplierCreditNoteViewCloudProvider = "aws"
-	SupplierCreditNoteViewCloudProviderAzure SupplierCreditNoteViewCloudProvider = "azure"
-	SupplierCreditNoteViewCloudProviderGcp   SupplierCreditNoteViewCloudProvider = "gcp"
-	SupplierCreditNoteViewCloudProviderOci   SupplierCreditNoteViewCloudProvider = "oci"
+	Aws   SupplierCreditNoteViewCloudProvider = "aws"
+	Azure SupplierCreditNoteViewCloudProvider = "azure"
+	Gcp   SupplierCreditNoteViewCloudProvider = "gcp"
+	Oci   SupplierCreditNoteViewCloudProvider = "oci"
 )
 
 // Defines values for SupplierCreditNoteViewEnteredBy.
@@ -4007,10 +4240,10 @@ const (
 
 // Defines values for SupplierRiskScreeningState.
 const (
-	Attention SupplierRiskScreeningState = "attention"
-	Blocked   SupplierRiskScreeningState = "blocked"
-	None      SupplierRiskScreeningState = "none"
-	Ok        SupplierRiskScreeningState = "ok"
+	SupplierRiskScreeningStateAttention SupplierRiskScreeningState = "attention"
+	SupplierRiskScreeningStateBlocked   SupplierRiskScreeningState = "blocked"
+	SupplierRiskScreeningStateNone      SupplierRiskScreeningState = "none"
+	SupplierRiskScreeningStateOk        SupplierRiskScreeningState = "ok"
 )
 
 // Defines values for SupplierRiskScreeningStatus.
@@ -4033,10 +4266,10 @@ const (
 
 // Defines values for SupplierScreeningStatus.
 const (
-	SupplierScreeningStatusClear          SupplierScreeningStatus = "clear"
-	SupplierScreeningStatusConfirmedMatch SupplierScreeningStatus = "confirmed_match"
-	SupplierScreeningStatusNotScreened    SupplierScreeningStatus = "not_screened"
-	SupplierScreeningStatusPossibleMatch  SupplierScreeningStatus = "possible_match"
+	Clear          SupplierScreeningStatus = "clear"
+	ConfirmedMatch SupplierScreeningStatus = "confirmed_match"
+	NotScreened    SupplierScreeningStatus = "not_screened"
+	PossibleMatch  SupplierScreeningStatus = "possible_match"
 )
 
 // Defines values for SupplierSettlementViewSource.
@@ -4497,6 +4730,200 @@ type AddInvoiceReplacementLinksResultUsageSource string
 type AddReplacementLinksInput struct {
 	// InvoiceIds The Pleaxy ids of the invoices and debit notes this invoice replaces, from the same supplier. 1–20; links already there are kept.
 	InvoiceIds []string `json:"invoiceIds"`
+}
+
+// AiMeterQuantity defines model for AiMeterQuantity.
+type AiMeterQuantity struct {
+	Meter    *string  `json:"meter,omitempty"`
+	Quantity *float64 `json:"quantity,omitempty"`
+	Unit     *string  `json:"unit,omitempty"`
+}
+
+// AiPurchaseOrderLineRemaining defines model for AiPurchaseOrderLineRemaining.
+type AiPurchaseOrderLineRemaining struct {
+	LineNo    *float64 `json:"lineNo,omitempty"`
+	PoId      *string  `json:"poId,omitempty"`
+	Remaining *float64 `json:"remaining,omitempty"`
+}
+
+// AiRateCardEntry defines model for AiRateCardEntry.
+type AiRateCardEntry struct {
+	Currency      *string                  `json:"currency,omitempty"`
+	EffectiveFrom *string                  `json:"effectiveFrom,omitempty"`
+	EffectiveTo   *string                  `json:"effectiveTo,omitempty"`
+	Invoicer      *AiRateCardEntryInvoicer `json:"invoicer,omitempty"`
+	Meter         *AiRateCardEntryMeter    `json:"meter,omitempty"`
+	Model         *string                  `json:"model,omitempty"`
+	Region        *string                  `json:"region,omitempty"`
+	SourceUrl     *string                  `json:"sourceUrl,omitempty"`
+	Unit          *AiRateCardEntryUnit     `json:"unit,omitempty"`
+	UnitPrice     *float64                 `json:"unitPrice,omitempty"`
+	Vendor        *AiRateCardEntryVendor   `json:"vendor,omitempty"`
+}
+
+// AiRateCardEntryInvoicer defines model for AiRateCardEntry.Invoicer.
+type AiRateCardEntryInvoicer string
+
+// AiRateCardEntryMeter defines model for AiRateCardEntry.Meter.
+type AiRateCardEntryMeter string
+
+// AiRateCardEntryUnit defines model for AiRateCardEntry.Unit.
+type AiRateCardEntryUnit string
+
+// AiRateCardEntryVendor defines model for AiRateCardEntry.Vendor.
+type AiRateCardEntryVendor string
+
+// AiServiceFigure defines model for AiServiceFigure.
+type AiServiceFigure struct {
+	ChangePct   *float64 `json:"changePct,omitempty"`
+	Forecast    *float64 `json:"forecast,omitempty"`
+	LastMonth   *float64 `json:"lastMonth,omitempty"`
+	MonthToDate *float64 `json:"monthToDate,omitempty"`
+	Service     *string  `json:"service,omitempty"`
+}
+
+// AiSpendCheckBudget defines model for AiSpendCheckBudget.
+type AiSpendCheckBudget struct {
+	Accruing   *float64 `json:"accruing,omitempty"`
+	Actual     *float64 `json:"actual,omitempty"`
+	Budget     *float64 `json:"budget,omitempty"`
+	Committed  *float64 `json:"committed,omitempty"`
+	CostCenter *string  `json:"costCenter,omitempty"`
+	Remaining  *float64 `json:"remaining,omitempty"`
+}
+
+// AiSpendCheckPurchaseOrderLine defines model for AiSpendCheckPurchaseOrderLine.
+type AiSpendCheckPurchaseOrderLine struct {
+	LineNo    *float64 `json:"lineNo,omitempty"`
+	OverBy    *float64 `json:"overBy,omitempty"`
+	PoId      *string  `json:"poId,omitempty"`
+	Remaining *float64 `json:"remaining,omitempty"`
+}
+
+// AiSpendCheckResponse defines model for AiSpendCheckResponse.
+type AiSpendCheckResponse struct {
+	Budget         *AiSpendCheckBudget              `json:"budget,omitempty"`
+	Currency       *string                          `json:"currency,omitempty"`
+	Forecast       *float64                         `json:"forecast,omitempty"`
+	MonthToDate    *float64                         `json:"monthToDate,omitempty"`
+	Outcome        *AiSpendCheckResponseOutcome     `json:"outcome,omitempty"`
+	Period         *string                          `json:"period,omitempty"`
+	PurchaseOrders *[]AiSpendCheckPurchaseOrderLine `json:"purchaseOrders,omitempty"`
+}
+
+// AiSpendCheckResponseOutcome defines model for AiSpendCheckResponse.Outcome.
+type AiSpendCheckResponseOutcome string
+
+// AiSpendGroup defines model for AiSpendGroup.
+type AiSpendGroup struct {
+	ChangePct      *float64                        `json:"changePct,omitempty"`
+	Currency       *string                         `json:"currency,omitempty"`
+	Forecast       *float64                        `json:"forecast,omitempty"`
+	Invoicer       *AiSpendGroupInvoicer           `json:"invoicer,omitempty"`
+	InvoicerId     *string                         `json:"invoicerId,omitempty"`
+	Key            *string                         `json:"key,omitempty"`
+	Label          *string                         `json:"label,omitempty"`
+	LastMonth      *float64                        `json:"lastMonth,omitempty"`
+	MonthToDate    *float64                        `json:"monthToDate,omitempty"`
+	PurchaseOrders *[]AiPurchaseOrderLineRemaining `json:"purchaseOrders,omitempty"`
+	Quantities     *[]AiMeterQuantity              `json:"quantities,omitempty"`
+	Services       *[]AiServiceFigure              `json:"services,omitempty"`
+}
+
+// AiSpendGroupInvoicer defines model for AiSpendGroup.Invoicer.
+type AiSpendGroupInvoicer string
+
+// AiSpendResponse defines model for AiSpendResponse.
+type AiSpendResponse struct {
+	AsOf        *string         `json:"asOf,omitempty"`
+	Groups      *[]AiSpendGroup `json:"groups,omitempty"`
+	NotReadable *[]struct {
+		Invoicer   *AiSpendResponseNotReadableInvoicer `json:"invoicer,omitempty"`
+		InvoicerId *string                             `json:"invoicerId,omitempty"`
+		Label      *string                             `json:"label,omitempty"`
+		Reason     *AiSpendResponseNotReadableReason   `json:"reason,omitempty"`
+	} `json:"notReadable,omitempty"`
+	Period       *string                `json:"period,omitempty"`
+	Totals       *[]AiSpendTotal        `json:"totals,omitempty"`
+	Unattributed *[]AiSpendUnattributed `json:"unattributed,omitempty"`
+}
+
+// AiSpendResponseNotReadableInvoicer defines model for AiSpendResponse.NotReadable.Invoicer.
+type AiSpendResponseNotReadableInvoicer string
+
+// AiSpendResponseNotReadableReason defines model for AiSpendResponse.NotReadable.Reason.
+type AiSpendResponseNotReadableReason string
+
+// AiSpendTotal defines model for AiSpendTotal.
+type AiSpendTotal struct {
+	ChangePct   *float64 `json:"changePct,omitempty"`
+	Currency    *string  `json:"currency,omitempty"`
+	Forecast    *float64 `json:"forecast,omitempty"`
+	LastMonth   *float64 `json:"lastMonth,omitempty"`
+	MonthToDate *float64 `json:"monthToDate,omitempty"`
+}
+
+// AiSpendUnattributed defines model for AiSpendUnattributed.
+type AiSpendUnattributed struct {
+	ChangePct   *float64           `json:"changePct,omitempty"`
+	Currency    *string            `json:"currency,omitempty"`
+	Forecast    *float64           `json:"forecast,omitempty"`
+	LastMonth   *float64           `json:"lastMonth,omitempty"`
+	MonthToDate *float64           `json:"monthToDate,omitempty"`
+	Quantities  *[]AiMeterQuantity `json:"quantities,omitempty"`
+}
+
+// AiUsageLine defines model for AiUsageLine.
+type AiUsageLine struct {
+	Amount      *float64           `json:"amount,omitempty"`
+	Attribution *map[string]string `json:"attribution,omitempty"`
+	Credits     *struct {
+		Quantity  *float64                `json:"quantity,omitempty"`
+		Unit      *AiUsageLineCreditsUnit `json:"unit,omitempty"`
+		UnitPrice *float64                `json:"unitPrice,omitempty"`
+	} `json:"credits,omitempty"`
+	Currency     *string              `json:"currency,omitempty"`
+	Day          *string              `json:"day,omitempty"`
+	Invoicer     *AiUsageLineInvoicer `json:"invoicer,omitempty"`
+	InvoicerId   *string              `json:"invoicerId,omitempty"`
+	Meter        *AiUsageLineMeter    `json:"meter,omitempty"`
+	Model        *string              `json:"model,omitempty"`
+	Quantity     *float64             `json:"quantity,omitempty"`
+	RawService   *string              `json:"rawService,omitempty"`
+	RawUsageType *string              `json:"rawUsageType,omitempty"`
+	Region       *string              `json:"region,omitempty"`
+	Shape        *AiUsageLineShape    `json:"shape,omitempty"`
+	Source       *AiUsageLineSource   `json:"source,omitempty"`
+	Unit         *AiUsageLineUnit     `json:"unit,omitempty"`
+	UnitPrice    *float64             `json:"unitPrice,omitempty"`
+	Vendor       *AiUsageLineVendor   `json:"vendor,omitempty"`
+}
+
+// AiUsageLineCreditsUnit defines model for AiUsageLine.Credits.Unit.
+type AiUsageLineCreditsUnit string
+
+// AiUsageLineInvoicer defines model for AiUsageLine.Invoicer.
+type AiUsageLineInvoicer string
+
+// AiUsageLineMeter defines model for AiUsageLine.Meter.
+type AiUsageLineMeter string
+
+// AiUsageLineShape defines model for AiUsageLine.Shape.
+type AiUsageLineShape string
+
+// AiUsageLineSource defines model for AiUsageLine.Source.
+type AiUsageLineSource string
+
+// AiUsageLineUnit defines model for AiUsageLine.Unit.
+type AiUsageLineUnit string
+
+// AiUsageLineVendor defines model for AiUsageLine.Vendor.
+type AiUsageLineVendor string
+
+// AiUsageLinesPage defines model for AiUsageLinesPage.
+type AiUsageLinesPage struct {
+	Lines      *[]AiUsageLine `json:"lines,omitempty"`
+	NextCursor *string        `json:"nextCursor,omitempty"`
 }
 
 // AmountBreakdownInput defines model for AmountBreakdownInput.
@@ -5231,6 +5658,28 @@ type CancelPurchaseOrderInput struct {
 	Reason *string `json:"reason,omitempty"`
 }
 
+// CheckAiSpendInput defines model for CheckAiSpendInput.
+type CheckAiSpendInput struct {
+	CostCenter *string `json:"costCenter,omitempty"`
+	InvoicerId *string `json:"invoicerId,omitempty"`
+	Period     *string `json:"period,omitempty"`
+	PoId       *string `json:"poId,omitempty"`
+}
+
+// CloudAiSyncState defines model for CloudAiSyncState.
+type CloudAiSyncState struct {
+	Code     *CloudAiSyncStateCode   `json:"code,omitempty"`
+	Message  *string                 `json:"message,omitempty"`
+	Status   *CloudAiSyncStateStatus `json:"status,omitempty"`
+	SyncedAt *string                 `json:"syncedAt,omitempty"`
+}
+
+// CloudAiSyncStateCode defines model for CloudAiSyncState.Code.
+type CloudAiSyncStateCode string
+
+// CloudAiSyncStateStatus defines model for CloudAiSyncState.Status.
+type CloudAiSyncStateStatus string
+
 // CloudBulkAccountView defines model for CloudBulkAccountView.
 type CloudBulkAccountView struct {
 	AccountId     *string                     `json:"accountId,omitempty"`
@@ -5250,8 +5699,9 @@ type CloudBulkAccountViewState string
 
 // CloudConnection defines model for CloudConnection.
 type CloudConnection struct {
-	AccountLabel *string `json:"accountLabel,omitempty"`
-	AwsAccountId *string `json:"awsAccountId,omitempty"`
+	AccountLabel *string           `json:"accountLabel,omitempty"`
+	AiSync       *CloudAiSyncState `json:"aiSync,omitempty"`
+	AwsAccountId *string           `json:"awsAccountId,omitempty"`
 	Azure        *struct {
 		AgreementType    *CloudConnectionAzureAgreementType `json:"agreementType,omitempty"`
 		ScopeDisplayName *string                            `json:"scopeDisplayName,omitempty"`
@@ -11911,6 +12361,31 @@ type WebhookEndpointViewEvents string
 // WebhookEndpointViewLastErrorCode defines model for WebhookEndpointView.LastErrorCode.
 type WebhookEndpointViewLastErrorCode string
 
+// ListAiRateCardsParams defines parameters for ListAiRateCards.
+type ListAiRateCardsParams struct {
+	Invoicer *string `form:"invoicer,omitempty" json:"invoicer,omitempty"`
+	Vendor   *string `form:"vendor,omitempty" json:"vendor,omitempty"`
+	Model    *string `form:"model,omitempty" json:"model,omitempty"`
+	On       *string `form:"on,omitempty" json:"on,omitempty"`
+}
+
+// GetAiSpendParams defines parameters for GetAiSpend.
+type GetAiSpendParams struct {
+	Period  *string `form:"period,omitempty" json:"period,omitempty"`
+	GroupBy *string `form:"groupBy,omitempty" json:"groupBy,omitempty"`
+}
+
+// ListAiUsageLinesParams defines parameters for ListAiUsageLines.
+type ListAiUsageLinesParams struct {
+	Period     *string `form:"period,omitempty" json:"period,omitempty"`
+	InvoicerId *string `form:"invoicerId,omitempty" json:"invoicerId,omitempty"`
+	Vendor     *string `form:"vendor,omitempty" json:"vendor,omitempty"`
+	Model      *string `form:"model,omitempty" json:"model,omitempty"`
+	CostCenter *string `form:"costCenter,omitempty" json:"costCenter,omitempty"`
+	Limit      *string `form:"limit,omitempty" json:"limit,omitempty"`
+	Cursor     *string `form:"cursor,omitempty" json:"cursor,omitempty"`
+}
+
 // GetBudgetStatusParams defines parameters for GetBudgetStatus.
 type GetBudgetStatusParams struct {
 	// CostCenter One cost center; every budgeted one when absent.
@@ -12165,6 +12640,9 @@ type ListSyncEventsParams struct {
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 	Limit *string `form:"limit,omitempty" json:"limit,omitempty"`
 }
+
+// CheckAiSpendJSONRequestBody defines body for CheckAiSpend for application/json ContentType.
+type CheckAiSpendJSONRequestBody = CheckAiSpendInput
 
 // CreateApiKeyJSONRequestBody defines body for CreateApiKey for application/json ContentType.
 type CreateApiKeyJSONRequestBody = CreateApiKeyInput
@@ -15152,6 +15630,20 @@ func WithRequestEditorFn(fn RequestEditorFn) ClientOption {
 
 // The interface specification for the client above.
 type ClientInterface interface {
+	// ListAiRateCards request
+	ListAiRateCards(ctx context.Context, params *ListAiRateCardsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetAiSpend request
+	GetAiSpend(ctx context.Context, params *GetAiSpendParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CheckAiSpendWithBody request with any body
+	CheckAiSpendWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CheckAiSpend(ctx context.Context, body CheckAiSpendJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListAiUsageLines request
+	ListAiUsageLines(ctx context.Context, params *ListAiUsageLinesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ListApiKeys request
 	ListApiKeys(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -15573,6 +16065,66 @@ type ClientInterface interface {
 
 	// TestWebhook request
 	TestWebhook(ctx context.Context, webhookId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+}
+
+func (c *RawClient) ListAiRateCards(ctx context.Context, params *ListAiRateCardsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListAiRateCardsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetAiSpend(ctx context.Context, params *GetAiSpendParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAiSpendRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CheckAiSpendWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCheckAiSpendRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CheckAiSpend(ctx context.Context, body CheckAiSpendJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCheckAiSpendRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListAiUsageLines(ctx context.Context, params *ListAiUsageLinesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListAiUsageLinesRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
 }
 
 func (c *RawClient) ListApiKeys(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -17409,6 +17961,353 @@ func (c *RawClient) TestWebhook(ctx context.Context, webhookId string, reqEditor
 		return nil, err
 	}
 	return c.Client.Do(req)
+}
+
+// NewListAiRateCardsRequest generates requests for ListAiRateCards
+func NewListAiRateCardsRequest(server string, params *ListAiRateCardsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-rate-cards")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Invoicer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "invoicer", runtime.ParamLocationQuery, *params.Invoicer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Vendor != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "vendor", runtime.ParamLocationQuery, *params.Vendor); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Model != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "model", runtime.ParamLocationQuery, *params.Model); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.On != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "on", runtime.ParamLocationQuery, *params.On); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetAiSpendRequest generates requests for GetAiSpend
+func NewGetAiSpendRequest(server string, params *GetAiSpendParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Period != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "period", runtime.ParamLocationQuery, *params.Period); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.GroupBy != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "groupBy", runtime.ParamLocationQuery, *params.GroupBy); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCheckAiSpendRequest calls the generic CheckAiSpend builder with application/json body
+func NewCheckAiSpendRequest(server string, body CheckAiSpendJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCheckAiSpendRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCheckAiSpendRequestWithBody generates requests for CheckAiSpend with any type of body
+func NewCheckAiSpendRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/check")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewListAiUsageLinesRequest generates requests for ListAiUsageLines
+func NewListAiUsageLinesRequest(server string, params *ListAiUsageLinesParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/lines")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Period != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "period", runtime.ParamLocationQuery, *params.Period); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.InvoicerId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "invoicerId", runtime.ParamLocationQuery, *params.InvoicerId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Vendor != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "vendor", runtime.ParamLocationQuery, *params.Vendor); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Model != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "model", runtime.ParamLocationQuery, *params.Model); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.CostCenter != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "costCenter", runtime.ParamLocationQuery, *params.CostCenter); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Limit != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "limit", runtime.ParamLocationQuery, *params.Limit); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Cursor != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "cursor", runtime.ParamLocationQuery, *params.Cursor); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
 }
 
 // NewListApiKeysRequest generates requests for ListApiKeys
@@ -22725,6 +23624,20 @@ func WithBaseURL(baseURL string) ClientOption {
 
 // ClientWithResponsesInterface is the interface specification for the client with responses above.
 type ClientWithResponsesInterface interface {
+	// ListAiRateCardsWithResponse request
+	ListAiRateCardsWithResponse(ctx context.Context, params *ListAiRateCardsParams, reqEditors ...RequestEditorFn) (*ListAiRateCardsResponse, error)
+
+	// GetAiSpendWithResponse request
+	GetAiSpendWithResponse(ctx context.Context, params *GetAiSpendParams, reqEditors ...RequestEditorFn) (*GetAiSpendResponse, error)
+
+	// CheckAiSpendWithBodyWithResponse request with any body
+	CheckAiSpendWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CheckAiSpendResponse, error)
+
+	CheckAiSpendWithResponse(ctx context.Context, body CheckAiSpendJSONRequestBody, reqEditors ...RequestEditorFn) (*CheckAiSpendResponse, error)
+
+	// ListAiUsageLinesWithResponse request
+	ListAiUsageLinesWithResponse(ctx context.Context, params *ListAiUsageLinesParams, reqEditors ...RequestEditorFn) (*ListAiUsageLinesResponse, error)
+
 	// ListApiKeysWithResponse request
 	ListApiKeysWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListApiKeysResponse, error)
 
@@ -23146,6 +24059,98 @@ type ClientWithResponsesInterface interface {
 
 	// TestWebhookWithResponse request
 	TestWebhookWithResponse(ctx context.Context, webhookId string, reqEditors ...RequestEditorFn) (*TestWebhookResponse, error)
+}
+
+type ListAiRateCardsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]AiRateCardEntry
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListAiRateCardsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListAiRateCardsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetAiSpendResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiSpendResponse
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetAiSpendResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetAiSpendResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CheckAiSpendResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiSpendCheckResponse
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r CheckAiSpendResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CheckAiSpendResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListAiUsageLinesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiUsageLinesPage
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListAiUsageLinesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListAiUsageLinesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
 }
 
 type ListApiKeysResponse struct {
@@ -25810,6 +26815,50 @@ func (r TestWebhookResponse) StatusCode() int {
 	return 0
 }
 
+// ListAiRateCardsWithResponse request returning *ListAiRateCardsResponse
+func (c *ClientWithResponses) ListAiRateCardsWithResponse(ctx context.Context, params *ListAiRateCardsParams, reqEditors ...RequestEditorFn) (*ListAiRateCardsResponse, error) {
+	rsp, err := c.ListAiRateCards(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListAiRateCardsResponse(rsp)
+}
+
+// GetAiSpendWithResponse request returning *GetAiSpendResponse
+func (c *ClientWithResponses) GetAiSpendWithResponse(ctx context.Context, params *GetAiSpendParams, reqEditors ...RequestEditorFn) (*GetAiSpendResponse, error) {
+	rsp, err := c.GetAiSpend(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetAiSpendResponse(rsp)
+}
+
+// CheckAiSpendWithBodyWithResponse request with arbitrary body returning *CheckAiSpendResponse
+func (c *ClientWithResponses) CheckAiSpendWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CheckAiSpendResponse, error) {
+	rsp, err := c.CheckAiSpendWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCheckAiSpendResponse(rsp)
+}
+
+func (c *ClientWithResponses) CheckAiSpendWithResponse(ctx context.Context, body CheckAiSpendJSONRequestBody, reqEditors ...RequestEditorFn) (*CheckAiSpendResponse, error) {
+	rsp, err := c.CheckAiSpend(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCheckAiSpendResponse(rsp)
+}
+
+// ListAiUsageLinesWithResponse request returning *ListAiUsageLinesResponse
+func (c *ClientWithResponses) ListAiUsageLinesWithResponse(ctx context.Context, params *ListAiUsageLinesParams, reqEditors ...RequestEditorFn) (*ListAiUsageLinesResponse, error) {
+	rsp, err := c.ListAiUsageLines(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListAiUsageLinesResponse(rsp)
+}
+
 // ListApiKeysWithResponse request returning *ListApiKeysResponse
 func (c *ClientWithResponses) ListApiKeysWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListApiKeysResponse, error) {
 	rsp, err := c.ListApiKeys(ctx, reqEditors...)
@@ -27148,6 +28197,138 @@ func (c *ClientWithResponses) TestWebhookWithResponse(ctx context.Context, webho
 		return nil, err
 	}
 	return ParseTestWebhookResponse(rsp)
+}
+
+// ParseListAiRateCardsResponse parses an HTTP response from a ListAiRateCardsWithResponse call
+func ParseListAiRateCardsResponse(rsp *http.Response) (*ListAiRateCardsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListAiRateCardsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []AiRateCardEntry
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetAiSpendResponse parses an HTTP response from a GetAiSpendWithResponse call
+func ParseGetAiSpendResponse(rsp *http.Response) (*GetAiSpendResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetAiSpendResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiSpendResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCheckAiSpendResponse parses an HTTP response from a CheckAiSpendWithResponse call
+func ParseCheckAiSpendResponse(rsp *http.Response) (*CheckAiSpendResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CheckAiSpendResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiSpendCheckResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListAiUsageLinesResponse parses an HTTP response from a ListAiUsageLinesWithResponse call
+func ParseListAiUsageLinesResponse(rsp *http.Response) (*ListAiUsageLinesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListAiUsageLinesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiUsageLinesPage
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
 }
 
 // ParseListApiKeysResponse parses an HTTP response from a ListApiKeysWithResponse call

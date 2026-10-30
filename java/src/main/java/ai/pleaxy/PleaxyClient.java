@@ -14,6 +14,7 @@ import ai.pleaxy.api.RequestTypesApi;
 import ai.pleaxy.api.BankAccountsApi;
 import ai.pleaxy.api.ScreeningApi;
 import ai.pleaxy.api.SupplierRiskApi;
+import ai.pleaxy.api.AiSpendApi;
 import ai.pleaxy.api.EmployeesApi;
 import ai.pleaxy.api.ExchangeRatesApi;
 import ai.pleaxy.api.InvoicesApi;
@@ -66,6 +67,7 @@ public final class PleaxyClient {
   private final BankAccountsApi bankAccounts;
   private final ScreeningApi screening;
   private final SupplierRiskApi supplierRisk;
+  private final AiSpendApi aiSpend;
   private final BudgetControlApi budgetControl;
   private final EmployeesApi employees;
   private final ExchangeRatesApi exchangeRates;
@@ -115,6 +117,7 @@ public final class PleaxyClient {
     this.bankAccounts = new BankAccountsApi(apiClient);
     this.screening = new ScreeningApi(apiClient);
     this.supplierRisk = new SupplierRiskApi(apiClient);
+    this.aiSpend = new AiSpendApi(apiClient);
     this.budgetControl = new BudgetControlApi(apiClient);
     this.employees = new EmployeesApi(apiClient);
     this.exchangeRates = new ExchangeRatesApi(apiClient);
@@ -199,6 +202,11 @@ public final class PleaxyClient {
   /** Suppliers' risk: the level and rows behind the Risk card and the supplier list's Needs attention. */
   public SupplierRiskApi supplierRisk() {
     return supplierRisk;
+  }
+
+  /** AI spend: figures by invoicer, vendor, model and cost center, usage lines, rate cards, and the check against open orders. */
+  public AiSpendApi aiSpend() {
+    return aiSpend;
   }
 
   /** Budget control operations. */

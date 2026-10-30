@@ -26,6 +26,7 @@ from ..models.cloud_connection_status import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.cloud_ai_sync_state import CloudAiSyncState
     from ..models.cloud_bulk_account_view import CloudBulkAccountView
     from ..models.cloud_connection_azure import CloudConnectionAzure
     from ..models.cloud_connection_billing import CloudConnectionBilling
@@ -57,6 +58,7 @@ class CloudConnection:
         last_sync_status (Union[Unset, CloudConnectionLastSyncStatus]):
         last_sync_error (Union[Unset, str]):
         last_sync_error_code (Union[Unset, CloudConnectionLastSyncErrorCode]):
+        ai_sync (Union[Unset, CloudAiSyncState]):
         data_sources (Union[Unset, List[CloudConnectionDataSourcesItem]]):
         billing (Union[Unset, CloudConnectionBilling]):
         gcp (Union[Unset, CloudConnectionGcp]):
@@ -80,6 +82,7 @@ class CloudConnection:
     last_sync_status: Union[Unset, CloudConnectionLastSyncStatus] = UNSET
     last_sync_error: Union[Unset, str] = UNSET
     last_sync_error_code: Union[Unset, CloudConnectionLastSyncErrorCode] = UNSET
+    ai_sync: Union[Unset, "CloudAiSyncState"] = UNSET
     data_sources: Union[Unset, List[CloudConnectionDataSourcesItem]] = UNSET
     billing: Union[Unset, "CloudConnectionBilling"] = UNSET
     gcp: Union[Unset, "CloudConnectionGcp"] = UNSET
@@ -131,6 +134,10 @@ class CloudConnection:
         last_sync_error_code: Union[Unset, str] = UNSET
         if not isinstance(self.last_sync_error_code, Unset):
             last_sync_error_code = self.last_sync_error_code
+
+        ai_sync: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.ai_sync, Unset):
+            ai_sync = self.ai_sync.to_dict()
 
         data_sources: Union[Unset, List[str]] = UNSET
         if not isinstance(self.data_sources, Unset):
@@ -192,6 +199,8 @@ class CloudConnection:
             field_dict["lastSyncError"] = last_sync_error
         if last_sync_error_code is not UNSET:
             field_dict["lastSyncErrorCode"] = last_sync_error_code
+        if ai_sync is not UNSET:
+            field_dict["aiSync"] = ai_sync
         if data_sources is not UNSET:
             field_dict["dataSources"] = data_sources
         if billing is not UNSET:
@@ -207,6 +216,7 @@ class CloudConnection:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.cloud_ai_sync_state import CloudAiSyncState
         from ..models.cloud_bulk_account_view import CloudBulkAccountView
         from ..models.cloud_connection_azure import CloudConnectionAzure
         from ..models.cloud_connection_billing import CloudConnectionBilling
@@ -281,6 +291,13 @@ class CloudConnection:
                 _last_sync_error_code
             )
 
+        _ai_sync = d.pop("aiSync", UNSET)
+        ai_sync: Union[Unset, CloudAiSyncState]
+        if isinstance(_ai_sync, Unset):
+            ai_sync = UNSET
+        else:
+            ai_sync = CloudAiSyncState.from_dict(_ai_sync)
+
         data_sources = []
         _data_sources = d.pop("dataSources", UNSET)
         for data_sources_item_data in _data_sources or []:
@@ -335,6 +352,7 @@ class CloudConnection:
             last_sync_status=last_sync_status,
             last_sync_error=last_sync_error,
             last_sync_error_code=last_sync_error_code,
+            ai_sync=ai_sync,
             data_sources=data_sources,
             billing=billing,
             gcp=gcp,
