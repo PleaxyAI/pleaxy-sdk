@@ -1,10 +1,11 @@
 from typing import Literal, Set, cast
 
-AiDraftOrdersResultSkippedItemReason = Literal["no_supplier", "no_usage"]
+AiDraftOrdersResultSkippedItemReason = Literal["no_forecast", "no_supplier", "no_usage"]
 
 AI_DRAFT_ORDERS_RESULT_SKIPPED_ITEM_REASON_VALUES: Set[
     AiDraftOrdersResultSkippedItemReason
 ] = {
+    "no_forecast",
     "no_supplier",
     "no_usage",
 }

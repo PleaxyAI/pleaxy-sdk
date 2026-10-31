@@ -98,6 +98,7 @@ from .ai_cost_centers_response_unattributed_item import (
 )
 from .ai_draft_orders_result import AiDraftOrdersResult
 from .ai_draft_orders_result_drafts_item import AiDraftOrdersResultDraftsItem
+from .ai_draft_orders_result_scope import AiDraftOrdersResultScope
 from .ai_draft_orders_result_skipped_item import AiDraftOrdersResultSkippedItem
 from .ai_draft_orders_result_skipped_item_params import (
     AiDraftOrdersResultSkippedItemParams,
@@ -643,6 +644,7 @@ from .decline_confirmation_changes_input import DeclineConfirmationChangesInput
 from .delete_ai_provider_result import DeleteAiProviderResult
 from .discover_azure_scopes_input import DiscoverAzureScopesInput
 from .draft_ai_orders_input import DraftAiOrdersInput
+from .draft_ai_orders_input_scope import DraftAiOrdersInputScope
 from .employee_summary import EmployeeSummary
 from .error_params import ErrorParams
 from .exchange_rate_row import ExchangeRateRow
@@ -2049,6 +2051,7 @@ __all__ = (
     "AiCostCentersResponseUnattributedItem",
     "AiDraftOrdersResult",
     "AiDraftOrdersResultDraftsItem",
+    "AiDraftOrdersResultScope",
     "AiDraftOrdersResultSkippedItem",
     "AiDraftOrdersResultSkippedItemParams",
     "AiDraftOrdersResultSkippedItemReason",
@@ -2408,6 +2411,7 @@ __all__ = (
     "DeleteAiProviderResult",
     "DiscoverAzureScopesInput",
     "DraftAiOrdersInput",
+    "DraftAiOrdersInputScope",
     "EmployeeSummary",
     "ErrorParams",
     "ExchangeRateRow",

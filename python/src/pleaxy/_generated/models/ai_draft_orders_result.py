@@ -3,6 +3,10 @@ from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.ai_draft_orders_result_scope import (
+    AiDraftOrdersResultScope,
+    check_ai_draft_orders_result_scope,
+)
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -22,17 +26,23 @@ class AiDraftOrdersResult:
     """
     Attributes:
         period (Union[Unset, str]):
+        scope (Union[Unset, AiDraftOrdersResultScope]):
         drafts (Union[Unset, List['AiDraftOrdersResultDraftsItem']]):
         skipped (Union[Unset, List['AiDraftOrdersResultSkippedItem']]):
     """
 
     period: Union[Unset, str] = UNSET
+    scope: Union[Unset, AiDraftOrdersResultScope] = UNSET
     drafts: Union[Unset, List["AiDraftOrdersResultDraftsItem"]] = UNSET
     skipped: Union[Unset, List["AiDraftOrdersResultSkippedItem"]] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         period = self.period
+
+        scope: Union[Unset, str] = UNSET
+        if not isinstance(self.scope, Unset):
+            scope = self.scope
 
         drafts: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.drafts, Unset):
@@ -53,6 +63,8 @@ class AiDraftOrdersResult:
         field_dict.update({})
         if period is not UNSET:
             field_dict["period"] = period
+        if scope is not UNSET:
+            field_dict["scope"] = scope
         if drafts is not UNSET:
             field_dict["drafts"] = drafts
         if skipped is not UNSET:
@@ -72,6 +84,13 @@ class AiDraftOrdersResult:
         d = src_dict.copy()
         period = d.pop("period", UNSET)
 
+        _scope = d.pop("scope", UNSET)
+        scope: Union[Unset, AiDraftOrdersResultScope]
+        if isinstance(_scope, Unset):
+            scope = UNSET
+        else:
+            scope = check_ai_draft_orders_result_scope(_scope)
+
         drafts = []
         _drafts = d.pop("drafts", UNSET)
         for drafts_item_data in _drafts or []:
@@ -88,6 +107,7 @@ class AiDraftOrdersResult:
 
         ai_draft_orders_result = cls(
             period=period,
+            scope=scope,
             drafts=drafts,
             skipped=skipped,
         )

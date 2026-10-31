@@ -38,6 +38,7 @@ import ai.pleaxy.client.ApiClient;
  */
 @JsonPropertyOrder({
   AiDraftOrdersResult.JSON_PROPERTY_PERIOD,
+  AiDraftOrdersResult.JSON_PROPERTY_SCOPE,
   AiDraftOrdersResult.JSON_PROPERTY_DRAFTS,
   AiDraftOrdersResult.JSON_PROPERTY_SKIPPED
 })
@@ -46,6 +47,45 @@ public class AiDraftOrdersResult {
   public static final String JSON_PROPERTY_PERIOD = "period";
   @javax.annotation.Nullable
   private String period;
+
+  /**
+   * Gets or Sets scope
+   */
+  public enum ScopeEnum {
+    ACCOUNT(String.valueOf("account")),
+    
+    AI(String.valueOf("ai"));
+
+    private String value;
+
+    ScopeEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ScopeEnum fromValue(String value) {
+      for (ScopeEnum b : ScopeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_SCOPE = "scope";
+  @javax.annotation.Nullable
+  private ScopeEnum scope;
 
   public static final String JSON_PROPERTY_DRAFTS = "drafts";
   @javax.annotation.Nullable
@@ -79,6 +119,30 @@ public class AiDraftOrdersResult {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPeriod(@javax.annotation.Nullable String period) {
     this.period = period;
+  }
+
+
+  public AiDraftOrdersResult scope(@javax.annotation.Nullable ScopeEnum scope) {
+    this.scope = scope;
+    return this;
+  }
+
+  /**
+   * Get scope
+   * @return scope
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SCOPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public ScopeEnum getScope() {
+    return scope;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SCOPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setScope(@javax.annotation.Nullable ScopeEnum scope) {
+    this.scope = scope;
   }
 
 
@@ -159,13 +223,14 @@ public class AiDraftOrdersResult {
     }
     AiDraftOrdersResult aiDraftOrdersResult = (AiDraftOrdersResult) o;
     return Objects.equals(this.period, aiDraftOrdersResult.period) &&
+        Objects.equals(this.scope, aiDraftOrdersResult.scope) &&
         Objects.equals(this.drafts, aiDraftOrdersResult.drafts) &&
         Objects.equals(this.skipped, aiDraftOrdersResult.skipped);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(period, drafts, skipped);
+    return Objects.hash(period, scope, drafts, skipped);
   }
 
   @Override
@@ -173,6 +238,7 @@ public class AiDraftOrdersResult {
     StringBuilder sb = new StringBuilder();
     sb.append("class AiDraftOrdersResult {\n");
     sb.append("    period: ").append(toIndentedString(period)).append("\n");
+    sb.append("    scope: ").append(toIndentedString(scope)).append("\n");
     sb.append("    drafts: ").append(toIndentedString(drafts)).append("\n");
     sb.append("    skipped: ").append(toIndentedString(skipped)).append("\n");
     sb.append("}");
@@ -225,6 +291,11 @@ public class AiDraftOrdersResult {
     // add `period` to the URL query string
     if (getPeriod() != null) {
       joiner.add(String.format("%speriod%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPeriod()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `scope` to the URL query string
+    if (getScope() != null) {
+      joiner.add(String.format("%sscope%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getScope()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `drafts` to the URL query string

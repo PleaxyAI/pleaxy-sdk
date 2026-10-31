@@ -19,6 +19,8 @@ pub struct AiRecommendations {
     pub basis_period: Option<String>,
     #[serde(rename = "uncovered", skip_serializing_if = "Option::is_none")]
     pub uncovered: Option<Vec<models::AiUncoveredSpend>>,
+    #[serde(rename = "accounts", skip_serializing_if = "Option::is_none")]
+    pub accounts: Option<Vec<models::AiUncoveredSpend>>,
     #[serde(rename = "savings", skip_serializing_if = "Option::is_none")]
     pub savings: Option<Vec<models::AiSavingRecommendation>>,
 }
@@ -29,6 +31,7 @@ impl AiRecommendations {
             period: None,
             basis_period: None,
             uncovered: None,
+            accounts: None,
             savings: None,
         }
     }

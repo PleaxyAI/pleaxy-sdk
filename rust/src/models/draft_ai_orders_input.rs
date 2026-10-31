@@ -19,6 +19,9 @@ pub struct DraftAiOrdersInput {
     /// The month the orders cover, YYYY-MM. Default this month.
     #[serde(rename = "period", skip_serializing_if = "Option::is_none")]
     pub period: Option<String>,
+    /// ai (default): lines per model and meter for the AI usage. account: one amount line for everything the cloud account bills, for a cloud account recommendations lists under accounts.
+    #[serde(rename = "scope", skip_serializing_if = "Option::is_none")]
+    pub scope: Option<Scope>,
 }
 
 impl DraftAiOrdersInput {
@@ -26,6 +29,21 @@ impl DraftAiOrdersInput {
         DraftAiOrdersInput {
             invoicer_ids,
             period: None,
+            scope: None,
         }
+    }
+}
+/// ai (default): lines per model and meter for the AI usage. account: one amount line for everything the cloud account bills, for a cloud account recommendations lists under accounts.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Scope {
+    #[serde(rename = "ai")]
+    Ai,
+    #[serde(rename = "account")]
+    Account,
+}
+
+impl Default for Scope {
+    fn default() -> Scope {
+        Self::Ai
     }
 }

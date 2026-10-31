@@ -36,7 +36,8 @@ import ai.pleaxy.client.ApiClient;
  */
 @JsonPropertyOrder({
   DraftAiOrdersInput.JSON_PROPERTY_INVOICER_IDS,
-  DraftAiOrdersInput.JSON_PROPERTY_PERIOD
+  DraftAiOrdersInput.JSON_PROPERTY_PERIOD,
+  DraftAiOrdersInput.JSON_PROPERTY_SCOPE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class DraftAiOrdersInput {
@@ -47,6 +48,45 @@ public class DraftAiOrdersInput {
   public static final String JSON_PROPERTY_PERIOD = "period";
   @javax.annotation.Nullable
   private String period;
+
+  /**
+   * ai (default): lines per model and meter for the AI usage. account: one amount line for everything the cloud account bills, for a cloud account recommendations lists under accounts.
+   */
+  public enum ScopeEnum {
+    AI(String.valueOf("ai")),
+    
+    ACCOUNT(String.valueOf("account"));
+
+    private String value;
+
+    ScopeEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ScopeEnum fromValue(String value) {
+      for (ScopeEnum b : ScopeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_SCOPE = "scope";
+  @javax.annotation.Nullable
+  private ScopeEnum scope;
 
   public DraftAiOrdersInput() { 
   }
@@ -107,6 +147,30 @@ public class DraftAiOrdersInput {
   }
 
 
+  public DraftAiOrdersInput scope(@javax.annotation.Nullable ScopeEnum scope) {
+    this.scope = scope;
+    return this;
+  }
+
+  /**
+   * ai (default): lines per model and meter for the AI usage. account: one amount line for everything the cloud account bills, for a cloud account recommendations lists under accounts.
+   * @return scope
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SCOPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public ScopeEnum getScope() {
+    return scope;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SCOPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setScope(@javax.annotation.Nullable ScopeEnum scope) {
+    this.scope = scope;
+  }
+
+
   /**
    * Return true if this DraftAiOrdersInput object is equal to o.
    */
@@ -120,12 +184,13 @@ public class DraftAiOrdersInput {
     }
     DraftAiOrdersInput draftAiOrdersInput = (DraftAiOrdersInput) o;
     return Objects.equals(this.invoicerIds, draftAiOrdersInput.invoicerIds) &&
-        Objects.equals(this.period, draftAiOrdersInput.period);
+        Objects.equals(this.period, draftAiOrdersInput.period) &&
+        Objects.equals(this.scope, draftAiOrdersInput.scope);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(invoicerIds, period);
+    return Objects.hash(invoicerIds, period, scope);
   }
 
   @Override
@@ -134,6 +199,7 @@ public class DraftAiOrdersInput {
     sb.append("class DraftAiOrdersInput {\n");
     sb.append("    invoicerIds: ").append(toIndentedString(invoicerIds)).append("\n");
     sb.append("    period: ").append(toIndentedString(period)).append("\n");
+    sb.append("    scope: ").append(toIndentedString(scope)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -193,6 +259,11 @@ public class DraftAiOrdersInput {
     // add `period` to the URL query string
     if (getPeriod() != null) {
       joiner.add(String.format("%speriod%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPeriod()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `scope` to the URL query string
+    if (getScope() != null) {
+      joiner.add(String.format("%sscope%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getScope()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

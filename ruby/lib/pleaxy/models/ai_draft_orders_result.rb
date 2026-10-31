@@ -17,14 +17,39 @@ module Pleaxy
   class AiDraftOrdersResult
     attr_accessor :period
 
+    attr_accessor :scope
+
     attr_accessor :drafts
 
     attr_accessor :skipped
+
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'period' => :'period',
+        :'scope' => :'scope',
         :'drafts' => :'drafts',
         :'skipped' => :'skipped'
       }
@@ -39,6 +64,7 @@ module Pleaxy
     def self.openapi_types
       {
         :'period' => :'String',
+        :'scope' => :'String',
         :'drafts' => :'Array<AiDraftOrdersResultDraftsInner>',
         :'skipped' => :'Array<AiDraftOrdersResultSkippedInner>'
       }
@@ -69,6 +95,10 @@ module Pleaxy
         self.period = attributes[:'period']
       end
 
+      if attributes.key?(:'scope')
+        self.scope = attributes[:'scope']
+      end
+
       if attributes.key?(:'drafts')
         if (value = attributes[:'drafts']).is_a?(Array)
           self.drafts = value
@@ -94,7 +124,19 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
+      scope_validator = EnumAttributeValidator.new('String', ["account", "ai"])
+      return false unless scope_validator.valid?(@scope)
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] scope Object to be assigned
+    def scope=(scope)
+      validator = EnumAttributeValidator.new('String', ["account", "ai"])
+      unless validator.valid?(scope)
+        fail ArgumentError, "invalid value for \"scope\", must be one of #{validator.allowable_values}."
+      end
+      @scope = scope
     end
 
     # Checks equality by comparing each attribute.
@@ -103,6 +145,7 @@ module Pleaxy
       return true if self.equal?(o)
       self.class == o.class &&
           period == o.period &&
+          scope == o.scope &&
           drafts == o.drafts &&
           skipped == o.skipped
     end
@@ -116,7 +159,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [period, drafts, skipped].hash
+      [period, scope, drafts, skipped].hash
     end
 
     # Builds the object from hash

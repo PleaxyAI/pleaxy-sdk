@@ -21,11 +21,37 @@ module Pleaxy
     # The month the orders cover, YYYY-MM. Default this month.
     attr_accessor :period
 
+    # ai (default): lines per model and meter for the AI usage. account: one amount line for everything the cloud account bills, for a cloud account recommendations lists under accounts.
+    attr_accessor :scope
+
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'invoicer_ids' => :'invoicerIds',
-        :'period' => :'period'
+        :'period' => :'period',
+        :'scope' => :'scope'
       }
     end
 
@@ -38,7 +64,8 @@ module Pleaxy
     def self.openapi_types
       {
         :'invoicer_ids' => :'Array<String>',
-        :'period' => :'String'
+        :'period' => :'String',
+        :'scope' => :'String'
       }
     end
 
@@ -74,6 +101,10 @@ module Pleaxy
       if attributes.key?(:'period')
         self.period = attributes[:'period']
       end
+
+      if attributes.key?(:'scope')
+        self.scope = attributes[:'scope']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -99,6 +130,8 @@ module Pleaxy
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @invoicer_ids.nil?
       return false if !@period.nil? && @period !~ Regexp.new(/^\d{4}-(0[1-9]|1[0-2])$/)
+      scope_validator = EnumAttributeValidator.new('String', ["ai", "account"])
+      return false unless scope_validator.valid?(@scope)
       true
     end
 
@@ -117,13 +150,24 @@ module Pleaxy
       @period = period
     end
 
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] scope Object to be assigned
+    def scope=(scope)
+      validator = EnumAttributeValidator.new('String', ["ai", "account"])
+      unless validator.valid?(scope)
+        fail ArgumentError, "invalid value for \"scope\", must be one of #{validator.allowable_values}."
+      end
+      @scope = scope
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
           invoicer_ids == o.invoicer_ids &&
-          period == o.period
+          period == o.period &&
+          scope == o.scope
     end
 
     # @see the `==` method
@@ -135,7 +179,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [invoicer_ids, period].hash
+      [invoicer_ids, period, scope].hash
     end
 
     # Builds the object from hash

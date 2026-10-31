@@ -61,10 +61,11 @@ def sync_detailed(
 ) -> Response[AiDraftOrdersResult]:
     """[Buyer] Drafts an order for each invoicer named, for the period (default this month): one line per
     model and meter of last month's usage at the contract rate (else the list price), each quantity the
-    forecast from this month so far, scaled to the gap when open orders already cover part of it.
-    Returns the drafts and, for an invoicer with nothing to base an order on or no supplier on the list,
-    why it was skipped. Drafts go through the usual approval when submitted. 'create' on purchase
-    orders.
+    forecast from this month so far, scaled to the gap when open orders already cover part of it. With
+    scope account, a cloud account from accounts gets one amount line instead (everything the account
+    bills, up to the gap, to the month's end). Returns the drafts and, for an invoicer with nothing to
+    base an order on or no supplier on the list, why it was skipped. Drafts go through the usual
+    approval when submitted. 'create' on purchase orders.
 
     Args:
         body (DraftAiOrdersInput):
@@ -95,10 +96,11 @@ def sync(
 ) -> Optional[AiDraftOrdersResult]:
     """[Buyer] Drafts an order for each invoicer named, for the period (default this month): one line per
     model and meter of last month's usage at the contract rate (else the list price), each quantity the
-    forecast from this month so far, scaled to the gap when open orders already cover part of it.
-    Returns the drafts and, for an invoicer with nothing to base an order on or no supplier on the list,
-    why it was skipped. Drafts go through the usual approval when submitted. 'create' on purchase
-    orders.
+    forecast from this month so far, scaled to the gap when open orders already cover part of it. With
+    scope account, a cloud account from accounts gets one amount line instead (everything the account
+    bills, up to the gap, to the month's end). Returns the drafts and, for an invoicer with nothing to
+    base an order on or no supplier on the list, why it was skipped. Drafts go through the usual
+    approval when submitted. 'create' on purchase orders.
 
     Args:
         body (DraftAiOrdersInput):
@@ -124,10 +126,11 @@ async def asyncio_detailed(
 ) -> Response[AiDraftOrdersResult]:
     """[Buyer] Drafts an order for each invoicer named, for the period (default this month): one line per
     model and meter of last month's usage at the contract rate (else the list price), each quantity the
-    forecast from this month so far, scaled to the gap when open orders already cover part of it.
-    Returns the drafts and, for an invoicer with nothing to base an order on or no supplier on the list,
-    why it was skipped. Drafts go through the usual approval when submitted. 'create' on purchase
-    orders.
+    forecast from this month so far, scaled to the gap when open orders already cover part of it. With
+    scope account, a cloud account from accounts gets one amount line instead (everything the account
+    bills, up to the gap, to the month's end). Returns the drafts and, for an invoicer with nothing to
+    base an order on or no supplier on the list, why it was skipped. Drafts go through the usual
+    approval when submitted. 'create' on purchase orders.
 
     Args:
         body (DraftAiOrdersInput):
@@ -156,10 +159,11 @@ async def asyncio(
 ) -> Optional[AiDraftOrdersResult]:
     """[Buyer] Drafts an order for each invoicer named, for the period (default this month): one line per
     model and meter of last month's usage at the contract rate (else the list price), each quantity the
-    forecast from this month so far, scaled to the gap when open orders already cover part of it.
-    Returns the drafts and, for an invoicer with nothing to base an order on or no supplier on the list,
-    why it was skipped. Drafts go through the usual approval when submitted. 'create' on purchase
-    orders.
+    forecast from this month so far, scaled to the gap when open orders already cover part of it. With
+    scope account, a cloud account from accounts gets one amount line instead (everything the account
+    bills, up to the gap, to the month's end). Returns the drafts and, for an invoicer with nothing to
+    base an order on or no supplier on the list, why it was skipped. Drafts go through the usual
+    approval when submitted. 'create' on purchase orders.
 
     Args:
         body (DraftAiOrdersInput):

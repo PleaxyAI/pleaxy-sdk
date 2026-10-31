@@ -256,8 +256,15 @@ const (
 	AiCommitmentViewKindSpend         AiCommitmentViewKind = "spend"
 )
 
+// Defines values for AiDraftOrdersResultScope.
+const (
+	AiDraftOrdersResultScopeAccount AiDraftOrdersResultScope = "account"
+	AiDraftOrdersResultScopeAi      AiDraftOrdersResultScope = "ai"
+)
+
 // Defines values for AiDraftOrdersResultSkippedReason.
 const (
+	NoForecast AiDraftOrdersResultSkippedReason = "no_forecast"
 	NoSupplier AiDraftOrdersResultSkippedReason = "no_supplier"
 	NoUsage    AiDraftOrdersResultSkippedReason = "no_usage"
 )
@@ -2012,6 +2019,12 @@ const (
 	Capacity CreditPriceInputKind = "capacity"
 	Commit   CreditPriceInputKind = "commit"
 	OnDemand CreditPriceInputKind = "on_demand"
+)
+
+// Defines values for DraftAiOrdersInputScope.
+const (
+	DraftAiOrdersInputScopeAccount DraftAiOrdersInputScope = "account"
+	DraftAiOrdersInputScopeAi      DraftAiOrdersInputScope = "ai"
 )
 
 // Defines values for FeedAttemptFormat.
@@ -5802,7 +5815,8 @@ type AiDraftOrdersResult struct {
 		PoId       *string  `json:"poId,omitempty"`
 		Total      *float64 `json:"total,omitempty"`
 	} `json:"drafts,omitempty"`
-	Period  *string `json:"period,omitempty"`
+	Period  *string                   `json:"period,omitempty"`
+	Scope   *AiDraftOrdersResultScope `json:"scope,omitempty"`
 	Skipped *[]struct {
 		InvoicerId *string                           `json:"invoicerId,omitempty"`
 		Message    *string                           `json:"message,omitempty"`
@@ -5811,6 +5825,9 @@ type AiDraftOrdersResult struct {
 		Reason     *AiDraftOrdersResultSkippedReason `json:"reason,omitempty"`
 	} `json:"skipped,omitempty"`
 }
+
+// AiDraftOrdersResultScope defines model for AiDraftOrdersResult.Scope.
+type AiDraftOrdersResultScope string
 
 // AiDraftOrdersResultSkippedReason defines model for AiDraftOrdersResult.Skipped.Reason.
 type AiDraftOrdersResultSkippedReason string
@@ -6027,6 +6044,7 @@ type AiRateCardEntryVendor string
 
 // AiRecommendations defines model for AiRecommendations.
 type AiRecommendations struct {
+	Accounts    *[]AiUncoveredSpend       `json:"accounts,omitempty"`
 	BasisPeriod *string                   `json:"basisPeriod,omitempty"`
 	Period      *string                   `json:"period,omitempty"`
 	Savings     *[]AiSavingRecommendation `json:"savings,omitempty"`
@@ -8443,7 +8461,13 @@ type DraftAiOrdersInput struct {
 
 	// Period The month the orders cover, YYYY-MM. Default this month.
 	Period *string `json:"period,omitempty"`
+
+	// Scope ai (default): lines per model and meter for the AI usage. account: one amount line for everything the cloud account bills, for a cloud account recommendations lists under accounts.
+	Scope *DraftAiOrdersInputScope `json:"scope,omitempty"`
 }
+
+// DraftAiOrdersInputScope ai (default): lines per model and meter for the AI usage. account: one amount line for everything the cloud account bills, for a cloud account recommendations lists under accounts.
+type DraftAiOrdersInputScope string
 
 // EmployeeSummary defines model for EmployeeSummary.
 type EmployeeSummary struct {

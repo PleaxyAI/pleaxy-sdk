@@ -53,7 +53,9 @@ public class AiDraftOrdersResultSkippedInner {
   public enum ReasonEnum {
     USAGE(String.valueOf("no_usage")),
     
-    SUPPLIER(String.valueOf("no_supplier"));
+    SUPPLIER(String.valueOf("no_supplier")),
+    
+    FORECAST(String.valueOf("no_forecast"));
 
     private String value;
 

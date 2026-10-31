@@ -43,6 +43,8 @@ pub enum Reason {
     Usage,
     #[serde(rename = "no_supplier")]
     Supplier,
+    #[serde(rename = "no_forecast")]
+    Forecast,
 }
 
 impl Default for Reason {

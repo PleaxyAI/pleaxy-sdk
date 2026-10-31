@@ -40,6 +40,7 @@ import ai.pleaxy.client.ApiClient;
   AiRecommendations.JSON_PROPERTY_PERIOD,
   AiRecommendations.JSON_PROPERTY_BASIS_PERIOD,
   AiRecommendations.JSON_PROPERTY_UNCOVERED,
+  AiRecommendations.JSON_PROPERTY_ACCOUNTS,
   AiRecommendations.JSON_PROPERTY_SAVINGS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -55,6 +56,10 @@ public class AiRecommendations {
   public static final String JSON_PROPERTY_UNCOVERED = "uncovered";
   @javax.annotation.Nullable
   private List<AiUncoveredSpend> uncovered = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_ACCOUNTS = "accounts";
+  @javax.annotation.Nullable
+  private List<AiUncoveredSpend> accounts = new ArrayList<>();
 
   public static final String JSON_PROPERTY_SAVINGS = "savings";
   @javax.annotation.Nullable
@@ -143,6 +148,38 @@ public class AiRecommendations {
   }
 
 
+  public AiRecommendations accounts(@javax.annotation.Nullable List<AiUncoveredSpend> accounts) {
+    this.accounts = accounts;
+    return this;
+  }
+
+  public AiRecommendations addAccountsItem(AiUncoveredSpend accountsItem) {
+    if (this.accounts == null) {
+      this.accounts = new ArrayList<>();
+    }
+    this.accounts.add(accountsItem);
+    return this;
+  }
+
+  /**
+   * Get accounts
+   * @return accounts
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ACCOUNTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<AiUncoveredSpend> getAccounts() {
+    return accounts;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ACCOUNTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAccounts(@javax.annotation.Nullable List<AiUncoveredSpend> accounts) {
+    this.accounts = accounts;
+  }
+
+
   public AiRecommendations savings(@javax.annotation.Nullable List<AiSavingRecommendation> savings) {
     this.savings = savings;
     return this;
@@ -190,12 +227,13 @@ public class AiRecommendations {
     return Objects.equals(this.period, aiRecommendations.period) &&
         Objects.equals(this.basisPeriod, aiRecommendations.basisPeriod) &&
         Objects.equals(this.uncovered, aiRecommendations.uncovered) &&
+        Objects.equals(this.accounts, aiRecommendations.accounts) &&
         Objects.equals(this.savings, aiRecommendations.savings);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(period, basisPeriod, uncovered, savings);
+    return Objects.hash(period, basisPeriod, uncovered, accounts, savings);
   }
 
   @Override
@@ -205,6 +243,7 @@ public class AiRecommendations {
     sb.append("    period: ").append(toIndentedString(period)).append("\n");
     sb.append("    basisPeriod: ").append(toIndentedString(basisPeriod)).append("\n");
     sb.append("    uncovered: ").append(toIndentedString(uncovered)).append("\n");
+    sb.append("    accounts: ").append(toIndentedString(accounts)).append("\n");
     sb.append("    savings: ").append(toIndentedString(savings)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -268,6 +307,16 @@ public class AiRecommendations {
       for (int i = 0; i < getUncovered().size(); i++) {
         if (getUncovered().get(i) != null) {
           joiner.add(getUncovered().get(i).toUrlQueryString(String.format("%suncovered%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `accounts` to the URL query string
+    if (getAccounts() != null) {
+      for (int i = 0; i < getAccounts().size(); i++) {
+        if (getAccounts().get(i) != null) {
+          joiner.add(getAccounts().get(i).toUrlQueryString(String.format("%saccounts%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }

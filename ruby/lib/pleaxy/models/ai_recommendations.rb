@@ -21,6 +21,8 @@ module Pleaxy
 
     attr_accessor :uncovered
 
+    attr_accessor :accounts
+
     attr_accessor :savings
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -29,6 +31,7 @@ module Pleaxy
         :'period' => :'period',
         :'basis_period' => :'basisPeriod',
         :'uncovered' => :'uncovered',
+        :'accounts' => :'accounts',
         :'savings' => :'savings'
       }
     end
@@ -44,6 +47,7 @@ module Pleaxy
         :'period' => :'String',
         :'basis_period' => :'String',
         :'uncovered' => :'Array<AiUncoveredSpend>',
+        :'accounts' => :'Array<AiUncoveredSpend>',
         :'savings' => :'Array<AiSavingRecommendation>'
       }
     end
@@ -83,6 +87,12 @@ module Pleaxy
         end
       end
 
+      if attributes.key?(:'accounts')
+        if (value = attributes[:'accounts']).is_a?(Array)
+          self.accounts = value
+        end
+      end
+
       if attributes.key?(:'savings')
         if (value = attributes[:'savings']).is_a?(Array)
           self.savings = value
@@ -113,6 +123,7 @@ module Pleaxy
           period == o.period &&
           basis_period == o.basis_period &&
           uncovered == o.uncovered &&
+          accounts == o.accounts &&
           savings == o.savings
     end
 
@@ -125,7 +136,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [period, basis_period, uncovered, savings].hash
+      [period, basis_period, uncovered, accounts, savings].hash
     end
 
     # Builds the object from hash

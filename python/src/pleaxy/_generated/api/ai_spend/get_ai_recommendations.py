@@ -59,11 +59,12 @@ def sync_detailed(
 ) -> Response[AiRecommendations]:
     """[Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an
     invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po),
-    with the gap a new order needs - and cheaper ways to buy last month's usage: batch (the most moving
-    interactive tokens to the batch rate would save), cache (what each further 10% of input read from
-    the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor
-    keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on
-    suppliers or on invoices.
+    with the gap a new order needs; accounts, the same for whole cloud accounts (all their spend, from
+    the provider's current estimate, this month only; an account's AI spend is part of it, so never add
+    the two) - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to
+    the batch rate would save), cache (what each further 10% of input read from the cache saves) and
+    reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price,
+    the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices.
 
     Args:
         period (Union[Unset, str]):
@@ -94,11 +95,12 @@ def sync(
 ) -> Optional[AiRecommendations]:
     """[Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an
     invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po),
-    with the gap a new order needs - and cheaper ways to buy last month's usage: batch (the most moving
-    interactive tokens to the batch rate would save), cache (what each further 10% of input read from
-    the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor
-    keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on
-    suppliers or on invoices.
+    with the gap a new order needs; accounts, the same for whole cloud accounts (all their spend, from
+    the provider's current estimate, this month only; an account's AI spend is part of it, so never add
+    the two) - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to
+    the batch rate would save), cache (what each further 10% of input read from the cache saves) and
+    reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price,
+    the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices.
 
     Args:
         period (Union[Unset, str]):
@@ -124,11 +126,12 @@ async def asyncio_detailed(
 ) -> Response[AiRecommendations]:
     """[Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an
     invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po),
-    with the gap a new order needs - and cheaper ways to buy last month's usage: batch (the most moving
-    interactive tokens to the batch rate would save), cache (what each further 10% of input read from
-    the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor
-    keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on
-    suppliers or on invoices.
+    with the gap a new order needs; accounts, the same for whole cloud accounts (all their spend, from
+    the provider's current estimate, this month only; an account's AI spend is part of it, so never add
+    the two) - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to
+    the batch rate would save), cache (what each further 10% of input read from the cache saves) and
+    reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price,
+    the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices.
 
     Args:
         period (Union[Unset, str]):
@@ -157,11 +160,12 @@ async def asyncio(
 ) -> Optional[AiRecommendations]:
     """[Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an
     invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po),
-    with the gap a new order needs - and cheaper ways to buy last month's usage: batch (the most moving
-    interactive tokens to the batch rate would save), cache (what each further 10% of input read from
-    the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor
-    keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on
-    suppliers or on invoices.
+    with the gap a new order needs; accounts, the same for whole cloud accounts (all their spend, from
+    the provider's current estimate, this month only; an account's AI spend is part of it, so never add
+    the two) - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to
+    the batch rate would save), cache (what each further 10% of input read from the cache saves) and
+    reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price,
+    the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices.
 
     Args:
         period (Union[Unset, str]):

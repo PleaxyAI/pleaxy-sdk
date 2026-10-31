@@ -1591,7 +1591,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices. */
+        /** [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs; accounts, the same for whole cloud accounts (all their spend, from the provider's current estimate, this month only; an account's AI spend is part of it, so never add the two) - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices. */
         get: operations["GetAiRecommendations"];
         put?: never;
         post?: never;
@@ -1610,7 +1610,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Buyer] Drafts an order for each invoicer named, for the period (default this month): one line per model and meter of last month's usage at the contract rate (else the list price), each quantity the forecast from this month so far, scaled to the gap when open orders already cover part of it. Returns the drafts and, for an invoicer with nothing to base an order on or no supplier on the list, why it was skipped. Drafts go through the usual approval when submitted. 'create' on purchase orders. */
+        /** [Buyer] Drafts an order for each invoicer named, for the period (default this month): one line per model and meter of last month's usage at the contract rate (else the list price), each quantity the forecast from this month so far, scaled to the gap when open orders already cover part of it. With scope account, a cloud account from accounts gets one amount line instead (everything the account bills, up to the gap, to the month's end). Returns the drafts and, for an invoicer with nothing to base an order on or no supplier on the list, why it was skipped. Drafts go through the usual approval when submitted. 'create' on purchase orders. */
         post: operations["DraftAiOrders"];
         delete?: never;
         options?: never;
@@ -2924,6 +2924,11 @@ export interface components {
             invoicerIds: string[];
             /** @description The month the orders cover, YYYY-MM. Default this month. */
             period?: string;
+            /**
+             * @description ai (default): lines per model and meter for the AI usage. account: one amount line for everything the cloud account bills, for a cloud account recommendations lists under accounts.
+             * @enum {string}
+             */
+            scope?: "ai" | "account";
         };
         SetAiRenewalRuleInput: {
             /** @description Whether next month's AI orders are drafted from the forecast. */
@@ -5990,6 +5995,7 @@ export interface components {
             period?: string;
             basisPeriod?: string;
             uncovered?: components["schemas"]["AiUncoveredSpend"][];
+            accounts?: components["schemas"]["AiUncoveredSpend"][];
             savings?: components["schemas"]["AiSavingRecommendation"][];
         };
         AiUncoveredSpend: {
@@ -6046,6 +6052,8 @@ export interface components {
         };
         AiDraftOrdersResult: {
             period?: string;
+            /** @enum {string} */
+            scope?: "account" | "ai";
             drafts?: {
                 invoicerId?: string;
                 poId?: string;
@@ -6056,7 +6064,7 @@ export interface components {
             skipped?: {
                 invoicerId?: string;
                 /** @enum {string} */
-                reason?: "no_usage" | "no_supplier";
+                reason?: "no_usage" | "no_supplier" | "no_forecast";
                 message?: string;
                 messageId?: string;
                 params?: {

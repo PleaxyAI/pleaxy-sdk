@@ -15,6 +15,8 @@ use serde::{Deserialize, Serialize};
 pub struct AiDraftOrdersResult {
     #[serde(rename = "period", skip_serializing_if = "Option::is_none")]
     pub period: Option<String>,
+    #[serde(rename = "scope", skip_serializing_if = "Option::is_none")]
+    pub scope: Option<Scope>,
     #[serde(rename = "drafts", skip_serializing_if = "Option::is_none")]
     pub drafts: Option<Vec<models::AiDraftOrdersResultDraftsInner>>,
     #[serde(rename = "skipped", skip_serializing_if = "Option::is_none")]
@@ -25,8 +27,23 @@ impl AiDraftOrdersResult {
     pub fn new() -> AiDraftOrdersResult {
         AiDraftOrdersResult {
             period: None,
+            scope: None,
             drafts: None,
             skipped: None,
         }
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Scope {
+    #[serde(rename = "account")]
+    Account,
+    #[serde(rename = "ai")]
+    Ai,
+}
+
+impl Default for Scope {
+    fn default() -> Scope {
+        Self::Account
     }
 }

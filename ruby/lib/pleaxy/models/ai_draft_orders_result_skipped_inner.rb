@@ -130,7 +130,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      reason_validator = EnumAttributeValidator.new('String', ["no_usage", "no_supplier"])
+      reason_validator = EnumAttributeValidator.new('String', ["no_usage", "no_supplier", "no_forecast"])
       return false unless reason_validator.valid?(@reason)
       true
     end
@@ -138,7 +138,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] reason Object to be assigned
     def reason=(reason)
-      validator = EnumAttributeValidator.new('String', ["no_usage", "no_supplier"])
+      validator = EnumAttributeValidator.new('String', ["no_usage", "no_supplier", "no_forecast"])
       unless validator.valid?(reason)
         fail ArgumentError, "invalid value for \"reason\", must be one of #{validator.allowable_values}."
       end

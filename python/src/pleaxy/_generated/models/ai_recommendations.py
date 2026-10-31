@@ -20,12 +20,14 @@ class AiRecommendations:
         period (Union[Unset, str]):
         basis_period (Union[Unset, str]):
         uncovered (Union[Unset, List['AiUncoveredSpend']]):
+        accounts (Union[Unset, List['AiUncoveredSpend']]):
         savings (Union[Unset, List['AiSavingRecommendation']]):
     """
 
     period: Union[Unset, str] = UNSET
     basis_period: Union[Unset, str] = UNSET
     uncovered: Union[Unset, List["AiUncoveredSpend"]] = UNSET
+    accounts: Union[Unset, List["AiUncoveredSpend"]] = UNSET
     savings: Union[Unset, List["AiSavingRecommendation"]] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -40,6 +42,13 @@ class AiRecommendations:
             for uncovered_item_data in self.uncovered:
                 uncovered_item = uncovered_item_data.to_dict()
                 uncovered.append(uncovered_item)
+
+        accounts: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.accounts, Unset):
+            accounts = []
+            for accounts_item_data in self.accounts:
+                accounts_item = accounts_item_data.to_dict()
+                accounts.append(accounts_item)
 
         savings: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.savings, Unset):
@@ -57,6 +66,8 @@ class AiRecommendations:
             field_dict["basisPeriod"] = basis_period
         if uncovered is not UNSET:
             field_dict["uncovered"] = uncovered
+        if accounts is not UNSET:
+            field_dict["accounts"] = accounts
         if savings is not UNSET:
             field_dict["savings"] = savings
 
@@ -79,6 +90,13 @@ class AiRecommendations:
 
             uncovered.append(uncovered_item)
 
+        accounts = []
+        _accounts = d.pop("accounts", UNSET)
+        for accounts_item_data in _accounts or []:
+            accounts_item = AiUncoveredSpend.from_dict(accounts_item_data)
+
+            accounts.append(accounts_item)
+
         savings = []
         _savings = d.pop("savings", UNSET)
         for savings_item_data in _savings or []:
@@ -90,6 +108,7 @@ class AiRecommendations:
             period=period,
             basis_period=basis_period,
             uncovered=uncovered,
+            accounts=accounts,
             savings=savings,
         )
 
