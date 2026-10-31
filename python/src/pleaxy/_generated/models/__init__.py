@@ -96,6 +96,15 @@ from .ai_cost_centers_response import AiCostCentersResponse
 from .ai_cost_centers_response_unattributed_item import (
     AiCostCentersResponseUnattributedItem,
 )
+from .ai_draft_orders_result import AiDraftOrdersResult
+from .ai_draft_orders_result_drafts_item import AiDraftOrdersResultDraftsItem
+from .ai_draft_orders_result_skipped_item import AiDraftOrdersResultSkippedItem
+from .ai_draft_orders_result_skipped_item_params import (
+    AiDraftOrdersResultSkippedItemParams,
+)
+from .ai_draft_orders_result_skipped_item_reason import (
+    AiDraftOrdersResultSkippedItemReason,
+)
 from .ai_limit_credential import AiLimitCredential
 from .ai_limit_credential_aws import AiLimitCredentialAws
 from .ai_limit_credential_azure import AiLimitCredentialAzure
@@ -134,9 +143,15 @@ from .ai_rate_card_entry_invoicer import AiRateCardEntryInvoicer
 from .ai_rate_card_entry_meter import AiRateCardEntryMeter
 from .ai_rate_card_entry_unit import AiRateCardEntryUnit
 from .ai_rate_card_entry_vendor import AiRateCardEntryVendor
+from .ai_recommendations import AiRecommendations
 from .ai_renewal_rule import AiRenewalRule
 from .ai_renewal_rule_last_run import AiRenewalRuleLastRun
 from .ai_renewal_rule_last_run_drafts_item import AiRenewalRuleLastRunDraftsItem
+from .ai_saving_recommendation import AiSavingRecommendation
+from .ai_saving_recommendation_detail import AiSavingRecommendationDetail
+from .ai_saving_recommendation_invoicer import AiSavingRecommendationInvoicer
+from .ai_saving_recommendation_kind import AiSavingRecommendationKind
+from .ai_saving_recommendation_vendor import AiSavingRecommendationVendor
 from .ai_seat_count import AiSeatCount
 from .ai_seat_count_invoicer import AiSeatCountInvoicer
 from .ai_seat_count_source import AiSeatCountSource
@@ -164,6 +179,9 @@ from .ai_spend_response_not_readable_item_reason import (
 )
 from .ai_spend_total import AiSpendTotal
 from .ai_spend_unattributed import AiSpendUnattributed
+from .ai_uncovered_spend import AiUncoveredSpend
+from .ai_uncovered_spend_invoicer import AiUncoveredSpendInvoicer
+from .ai_uncovered_spend_reason import AiUncoveredSpendReason
 from .ai_usage_line import AiUsageLine
 from .ai_usage_line_attribution import AiUsageLineAttribution
 from .ai_usage_line_credits import AiUsageLineCredits
@@ -624,6 +642,7 @@ from .databricks_connection_input import DatabricksConnectionInput
 from .decline_confirmation_changes_input import DeclineConfirmationChangesInput
 from .delete_ai_provider_result import DeleteAiProviderResult
 from .discover_azure_scopes_input import DiscoverAzureScopesInput
+from .draft_ai_orders_input import DraftAiOrdersInput
 from .employee_summary import EmployeeSummary
 from .error_params import ErrorParams
 from .exchange_rate_row import ExchangeRateRow
@@ -2028,6 +2047,11 @@ __all__ = (
     "AiCostCenterRowAlert",
     "AiCostCentersResponse",
     "AiCostCentersResponseUnattributedItem",
+    "AiDraftOrdersResult",
+    "AiDraftOrdersResultDraftsItem",
+    "AiDraftOrdersResultSkippedItem",
+    "AiDraftOrdersResultSkippedItemParams",
+    "AiDraftOrdersResultSkippedItemReason",
     "AiLimitCredential",
     "AiLimitCredentialAws",
     "AiLimitCredentialAzure",
@@ -2066,9 +2090,15 @@ __all__ = (
     "AiRateCardEntryMeter",
     "AiRateCardEntryUnit",
     "AiRateCardEntryVendor",
+    "AiRecommendations",
     "AiRenewalRule",
     "AiRenewalRuleLastRun",
     "AiRenewalRuleLastRunDraftsItem",
+    "AiSavingRecommendation",
+    "AiSavingRecommendationDetail",
+    "AiSavingRecommendationInvoicer",
+    "AiSavingRecommendationKind",
+    "AiSavingRecommendationVendor",
     "AiSeatCount",
     "AiSeatCountInvoicer",
     "AiSeatCountSource",
@@ -2092,6 +2122,9 @@ __all__ = (
     "AiSpendResponseNotReadableItemReason",
     "AiSpendTotal",
     "AiSpendUnattributed",
+    "AiUncoveredSpend",
+    "AiUncoveredSpendInvoicer",
+    "AiUncoveredSpendReason",
     "AiUsageLine",
     "AiUsageLineAttribution",
     "AiUsageLineCredits",
@@ -2374,6 +2407,7 @@ __all__ = (
     "DeclineConfirmationChangesInput",
     "DeleteAiProviderResult",
     "DiscoverAzureScopesInput",
+    "DraftAiOrdersInput",
     "EmployeeSummary",
     "ErrorParams",
     "ExchangeRateRow",

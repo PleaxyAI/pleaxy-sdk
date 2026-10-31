@@ -85,6 +85,72 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Buyer] Drafts an order for each invoicer named, for the period (default this month): one line per model and meter of last month's usage at the contract rate (else the list price), each quantity the forecast from this month so far, scaled to the gap when open orders already cover part of it. Returns the drafts and, for an invoicer with nothing to base an order on or no supplier on the list, why it was skipped. Drafts go through the usual approval when submitted. 'create' on purchase orders.
+    # @param draft_ai_orders_input [DraftAiOrdersInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [AiDraftOrdersResult]
+    def draft_ai_orders(draft_ai_orders_input, opts = {})
+      data, _status_code, _headers = draft_ai_orders_with_http_info(draft_ai_orders_input, opts)
+      data
+    end
+
+    # [Buyer] Drafts an order for each invoicer named, for the period (default this month): one line per model and meter of last month&#39;s usage at the contract rate (else the list price), each quantity the forecast from this month so far, scaled to the gap when open orders already cover part of it. Returns the drafts and, for an invoicer with nothing to base an order on or no supplier on the list, why it was skipped. Drafts go through the usual approval when submitted. &#39;create&#39; on purchase orders.
+    # @param draft_ai_orders_input [DraftAiOrdersInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(AiDraftOrdersResult, Integer, Hash)>] AiDraftOrdersResult data, response status code and response headers
+    def draft_ai_orders_with_http_info(draft_ai_orders_input, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.draft_ai_orders ...'
+      end
+      # verify the required parameter 'draft_ai_orders_input' is set
+      if @api_client.config.client_side_validation && draft_ai_orders_input.nil?
+        fail ArgumentError, "Missing the required parameter 'draft_ai_orders_input' when calling AiSpendApi.draft_ai_orders"
+      end
+      # resource path
+      local_var_path = '/ai-spend/draft-orders'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(draft_ai_orders_input)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AiDraftOrdersResult'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.draft_ai_orders",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#draft_ai_orders\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] The attribution rules that map a provider dimension (tag, label, project, workspace, api_key, inference_profile, resource_group, compartment, cluster) to a cost center, in order - first match wins - with what each matched in the period, what no rule matched and the dimension values behind it. 'view' on suppliers or on invoices.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :period 
@@ -139,6 +205,64 @@ module Pleaxy
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AiSpendApi#get_ai_attribution\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :period 
+    # @return [AiRecommendations]
+    def get_ai_recommendations(opts = {})
+      data, _status_code, _headers = get_ai_recommendations_with_http_info(opts)
+      data
+    end
+
+    # [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs - and cheaper ways to buy last month&#39;s usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer&#39;s currency. &#39;view&#39; on suppliers or on invoices.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :period 
+    # @return [Array<(AiRecommendations, Integer, Hash)>] AiRecommendations data, response status code and response headers
+    def get_ai_recommendations_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AiSpendApi.get_ai_recommendations ...'
+      end
+      # resource path
+      local_var_path = '/ai-spend/recommendations'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'period'] = opts[:'period'] if !opts[:'period'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AiRecommendations'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"AiSpendApi.get_ai_recommendations",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AiSpendApi#get_ai_recommendations\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

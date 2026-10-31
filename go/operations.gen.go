@@ -325,6 +325,18 @@ func (c *Client) DismissPurchaseOrderEmail(ctx context.Context, poId string, ema
 	return resp.JSON200, nil
 }
 
+// DraftAiOrders - [Buyer] Drafts an order for each invoicer named, for the period (default this month): one line per model and meter of last month's usage at the contract rate (else the list price), each quantity the forecast from this month so far, scaled to the gap when open orders already cover part of it. Returns the drafts and, for an invoicer with nothing to base an order on or no supplier on the list, why it was skipped. Drafts go through the usual approval when submitted. 'create' on purchase orders.
+func (c *Client) DraftAiOrders(ctx context.Context, body DraftAiOrdersJSONRequestBody) (*AiDraftOrdersResult, error) {
+	resp, err := c.api.DraftAiOrdersWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // ExportInvoicesForPayment - [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row's Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
 func (c *Client) ExportInvoicesForPayment(ctx context.Context, body ExportInvoicesForPaymentJSONRequestBody) ([]byte, error) {
 	resp, err := c.api.ExportInvoicesForPaymentWithResponse(ctx, body)
@@ -352,6 +364,18 @@ func (c *Client) FlipPurchaseOrderToInvoice(ctx context.Context, poId string, pa
 // GetAiAttribution - [Buyer] The attribution rules that map a provider dimension (tag, label, project, workspace, api_key, inference_profile, resource_group, compartment, cluster) to a cost center, in order - first match wins - with what each matched in the period, what no rule matched and the dimension values behind it. 'view' on suppliers or on invoices.
 func (c *Client) GetAiAttribution(ctx context.Context, params *GetAiAttributionParams) (*AiAttributionResponse, error) {
 	resp, err := c.api.GetAiAttributionWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// GetAiRecommendations - [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices.
+func (c *Client) GetAiRecommendations(ctx context.Context, params *GetAiRecommendationsParams) (*AiRecommendations, error) {
+	resp, err := c.api.GetAiRecommendationsWithResponse(ctx, params)
 	if err != nil {
 		return nil, err
 	}

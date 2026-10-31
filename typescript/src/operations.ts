@@ -58,10 +58,24 @@ export class AiSpendResource {
   }
 
   /**
+   * [Buyer] Drafts an order for each invoicer named, for the period (default this month): one line per model and meter of last month's usage at the contract rate (else the list price), each quantity the forecast from this month so far, scaled to the gap when open orders already cover part of it. Returns the drafts and, for an invoicer with nothing to base an order on or no supplier on the list, why it was skipped. Drafts go through the usual approval when submitted. 'create' on purchase orders.
+   */
+  draftAiOrders(body: RequestBody<"DraftAiOrders">, options?: RequestOptions): Promise<ResponseBody<"DraftAiOrders">> {
+    return this.transport.request("post", "/ai-spend/draft-orders", { path: undefined, body, options }) as Promise<ResponseBody<"DraftAiOrders">>;
+  }
+
+  /**
    * [Buyer] The attribution rules that map a provider dimension (tag, label, project, workspace, api_key, inference_profile, resource_group, compartment, cluster) to a cost center, in order - first match wins - with what each matched in the period, what no rule matched and the dimension values behind it. 'view' on suppliers or on invoices.
    */
   getAiAttribution(query?: QueryParams<"GetAiAttribution">, options?: RequestOptions): Promise<ResponseBody<"GetAiAttribution">> {
     return this.transport.request("get", "/ai-spend/attribution", { path: undefined, query, options }) as Promise<ResponseBody<"GetAiAttribution">>;
+  }
+
+  /**
+   * [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices.
+   */
+  getAiRecommendations(query?: QueryParams<"GetAiRecommendations">, options?: RequestOptions): Promise<ResponseBody<"GetAiRecommendations">> {
+    return this.transport.request("get", "/ai-spend/recommendations", { path: undefined, query, options }) as Promise<ResponseBody<"GetAiRecommendations">>;
   }
 
   /**

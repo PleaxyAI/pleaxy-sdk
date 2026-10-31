@@ -20,9 +20,11 @@ import ai.pleaxy.client.Pair;
 import ai.pleaxy.model.AiAttributionResponse;
 import ai.pleaxy.model.AiCommitmentView;
 import ai.pleaxy.model.AiCostCentersResponse;
+import ai.pleaxy.model.AiDraftOrdersResult;
 import ai.pleaxy.model.AiLimitCredential;
 import ai.pleaxy.model.AiPoLineSuggestions;
 import ai.pleaxy.model.AiRateCardEntry;
+import ai.pleaxy.model.AiRecommendations;
 import ai.pleaxy.model.AiRenewalRule;
 import ai.pleaxy.model.AiSeatCount;
 import ai.pleaxy.model.AiSpendCheckResponse;
@@ -31,6 +33,7 @@ import ai.pleaxy.model.AiSpendResponse;
 import ai.pleaxy.model.AiUsageLinesPage;
 import ai.pleaxy.model.ApiError;
 import ai.pleaxy.model.CheckAiSpendInput;
+import ai.pleaxy.model.DraftAiOrdersInput;
 import ai.pleaxy.model.ListAiSpendLimitsResult;
 import ai.pleaxy.model.PurchaseOrder;
 import ai.pleaxy.model.RemoveAiLimitCredentialResult;
@@ -181,6 +184,84 @@ public class AiSpendApi {
   }
 
   /**
+   * [Buyer] Drafts an order for each invoicer named, for the period (default this month): one line per model and meter of last month&#39;s usage at the contract rate (else the list price), each quantity the forecast from this month so far, scaled to the gap when open orders already cover part of it. Returns the drafts and, for an invoicer with nothing to base an order on or no supplier on the list, why it was skipped. Drafts go through the usual approval when submitted. &#39;create&#39; on purchase orders.
+   * 
+   * @param draftAiOrdersInput  (required)
+   * @return AiDraftOrdersResult
+   * @throws ApiException if fails to make API call
+   */
+  public AiDraftOrdersResult draftAiOrders(DraftAiOrdersInput draftAiOrdersInput) throws ApiException {
+    ApiResponse<AiDraftOrdersResult> localVarResponse = draftAiOrdersWithHttpInfo(draftAiOrdersInput);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Drafts an order for each invoicer named, for the period (default this month): one line per model and meter of last month&#39;s usage at the contract rate (else the list price), each quantity the forecast from this month so far, scaled to the gap when open orders already cover part of it. Returns the drafts and, for an invoicer with nothing to base an order on or no supplier on the list, why it was skipped. Drafts go through the usual approval when submitted. &#39;create&#39; on purchase orders.
+   * 
+   * @param draftAiOrdersInput  (required)
+   * @return ApiResponse&lt;AiDraftOrdersResult&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<AiDraftOrdersResult> draftAiOrdersWithHttpInfo(DraftAiOrdersInput draftAiOrdersInput) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = draftAiOrdersRequestBuilder(draftAiOrdersInput);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("draftAiOrders", localVarResponse);
+        }
+        return new ApiResponse<AiDraftOrdersResult>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<AiDraftOrdersResult>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder draftAiOrdersRequestBuilder(DraftAiOrdersInput draftAiOrdersInput) throws ApiException {
+    // verify the required parameter 'draftAiOrdersInput' is set
+    if (draftAiOrdersInput == null) {
+      throw new ApiException(400, "Missing the required parameter 'draftAiOrdersInput' when calling draftAiOrders");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/draft-orders";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(draftAiOrdersInput);
+      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
    * [Buyer] The attribution rules that map a provider dimension (tag, label, project, workspace, api_key, inference_profile, resource_group, compartment, cluster) to a cost center, in order - first match wins - with what each matched in the period, what no rule matched and the dimension values behind it. &#39;view&#39; on suppliers or on invoices.
    * 
    * @param period  (optional)
@@ -233,6 +314,89 @@ public class AiSpendApi {
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/ai-spend/attribution";
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "period";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("period", period));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs - and cheaper ways to buy last month&#39;s usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer&#39;s currency. &#39;view&#39; on suppliers or on invoices.
+   * 
+   * @param period  (optional)
+   * @return AiRecommendations
+   * @throws ApiException if fails to make API call
+   */
+  public AiRecommendations getAiRecommendations(String period) throws ApiException {
+    ApiResponse<AiRecommendations> localVarResponse = getAiRecommendationsWithHttpInfo(period);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs - and cheaper ways to buy last month&#39;s usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer&#39;s currency. &#39;view&#39; on suppliers or on invoices.
+   * 
+   * @param period  (optional)
+   * @return ApiResponse&lt;AiRecommendations&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<AiRecommendations> getAiRecommendationsWithHttpInfo(String period) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getAiRecommendationsRequestBuilder(period);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("getAiRecommendations", localVarResponse);
+        }
+        return new ApiResponse<AiRecommendations>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<AiRecommendations>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder getAiRecommendationsRequestBuilder(String period) throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/ai-spend/recommendations";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

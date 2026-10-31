@@ -4922,6 +4922,88 @@
         ]
       }
     },
+    "/ai-spend/recommendations": {
+      "get": {
+        "operationId": "GetAiRecommendations",
+        "summary": "[Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices.",
+        "parameters": [
+          {
+            "name": "period",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiRecommendations"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      }
+    },
+    "/ai-spend/draft-orders": {
+      "post": {
+        "operationId": "DraftAiOrders",
+        "summary": "[Buyer] Drafts an order for each invoicer named, for the period (default this month): one line per model and meter of last month's usage at the contract rate (else the list price), each quantity the forecast from this month so far, scaled to the gap when open orders already cover part of it. Returns the drafts and, for an invoicer with nothing to base an order on or no supplier on the list, why it was skipped. Drafts go through the usual approval when submitted. 'create' on purchase orders.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DraftAiOrdersInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiDraftOrdersResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ai-spend"
+        ]
+      }
+    },
     "/ai-spend/commitments": {
       "get": {
         "operationId": "ListAiCommitments",
@@ -8989,6 +9071,26 @@
             "pattern": "^\\d{4}-(0[1-9]|1[0-2])$"
           }
         }
+      },
+      "DraftAiOrdersInput": {
+        "type": "object",
+        "properties": {
+          "invoicerIds": {
+            "description": "The invoicers (cloud accounts or AI provider connections) to draft an order for: the ones recommendations lists under uncovered.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "period": {
+            "type": "string",
+            "pattern": "^\\d{4}-(0[1-9]|1[0-2])$",
+            "description": "The month the orders cover, YYYY-MM. Default this month."
+          }
+        },
+        "required": [
+          "invoicerIds"
+        ]
       },
       "SetAiRenewalRuleInput": {
         "type": "object",
@@ -19037,6 +19139,269 @@
           "periodAmount": {
             "type": "number",
             "format": "double"
+          }
+        }
+      },
+      "AiRecommendations": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "type": "string"
+          },
+          "basisPeriod": {
+            "type": "string"
+          },
+          "uncovered": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiUncoveredSpend"
+            }
+          },
+          "savings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiSavingRecommendation"
+            }
+          }
+        }
+      },
+      "AiUncoveredSpend": {
+        "type": "object",
+        "properties": {
+          "invoicerId": {
+            "type": "string"
+          },
+          "invoicer": {
+            "type": "string",
+            "enum": [
+              "aws",
+              "gcp",
+              "azure",
+              "oci",
+              "openai",
+              "anthropic",
+              "mistral",
+              "cohere",
+              "xai",
+              "openrouter",
+              "snowflake",
+              "databricks",
+              "coreweave",
+              "lambda",
+              "nebius",
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "monthToDate": {
+            "type": "number",
+            "format": "double"
+          },
+          "forecast": {
+            "type": "number",
+            "format": "double"
+          },
+          "covered": {
+            "type": "number",
+            "format": "double"
+          },
+          "gap": {
+            "type": "number",
+            "format": "double"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "no_po",
+              "over_po"
+            ]
+          },
+          "poIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AiSavingRecommendation": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "batch",
+              "cache",
+              "reserve"
+            ]
+          },
+          "invoicerId": {
+            "type": "string"
+          },
+          "invoicer": {
+            "type": "string",
+            "enum": [
+              "aws",
+              "gcp",
+              "azure",
+              "oci",
+              "openai",
+              "anthropic",
+              "mistral",
+              "cohere",
+              "xai",
+              "openrouter",
+              "snowflake",
+              "databricks",
+              "coreweave",
+              "lambda",
+              "nebius",
+              "crusoe",
+              "cursor",
+              "github",
+              "microsoft"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "vendor": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "openai",
+              "anthropic",
+              "mistral",
+              "cohere",
+              "xai",
+              "snowflake",
+              "databricks",
+              "microsoft",
+              "google",
+              "meta",
+              "amazon",
+              "deepseek",
+              "nvidia"
+            ]
+          },
+          "model": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "spend": {
+            "type": "number",
+            "format": "double"
+          },
+          "saving": {
+            "type": "number",
+            "format": "double"
+          },
+          "detail": {
+            "type": "object",
+            "properties": {
+              "interactiveRate": {
+                "type": "number",
+                "format": "double"
+              },
+              "batchRate": {
+                "type": "number",
+                "format": "double"
+              },
+              "inputRate": {
+                "type": "number",
+                "format": "double"
+              },
+              "cachedRate": {
+                "type": "number",
+                "format": "double"
+              },
+              "cachedShare": {
+                "type": "number",
+                "format": "double"
+              },
+              "daysUsed": {
+                "type": "number",
+                "format": "double"
+              },
+              "steadyHoursPerDay": {
+                "type": "number",
+                "format": "double"
+              },
+              "reservableUnits": {
+                "type": "number",
+                "format": "double"
+              }
+            }
+          }
+        }
+      },
+      "AiDraftOrdersResult": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "type": "string"
+          },
+          "drafts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "invoicerId": {
+                  "type": "string"
+                },
+                "poId": {
+                  "type": "string"
+                },
+                "currency": {
+                  "type": "string"
+                },
+                "total": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          },
+          "skipped": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "invoicerId": {
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string",
+                  "enum": [
+                    "no_usage",
+                    "no_supplier"
+                  ]
+                },
+                "message": {
+                  "type": "string"
+                },
+                "messageId": {
+                  "type": "string"
+                },
+                "params": {
+                  "type": "object",
+                  "properties": {},
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         }
       },

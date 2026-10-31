@@ -208,6 +208,16 @@ impl<'a> AiSpend<'a> {
         crate::apis::ai_spend_api::check_ai_spend(&self.0.config, check_ai_spend_input).await
     }
 
+    pub async fn draft_ai_orders(
+        &self,
+        draft_ai_orders_input: crate::models::DraftAiOrdersInput,
+    ) -> Result<
+        crate::models::AiDraftOrdersResult,
+        crate::apis::Error<crate::apis::ai_spend_api::DraftAiOrdersError>,
+    > {
+        crate::apis::ai_spend_api::draft_ai_orders(&self.0.config, draft_ai_orders_input).await
+    }
+
     pub async fn get_ai_attribution(
         &self,
         period: Option<&str>,
@@ -216,6 +226,16 @@ impl<'a> AiSpend<'a> {
         crate::apis::Error<crate::apis::ai_spend_api::GetAiAttributionError>,
     > {
         crate::apis::ai_spend_api::get_ai_attribution(&self.0.config, period).await
+    }
+
+    pub async fn get_ai_recommendations(
+        &self,
+        period: Option<&str>,
+    ) -> Result<
+        crate::models::AiRecommendations,
+        crate::apis::Error<crate::apis::ai_spend_api::GetAiRecommendationsError>,
+    > {
+        crate::apis::ai_spend_api::get_ai_recommendations(&self.0.config, period).await
     }
 
     pub async fn get_ai_renewal_rule(

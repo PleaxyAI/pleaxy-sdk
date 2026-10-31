@@ -1584,6 +1584,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ai-spend/recommendations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices. */
+        get: operations["GetAiRecommendations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-spend/draft-orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Drafts an order for each invoicer named, for the period (default this month): one line per model and meter of last month's usage at the contract rate (else the list price), each quantity the forecast from this month so far, scaled to the gap when open orders already cover part of it. Returns the drafts and, for an invoicer with nothing to base an order on or no supplier on the list, why it was skipped. Drafts go through the usual approval when submitted. 'create' on purchase orders. */
+        post: operations["DraftAiOrders"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ai-spend/commitments": {
         parameters: {
             query?: never;
@@ -2883,6 +2917,12 @@ export interface components {
             invoicerId?: string;
             costCenter?: string;
             poId?: string;
+            period?: string;
+        };
+        DraftAiOrdersInput: {
+            /** @description The invoicers (cloud accounts or AI provider connections) to draft an order for: the ones recommendations lists under uncovered. */
+            invoicerIds: string[];
+            /** @description The month the orders cover, YYYY-MM. Default this month. */
             period?: string;
         };
         SetAiRenewalRuleInput: {
@@ -5945,6 +5985,84 @@ export interface components {
             periodQuantity?: number;
             /** Format: double */
             periodAmount?: number;
+        };
+        AiRecommendations: {
+            period?: string;
+            basisPeriod?: string;
+            uncovered?: components["schemas"]["AiUncoveredSpend"][];
+            savings?: components["schemas"]["AiSavingRecommendation"][];
+        };
+        AiUncoveredSpend: {
+            invoicerId?: string;
+            /** @enum {string} */
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            label?: string;
+            currency?: string;
+            /** Format: double */
+            monthToDate?: number;
+            /** Format: double */
+            forecast?: number;
+            /** Format: double */
+            covered?: number;
+            /** Format: double */
+            gap?: number;
+            /** @enum {string} */
+            reason?: "no_po" | "over_po";
+            poIds?: string[];
+        };
+        AiSavingRecommendation: {
+            /** @enum {string} */
+            kind?: "batch" | "cache" | "reserve";
+            invoicerId?: string;
+            /** @enum {string} */
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            label?: string;
+            /** @enum {string} */
+            vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "microsoft" | "google" | "meta" | "amazon" | "deepseek" | "nvidia";
+            model?: string;
+            currency?: string;
+            /** Format: double */
+            spend?: number;
+            /** Format: double */
+            saving?: number;
+            detail?: {
+                /** Format: double */
+                interactiveRate?: number;
+                /** Format: double */
+                batchRate?: number;
+                /** Format: double */
+                inputRate?: number;
+                /** Format: double */
+                cachedRate?: number;
+                /** Format: double */
+                cachedShare?: number;
+                /** Format: double */
+                daysUsed?: number;
+                /** Format: double */
+                steadyHoursPerDay?: number;
+                /** Format: double */
+                reservableUnits?: number;
+            };
+        };
+        AiDraftOrdersResult: {
+            period?: string;
+            drafts?: {
+                invoicerId?: string;
+                poId?: string;
+                currency?: string;
+                /** Format: double */
+                total?: number;
+            }[];
+            skipped?: {
+                invoicerId?: string;
+                /** @enum {string} */
+                reason?: "no_usage" | "no_supplier";
+                message?: string;
+                messageId?: string;
+                params?: {
+                    [key: string]: string;
+                };
+            }[];
         };
         AiCommitmentView: {
             /** @enum {string} */
@@ -12188,6 +12306,68 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PurchaseOrder"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetAiRecommendations: {
+        parameters: {
+            query?: {
+                period?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiRecommendations"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    DraftAiOrders: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DraftAiOrdersInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiDraftOrdersResult"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

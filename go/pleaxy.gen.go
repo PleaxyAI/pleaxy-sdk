@@ -256,6 +256,12 @@ const (
 	AiCommitmentViewKindSpend         AiCommitmentViewKind = "spend"
 )
 
+// Defines values for AiDraftOrdersResultSkippedReason.
+const (
+	NoSupplier AiDraftOrdersResultSkippedReason = "no_supplier"
+	NoUsage    AiDraftOrdersResultSkippedReason = "no_usage"
+)
+
 // Defines values for AiLimitCredentialInvoicer.
 const (
 	AiLimitCredentialInvoicerAnthropic AiLimitCredentialInvoicer = "anthropic"
@@ -617,6 +623,54 @@ const (
 	AiRateCardEntryVendorXai        AiRateCardEntryVendor = "xai"
 )
 
+// Defines values for AiSavingRecommendationInvoicer.
+const (
+	AiSavingRecommendationInvoicerAnthropic  AiSavingRecommendationInvoicer = "anthropic"
+	AiSavingRecommendationInvoicerAws        AiSavingRecommendationInvoicer = "aws"
+	AiSavingRecommendationInvoicerAzure      AiSavingRecommendationInvoicer = "azure"
+	AiSavingRecommendationInvoicerCohere     AiSavingRecommendationInvoicer = "cohere"
+	AiSavingRecommendationInvoicerCoreweave  AiSavingRecommendationInvoicer = "coreweave"
+	AiSavingRecommendationInvoicerCrusoe     AiSavingRecommendationInvoicer = "crusoe"
+	AiSavingRecommendationInvoicerCursor     AiSavingRecommendationInvoicer = "cursor"
+	AiSavingRecommendationInvoicerDatabricks AiSavingRecommendationInvoicer = "databricks"
+	AiSavingRecommendationInvoicerGcp        AiSavingRecommendationInvoicer = "gcp"
+	AiSavingRecommendationInvoicerGithub     AiSavingRecommendationInvoicer = "github"
+	AiSavingRecommendationInvoicerLambda     AiSavingRecommendationInvoicer = "lambda"
+	AiSavingRecommendationInvoicerMicrosoft  AiSavingRecommendationInvoicer = "microsoft"
+	AiSavingRecommendationInvoicerMistral    AiSavingRecommendationInvoicer = "mistral"
+	AiSavingRecommendationInvoicerNebius     AiSavingRecommendationInvoicer = "nebius"
+	AiSavingRecommendationInvoicerOci        AiSavingRecommendationInvoicer = "oci"
+	AiSavingRecommendationInvoicerOpenai     AiSavingRecommendationInvoicer = "openai"
+	AiSavingRecommendationInvoicerOpenrouter AiSavingRecommendationInvoicer = "openrouter"
+	AiSavingRecommendationInvoicerSnowflake  AiSavingRecommendationInvoicer = "snowflake"
+	AiSavingRecommendationInvoicerXai        AiSavingRecommendationInvoicer = "xai"
+)
+
+// Defines values for AiSavingRecommendationKind.
+const (
+	Batch   AiSavingRecommendationKind = "batch"
+	Cache   AiSavingRecommendationKind = "cache"
+	Reserve AiSavingRecommendationKind = "reserve"
+)
+
+// Defines values for AiSavingRecommendationVendor.
+const (
+	AiSavingRecommendationVendorAmazon     AiSavingRecommendationVendor = "amazon"
+	AiSavingRecommendationVendorAnthropic  AiSavingRecommendationVendor = "anthropic"
+	AiSavingRecommendationVendorCohere     AiSavingRecommendationVendor = "cohere"
+	AiSavingRecommendationVendorDatabricks AiSavingRecommendationVendor = "databricks"
+	AiSavingRecommendationVendorDeepseek   AiSavingRecommendationVendor = "deepseek"
+	AiSavingRecommendationVendorGoogle     AiSavingRecommendationVendor = "google"
+	AiSavingRecommendationVendorMeta       AiSavingRecommendationVendor = "meta"
+	AiSavingRecommendationVendorMicrosoft  AiSavingRecommendationVendor = "microsoft"
+	AiSavingRecommendationVendorMistral    AiSavingRecommendationVendor = "mistral"
+	AiSavingRecommendationVendorNvidia     AiSavingRecommendationVendor = "nvidia"
+	AiSavingRecommendationVendorOpenai     AiSavingRecommendationVendor = "openai"
+	AiSavingRecommendationVendorSnowflake  AiSavingRecommendationVendor = "snowflake"
+	AiSavingRecommendationVendorUnknown    AiSavingRecommendationVendor = "unknown"
+	AiSavingRecommendationVendorXai        AiSavingRecommendationVendor = "xai"
+)
+
 // Defines values for AiSeatCountInvoicer.
 const (
 	AiSeatCountInvoicerAnthropic  AiSeatCountInvoicer = "anthropic"
@@ -738,6 +792,35 @@ const (
 const (
 	NeedsCurrentCost AiSpendResponseNotReadableReason = "needs_current_cost"
 	NotSyncedYet     AiSpendResponseNotReadableReason = "not_synced_yet"
+)
+
+// Defines values for AiUncoveredSpendInvoicer.
+const (
+	AiUncoveredSpendInvoicerAnthropic  AiUncoveredSpendInvoicer = "anthropic"
+	AiUncoveredSpendInvoicerAws        AiUncoveredSpendInvoicer = "aws"
+	AiUncoveredSpendInvoicerAzure      AiUncoveredSpendInvoicer = "azure"
+	AiUncoveredSpendInvoicerCohere     AiUncoveredSpendInvoicer = "cohere"
+	AiUncoveredSpendInvoicerCoreweave  AiUncoveredSpendInvoicer = "coreweave"
+	AiUncoveredSpendInvoicerCrusoe     AiUncoveredSpendInvoicer = "crusoe"
+	AiUncoveredSpendInvoicerCursor     AiUncoveredSpendInvoicer = "cursor"
+	AiUncoveredSpendInvoicerDatabricks AiUncoveredSpendInvoicer = "databricks"
+	AiUncoveredSpendInvoicerGcp        AiUncoveredSpendInvoicer = "gcp"
+	AiUncoveredSpendInvoicerGithub     AiUncoveredSpendInvoicer = "github"
+	AiUncoveredSpendInvoicerLambda     AiUncoveredSpendInvoicer = "lambda"
+	AiUncoveredSpendInvoicerMicrosoft  AiUncoveredSpendInvoicer = "microsoft"
+	AiUncoveredSpendInvoicerMistral    AiUncoveredSpendInvoicer = "mistral"
+	AiUncoveredSpendInvoicerNebius     AiUncoveredSpendInvoicer = "nebius"
+	AiUncoveredSpendInvoicerOci        AiUncoveredSpendInvoicer = "oci"
+	AiUncoveredSpendInvoicerOpenai     AiUncoveredSpendInvoicer = "openai"
+	AiUncoveredSpendInvoicerOpenrouter AiUncoveredSpendInvoicer = "openrouter"
+	AiUncoveredSpendInvoicerSnowflake  AiUncoveredSpendInvoicer = "snowflake"
+	AiUncoveredSpendInvoicerXai        AiUncoveredSpendInvoicer = "xai"
+)
+
+// Defines values for AiUncoveredSpendReason.
+const (
+	AiUncoveredSpendReasonNoPo   AiUncoveredSpendReason = "no_po"
+	AiUncoveredSpendReasonOverPo AiUncoveredSpendReason = "over_po"
 )
 
 // Defines values for AiUsageLineCreditsUnit.
@@ -5041,10 +5124,10 @@ const (
 
 // Defines values for SupplierRiskScreeningState.
 const (
-	Attention SupplierRiskScreeningState = "attention"
-	Blocked   SupplierRiskScreeningState = "blocked"
-	None      SupplierRiskScreeningState = "none"
-	Ok        SupplierRiskScreeningState = "ok"
+	SupplierRiskScreeningStateAttention SupplierRiskScreeningState = "attention"
+	SupplierRiskScreeningStateBlocked   SupplierRiskScreeningState = "blocked"
+	SupplierRiskScreeningStateNone      SupplierRiskScreeningState = "none"
+	SupplierRiskScreeningStateOk        SupplierRiskScreeningState = "ok"
 )
 
 // Defines values for SupplierRiskScreeningStatus.
@@ -5067,10 +5150,10 @@ const (
 
 // Defines values for SupplierScreeningStatus.
 const (
-	Clear          SupplierScreeningStatus = "clear"
-	ConfirmedMatch SupplierScreeningStatus = "confirmed_match"
-	NotScreened    SupplierScreeningStatus = "not_screened"
-	PossibleMatch  SupplierScreeningStatus = "possible_match"
+	SupplierScreeningStatusClear          SupplierScreeningStatus = "clear"
+	SupplierScreeningStatusConfirmedMatch SupplierScreeningStatus = "confirmed_match"
+	SupplierScreeningStatusNotScreened    SupplierScreeningStatus = "not_screened"
+	SupplierScreeningStatusPossibleMatch  SupplierScreeningStatus = "possible_match"
 )
 
 // Defines values for SupplierSettlementViewSource.
@@ -5711,6 +5794,27 @@ type AiCostCentersResponse struct {
 	} `json:"unattributed,omitempty"`
 }
 
+// AiDraftOrdersResult defines model for AiDraftOrdersResult.
+type AiDraftOrdersResult struct {
+	Drafts *[]struct {
+		Currency   *string  `json:"currency,omitempty"`
+		InvoicerId *string  `json:"invoicerId,omitempty"`
+		PoId       *string  `json:"poId,omitempty"`
+		Total      *float64 `json:"total,omitempty"`
+	} `json:"drafts,omitempty"`
+	Period  *string `json:"period,omitempty"`
+	Skipped *[]struct {
+		InvoicerId *string                           `json:"invoicerId,omitempty"`
+		Message    *string                           `json:"message,omitempty"`
+		MessageId  *string                           `json:"messageId,omitempty"`
+		Params     *map[string]string                `json:"params,omitempty"`
+		Reason     *AiDraftOrdersResultSkippedReason `json:"reason,omitempty"`
+	} `json:"skipped,omitempty"`
+}
+
+// AiDraftOrdersResultSkippedReason defines model for AiDraftOrdersResult.Skipped.Reason.
+type AiDraftOrdersResultSkippedReason string
+
 // AiLimitCredential defines model for AiLimitCredential.
 type AiLimitCredential struct {
 	Aws *struct {
@@ -5921,6 +6025,14 @@ type AiRateCardEntryUnit string
 // AiRateCardEntryVendor defines model for AiRateCardEntry.Vendor.
 type AiRateCardEntryVendor string
 
+// AiRecommendations defines model for AiRecommendations.
+type AiRecommendations struct {
+	BasisPeriod *string                   `json:"basisPeriod,omitempty"`
+	Period      *string                   `json:"period,omitempty"`
+	Savings     *[]AiSavingRecommendation `json:"savings,omitempty"`
+	Uncovered   *[]AiUncoveredSpend       `json:"uncovered,omitempty"`
+}
+
 // AiRenewalRule defines model for AiRenewalRule.
 type AiRenewalRule struct {
 	DayOfMonth *float64 `json:"dayOfMonth,omitempty"`
@@ -5937,6 +6049,38 @@ type AiRenewalRule struct {
 	OwnerSub  *string `json:"ownerSub,omitempty"`
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
+
+// AiSavingRecommendation defines model for AiSavingRecommendation.
+type AiSavingRecommendation struct {
+	Currency *string `json:"currency,omitempty"`
+	Detail   *struct {
+		BatchRate         *float64 `json:"batchRate,omitempty"`
+		CachedRate        *float64 `json:"cachedRate,omitempty"`
+		CachedShare       *float64 `json:"cachedShare,omitempty"`
+		DaysUsed          *float64 `json:"daysUsed,omitempty"`
+		InputRate         *float64 `json:"inputRate,omitempty"`
+		InteractiveRate   *float64 `json:"interactiveRate,omitempty"`
+		ReservableUnits   *float64 `json:"reservableUnits,omitempty"`
+		SteadyHoursPerDay *float64 `json:"steadyHoursPerDay,omitempty"`
+	} `json:"detail,omitempty"`
+	Invoicer   *AiSavingRecommendationInvoicer `json:"invoicer,omitempty"`
+	InvoicerId *string                         `json:"invoicerId,omitempty"`
+	Kind       *AiSavingRecommendationKind     `json:"kind,omitempty"`
+	Label      *string                         `json:"label,omitempty"`
+	Model      *string                         `json:"model,omitempty"`
+	Saving     *float64                        `json:"saving,omitempty"`
+	Spend      *float64                        `json:"spend,omitempty"`
+	Vendor     *AiSavingRecommendationVendor   `json:"vendor,omitempty"`
+}
+
+// AiSavingRecommendationInvoicer defines model for AiSavingRecommendation.Invoicer.
+type AiSavingRecommendationInvoicer string
+
+// AiSavingRecommendationKind defines model for AiSavingRecommendation.Kind.
+type AiSavingRecommendationKind string
+
+// AiSavingRecommendationVendor defines model for AiSavingRecommendation.Vendor.
+type AiSavingRecommendationVendor string
 
 // AiSeatCount defines model for AiSeatCount.
 type AiSeatCount struct {
@@ -6096,6 +6240,26 @@ type AiSpendUnattributed struct {
 	MonthToDate *float64           `json:"monthToDate,omitempty"`
 	Quantities  *[]AiMeterQuantity `json:"quantities,omitempty"`
 }
+
+// AiUncoveredSpend defines model for AiUncoveredSpend.
+type AiUncoveredSpend struct {
+	Covered     *float64                  `json:"covered,omitempty"`
+	Currency    *string                   `json:"currency,omitempty"`
+	Forecast    *float64                  `json:"forecast,omitempty"`
+	Gap         *float64                  `json:"gap,omitempty"`
+	Invoicer    *AiUncoveredSpendInvoicer `json:"invoicer,omitempty"`
+	InvoicerId  *string                   `json:"invoicerId,omitempty"`
+	Label       *string                   `json:"label,omitempty"`
+	MonthToDate *float64                  `json:"monthToDate,omitempty"`
+	PoIds       *[]string                 `json:"poIds,omitempty"`
+	Reason      *AiUncoveredSpendReason   `json:"reason,omitempty"`
+}
+
+// AiUncoveredSpendInvoicer defines model for AiUncoveredSpend.Invoicer.
+type AiUncoveredSpendInvoicer string
+
+// AiUncoveredSpendReason defines model for AiUncoveredSpend.Reason.
+type AiUncoveredSpendReason string
 
 // AiUsageLine defines model for AiUsageLine.
 type AiUsageLine struct {
@@ -8270,6 +8434,15 @@ type DiscoverAzureScopesInput struct {
 
 	// AzureTenantId The Microsoft Entra tenant the app was registered in (GUID).
 	AzureTenantId string `json:"azureTenantId"`
+}
+
+// DraftAiOrdersInput defines model for DraftAiOrdersInput.
+type DraftAiOrdersInput struct {
+	// InvoicerIds The invoicers (cloud accounts or AI provider connections) to draft an order for: the ones recommendations lists under uncovered.
+	InvoicerIds []string `json:"invoicerIds"`
+
+	// Period The month the orders cover, YYYY-MM. Default this month.
+	Period *string `json:"period,omitempty"`
 }
 
 // EmployeeSummary defines model for EmployeeSummary.
@@ -13868,6 +14041,11 @@ type SuggestAiPoLinesParams struct {
 	Period     *string `form:"period,omitempty" json:"period,omitempty"`
 }
 
+// GetAiRecommendationsParams defines parameters for GetAiRecommendations.
+type GetAiRecommendationsParams struct {
+	Period *string `form:"period,omitempty" json:"period,omitempty"`
+}
+
 // ListAiSeatCountsParams defines parameters for ListAiSeatCounts.
 type ListAiSeatCountsParams struct {
 	Period *string `form:"period,omitempty" json:"period,omitempty"`
@@ -14136,6 +14314,9 @@ type SetAiAttributionJSONRequestBody = SetAiAttributionInput
 
 // CheckAiSpendJSONRequestBody defines body for CheckAiSpend for application/json ContentType.
 type CheckAiSpendJSONRequestBody = CheckAiSpendInput
+
+// DraftAiOrdersJSONRequestBody defines body for DraftAiOrders for application/json ContentType.
+type DraftAiOrdersJSONRequestBody = DraftAiOrdersInput
 
 // SetAiLimitCredentialJSONRequestBody defines body for SetAiLimitCredential for application/json ContentType.
 type SetAiLimitCredentialJSONRequestBody = SetAiLimitCredentialInput
@@ -17180,6 +17361,11 @@ type ClientInterface interface {
 	// ListAiCostCenters request
 	ListAiCostCenters(ctx context.Context, params *ListAiCostCentersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// DraftAiOrdersWithBody request with any body
+	DraftAiOrdersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	DraftAiOrders(ctx context.Context, body DraftAiOrdersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// RemoveAiLimitCredential request
 	RemoveAiLimitCredential(ctx context.Context, invoicerId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -17207,6 +17393,9 @@ type ClientInterface interface {
 
 	// SuggestAiPoLines request
 	SuggestAiPoLines(ctx context.Context, params *SuggestAiPoLinesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetAiRecommendations request
+	GetAiRecommendations(ctx context.Context, params *GetAiRecommendationsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetAiRenewalRule request
 	GetAiRenewalRule(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -17839,6 +18028,30 @@ func (c *RawClient) ListAiCostCenters(ctx context.Context, params *ListAiCostCen
 	return c.Client.Do(req)
 }
 
+func (c *RawClient) DraftAiOrdersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDraftAiOrdersRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) DraftAiOrders(ctx context.Context, body DraftAiOrdersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDraftAiOrdersRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *RawClient) RemoveAiLimitCredential(ctx context.Context, invoicerId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewRemoveAiLimitCredentialRequest(c.Server, invoicerId)
 	if err != nil {
@@ -17949,6 +18162,18 @@ func (c *RawClient) RaiseNextAiPeriod(ctx context.Context, poId string, reqEdito
 
 func (c *RawClient) SuggestAiPoLines(ctx context.Context, params *SuggestAiPoLinesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSuggestAiPoLinesRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetAiRecommendations(ctx context.Context, params *GetAiRecommendationsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAiRecommendationsRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -20430,6 +20655,46 @@ func NewListAiCostCentersRequest(server string, params *ListAiCostCentersParams)
 	return req, nil
 }
 
+// NewDraftAiOrdersRequest calls the generic DraftAiOrders builder with application/json body
+func NewDraftAiOrdersRequest(server string, body DraftAiOrdersJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDraftAiOrdersRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDraftAiOrdersRequestWithBody generates requests for DraftAiOrders with any type of body
+func NewDraftAiOrdersRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/draft-orders")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewRemoveAiLimitCredentialRequest generates requests for RemoveAiLimitCredential
 func NewRemoveAiLimitCredentialRequest(server string, invoicerId string) (*http.Request, error) {
 	var err error
@@ -20849,6 +21114,55 @@ func NewSuggestAiPoLinesRequest(server string, params *SuggestAiPoLinesParams) (
 			}
 
 		}
+
+		if params.Period != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "period", runtime.ParamLocationQuery, *params.Period); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetAiRecommendationsRequest generates requests for GetAiRecommendations
+func NewGetAiRecommendationsRequest(server string, params *GetAiRecommendationsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ai-spend/recommendations")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
 
 		if params.Period != nil {
 
@@ -26392,6 +26706,11 @@ type ClientWithResponsesInterface interface {
 	// ListAiCostCentersWithResponse request
 	ListAiCostCentersWithResponse(ctx context.Context, params *ListAiCostCentersParams, reqEditors ...RequestEditorFn) (*ListAiCostCentersResponse, error)
 
+	// DraftAiOrdersWithBodyWithResponse request with any body
+	DraftAiOrdersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DraftAiOrdersResponse, error)
+
+	DraftAiOrdersWithResponse(ctx context.Context, body DraftAiOrdersJSONRequestBody, reqEditors ...RequestEditorFn) (*DraftAiOrdersResponse, error)
+
 	// RemoveAiLimitCredentialWithResponse request
 	RemoveAiLimitCredentialWithResponse(ctx context.Context, invoicerId string, reqEditors ...RequestEditorFn) (*RemoveAiLimitCredentialResponse, error)
 
@@ -26419,6 +26738,9 @@ type ClientWithResponsesInterface interface {
 
 	// SuggestAiPoLinesWithResponse request
 	SuggestAiPoLinesWithResponse(ctx context.Context, params *SuggestAiPoLinesParams, reqEditors ...RequestEditorFn) (*SuggestAiPoLinesResponse, error)
+
+	// GetAiRecommendationsWithResponse request
+	GetAiRecommendationsWithResponse(ctx context.Context, params *GetAiRecommendationsParams, reqEditors ...RequestEditorFn) (*GetAiRecommendationsResponse, error)
 
 	// GetAiRenewalRuleWithResponse request
 	GetAiRenewalRuleWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAiRenewalRuleResponse, error)
@@ -27158,6 +27480,29 @@ func (r ListAiCostCentersResponse) StatusCode() int {
 	return 0
 }
 
+type DraftAiOrdersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiDraftOrdersResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r DraftAiOrdersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DraftAiOrdersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type RemoveAiLimitCredentialResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -27336,6 +27681,29 @@ func (r SuggestAiPoLinesResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r SuggestAiPoLinesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetAiRecommendationsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AiRecommendations
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetAiRecommendationsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetAiRecommendationsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -30237,6 +30605,23 @@ func (c *ClientWithResponses) ListAiCostCentersWithResponse(ctx context.Context,
 	return ParseListAiCostCentersResponse(rsp)
 }
 
+// DraftAiOrdersWithBodyWithResponse request with arbitrary body returning *DraftAiOrdersResponse
+func (c *ClientWithResponses) DraftAiOrdersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DraftAiOrdersResponse, error) {
+	rsp, err := c.DraftAiOrdersWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDraftAiOrdersResponse(rsp)
+}
+
+func (c *ClientWithResponses) DraftAiOrdersWithResponse(ctx context.Context, body DraftAiOrdersJSONRequestBody, reqEditors ...RequestEditorFn) (*DraftAiOrdersResponse, error) {
+	rsp, err := c.DraftAiOrders(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDraftAiOrdersResponse(rsp)
+}
+
 // RemoveAiLimitCredentialWithResponse request returning *RemoveAiLimitCredentialResponse
 func (c *ClientWithResponses) RemoveAiLimitCredentialWithResponse(ctx context.Context, invoicerId string, reqEditors ...RequestEditorFn) (*RemoveAiLimitCredentialResponse, error) {
 	rsp, err := c.RemoveAiLimitCredential(ctx, invoicerId, reqEditors...)
@@ -30323,6 +30708,15 @@ func (c *ClientWithResponses) SuggestAiPoLinesWithResponse(ctx context.Context, 
 		return nil, err
 	}
 	return ParseSuggestAiPoLinesResponse(rsp)
+}
+
+// GetAiRecommendationsWithResponse request returning *GetAiRecommendationsResponse
+func (c *ClientWithResponses) GetAiRecommendationsWithResponse(ctx context.Context, params *GetAiRecommendationsParams, reqEditors ...RequestEditorFn) (*GetAiRecommendationsResponse, error) {
+	rsp, err := c.GetAiRecommendations(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetAiRecommendationsResponse(rsp)
 }
 
 // GetAiRenewalRuleWithResponse request returning *GetAiRenewalRuleResponse
@@ -32146,6 +32540,39 @@ func ParseListAiCostCentersResponse(rsp *http.Response) (*ListAiCostCentersRespo
 	return response, nil
 }
 
+// ParseDraftAiOrdersResponse parses an HTTP response from a DraftAiOrdersWithResponse call
+func ParseDraftAiOrdersResponse(rsp *http.Response) (*DraftAiOrdersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DraftAiOrdersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiDraftOrdersResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseRemoveAiLimitCredentialResponse parses an HTTP response from a RemoveAiLimitCredentialWithResponse call
 func ParseRemoveAiLimitCredentialResponse(rsp *http.Response) (*RemoveAiLimitCredentialResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -32393,6 +32820,39 @@ func ParseSuggestAiPoLinesResponse(rsp *http.Response) (*SuggestAiPoLinesRespons
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest AiPoLineSuggestions
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetAiRecommendationsResponse parses an HTTP response from a GetAiRecommendationsWithResponse call
+func ParseGetAiRecommendationsResponse(rsp *http.Response) (*GetAiRecommendationsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetAiRecommendationsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AiRecommendations
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
