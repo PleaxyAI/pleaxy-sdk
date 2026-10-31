@@ -91,6 +91,8 @@ impl Default for Audience {
 pub enum Type {
     #[serde(rename = "ai_forecast_over_budget")]
     AiForecastOverBudget,
+    #[serde(rename = "ai_drafts_ready")]
+    AiDraftsReady,
     #[serde(rename = "report_ready")]
     ReportReady,
     #[serde(rename = "company_report_ready")]

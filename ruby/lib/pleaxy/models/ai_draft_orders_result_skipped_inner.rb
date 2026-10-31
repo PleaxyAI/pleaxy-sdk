@@ -19,6 +19,8 @@ module Pleaxy
 
     attr_accessor :reason
 
+    attr_accessor :po_id
+
     attr_accessor :message
 
     attr_accessor :message_id
@@ -52,6 +54,7 @@ module Pleaxy
       {
         :'invoicer_id' => :'invoicerId',
         :'reason' => :'reason',
+        :'po_id' => :'poId',
         :'message' => :'message',
         :'message_id' => :'messageId',
         :'params' => :'params'
@@ -68,6 +71,7 @@ module Pleaxy
       {
         :'invoicer_id' => :'String',
         :'reason' => :'String',
+        :'po_id' => :'String',
         :'message' => :'String',
         :'message_id' => :'String',
         :'params' => :'Hash<String, String>'
@@ -103,6 +107,10 @@ module Pleaxy
         self.reason = attributes[:'reason']
       end
 
+      if attributes.key?(:'po_id')
+        self.po_id = attributes[:'po_id']
+      end
+
       if attributes.key?(:'message')
         self.message = attributes[:'message']
       end
@@ -130,7 +138,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      reason_validator = EnumAttributeValidator.new('String', ["no_usage", "no_supplier", "no_forecast"])
+      reason_validator = EnumAttributeValidator.new('String', ["no_usage", "no_supplier", "no_forecast", "already_drafted"])
       return false unless reason_validator.valid?(@reason)
       true
     end
@@ -138,7 +146,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] reason Object to be assigned
     def reason=(reason)
-      validator = EnumAttributeValidator.new('String', ["no_usage", "no_supplier", "no_forecast"])
+      validator = EnumAttributeValidator.new('String', ["no_usage", "no_supplier", "no_forecast", "already_drafted"])
       unless validator.valid?(reason)
         fail ArgumentError, "invalid value for \"reason\", must be one of #{validator.allowable_values}."
       end
@@ -152,6 +160,7 @@ module Pleaxy
       self.class == o.class &&
           invoicer_id == o.invoicer_id &&
           reason == o.reason &&
+          po_id == o.po_id &&
           message == o.message &&
           message_id == o.message_id &&
           params == o.params
@@ -166,7 +175,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [invoicer_id, reason, message, message_id, params].hash
+      [invoicer_id, reason, po_id, message, message_id, params].hash
     end
 
     # Builds the object from hash

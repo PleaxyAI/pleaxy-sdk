@@ -33,6 +33,10 @@ pub struct AiUncoveredSpend {
     pub reason: Option<Reason>,
     #[serde(rename = "poIds", skip_serializing_if = "Option::is_none")]
     pub po_ids: Option<Vec<String>>,
+    #[serde(rename = "draftPoIds", skip_serializing_if = "Option::is_none")]
+    pub draft_po_ids: Option<Vec<String>>,
+    #[serde(rename = "pendingPoIds", skip_serializing_if = "Option::is_none")]
+    pub pending_po_ids: Option<Vec<String>>,
 }
 
 impl AiUncoveredSpend {
@@ -48,6 +52,8 @@ impl AiUncoveredSpend {
             gap: None,
             reason: None,
             po_ids: None,
+            draft_po_ids: None,
+            pending_po_ids: None,
         }
     }
 }

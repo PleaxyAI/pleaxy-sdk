@@ -27,6 +27,14 @@ module Pleaxy
 
     attr_accessor :last_run
 
+    attr_accessor :draft_uncovered
+
+    attr_accessor :uncovered_checked_on
+
+    attr_accessor :uncovered_drafted
+
+    attr_accessor :last_uncovered_run
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -35,7 +43,11 @@ module Pleaxy
         :'owner_sub' => :'ownerSub',
         :'updated_at' => :'updatedAt',
         :'drafted_for' => :'draftedFor',
-        :'last_run' => :'lastRun'
+        :'last_run' => :'lastRun',
+        :'draft_uncovered' => :'draftUncovered',
+        :'uncovered_checked_on' => :'uncoveredCheckedOn',
+        :'uncovered_drafted' => :'uncoveredDrafted',
+        :'last_uncovered_run' => :'lastUncoveredRun'
       }
     end
 
@@ -52,7 +64,11 @@ module Pleaxy
         :'owner_sub' => :'String',
         :'updated_at' => :'String',
         :'drafted_for' => :'String',
-        :'last_run' => :'AiRenewalRuleLastRun'
+        :'last_run' => :'AiRenewalRuleLastRun',
+        :'draft_uncovered' => :'Boolean',
+        :'uncovered_checked_on' => :'String',
+        :'uncovered_drafted' => :'AiRenewalRuleUncoveredDrafted',
+        :'last_uncovered_run' => :'AiRenewalRuleLastUncoveredRun'
       }
     end
 
@@ -100,6 +116,22 @@ module Pleaxy
       if attributes.key?(:'last_run')
         self.last_run = attributes[:'last_run']
       end
+
+      if attributes.key?(:'draft_uncovered')
+        self.draft_uncovered = attributes[:'draft_uncovered']
+      end
+
+      if attributes.key?(:'uncovered_checked_on')
+        self.uncovered_checked_on = attributes[:'uncovered_checked_on']
+      end
+
+      if attributes.key?(:'uncovered_drafted')
+        self.uncovered_drafted = attributes[:'uncovered_drafted']
+      end
+
+      if attributes.key?(:'last_uncovered_run')
+        self.last_uncovered_run = attributes[:'last_uncovered_run']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -127,7 +159,11 @@ module Pleaxy
           owner_sub == o.owner_sub &&
           updated_at == o.updated_at &&
           drafted_for == o.drafted_for &&
-          last_run == o.last_run
+          last_run == o.last_run &&
+          draft_uncovered == o.draft_uncovered &&
+          uncovered_checked_on == o.uncovered_checked_on &&
+          uncovered_drafted == o.uncovered_drafted &&
+          last_uncovered_run == o.last_uncovered_run
     end
 
     # @see the `==` method
@@ -139,7 +175,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [enabled, day_of_month, owner_sub, updated_at, drafted_for, last_run].hash
+      [enabled, day_of_month, owner_sub, updated_at, drafted_for, last_run, draft_uncovered, uncovered_checked_on, uncovered_drafted, last_uncovered_run].hash
     end
 
     # Builds the object from hash

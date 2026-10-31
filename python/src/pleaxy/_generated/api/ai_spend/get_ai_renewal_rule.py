@@ -47,7 +47,8 @@ def sync_detailed(
     client: Union[AuthenticatedClient, Client],
 ) -> Response[AiRenewalRule]:
     """[Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast,
-    from which day of the month, and its last run. 'view' on purchase orders.
+    from which day of the month, whether this month's uncovered spend is drafted too, and their last
+    runs. 'view' on purchase orders.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -71,7 +72,8 @@ def sync(
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[AiRenewalRule]:
     """[Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast,
-    from which day of the month, and its last run. 'view' on purchase orders.
+    from which day of the month, whether this month's uncovered spend is drafted too, and their last
+    runs. 'view' on purchase orders.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -91,7 +93,8 @@ async def asyncio_detailed(
     client: Union[AuthenticatedClient, Client],
 ) -> Response[AiRenewalRule]:
     """[Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast,
-    from which day of the month, and its last run. 'view' on purchase orders.
+    from which day of the month, whether this month's uncovered spend is drafted too, and their last
+    runs. 'view' on purchase orders.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -113,7 +116,8 @@ async def asyncio(
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[AiRenewalRule]:
     """[Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast,
-    from which day of the month, and its last run. 'view' on purchase orders.
+    from which day of the month, whether this month's uncovered spend is drafted too, and their last
+    runs. 'view' on purchase orders.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -7,6 +7,10 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.ai_renewal_rule_last_run import AiRenewalRuleLastRun
+    from ..models.ai_renewal_rule_last_uncovered_run import (
+        AiRenewalRuleLastUncoveredRun,
+    )
+    from ..models.ai_renewal_rule_uncovered_drafted import AiRenewalRuleUncoveredDrafted
 
 
 T = TypeVar("T", bound="AiRenewalRule")
@@ -22,6 +26,10 @@ class AiRenewalRule:
         updated_at (Union[Unset, str]):
         drafted_for (Union[Unset, str]):
         last_run (Union[Unset, AiRenewalRuleLastRun]):
+        draft_uncovered (Union[Unset, bool]):
+        uncovered_checked_on (Union[Unset, str]):
+        uncovered_drafted (Union[Unset, AiRenewalRuleUncoveredDrafted]):
+        last_uncovered_run (Union[Unset, AiRenewalRuleLastUncoveredRun]):
     """
 
     enabled: Union[Unset, bool] = UNSET
@@ -30,6 +38,10 @@ class AiRenewalRule:
     updated_at: Union[Unset, str] = UNSET
     drafted_for: Union[Unset, str] = UNSET
     last_run: Union[Unset, "AiRenewalRuleLastRun"] = UNSET
+    draft_uncovered: Union[Unset, bool] = UNSET
+    uncovered_checked_on: Union[Unset, str] = UNSET
+    uncovered_drafted: Union[Unset, "AiRenewalRuleUncoveredDrafted"] = UNSET
+    last_uncovered_run: Union[Unset, "AiRenewalRuleLastUncoveredRun"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -47,6 +59,18 @@ class AiRenewalRule:
         if not isinstance(self.last_run, Unset):
             last_run = self.last_run.to_dict()
 
+        draft_uncovered = self.draft_uncovered
+
+        uncovered_checked_on = self.uncovered_checked_on
+
+        uncovered_drafted: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.uncovered_drafted, Unset):
+            uncovered_drafted = self.uncovered_drafted.to_dict()
+
+        last_uncovered_run: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.last_uncovered_run, Unset):
+            last_uncovered_run = self.last_uncovered_run.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -62,12 +86,26 @@ class AiRenewalRule:
             field_dict["draftedFor"] = drafted_for
         if last_run is not UNSET:
             field_dict["lastRun"] = last_run
+        if draft_uncovered is not UNSET:
+            field_dict["draftUncovered"] = draft_uncovered
+        if uncovered_checked_on is not UNSET:
+            field_dict["uncoveredCheckedOn"] = uncovered_checked_on
+        if uncovered_drafted is not UNSET:
+            field_dict["uncoveredDrafted"] = uncovered_drafted
+        if last_uncovered_run is not UNSET:
+            field_dict["lastUncoveredRun"] = last_uncovered_run
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.ai_renewal_rule_last_run import AiRenewalRuleLastRun
+        from ..models.ai_renewal_rule_last_uncovered_run import (
+            AiRenewalRuleLastUncoveredRun,
+        )
+        from ..models.ai_renewal_rule_uncovered_drafted import (
+            AiRenewalRuleUncoveredDrafted,
+        )
 
         d = src_dict.copy()
         enabled = d.pop("enabled", UNSET)
@@ -87,6 +125,28 @@ class AiRenewalRule:
         else:
             last_run = AiRenewalRuleLastRun.from_dict(_last_run)
 
+        draft_uncovered = d.pop("draftUncovered", UNSET)
+
+        uncovered_checked_on = d.pop("uncoveredCheckedOn", UNSET)
+
+        _uncovered_drafted = d.pop("uncoveredDrafted", UNSET)
+        uncovered_drafted: Union[Unset, AiRenewalRuleUncoveredDrafted]
+        if isinstance(_uncovered_drafted, Unset):
+            uncovered_drafted = UNSET
+        else:
+            uncovered_drafted = AiRenewalRuleUncoveredDrafted.from_dict(
+                _uncovered_drafted
+            )
+
+        _last_uncovered_run = d.pop("lastUncoveredRun", UNSET)
+        last_uncovered_run: Union[Unset, AiRenewalRuleLastUncoveredRun]
+        if isinstance(_last_uncovered_run, Unset):
+            last_uncovered_run = UNSET
+        else:
+            last_uncovered_run = AiRenewalRuleLastUncoveredRun.from_dict(
+                _last_uncovered_run
+            )
+
         ai_renewal_rule = cls(
             enabled=enabled,
             day_of_month=day_of_month,
@@ -94,6 +154,10 @@ class AiRenewalRule:
             updated_at=updated_at,
             drafted_for=drafted_for,
             last_run=last_run,
+            draft_uncovered=draft_uncovered,
+            uncovered_checked_on=uncovered_checked_on,
+            uncovered_drafted=uncovered_drafted,
+            last_uncovered_run=last_uncovered_run,
         )
 
         ai_renewal_rule.additional_properties = d

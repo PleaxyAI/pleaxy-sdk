@@ -35,6 +35,10 @@ module Pleaxy
 
     attr_accessor :po_ids
 
+    attr_accessor :draft_po_ids
+
+    attr_accessor :pending_po_ids
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -69,7 +73,9 @@ module Pleaxy
         :'covered' => :'covered',
         :'gap' => :'gap',
         :'reason' => :'reason',
-        :'po_ids' => :'poIds'
+        :'po_ids' => :'poIds',
+        :'draft_po_ids' => :'draftPoIds',
+        :'pending_po_ids' => :'pendingPoIds'
       }
     end
 
@@ -90,7 +96,9 @@ module Pleaxy
         :'covered' => :'Float',
         :'gap' => :'Float',
         :'reason' => :'String',
-        :'po_ids' => :'Array<String>'
+        :'po_ids' => :'Array<String>',
+        :'draft_po_ids' => :'Array<String>',
+        :'pending_po_ids' => :'Array<String>'
       }
     end
 
@@ -156,6 +164,18 @@ module Pleaxy
           self.po_ids = value
         end
       end
+
+      if attributes.key?(:'draft_po_ids')
+        if (value = attributes[:'draft_po_ids']).is_a?(Array)
+          self.draft_po_ids = value
+        end
+      end
+
+      if attributes.key?(:'pending_po_ids')
+        if (value = attributes[:'pending_po_ids']).is_a?(Array)
+          self.pending_po_ids = value
+        end
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -211,7 +231,9 @@ module Pleaxy
           covered == o.covered &&
           gap == o.gap &&
           reason == o.reason &&
-          po_ids == o.po_ids
+          po_ids == o.po_ids &&
+          draft_po_ids == o.draft_po_ids &&
+          pending_po_ids == o.pending_po_ids
     end
 
     # @see the `==` method
@@ -223,7 +245,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [invoicer_id, invoicer, label, currency, month_to_date, forecast, covered, gap, reason, po_ids].hash
+      [invoicer_id, invoicer, label, currency, month_to_date, forecast, covered, gap, reason, po_ids, draft_po_ids, pending_po_ids].hash
     end
 
     # Builds the object from hash

@@ -61,8 +61,10 @@ def sync_detailed(
 ) -> Response[AiRenewalRule]:
     """[Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25),
     once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast,
-    as the person who switched it on. Drafts go through the usual approval. Logged-in users only,
-    'create' on purchase orders.
+    as the person who switched it on. With draftUncovered, it also drafts an order for this month's
+    spend no order covers, once per provider or account a month, from the 3rd, and tells that person the
+    drafts are ready. Drafts are never submitted: a person reviews them and they go through the usual
+    approval. Logged-in users only, 'create' on purchase orders.
 
     Args:
         body (SetAiRenewalRuleInput):
@@ -93,8 +95,10 @@ def sync(
 ) -> Optional[AiRenewalRule]:
     """[Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25),
     once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast,
-    as the person who switched it on. Drafts go through the usual approval. Logged-in users only,
-    'create' on purchase orders.
+    as the person who switched it on. With draftUncovered, it also drafts an order for this month's
+    spend no order covers, once per provider or account a month, from the 3rd, and tells that person the
+    drafts are ready. Drafts are never submitted: a person reviews them and they go through the usual
+    approval. Logged-in users only, 'create' on purchase orders.
 
     Args:
         body (SetAiRenewalRuleInput):
@@ -120,8 +124,10 @@ async def asyncio_detailed(
 ) -> Response[AiRenewalRule]:
     """[Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25),
     once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast,
-    as the person who switched it on. Drafts go through the usual approval. Logged-in users only,
-    'create' on purchase orders.
+    as the person who switched it on. With draftUncovered, it also drafts an order for this month's
+    spend no order covers, once per provider or account a month, from the 3rd, and tells that person the
+    drafts are ready. Drafts are never submitted: a person reviews them and they go through the usual
+    approval. Logged-in users only, 'create' on purchase orders.
 
     Args:
         body (SetAiRenewalRuleInput):
@@ -150,8 +156,10 @@ async def asyncio(
 ) -> Optional[AiRenewalRule]:
     """[Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25),
     once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast,
-    as the person who switched it on. Drafts go through the usual approval. Logged-in users only,
-    'create' on purchase orders.
+    as the person who switched it on. With draftUncovered, it also drafts an order for this month's
+    spend no order covers, once per provider or account a month, from the 3rd, and tells that person the
+    drafts are ready. Drafts are never submitted: a person reviews them and they go through the usual
+    approval. Logged-in users only, 'create' on purchase orders.
 
     Args:
         body (SetAiRenewalRuleInput):

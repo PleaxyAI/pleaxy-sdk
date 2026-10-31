@@ -24,6 +24,7 @@ class AiDraftOrdersResultSkippedItem:
     Attributes:
         invoicer_id (Union[Unset, str]):
         reason (Union[Unset, AiDraftOrdersResultSkippedItemReason]):
+        po_id (Union[Unset, str]):
         message (Union[Unset, str]):
         message_id (Union[Unset, str]):
         params (Union[Unset, AiDraftOrdersResultSkippedItemParams]):
@@ -31,6 +32,7 @@ class AiDraftOrdersResultSkippedItem:
 
     invoicer_id: Union[Unset, str] = UNSET
     reason: Union[Unset, AiDraftOrdersResultSkippedItemReason] = UNSET
+    po_id: Union[Unset, str] = UNSET
     message: Union[Unset, str] = UNSET
     message_id: Union[Unset, str] = UNSET
     params: Union[Unset, "AiDraftOrdersResultSkippedItemParams"] = UNSET
@@ -42,6 +44,8 @@ class AiDraftOrdersResultSkippedItem:
         reason: Union[Unset, str] = UNSET
         if not isinstance(self.reason, Unset):
             reason = self.reason
+
+        po_id = self.po_id
 
         message = self.message
 
@@ -58,6 +62,8 @@ class AiDraftOrdersResultSkippedItem:
             field_dict["invoicerId"] = invoicer_id
         if reason is not UNSET:
             field_dict["reason"] = reason
+        if po_id is not UNSET:
+            field_dict["poId"] = po_id
         if message is not UNSET:
             field_dict["message"] = message
         if message_id is not UNSET:
@@ -83,6 +89,8 @@ class AiDraftOrdersResultSkippedItem:
         else:
             reason = check_ai_draft_orders_result_skipped_item_reason(_reason)
 
+        po_id = d.pop("poId", UNSET)
+
         message = d.pop("message", UNSET)
 
         message_id = d.pop("messageId", UNSET)
@@ -97,6 +105,7 @@ class AiDraftOrdersResultSkippedItem:
         ai_draft_orders_result_skipped_item = cls(
             invoicer_id=invoicer_id,
             reason=reason,
+            po_id=po_id,
             message=message,
             message_id=message_id,
             params=params,

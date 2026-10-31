@@ -264,9 +264,10 @@ const (
 
 // Defines values for AiDraftOrdersResultSkippedReason.
 const (
-	NoForecast AiDraftOrdersResultSkippedReason = "no_forecast"
-	NoSupplier AiDraftOrdersResultSkippedReason = "no_supplier"
-	NoUsage    AiDraftOrdersResultSkippedReason = "no_usage"
+	AlreadyDrafted AiDraftOrdersResultSkippedReason = "already_drafted"
+	NoForecast     AiDraftOrdersResultSkippedReason = "no_forecast"
+	NoSupplier     AiDraftOrdersResultSkippedReason = "no_supplier"
+	NoUsage        AiDraftOrdersResultSkippedReason = "no_usage"
 )
 
 // Defines values for AiLimitCredentialInvoicer.
@@ -3749,6 +3750,7 @@ const (
 	NotificationTypeAgentConnected                   NotificationType = "agent_connected"
 	NotificationTypeAgentRequest                     NotificationType = "agent_request"
 	NotificationTypeAgentSignedOut                   NotificationType = "agent_signed_out"
+	NotificationTypeAiDraftsReady                    NotificationType = "ai_drafts_ready"
 	NotificationTypeAiForecastOverBudget             NotificationType = "ai_forecast_over_budget"
 	NotificationTypeCompanyReportReady               NotificationType = "company_report_ready"
 	NotificationTypeContractComment                  NotificationType = "contract_comment"
@@ -5822,6 +5824,7 @@ type AiDraftOrdersResult struct {
 		Message    *string                           `json:"message,omitempty"`
 		MessageId  *string                           `json:"messageId,omitempty"`
 		Params     *map[string]string                `json:"params,omitempty"`
+		PoId       *string                           `json:"poId,omitempty"`
 		Reason     *AiDraftOrdersResultSkippedReason `json:"reason,omitempty"`
 	} `json:"skipped,omitempty"`
 }
@@ -6053,10 +6056,11 @@ type AiRecommendations struct {
 
 // AiRenewalRule defines model for AiRenewalRule.
 type AiRenewalRule struct {
-	DayOfMonth *float64 `json:"dayOfMonth,omitempty"`
-	DraftedFor *string  `json:"draftedFor,omitempty"`
-	Enabled    *bool    `json:"enabled,omitempty"`
-	LastRun    *struct {
+	DayOfMonth     *float64 `json:"dayOfMonth,omitempty"`
+	DraftUncovered *bool    `json:"draftUncovered,omitempty"`
+	DraftedFor     *string  `json:"draftedFor,omitempty"`
+	Enabled        *bool    `json:"enabled,omitempty"`
+	LastRun        *struct {
 		At     *string `json:"at,omitempty"`
 		Drafts *[]struct {
 			DraftId *string `json:"draftId,omitempty"`
@@ -6064,7 +6068,20 @@ type AiRenewalRule struct {
 		} `json:"drafts,omitempty"`
 		Period *string `json:"period,omitempty"`
 	} `json:"lastRun,omitempty"`
-	OwnerSub  *string `json:"ownerSub,omitempty"`
+	LastUncoveredRun *struct {
+		At     *string `json:"at,omitempty"`
+		Drafts *[]struct {
+			InvoicerId *string `json:"invoicerId,omitempty"`
+			PoId       *string `json:"poId,omitempty"`
+		} `json:"drafts,omitempty"`
+		Period *string `json:"period,omitempty"`
+	} `json:"lastUncoveredRun,omitempty"`
+	OwnerSub           *string `json:"ownerSub,omitempty"`
+	UncoveredCheckedOn *string `json:"uncoveredCheckedOn,omitempty"`
+	UncoveredDrafted   *struct {
+		InvoicerIds *[]string `json:"invoicerIds,omitempty"`
+		Period      *string   `json:"period,omitempty"`
+	} `json:"uncoveredDrafted,omitempty"`
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
@@ -6261,16 +6278,18 @@ type AiSpendUnattributed struct {
 
 // AiUncoveredSpend defines model for AiUncoveredSpend.
 type AiUncoveredSpend struct {
-	Covered     *float64                  `json:"covered,omitempty"`
-	Currency    *string                   `json:"currency,omitempty"`
-	Forecast    *float64                  `json:"forecast,omitempty"`
-	Gap         *float64                  `json:"gap,omitempty"`
-	Invoicer    *AiUncoveredSpendInvoicer `json:"invoicer,omitempty"`
-	InvoicerId  *string                   `json:"invoicerId,omitempty"`
-	Label       *string                   `json:"label,omitempty"`
-	MonthToDate *float64                  `json:"monthToDate,omitempty"`
-	PoIds       *[]string                 `json:"poIds,omitempty"`
-	Reason      *AiUncoveredSpendReason   `json:"reason,omitempty"`
+	Covered      *float64                  `json:"covered,omitempty"`
+	Currency     *string                   `json:"currency,omitempty"`
+	DraftPoIds   *[]string                 `json:"draftPoIds,omitempty"`
+	Forecast     *float64                  `json:"forecast,omitempty"`
+	Gap          *float64                  `json:"gap,omitempty"`
+	Invoicer     *AiUncoveredSpendInvoicer `json:"invoicer,omitempty"`
+	InvoicerId   *string                   `json:"invoicerId,omitempty"`
+	Label        *string                   `json:"label,omitempty"`
+	MonthToDate  *float64                  `json:"monthToDate,omitempty"`
+	PendingPoIds *[]string                 `json:"pendingPoIds,omitempty"`
+	PoIds        *[]string                 `json:"poIds,omitempty"`
+	Reason       *AiUncoveredSpendReason   `json:"reason,omitempty"`
 }
 
 // AiUncoveredSpendInvoicer defines model for AiUncoveredSpend.Invoicer.
@@ -12877,6 +12896,9 @@ type SetAiLimitCredentialInput struct {
 type SetAiRenewalRuleInput struct {
 	// DayOfMonth The day of the month (1-28) from which the drafts are raised. Default 25.
 	DayOfMonth *float64 `json:"dayOfMonth,omitempty"`
+
+	// DraftUncovered Whether Pleaxy also drafts an order for this month's spend no order covers (GetAiRecommendations' uncovered and accounts), once per provider or account a month, from the 3rd. Drafts only: a person reviews and submits them. Unchanged when absent.
+	DraftUncovered *bool `json:"draftUncovered,omitempty"`
 
 	// Enabled Whether next month's AI orders are drafted from the forecast.
 	Enabled bool `json:"enabled"`

@@ -20,6 +20,8 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.AiRenewalRuleLastRun;
+import ai.pleaxy.model.AiRenewalRuleLastUncoveredRun;
+import ai.pleaxy.model.AiRenewalRuleUncoveredDrafted;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -39,7 +41,11 @@ import ai.pleaxy.client.ApiClient;
   AiRenewalRule.JSON_PROPERTY_OWNER_SUB,
   AiRenewalRule.JSON_PROPERTY_UPDATED_AT,
   AiRenewalRule.JSON_PROPERTY_DRAFTED_FOR,
-  AiRenewalRule.JSON_PROPERTY_LAST_RUN
+  AiRenewalRule.JSON_PROPERTY_LAST_RUN,
+  AiRenewalRule.JSON_PROPERTY_DRAFT_UNCOVERED,
+  AiRenewalRule.JSON_PROPERTY_UNCOVERED_CHECKED_ON,
+  AiRenewalRule.JSON_PROPERTY_UNCOVERED_DRAFTED,
+  AiRenewalRule.JSON_PROPERTY_LAST_UNCOVERED_RUN
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class AiRenewalRule {
@@ -66,6 +72,22 @@ public class AiRenewalRule {
   public static final String JSON_PROPERTY_LAST_RUN = "lastRun";
   @javax.annotation.Nullable
   private AiRenewalRuleLastRun lastRun;
+
+  public static final String JSON_PROPERTY_DRAFT_UNCOVERED = "draftUncovered";
+  @javax.annotation.Nullable
+  private Boolean draftUncovered;
+
+  public static final String JSON_PROPERTY_UNCOVERED_CHECKED_ON = "uncoveredCheckedOn";
+  @javax.annotation.Nullable
+  private String uncoveredCheckedOn;
+
+  public static final String JSON_PROPERTY_UNCOVERED_DRAFTED = "uncoveredDrafted";
+  @javax.annotation.Nullable
+  private AiRenewalRuleUncoveredDrafted uncoveredDrafted;
+
+  public static final String JSON_PROPERTY_LAST_UNCOVERED_RUN = "lastUncoveredRun";
+  @javax.annotation.Nullable
+  private AiRenewalRuleLastUncoveredRun lastUncoveredRun;
 
   public AiRenewalRule() { 
   }
@@ -214,6 +236,102 @@ public class AiRenewalRule {
   }
 
 
+  public AiRenewalRule draftUncovered(@javax.annotation.Nullable Boolean draftUncovered) {
+    this.draftUncovered = draftUncovered;
+    return this;
+  }
+
+  /**
+   * Get draftUncovered
+   * @return draftUncovered
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DRAFT_UNCOVERED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getDraftUncovered() {
+    return draftUncovered;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DRAFT_UNCOVERED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDraftUncovered(@javax.annotation.Nullable Boolean draftUncovered) {
+    this.draftUncovered = draftUncovered;
+  }
+
+
+  public AiRenewalRule uncoveredCheckedOn(@javax.annotation.Nullable String uncoveredCheckedOn) {
+    this.uncoveredCheckedOn = uncoveredCheckedOn;
+    return this;
+  }
+
+  /**
+   * Get uncoveredCheckedOn
+   * @return uncoveredCheckedOn
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_UNCOVERED_CHECKED_ON)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getUncoveredCheckedOn() {
+    return uncoveredCheckedOn;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_UNCOVERED_CHECKED_ON)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUncoveredCheckedOn(@javax.annotation.Nullable String uncoveredCheckedOn) {
+    this.uncoveredCheckedOn = uncoveredCheckedOn;
+  }
+
+
+  public AiRenewalRule uncoveredDrafted(@javax.annotation.Nullable AiRenewalRuleUncoveredDrafted uncoveredDrafted) {
+    this.uncoveredDrafted = uncoveredDrafted;
+    return this;
+  }
+
+  /**
+   * Get uncoveredDrafted
+   * @return uncoveredDrafted
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_UNCOVERED_DRAFTED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public AiRenewalRuleUncoveredDrafted getUncoveredDrafted() {
+    return uncoveredDrafted;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_UNCOVERED_DRAFTED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUncoveredDrafted(@javax.annotation.Nullable AiRenewalRuleUncoveredDrafted uncoveredDrafted) {
+    this.uncoveredDrafted = uncoveredDrafted;
+  }
+
+
+  public AiRenewalRule lastUncoveredRun(@javax.annotation.Nullable AiRenewalRuleLastUncoveredRun lastUncoveredRun) {
+    this.lastUncoveredRun = lastUncoveredRun;
+    return this;
+  }
+
+  /**
+   * Get lastUncoveredRun
+   * @return lastUncoveredRun
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_LAST_UNCOVERED_RUN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public AiRenewalRuleLastUncoveredRun getLastUncoveredRun() {
+    return lastUncoveredRun;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_LAST_UNCOVERED_RUN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setLastUncoveredRun(@javax.annotation.Nullable AiRenewalRuleLastUncoveredRun lastUncoveredRun) {
+    this.lastUncoveredRun = lastUncoveredRun;
+  }
+
+
   /**
    * Return true if this AiRenewalRule object is equal to o.
    */
@@ -231,12 +349,16 @@ public class AiRenewalRule {
         Objects.equals(this.ownerSub, aiRenewalRule.ownerSub) &&
         Objects.equals(this.updatedAt, aiRenewalRule.updatedAt) &&
         Objects.equals(this.draftedFor, aiRenewalRule.draftedFor) &&
-        Objects.equals(this.lastRun, aiRenewalRule.lastRun);
+        Objects.equals(this.lastRun, aiRenewalRule.lastRun) &&
+        Objects.equals(this.draftUncovered, aiRenewalRule.draftUncovered) &&
+        Objects.equals(this.uncoveredCheckedOn, aiRenewalRule.uncoveredCheckedOn) &&
+        Objects.equals(this.uncoveredDrafted, aiRenewalRule.uncoveredDrafted) &&
+        Objects.equals(this.lastUncoveredRun, aiRenewalRule.lastUncoveredRun);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(enabled, dayOfMonth, ownerSub, updatedAt, draftedFor, lastRun);
+    return Objects.hash(enabled, dayOfMonth, ownerSub, updatedAt, draftedFor, lastRun, draftUncovered, uncoveredCheckedOn, uncoveredDrafted, lastUncoveredRun);
   }
 
   @Override
@@ -249,6 +371,10 @@ public class AiRenewalRule {
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    draftedFor: ").append(toIndentedString(draftedFor)).append("\n");
     sb.append("    lastRun: ").append(toIndentedString(lastRun)).append("\n");
+    sb.append("    draftUncovered: ").append(toIndentedString(draftUncovered)).append("\n");
+    sb.append("    uncoveredCheckedOn: ").append(toIndentedString(uncoveredCheckedOn)).append("\n");
+    sb.append("    uncoveredDrafted: ").append(toIndentedString(uncoveredDrafted)).append("\n");
+    sb.append("    lastUncoveredRun: ").append(toIndentedString(lastUncoveredRun)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -324,6 +450,26 @@ public class AiRenewalRule {
     // add `lastRun` to the URL query string
     if (getLastRun() != null) {
       joiner.add(getLastRun().toUrlQueryString(prefix + "lastRun" + suffix));
+    }
+
+    // add `draftUncovered` to the URL query string
+    if (getDraftUncovered() != null) {
+      joiner.add(String.format("%sdraftUncovered%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDraftUncovered()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `uncoveredCheckedOn` to the URL query string
+    if (getUncoveredCheckedOn() != null) {
+      joiner.add(String.format("%suncoveredCheckedOn%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUncoveredCheckedOn()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `uncoveredDrafted` to the URL query string
+    if (getUncoveredDrafted() != null) {
+      joiner.add(getUncoveredDrafted().toUrlQueryString(prefix + "uncoveredDrafted" + suffix));
+    }
+
+    // add `lastUncoveredRun` to the URL query string
+    if (getLastUncoveredRun() != null) {
+      joiner.add(getLastUncoveredRun().toUrlQueryString(prefix + "lastUncoveredRun" + suffix));
     }
 
     return joiner.toString();

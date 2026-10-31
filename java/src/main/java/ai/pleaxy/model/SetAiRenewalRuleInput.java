@@ -34,7 +34,8 @@ import ai.pleaxy.client.ApiClient;
  */
 @JsonPropertyOrder({
   SetAiRenewalRuleInput.JSON_PROPERTY_ENABLED,
-  SetAiRenewalRuleInput.JSON_PROPERTY_DAY_OF_MONTH
+  SetAiRenewalRuleInput.JSON_PROPERTY_DAY_OF_MONTH,
+  SetAiRenewalRuleInput.JSON_PROPERTY_DRAFT_UNCOVERED
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class SetAiRenewalRuleInput {
@@ -45,6 +46,10 @@ public class SetAiRenewalRuleInput {
   public static final String JSON_PROPERTY_DAY_OF_MONTH = "dayOfMonth";
   @javax.annotation.Nullable
   private Double dayOfMonth;
+
+  public static final String JSON_PROPERTY_DRAFT_UNCOVERED = "draftUncovered";
+  @javax.annotation.Nullable
+  private Boolean draftUncovered;
 
   public SetAiRenewalRuleInput() { 
   }
@@ -99,6 +104,30 @@ public class SetAiRenewalRuleInput {
   }
 
 
+  public SetAiRenewalRuleInput draftUncovered(@javax.annotation.Nullable Boolean draftUncovered) {
+    this.draftUncovered = draftUncovered;
+    return this;
+  }
+
+  /**
+   * Whether Pleaxy also drafts an order for this month&#39;s spend no order covers (GetAiRecommendations&#39; uncovered and accounts), once per provider or account a month, from the 3rd. Drafts only: a person reviews and submits them. Unchanged when absent.
+   * @return draftUncovered
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DRAFT_UNCOVERED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getDraftUncovered() {
+    return draftUncovered;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DRAFT_UNCOVERED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDraftUncovered(@javax.annotation.Nullable Boolean draftUncovered) {
+    this.draftUncovered = draftUncovered;
+  }
+
+
   /**
    * Return true if this SetAiRenewalRuleInput object is equal to o.
    */
@@ -112,12 +141,13 @@ public class SetAiRenewalRuleInput {
     }
     SetAiRenewalRuleInput setAiRenewalRuleInput = (SetAiRenewalRuleInput) o;
     return Objects.equals(this.enabled, setAiRenewalRuleInput.enabled) &&
-        Objects.equals(this.dayOfMonth, setAiRenewalRuleInput.dayOfMonth);
+        Objects.equals(this.dayOfMonth, setAiRenewalRuleInput.dayOfMonth) &&
+        Objects.equals(this.draftUncovered, setAiRenewalRuleInput.draftUncovered);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(enabled, dayOfMonth);
+    return Objects.hash(enabled, dayOfMonth, draftUncovered);
   }
 
   @Override
@@ -126,6 +156,7 @@ public class SetAiRenewalRuleInput {
     sb.append("class SetAiRenewalRuleInput {\n");
     sb.append("    enabled: ").append(toIndentedString(enabled)).append("\n");
     sb.append("    dayOfMonth: ").append(toIndentedString(dayOfMonth)).append("\n");
+    sb.append("    draftUncovered: ").append(toIndentedString(draftUncovered)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -181,6 +212,11 @@ public class SetAiRenewalRuleInput {
     // add `dayOfMonth` to the URL query string
     if (getDayOfMonth() != null) {
       joiner.add(String.format("%sdayOfMonth%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDayOfMonth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `draftUncovered` to the URL query string
+    if (getDraftUncovered() != null) {
+      joiner.add(String.format("%sdraftUncovered%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDraftUncovered()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

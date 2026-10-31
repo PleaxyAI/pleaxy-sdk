@@ -209,7 +209,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs; accounts, the same for whole cloud accounts (all their spend, from the provider's current estimate, this month only; an account's AI spend is part of it, so never add the two) - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices.
+    # [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs and any draft (draftPoIds) or order waiting on approval (pendingPoIds) already raised for it; accounts, the same for whole cloud accounts (all their spend, from the provider's current estimate, this month only; an account's AI spend is part of it, so never add the two) - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :period 
     # @return [AiRecommendations]
@@ -218,7 +218,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs; accounts, the same for whole cloud accounts (all their spend, from the provider&#39;s current estimate, this month only; an account&#39;s AI spend is part of it, so never add the two) - and cheaper ways to buy last month&#39;s usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer&#39;s currency. &#39;view&#39; on suppliers or on invoices.
+    # [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs and any draft (draftPoIds) or order waiting on approval (pendingPoIds) already raised for it; accounts, the same for whole cloud accounts (all their spend, from the provider&#39;s current estimate, this month only; an account&#39;s AI spend is part of it, so never add the two) - and cheaper ways to buy last month&#39;s usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer&#39;s currency. &#39;view&#39; on suppliers or on invoices.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :period 
     # @return [Array<(AiRecommendations, Integer, Hash)>] AiRecommendations data, response status code and response headers
@@ -267,7 +267,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast, from which day of the month, and its last run. 'view' on purchase orders.
+    # [Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast, from which day of the month, whether this month's uncovered spend is drafted too, and their last runs. 'view' on purchase orders.
     # @param [Hash] opts the optional parameters
     # @return [AiRenewalRule]
     def get_ai_renewal_rule(opts = {})
@@ -275,7 +275,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] The renewal automation rule: whether next month&#39;s AI orders are drafted from the forecast, from which day of the month, and its last run. &#39;view&#39; on purchase orders.
+    # [Buyer] The renewal automation rule: whether next month&#39;s AI orders are drafted from the forecast, from which day of the month, whether this month&#39;s uncovered spend is drafted too, and their last runs. &#39;view&#39; on purchase orders.
     # @param [Hash] opts the optional parameters
     # @return [Array<(AiRenewalRule, Integer, Hash)>] AiRenewalRule data, response status code and response headers
     def get_ai_renewal_rule_with_http_info(opts = {})
@@ -1079,7 +1079,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, 'create' on purchase orders.
+    # [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. With draftUncovered, it also drafts an order for this month's spend no order covers, once per provider or account a month, from the 3rd, and tells that person the drafts are ready. Drafts are never submitted: a person reviews them and they go through the usual approval. Logged-in users only, 'create' on purchase orders.
     # @param set_ai_renewal_rule_input [SetAiRenewalRuleInput] 
     # @param [Hash] opts the optional parameters
     # @return [AiRenewalRule]
@@ -1088,7 +1088,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month&#39;s order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, &#39;create&#39; on purchase orders.
+    # [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month&#39;s order for each open order with AI lines, at the forecast, as the person who switched it on. With draftUncovered, it also drafts an order for this month&#39;s spend no order covers, once per provider or account a month, from the 3rd, and tells that person the drafts are ready. Drafts are never submitted: a person reviews them and they go through the usual approval. Logged-in users only, &#39;create&#39; on purchase orders.
     # @param set_ai_renewal_rule_input [SetAiRenewalRuleInput] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(AiRenewalRule, Integer, Hash)>] AiRenewalRule data, response status code and response headers

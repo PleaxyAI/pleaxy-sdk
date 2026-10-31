@@ -19,6 +19,9 @@ pub struct SetAiRenewalRuleInput {
     /// The day of the month (1-28) from which the drafts are raised. Default 25.
     #[serde(rename = "dayOfMonth", skip_serializing_if = "Option::is_none")]
     pub day_of_month: Option<f64>,
+    /// Whether Pleaxy also drafts an order for this month's spend no order covers (GetAiRecommendations' uncovered and accounts), once per provider or account a month, from the 3rd. Drafts only: a person reviews and submits them. Unchanged when absent.
+    #[serde(rename = "draftUncovered", skip_serializing_if = "Option::is_none")]
+    pub draft_uncovered: Option<bool>,
 }
 
 impl SetAiRenewalRuleInput {
@@ -26,6 +29,7 @@ impl SetAiRenewalRuleInput {
         SetAiRenewalRuleInput {
             enabled,
             day_of_month: None,
+            draft_uncovered: None,
         }
     }
 }

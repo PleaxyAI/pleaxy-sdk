@@ -21,11 +21,15 @@ module Pleaxy
     # The day of the month (1-28) from which the drafts are raised. Default 25.
     attr_accessor :day_of_month
 
+    # Whether Pleaxy also drafts an order for this month's spend no order covers (GetAiRecommendations' uncovered and accounts), once per provider or account a month, from the 3rd. Drafts only: a person reviews and submits them. Unchanged when absent.
+    attr_accessor :draft_uncovered
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'enabled' => :'enabled',
-        :'day_of_month' => :'dayOfMonth'
+        :'day_of_month' => :'dayOfMonth',
+        :'draft_uncovered' => :'draftUncovered'
       }
     end
 
@@ -38,7 +42,8 @@ module Pleaxy
     def self.openapi_types
       {
         :'enabled' => :'Boolean',
-        :'day_of_month' => :'Float'
+        :'day_of_month' => :'Float',
+        :'draft_uncovered' => :'Boolean'
       }
     end
 
@@ -71,6 +76,10 @@ module Pleaxy
 
       if attributes.key?(:'day_of_month')
         self.day_of_month = attributes[:'day_of_month']
+      end
+
+      if attributes.key?(:'draft_uncovered')
+        self.draft_uncovered = attributes[:'draft_uncovered']
       end
     end
 
@@ -128,7 +137,8 @@ module Pleaxy
       return true if self.equal?(o)
       self.class == o.class &&
           enabled == o.enabled &&
-          day_of_month == o.day_of_month
+          day_of_month == o.day_of_month &&
+          draft_uncovered == o.draft_uncovered
     end
 
     # @see the `==` method
@@ -140,7 +150,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [enabled, day_of_month].hash
+      [enabled, day_of_month, draft_uncovered].hash
     end
 
     # Builds the object from hash

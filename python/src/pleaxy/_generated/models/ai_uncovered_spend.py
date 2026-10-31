@@ -30,6 +30,8 @@ class AiUncoveredSpend:
         gap (Union[Unset, float]):
         reason (Union[Unset, AiUncoveredSpendReason]):
         po_ids (Union[Unset, List[str]]):
+        draft_po_ids (Union[Unset, List[str]]):
+        pending_po_ids (Union[Unset, List[str]]):
     """
 
     invoicer_id: Union[Unset, str] = UNSET
@@ -42,6 +44,8 @@ class AiUncoveredSpend:
     gap: Union[Unset, float] = UNSET
     reason: Union[Unset, AiUncoveredSpendReason] = UNSET
     po_ids: Union[Unset, List[str]] = UNSET
+    draft_po_ids: Union[Unset, List[str]] = UNSET
+    pending_po_ids: Union[Unset, List[str]] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,6 +75,14 @@ class AiUncoveredSpend:
         if not isinstance(self.po_ids, Unset):
             po_ids = self.po_ids
 
+        draft_po_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.draft_po_ids, Unset):
+            draft_po_ids = self.draft_po_ids
+
+        pending_po_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.pending_po_ids, Unset):
+            pending_po_ids = self.pending_po_ids
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -94,6 +106,10 @@ class AiUncoveredSpend:
             field_dict["reason"] = reason
         if po_ids is not UNSET:
             field_dict["poIds"] = po_ids
+        if draft_po_ids is not UNSET:
+            field_dict["draftPoIds"] = draft_po_ids
+        if pending_po_ids is not UNSET:
+            field_dict["pendingPoIds"] = pending_po_ids
 
         return field_dict
 
@@ -130,6 +146,10 @@ class AiUncoveredSpend:
 
         po_ids = cast(List[str], d.pop("poIds", UNSET))
 
+        draft_po_ids = cast(List[str], d.pop("draftPoIds", UNSET))
+
+        pending_po_ids = cast(List[str], d.pop("pendingPoIds", UNSET))
+
         ai_uncovered_spend = cls(
             invoicer_id=invoicer_id,
             invoicer=invoicer,
@@ -141,6 +161,8 @@ class AiUncoveredSpend:
             gap=gap,
             reason=reason,
             po_ids=po_ids,
+            draft_po_ids=draft_po_ids,
+            pending_po_ids=pending_po_ids,
         )
 
         ai_uncovered_spend.additional_properties = d

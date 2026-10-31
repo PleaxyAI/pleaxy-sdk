@@ -17,6 +17,8 @@ pub struct AiDraftOrdersResultSkippedInner {
     pub invoicer_id: Option<String>,
     #[serde(rename = "reason", skip_serializing_if = "Option::is_none")]
     pub reason: Option<Reason>,
+    #[serde(rename = "poId", skip_serializing_if = "Option::is_none")]
+    pub po_id: Option<String>,
     #[serde(rename = "message", skip_serializing_if = "Option::is_none")]
     pub message: Option<String>,
     #[serde(rename = "messageId", skip_serializing_if = "Option::is_none")]
@@ -30,6 +32,7 @@ impl AiDraftOrdersResultSkippedInner {
         AiDraftOrdersResultSkippedInner {
             invoicer_id: None,
             reason: None,
+            po_id: None,
             message: None,
             message_id: None,
             params: None,
@@ -40,15 +43,17 @@ impl AiDraftOrdersResultSkippedInner {
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Reason {
     #[serde(rename = "no_usage")]
-    Usage,
+    NoUsage,
     #[serde(rename = "no_supplier")]
-    Supplier,
+    NoSupplier,
     #[serde(rename = "no_forecast")]
-    Forecast,
+    NoForecast,
+    #[serde(rename = "already_drafted")]
+    AlreadyDrafted,
 }
 
 impl Default for Reason {
     fn default() -> Reason {
-        Self::Usage
+        Self::NoUsage
     }
 }

@@ -37,6 +37,7 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   AiDraftOrdersResultSkippedInner.JSON_PROPERTY_INVOICER_ID,
   AiDraftOrdersResultSkippedInner.JSON_PROPERTY_REASON,
+  AiDraftOrdersResultSkippedInner.JSON_PROPERTY_PO_ID,
   AiDraftOrdersResultSkippedInner.JSON_PROPERTY_MESSAGE,
   AiDraftOrdersResultSkippedInner.JSON_PROPERTY_MESSAGE_ID,
   AiDraftOrdersResultSkippedInner.JSON_PROPERTY_PARAMS
@@ -51,11 +52,13 @@ public class AiDraftOrdersResultSkippedInner {
    * Gets or Sets reason
    */
   public enum ReasonEnum {
-    USAGE(String.valueOf("no_usage")),
+    NO_USAGE(String.valueOf("no_usage")),
     
-    SUPPLIER(String.valueOf("no_supplier")),
+    NO_SUPPLIER(String.valueOf("no_supplier")),
     
-    FORECAST(String.valueOf("no_forecast"));
+    NO_FORECAST(String.valueOf("no_forecast")),
+    
+    ALREADY_DRAFTED(String.valueOf("already_drafted"));
 
     private String value;
 
@@ -87,6 +90,10 @@ public class AiDraftOrdersResultSkippedInner {
   public static final String JSON_PROPERTY_REASON = "reason";
   @javax.annotation.Nullable
   private ReasonEnum reason;
+
+  public static final String JSON_PROPERTY_PO_ID = "poId";
+  @javax.annotation.Nullable
+  private String poId;
 
   public static final String JSON_PROPERTY_MESSAGE = "message";
   @javax.annotation.Nullable
@@ -148,6 +155,30 @@ public class AiDraftOrdersResultSkippedInner {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setReason(@javax.annotation.Nullable ReasonEnum reason) {
     this.reason = reason;
+  }
+
+
+  public AiDraftOrdersResultSkippedInner poId(@javax.annotation.Nullable String poId) {
+    this.poId = poId;
+    return this;
+  }
+
+  /**
+   * Get poId
+   * @return poId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PO_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getPoId() {
+    return poId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PO_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPoId(@javax.annotation.Nullable String poId) {
+    this.poId = poId;
   }
 
 
@@ -245,6 +276,7 @@ public class AiDraftOrdersResultSkippedInner {
     AiDraftOrdersResultSkippedInner aiDraftOrdersResultSkippedInner = (AiDraftOrdersResultSkippedInner) o;
     return Objects.equals(this.invoicerId, aiDraftOrdersResultSkippedInner.invoicerId) &&
         Objects.equals(this.reason, aiDraftOrdersResultSkippedInner.reason) &&
+        Objects.equals(this.poId, aiDraftOrdersResultSkippedInner.poId) &&
         Objects.equals(this.message, aiDraftOrdersResultSkippedInner.message) &&
         Objects.equals(this.messageId, aiDraftOrdersResultSkippedInner.messageId) &&
         Objects.equals(this.params, aiDraftOrdersResultSkippedInner.params);
@@ -252,7 +284,7 @@ public class AiDraftOrdersResultSkippedInner {
 
   @Override
   public int hashCode() {
-    return Objects.hash(invoicerId, reason, message, messageId, params);
+    return Objects.hash(invoicerId, reason, poId, message, messageId, params);
   }
 
   @Override
@@ -261,6 +293,7 @@ public class AiDraftOrdersResultSkippedInner {
     sb.append("class AiDraftOrdersResultSkippedInner {\n");
     sb.append("    invoicerId: ").append(toIndentedString(invoicerId)).append("\n");
     sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
+    sb.append("    poId: ").append(toIndentedString(poId)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("    messageId: ").append(toIndentedString(messageId)).append("\n");
     sb.append("    params: ").append(toIndentedString(params)).append("\n");
@@ -319,6 +352,11 @@ public class AiDraftOrdersResultSkippedInner {
     // add `reason` to the URL query string
     if (getReason() != null) {
       joiner.add(String.format("%sreason%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReason()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `poId` to the URL query string
+    if (getPoId() != null) {
+      joiner.add(String.format("%spoId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPoId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `message` to the URL query string

@@ -148,6 +148,11 @@ from .ai_recommendations import AiRecommendations
 from .ai_renewal_rule import AiRenewalRule
 from .ai_renewal_rule_last_run import AiRenewalRuleLastRun
 from .ai_renewal_rule_last_run_drafts_item import AiRenewalRuleLastRunDraftsItem
+from .ai_renewal_rule_last_uncovered_run import AiRenewalRuleLastUncoveredRun
+from .ai_renewal_rule_last_uncovered_run_drafts_item import (
+    AiRenewalRuleLastUncoveredRunDraftsItem,
+)
+from .ai_renewal_rule_uncovered_drafted import AiRenewalRuleUncoveredDrafted
 from .ai_saving_recommendation import AiSavingRecommendation
 from .ai_saving_recommendation_detail import AiSavingRecommendationDetail
 from .ai_saving_recommendation_invoicer import AiSavingRecommendationInvoicer
@@ -2097,6 +2102,9 @@ __all__ = (
     "AiRenewalRule",
     "AiRenewalRuleLastRun",
     "AiRenewalRuleLastRunDraftsItem",
+    "AiRenewalRuleLastUncoveredRun",
+    "AiRenewalRuleLastUncoveredRunDraftsItem",
+    "AiRenewalRuleUncoveredDrafted",
     "AiSavingRecommendation",
     "AiSavingRecommendationDetail",
     "AiSavingRecommendationInvoicer",

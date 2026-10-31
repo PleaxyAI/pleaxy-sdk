@@ -44,7 +44,9 @@ import ai.pleaxy.client.ApiClient;
   AiUncoveredSpend.JSON_PROPERTY_COVERED,
   AiUncoveredSpend.JSON_PROPERTY_GAP,
   AiUncoveredSpend.JSON_PROPERTY_REASON,
-  AiUncoveredSpend.JSON_PROPERTY_PO_IDS
+  AiUncoveredSpend.JSON_PROPERTY_PO_IDS,
+  AiUncoveredSpend.JSON_PROPERTY_DRAFT_PO_IDS,
+  AiUncoveredSpend.JSON_PROPERTY_PENDING_PO_IDS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class AiUncoveredSpend {
@@ -191,6 +193,14 @@ public class AiUncoveredSpend {
   public static final String JSON_PROPERTY_PO_IDS = "poIds";
   @javax.annotation.Nullable
   private List<String> poIds = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_DRAFT_PO_IDS = "draftPoIds";
+  @javax.annotation.Nullable
+  private List<String> draftPoIds = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_PENDING_PO_IDS = "pendingPoIds";
+  @javax.annotation.Nullable
+  private List<String> pendingPoIds = new ArrayList<>();
 
   public AiUncoveredSpend() { 
   }
@@ -443,6 +453,70 @@ public class AiUncoveredSpend {
   }
 
 
+  public AiUncoveredSpend draftPoIds(@javax.annotation.Nullable List<String> draftPoIds) {
+    this.draftPoIds = draftPoIds;
+    return this;
+  }
+
+  public AiUncoveredSpend addDraftPoIdsItem(String draftPoIdsItem) {
+    if (this.draftPoIds == null) {
+      this.draftPoIds = new ArrayList<>();
+    }
+    this.draftPoIds.add(draftPoIdsItem);
+    return this;
+  }
+
+  /**
+   * Get draftPoIds
+   * @return draftPoIds
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DRAFT_PO_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getDraftPoIds() {
+    return draftPoIds;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DRAFT_PO_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDraftPoIds(@javax.annotation.Nullable List<String> draftPoIds) {
+    this.draftPoIds = draftPoIds;
+  }
+
+
+  public AiUncoveredSpend pendingPoIds(@javax.annotation.Nullable List<String> pendingPoIds) {
+    this.pendingPoIds = pendingPoIds;
+    return this;
+  }
+
+  public AiUncoveredSpend addPendingPoIdsItem(String pendingPoIdsItem) {
+    if (this.pendingPoIds == null) {
+      this.pendingPoIds = new ArrayList<>();
+    }
+    this.pendingPoIds.add(pendingPoIdsItem);
+    return this;
+  }
+
+  /**
+   * Get pendingPoIds
+   * @return pendingPoIds
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PENDING_PO_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getPendingPoIds() {
+    return pendingPoIds;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PENDING_PO_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPendingPoIds(@javax.annotation.Nullable List<String> pendingPoIds) {
+    this.pendingPoIds = pendingPoIds;
+  }
+
+
   /**
    * Return true if this AiUncoveredSpend object is equal to o.
    */
@@ -464,12 +538,14 @@ public class AiUncoveredSpend {
         Objects.equals(this.covered, aiUncoveredSpend.covered) &&
         Objects.equals(this.gap, aiUncoveredSpend.gap) &&
         Objects.equals(this.reason, aiUncoveredSpend.reason) &&
-        Objects.equals(this.poIds, aiUncoveredSpend.poIds);
+        Objects.equals(this.poIds, aiUncoveredSpend.poIds) &&
+        Objects.equals(this.draftPoIds, aiUncoveredSpend.draftPoIds) &&
+        Objects.equals(this.pendingPoIds, aiUncoveredSpend.pendingPoIds);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(invoicerId, invoicer, label, currency, monthToDate, forecast, covered, gap, reason, poIds);
+    return Objects.hash(invoicerId, invoicer, label, currency, monthToDate, forecast, covered, gap, reason, poIds, draftPoIds, pendingPoIds);
   }
 
   @Override
@@ -486,6 +562,8 @@ public class AiUncoveredSpend {
     sb.append("    gap: ").append(toIndentedString(gap)).append("\n");
     sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
     sb.append("    poIds: ").append(toIndentedString(poIds)).append("\n");
+    sb.append("    draftPoIds: ").append(toIndentedString(draftPoIds)).append("\n");
+    sb.append("    pendingPoIds: ").append(toIndentedString(pendingPoIds)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -584,6 +662,24 @@ public class AiUncoveredSpend {
         joiner.add(String.format("%spoIds%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getPoIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `draftPoIds` to the URL query string
+    if (getDraftPoIds() != null) {
+      for (int i = 0; i < getDraftPoIds().size(); i++) {
+        joiner.add(String.format("%sdraftPoIds%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getDraftPoIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `pendingPoIds` to the URL query string
+    if (getPendingPoIds() != null) {
+      for (int i = 0; i < getPendingPoIds().size(); i++) {
+        joiner.add(String.format("%spendingPoIds%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getPendingPoIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 

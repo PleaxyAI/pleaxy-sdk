@@ -25,6 +25,14 @@ pub struct AiRenewalRule {
     pub drafted_for: Option<String>,
     #[serde(rename = "lastRun", skip_serializing_if = "Option::is_none")]
     pub last_run: Option<models::AiRenewalRuleLastRun>,
+    #[serde(rename = "draftUncovered", skip_serializing_if = "Option::is_none")]
+    pub draft_uncovered: Option<bool>,
+    #[serde(rename = "uncoveredCheckedOn", skip_serializing_if = "Option::is_none")]
+    pub uncovered_checked_on: Option<String>,
+    #[serde(rename = "uncoveredDrafted", skip_serializing_if = "Option::is_none")]
+    pub uncovered_drafted: Option<models::AiRenewalRuleUncoveredDrafted>,
+    #[serde(rename = "lastUncoveredRun", skip_serializing_if = "Option::is_none")]
+    pub last_uncovered_run: Option<models::AiRenewalRuleLastUncoveredRun>,
 }
 
 impl AiRenewalRule {
@@ -36,6 +44,10 @@ impl AiRenewalRule {
             updated_at: None,
             drafted_for: None,
             last_run: None,
+            draft_uncovered: None,
+            uncovered_checked_on: None,
+            uncovered_drafted: None,
+            last_uncovered_run: None,
         }
     }
 }

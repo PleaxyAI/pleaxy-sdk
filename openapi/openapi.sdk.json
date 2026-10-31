@@ -14097,7 +14097,7 @@
     "/v1/workspaces/{regionId}/ai-spend/recommendations": {
       "get": {
         "operationId": "GetAiRecommendations",
-        "summary": "[Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs; accounts, the same for whole cloud accounts (all their spend, from the provider's current estimate, this month only; an account's AI spend is part of it, so never add the two) - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices.",
+        "summary": "[Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs and any draft (draftPoIds) or order waiting on approval (pendingPoIds) already raised for it; accounts, the same for whole cloud accounts (all their spend, from the provider's current estimate, this month only; an account's AI spend is part of it, so never add the two) - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices.",
         "parameters": [
           {
             "name": "regionId",
@@ -14241,7 +14241,7 @@
     "/v1/workspaces/{regionId}/ai-spend/renewal-rule": {
       "get": {
         "operationId": "GetAiRenewalRule",
-        "summary": "[Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast, from which day of the month, and its last run. 'view' on purchase orders.",
+        "summary": "[Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast, from which day of the month, whether this month's uncovered spend is drafted too, and their last runs. 'view' on purchase orders.",
         "parameters": [
           {
             "name": "regionId",
@@ -14280,7 +14280,7 @@
       },
       "put": {
         "operationId": "SetAiRenewalRule",
-        "summary": "[Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, 'create' on purchase orders.",
+        "summary": "[Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. With draftUncovered, it also drafts an order for this month's spend no order covers, once per provider or account a month, from the 3rd, and tells that person the drafts are ready. Drafts are never submitted: a person reviews them and they go through the usual approval. Logged-in users only, 'create' on purchase orders.",
         "parameters": [
           {
             "name": "regionId",
@@ -18627,6 +18627,10 @@
             "minimum": 1,
             "maximum": 28,
             "description": "The day of the month (1-28) from which the drafts are raised. Default 25."
+          },
+          "draftUncovered": {
+            "type": "boolean",
+            "description": "Whether Pleaxy also drafts an order for this month's spend no order covers (GetAiRecommendations' uncovered and accounts), once per provider or account a month, from the 3rd. Drafts only: a person reviews and submits them. Unchanged when absent."
           }
         },
         "required": [
@@ -20498,6 +20502,7 @@
             "type": "string",
             "enum": [
               "ai_forecast_over_budget",
+              "ai_drafts_ready",
               "report_ready",
               "company_report_ready",
               "po_approved",
@@ -29810,6 +29815,18 @@
             "items": {
               "type": "string"
             }
+          },
+          "draftPoIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "pendingPoIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [
@@ -29990,8 +30007,12 @@
                   "enum": [
                     "no_usage",
                     "no_supplier",
-                    "no_forecast"
+                    "no_forecast",
+                    "already_drafted"
                   ]
+                },
+                "poId": {
+                  "type": "string"
                 },
                 "message": {
                   "type": "string"
@@ -30197,6 +30218,64 @@
                   "required": [
                     "poId",
                     "draftId"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "at",
+              "period",
+              "drafts"
+            ]
+          },
+          "draftUncovered": {
+            "type": "boolean"
+          },
+          "uncoveredCheckedOn": {
+            "type": "string"
+          },
+          "uncoveredDrafted": {
+            "type": "object",
+            "properties": {
+              "period": {
+                "type": "string"
+              },
+              "invoicerIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "period",
+              "invoicerIds"
+            ]
+          },
+          "lastUncoveredRun": {
+            "type": "object",
+            "properties": {
+              "at": {
+                "type": "string"
+              },
+              "period": {
+                "type": "string"
+              },
+              "drafts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "invoicerId": {
+                      "type": "string"
+                    },
+                    "poId": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "invoicerId",
+                    "poId"
                   ]
                 }
               }

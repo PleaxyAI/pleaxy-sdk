@@ -1591,7 +1591,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs; accounts, the same for whole cloud accounts (all their spend, from the provider's current estimate, this month only; an account's AI spend is part of it, so never add the two) - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices. */
+        /** [Buyer] Recommendations: the AI spend no open order covers in a period (default this month) - an invoicer with no order raised to it (no_po), or a forecast past what its orders have left (over_po), with the gap a new order needs and any draft (draftPoIds) or order waiting on approval (pendingPoIds) already raised for it; accounts, the same for whole cloud accounts (all their spend, from the provider's current estimate, this month only; an account's AI spend is part of it, so never add the two) - and cheaper ways to buy last month's usage: batch (the most moving interactive tokens to the batch rate would save), cache (what each further 10% of input read from the cache saves) and reserve (GPU-hours used at a steady floor most days, with the GPUs that floor keeps busy; no price, the contract decides it). Amounts in each invoicer's currency. 'view' on suppliers or on invoices. */
         get: operations["GetAiRecommendations"];
         put?: never;
         post?: never;
@@ -1642,9 +1642,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** [Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast, from which day of the month, and its last run. 'view' on purchase orders. */
+        /** [Buyer] The renewal automation rule: whether next month's AI orders are drafted from the forecast, from which day of the month, whether this month's uncovered spend is drafted too, and their last runs. 'view' on purchase orders. */
         get: operations["GetAiRenewalRule"];
-        /** [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. Drafts go through the usual approval. Logged-in users only, 'create' on purchase orders. */
+        /** [Buyer] Switches the renewal automation rule on or off: on or after dayOfMonth (1-28, default 25), once a month, Pleaxy drafts next month's order for each open order with AI lines, at the forecast, as the person who switched it on. With draftUncovered, it also drafts an order for this month's spend no order covers, once per provider or account a month, from the 3rd, and tells that person the drafts are ready. Drafts are never submitted: a person reviews them and they go through the usual approval. Logged-in users only, 'create' on purchase orders. */
         put: operations["SetAiRenewalRule"];
         post?: never;
         delete?: never;
@@ -2938,6 +2938,8 @@ export interface components {
              * @description The day of the month (1-28) from which the drafts are raised. Default 25.
              */
             dayOfMonth?: number;
+            /** @description Whether Pleaxy also drafts an order for this month's spend no order covers (GetAiRecommendations' uncovered and accounts), once per provider or account a month, from the 3rd. Drafts only: a person reviews and submits them. Unchanged when absent. */
+            draftUncovered?: boolean;
         };
         AiAttributionRuleInput: {
             /** @description The rule's id, to keep it; a new rule gets one. */
@@ -3505,7 +3507,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "ai_forecast_over_budget" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
+            type?: "ai_forecast_over_budget" | "ai_drafts_ready" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -6015,6 +6017,8 @@ export interface components {
             /** @enum {string} */
             reason?: "no_po" | "over_po";
             poIds?: string[];
+            draftPoIds?: string[];
+            pendingPoIds?: string[];
         };
         AiSavingRecommendation: {
             /** @enum {string} */
@@ -6064,7 +6068,8 @@ export interface components {
             skipped?: {
                 invoicerId?: string;
                 /** @enum {string} */
-                reason?: "no_usage" | "no_supplier" | "no_forecast";
+                reason?: "no_usage" | "no_supplier" | "no_forecast" | "already_drafted";
+                poId?: string;
                 message?: string;
                 messageId?: string;
                 params?: {
@@ -6119,6 +6124,20 @@ export interface components {
                 drafts?: {
                     poId?: string;
                     draftId?: string;
+                }[];
+            };
+            draftUncovered?: boolean;
+            uncoveredCheckedOn?: string;
+            uncoveredDrafted?: {
+                period?: string;
+                invoicerIds?: string[];
+            };
+            lastUncoveredRun?: {
+                at?: string;
+                period?: string;
+                drafts?: {
+                    invoicerId?: string;
+                    poId?: string;
                 }[];
             };
         };
