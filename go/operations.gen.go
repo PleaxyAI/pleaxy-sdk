@@ -148,6 +148,18 @@ func (c *Client) ClosePurchaseOrder(ctx context.Context, poId string) (*Purchase
 	return resp.JSON201, nil
 }
 
+// CompleteFocusUpload - [Buyer] The upload is in place: Pleaxy reads it in the background; the uploads source's last run shows the result. 'edit' on invoices.
+func (c *Client) CompleteFocusUpload(ctx context.Context, uploadId string) (*FocusSourceView, error) {
+	resp, err := c.api.CompleteFocusUploadWithResponse(ctx, uploadId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON202, nil
+}
+
 // ConfirmPurchaseOrder - [Supplier] Confirm an order, as a cXML ConfirmationRequest would: { type: accept|backordered|detail|reject, confirmId?, deliveryDate?, note?, lines?: [{ lineNo, status: accept|backordered|change|reject, qty?, unitPrice?, substitute?: { supplierPartId, name }, shipmentDate?, deliveryDate?, reason? }] }. accept, backordered and reject speak for the whole order; detail names its lines, and a line it leaves out is accepted as ordered. A change offers another quantity (qty, the new total for the line), unit price (in the order's currency) or item (substitute: a part number in your published catalog makes it that catalog item) on a line ordered by quantity; one that matches the order is an acceptance. Answers the stored confirmation with its outcome: accepted, backordered, changed (for the buyer to apply with ApplyConfirmationChanges or decline), partial (some lines refused) or rejected. The buyer's requester and receiver are told when the outcome changes, and the buyer's sync feed gets purchase_order.confirmed. The order itself doesn't change: a refused order is the buyer's to cancel. Only an order still awaiting fulfillment, not one already billed in full; 409 ORDER_NOT_OPEN otherwise. Takes the same ?buyer= as GetPurchaseOrder. An API key needs the orders:fulfill scope.
 func (c *Client) ConfirmPurchaseOrder(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, body ConfirmPurchaseOrderJSONRequestBody) (*OrderConfirmation, error) {
 	resp, err := c.api.ConfirmPurchaseOrderWithResponse(ctx, poId, params, body)
@@ -199,6 +211,42 @@ func (c *Client) CreateApiKey(ctx context.Context, body CreateApiKeyJSONRequestB
 // CreateCloudConnection - [Buyer] Connect a cloud provider account ('create' on suppliers)
 func (c *Client) CreateCloudConnection(ctx context.Context, body CreateCloudConnectionJSONRequestBody) (*CloudConnection, error) {
 	resp, err := c.api.CreateCloudConnectionWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
+// CreateFocusExport - [Buyer] Export the workspace's invoices, debit notes and accepted credit notes for billing periods from..to (YYYY-MM, at most 36 months) as a FOCUS Cost and Usage dataset in CSV (version 1.2 by default, or 1.4), with a metadata file. One row per line, tax entry and adjustment; credit notes negative; amounts in each document's currency. include=non_cloud leaves out cloud and AI providers' invoices. Returns download links valid 15 minutes; the files are kept 7 days. 'view' on invoices.
+func (c *Client) CreateFocusExport(ctx context.Context, body CreateFocusExportJSONRequestBody) (*FocusExport, error) {
+	resp, err := c.api.CreateFocusExportWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
+// CreateFocusSource - [Buyer] Add a FOCUS source: kind aws_s3 (with connectionId of an AWS connection and aws: bucket, prefix, region), azure_blob, gcp_bigquery, oci or s3_compatible. A cloud's source becomes its connection's AI lines source, replacing the connector's own AI read. Pleaxy reads it daily, and now with SyncFocusSource. 'edit' on invoices; a signed-in person only.
+func (c *Client) CreateFocusSource(ctx context.Context, body CreateFocusSourceJSONRequestBody) (*FocusSourceView, error) {
+	resp, err := c.api.CreateFocusSourceWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
+// CreateFocusUpload - [Buyer] Start a FOCUS file upload (.csv or .csv.gz, up to 500 MB): returns a presigned PUT URL valid a few minutes and the upload's id. PUT the file with the returned content type, then call CompleteFocusUpload. 'edit' on invoices.
+func (c *Client) CreateFocusUpload(ctx context.Context, body CreateFocusUploadJSONRequestBody) (*CreateFocusUploadResult, error) {
+	resp, err := c.api.CreateFocusUploadWithResponse(ctx, body)
 	if err != nil {
 		return nil, err
 	}
@@ -280,6 +328,30 @@ func (c *Client) DeleteAiProvider(ctx context.Context, id string) (*DeleteAiProv
 	return resp.JSON200, nil
 }
 
+// DeleteFocusDestination - [Buyer] Stop delivering FOCUS files. Files already in the bucket stay; delete the PleaxyFocusDestination stack to remove Pleaxy's access. 'edit' on invoices; a signed-in person only.
+func (c *Client) DeleteFocusDestination(ctx context.Context) (*DeleteFocusDestinationResult, error) {
+	resp, err := c.api.DeleteFocusDestinationWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// DeleteFocusSource - [Buyer] Remove a FOCUS source with the months and AI lines it stored; its connection's own AI read resumes. 'edit' on invoices; a signed-in person only.
+func (c *Client) DeleteFocusSource(ctx context.Context, sourceId string) (*DeleteFocusSourceResult, error) {
+	resp, err := c.api.DeleteFocusSourceWithResponse(ctx, sourceId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // DeleteWebhook - [Both, admin] Remove an endpoint. Deliveries still waiting for it are given up.
 func (c *Client) DeleteWebhook(ctx context.Context, webhookId string) error {
 	resp, err := c.api.DeleteWebhookWithResponse(ctx, webhookId)
@@ -287,6 +359,18 @@ func (c *Client) DeleteWebhook(ctx context.Context, webhookId string) error {
 		return err
 	}
 	return checkStatus(resp.HTTPResponse, resp.Body)
+}
+
+// DeliverFocusDestination - [Buyer] Deliver now: write this month's and last month's FOCUS files to the destination, as the daily run does. 'edit' on invoices.
+func (c *Client) DeliverFocusDestination(ctx context.Context) (*FocusDestinationView, error) {
+	resp, err := c.api.DeliverFocusDestinationWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
 }
 
 // DisconnectCloudConnection - [Buyer] Disconnect a cloud account (logged-in users only, 'edit' on suppliers). Deletes the connection with everything Pleaxy stored for it (for Oracle Cloud, its encrypted API key) and records who disconnected it; for Oracle Cloud the response names the key fingerprint to delete from user pleaxy-billing. A setup still in progress can only be cancelled by the person who started it (403 otherwise).
@@ -496,6 +580,54 @@ func (c *Client) GetBuyerWorkspace(ctx context.Context, params *GetBuyerWorkspac
 // GetExchangeRates - [Buyer] The currencies this workspace's orders, invoices and suppliers use, each with today's reference rate into your currency. `?currency=` adds one more currency's row. Used only for approval and spend checks; amounts are never converted. Signed-in session only: the rate provider's terms don't allow programmatic access to its rates. Rates by Exchange Rate API.
 func (c *Client) GetExchangeRates(ctx context.Context, params *GetExchangeRatesParams) (*ExchangeRatesView, error) {
 	resp, err := c.api.GetExchangeRatesWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// GetFocusDestination - [Buyer] Where Pleaxy delivers the workspace's FOCUS files every day (an S3 bucket, folder and region, the format, FOCUS version and suppliers included), its status (awaiting_role, active or failing), the last delivery, and what the setup stack needs (Pleaxy's account, the template URL, the External ID). destination is null when none is set. 'view' on invoices.
+func (c *Client) GetFocusDestination(ctx context.Context) (*FocusDestinationView, error) {
+	resp, err := c.api.GetFocusDestinationWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// GetFocusExport - [Buyer] One FOCUS export of the last 7 days, with fresh download links for its CSV and metadata (valid 15 minutes). 'view' on invoices.
+func (c *Client) GetFocusExport(ctx context.Context, exportId string) (*FocusExport, error) {
+	resp, err := c.api.GetFocusExportWithResponse(ctx, exportId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// GetFocusSource - [Buyer] One FOCUS source with its last run. 'view' on invoices.
+func (c *Client) GetFocusSource(ctx context.Context, sourceId string) (*FocusSourceView, error) {
+	resp, err := c.api.GetFocusSourceWithResponse(ctx, sourceId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// GetFocusSourcePeriod - [Buyer] One stored month of a FOCUS source: totals by currency, each invoice by number (by category and service), spend by cost center (from the tag attribution rules) and by issuer. 'view' on invoices.
+func (c *Client) GetFocusSourcePeriod(ctx context.Context, sourceId string, period string) (*GetFocusSourcePeriodResult, error) {
+	resp, err := c.api.GetFocusSourcePeriodWithResponse(ctx, sourceId, period)
 	if err != nil {
 		return nil, err
 	}
@@ -961,6 +1093,42 @@ func (c *Client) ListFeedAttempts(ctx context.Context, connectionId string, para
 	return resp.JSON200, nil
 }
 
+// ListFocusExports - [Buyer] Whether FOCUS export is on for the workspace, and its exports of the last 7 days, newest first (at most 20): range, FOCUS version, rows and documents. 'view' on invoices.
+func (c *Client) ListFocusExports(ctx context.Context) (*FocusExportList, error) {
+	resp, err := c.api.ListFocusExportsWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// ListFocusIssuers - [Buyer] Every invoice issuer in the stored FOCUS months (the last three per source) with its billed totals by currency and the supplier it maps to - by a person, or by its well-known name (AWS, Microsoft, Google, Oracle) - or none. 'view' on invoices.
+func (c *Client) ListFocusIssuers(ctx context.Context) (*[]FocusIssuerView, error) {
+	resp, err := c.api.ListFocusIssuersWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// ListFocusSources - [Buyer] Whether FOCUS import is on, and the workspace's FOCUS sources - uploads, an AWS Data Exports FOCUS export, an Azure Cost Management FOCUS export, Google Cloud's FOCUS table, Oracle Cloud's FOCUS reports or an S3-compatible bucket - each with its last run (months read, rows, skipped rows by reason, or why it failed), the months stored and the most common tag keys. 'view' on invoices.
+func (c *Client) ListFocusSources(ctx context.Context) (*ListFocusSourcesResult, error) {
+	resp, err := c.api.ListFocusSourcesWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // ListInvoiceCounterparties - [Both] Active counterparties the caller can invoice through POST .../invoices with a connectionId - connection id, display name, the buyer's currency, and the open POs between exactly that pair; a Supplier caller also gets the buyer's regionName. One row per counterparty; a Buyer caller can pass ?perConnection=true to list every approved connection instead, each with approvedAt, feedReadiness and the feed's figures (feedAcceptedCount, feedLastAcceptedAt, feedValidCount, feedLastValidAt) and, when a supplier has several, multipleConnections. Without ?perConnection a Buyer caller also gets its off-platform suppliers: any supplier in its list with no Pleaxy account yet, invited or not (offPlatform: true, cloudProvider for a cloud provider, no POs). For those, currency is only the default: the invoice takes its own currency. Human session only.
 func (c *Client) ListInvoiceCounterparties(ctx context.Context, params *ListInvoiceCounterpartiesParams) (*ListInvoiceCounterpartiesResult, error) {
 	resp, err := c.api.ListInvoiceCounterpartiesWithResponse(ctx, params)
@@ -1129,6 +1297,18 @@ func (c *Client) ListWebhooks(ctx context.Context) (*ListWebhooksResult, error) 
 	return resp.JSON200, nil
 }
 
+// MapFocusIssuer - [Buyer] Map a FOCUS invoice issuer to one of the workspace's suppliers (supplierConnectionId), or forget the mapping (null). 'edit' on invoices.
+func (c *Client) MapFocusIssuer(ctx context.Context, issuer string, body MapFocusIssuerJSONRequestBody) (*[]FocusIssuerView, error) {
+	resp, err := c.api.MapFocusIssuerWithResponse(ctx, issuer, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // MarkAllNotificationsRead - [Both] Mark all notifications as read
 func (c *Client) MarkAllNotificationsRead(ctx context.Context, params *MarkAllNotificationsReadParams) (*MarkAllNotificationsReadResult, error) {
 	resp, err := c.api.MarkAllNotificationsReadWithResponse(ctx, params)
@@ -1148,6 +1328,18 @@ func (c *Client) MarkNotificationRead(ctx context.Context, notificationId string
 		return err
 	}
 	return checkStatus(resp.HTTPResponse, resp.Body)
+}
+
+// PutFocusDestination - [Buyer] Set where Pleaxy delivers FOCUS files: bucket, folder (prefix), region, format (csv, gzipped, or parquet), FOCUS version (1.2 or 1.4) and include (all or non_cloud). Without roleArn it saves the destination awaiting its PleaxyFocusWriter role and returns the External ID for the stack; with roleArn Pleaxy writes and deletes a test object first and saves nothing if it can't. Every day Pleaxy then writes this month (and, through the 5th, last month) as one file per month under <prefix>/focus/<version>/billing_period=YYYY-MM/. 'edit' on invoices; a signed-in person only.
+func (c *Client) PutFocusDestination(ctx context.Context, body PutFocusDestinationJSONRequestBody) (*FocusDestinationView, error) {
+	resp, err := c.api.PutFocusDestinationWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
 }
 
 // RaiseNextAiPeriod - [Buyer] Drafts the same order for the month after its lines': each AI line's quantity is the forecast from this month's usage so far (its own quantity when there is none yet), every other line as it is. Returns the draft purchase order; submitting it goes through the usual approval. 'create' on purchase orders.
@@ -1553,6 +1745,30 @@ func (c *Client) SyncCloudConnection(ctx context.Context, id string) (*CloudConn
 		return nil, err
 	}
 	return resp.JSON201, nil
+}
+
+// SyncFocusSource - [Buyer] Read a FOCUS source now, in the background, re-reading the months it holds. 'edit' on invoices.
+func (c *Client) SyncFocusSource(ctx context.Context, sourceId string) (*FocusSourceView, error) {
+	resp, err := c.api.SyncFocusSourceWithResponse(ctx, sourceId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON202, nil
+}
+
+// TestFocusDestination - [Buyer] Write and delete a test object in the FOCUS destination; a pass makes a failing destination active again. 'edit' on invoices; a signed-in person only.
+func (c *Client) TestFocusDestination(ctx context.Context) (*FocusDestinationView, error) {
+	resp, err := c.api.TestFocusDestinationWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
 }
 
 // TestWebhook - [Both, admin] Send the endpoint a signed ping now, once: { ok, status?, errorCode?, durationMs }.

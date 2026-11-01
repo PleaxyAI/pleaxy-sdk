@@ -641,6 +641,121 @@ class ExchangeRatesResource:
         )
 
 
+class FocusResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def complete_focus_upload(self, upload_id: str) -> FocusSourceView:
+        """[Buyer] The upload is in place: Pleaxy reads it in the background; the uploads source's last run shows the result. 'edit' on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.focus.complete_focus_upload", upload_id=upload_id
+        )
+
+    def create_focus_export(self, *, body: CreateFocusExportInput) -> FocusExport:
+        """[Buyer] Export the workspace's invoices, debit notes and accepted credit notes for billing periods from..to (YYYY-MM, at most 36 months) as a FOCUS Cost and Usage dataset in CSV (version 1.2 by default, or 1.4), with a metadata file. One row per line, tax entry and adjustment; credit notes negative; amounts in each document's currency. include=non_cloud leaves out cloud and AI providers' invoices. Returns download links valid 15 minutes; the files are kept 7 days. 'view' on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.focus.create_focus_export", body=body
+        )
+
+    def create_focus_source(self, *, body: CreateFocusSourceInput) -> FocusSourceView:
+        """[Buyer] Add a FOCUS source: kind aws_s3 (with connectionId of an AWS connection and aws: bucket, prefix, region), azure_blob, gcp_bigquery, oci or s3_compatible. A cloud's source becomes its connection's AI lines source, replacing the connector's own AI read. Pleaxy reads it daily, and now with SyncFocusSource. 'edit' on invoices; a signed-in person only."""
+        return self._transport.call(
+            "pleaxy._generated.api.focus.create_focus_source", body=body
+        )
+
+    def create_focus_upload(
+        self, *, body: CreateFocusUploadInput
+    ) -> CreateFocusUploadResult:
+        """[Buyer] Start a FOCUS file upload (.csv or .csv.gz, up to 500 MB): returns a presigned PUT URL valid a few minutes and the upload's id. PUT the file with the returned content type, then call CompleteFocusUpload. 'edit' on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.focus.create_focus_upload", body=body
+        )
+
+    def delete_focus_destination(self) -> DeleteFocusDestinationResult:
+        """[Buyer] Stop delivering FOCUS files. Files already in the bucket stay; delete the PleaxyFocusDestination stack to remove Pleaxy's access. 'edit' on invoices; a signed-in person only."""
+        return self._transport.call(
+            "pleaxy._generated.api.focus.delete_focus_destination"
+        )
+
+    def delete_focus_source(self, source_id: str) -> DeleteFocusSourceResult:
+        """[Buyer] Remove a FOCUS source with the months and AI lines it stored; its connection's own AI read resumes. 'edit' on invoices; a signed-in person only."""
+        return self._transport.call(
+            "pleaxy._generated.api.focus.delete_focus_source", source_id=source_id
+        )
+
+    def deliver_focus_destination(self) -> FocusDestinationView:
+        """[Buyer] Deliver now: write this month's and last month's FOCUS files to the destination, as the daily run does. 'edit' on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.focus.deliver_focus_destination"
+        )
+
+    def get_focus_destination(self) -> FocusDestinationView:
+        """[Buyer] Where Pleaxy delivers the workspace's FOCUS files every day (an S3 bucket, folder and region, the format, FOCUS version and suppliers included), its status (awaiting_role, active or failing), the last delivery, and what the setup stack needs (Pleaxy's account, the template URL, the External ID). destination is null when none is set. 'view' on invoices."""
+        return self._transport.call("pleaxy._generated.api.focus.get_focus_destination")
+
+    def get_focus_export(self, export_id: str) -> FocusExport:
+        """[Buyer] One FOCUS export of the last 7 days, with fresh download links for its CSV and metadata (valid 15 minutes). 'view' on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.focus.get_focus_export", export_id=export_id
+        )
+
+    def get_focus_source(self, source_id: str) -> FocusSourceView:
+        """[Buyer] One FOCUS source with its last run. 'view' on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.focus.get_focus_source", source_id=source_id
+        )
+
+    def get_focus_source_period(
+        self, source_id: str, period: str
+    ) -> GetFocusSourcePeriodResult:
+        """[Buyer] One stored month of a FOCUS source: totals by currency, each invoice by number (by category and service), spend by cost center (from the tag attribution rules) and by issuer. 'view' on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.focus.get_focus_source_period",
+            source_id=source_id,
+            period=period,
+        )
+
+    def list_focus_exports(self) -> FocusExportList:
+        """[Buyer] Whether FOCUS export is on for the workspace, and its exports of the last 7 days, newest first (at most 20): range, FOCUS version, rows and documents. 'view' on invoices."""
+        return self._transport.call("pleaxy._generated.api.focus.list_focus_exports")
+
+    def list_focus_issuers(self) -> List["FocusIssuerView"]:
+        """[Buyer] Every invoice issuer in the stored FOCUS months (the last three per source) with its billed totals by currency and the supplier it maps to - by a person, or by its well-known name (AWS, Microsoft, Google, Oracle) - or none. 'view' on invoices."""
+        return self._transport.call("pleaxy._generated.api.focus.list_focus_issuers")
+
+    def list_focus_sources(self) -> ListFocusSourcesResult:
+        """[Buyer] Whether FOCUS import is on, and the workspace's FOCUS sources - uploads, an AWS Data Exports FOCUS export, an Azure Cost Management FOCUS export, Google Cloud's FOCUS table, Oracle Cloud's FOCUS reports or an S3-compatible bucket - each with its last run (months read, rows, skipped rows by reason, or why it failed), the months stored and the most common tag keys. 'view' on invoices."""
+        return self._transport.call("pleaxy._generated.api.focus.list_focus_sources")
+
+    def map_focus_issuer(
+        self, issuer: str, *, body: MapFocusIssuerInput
+    ) -> List["FocusIssuerView"]:
+        """[Buyer] Map a FOCUS invoice issuer to one of the workspace's suppliers (supplierConnectionId), or forget the mapping (null). 'edit' on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.focus.map_focus_issuer", issuer=issuer, body=body
+        )
+
+    def put_focus_destination(
+        self, *, body: PutFocusDestinationInput
+    ) -> FocusDestinationView:
+        """[Buyer] Set where Pleaxy delivers FOCUS files: bucket, folder (prefix), region, format (csv, gzipped, or parquet), FOCUS version (1.2 or 1.4) and include (all or non_cloud). Without roleArn it saves the destination awaiting its PleaxyFocusWriter role and returns the External ID for the stack; with roleArn Pleaxy writes and deletes a test object first and saves nothing if it can't. Every day Pleaxy then writes this month (and, through the 5th, last month) as one file per month under <prefix>/focus/<version>/billing_period=YYYY-MM/. 'edit' on invoices; a signed-in person only."""
+        return self._transport.call(
+            "pleaxy._generated.api.focus.put_focus_destination", body=body
+        )
+
+    def sync_focus_source(self, source_id: str) -> FocusSourceView:
+        """[Buyer] Read a FOCUS source now, in the background, re-reading the months it holds. 'edit' on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.focus.sync_focus_source", source_id=source_id
+        )
+
+    def test_focus_destination(self) -> FocusDestinationView:
+        """[Buyer] Write and delete a test object in the FOCUS destination; a pass makes a failing destination active again. 'edit' on invoices; a signed-in person only."""
+        return self._transport.call(
+            "pleaxy._generated.api.focus.test_focus_destination"
+        )
+
+
 class FulfillmentResource:
     def __init__(self, transport: Transport) -> None:
         self._transport = transport
@@ -1422,6 +1537,7 @@ class Resources:
         self.document_sync = DocumentSyncResource(transport)
         self.employees = EmployeesResource(transport)
         self.exchange_rates = ExchangeRatesResource(transport)
+        self.focus = FocusResource(transport)
         self.fulfillment = FulfillmentResource(transport)
         self.invoices = InvoicesResource(transport)
         self.notifications = NotificationsResource(transport)

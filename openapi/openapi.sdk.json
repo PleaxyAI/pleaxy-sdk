@@ -4089,7 +4089,8 @@
                               "mca_invoice",
                               "ea_balance",
                               "usage_api_closed_month",
-                              "osp_invoice"
+                              "osp_invoice",
+                              "focus_export"
                             ]
                           },
                           "tolerancePct": {
@@ -6309,7 +6310,8 @@
                             "mca_invoice",
                             "ea_balance",
                             "usage_api_closed_month",
-                            "osp_invoice"
+                            "osp_invoice",
+                            "focus_export"
                           ]
                         },
                         "tolerancePct": {
@@ -8012,7 +8014,8 @@
                             "mca_invoice",
                             "ea_balance",
                             "usage_api_closed_month",
-                            "osp_invoice"
+                            "osp_invoice",
+                            "focus_export"
                           ]
                         },
                         "tolerancePct": {
@@ -9064,7 +9067,8 @@
                         "mca_invoice",
                         "ea_balance",
                         "usage_api_closed_month",
-                        "osp_invoice"
+                        "osp_invoice",
+                        "focus_export"
                       ]
                     },
                     "tolerancePct": {
@@ -9600,7 +9604,8 @@
                         "mca_invoice",
                         "ea_balance",
                         "usage_api_closed_month",
-                        "osp_invoice"
+                        "osp_invoice",
+                        "focus_export"
                       ]
                     },
                     "tolerancePct": {
@@ -10469,7 +10474,8 @@
                         "mca_invoice",
                         "ea_balance",
                         "usage_api_closed_month",
-                        "osp_invoice"
+                        "osp_invoice",
+                        "focus_export"
                       ]
                     },
                     "tolerancePct": {
@@ -14573,6 +14579,985 @@
         },
         "tags": [
           "ai-spend"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/focus-exports": {
+      "get": {
+        "operationId": "ListFocusExports",
+        "summary": "[Buyer] Whether FOCUS export is on for the workspace, and its exports of the last 7 days, newest first (at most 20): range, FOCUS version, rows and documents. 'view' on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FocusExportList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      },
+      "post": {
+        "operationId": "CreateFocusExport",
+        "summary": "[Buyer] Export the workspace's invoices, debit notes and accepted credit notes for billing periods from..to (YYYY-MM, at most 36 months) as a FOCUS Cost and Usage dataset in CSV (version 1.2 by default, or 1.4), with a metadata file. One row per line, tax entry and adjustment; credit notes negative; amounts in each document's currency. include=non_cloud leaves out cloud and AI providers' invoices. Returns download links valid 15 minutes; the files are kept 7 days. 'view' on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFocusExportDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FocusExport"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/focus-exports/{exportId}": {
+      "get": {
+        "operationId": "GetFocusExport",
+        "summary": "[Buyer] One FOCUS export of the last 7 days, with fresh download links for its CSV and metadata (valid 15 minutes). 'view' on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exportId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FocusExport"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/focus-destination": {
+      "get": {
+        "operationId": "GetFocusDestination",
+        "summary": "[Buyer] Where Pleaxy delivers the workspace's FOCUS files every day (an S3 bucket, folder and region, the format, FOCUS version and suppliers included), its status (awaiting_role, active or failing), the last delivery, and what the setup stack needs (Pleaxy's account, the template URL, the External ID). destination is null when none is set. 'view' on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FocusDestinationView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      },
+      "put": {
+        "operationId": "PutFocusDestination",
+        "summary": "[Buyer] Set where Pleaxy delivers FOCUS files: bucket, folder (prefix), region, format (csv, gzipped, or parquet), FOCUS version (1.2 or 1.4) and include (all or non_cloud). Without roleArn it saves the destination awaiting its PleaxyFocusWriter role and returns the External ID for the stack; with roleArn Pleaxy writes and deletes a test object first and saves nothing if it can't. Every day Pleaxy then writes this month (and, through the 5th, last month) as one file per month under <prefix>/focus/<version>/billing_period=YYYY-MM/. 'edit' on invoices; a signed-in person only.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PutFocusDestinationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FocusDestinationView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      },
+      "delete": {
+        "operationId": "DeleteFocusDestination",
+        "summary": "[Buyer] Stop delivering FOCUS files. Files already in the bucket stay; delete the PleaxyFocusDestination stack to remove Pleaxy's access. 'edit' on invoices; a signed-in person only.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "removed": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "removed"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/focus-destination/test": {
+      "post": {
+        "operationId": "TestFocusDestination",
+        "summary": "[Buyer] Write and delete a test object in the FOCUS destination; a pass makes a failing destination active again. 'edit' on invoices; a signed-in person only.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FocusDestinationView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/focus-destination/deliver": {
+      "post": {
+        "operationId": "DeliverFocusDestination",
+        "summary": "[Buyer] Deliver now: write this month's and last month's FOCUS files to the destination, as the daily run does. 'edit' on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FocusDestinationView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/focus-sources": {
+      "get": {
+        "operationId": "ListFocusSources",
+        "summary": "[Buyer] Whether FOCUS import is on, and the workspace's FOCUS sources - uploads, an AWS Data Exports FOCUS export, an Azure Cost Management FOCUS export, Google Cloud's FOCUS table, Oracle Cloud's FOCUS reports or an S3-compatible bucket - each with its last run (months read, rows, skipped rows by reason, or why it failed), the months stored and the most common tag keys. 'view' on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "type": "boolean"
+                    },
+                    "sources": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FocusSourceView"
+                      }
+                    }
+                  },
+                  "required": [
+                    "enabled",
+                    "sources"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      },
+      "post": {
+        "operationId": "CreateFocusSource",
+        "summary": "[Buyer] Add a FOCUS source: kind aws_s3 (with connectionId of an AWS connection and aws: bucket, prefix, region), azure_blob, gcp_bigquery, oci or s3_compatible. A cloud's source becomes its connection's AI lines source, replacing the connector's own AI read. Pleaxy reads it daily, and now with SyncFocusSource. 'edit' on invoices; a signed-in person only.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFocusSourceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FocusSourceView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/focus-sources/issuers": {
+      "get": {
+        "operationId": "ListFocusIssuers",
+        "summary": "[Buyer] Every invoice issuer in the stored FOCUS months (the last three per source) with its billed totals by currency and the supplier it maps to - by a person, or by its well-known name (AWS, Microsoft, Google, Oracle) - or none. 'view' on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FocusIssuerView"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/focus-sources/issuers/{issuer}": {
+      "put": {
+        "operationId": "MapFocusIssuer",
+        "summary": "[Buyer] Map a FOCUS invoice issuer to one of the workspace's suppliers (supplierConnectionId), or forget the mapping (null). 'edit' on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "issuer",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MapFocusIssuerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FocusIssuerView"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/focus-sources/uploads": {
+      "post": {
+        "operationId": "CreateFocusUpload",
+        "summary": "[Buyer] Start a FOCUS file upload (.csv or .csv.gz, up to 500 MB): returns a presigned PUT URL valid a few minutes and the upload's id. PUT the file with the returned content type, then call CompleteFocusUpload. 'edit' on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFocusUploadDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string"
+                    },
+                    "uploadId": {
+                      "type": "string"
+                    },
+                    "uploadUrl": {
+                      "type": "string"
+                    },
+                    "contentType": {
+                      "type": "string"
+                    },
+                    "maxBytes": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "sourceId",
+                    "uploadId",
+                    "uploadUrl",
+                    "contentType",
+                    "maxBytes"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/focus-sources/uploads/{uploadId}/complete": {
+      "post": {
+        "operationId": "CompleteFocusUpload",
+        "summary": "[Buyer] The upload is in place: Pleaxy reads it in the background; the uploads source's last run shows the result. 'edit' on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "uploadId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FocusSourceView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/focus-sources/{sourceId}": {
+      "get": {
+        "operationId": "GetFocusSource",
+        "summary": "[Buyer] One FOCUS source with its last run. 'view' on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sourceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FocusSourceView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      },
+      "delete": {
+        "operationId": "DeleteFocusSource",
+        "summary": "[Buyer] Remove a FOCUS source with the months and AI lines it stored; its connection's own AI read resumes. 'edit' on invoices; a signed-in person only.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sourceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "removed": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "removed"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/focus-sources/{sourceId}/periods/{period}": {
+      "get": {
+        "operationId": "GetFocusSourcePeriod",
+        "summary": "[Buyer] One stored month of a FOCUS source: totals by currency, each invoice by number (by category and service), spend by cost center (from the tag attribution rules) and by issuer. 'view' on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sourceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "period",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "invoices": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FocusInvoiceTotal"
+                      }
+                    },
+                    "costCenters": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FocusCostCenterTotal"
+                      }
+                    },
+                    "sourceId": {
+                      "type": "string"
+                    },
+                    "period": {
+                      "type": "string"
+                    },
+                    "rows": {
+                      "type": "number"
+                    },
+                    "totals": {
+                      "type": "object",
+                      "properties": {},
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "billed": {
+                            "type": "number"
+                          },
+                          "effective": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "billed",
+                          "effective"
+                        ]
+                      }
+                    },
+                    "issuers": {
+                      "type": "object",
+                      "properties": {},
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {},
+                        "additionalProperties": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "version": {
+                      "type": "string",
+                      "enum": [
+                        "1.2",
+                        "1.4",
+                        "1.0",
+                        "1.1",
+                        "1.3"
+                      ]
+                    },
+                    "asOf": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "invoices",
+                    "costCenters",
+                    "sourceId",
+                    "period",
+                    "rows",
+                    "totals",
+                    "issuers",
+                    "asOf"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
+        ]
+      }
+    },
+    "/v1/workspaces/{regionId}/focus-sources/{sourceId}/sync": {
+      "post": {
+        "operationId": "SyncFocusSource",
+        "summary": "[Buyer] Read a FOCUS source now, in the background, re-reading the months it holds. 'edit' on invoices.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sourceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FocusSourceView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "focus"
         ]
       }
     },
@@ -18773,6 +19758,253 @@
           "source"
         ]
       },
+      "CreateFocusExportDto": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string",
+            "enum": [
+              "1.2",
+              "1.4"
+            ]
+          },
+          "include": {
+            "type": "string",
+            "enum": [
+              "all",
+              "non_cloud"
+            ]
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "csv",
+              "parquet"
+            ]
+          }
+        },
+        "required": [
+          "from",
+          "to"
+        ]
+      },
+      "PutFocusDestinationDto": {
+        "type": "object",
+        "properties": {
+          "bucket": {
+            "type": "string",
+            "maxLength": 63
+          },
+          "prefix": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "region": {
+            "type": "string",
+            "maxLength": 30
+          },
+          "roleArn": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "csv",
+              "parquet"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "enum": [
+              "1.2",
+              "1.4"
+            ]
+          },
+          "include": {
+            "type": "string",
+            "enum": [
+              "all",
+              "non_cloud"
+            ]
+          }
+        },
+        "required": [
+          "bucket",
+          "region"
+        ]
+      },
+      "MapFocusIssuerDto": {
+        "type": "object",
+        "properties": {
+          "supplierConnectionId": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 100
+          }
+        }
+      },
+      "CreateFocusUploadDto": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "fileName"
+        ]
+      },
+      "FocusAwsSourceDto": {
+        "type": "object",
+        "properties": {
+          "bucket": {
+            "type": "string",
+            "maxLength": 63
+          },
+          "prefix": {
+            "type": "string",
+            "maxLength": 400
+          },
+          "region": {
+            "type": "string",
+            "maxLength": 30
+          }
+        },
+        "required": [
+          "bucket",
+          "region"
+        ]
+      },
+      "FocusAzureSourceDto": {
+        "type": "object",
+        "properties": {
+          "storageAccount": {
+            "type": "string",
+            "maxLength": 24
+          },
+          "container": {
+            "type": "string",
+            "maxLength": 63
+          },
+          "directory": {
+            "type": "string",
+            "maxLength": 400
+          }
+        },
+        "required": [
+          "storageAccount",
+          "container"
+        ]
+      },
+      "FocusGcpSourceDto": {
+        "type": "object",
+        "properties": {
+          "table": {
+            "type": "string",
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "table"
+        ]
+      },
+      "FocusOciSourceDto": {
+        "type": "object",
+        "properties": {
+          "region": {
+            "type": "string",
+            "maxLength": 40
+          }
+        },
+        "required": [
+          "region"
+        ]
+      },
+      "FocusS3CompatibleSourceDto": {
+        "type": "object",
+        "properties": {
+          "endpoint": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "region": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "bucket": {
+            "type": "string",
+            "maxLength": 63
+          },
+          "prefix": {
+            "type": "string",
+            "maxLength": 400
+          },
+          "accessKeyId": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "secretAccessKey": {
+            "type": "string",
+            "maxLength": 400
+          }
+        },
+        "required": [
+          "endpoint",
+          "region",
+          "bucket",
+          "accessKeyId",
+          "secretAccessKey"
+        ]
+      },
+      "CreateFocusSourceDto": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "aws_s3",
+              "azure_blob",
+              "gcp_bigquery",
+              "oci",
+              "s3_compatible"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "connectionId": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "aws": {
+            "$ref": "#/components/schemas/FocusAwsSourceDto"
+          },
+          "azure": {
+            "$ref": "#/components/schemas/FocusAzureSourceDto"
+          },
+          "gcp": {
+            "$ref": "#/components/schemas/FocusGcpSourceDto"
+          },
+          "oci": {
+            "$ref": "#/components/schemas/FocusOciSourceDto"
+          },
+          "s3": {
+            "$ref": "#/components/schemas/FocusS3CompatibleSourceDto"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
       "SetAiSpendLimitDto": {
         "type": "object",
         "properties": {
@@ -19455,6 +20687,9 @@
           "aiSync": {
             "$ref": "#/components/schemas/CloudAiSyncState"
           },
+          "focusSourceId": {
+            "type": "string"
+          },
           "dataSources": {
             "type": "array",
             "items": {
@@ -19642,7 +20877,8 @@
                   "mca_invoice",
                   "ea_balance",
                   "usage_api_closed_month",
-                  "osp_invoice"
+                  "osp_invoice",
+                  "focus_export"
                 ]
               },
               "amountPayable": {
@@ -19701,7 +20937,8 @@
                   "mca_invoice",
                   "ea_balance",
                   "usage_api_closed_month",
-                  "osp_invoice"
+                  "osp_invoice",
+                  "focus_export"
                 ]
               }
             },
@@ -20501,6 +21738,7 @@
           "type": {
             "type": "string",
             "enum": [
+              "focus_delivery_failed",
               "ai_forecast_over_budget",
               "ai_drafts_ready",
               "report_ready",
@@ -23260,7 +24498,8 @@
               "mca_invoice",
               "ea_balance",
               "usage_api_closed_month",
-              "osp_invoice"
+              "osp_invoice",
+              "focus_export"
             ]
           },
           "tolerancePct": {
@@ -29292,7 +30531,8 @@
               "cost_management",
               "usage_api",
               "cost_report",
-              "usage_report"
+              "usage_report",
+              "focus"
             ]
           },
           "rawService": {
@@ -30585,6 +31825,696 @@
           "source",
           "recordedAt",
           "recordedBy"
+        ]
+      },
+      "FocusExportList": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "exports": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FocusExportSummary"
+            }
+          }
+        },
+        "required": [
+          "enabled",
+          "exports"
+        ]
+      },
+      "FocusExportSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ready"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string",
+            "enum": [
+              "1.2",
+              "1.4"
+            ]
+          },
+          "include": {
+            "type": "string",
+            "enum": [
+              "all",
+              "non_cloud"
+            ]
+          },
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "csv",
+              "parquet"
+            ]
+          },
+          "rowCount": {
+            "type": "number"
+          },
+          "documentCount": {
+            "type": "number"
+          },
+          "expiresAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "createdAt",
+          "version",
+          "include",
+          "from",
+          "to",
+          "format",
+          "rowCount",
+          "documentCount",
+          "expiresAt"
+        ]
+      },
+      "FocusExport": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ready"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string",
+            "enum": [
+              "1.2",
+              "1.4"
+            ]
+          },
+          "include": {
+            "type": "string",
+            "enum": [
+              "all",
+              "non_cloud"
+            ]
+          },
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "csv",
+              "parquet"
+            ]
+          },
+          "rowCount": {
+            "type": "number"
+          },
+          "documentCount": {
+            "type": "number"
+          },
+          "expiresAt": {
+            "type": "string"
+          },
+          "downloadUrl": {
+            "type": "string"
+          },
+          "metadataUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "createdAt",
+          "version",
+          "include",
+          "from",
+          "to",
+          "format",
+          "rowCount",
+          "documentCount",
+          "expiresAt",
+          "downloadUrl",
+          "metadataUrl"
+        ]
+      },
+      "FocusDestinationView": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "destination": {
+            "type": "object",
+            "properties": {
+              "provider": {
+                "type": "string",
+                "enum": [
+                  "aws_s3"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "awaiting_role",
+                  "failing"
+                ]
+              },
+              "createdAt": {
+                "type": "string"
+              },
+              "updatedAt": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string",
+                "enum": [
+                  "1.2",
+                  "1.4"
+                ]
+              },
+              "include": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "non_cloud"
+                ]
+              },
+              "format": {
+                "type": "string",
+                "enum": [
+                  "csv",
+                  "parquet"
+                ]
+              },
+              "bucket": {
+                "type": "string"
+              },
+              "prefix": {
+                "type": "string"
+              },
+              "region": {
+                "type": "string"
+              },
+              "externalId": {
+                "type": "string"
+              },
+              "roleArn": {
+                "type": "string"
+              },
+              "awsAccountId": {
+                "type": "string"
+              },
+              "lastDelivery": {
+                "$ref": "#/components/schemas/FocusDelivery"
+              }
+            },
+            "required": [
+              "provider",
+              "status",
+              "createdAt",
+              "updatedAt",
+              "version",
+              "include",
+              "format",
+              "bucket",
+              "prefix",
+              "region",
+              "externalId"
+            ],
+            "nullable": true
+          },
+          "setup": {
+            "$ref": "#/components/schemas/FocusDestinationSetup"
+          }
+        },
+        "required": [
+          "enabled",
+          "destination",
+          "setup"
+        ]
+      },
+      "FocusDelivery": {
+        "type": "object",
+        "properties": {
+          "at": {
+            "type": "string"
+          },
+          "ok": {
+            "type": "boolean"
+          },
+          "periods": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rowCount": {
+            "type": "number"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "other",
+              "accessDenied",
+              "noSuchBucket",
+              "wrongRegion",
+              "assumeRoleFailed",
+              "kmsDenied"
+            ]
+          },
+          "trigger": {
+            "type": "string",
+            "enum": [
+              "manual",
+              "schedule"
+            ]
+          }
+        },
+        "required": [
+          "at",
+          "ok",
+          "periods",
+          "rowCount",
+          "trigger"
+        ]
+      },
+      "FocusDestinationSetup": {
+        "type": "object",
+        "properties": {
+          "pleaxyAccountId": {
+            "type": "string"
+          },
+          "templateUrl": {
+            "type": "string"
+          },
+          "roleName": {
+            "type": "string"
+          },
+          "stackName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "roleName",
+          "stackName"
+        ]
+      },
+      "FocusSourceView": {
+        "type": "object",
+        "properties": {
+          "s3": {
+            "type": "object",
+            "properties": {
+              "endpoint": {
+                "type": "string"
+              },
+              "region": {
+                "type": "string"
+              },
+              "bucket": {
+                "type": "string"
+              },
+              "prefix": {
+                "type": "string"
+              },
+              "accessKeyId": {
+                "type": "string"
+              },
+              "keyHint": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "endpoint",
+              "region",
+              "bucket",
+              "prefix",
+              "accessKeyId",
+              "keyHint"
+            ]
+          },
+          "aws": {
+            "type": "object",
+            "properties": {
+              "bucket": {
+                "type": "string"
+              },
+              "prefix": {
+                "type": "string"
+              },
+              "region": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "bucket",
+              "prefix",
+              "region"
+            ]
+          },
+          "gcp": {
+            "type": "object",
+            "properties": {
+              "table": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "table"
+            ]
+          },
+          "azure": {
+            "type": "object",
+            "properties": {
+              "storageAccount": {
+                "type": "string"
+              },
+              "container": {
+                "type": "string"
+              },
+              "directory": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "storageAccount",
+              "container",
+              "directory"
+            ]
+          },
+          "oci": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "region"
+            ]
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "aws",
+              "gcp",
+              "azure",
+              "oci"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "oci",
+              "aws_s3",
+              "upload",
+              "azure_blob",
+              "gcp_bigquery",
+              "s3_compatible"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "connectionId": {
+            "type": "string"
+          },
+          "periods": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "lastRun": {
+            "$ref": "#/components/schemas/FocusRun"
+          },
+          "tagKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "kind",
+          "label",
+          "periods",
+          "tagKeys"
+        ]
+      },
+      "FocusRun": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string"
+          },
+          "startedAt": {
+            "type": "string"
+          },
+          "finishedAt": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "failed",
+              "ok",
+              "partial"
+            ]
+          },
+          "trigger": {
+            "type": "string",
+            "enum": [
+              "manual",
+              "schedule",
+              "upload"
+            ]
+          },
+          "periods": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "files": {
+            "type": "number"
+          },
+          "rows": {
+            "type": "number"
+          },
+          "skipped": {
+            "type": "number"
+          },
+          "skippedByReason": {
+            "type": "object",
+            "properties": {
+              "noBillingPeriod": {
+                "type": "number"
+              },
+              "badNumber": {
+                "type": "number"
+              },
+              "badCurrency": {
+                "type": "number"
+              },
+              "badChargePeriod": {
+                "type": "number"
+              }
+            }
+          },
+          "version": {
+            "type": "string",
+            "enum": [
+              "1.2",
+              "1.4",
+              "1.0",
+              "1.1",
+              "1.3"
+            ]
+          },
+          "ignoredFiles": {
+            "type": "number"
+          },
+          "failure": {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "other",
+                  "unreachable",
+                  "accessDenied",
+                  "wrongRegion",
+                  "notFound",
+                  "notFocus",
+                  "parquetUnsupported",
+                  "connectionMissing",
+                  "credentialRejected"
+                ]
+              },
+              "detail": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "reason"
+            ]
+          }
+        },
+        "required": [
+          "runId",
+          "startedAt",
+          "status",
+          "trigger",
+          "periods",
+          "files",
+          "rows",
+          "skipped",
+          "skippedByReason",
+          "ignoredFiles"
+        ]
+      },
+      "FocusIssuerView": {
+        "type": "object",
+        "properties": {
+          "issuer": {
+            "type": "string"
+          },
+          "supplierConnectionId": {
+            "type": "string"
+          },
+          "supplierName": {
+            "type": "string"
+          },
+          "mappedBy": {
+            "type": "string",
+            "enum": [
+              "name",
+              "person"
+            ]
+          },
+          "totals": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "issuer",
+          "totals"
+        ]
+      },
+      "FocusInvoiceTotal": {
+        "type": "object",
+        "properties": {
+          "issuer": {
+            "type": "string"
+          },
+          "billingAccountId": {
+            "type": "string"
+          },
+          "invoiceId": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "total": {
+            "type": "number"
+          },
+          "byCategory": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "byService": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "corrections": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "issuer",
+          "billingAccountId",
+          "invoiceId",
+          "currency",
+          "total",
+          "byCategory",
+          "byService",
+          "corrections"
+        ]
+      },
+      "FocusCostCenterTotal": {
+        "type": "object",
+        "properties": {
+          "costCenter": {
+            "type": "string"
+          },
+          "serviceCategory": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "costCenter",
+          "serviceCategory",
+          "currency",
+          "amount"
         ]
       },
       "AiLimitCredential": {

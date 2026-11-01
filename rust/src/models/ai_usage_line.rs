@@ -266,6 +266,8 @@ pub enum Source {
     CostReport,
     #[serde(rename = "usage_report")]
     UsageReport,
+    #[serde(rename = "focus")]
+    Focus,
 }
 
 impl Default for Source {

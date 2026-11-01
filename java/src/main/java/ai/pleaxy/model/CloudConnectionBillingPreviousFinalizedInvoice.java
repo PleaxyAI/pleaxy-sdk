@@ -66,7 +66,9 @@ public class CloudConnectionBillingPreviousFinalizedInvoice {
     
     USAGE_API_CLOSED_MONTH(String.valueOf("usage_api_closed_month")),
     
-    OSP_INVOICE(String.valueOf("osp_invoice"));
+    OSP_INVOICE(String.valueOf("osp_invoice")),
+    
+    FOCUS_EXPORT(String.valueOf("focus_export"));
 
     private String value;
 

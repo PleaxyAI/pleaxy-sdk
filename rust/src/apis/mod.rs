@@ -105,6 +105,7 @@ pub mod cloud_connections_api;
 pub mod document_sync_api;
 pub mod employees_api;
 pub mod exchange_rates_api;
+pub mod focus_api;
 pub mod fulfillment_api;
 pub mod invoices_api;
 pub mod notifications_api;

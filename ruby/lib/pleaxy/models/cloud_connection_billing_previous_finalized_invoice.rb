@@ -120,7 +120,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      source_validator = EnumAttributeValidator.new('String', ["aws_invoice", "billing_export", "mca_invoice", "ea_balance", "usage_api_closed_month", "osp_invoice"])
+      source_validator = EnumAttributeValidator.new('String', ["aws_invoice", "billing_export", "mca_invoice", "ea_balance", "usage_api_closed_month", "osp_invoice", "focus_export"])
       return false unless source_validator.valid?(@source)
       true
     end
@@ -128,7 +128,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] source Object to be assigned
     def source=(source)
-      validator = EnumAttributeValidator.new('String', ["aws_invoice", "billing_export", "mca_invoice", "ea_balance", "usage_api_closed_month", "osp_invoice"])
+      validator = EnumAttributeValidator.new('String', ["aws_invoice", "billing_export", "mca_invoice", "ea_balance", "usage_api_closed_month", "osp_invoice", "focus_export"])
       unless validator.valid?(source)
         fail ArgumentError, "invalid value for \"source\", must be one of #{validator.allowable_values}."
       end

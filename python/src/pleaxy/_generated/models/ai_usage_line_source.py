@@ -5,6 +5,7 @@ AiUsageLineSource = Literal[
     "cost_explorer",
     "cost_management",
     "cost_report",
+    "focus",
     "usage_api",
     "usage_report",
 ]
@@ -14,6 +15,7 @@ AI_USAGE_LINE_SOURCE_VALUES: Set[AiUsageLineSource] = {
     "cost_explorer",
     "cost_management",
     "cost_report",
+    "focus",
     "usage_api",
     "usage_report",
 }

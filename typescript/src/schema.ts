@@ -1706,6 +1706,232 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/focus-exports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Whether FOCUS export is on for the workspace, and its exports of the last 7 days, newest first (at most 20): range, FOCUS version, rows and documents. 'view' on invoices. */
+        get: operations["ListFocusExports"];
+        put?: never;
+        /** [Buyer] Export the workspace's invoices, debit notes and accepted credit notes for billing periods from..to (YYYY-MM, at most 36 months) as a FOCUS Cost and Usage dataset in CSV (version 1.2 by default, or 1.4), with a metadata file. One row per line, tax entry and adjustment; credit notes negative; amounts in each document's currency. include=non_cloud leaves out cloud and AI providers' invoices. Returns download links valid 15 minutes; the files are kept 7 days. 'view' on invoices. */
+        post: operations["CreateFocusExport"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/focus-exports/{exportId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] One FOCUS export of the last 7 days, with fresh download links for its CSV and metadata (valid 15 minutes). 'view' on invoices. */
+        get: operations["GetFocusExport"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/focus-destination": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Where Pleaxy delivers the workspace's FOCUS files every day (an S3 bucket, folder and region, the format, FOCUS version and suppliers included), its status (awaiting_role, active or failing), the last delivery, and what the setup stack needs (Pleaxy's account, the template URL, the External ID). destination is null when none is set. 'view' on invoices. */
+        get: operations["GetFocusDestination"];
+        /** [Buyer] Set where Pleaxy delivers FOCUS files: bucket, folder (prefix), region, format (csv, gzipped, or parquet), FOCUS version (1.2 or 1.4) and include (all or non_cloud). Without roleArn it saves the destination awaiting its PleaxyFocusWriter role and returns the External ID for the stack; with roleArn Pleaxy writes and deletes a test object first and saves nothing if it can't. Every day Pleaxy then writes this month (and, through the 5th, last month) as one file per month under <prefix>/focus/<version>/billing_period=YYYY-MM/. 'edit' on invoices; a signed-in person only. */
+        put: operations["PutFocusDestination"];
+        post?: never;
+        /** [Buyer] Stop delivering FOCUS files. Files already in the bucket stay; delete the PleaxyFocusDestination stack to remove Pleaxy's access. 'edit' on invoices; a signed-in person only. */
+        delete: operations["DeleteFocusDestination"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/focus-destination/test": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Write and delete a test object in the FOCUS destination; a pass makes a failing destination active again. 'edit' on invoices; a signed-in person only. */
+        post: operations["TestFocusDestination"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/focus-destination/deliver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Deliver now: write this month's and last month's FOCUS files to the destination, as the daily run does. 'edit' on invoices. */
+        post: operations["DeliverFocusDestination"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/focus-sources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Whether FOCUS import is on, and the workspace's FOCUS sources - uploads, an AWS Data Exports FOCUS export, an Azure Cost Management FOCUS export, Google Cloud's FOCUS table, Oracle Cloud's FOCUS reports or an S3-compatible bucket - each with its last run (months read, rows, skipped rows by reason, or why it failed), the months stored and the most common tag keys. 'view' on invoices. */
+        get: operations["ListFocusSources"];
+        put?: never;
+        /** [Buyer] Add a FOCUS source: kind aws_s3 (with connectionId of an AWS connection and aws: bucket, prefix, region), azure_blob, gcp_bigquery, oci or s3_compatible. A cloud's source becomes its connection's AI lines source, replacing the connector's own AI read. Pleaxy reads it daily, and now with SyncFocusSource. 'edit' on invoices; a signed-in person only. */
+        post: operations["CreateFocusSource"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/focus-sources/issuers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Every invoice issuer in the stored FOCUS months (the last three per source) with its billed totals by currency and the supplier it maps to - by a person, or by its well-known name (AWS, Microsoft, Google, Oracle) - or none. 'view' on invoices. */
+        get: operations["ListFocusIssuers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/focus-sources/issuers/{issuer}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** [Buyer] Map a FOCUS invoice issuer to one of the workspace's suppliers (supplierConnectionId), or forget the mapping (null). 'edit' on invoices. */
+        put: operations["MapFocusIssuer"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/focus-sources/uploads": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Start a FOCUS file upload (.csv or .csv.gz, up to 500 MB): returns a presigned PUT URL valid a few minutes and the upload's id. PUT the file with the returned content type, then call CompleteFocusUpload. 'edit' on invoices. */
+        post: operations["CreateFocusUpload"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/focus-sources/uploads/{uploadId}/complete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] The upload is in place: Pleaxy reads it in the background; the uploads source's last run shows the result. 'edit' on invoices. */
+        post: operations["CompleteFocusUpload"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/focus-sources/{sourceId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] One FOCUS source with its last run. 'view' on invoices. */
+        get: operations["GetFocusSource"];
+        put?: never;
+        post?: never;
+        /** [Buyer] Remove a FOCUS source with the months and AI lines it stored; its connection's own AI read resumes. 'edit' on invoices; a signed-in person only. */
+        delete: operations["DeleteFocusSource"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/focus-sources/{sourceId}/periods/{period}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] One stored month of a FOCUS source: totals by currency, each invoice by number (by category and service), spend by cost center (from the tag attribution rules) and by issuer. 'view' on invoices. */
+        get: operations["GetFocusSourcePeriod"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/focus-sources/{sourceId}/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Read a FOCUS source now, in the background, re-reading the months it holds. 'edit' on invoices. */
+        post: operations["SyncFocusSource"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ai-spend/limits": {
         parameters: {
             query?: never;
@@ -2982,6 +3208,69 @@ export interface components {
             /** @enum {string} */
             source: "okta" | "entra" | "google_workspace" | "jumpcloud" | "provider_console" | "manual";
         };
+        CreateFocusExportInput: {
+            from: string;
+            to: string;
+            /** @enum {string} */
+            version?: "1.2" | "1.4";
+            /** @enum {string} */
+            include?: "all" | "non_cloud";
+            /** @enum {string} */
+            format?: "csv" | "parquet";
+        };
+        PutFocusDestinationInput: {
+            bucket: string;
+            prefix?: string;
+            region: string;
+            roleArn?: string;
+            /** @enum {string} */
+            format?: "csv" | "parquet";
+            /** @enum {string} */
+            version?: "1.2" | "1.4";
+            /** @enum {string} */
+            include?: "all" | "non_cloud";
+        };
+        MapFocusIssuerInput: {
+            supplierConnectionId?: string | null;
+        };
+        CreateFocusUploadInput: {
+            fileName: string;
+        };
+        FocusAwsSourceInput: {
+            bucket: string;
+            prefix?: string;
+            region: string;
+        };
+        FocusAzureSourceInput: {
+            storageAccount: string;
+            container: string;
+            directory?: string;
+        };
+        FocusGcpSourceInput: {
+            table: string;
+        };
+        FocusOciSourceInput: {
+            region: string;
+        };
+        FocusS3CompatibleSourceInput: {
+            endpoint: string;
+            region: string;
+            bucket: string;
+            prefix?: string;
+            accessKeyId: string;
+            secretAccessKey: string;
+        };
+        CreateFocusSourceInput: {
+            /** @enum {string} */
+            kind: "aws_s3" | "azure_blob" | "gcp_bigquery" | "oci" | "s3_compatible";
+            label?: string;
+            connectionId?: string;
+            aws?: components["schemas"]["FocusAwsSourceInput"];
+            azure?: components["schemas"]["FocusAzureSourceInput"];
+            gcp?: components["schemas"]["FocusGcpSourceInput"];
+            oci?: components["schemas"]["FocusOciSourceInput"];
+            s3?: components["schemas"]["FocusS3CompatibleSourceInput"];
+        };
         SetAiSpendLimitInput: {
             /** @description The invoicer the order covers: a cloud connection or AI provider id with a limits credential. */
             invoicerId: string;
@@ -3225,6 +3514,7 @@ export interface components {
             /** @enum {string} */
             lastSyncErrorCode?: "throttled" | "access_revoked" | "platform_config" | "data_not_enabled" | "unknown";
             aiSync?: components["schemas"]["CloudAiSyncState"];
+            focusSourceId?: string;
             dataSources?: ("invoices" | "current_cost")[];
             billing?: components["schemas"]["CloudConnectionBilling"];
             gcp?: {
@@ -3274,7 +3564,7 @@ export interface components {
                 asOf?: string;
                 currency?: string;
                 /** @enum {string} */
-                source?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
+                source?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
                 /** Format: double */
                 amountPayable?: number;
                 adjustments?: {
@@ -3291,7 +3581,7 @@ export interface components {
                 totalAmount?: number;
                 currency?: string;
                 /** @enum {string} */
-                source?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
+                source?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
             };
             currentPeriodEstimate?: {
                 /** Format: double */
@@ -3507,7 +3797,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "ai_forecast_over_budget" | "ai_drafts_ready" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
+            type?: "focus_delivery_failed" | "ai_forecast_over_budget" | "ai_drafts_ready" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -4267,7 +4557,7 @@ export interface components {
             usageSimulatedAfterDisconnect?: boolean;
             usageCurrency?: string;
             /** @enum {string} */
-            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
             /** Format: double */
             tolerancePct?: number;
             /** @enum {string} */
@@ -5901,7 +6191,7 @@ export interface components {
                 [key: string]: string;
             };
             /** @enum {string} */
-            source?: "billing_export" | "cost_explorer" | "cost_management" | "usage_api" | "cost_report" | "usage_report";
+            source?: "billing_export" | "cost_explorer" | "cost_management" | "usage_api" | "cost_report" | "usage_report" | "focus";
             rawService?: string;
             rawUsageType?: string;
         };
@@ -6220,6 +6510,198 @@ export interface components {
             source?: "manual" | "okta" | "entra" | "google_workspace" | "jumpcloud" | "provider_console";
             recordedAt?: string;
             recordedBy?: string;
+        };
+        FocusExportList: {
+            enabled?: boolean;
+            exports?: components["schemas"]["FocusExportSummary"][];
+        };
+        FocusExportSummary: {
+            id: string;
+            /** @enum {string} */
+            status?: "ready";
+            createdAt?: string;
+            /** @enum {string} */
+            version?: "1.2" | "1.4";
+            /** @enum {string} */
+            include?: "all" | "non_cloud";
+            from?: string;
+            to?: string;
+            /** @enum {string} */
+            format?: "csv" | "parquet";
+            /** Format: double */
+            rowCount?: number;
+            /** Format: double */
+            documentCount?: number;
+            expiresAt?: string;
+        };
+        FocusExport: {
+            id: string;
+            /** @enum {string} */
+            status?: "ready";
+            createdAt?: string;
+            /** @enum {string} */
+            version?: "1.2" | "1.4";
+            /** @enum {string} */
+            include?: "all" | "non_cloud";
+            from?: string;
+            to?: string;
+            /** @enum {string} */
+            format?: "csv" | "parquet";
+            /** Format: double */
+            rowCount?: number;
+            /** Format: double */
+            documentCount?: number;
+            expiresAt?: string;
+            downloadUrl?: string;
+            metadataUrl?: string;
+        };
+        FocusDestinationView: {
+            enabled?: boolean;
+            destination?: {
+                /** @enum {string} */
+                provider?: "aws_s3";
+                /** @enum {string} */
+                status?: "active" | "awaiting_role" | "failing";
+                createdAt?: string;
+                updatedAt?: string;
+                /** @enum {string} */
+                version?: "1.2" | "1.4";
+                /** @enum {string} */
+                include?: "all" | "non_cloud";
+                /** @enum {string} */
+                format?: "csv" | "parquet";
+                bucket?: string;
+                prefix?: string;
+                region?: string;
+                externalId?: string;
+                roleArn?: string;
+                awsAccountId?: string;
+                lastDelivery?: components["schemas"]["FocusDelivery"];
+            } | null;
+            setup?: components["schemas"]["FocusDestinationSetup"];
+        };
+        FocusDelivery: {
+            at?: string;
+            ok?: boolean;
+            periods?: string[];
+            /** Format: double */
+            rowCount?: number;
+            /** @enum {string} */
+            reason?: "other" | "accessDenied" | "noSuchBucket" | "wrongRegion" | "assumeRoleFailed" | "kmsDenied";
+            /** @enum {string} */
+            trigger?: "manual" | "schedule";
+        };
+        FocusDestinationSetup: {
+            pleaxyAccountId?: string;
+            templateUrl?: string;
+            roleName?: string;
+            stackName?: string;
+        };
+        FocusSourceView: {
+            s3?: {
+                endpoint?: string;
+                region?: string;
+                bucket?: string;
+                prefix?: string;
+                accessKeyId?: string;
+                keyHint?: string;
+            };
+            aws?: {
+                bucket?: string;
+                prefix?: string;
+                region?: string;
+            };
+            gcp?: {
+                table?: string;
+            };
+            azure?: {
+                storageAccount?: string;
+                container?: string;
+                directory?: string;
+            };
+            oci?: {
+                region?: string;
+            };
+            /** @enum {string} */
+            provider?: "aws" | "gcp" | "azure" | "oci";
+            id: string;
+            createdAt?: string;
+            updatedAt?: string;
+            /** @enum {string} */
+            kind?: "oci" | "aws_s3" | "upload" | "azure_blob" | "gcp_bigquery" | "s3_compatible";
+            label?: string;
+            connectionId?: string;
+            periods?: string[];
+            lastRun?: components["schemas"]["FocusRun"];
+            tagKeys?: string[];
+        };
+        FocusRun: {
+            runId?: string;
+            startedAt?: string;
+            finishedAt?: string;
+            /** @enum {string} */
+            status?: "failed" | "ok" | "partial";
+            /** @enum {string} */
+            trigger?: "manual" | "schedule" | "upload";
+            periods?: string[];
+            /** Format: double */
+            files?: number;
+            /** Format: double */
+            rows?: number;
+            /** Format: double */
+            skipped?: number;
+            skippedByReason?: {
+                /** Format: double */
+                noBillingPeriod?: number;
+                /** Format: double */
+                badNumber?: number;
+                /** Format: double */
+                badCurrency?: number;
+                /** Format: double */
+                badChargePeriod?: number;
+            };
+            /** @enum {string} */
+            version?: "1.2" | "1.4" | "1.0" | "1.1" | "1.3";
+            /** Format: double */
+            ignoredFiles?: number;
+            failure?: {
+                /** @enum {string} */
+                reason?: "other" | "unreachable" | "accessDenied" | "wrongRegion" | "notFound" | "notFocus" | "parquetUnsupported" | "connectionMissing" | "credentialRejected";
+                detail?: string;
+            };
+        };
+        FocusIssuerView: {
+            issuer?: string;
+            supplierConnectionId?: string;
+            supplierName?: string;
+            /** @enum {string} */
+            mappedBy?: "name" | "person";
+            totals?: {
+                [key: string]: number;
+            };
+        };
+        FocusInvoiceTotal: {
+            issuer?: string;
+            billingAccountId?: string;
+            invoiceId?: string;
+            currency?: string;
+            /** Format: double */
+            total?: number;
+            byCategory?: {
+                [key: string]: number;
+            };
+            byService?: {
+                [key: string]: number;
+            };
+            /** Format: double */
+            corrections?: number;
+        };
+        FocusCostCenterTotal: {
+            costCenter?: string;
+            serviceCategory?: string;
+            currency?: string;
+            /** Format: double */
+            amount?: number;
         };
         AiLimitCredential: {
             invoicerId?: string;
@@ -7019,7 +7501,7 @@ export interface components {
             usageSimulatedAfterDisconnect?: boolean;
             usageCurrency?: string;
             /** @enum {string} */
-            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
             /** Format: double */
             tolerancePct?: number;
             /** @enum {string} */
@@ -7626,7 +8108,7 @@ export interface components {
             usageSimulatedAfterDisconnect?: boolean;
             usageCurrency?: string;
             /** @enum {string} */
-            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
             /** Format: double */
             tolerancePct?: number;
             /** @enum {string} */
@@ -8074,7 +8556,7 @@ export interface components {
             usageSimulatedAfterDisconnect?: boolean;
             usageCurrency?: string;
             /** @enum {string} */
-            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
             /** Format: double */
             tolerancePct?: number;
             /** @enum {string} */
@@ -8354,7 +8836,7 @@ export interface components {
             usageSimulatedAfterDisconnect?: boolean;
             usageCurrency?: string;
             /** @enum {string} */
-            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
             /** Format: double */
             tolerancePct?: number;
             /** @enum {string} */
@@ -8492,7 +8974,7 @@ export interface components {
             usageSimulatedAfterDisconnect?: boolean;
             usageCurrency?: string;
             /** @enum {string} */
-            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
             /** Format: double */
             tolerancePct?: number;
             /** @enum {string} */
@@ -8635,7 +9117,7 @@ export interface components {
             usageSimulatedAfterDisconnect?: boolean;
             usageCurrency?: string;
             /** @enum {string} */
-            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice";
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
             /** Format: double */
             tolerancePct?: number;
             /** @enum {string} */
@@ -8913,6 +9395,48 @@ export interface components {
         };
         ListWebhookDeliveriesResult: {
             deliveries?: components["schemas"]["WebhookDelivery"][];
+        };
+        DeleteFocusDestinationResult: {
+            removed?: boolean;
+        };
+        ListFocusSourcesResult: {
+            enabled?: boolean;
+            sources?: components["schemas"]["FocusSourceView"][];
+        };
+        CreateFocusUploadResult: {
+            sourceId?: string;
+            uploadId?: string;
+            uploadUrl?: string;
+            contentType?: string;
+            /** Format: double */
+            maxBytes?: number;
+        };
+        DeleteFocusSourceResult: {
+            removed?: boolean;
+        };
+        GetFocusSourcePeriodResult: {
+            invoices?: components["schemas"]["FocusInvoiceTotal"][];
+            costCenters?: components["schemas"]["FocusCostCenterTotal"][];
+            sourceId?: string;
+            period?: string;
+            /** Format: double */
+            rows?: number;
+            totals?: {
+                [key: string]: {
+                    /** Format: double */
+                    billed?: number;
+                    /** Format: double */
+                    effective?: number;
+                };
+            };
+            issuers?: {
+                [key: string]: {
+                    [key: string]: number;
+                };
+            };
+            /** @enum {string} */
+            version?: "1.2" | "1.4" | "1.0" | "1.1" | "1.3";
+            asOf?: string;
         };
         ListAiSpendLimitsResult: {
             credentials?: components["schemas"]["AiLimitCredential"][];
@@ -12637,6 +13161,545 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AiSeatCount"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListFocusExports: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusExportList"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CreateFocusExport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateFocusExportInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusExport"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetFocusExport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                exportId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusExport"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetFocusDestination: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusDestinationView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PutFocusDestination: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PutFocusDestinationInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusDestinationView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    DeleteFocusDestination: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeleteFocusDestinationResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    TestFocusDestination: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusDestinationView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    DeliverFocusDestination: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusDestinationView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListFocusSources: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListFocusSourcesResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CreateFocusSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateFocusSourceInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusSourceView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListFocusIssuers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusIssuerView"][];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    MapFocusIssuer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                issuer: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MapFocusIssuerInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusIssuerView"][];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CreateFocusUpload: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateFocusUploadInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreateFocusUploadResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CompleteFocusUpload: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uploadId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusSourceView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetFocusSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sourceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusSourceView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    DeleteFocusSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sourceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeleteFocusSourceResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetFocusSourcePeriod: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sourceId: string;
+                period: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetFocusSourcePeriodResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SyncFocusSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sourceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusSourceView"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

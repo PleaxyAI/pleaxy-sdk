@@ -67,6 +67,11 @@ impl Client {
         ExchangeRates(self)
     }
 
+    /// Focus operations.
+    pub fn focus(&self) -> Focus<'_> {
+        Focus(self)
+    }
+
     /// Fulfillment operations.
     pub fn fulfillment(&self) -> Fulfillment<'_> {
         Fulfillment(self)
@@ -989,6 +994,189 @@ impl<'a> ExchangeRates<'a> {
             set_warning_pct_input,
         )
         .await
+    }
+}
+
+/// Focus operations: `client.focus()`.
+#[derive(Debug, Clone, Copy)]
+pub struct Focus<'a>(&'a Client);
+
+impl<'a> Focus<'a> {
+    pub async fn complete_focus_upload(
+        &self,
+        upload_id: &str,
+    ) -> Result<
+        crate::models::FocusSourceView,
+        crate::apis::Error<crate::apis::focus_api::CompleteFocusUploadError>,
+    > {
+        crate::apis::focus_api::complete_focus_upload(&self.0.config, upload_id).await
+    }
+
+    pub async fn create_focus_export(
+        &self,
+        create_focus_export_input: crate::models::CreateFocusExportInput,
+    ) -> Result<
+        crate::models::FocusExport,
+        crate::apis::Error<crate::apis::focus_api::CreateFocusExportError>,
+    > {
+        crate::apis::focus_api::create_focus_export(&self.0.config, create_focus_export_input).await
+    }
+
+    pub async fn create_focus_source(
+        &self,
+        create_focus_source_input: crate::models::CreateFocusSourceInput,
+    ) -> Result<
+        crate::models::FocusSourceView,
+        crate::apis::Error<crate::apis::focus_api::CreateFocusSourceError>,
+    > {
+        crate::apis::focus_api::create_focus_source(&self.0.config, create_focus_source_input).await
+    }
+
+    pub async fn create_focus_upload(
+        &self,
+        create_focus_upload_input: crate::models::CreateFocusUploadInput,
+    ) -> Result<
+        crate::models::CreateFocusUploadResult,
+        crate::apis::Error<crate::apis::focus_api::CreateFocusUploadError>,
+    > {
+        crate::apis::focus_api::create_focus_upload(&self.0.config, create_focus_upload_input).await
+    }
+
+    pub async fn delete_focus_destination(
+        &self,
+    ) -> Result<
+        crate::models::DeleteFocusDestinationResult,
+        crate::apis::Error<crate::apis::focus_api::DeleteFocusDestinationError>,
+    > {
+        crate::apis::focus_api::delete_focus_destination(&self.0.config).await
+    }
+
+    pub async fn delete_focus_source(
+        &self,
+        source_id: &str,
+    ) -> Result<
+        crate::models::DeleteFocusSourceResult,
+        crate::apis::Error<crate::apis::focus_api::DeleteFocusSourceError>,
+    > {
+        crate::apis::focus_api::delete_focus_source(&self.0.config, source_id).await
+    }
+
+    pub async fn deliver_focus_destination(
+        &self,
+    ) -> Result<
+        crate::models::FocusDestinationView,
+        crate::apis::Error<crate::apis::focus_api::DeliverFocusDestinationError>,
+    > {
+        crate::apis::focus_api::deliver_focus_destination(&self.0.config).await
+    }
+
+    pub async fn get_focus_destination(
+        &self,
+    ) -> Result<
+        crate::models::FocusDestinationView,
+        crate::apis::Error<crate::apis::focus_api::GetFocusDestinationError>,
+    > {
+        crate::apis::focus_api::get_focus_destination(&self.0.config).await
+    }
+
+    pub async fn get_focus_export(
+        &self,
+        export_id: &str,
+    ) -> Result<
+        crate::models::FocusExport,
+        crate::apis::Error<crate::apis::focus_api::GetFocusExportError>,
+    > {
+        crate::apis::focus_api::get_focus_export(&self.0.config, export_id).await
+    }
+
+    pub async fn get_focus_source(
+        &self,
+        source_id: &str,
+    ) -> Result<
+        crate::models::FocusSourceView,
+        crate::apis::Error<crate::apis::focus_api::GetFocusSourceError>,
+    > {
+        crate::apis::focus_api::get_focus_source(&self.0.config, source_id).await
+    }
+
+    pub async fn get_focus_source_period(
+        &self,
+        source_id: &str,
+        period: &str,
+    ) -> Result<
+        crate::models::GetFocusSourcePeriodResult,
+        crate::apis::Error<crate::apis::focus_api::GetFocusSourcePeriodError>,
+    > {
+        crate::apis::focus_api::get_focus_source_period(&self.0.config, source_id, period).await
+    }
+
+    pub async fn list_focus_exports(
+        &self,
+    ) -> Result<
+        crate::models::FocusExportList,
+        crate::apis::Error<crate::apis::focus_api::ListFocusExportsError>,
+    > {
+        crate::apis::focus_api::list_focus_exports(&self.0.config).await
+    }
+
+    pub async fn list_focus_issuers(
+        &self,
+    ) -> Result<
+        Vec<crate::models::FocusIssuerView>,
+        crate::apis::Error<crate::apis::focus_api::ListFocusIssuersError>,
+    > {
+        crate::apis::focus_api::list_focus_issuers(&self.0.config).await
+    }
+
+    pub async fn list_focus_sources(
+        &self,
+    ) -> Result<
+        crate::models::ListFocusSourcesResult,
+        crate::apis::Error<crate::apis::focus_api::ListFocusSourcesError>,
+    > {
+        crate::apis::focus_api::list_focus_sources(&self.0.config).await
+    }
+
+    pub async fn map_focus_issuer(
+        &self,
+        issuer: &str,
+        map_focus_issuer_input: crate::models::MapFocusIssuerInput,
+    ) -> Result<
+        Vec<crate::models::FocusIssuerView>,
+        crate::apis::Error<crate::apis::focus_api::MapFocusIssuerError>,
+    > {
+        crate::apis::focus_api::map_focus_issuer(&self.0.config, issuer, map_focus_issuer_input)
+            .await
+    }
+
+    pub async fn put_focus_destination(
+        &self,
+        put_focus_destination_input: crate::models::PutFocusDestinationInput,
+    ) -> Result<
+        crate::models::FocusDestinationView,
+        crate::apis::Error<crate::apis::focus_api::PutFocusDestinationError>,
+    > {
+        crate::apis::focus_api::put_focus_destination(&self.0.config, put_focus_destination_input)
+            .await
+    }
+
+    pub async fn sync_focus_source(
+        &self,
+        source_id: &str,
+    ) -> Result<
+        crate::models::FocusSourceView,
+        crate::apis::Error<crate::apis::focus_api::SyncFocusSourceError>,
+    > {
+        crate::apis::focus_api::sync_focus_source(&self.0.config, source_id).await
+    }
+
+    pub async fn test_focus_destination(
+        &self,
+    ) -> Result<
+        crate::models::FocusDestinationView,
+        crate::apis::Error<crate::apis::focus_api::TestFocusDestinationError>,
+    > {
+        crate::apis::focus_api::test_focus_destination(&self.0.config).await
     }
 }
 

@@ -412,7 +412,9 @@ public class AiUsageLine {
     
     COST_REPORT(String.valueOf("cost_report")),
     
-    USAGE_REPORT(String.valueOf("usage_report"));
+    USAGE_REPORT(String.valueOf("usage_report")),
+    
+    FOCUS(String.valueOf("focus"));
 
     private String value;
 

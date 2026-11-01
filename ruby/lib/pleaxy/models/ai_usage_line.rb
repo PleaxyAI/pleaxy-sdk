@@ -244,7 +244,7 @@ module Pleaxy
       return false unless meter_validator.valid?(@meter)
       unit_validator = EnumAttributeValidator.new('String', ["images", "requests", "gpu_hours", "ptu_hours", "tokens", "1M_tokens", "seconds", "model_unit_hours", "units", "seat_months"])
       return false unless unit_validator.valid?(@unit)
-      source_validator = EnumAttributeValidator.new('String', ["billing_export", "cost_explorer", "cost_management", "usage_api", "cost_report", "usage_report"])
+      source_validator = EnumAttributeValidator.new('String', ["billing_export", "cost_explorer", "cost_management", "usage_api", "cost_report", "usage_report", "focus"])
       return false unless source_validator.valid?(@source)
       true
     end
@@ -302,7 +302,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] source Object to be assigned
     def source=(source)
-      validator = EnumAttributeValidator.new('String', ["billing_export", "cost_explorer", "cost_management", "usage_api", "cost_report", "usage_report"])
+      validator = EnumAttributeValidator.new('String', ["billing_export", "cost_explorer", "cost_management", "usage_api", "cost_report", "usage_report", "focus"])
       unless validator.valid?(source)
         fail ArgumentError, "invalid value for \"source\", must be one of #{validator.allowable_values}."
       end

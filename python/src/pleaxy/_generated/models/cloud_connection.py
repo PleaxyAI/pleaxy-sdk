@@ -59,6 +59,7 @@ class CloudConnection:
         last_sync_error (Union[Unset, str]):
         last_sync_error_code (Union[Unset, CloudConnectionLastSyncErrorCode]):
         ai_sync (Union[Unset, CloudAiSyncState]):
+        focus_source_id (Union[Unset, str]):
         data_sources (Union[Unset, List[CloudConnectionDataSourcesItem]]):
         billing (Union[Unset, CloudConnectionBilling]):
         gcp (Union[Unset, CloudConnectionGcp]):
@@ -83,6 +84,7 @@ class CloudConnection:
     last_sync_error: Union[Unset, str] = UNSET
     last_sync_error_code: Union[Unset, CloudConnectionLastSyncErrorCode] = UNSET
     ai_sync: Union[Unset, "CloudAiSyncState"] = UNSET
+    focus_source_id: Union[Unset, str] = UNSET
     data_sources: Union[Unset, List[CloudConnectionDataSourcesItem]] = UNSET
     billing: Union[Unset, "CloudConnectionBilling"] = UNSET
     gcp: Union[Unset, "CloudConnectionGcp"] = UNSET
@@ -138,6 +140,8 @@ class CloudConnection:
         ai_sync: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.ai_sync, Unset):
             ai_sync = self.ai_sync.to_dict()
+
+        focus_source_id = self.focus_source_id
 
         data_sources: Union[Unset, List[str]] = UNSET
         if not isinstance(self.data_sources, Unset):
@@ -201,6 +205,8 @@ class CloudConnection:
             field_dict["lastSyncErrorCode"] = last_sync_error_code
         if ai_sync is not UNSET:
             field_dict["aiSync"] = ai_sync
+        if focus_source_id is not UNSET:
+            field_dict["focusSourceId"] = focus_source_id
         if data_sources is not UNSET:
             field_dict["dataSources"] = data_sources
         if billing is not UNSET:
@@ -298,6 +304,8 @@ class CloudConnection:
         else:
             ai_sync = CloudAiSyncState.from_dict(_ai_sync)
 
+        focus_source_id = d.pop("focusSourceId", UNSET)
+
         data_sources = []
         _data_sources = d.pop("dataSources", UNSET)
         for data_sources_item_data in _data_sources or []:
@@ -353,6 +361,7 @@ class CloudConnection:
             last_sync_error=last_sync_error,
             last_sync_error_code=last_sync_error_code,
             ai_sync=ai_sync,
+            focus_source_id=focus_source_id,
             data_sources=data_sources,
             billing=billing,
             gcp=gcp,

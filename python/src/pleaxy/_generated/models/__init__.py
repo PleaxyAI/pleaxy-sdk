@@ -392,6 +392,14 @@ from .create_cloud_connection_input_provider import CreateCloudConnectionInputPr
 from .create_feed_invoice_input import CreateFeedInvoiceInput
 from .create_feed_invoice_input_document_type import CreateFeedInvoiceInputDocumentType
 from .create_feed_invoice_input_invoice_kind import CreateFeedInvoiceInputInvoiceKind
+from .create_focus_export_input import CreateFocusExportInput
+from .create_focus_export_input_format import CreateFocusExportInputFormat
+from .create_focus_export_input_include import CreateFocusExportInputInclude
+from .create_focus_export_input_version import CreateFocusExportInputVersion
+from .create_focus_source_input import CreateFocusSourceInput
+from .create_focus_source_input_kind import CreateFocusSourceInputKind
+from .create_focus_upload_input import CreateFocusUploadInput
+from .create_focus_upload_result import CreateFocusUploadResult
 from .create_invoice_result_buyer_credit_note import CreateInvoiceResultBuyerCreditNote
 from .create_invoice_result_buyer_credit_note_cloud_provider import (
     CreateInvoiceResultBuyerCreditNoteCloudProvider,
@@ -647,6 +655,8 @@ from .currency_exchange_details_input import CurrencyExchangeDetailsInput
 from .databricks_connection_input import DatabricksConnectionInput
 from .decline_confirmation_changes_input import DeclineConfirmationChangesInput
 from .delete_ai_provider_result import DeleteAiProviderResult
+from .delete_focus_destination_result import DeleteFocusDestinationResult
+from .delete_focus_source_result import DeleteFocusSourceResult
 from .discover_azure_scopes_input import DiscoverAzureScopesInput
 from .draft_ai_orders_input import DraftAiOrdersInput
 from .draft_ai_orders_input_scope import DraftAiOrdersInputScope
@@ -750,6 +760,67 @@ from .feed_validation_result_submitted_format import FeedValidationResultSubmitt
 from .feed_validation_warning import FeedValidationWarning
 from .feed_validation_warning_code import FeedValidationWarningCode
 from .file_answer_input import FileAnswerInput
+from .focus_aws_source_input import FocusAwsSourceInput
+from .focus_azure_source_input import FocusAzureSourceInput
+from .focus_cost_center_total import FocusCostCenterTotal
+from .focus_delivery import FocusDelivery
+from .focus_delivery_reason import FocusDeliveryReason
+from .focus_delivery_trigger import FocusDeliveryTrigger
+from .focus_destination_setup import FocusDestinationSetup
+from .focus_destination_view import FocusDestinationView
+from .focus_destination_view_destination_type_0 import (
+    FocusDestinationViewDestinationType0,
+)
+from .focus_destination_view_destination_type_0_format import (
+    FocusDestinationViewDestinationType0Format,
+)
+from .focus_destination_view_destination_type_0_include import (
+    FocusDestinationViewDestinationType0Include,
+)
+from .focus_destination_view_destination_type_0_provider import (
+    FocusDestinationViewDestinationType0Provider,
+)
+from .focus_destination_view_destination_type_0_status import (
+    FocusDestinationViewDestinationType0Status,
+)
+from .focus_destination_view_destination_type_0_version import (
+    FocusDestinationViewDestinationType0Version,
+)
+from .focus_export import FocusExport
+from .focus_export_format import FocusExportFormat
+from .focus_export_include import FocusExportInclude
+from .focus_export_list import FocusExportList
+from .focus_export_status import FocusExportStatus
+from .focus_export_summary import FocusExportSummary
+from .focus_export_summary_format import FocusExportSummaryFormat
+from .focus_export_summary_include import FocusExportSummaryInclude
+from .focus_export_summary_status import FocusExportSummaryStatus
+from .focus_export_summary_version import FocusExportSummaryVersion
+from .focus_export_version import FocusExportVersion
+from .focus_gcp_source_input import FocusGcpSourceInput
+from .focus_invoice_total import FocusInvoiceTotal
+from .focus_invoice_total_by_category import FocusInvoiceTotalByCategory
+from .focus_invoice_total_by_service import FocusInvoiceTotalByService
+from .focus_issuer_view import FocusIssuerView
+from .focus_issuer_view_mapped_by import FocusIssuerViewMappedBy
+from .focus_issuer_view_totals import FocusIssuerViewTotals
+from .focus_oci_source_input import FocusOciSourceInput
+from .focus_run import FocusRun
+from .focus_run_failure import FocusRunFailure
+from .focus_run_failure_reason import FocusRunFailureReason
+from .focus_run_skipped_by_reason import FocusRunSkippedByReason
+from .focus_run_status import FocusRunStatus
+from .focus_run_trigger import FocusRunTrigger
+from .focus_run_version import FocusRunVersion
+from .focus_s3_compatible_source_input import FocusS3CompatibleSourceInput
+from .focus_source_view import FocusSourceView
+from .focus_source_view_aws import FocusSourceViewAws
+from .focus_source_view_azure import FocusSourceViewAzure
+from .focus_source_view_gcp import FocusSourceViewGcp
+from .focus_source_view_kind import FocusSourceViewKind
+from .focus_source_view_oci import FocusSourceViewOci
+from .focus_source_view_provider import FocusSourceViewProvider
+from .focus_source_view_s3 import FocusSourceViewS3
 from .geography import Geography
 from .geography_preset_id import GeographyPresetId
 from .get_budget_status_result import GetBudgetStatusResult
@@ -757,6 +828,16 @@ from .get_budget_status_result_unassigned_by_currency_item import (
     GetBudgetStatusResultUnassignedByCurrencyItem,
 )
 from .get_buyer_workspace_result import GetBuyerWorkspaceResult
+from .get_focus_source_period_result import GetFocusSourcePeriodResult
+from .get_focus_source_period_result_issuers import GetFocusSourcePeriodResultIssuers
+from .get_focus_source_period_result_issuers_additional_property import (
+    GetFocusSourcePeriodResultIssuersAdditionalProperty,
+)
+from .get_focus_source_period_result_totals import GetFocusSourcePeriodResultTotals
+from .get_focus_source_period_result_totals_additional_property import (
+    GetFocusSourcePeriodResultTotalsAdditionalProperty,
+)
+from .get_focus_source_period_result_version import GetFocusSourcePeriodResultVersion
 from .get_invoice_bank_account_result import GetInvoiceBankAccountResult
 from .get_invoice_bank_account_result_hold import GetInvoiceBankAccountResultHold
 from .get_invoice_document_format import GetInvoiceDocumentFormat
@@ -1216,6 +1297,7 @@ from .list_ai_spend_limits_result_aws_setup_item import (
     ListAiSpendLimitsResultAwsSetupItem,
 )
 from .list_employees_role import ListEmployeesRole
+from .list_focus_sources_result import ListFocusSourcesResult
 from .list_invoice_counterparties_result import ListInvoiceCounterpartiesResult
 from .list_invoices_item_buyer_credit_note import ListInvoicesItemBuyerCreditNote
 from .list_invoices_item_buyer_credit_note_cloud_provider import (
@@ -1444,6 +1526,7 @@ from .list_purchase_requests_status import ListPurchaseRequestsStatus
 from .list_webhook_deliveries_result import ListWebhookDeliveriesResult
 from .list_webhooks_result import ListWebhooksResult
 from .list_webhooks_result_event_types_item import ListWebhooksResultEventTypesItem
+from .map_focus_issuer_input import MapFocusIssuerInput
 from .mark_all_notifications_read_audience import MarkAllNotificationsReadAudience
 from .mark_all_notifications_read_result import MarkAllNotificationsReadResult
 from .no_po_comparison import NoPoComparison
@@ -1585,6 +1668,10 @@ from .purchase_request_request_type import PurchaseRequestRequestType
 from .purchase_request_status import PurchaseRequestStatus
 from .purchase_request_supplier import PurchaseRequestSupplier
 from .purchase_request_supplier_input import PurchaseRequestSupplierInput
+from .put_focus_destination_input import PutFocusDestinationInput
+from .put_focus_destination_input_format import PutFocusDestinationInputFormat
+from .put_focus_destination_input_include import PutFocusDestinationInputInclude
+from .put_focus_destination_input_version import PutFocusDestinationInputVersion
 from .question_condition import QuestionCondition
 from .question_option import QuestionOption
 from .questionnaire_field_def import QuestionnaireFieldDef
@@ -2314,6 +2401,14 @@ __all__ = (
     "CreateFeedInvoiceInput",
     "CreateFeedInvoiceInputDocumentType",
     "CreateFeedInvoiceInputInvoiceKind",
+    "CreateFocusExportInput",
+    "CreateFocusExportInputFormat",
+    "CreateFocusExportInputInclude",
+    "CreateFocusExportInputVersion",
+    "CreateFocusSourceInput",
+    "CreateFocusSourceInputKind",
+    "CreateFocusUploadInput",
+    "CreateFocusUploadResult",
     "CreateInvoiceResultBuyerCreditNote",
     "CreateInvoiceResultBuyerCreditNoteCloudProvider",
     "CreateInvoiceResultBuyerCreditNoteDocumentType",
@@ -2417,6 +2512,8 @@ __all__ = (
     "DatabricksConnectionInput",
     "DeclineConfirmationChangesInput",
     "DeleteAiProviderResult",
+    "DeleteFocusDestinationResult",
+    "DeleteFocusSourceResult",
     "DiscoverAzureScopesInput",
     "DraftAiOrdersInput",
     "DraftAiOrdersInputScope",
@@ -2466,11 +2563,66 @@ __all__ = (
     "FeedValidationWarning",
     "FeedValidationWarningCode",
     "FileAnswerInput",
+    "FocusAwsSourceInput",
+    "FocusAzureSourceInput",
+    "FocusCostCenterTotal",
+    "FocusDelivery",
+    "FocusDeliveryReason",
+    "FocusDeliveryTrigger",
+    "FocusDestinationSetup",
+    "FocusDestinationView",
+    "FocusDestinationViewDestinationType0",
+    "FocusDestinationViewDestinationType0Format",
+    "FocusDestinationViewDestinationType0Include",
+    "FocusDestinationViewDestinationType0Provider",
+    "FocusDestinationViewDestinationType0Status",
+    "FocusDestinationViewDestinationType0Version",
+    "FocusExport",
+    "FocusExportFormat",
+    "FocusExportInclude",
+    "FocusExportList",
+    "FocusExportStatus",
+    "FocusExportSummary",
+    "FocusExportSummaryFormat",
+    "FocusExportSummaryInclude",
+    "FocusExportSummaryStatus",
+    "FocusExportSummaryVersion",
+    "FocusExportVersion",
+    "FocusGcpSourceInput",
+    "FocusInvoiceTotal",
+    "FocusInvoiceTotalByCategory",
+    "FocusInvoiceTotalByService",
+    "FocusIssuerView",
+    "FocusIssuerViewMappedBy",
+    "FocusIssuerViewTotals",
+    "FocusOciSourceInput",
+    "FocusRun",
+    "FocusRunFailure",
+    "FocusRunFailureReason",
+    "FocusRunSkippedByReason",
+    "FocusRunStatus",
+    "FocusRunTrigger",
+    "FocusRunVersion",
+    "FocusS3CompatibleSourceInput",
+    "FocusSourceView",
+    "FocusSourceViewAws",
+    "FocusSourceViewAzure",
+    "FocusSourceViewGcp",
+    "FocusSourceViewKind",
+    "FocusSourceViewOci",
+    "FocusSourceViewProvider",
+    "FocusSourceViewS3",
     "Geography",
     "GeographyPresetId",
     "GetBudgetStatusResult",
     "GetBudgetStatusResultUnassignedByCurrencyItem",
     "GetBuyerWorkspaceResult",
+    "GetFocusSourcePeriodResult",
+    "GetFocusSourcePeriodResultIssuers",
+    "GetFocusSourcePeriodResultIssuersAdditionalProperty",
+    "GetFocusSourcePeriodResultTotals",
+    "GetFocusSourcePeriodResultTotalsAdditionalProperty",
+    "GetFocusSourcePeriodResultVersion",
     "GetInvoiceBankAccountResult",
     "GetInvoiceBankAccountResultHold",
     "GetInvoiceDocumentFormat",
@@ -2724,6 +2876,7 @@ __all__ = (
     "ListAiSpendLimitsResult",
     "ListAiSpendLimitsResultAwsSetupItem",
     "ListEmployeesRole",
+    "ListFocusSourcesResult",
     "ListInvoiceCounterpartiesResult",
     "ListInvoicesItemBuyerCreditNote",
     "ListInvoicesItemBuyerCreditNoteCloudProvider",
@@ -2808,6 +2961,7 @@ __all__ = (
     "ListWebhookDeliveriesResult",
     "ListWebhooksResult",
     "ListWebhooksResultEventTypesItem",
+    "MapFocusIssuerInput",
     "MarkAllNotificationsReadAudience",
     "MarkAllNotificationsReadResult",
     "NoPoComparison",
@@ -2909,6 +3063,10 @@ __all__ = (
     "PurchaseRequestStatus",
     "PurchaseRequestSupplier",
     "PurchaseRequestSupplierInput",
+    "PutFocusDestinationInput",
+    "PutFocusDestinationInputFormat",
+    "PutFocusDestinationInputInclude",
+    "PutFocusDestinationInputVersion",
     "QuestionCondition",
     "QuestionnaireFieldDef",
     "QuestionnaireFieldDefDocType",

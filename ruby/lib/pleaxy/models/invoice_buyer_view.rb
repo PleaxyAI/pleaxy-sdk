@@ -857,7 +857,7 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @id.nil?
-      usage_source_validator = EnumAttributeValidator.new('String', ["aws_invoice", "billing_export", "mca_invoice", "ea_balance", "usage_api_closed_month", "osp_invoice"])
+      usage_source_validator = EnumAttributeValidator.new('String', ["aws_invoice", "billing_export", "mca_invoice", "ea_balance", "usage_api_closed_month", "osp_invoice", "focus_export"])
       return false unless usage_source_validator.valid?(@usage_source)
       match_status_validator = EnumAttributeValidator.new('String', ["pending", "matched", "discrepancy", "unverified"])
       return false unless match_status_validator.valid?(@match_status)
@@ -889,7 +889,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] usage_source Object to be assigned
     def usage_source=(usage_source)
-      validator = EnumAttributeValidator.new('String', ["aws_invoice", "billing_export", "mca_invoice", "ea_balance", "usage_api_closed_month", "osp_invoice"])
+      validator = EnumAttributeValidator.new('String', ["aws_invoice", "billing_export", "mca_invoice", "ea_balance", "usage_api_closed_month", "osp_invoice", "focus_export"])
       unless validator.valid?(usage_source)
         fail ArgumentError, "invalid value for \"usage_source\", must be one of #{validator.allowable_values}."
       end

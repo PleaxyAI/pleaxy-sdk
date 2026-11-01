@@ -423,6 +423,8 @@ pub enum UsageSource {
     UsageApiClosedMonth,
     #[serde(rename = "osp_invoice")]
     OspInvoice,
+    #[serde(rename = "focus_export")]
+    FocusExport,
 }
 
 impl Default for UsageSource {

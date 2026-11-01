@@ -189,6 +189,7 @@ const (
 	AddInvoiceReplacementLinksResultUsageSourceAwsInvoice          AddInvoiceReplacementLinksResultUsageSource = "aws_invoice"
 	AddInvoiceReplacementLinksResultUsageSourceBillingExport       AddInvoiceReplacementLinksResultUsageSource = "billing_export"
 	AddInvoiceReplacementLinksResultUsageSourceEaBalance           AddInvoiceReplacementLinksResultUsageSource = "ea_balance"
+	AddInvoiceReplacementLinksResultUsageSourceFocusExport         AddInvoiceReplacementLinksResultUsageSource = "focus_export"
 	AddInvoiceReplacementLinksResultUsageSourceMcaInvoice          AddInvoiceReplacementLinksResultUsageSource = "mca_invoice"
 	AddInvoiceReplacementLinksResultUsageSourceOspInvoice          AddInvoiceReplacementLinksResultUsageSource = "osp_invoice"
 	AddInvoiceReplacementLinksResultUsageSourceUsageApiClosedMonth AddInvoiceReplacementLinksResultUsageSource = "usage_api_closed_month"
@@ -894,6 +895,7 @@ const (
 	AiUsageLineSourceCostExplorer   AiUsageLineSource = "cost_explorer"
 	AiUsageLineSourceCostManagement AiUsageLineSource = "cost_management"
 	AiUsageLineSourceCostReport     AiUsageLineSource = "cost_report"
+	AiUsageLineSourceFocus          AiUsageLineSource = "focus"
 	AiUsageLineSourceUsageApi       AiUsageLineSource = "usage_api"
 	AiUsageLineSourceUsageReport    AiUsageLineSource = "usage_report"
 )
@@ -1386,6 +1388,7 @@ const (
 	CloudConnectionBillingFinalizedInvoiceSourceAwsInvoice          CloudConnectionBillingFinalizedInvoiceSource = "aws_invoice"
 	CloudConnectionBillingFinalizedInvoiceSourceBillingExport       CloudConnectionBillingFinalizedInvoiceSource = "billing_export"
 	CloudConnectionBillingFinalizedInvoiceSourceEaBalance           CloudConnectionBillingFinalizedInvoiceSource = "ea_balance"
+	CloudConnectionBillingFinalizedInvoiceSourceFocusExport         CloudConnectionBillingFinalizedInvoiceSource = "focus_export"
 	CloudConnectionBillingFinalizedInvoiceSourceMcaInvoice          CloudConnectionBillingFinalizedInvoiceSource = "mca_invoice"
 	CloudConnectionBillingFinalizedInvoiceSourceOspInvoice          CloudConnectionBillingFinalizedInvoiceSource = "osp_invoice"
 	CloudConnectionBillingFinalizedInvoiceSourceUsageApiClosedMonth CloudConnectionBillingFinalizedInvoiceSource = "usage_api_closed_month"
@@ -1396,6 +1399,7 @@ const (
 	CloudConnectionBillingPreviousFinalizedInvoiceSourceAwsInvoice          CloudConnectionBillingPreviousFinalizedInvoiceSource = "aws_invoice"
 	CloudConnectionBillingPreviousFinalizedInvoiceSourceBillingExport       CloudConnectionBillingPreviousFinalizedInvoiceSource = "billing_export"
 	CloudConnectionBillingPreviousFinalizedInvoiceSourceEaBalance           CloudConnectionBillingPreviousFinalizedInvoiceSource = "ea_balance"
+	CloudConnectionBillingPreviousFinalizedInvoiceSourceFocusExport         CloudConnectionBillingPreviousFinalizedInvoiceSource = "focus_export"
 	CloudConnectionBillingPreviousFinalizedInvoiceSourceMcaInvoice          CloudConnectionBillingPreviousFinalizedInvoiceSource = "mca_invoice"
 	CloudConnectionBillingPreviousFinalizedInvoiceSourceOspInvoice          CloudConnectionBillingPreviousFinalizedInvoiceSource = "osp_invoice"
 	CloudConnectionBillingPreviousFinalizedInvoiceSourceUsageApiClosedMonth CloudConnectionBillingPreviousFinalizedInvoiceSource = "usage_api_closed_month"
@@ -1569,6 +1573,33 @@ const (
 	CreateFeedInvoiceInputInvoiceKindPrepayment CreateFeedInvoiceInputInvoiceKind = "prepayment"
 )
 
+// Defines values for CreateFocusExportInputFormat.
+const (
+	CreateFocusExportInputFormatCsv     CreateFocusExportInputFormat = "csv"
+	CreateFocusExportInputFormatParquet CreateFocusExportInputFormat = "parquet"
+)
+
+// Defines values for CreateFocusExportInputInclude.
+const (
+	CreateFocusExportInputIncludeAll      CreateFocusExportInputInclude = "all"
+	CreateFocusExportInputIncludeNonCloud CreateFocusExportInputInclude = "non_cloud"
+)
+
+// Defines values for CreateFocusExportInputVersion.
+const (
+	CreateFocusExportInputVersionN12 CreateFocusExportInputVersion = "1.2"
+	CreateFocusExportInputVersionN14 CreateFocusExportInputVersion = "1.4"
+)
+
+// Defines values for CreateFocusSourceInputKind.
+const (
+	CreateFocusSourceInputKindAwsS3        CreateFocusSourceInputKind = "aws_s3"
+	CreateFocusSourceInputKindAzureBlob    CreateFocusSourceInputKind = "azure_blob"
+	CreateFocusSourceInputKindGcpBigquery  CreateFocusSourceInputKind = "gcp_bigquery"
+	CreateFocusSourceInputKindOci          CreateFocusSourceInputKind = "oci"
+	CreateFocusSourceInputKindS3Compatible CreateFocusSourceInputKind = "s3_compatible"
+)
+
 // Defines values for CreateInvoiceResultBuyerCreditNoteCloudProvider.
 const (
 	CreateInvoiceResultBuyerCreditNoteCloudProviderAws   CreateInvoiceResultBuyerCreditNoteCloudProvider = "aws"
@@ -1727,6 +1758,7 @@ const (
 	CreateInvoiceResultBuyerInvoiceUsageSourceAwsInvoice          CreateInvoiceResultBuyerInvoiceUsageSource = "aws_invoice"
 	CreateInvoiceResultBuyerInvoiceUsageSourceBillingExport       CreateInvoiceResultBuyerInvoiceUsageSource = "billing_export"
 	CreateInvoiceResultBuyerInvoiceUsageSourceEaBalance           CreateInvoiceResultBuyerInvoiceUsageSource = "ea_balance"
+	CreateInvoiceResultBuyerInvoiceUsageSourceFocusExport         CreateInvoiceResultBuyerInvoiceUsageSource = "focus_export"
 	CreateInvoiceResultBuyerInvoiceUsageSourceMcaInvoice          CreateInvoiceResultBuyerInvoiceUsageSource = "mca_invoice"
 	CreateInvoiceResultBuyerInvoiceUsageSourceOspInvoice          CreateInvoiceResultBuyerInvoiceUsageSource = "osp_invoice"
 	CreateInvoiceResultBuyerInvoiceUsageSourceUsageApiClosedMonth CreateInvoiceResultBuyerInvoiceUsageSource = "usage_api_closed_month"
@@ -2213,6 +2245,158 @@ const (
 	RATEDIFFERS    FeedValidationWarningCode = "RATE_DIFFERS"
 )
 
+// Defines values for FocusDeliveryReason.
+const (
+	FocusDeliveryReasonAccessDenied     FocusDeliveryReason = "accessDenied"
+	FocusDeliveryReasonAssumeRoleFailed FocusDeliveryReason = "assumeRoleFailed"
+	FocusDeliveryReasonKmsDenied        FocusDeliveryReason = "kmsDenied"
+	FocusDeliveryReasonNoSuchBucket     FocusDeliveryReason = "noSuchBucket"
+	FocusDeliveryReasonOther            FocusDeliveryReason = "other"
+	FocusDeliveryReasonWrongRegion      FocusDeliveryReason = "wrongRegion"
+)
+
+// Defines values for FocusDeliveryTrigger.
+const (
+	FocusDeliveryTriggerManual   FocusDeliveryTrigger = "manual"
+	FocusDeliveryTriggerSchedule FocusDeliveryTrigger = "schedule"
+)
+
+// Defines values for FocusDestinationViewDestinationFormat.
+const (
+	FocusDestinationViewDestinationFormatCsv     FocusDestinationViewDestinationFormat = "csv"
+	FocusDestinationViewDestinationFormatParquet FocusDestinationViewDestinationFormat = "parquet"
+)
+
+// Defines values for FocusDestinationViewDestinationInclude.
+const (
+	FocusDestinationViewDestinationIncludeAll      FocusDestinationViewDestinationInclude = "all"
+	FocusDestinationViewDestinationIncludeNonCloud FocusDestinationViewDestinationInclude = "non_cloud"
+)
+
+// Defines values for FocusDestinationViewDestinationProvider.
+const (
+	FocusDestinationViewDestinationProviderAwsS3 FocusDestinationViewDestinationProvider = "aws_s3"
+)
+
+// Defines values for FocusDestinationViewDestinationStatus.
+const (
+	Active       FocusDestinationViewDestinationStatus = "active"
+	AwaitingRole FocusDestinationViewDestinationStatus = "awaiting_role"
+	Failing      FocusDestinationViewDestinationStatus = "failing"
+)
+
+// Defines values for FocusDestinationViewDestinationVersion.
+const (
+	FocusDestinationViewDestinationVersionN12 FocusDestinationViewDestinationVersion = "1.2"
+	FocusDestinationViewDestinationVersionN14 FocusDestinationViewDestinationVersion = "1.4"
+)
+
+// Defines values for FocusExportFormat.
+const (
+	FocusExportFormatCsv     FocusExportFormat = "csv"
+	FocusExportFormatParquet FocusExportFormat = "parquet"
+)
+
+// Defines values for FocusExportInclude.
+const (
+	FocusExportIncludeAll      FocusExportInclude = "all"
+	FocusExportIncludeNonCloud FocusExportInclude = "non_cloud"
+)
+
+// Defines values for FocusExportStatus.
+const (
+	FocusExportStatusReady FocusExportStatus = "ready"
+)
+
+// Defines values for FocusExportVersion.
+const (
+	FocusExportVersionN12 FocusExportVersion = "1.2"
+	FocusExportVersionN14 FocusExportVersion = "1.4"
+)
+
+// Defines values for FocusExportSummaryFormat.
+const (
+	FocusExportSummaryFormatCsv     FocusExportSummaryFormat = "csv"
+	FocusExportSummaryFormatParquet FocusExportSummaryFormat = "parquet"
+)
+
+// Defines values for FocusExportSummaryInclude.
+const (
+	FocusExportSummaryIncludeAll      FocusExportSummaryInclude = "all"
+	FocusExportSummaryIncludeNonCloud FocusExportSummaryInclude = "non_cloud"
+)
+
+// Defines values for FocusExportSummaryStatus.
+const (
+	FocusExportSummaryStatusReady FocusExportSummaryStatus = "ready"
+)
+
+// Defines values for FocusExportSummaryVersion.
+const (
+	FocusExportSummaryVersionN12 FocusExportSummaryVersion = "1.2"
+	FocusExportSummaryVersionN14 FocusExportSummaryVersion = "1.4"
+)
+
+// Defines values for FocusIssuerViewMappedBy.
+const (
+	FocusIssuerViewMappedByName   FocusIssuerViewMappedBy = "name"
+	FocusIssuerViewMappedByPerson FocusIssuerViewMappedBy = "person"
+)
+
+// Defines values for FocusRunFailureReason.
+const (
+	FocusRunFailureReasonAccessDenied       FocusRunFailureReason = "accessDenied"
+	FocusRunFailureReasonConnectionMissing  FocusRunFailureReason = "connectionMissing"
+	FocusRunFailureReasonCredentialRejected FocusRunFailureReason = "credentialRejected"
+	FocusRunFailureReasonNotFocus           FocusRunFailureReason = "notFocus"
+	FocusRunFailureReasonNotFound           FocusRunFailureReason = "notFound"
+	FocusRunFailureReasonOther              FocusRunFailureReason = "other"
+	FocusRunFailureReasonParquetUnsupported FocusRunFailureReason = "parquetUnsupported"
+	FocusRunFailureReasonUnreachable        FocusRunFailureReason = "unreachable"
+	FocusRunFailureReasonWrongRegion        FocusRunFailureReason = "wrongRegion"
+)
+
+// Defines values for FocusRunStatus.
+const (
+	FocusRunStatusFailed  FocusRunStatus = "failed"
+	FocusRunStatusOk      FocusRunStatus = "ok"
+	FocusRunStatusPartial FocusRunStatus = "partial"
+)
+
+// Defines values for FocusRunTrigger.
+const (
+	FocusRunTriggerManual   FocusRunTrigger = "manual"
+	FocusRunTriggerSchedule FocusRunTrigger = "schedule"
+	FocusRunTriggerUpload   FocusRunTrigger = "upload"
+)
+
+// Defines values for FocusRunVersion.
+const (
+	FocusRunVersionN10 FocusRunVersion = "1.0"
+	FocusRunVersionN11 FocusRunVersion = "1.1"
+	FocusRunVersionN12 FocusRunVersion = "1.2"
+	FocusRunVersionN13 FocusRunVersion = "1.3"
+	FocusRunVersionN14 FocusRunVersion = "1.4"
+)
+
+// Defines values for FocusSourceViewKind.
+const (
+	FocusSourceViewKindAwsS3        FocusSourceViewKind = "aws_s3"
+	FocusSourceViewKindAzureBlob    FocusSourceViewKind = "azure_blob"
+	FocusSourceViewKindGcpBigquery  FocusSourceViewKind = "gcp_bigquery"
+	FocusSourceViewKindOci          FocusSourceViewKind = "oci"
+	FocusSourceViewKindS3Compatible FocusSourceViewKind = "s3_compatible"
+	FocusSourceViewKindUpload       FocusSourceViewKind = "upload"
+)
+
+// Defines values for FocusSourceViewProvider.
+const (
+	FocusSourceViewProviderAws   FocusSourceViewProvider = "aws"
+	FocusSourceViewProviderAzure FocusSourceViewProvider = "azure"
+	FocusSourceViewProviderGcp   FocusSourceViewProvider = "gcp"
+	FocusSourceViewProviderOci   FocusSourceViewProvider = "oci"
+)
+
 // Defines values for GeographyPresetId.
 const (
 	GeographyPresetIdApac                  GeographyPresetId = "apac"
@@ -2230,6 +2414,15 @@ const (
 	GeographyPresetIdLatam                 GeographyPresetId = "latam"
 	GeographyPresetIdNamer                 GeographyPresetId = "namer"
 	GeographyPresetIdUk                    GeographyPresetId = "uk"
+)
+
+// Defines values for GetFocusSourcePeriodResultVersion.
+const (
+	GetFocusSourcePeriodResultVersionN10 GetFocusSourcePeriodResultVersion = "1.0"
+	GetFocusSourcePeriodResultVersionN11 GetFocusSourcePeriodResultVersion = "1.1"
+	GetFocusSourcePeriodResultVersionN12 GetFocusSourcePeriodResultVersion = "1.2"
+	GetFocusSourcePeriodResultVersionN13 GetFocusSourcePeriodResultVersion = "1.3"
+	GetFocusSourcePeriodResultVersionN14 GetFocusSourcePeriodResultVersion = "1.4"
 )
 
 // Defines values for GetInvoiceBankAccountResultHold.
@@ -2396,6 +2589,7 @@ const (
 	GetInvoiceResultBuyerInvoiceUsageSourceAwsInvoice          GetInvoiceResultBuyerInvoiceUsageSource = "aws_invoice"
 	GetInvoiceResultBuyerInvoiceUsageSourceBillingExport       GetInvoiceResultBuyerInvoiceUsageSource = "billing_export"
 	GetInvoiceResultBuyerInvoiceUsageSourceEaBalance           GetInvoiceResultBuyerInvoiceUsageSource = "ea_balance"
+	GetInvoiceResultBuyerInvoiceUsageSourceFocusExport         GetInvoiceResultBuyerInvoiceUsageSource = "focus_export"
 	GetInvoiceResultBuyerInvoiceUsageSourceMcaInvoice          GetInvoiceResultBuyerInvoiceUsageSource = "mca_invoice"
 	GetInvoiceResultBuyerInvoiceUsageSourceOspInvoice          GetInvoiceResultBuyerInvoiceUsageSource = "osp_invoice"
 	GetInvoiceResultBuyerInvoiceUsageSourceUsageApiClosedMonth GetInvoiceResultBuyerInvoiceUsageSource = "usage_api_closed_month"
@@ -2849,6 +3043,7 @@ const (
 	InvoiceBuyerViewUsageSourceAwsInvoice          InvoiceBuyerViewUsageSource = "aws_invoice"
 	InvoiceBuyerViewUsageSourceBillingExport       InvoiceBuyerViewUsageSource = "billing_export"
 	InvoiceBuyerViewUsageSourceEaBalance           InvoiceBuyerViewUsageSource = "ea_balance"
+	InvoiceBuyerViewUsageSourceFocusExport         InvoiceBuyerViewUsageSource = "focus_export"
 	InvoiceBuyerViewUsageSourceMcaInvoice          InvoiceBuyerViewUsageSource = "mca_invoice"
 	InvoiceBuyerViewUsageSourceOspInvoice          InvoiceBuyerViewUsageSource = "osp_invoice"
 	InvoiceBuyerViewUsageSourceUsageApiClosedMonth InvoiceBuyerViewUsageSource = "usage_api_closed_month"
@@ -3513,6 +3708,7 @@ const (
 	ListInvoicesItemBuyerInvoiceUsageSourceAwsInvoice          ListInvoicesItemBuyerInvoiceUsageSource = "aws_invoice"
 	ListInvoicesItemBuyerInvoiceUsageSourceBillingExport       ListInvoicesItemBuyerInvoiceUsageSource = "billing_export"
 	ListInvoicesItemBuyerInvoiceUsageSourceEaBalance           ListInvoicesItemBuyerInvoiceUsageSource = "ea_balance"
+	ListInvoicesItemBuyerInvoiceUsageSourceFocusExport         ListInvoicesItemBuyerInvoiceUsageSource = "focus_export"
 	ListInvoicesItemBuyerInvoiceUsageSourceMcaInvoice          ListInvoicesItemBuyerInvoiceUsageSource = "mca_invoice"
 	ListInvoicesItemBuyerInvoiceUsageSourceOspInvoice          ListInvoicesItemBuyerInvoiceUsageSource = "osp_invoice"
 	ListInvoicesItemBuyerInvoiceUsageSourceUsageApiClosedMonth ListInvoicesItemBuyerInvoiceUsageSource = "usage_api_closed_month"
@@ -3769,6 +3965,7 @@ const (
 	NotificationTypeCreditNoteApplied                NotificationType = "credit_note_applied"
 	NotificationTypeCreditNoteReceived               NotificationType = "credit_note_received"
 	NotificationTypeCreditNoteRejected               NotificationType = "credit_note_rejected"
+	NotificationTypeFocusDeliveryFailed              NotificationType = "focus_delivery_failed"
 	NotificationTypeInvoiceApprovalRequested         NotificationType = "invoice_approval_requested"
 	NotificationTypeInvoiceApproved                  NotificationType = "invoice_approved"
 	NotificationTypeInvoiceBankAccountToApprove      NotificationType = "invoice_bank_account_to_approve"
@@ -4157,6 +4354,24 @@ const (
 	PurchaseRequestLineInputLineTypeService PurchaseRequestLineInputLineType = "service"
 )
 
+// Defines values for PutFocusDestinationInputFormat.
+const (
+	Csv     PutFocusDestinationInputFormat = "csv"
+	Parquet PutFocusDestinationInputFormat = "parquet"
+)
+
+// Defines values for PutFocusDestinationInputInclude.
+const (
+	All      PutFocusDestinationInputInclude = "all"
+	NonCloud PutFocusDestinationInputInclude = "non_cloud"
+)
+
+// Defines values for PutFocusDestinationInputVersion.
+const (
+	N12 PutFocusDestinationInputVersion = "1.2"
+	N14 PutFocusDestinationInputVersion = "1.4"
+)
+
 // Defines values for QuestionnaireFieldDefDocType.
 const (
 	QuestionnaireFieldDefDocTypeBankLetter      QuestionnaireFieldDefDocType = "bank_letter"
@@ -4338,6 +4553,7 @@ const (
 	RecordPaymentResultUsageSourceAwsInvoice          RecordPaymentResultUsageSource = "aws_invoice"
 	RecordPaymentResultUsageSourceBillingExport       RecordPaymentResultUsageSource = "billing_export"
 	RecordPaymentResultUsageSourceEaBalance           RecordPaymentResultUsageSource = "ea_balance"
+	RecordPaymentResultUsageSourceFocusExport         RecordPaymentResultUsageSource = "focus_export"
 	RecordPaymentResultUsageSourceMcaInvoice          RecordPaymentResultUsageSource = "mca_invoice"
 	RecordPaymentResultUsageSourceOspInvoice          RecordPaymentResultUsageSource = "osp_invoice"
 	RecordPaymentResultUsageSourceUsageApiClosedMonth RecordPaymentResultUsageSource = "usage_api_closed_month"
@@ -4454,7 +4670,7 @@ const (
 
 // Defines values for RemoveInvoiceReplacementLinkResultInvoiceKind.
 const (
-	RemoveInvoiceReplacementLinkResultInvoiceKindPrepayment RemoveInvoiceReplacementLinkResultInvoiceKind = "prepayment"
+	Prepayment RemoveInvoiceReplacementLinkResultInvoiceKind = "prepayment"
 )
 
 // Defines values for RemoveInvoiceReplacementLinkResultMatchBasis.
@@ -4518,6 +4734,7 @@ const (
 	RemoveInvoiceReplacementLinkResultUsageSourceAwsInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "aws_invoice"
 	RemoveInvoiceReplacementLinkResultUsageSourceBillingExport       RemoveInvoiceReplacementLinkResultUsageSource = "billing_export"
 	RemoveInvoiceReplacementLinkResultUsageSourceEaBalance           RemoveInvoiceReplacementLinkResultUsageSource = "ea_balance"
+	RemoveInvoiceReplacementLinkResultUsageSourceFocusExport         RemoveInvoiceReplacementLinkResultUsageSource = "focus_export"
 	RemoveInvoiceReplacementLinkResultUsageSourceMcaInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "mca_invoice"
 	RemoveInvoiceReplacementLinkResultUsageSourceOspInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "osp_invoice"
 	RemoveInvoiceReplacementLinkResultUsageSourceUsageApiClosedMonth RemoveInvoiceReplacementLinkResultUsageSource = "usage_api_closed_month"
@@ -4579,9 +4796,9 @@ const (
 
 // Defines values for ScreenSubjectRole.
 const (
-	FormerName ScreenSubjectRole = "former_name"
-	Name       ScreenSubjectRole = "name"
-	Payee      ScreenSubjectRole = "payee"
+	ScreenSubjectRoleFormerName ScreenSubjectRole = "former_name"
+	ScreenSubjectRoleName       ScreenSubjectRole = "name"
+	ScreenSubjectRolePayee      ScreenSubjectRole = "payee"
 )
 
 // Defines values for ScreeningMatchClosedReason.
@@ -7131,13 +7348,14 @@ type CloudConnection struct {
 		AgreementType    *CloudConnectionAzureAgreementType `json:"agreementType,omitempty"`
 		ScopeDisplayName *string                            `json:"scopeDisplayName,omitempty"`
 	} `json:"azure,omitempty"`
-	Billing     *CloudConnectionBilling       `json:"billing,omitempty"`
-	Bulk        *CloudBulkAccountView         `json:"bulk,omitempty"`
-	ConnectedAt *string                       `json:"connectedAt,omitempty"`
-	DataSources *[]CloudConnectionDataSources `json:"dataSources,omitempty"`
-	Detail      *string                       `json:"detail,omitempty"`
-	ExternalId  *string                       `json:"externalId,omitempty"`
-	Gcp         *struct {
+	Billing       *CloudConnectionBilling       `json:"billing,omitempty"`
+	Bulk          *CloudBulkAccountView         `json:"bulk,omitempty"`
+	ConnectedAt   *string                       `json:"connectedAt,omitempty"`
+	DataSources   *[]CloudConnectionDataSources `json:"dataSources,omitempty"`
+	Detail        *string                       `json:"detail,omitempty"`
+	ExternalId    *string                       `json:"externalId,omitempty"`
+	FocusSourceId *string                       `json:"focusSourceId,omitempty"`
+	Gcp           *struct {
 		BillingAccountId *string `json:"billingAccountId,omitempty"`
 		ProviderId       *string `json:"providerId,omitempty"`
 	} `json:"gcp,omitempty"`
@@ -7526,6 +7744,53 @@ type CreateFeedInvoiceInputDocumentType string
 
 // CreateFeedInvoiceInputInvoiceKind "prepayment" for an invoice that bills a deposit (UBL InvoiceTypeCode 386). Its payment can later be deducted from the final invoice.
 type CreateFeedInvoiceInputInvoiceKind string
+
+// CreateFocusExportInput defines model for CreateFocusExportInput.
+type CreateFocusExportInput struct {
+	Format  *CreateFocusExportInputFormat  `json:"format,omitempty"`
+	From    string                         `json:"from"`
+	Include *CreateFocusExportInputInclude `json:"include,omitempty"`
+	To      string                         `json:"to"`
+	Version *CreateFocusExportInputVersion `json:"version,omitempty"`
+}
+
+// CreateFocusExportInputFormat defines model for CreateFocusExportInput.Format.
+type CreateFocusExportInputFormat string
+
+// CreateFocusExportInputInclude defines model for CreateFocusExportInput.Include.
+type CreateFocusExportInputInclude string
+
+// CreateFocusExportInputVersion defines model for CreateFocusExportInput.Version.
+type CreateFocusExportInputVersion string
+
+// CreateFocusSourceInput defines model for CreateFocusSourceInput.
+type CreateFocusSourceInput struct {
+	Aws          *FocusAwsSourceInput          `json:"aws,omitempty"`
+	Azure        *FocusAzureSourceInput        `json:"azure,omitempty"`
+	ConnectionId *string                       `json:"connectionId,omitempty"`
+	Gcp          *FocusGcpSourceInput          `json:"gcp,omitempty"`
+	Kind         CreateFocusSourceInputKind    `json:"kind"`
+	Label        *string                       `json:"label,omitempty"`
+	Oci          *FocusOciSourceInput          `json:"oci,omitempty"`
+	S3           *FocusS3CompatibleSourceInput `json:"s3,omitempty"`
+}
+
+// CreateFocusSourceInputKind defines model for CreateFocusSourceInput.Kind.
+type CreateFocusSourceInputKind string
+
+// CreateFocusUploadInput defines model for CreateFocusUploadInput.
+type CreateFocusUploadInput struct {
+	FileName string `json:"fileName"`
+}
+
+// CreateFocusUploadResult defines model for CreateFocusUploadResult.
+type CreateFocusUploadResult struct {
+	ContentType *string  `json:"contentType,omitempty"`
+	MaxBytes    *float64 `json:"maxBytes,omitempty"`
+	SourceId    *string  `json:"sourceId,omitempty"`
+	UploadId    *string  `json:"uploadId,omitempty"`
+	UploadUrl   *string  `json:"uploadUrl,omitempty"`
+}
 
 // CreateInvoiceResult defines model for CreateInvoiceResult.
 type CreateInvoiceResult struct {
@@ -8455,6 +8720,16 @@ type DeleteAiProviderResult struct {
 	Provider *string `json:"provider,omitempty"`
 }
 
+// DeleteFocusDestinationResult defines model for DeleteFocusDestinationResult.
+type DeleteFocusDestinationResult struct {
+	Removed *bool `json:"removed,omitempty"`
+}
+
+// DeleteFocusSourceResult defines model for DeleteFocusSourceResult.
+type DeleteFocusSourceResult struct {
+	Removed *bool `json:"removed,omitempty"`
+}
+
 // DiscoverAzureScopesInput defines model for DiscoverAzureScopesInput.
 type DiscoverAzureScopesInput struct {
 	// AzureBillingAccountId The Microsoft Customer Agreement billing account ID (<guid>:<guid>_YYYY-MM-DD). Read directly: an app with only Billing profile reader can't list billing accounts.
@@ -8812,6 +9087,276 @@ type FileAnswerInput struct {
 	FileName string `json:"fileName"`
 }
 
+// FocusAwsSourceInput defines model for FocusAwsSourceInput.
+type FocusAwsSourceInput struct {
+	Bucket string  `json:"bucket"`
+	Prefix *string `json:"prefix,omitempty"`
+	Region string  `json:"region"`
+}
+
+// FocusAzureSourceInput defines model for FocusAzureSourceInput.
+type FocusAzureSourceInput struct {
+	Container      string  `json:"container"`
+	Directory      *string `json:"directory,omitempty"`
+	StorageAccount string  `json:"storageAccount"`
+}
+
+// FocusCostCenterTotal defines model for FocusCostCenterTotal.
+type FocusCostCenterTotal struct {
+	Amount          *float64 `json:"amount,omitempty"`
+	CostCenter      *string  `json:"costCenter,omitempty"`
+	Currency        *string  `json:"currency,omitempty"`
+	ServiceCategory *string  `json:"serviceCategory,omitempty"`
+}
+
+// FocusDelivery defines model for FocusDelivery.
+type FocusDelivery struct {
+	At       *string               `json:"at,omitempty"`
+	Ok       *bool                 `json:"ok,omitempty"`
+	Periods  *[]string             `json:"periods,omitempty"`
+	Reason   *FocusDeliveryReason  `json:"reason,omitempty"`
+	RowCount *float64              `json:"rowCount,omitempty"`
+	Trigger  *FocusDeliveryTrigger `json:"trigger,omitempty"`
+}
+
+// FocusDeliveryReason defines model for FocusDelivery.Reason.
+type FocusDeliveryReason string
+
+// FocusDeliveryTrigger defines model for FocusDelivery.Trigger.
+type FocusDeliveryTrigger string
+
+// FocusDestinationSetup defines model for FocusDestinationSetup.
+type FocusDestinationSetup struct {
+	PleaxyAccountId *string `json:"pleaxyAccountId,omitempty"`
+	RoleName        *string `json:"roleName,omitempty"`
+	StackName       *string `json:"stackName,omitempty"`
+	TemplateUrl     *string `json:"templateUrl,omitempty"`
+}
+
+// FocusDestinationView defines model for FocusDestinationView.
+type FocusDestinationView struct {
+	Destination *struct {
+		AwsAccountId *string                                  `json:"awsAccountId,omitempty"`
+		Bucket       *string                                  `json:"bucket,omitempty"`
+		CreatedAt    *string                                  `json:"createdAt,omitempty"`
+		ExternalId   *string                                  `json:"externalId,omitempty"`
+		Format       *FocusDestinationViewDestinationFormat   `json:"format,omitempty"`
+		Include      *FocusDestinationViewDestinationInclude  `json:"include,omitempty"`
+		LastDelivery *FocusDelivery                           `json:"lastDelivery,omitempty"`
+		Prefix       *string                                  `json:"prefix,omitempty"`
+		Provider     *FocusDestinationViewDestinationProvider `json:"provider,omitempty"`
+		Region       *string                                  `json:"region,omitempty"`
+		RoleArn      *string                                  `json:"roleArn,omitempty"`
+		Status       *FocusDestinationViewDestinationStatus   `json:"status,omitempty"`
+		UpdatedAt    *string                                  `json:"updatedAt,omitempty"`
+		Version      *FocusDestinationViewDestinationVersion  `json:"version,omitempty"`
+	} `json:"destination"`
+	Enabled *bool                  `json:"enabled,omitempty"`
+	Setup   *FocusDestinationSetup `json:"setup,omitempty"`
+}
+
+// FocusDestinationViewDestinationFormat defines model for FocusDestinationView.Destination.Format.
+type FocusDestinationViewDestinationFormat string
+
+// FocusDestinationViewDestinationInclude defines model for FocusDestinationView.Destination.Include.
+type FocusDestinationViewDestinationInclude string
+
+// FocusDestinationViewDestinationProvider defines model for FocusDestinationView.Destination.Provider.
+type FocusDestinationViewDestinationProvider string
+
+// FocusDestinationViewDestinationStatus defines model for FocusDestinationView.Destination.Status.
+type FocusDestinationViewDestinationStatus string
+
+// FocusDestinationViewDestinationVersion defines model for FocusDestinationView.Destination.Version.
+type FocusDestinationViewDestinationVersion string
+
+// FocusExport defines model for FocusExport.
+type FocusExport struct {
+	CreatedAt     *string             `json:"createdAt,omitempty"`
+	DocumentCount *float64            `json:"documentCount,omitempty"`
+	DownloadUrl   *string             `json:"downloadUrl,omitempty"`
+	ExpiresAt     *string             `json:"expiresAt,omitempty"`
+	Format        *FocusExportFormat  `json:"format,omitempty"`
+	From          *string             `json:"from,omitempty"`
+	Id            string              `json:"id"`
+	Include       *FocusExportInclude `json:"include,omitempty"`
+	MetadataUrl   *string             `json:"metadataUrl,omitempty"`
+	RowCount      *float64            `json:"rowCount,omitempty"`
+	Status        *FocusExportStatus  `json:"status,omitempty"`
+	To            *string             `json:"to,omitempty"`
+	Version       *FocusExportVersion `json:"version,omitempty"`
+}
+
+// FocusExportFormat defines model for FocusExport.Format.
+type FocusExportFormat string
+
+// FocusExportInclude defines model for FocusExport.Include.
+type FocusExportInclude string
+
+// FocusExportStatus defines model for FocusExport.Status.
+type FocusExportStatus string
+
+// FocusExportVersion defines model for FocusExport.Version.
+type FocusExportVersion string
+
+// FocusExportList defines model for FocusExportList.
+type FocusExportList struct {
+	Enabled *bool                 `json:"enabled,omitempty"`
+	Exports *[]FocusExportSummary `json:"exports,omitempty"`
+}
+
+// FocusExportSummary defines model for FocusExportSummary.
+type FocusExportSummary struct {
+	CreatedAt     *string                    `json:"createdAt,omitempty"`
+	DocumentCount *float64                   `json:"documentCount,omitempty"`
+	ExpiresAt     *string                    `json:"expiresAt,omitempty"`
+	Format        *FocusExportSummaryFormat  `json:"format,omitempty"`
+	From          *string                    `json:"from,omitempty"`
+	Id            string                     `json:"id"`
+	Include       *FocusExportSummaryInclude `json:"include,omitempty"`
+	RowCount      *float64                   `json:"rowCount,omitempty"`
+	Status        *FocusExportSummaryStatus  `json:"status,omitempty"`
+	To            *string                    `json:"to,omitempty"`
+	Version       *FocusExportSummaryVersion `json:"version,omitempty"`
+}
+
+// FocusExportSummaryFormat defines model for FocusExportSummary.Format.
+type FocusExportSummaryFormat string
+
+// FocusExportSummaryInclude defines model for FocusExportSummary.Include.
+type FocusExportSummaryInclude string
+
+// FocusExportSummaryStatus defines model for FocusExportSummary.Status.
+type FocusExportSummaryStatus string
+
+// FocusExportSummaryVersion defines model for FocusExportSummary.Version.
+type FocusExportSummaryVersion string
+
+// FocusGcpSourceInput defines model for FocusGcpSourceInput.
+type FocusGcpSourceInput struct {
+	Table string `json:"table"`
+}
+
+// FocusInvoiceTotal defines model for FocusInvoiceTotal.
+type FocusInvoiceTotal struct {
+	BillingAccountId *string             `json:"billingAccountId,omitempty"`
+	ByCategory       *map[string]float64 `json:"byCategory,omitempty"`
+	ByService        *map[string]float64 `json:"byService,omitempty"`
+	Corrections      *float64            `json:"corrections,omitempty"`
+	Currency         *string             `json:"currency,omitempty"`
+	InvoiceId        *string             `json:"invoiceId,omitempty"`
+	Issuer           *string             `json:"issuer,omitempty"`
+	Total            *float64            `json:"total,omitempty"`
+}
+
+// FocusIssuerView defines model for FocusIssuerView.
+type FocusIssuerView struct {
+	Issuer               *string                  `json:"issuer,omitempty"`
+	MappedBy             *FocusIssuerViewMappedBy `json:"mappedBy,omitempty"`
+	SupplierConnectionId *string                  `json:"supplierConnectionId,omitempty"`
+	SupplierName         *string                  `json:"supplierName,omitempty"`
+	Totals               *map[string]float64      `json:"totals,omitempty"`
+}
+
+// FocusIssuerViewMappedBy defines model for FocusIssuerView.MappedBy.
+type FocusIssuerViewMappedBy string
+
+// FocusOciSourceInput defines model for FocusOciSourceInput.
+type FocusOciSourceInput struct {
+	Region string `json:"region"`
+}
+
+// FocusRun defines model for FocusRun.
+type FocusRun struct {
+	Failure *struct {
+		Detail *string                `json:"detail,omitempty"`
+		Reason *FocusRunFailureReason `json:"reason,omitempty"`
+	} `json:"failure,omitempty"`
+	Files           *float64  `json:"files,omitempty"`
+	FinishedAt      *string   `json:"finishedAt,omitempty"`
+	IgnoredFiles    *float64  `json:"ignoredFiles,omitempty"`
+	Periods         *[]string `json:"periods,omitempty"`
+	Rows            *float64  `json:"rows,omitempty"`
+	RunId           *string   `json:"runId,omitempty"`
+	Skipped         *float64  `json:"skipped,omitempty"`
+	SkippedByReason *struct {
+		BadChargePeriod *float64 `json:"badChargePeriod,omitempty"`
+		BadCurrency     *float64 `json:"badCurrency,omitempty"`
+		BadNumber       *float64 `json:"badNumber,omitempty"`
+		NoBillingPeriod *float64 `json:"noBillingPeriod,omitempty"`
+	} `json:"skippedByReason,omitempty"`
+	StartedAt *string          `json:"startedAt,omitempty"`
+	Status    *FocusRunStatus  `json:"status,omitempty"`
+	Trigger   *FocusRunTrigger `json:"trigger,omitempty"`
+	Version   *FocusRunVersion `json:"version,omitempty"`
+}
+
+// FocusRunFailureReason defines model for FocusRun.Failure.Reason.
+type FocusRunFailureReason string
+
+// FocusRunStatus defines model for FocusRun.Status.
+type FocusRunStatus string
+
+// FocusRunTrigger defines model for FocusRun.Trigger.
+type FocusRunTrigger string
+
+// FocusRunVersion defines model for FocusRun.Version.
+type FocusRunVersion string
+
+// FocusS3CompatibleSourceInput defines model for FocusS3CompatibleSourceInput.
+type FocusS3CompatibleSourceInput struct {
+	AccessKeyId     string  `json:"accessKeyId"`
+	Bucket          string  `json:"bucket"`
+	Endpoint        string  `json:"endpoint"`
+	Prefix          *string `json:"prefix,omitempty"`
+	Region          string  `json:"region"`
+	SecretAccessKey string  `json:"secretAccessKey"`
+}
+
+// FocusSourceView defines model for FocusSourceView.
+type FocusSourceView struct {
+	Aws *struct {
+		Bucket *string `json:"bucket,omitempty"`
+		Prefix *string `json:"prefix,omitempty"`
+		Region *string `json:"region,omitempty"`
+	} `json:"aws,omitempty"`
+	Azure *struct {
+		Container      *string `json:"container,omitempty"`
+		Directory      *string `json:"directory,omitempty"`
+		StorageAccount *string `json:"storageAccount,omitempty"`
+	} `json:"azure,omitempty"`
+	ConnectionId *string `json:"connectionId,omitempty"`
+	CreatedAt    *string `json:"createdAt,omitempty"`
+	Gcp          *struct {
+		Table *string `json:"table,omitempty"`
+	} `json:"gcp,omitempty"`
+	Id      string               `json:"id"`
+	Kind    *FocusSourceViewKind `json:"kind,omitempty"`
+	Label   *string              `json:"label,omitempty"`
+	LastRun *FocusRun            `json:"lastRun,omitempty"`
+	Oci     *struct {
+		Region *string `json:"region,omitempty"`
+	} `json:"oci,omitempty"`
+	Periods  *[]string                `json:"periods,omitempty"`
+	Provider *FocusSourceViewProvider `json:"provider,omitempty"`
+	S3       *struct {
+		AccessKeyId *string `json:"accessKeyId,omitempty"`
+		Bucket      *string `json:"bucket,omitempty"`
+		Endpoint    *string `json:"endpoint,omitempty"`
+		KeyHint     *string `json:"keyHint,omitempty"`
+		Prefix      *string `json:"prefix,omitempty"`
+		Region      *string `json:"region,omitempty"`
+	} `json:"s3,omitempty"`
+	TagKeys   *[]string `json:"tagKeys,omitempty"`
+	UpdatedAt *string   `json:"updatedAt,omitempty"`
+}
+
+// FocusSourceViewKind defines model for FocusSourceView.Kind.
+type FocusSourceViewKind string
+
+// FocusSourceViewProvider defines model for FocusSourceView.Provider.
+type FocusSourceViewProvider string
+
 // Geography defines model for Geography.
 type Geography struct {
 	PresetId      *GeographyPresetId `json:"presetId,omitempty"`
@@ -8866,6 +9411,25 @@ type GetBuyerWorkspaceResult_RecentInvoices_Item struct {
 type GetBuyerWorkspaceResult_RecentPurchaseOrders_Item struct {
 	union json.RawMessage
 }
+
+// GetFocusSourcePeriodResult defines model for GetFocusSourcePeriodResult.
+type GetFocusSourcePeriodResult struct {
+	AsOf        *string                        `json:"asOf,omitempty"`
+	CostCenters *[]FocusCostCenterTotal        `json:"costCenters,omitempty"`
+	Invoices    *[]FocusInvoiceTotal           `json:"invoices,omitempty"`
+	Issuers     *map[string]map[string]float64 `json:"issuers,omitempty"`
+	Period      *string                        `json:"period,omitempty"`
+	Rows        *float64                       `json:"rows,omitempty"`
+	SourceId    *string                        `json:"sourceId,omitempty"`
+	Totals      *map[string]struct {
+		Billed    *float64 `json:"billed,omitempty"`
+		Effective *float64 `json:"effective,omitempty"`
+	} `json:"totals,omitempty"`
+	Version *GetFocusSourcePeriodResultVersion `json:"version,omitempty"`
+}
+
+// GetFocusSourcePeriodResultVersion defines model for GetFocusSourcePeriodResult.Version.
+type GetFocusSourcePeriodResultVersion string
 
 // GetInvoiceBankAccountResult defines model for GetInvoiceBankAccountResult.
 type GetInvoiceBankAccountResult struct {
@@ -10637,6 +11201,12 @@ type ListCloudConnectionsResult struct {
 // ListCloudConnectionsResult1 defines model for .
 type ListCloudConnectionsResult1 = []CloudConnection
 
+// ListFocusSourcesResult defines model for ListFocusSourcesResult.
+type ListFocusSourcesResult struct {
+	Enabled *bool              `json:"enabled,omitempty"`
+	Sources *[]FocusSourceView `json:"sources,omitempty"`
+}
+
 // ListInvoiceCounterpartiesResult defines model for ListInvoiceCounterpartiesResult.
 type ListInvoiceCounterpartiesResult struct {
 	Counterparties *[]InvoiceCounterparty `json:"counterparties,omitempty"`
@@ -11221,6 +11791,11 @@ type ListWebhooksResult struct {
 
 // ListWebhooksResultEventTypes defines model for ListWebhooksResult.EventTypes.
 type ListWebhooksResultEventTypes string
+
+// MapFocusIssuerInput defines model for MapFocusIssuerInput.
+type MapFocusIssuerInput struct {
+	SupplierConnectionId *string `json:"supplierConnectionId"`
+}
 
 // MarkAllNotificationsReadResult defines model for MarkAllNotificationsReadResult.
 type MarkAllNotificationsReadResult struct {
@@ -11971,6 +12546,26 @@ type PurchaseRequestSupplierInput struct {
 	// SupplierRegionId A connected supplier's workspace region.
 	SupplierRegionId *string `json:"supplierRegionId,omitempty"`
 }
+
+// PutFocusDestinationInput defines model for PutFocusDestinationInput.
+type PutFocusDestinationInput struct {
+	Bucket  string                           `json:"bucket"`
+	Format  *PutFocusDestinationInputFormat  `json:"format,omitempty"`
+	Include *PutFocusDestinationInputInclude `json:"include,omitempty"`
+	Prefix  *string                          `json:"prefix,omitempty"`
+	Region  string                           `json:"region"`
+	RoleArn *string                          `json:"roleArn,omitempty"`
+	Version *PutFocusDestinationInputVersion `json:"version,omitempty"`
+}
+
+// PutFocusDestinationInputFormat defines model for PutFocusDestinationInput.Format.
+type PutFocusDestinationInputFormat string
+
+// PutFocusDestinationInputInclude defines model for PutFocusDestinationInput.Include.
+type PutFocusDestinationInputInclude string
+
+// PutFocusDestinationInputVersion defines model for PutFocusDestinationInput.Version.
+type PutFocusDestinationInputVersion string
 
 // QuestionCondition defines model for QuestionCondition.
 type QuestionCondition struct {
@@ -14399,6 +14994,21 @@ type DiscoverAzureBillingScopesJSONRequestBody = DiscoverAzureScopesInput
 
 // SetExchangeRateWarningJSONRequestBody defines body for SetExchangeRateWarning for application/json ContentType.
 type SetExchangeRateWarningJSONRequestBody = SetWarningPctInput
+
+// PutFocusDestinationJSONRequestBody defines body for PutFocusDestination for application/json ContentType.
+type PutFocusDestinationJSONRequestBody = PutFocusDestinationInput
+
+// CreateFocusExportJSONRequestBody defines body for CreateFocusExport for application/json ContentType.
+type CreateFocusExportJSONRequestBody = CreateFocusExportInput
+
+// CreateFocusSourceJSONRequestBody defines body for CreateFocusSource for application/json ContentType.
+type CreateFocusSourceJSONRequestBody = CreateFocusSourceInput
+
+// MapFocusIssuerJSONRequestBody defines body for MapFocusIssuer for application/json ContentType.
+type MapFocusIssuerJSONRequestBody = MapFocusIssuerInput
+
+// CreateFocusUploadJSONRequestBody defines body for CreateFocusUpload for application/json ContentType.
+type CreateFocusUploadJSONRequestBody = CreateFocusUploadInput
 
 // CreateInvoiceJSONRequestBody defines body for CreateInvoice for application/json ContentType.
 type CreateInvoiceJSONRequestBody = CreateManualInvoiceInput
@@ -17553,6 +18163,70 @@ type ClientInterface interface {
 
 	SetExchangeRateWarning(ctx context.Context, body SetExchangeRateWarningJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// DeleteFocusDestination request
+	DeleteFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetFocusDestination request
+	GetFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PutFocusDestinationWithBody request with any body
+	PutFocusDestinationWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PutFocusDestination(ctx context.Context, body PutFocusDestinationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeliverFocusDestination request
+	DeliverFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// TestFocusDestination request
+	TestFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListFocusExports request
+	ListFocusExports(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateFocusExportWithBody request with any body
+	CreateFocusExportWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateFocusExport(ctx context.Context, body CreateFocusExportJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetFocusExport request
+	GetFocusExport(ctx context.Context, exportId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListFocusSources request
+	ListFocusSources(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateFocusSourceWithBody request with any body
+	CreateFocusSourceWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateFocusSource(ctx context.Context, body CreateFocusSourceJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListFocusIssuers request
+	ListFocusIssuers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// MapFocusIssuerWithBody request with any body
+	MapFocusIssuerWithBody(ctx context.Context, issuer string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	MapFocusIssuer(ctx context.Context, issuer string, body MapFocusIssuerJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateFocusUploadWithBody request with any body
+	CreateFocusUploadWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateFocusUpload(ctx context.Context, body CreateFocusUploadJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CompleteFocusUpload request
+	CompleteFocusUpload(ctx context.Context, uploadId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteFocusSource request
+	DeleteFocusSource(ctx context.Context, sourceId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetFocusSource request
+	GetFocusSource(ctx context.Context, sourceId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetFocusSourcePeriod request
+	GetFocusSourcePeriod(ctx context.Context, sourceId string, period string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SyncFocusSource request
+	SyncFocusSource(ctx context.Context, sourceId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ListInvoices request
 	ListInvoices(ctx context.Context, params *ListInvoicesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -18700,6 +19374,282 @@ func (c *RawClient) SetExchangeRateWarningWithBody(ctx context.Context, contentT
 
 func (c *RawClient) SetExchangeRateWarning(ctx context.Context, body SetExchangeRateWarningJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSetExchangeRateWarningRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) DeleteFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteFocusDestinationRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetFocusDestinationRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) PutFocusDestinationWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPutFocusDestinationRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) PutFocusDestination(ctx context.Context, body PutFocusDestinationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPutFocusDestinationRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) DeliverFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeliverFocusDestinationRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) TestFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTestFocusDestinationRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListFocusExports(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListFocusExportsRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CreateFocusExportWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateFocusExportRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CreateFocusExport(ctx context.Context, body CreateFocusExportJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateFocusExportRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetFocusExport(ctx context.Context, exportId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetFocusExportRequest(c.Server, exportId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListFocusSources(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListFocusSourcesRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CreateFocusSourceWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateFocusSourceRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CreateFocusSource(ctx context.Context, body CreateFocusSourceJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateFocusSourceRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListFocusIssuers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListFocusIssuersRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) MapFocusIssuerWithBody(ctx context.Context, issuer string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewMapFocusIssuerRequestWithBody(c.Server, issuer, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) MapFocusIssuer(ctx context.Context, issuer string, body MapFocusIssuerJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewMapFocusIssuerRequest(c.Server, issuer, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CreateFocusUploadWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateFocusUploadRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CreateFocusUpload(ctx context.Context, body CreateFocusUploadJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateFocusUploadRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CompleteFocusUpload(ctx context.Context, uploadId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCompleteFocusUploadRequest(c.Server, uploadId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) DeleteFocusSource(ctx context.Context, sourceId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteFocusSourceRequest(c.Server, sourceId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetFocusSource(ctx context.Context, sourceId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetFocusSourceRequest(c.Server, sourceId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetFocusSourcePeriod(ctx context.Context, sourceId string, period string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetFocusSourcePeriodRequest(c.Server, sourceId, period)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SyncFocusSource(ctx context.Context, sourceId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSyncFocusSourceRequest(c.Server, sourceId)
 	if err != nil {
 		return nil, err
 	}
@@ -22435,6 +23385,613 @@ func NewSetExchangeRateWarningRequestWithBody(server string, contentType string,
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteFocusDestinationRequest generates requests for DeleteFocusDestination
+func NewDeleteFocusDestinationRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-destination")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetFocusDestinationRequest generates requests for GetFocusDestination
+func NewGetFocusDestinationRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-destination")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPutFocusDestinationRequest calls the generic PutFocusDestination builder with application/json body
+func NewPutFocusDestinationRequest(server string, body PutFocusDestinationJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPutFocusDestinationRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPutFocusDestinationRequestWithBody generates requests for PutFocusDestination with any type of body
+func NewPutFocusDestinationRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-destination")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeliverFocusDestinationRequest generates requests for DeliverFocusDestination
+func NewDeliverFocusDestinationRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-destination/deliver")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewTestFocusDestinationRequest generates requests for TestFocusDestination
+func NewTestFocusDestinationRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-destination/test")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListFocusExportsRequest generates requests for ListFocusExports
+func NewListFocusExportsRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-exports")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreateFocusExportRequest calls the generic CreateFocusExport builder with application/json body
+func NewCreateFocusExportRequest(server string, body CreateFocusExportJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateFocusExportRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreateFocusExportRequestWithBody generates requests for CreateFocusExport with any type of body
+func NewCreateFocusExportRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-exports")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetFocusExportRequest generates requests for GetFocusExport
+func NewGetFocusExportRequest(server string, exportId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "exportId", runtime.ParamLocationPath, exportId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-exports/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListFocusSourcesRequest generates requests for ListFocusSources
+func NewListFocusSourcesRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-sources")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreateFocusSourceRequest calls the generic CreateFocusSource builder with application/json body
+func NewCreateFocusSourceRequest(server string, body CreateFocusSourceJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateFocusSourceRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreateFocusSourceRequestWithBody generates requests for CreateFocusSource with any type of body
+func NewCreateFocusSourceRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-sources")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewListFocusIssuersRequest generates requests for ListFocusIssuers
+func NewListFocusIssuersRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-sources/issuers")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewMapFocusIssuerRequest calls the generic MapFocusIssuer builder with application/json body
+func NewMapFocusIssuerRequest(server string, issuer string, body MapFocusIssuerJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewMapFocusIssuerRequestWithBody(server, issuer, "application/json", bodyReader)
+}
+
+// NewMapFocusIssuerRequestWithBody generates requests for MapFocusIssuer with any type of body
+func NewMapFocusIssuerRequestWithBody(server string, issuer string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "issuer", runtime.ParamLocationPath, issuer)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-sources/issuers/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCreateFocusUploadRequest calls the generic CreateFocusUpload builder with application/json body
+func NewCreateFocusUploadRequest(server string, body CreateFocusUploadJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateFocusUploadRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreateFocusUploadRequestWithBody generates requests for CreateFocusUpload with any type of body
+func NewCreateFocusUploadRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-sources/uploads")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCompleteFocusUploadRequest generates requests for CompleteFocusUpload
+func NewCompleteFocusUploadRequest(server string, uploadId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "uploadId", runtime.ParamLocationPath, uploadId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-sources/uploads/%s/complete", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDeleteFocusSourceRequest generates requests for DeleteFocusSource
+func NewDeleteFocusSourceRequest(server string, sourceId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "sourceId", runtime.ParamLocationPath, sourceId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-sources/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetFocusSourceRequest generates requests for GetFocusSource
+func NewGetFocusSourceRequest(server string, sourceId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "sourceId", runtime.ParamLocationPath, sourceId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-sources/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetFocusSourcePeriodRequest generates requests for GetFocusSourcePeriod
+func NewGetFocusSourcePeriodRequest(server string, sourceId string, period string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "sourceId", runtime.ParamLocationPath, sourceId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "period", runtime.ParamLocationPath, period)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-sources/%s/periods/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSyncFocusSourceRequest generates requests for SyncFocusSource
+func NewSyncFocusSourceRequest(server string, sourceId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "sourceId", runtime.ParamLocationPath, sourceId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/focus-sources/%s/sync", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -26898,6 +28455,70 @@ type ClientWithResponsesInterface interface {
 
 	SetExchangeRateWarningWithResponse(ctx context.Context, body SetExchangeRateWarningJSONRequestBody, reqEditors ...RequestEditorFn) (*SetExchangeRateWarningResponse, error)
 
+	// DeleteFocusDestinationWithResponse request
+	DeleteFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DeleteFocusDestinationResponse, error)
+
+	// GetFocusDestinationWithResponse request
+	GetFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetFocusDestinationResponse, error)
+
+	// PutFocusDestinationWithBodyWithResponse request with any body
+	PutFocusDestinationWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutFocusDestinationResponse, error)
+
+	PutFocusDestinationWithResponse(ctx context.Context, body PutFocusDestinationJSONRequestBody, reqEditors ...RequestEditorFn) (*PutFocusDestinationResponse, error)
+
+	// DeliverFocusDestinationWithResponse request
+	DeliverFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DeliverFocusDestinationResponse, error)
+
+	// TestFocusDestinationWithResponse request
+	TestFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*TestFocusDestinationResponse, error)
+
+	// ListFocusExportsWithResponse request
+	ListFocusExportsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListFocusExportsResponse, error)
+
+	// CreateFocusExportWithBodyWithResponse request with any body
+	CreateFocusExportWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateFocusExportResponse, error)
+
+	CreateFocusExportWithResponse(ctx context.Context, body CreateFocusExportJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateFocusExportResponse, error)
+
+	// GetFocusExportWithResponse request
+	GetFocusExportWithResponse(ctx context.Context, exportId string, reqEditors ...RequestEditorFn) (*GetFocusExportResponse, error)
+
+	// ListFocusSourcesWithResponse request
+	ListFocusSourcesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListFocusSourcesResponse, error)
+
+	// CreateFocusSourceWithBodyWithResponse request with any body
+	CreateFocusSourceWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateFocusSourceResponse, error)
+
+	CreateFocusSourceWithResponse(ctx context.Context, body CreateFocusSourceJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateFocusSourceResponse, error)
+
+	// ListFocusIssuersWithResponse request
+	ListFocusIssuersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListFocusIssuersResponse, error)
+
+	// MapFocusIssuerWithBodyWithResponse request with any body
+	MapFocusIssuerWithBodyWithResponse(ctx context.Context, issuer string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*MapFocusIssuerResponse, error)
+
+	MapFocusIssuerWithResponse(ctx context.Context, issuer string, body MapFocusIssuerJSONRequestBody, reqEditors ...RequestEditorFn) (*MapFocusIssuerResponse, error)
+
+	// CreateFocusUploadWithBodyWithResponse request with any body
+	CreateFocusUploadWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateFocusUploadResponse, error)
+
+	CreateFocusUploadWithResponse(ctx context.Context, body CreateFocusUploadJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateFocusUploadResponse, error)
+
+	// CompleteFocusUploadWithResponse request
+	CompleteFocusUploadWithResponse(ctx context.Context, uploadId string, reqEditors ...RequestEditorFn) (*CompleteFocusUploadResponse, error)
+
+	// DeleteFocusSourceWithResponse request
+	DeleteFocusSourceWithResponse(ctx context.Context, sourceId string, reqEditors ...RequestEditorFn) (*DeleteFocusSourceResponse, error)
+
+	// GetFocusSourceWithResponse request
+	GetFocusSourceWithResponse(ctx context.Context, sourceId string, reqEditors ...RequestEditorFn) (*GetFocusSourceResponse, error)
+
+	// GetFocusSourcePeriodWithResponse request
+	GetFocusSourcePeriodWithResponse(ctx context.Context, sourceId string, period string, reqEditors ...RequestEditorFn) (*GetFocusSourcePeriodResponse, error)
+
+	// SyncFocusSourceWithResponse request
+	SyncFocusSourceWithResponse(ctx context.Context, sourceId string, reqEditors ...RequestEditorFn) (*SyncFocusSourceResponse, error)
+
 	// ListInvoicesWithResponse request
 	ListInvoicesWithResponse(ctx context.Context, params *ListInvoicesParams, reqEditors ...RequestEditorFn) (*ListInvoicesResponse, error)
 
@@ -28439,6 +30060,420 @@ func (r SetExchangeRateWarningResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r SetExchangeRateWarningResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteFocusDestinationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *DeleteFocusDestinationResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteFocusDestinationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteFocusDestinationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetFocusDestinationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *FocusDestinationView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetFocusDestinationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetFocusDestinationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PutFocusDestinationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *FocusDestinationView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r PutFocusDestinationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PutFocusDestinationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeliverFocusDestinationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *FocusDestinationView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r DeliverFocusDestinationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeliverFocusDestinationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type TestFocusDestinationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *FocusDestinationView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r TestFocusDestinationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r TestFocusDestinationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListFocusExportsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *FocusExportList
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListFocusExportsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListFocusExportsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateFocusExportResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *FocusExport
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateFocusExportResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateFocusExportResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetFocusExportResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *FocusExport
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetFocusExportResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetFocusExportResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListFocusSourcesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ListFocusSourcesResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListFocusSourcesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListFocusSourcesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateFocusSourceResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *FocusSourceView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateFocusSourceResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateFocusSourceResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListFocusIssuersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]FocusIssuerView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListFocusIssuersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListFocusIssuersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type MapFocusIssuerResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]FocusIssuerView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r MapFocusIssuerResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r MapFocusIssuerResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateFocusUploadResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *CreateFocusUploadResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateFocusUploadResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateFocusUploadResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CompleteFocusUploadResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *FocusSourceView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r CompleteFocusUploadResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CompleteFocusUploadResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteFocusSourceResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *DeleteFocusSourceResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteFocusSourceResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteFocusSourceResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetFocusSourceResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *FocusSourceView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetFocusSourceResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetFocusSourceResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetFocusSourcePeriodResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *GetFocusSourcePeriodResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetFocusSourcePeriodResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetFocusSourcePeriodResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SyncFocusSourceResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *FocusSourceView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r SyncFocusSourceResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SyncFocusSourceResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -31113,6 +33148,208 @@ func (c *ClientWithResponses) SetExchangeRateWarningWithResponse(ctx context.Con
 		return nil, err
 	}
 	return ParseSetExchangeRateWarningResponse(rsp)
+}
+
+// DeleteFocusDestinationWithResponse request returning *DeleteFocusDestinationResponse
+func (c *ClientWithResponses) DeleteFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DeleteFocusDestinationResponse, error) {
+	rsp, err := c.DeleteFocusDestination(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteFocusDestinationResponse(rsp)
+}
+
+// GetFocusDestinationWithResponse request returning *GetFocusDestinationResponse
+func (c *ClientWithResponses) GetFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetFocusDestinationResponse, error) {
+	rsp, err := c.GetFocusDestination(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetFocusDestinationResponse(rsp)
+}
+
+// PutFocusDestinationWithBodyWithResponse request with arbitrary body returning *PutFocusDestinationResponse
+func (c *ClientWithResponses) PutFocusDestinationWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutFocusDestinationResponse, error) {
+	rsp, err := c.PutFocusDestinationWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePutFocusDestinationResponse(rsp)
+}
+
+func (c *ClientWithResponses) PutFocusDestinationWithResponse(ctx context.Context, body PutFocusDestinationJSONRequestBody, reqEditors ...RequestEditorFn) (*PutFocusDestinationResponse, error) {
+	rsp, err := c.PutFocusDestination(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePutFocusDestinationResponse(rsp)
+}
+
+// DeliverFocusDestinationWithResponse request returning *DeliverFocusDestinationResponse
+func (c *ClientWithResponses) DeliverFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DeliverFocusDestinationResponse, error) {
+	rsp, err := c.DeliverFocusDestination(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeliverFocusDestinationResponse(rsp)
+}
+
+// TestFocusDestinationWithResponse request returning *TestFocusDestinationResponse
+func (c *ClientWithResponses) TestFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*TestFocusDestinationResponse, error) {
+	rsp, err := c.TestFocusDestination(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTestFocusDestinationResponse(rsp)
+}
+
+// ListFocusExportsWithResponse request returning *ListFocusExportsResponse
+func (c *ClientWithResponses) ListFocusExportsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListFocusExportsResponse, error) {
+	rsp, err := c.ListFocusExports(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListFocusExportsResponse(rsp)
+}
+
+// CreateFocusExportWithBodyWithResponse request with arbitrary body returning *CreateFocusExportResponse
+func (c *ClientWithResponses) CreateFocusExportWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateFocusExportResponse, error) {
+	rsp, err := c.CreateFocusExportWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateFocusExportResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateFocusExportWithResponse(ctx context.Context, body CreateFocusExportJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateFocusExportResponse, error) {
+	rsp, err := c.CreateFocusExport(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateFocusExportResponse(rsp)
+}
+
+// GetFocusExportWithResponse request returning *GetFocusExportResponse
+func (c *ClientWithResponses) GetFocusExportWithResponse(ctx context.Context, exportId string, reqEditors ...RequestEditorFn) (*GetFocusExportResponse, error) {
+	rsp, err := c.GetFocusExport(ctx, exportId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetFocusExportResponse(rsp)
+}
+
+// ListFocusSourcesWithResponse request returning *ListFocusSourcesResponse
+func (c *ClientWithResponses) ListFocusSourcesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListFocusSourcesResponse, error) {
+	rsp, err := c.ListFocusSources(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListFocusSourcesResponse(rsp)
+}
+
+// CreateFocusSourceWithBodyWithResponse request with arbitrary body returning *CreateFocusSourceResponse
+func (c *ClientWithResponses) CreateFocusSourceWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateFocusSourceResponse, error) {
+	rsp, err := c.CreateFocusSourceWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateFocusSourceResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateFocusSourceWithResponse(ctx context.Context, body CreateFocusSourceJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateFocusSourceResponse, error) {
+	rsp, err := c.CreateFocusSource(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateFocusSourceResponse(rsp)
+}
+
+// ListFocusIssuersWithResponse request returning *ListFocusIssuersResponse
+func (c *ClientWithResponses) ListFocusIssuersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListFocusIssuersResponse, error) {
+	rsp, err := c.ListFocusIssuers(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListFocusIssuersResponse(rsp)
+}
+
+// MapFocusIssuerWithBodyWithResponse request with arbitrary body returning *MapFocusIssuerResponse
+func (c *ClientWithResponses) MapFocusIssuerWithBodyWithResponse(ctx context.Context, issuer string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*MapFocusIssuerResponse, error) {
+	rsp, err := c.MapFocusIssuerWithBody(ctx, issuer, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseMapFocusIssuerResponse(rsp)
+}
+
+func (c *ClientWithResponses) MapFocusIssuerWithResponse(ctx context.Context, issuer string, body MapFocusIssuerJSONRequestBody, reqEditors ...RequestEditorFn) (*MapFocusIssuerResponse, error) {
+	rsp, err := c.MapFocusIssuer(ctx, issuer, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseMapFocusIssuerResponse(rsp)
+}
+
+// CreateFocusUploadWithBodyWithResponse request with arbitrary body returning *CreateFocusUploadResponse
+func (c *ClientWithResponses) CreateFocusUploadWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateFocusUploadResponse, error) {
+	rsp, err := c.CreateFocusUploadWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateFocusUploadResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateFocusUploadWithResponse(ctx context.Context, body CreateFocusUploadJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateFocusUploadResponse, error) {
+	rsp, err := c.CreateFocusUpload(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateFocusUploadResponse(rsp)
+}
+
+// CompleteFocusUploadWithResponse request returning *CompleteFocusUploadResponse
+func (c *ClientWithResponses) CompleteFocusUploadWithResponse(ctx context.Context, uploadId string, reqEditors ...RequestEditorFn) (*CompleteFocusUploadResponse, error) {
+	rsp, err := c.CompleteFocusUpload(ctx, uploadId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCompleteFocusUploadResponse(rsp)
+}
+
+// DeleteFocusSourceWithResponse request returning *DeleteFocusSourceResponse
+func (c *ClientWithResponses) DeleteFocusSourceWithResponse(ctx context.Context, sourceId string, reqEditors ...RequestEditorFn) (*DeleteFocusSourceResponse, error) {
+	rsp, err := c.DeleteFocusSource(ctx, sourceId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteFocusSourceResponse(rsp)
+}
+
+// GetFocusSourceWithResponse request returning *GetFocusSourceResponse
+func (c *ClientWithResponses) GetFocusSourceWithResponse(ctx context.Context, sourceId string, reqEditors ...RequestEditorFn) (*GetFocusSourceResponse, error) {
+	rsp, err := c.GetFocusSource(ctx, sourceId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetFocusSourceResponse(rsp)
+}
+
+// GetFocusSourcePeriodWithResponse request returning *GetFocusSourcePeriodResponse
+func (c *ClientWithResponses) GetFocusSourcePeriodWithResponse(ctx context.Context, sourceId string, period string, reqEditors ...RequestEditorFn) (*GetFocusSourcePeriodResponse, error) {
+	rsp, err := c.GetFocusSourcePeriod(ctx, sourceId, period, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetFocusSourcePeriodResponse(rsp)
+}
+
+// SyncFocusSourceWithResponse request returning *SyncFocusSourceResponse
+func (c *ClientWithResponses) SyncFocusSourceWithResponse(ctx context.Context, sourceId string, reqEditors ...RequestEditorFn) (*SyncFocusSourceResponse, error) {
+	rsp, err := c.SyncFocusSource(ctx, sourceId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSyncFocusSourceResponse(rsp)
 }
 
 // ListInvoicesWithResponse request returning *ListInvoicesResponse
@@ -33886,6 +36123,600 @@ func ParseSetExchangeRateWarningResponse(rsp *http.Response) (*SetExchangeRateWa
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteFocusDestinationResponse parses an HTTP response from a DeleteFocusDestinationWithResponse call
+func ParseDeleteFocusDestinationResponse(rsp *http.Response) (*DeleteFocusDestinationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteFocusDestinationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest DeleteFocusDestinationResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetFocusDestinationResponse parses an HTTP response from a GetFocusDestinationWithResponse call
+func ParseGetFocusDestinationResponse(rsp *http.Response) (*GetFocusDestinationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetFocusDestinationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FocusDestinationView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePutFocusDestinationResponse parses an HTTP response from a PutFocusDestinationWithResponse call
+func ParsePutFocusDestinationResponse(rsp *http.Response) (*PutFocusDestinationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PutFocusDestinationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FocusDestinationView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeliverFocusDestinationResponse parses an HTTP response from a DeliverFocusDestinationWithResponse call
+func ParseDeliverFocusDestinationResponse(rsp *http.Response) (*DeliverFocusDestinationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeliverFocusDestinationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FocusDestinationView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseTestFocusDestinationResponse parses an HTTP response from a TestFocusDestinationWithResponse call
+func ParseTestFocusDestinationResponse(rsp *http.Response) (*TestFocusDestinationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &TestFocusDestinationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FocusDestinationView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListFocusExportsResponse parses an HTTP response from a ListFocusExportsWithResponse call
+func ParseListFocusExportsResponse(rsp *http.Response) (*ListFocusExportsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListFocusExportsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FocusExportList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateFocusExportResponse parses an HTTP response from a CreateFocusExportWithResponse call
+func ParseCreateFocusExportResponse(rsp *http.Response) (*CreateFocusExportResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateFocusExportResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest FocusExport
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetFocusExportResponse parses an HTTP response from a GetFocusExportWithResponse call
+func ParseGetFocusExportResponse(rsp *http.Response) (*GetFocusExportResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetFocusExportResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FocusExport
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListFocusSourcesResponse parses an HTTP response from a ListFocusSourcesWithResponse call
+func ParseListFocusSourcesResponse(rsp *http.Response) (*ListFocusSourcesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListFocusSourcesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListFocusSourcesResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateFocusSourceResponse parses an HTTP response from a CreateFocusSourceWithResponse call
+func ParseCreateFocusSourceResponse(rsp *http.Response) (*CreateFocusSourceResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateFocusSourceResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest FocusSourceView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListFocusIssuersResponse parses an HTTP response from a ListFocusIssuersWithResponse call
+func ParseListFocusIssuersResponse(rsp *http.Response) (*ListFocusIssuersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListFocusIssuersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []FocusIssuerView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseMapFocusIssuerResponse parses an HTTP response from a MapFocusIssuerWithResponse call
+func ParseMapFocusIssuerResponse(rsp *http.Response) (*MapFocusIssuerResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &MapFocusIssuerResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []FocusIssuerView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateFocusUploadResponse parses an HTTP response from a CreateFocusUploadWithResponse call
+func ParseCreateFocusUploadResponse(rsp *http.Response) (*CreateFocusUploadResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateFocusUploadResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest CreateFocusUploadResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCompleteFocusUploadResponse parses an HTTP response from a CompleteFocusUploadWithResponse call
+func ParseCompleteFocusUploadResponse(rsp *http.Response) (*CompleteFocusUploadResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CompleteFocusUploadResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest FocusSourceView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteFocusSourceResponse parses an HTTP response from a DeleteFocusSourceWithResponse call
+func ParseDeleteFocusSourceResponse(rsp *http.Response) (*DeleteFocusSourceResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteFocusSourceResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest DeleteFocusSourceResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetFocusSourceResponse parses an HTTP response from a GetFocusSourceWithResponse call
+func ParseGetFocusSourceResponse(rsp *http.Response) (*GetFocusSourceResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetFocusSourceResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FocusSourceView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetFocusSourcePeriodResponse parses an HTTP response from a GetFocusSourcePeriodWithResponse call
+func ParseGetFocusSourcePeriodResponse(rsp *http.Response) (*GetFocusSourcePeriodResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetFocusSourcePeriodResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetFocusSourcePeriodResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSyncFocusSourceResponse parses an HTTP response from a SyncFocusSourceWithResponse call
+func ParseSyncFocusSourceResponse(rsp *http.Response) (*SyncFocusSourceResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SyncFocusSourceResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest FocusSourceView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest ApiError

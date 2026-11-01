@@ -8,6 +8,7 @@ import ai.pleaxy.api.BillingApi;
 import ai.pleaxy.api.CloudConnectionsApi;
 import ai.pleaxy.api.DocumentSyncApi;
 import ai.pleaxy.api.BudgetControlApi;
+import ai.pleaxy.api.FocusApi;
 import ai.pleaxy.api.FulfillmentApi;
 import ai.pleaxy.api.PurchaseRequestsApi;
 import ai.pleaxy.api.RequestTypesApi;
@@ -62,6 +63,7 @@ public final class PleaxyClient {
   private final BillingApi billing;
   private final CloudConnectionsApi cloudConnections;
   private final DocumentSyncApi documentSync;
+  private final FocusApi focus;
   private final FulfillmentApi fulfillment;
   private final PurchaseRequestsApi purchaseRequests;
   private final RequestTypesApi requestTypes;
@@ -113,6 +115,7 @@ public final class PleaxyClient {
     this.billing = new BillingApi(apiClient);
     this.cloudConnections = new CloudConnectionsApi(apiClient);
     this.documentSync = new DocumentSyncApi(apiClient);
+    this.focus = new FocusApi(apiClient);
     this.fulfillment = new FulfillmentApi(apiClient);
     this.purchaseRequests = new PurchaseRequestsApi(apiClient);
     this.requestTypes = new RequestTypesApi(apiClient);
@@ -175,6 +178,11 @@ public final class PleaxyClient {
   /** DocumentSync operations. */
   public DocumentSyncApi documentSync() {
     return documentSync;
+  }
+
+  /** FOCUS export, destination and import operations. */
+  public FocusApi focus() {
+    return focus;
   }
 
   /** Fulfillment operations. */

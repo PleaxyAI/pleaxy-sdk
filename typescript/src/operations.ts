@@ -529,6 +529,136 @@ export class ExchangeRatesResource {
   }
 }
 
+export class FocusResource {
+  constructor(private readonly transport: Transport) {}
+
+  /**
+   * [Buyer] The upload is in place: Pleaxy reads it in the background; the uploads source's last run shows the result. 'edit' on invoices.
+   */
+  completeFocusUpload(uploadId: string, options?: RequestOptions): Promise<ResponseBody<"CompleteFocusUpload">> {
+    return this.transport.request("post", "/focus-sources/uploads/{uploadId}/complete", { path: { uploadId }, options }) as Promise<ResponseBody<"CompleteFocusUpload">>;
+  }
+
+  /**
+   * [Buyer] Export the workspace's invoices, debit notes and accepted credit notes for billing periods from..to (YYYY-MM, at most 36 months) as a FOCUS Cost and Usage dataset in CSV (version 1.2 by default, or 1.4), with a metadata file. One row per line, tax entry and adjustment; credit notes negative; amounts in each document's currency. include=non_cloud leaves out cloud and AI providers' invoices. Returns download links valid 15 minutes; the files are kept 7 days. 'view' on invoices.
+   */
+  createFocusExport(body: RequestBody<"CreateFocusExport">, options?: RequestOptions): Promise<ResponseBody<"CreateFocusExport">> {
+    return this.transport.request("post", "/focus-exports", { path: undefined, body, options }) as Promise<ResponseBody<"CreateFocusExport">>;
+  }
+
+  /**
+   * [Buyer] Add a FOCUS source: kind aws_s3 (with connectionId of an AWS connection and aws: bucket, prefix, region), azure_blob, gcp_bigquery, oci or s3_compatible. A cloud's source becomes its connection's AI lines source, replacing the connector's own AI read. Pleaxy reads it daily, and now with SyncFocusSource. 'edit' on invoices; a signed-in person only.
+   */
+  createFocusSource(body: RequestBody<"CreateFocusSource">, options?: RequestOptions): Promise<ResponseBody<"CreateFocusSource">> {
+    return this.transport.request("post", "/focus-sources", { path: undefined, body, options }) as Promise<ResponseBody<"CreateFocusSource">>;
+  }
+
+  /**
+   * [Buyer] Start a FOCUS file upload (.csv or .csv.gz, up to 500 MB): returns a presigned PUT URL valid a few minutes and the upload's id. PUT the file with the returned content type, then call CompleteFocusUpload. 'edit' on invoices.
+   */
+  createFocusUpload(body: RequestBody<"CreateFocusUpload">, options?: RequestOptions): Promise<ResponseBody<"CreateFocusUpload">> {
+    return this.transport.request("post", "/focus-sources/uploads", { path: undefined, body, options }) as Promise<ResponseBody<"CreateFocusUpload">>;
+  }
+
+  /**
+   * [Buyer] Stop delivering FOCUS files. Files already in the bucket stay; delete the PleaxyFocusDestination stack to remove Pleaxy's access. 'edit' on invoices; a signed-in person only.
+   */
+  deleteFocusDestination(options?: RequestOptions): Promise<ResponseBody<"DeleteFocusDestination">> {
+    return this.transport.request("delete", "/focus-destination", { path: undefined, options }) as Promise<ResponseBody<"DeleteFocusDestination">>;
+  }
+
+  /**
+   * [Buyer] Remove a FOCUS source with the months and AI lines it stored; its connection's own AI read resumes. 'edit' on invoices; a signed-in person only.
+   */
+  deleteFocusSource(sourceId: string, options?: RequestOptions): Promise<ResponseBody<"DeleteFocusSource">> {
+    return this.transport.request("delete", "/focus-sources/{sourceId}", { path: { sourceId }, options }) as Promise<ResponseBody<"DeleteFocusSource">>;
+  }
+
+  /**
+   * [Buyer] Deliver now: write this month's and last month's FOCUS files to the destination, as the daily run does. 'edit' on invoices.
+   */
+  deliverFocusDestination(options?: RequestOptions): Promise<ResponseBody<"DeliverFocusDestination">> {
+    return this.transport.request("post", "/focus-destination/deliver", { path: undefined, options }) as Promise<ResponseBody<"DeliverFocusDestination">>;
+  }
+
+  /**
+   * [Buyer] Where Pleaxy delivers the workspace's FOCUS files every day (an S3 bucket, folder and region, the format, FOCUS version and suppliers included), its status (awaiting_role, active or failing), the last delivery, and what the setup stack needs (Pleaxy's account, the template URL, the External ID). destination is null when none is set. 'view' on invoices.
+   */
+  getFocusDestination(options?: RequestOptions): Promise<ResponseBody<"GetFocusDestination">> {
+    return this.transport.request("get", "/focus-destination", { path: undefined, options }) as Promise<ResponseBody<"GetFocusDestination">>;
+  }
+
+  /**
+   * [Buyer] One FOCUS export of the last 7 days, with fresh download links for its CSV and metadata (valid 15 minutes). 'view' on invoices.
+   */
+  getFocusExport(exportId: string, options?: RequestOptions): Promise<ResponseBody<"GetFocusExport">> {
+    return this.transport.request("get", "/focus-exports/{exportId}", { path: { exportId }, options }) as Promise<ResponseBody<"GetFocusExport">>;
+  }
+
+  /**
+   * [Buyer] One FOCUS source with its last run. 'view' on invoices.
+   */
+  getFocusSource(sourceId: string, options?: RequestOptions): Promise<ResponseBody<"GetFocusSource">> {
+    return this.transport.request("get", "/focus-sources/{sourceId}", { path: { sourceId }, options }) as Promise<ResponseBody<"GetFocusSource">>;
+  }
+
+  /**
+   * [Buyer] One stored month of a FOCUS source: totals by currency, each invoice by number (by category and service), spend by cost center (from the tag attribution rules) and by issuer. 'view' on invoices.
+   */
+  getFocusSourcePeriod(sourceId: string, period: string, options?: RequestOptions): Promise<ResponseBody<"GetFocusSourcePeriod">> {
+    return this.transport.request("get", "/focus-sources/{sourceId}/periods/{period}", { path: { sourceId, period }, options }) as Promise<ResponseBody<"GetFocusSourcePeriod">>;
+  }
+
+  /**
+   * [Buyer] Whether FOCUS export is on for the workspace, and its exports of the last 7 days, newest first (at most 20): range, FOCUS version, rows and documents. 'view' on invoices.
+   */
+  listFocusExports(options?: RequestOptions): Promise<ResponseBody<"ListFocusExports">> {
+    return this.transport.request("get", "/focus-exports", { path: undefined, options }) as Promise<ResponseBody<"ListFocusExports">>;
+  }
+
+  /**
+   * [Buyer] Every invoice issuer in the stored FOCUS months (the last three per source) with its billed totals by currency and the supplier it maps to - by a person, or by its well-known name (AWS, Microsoft, Google, Oracle) - or none. 'view' on invoices.
+   */
+  listFocusIssuers(options?: RequestOptions): Promise<ResponseBody<"ListFocusIssuers">> {
+    return this.transport.request("get", "/focus-sources/issuers", { path: undefined, options }) as Promise<ResponseBody<"ListFocusIssuers">>;
+  }
+
+  /**
+   * [Buyer] Whether FOCUS import is on, and the workspace's FOCUS sources - uploads, an AWS Data Exports FOCUS export, an Azure Cost Management FOCUS export, Google Cloud's FOCUS table, Oracle Cloud's FOCUS reports or an S3-compatible bucket - each with its last run (months read, rows, skipped rows by reason, or why it failed), the months stored and the most common tag keys. 'view' on invoices.
+   */
+  listFocusSources(options?: RequestOptions): Promise<ResponseBody<"ListFocusSources">> {
+    return this.transport.request("get", "/focus-sources", { path: undefined, options }) as Promise<ResponseBody<"ListFocusSources">>;
+  }
+
+  /**
+   * [Buyer] Map a FOCUS invoice issuer to one of the workspace's suppliers (supplierConnectionId), or forget the mapping (null). 'edit' on invoices.
+   */
+  mapFocusIssuer(issuer: string, body: RequestBody<"MapFocusIssuer">, options?: RequestOptions): Promise<ResponseBody<"MapFocusIssuer">> {
+    return this.transport.request("put", "/focus-sources/issuers/{issuer}", { path: { issuer }, body, options }) as Promise<ResponseBody<"MapFocusIssuer">>;
+  }
+
+  /**
+   * [Buyer] Set where Pleaxy delivers FOCUS files: bucket, folder (prefix), region, format (csv, gzipped, or parquet), FOCUS version (1.2 or 1.4) and include (all or non_cloud). Without roleArn it saves the destination awaiting its PleaxyFocusWriter role and returns the External ID for the stack; with roleArn Pleaxy writes and deletes a test object first and saves nothing if it can't. Every day Pleaxy then writes this month (and, through the 5th, last month) as one file per month under <prefix>/focus/<version>/billing_period=YYYY-MM/. 'edit' on invoices; a signed-in person only.
+   */
+  putFocusDestination(body: RequestBody<"PutFocusDestination">, options?: RequestOptions): Promise<ResponseBody<"PutFocusDestination">> {
+    return this.transport.request("put", "/focus-destination", { path: undefined, body, options }) as Promise<ResponseBody<"PutFocusDestination">>;
+  }
+
+  /**
+   * [Buyer] Read a FOCUS source now, in the background, re-reading the months it holds. 'edit' on invoices.
+   */
+  syncFocusSource(sourceId: string, options?: RequestOptions): Promise<ResponseBody<"SyncFocusSource">> {
+    return this.transport.request("post", "/focus-sources/{sourceId}/sync", { path: { sourceId }, options }) as Promise<ResponseBody<"SyncFocusSource">>;
+  }
+
+  /**
+   * [Buyer] Write and delete a test object in the FOCUS destination; a pass makes a failing destination active again. 'edit' on invoices; a signed-in person only.
+   */
+  testFocusDestination(options?: RequestOptions): Promise<ResponseBody<"TestFocusDestination">> {
+    return this.transport.request("post", "/focus-destination/test", { path: undefined, options }) as Promise<ResponseBody<"TestFocusDestination">>;
+  }
+}
+
 export class FulfillmentResource {
   constructor(private readonly transport: Transport) {}
 
@@ -1117,6 +1247,7 @@ export class Resources {
   readonly documentSync: DocumentSyncResource;
   readonly employees: EmployeesResource;
   readonly exchangeRates: ExchangeRatesResource;
+  readonly focus: FocusResource;
   readonly fulfillment: FulfillmentResource;
   readonly invoices: InvoicesResource;
   readonly notifications: NotificationsResource;
@@ -1144,6 +1275,7 @@ export class Resources {
     this.documentSync = new DocumentSyncResource(transport);
     this.employees = new EmployeesResource(transport);
     this.exchangeRates = new ExchangeRatesResource(transport);
+    this.focus = new FocusResource(transport);
     this.fulfillment = new FulfillmentResource(transport);
     this.invoices = new InvoicesResource(transport);
     this.notifications = new NotificationsResource(transport);

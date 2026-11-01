@@ -59,6 +59,7 @@ import ai.pleaxy.client.ApiClient;
   CloudConnection.JSON_PROPERTY_LAST_SYNC_ERROR,
   CloudConnection.JSON_PROPERTY_LAST_SYNC_ERROR_CODE,
   CloudConnection.JSON_PROPERTY_AI_SYNC,
+  CloudConnection.JSON_PROPERTY_FOCUS_SOURCE_ID,
   CloudConnection.JSON_PROPERTY_DATA_SOURCES,
   CloudConnection.JSON_PROPERTY_BILLING,
   CloudConnection.JSON_PROPERTY_GCP,
@@ -290,6 +291,10 @@ public class CloudConnection {
   public static final String JSON_PROPERTY_AI_SYNC = "aiSync";
   @javax.annotation.Nullable
   private CloudAiSyncState aiSync;
+
+  public static final String JSON_PROPERTY_FOCUS_SOURCE_ID = "focusSourceId";
+  @javax.annotation.Nullable
+  private String focusSourceId;
 
   /**
    * Gets or Sets dataSources
@@ -757,6 +762,30 @@ public class CloudConnection {
   }
 
 
+  public CloudConnection focusSourceId(@javax.annotation.Nullable String focusSourceId) {
+    this.focusSourceId = focusSourceId;
+    return this;
+  }
+
+  /**
+   * Get focusSourceId
+   * @return focusSourceId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_FOCUS_SOURCE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getFocusSourceId() {
+    return focusSourceId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_FOCUS_SOURCE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setFocusSourceId(@javax.annotation.Nullable String focusSourceId) {
+    this.focusSourceId = focusSourceId;
+  }
+
+
   public CloudConnection dataSources(@javax.annotation.Nullable List<DataSourcesEnum> dataSources) {
     this.dataSources = dataSources;
     return this;
@@ -914,6 +943,7 @@ public class CloudConnection {
         Objects.equals(this.lastSyncError, cloudConnection.lastSyncError) &&
         Objects.equals(this.lastSyncErrorCode, cloudConnection.lastSyncErrorCode) &&
         Objects.equals(this.aiSync, cloudConnection.aiSync) &&
+        Objects.equals(this.focusSourceId, cloudConnection.focusSourceId) &&
         Objects.equals(this.dataSources, cloudConnection.dataSources) &&
         Objects.equals(this.billing, cloudConnection.billing) &&
         Objects.equals(this.gcp, cloudConnection.gcp) &&
@@ -923,7 +953,7 @@ public class CloudConnection {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, provider, accountLabel, detail, spend, status, connectedAt, setup, bulk, roleArn, externalId, awsAccountId, lastSyncedAt, lastSyncStatus, lastSyncError, lastSyncErrorCode, aiSync, dataSources, billing, gcp, oci, azure);
+    return Objects.hash(id, provider, accountLabel, detail, spend, status, connectedAt, setup, bulk, roleArn, externalId, awsAccountId, lastSyncedAt, lastSyncStatus, lastSyncError, lastSyncErrorCode, aiSync, focusSourceId, dataSources, billing, gcp, oci, azure);
   }
 
   @Override
@@ -947,6 +977,7 @@ public class CloudConnection {
     sb.append("    lastSyncError: ").append(toIndentedString(lastSyncError)).append("\n");
     sb.append("    lastSyncErrorCode: ").append(toIndentedString(lastSyncErrorCode)).append("\n");
     sb.append("    aiSync: ").append(toIndentedString(aiSync)).append("\n");
+    sb.append("    focusSourceId: ").append(toIndentedString(focusSourceId)).append("\n");
     sb.append("    dataSources: ").append(toIndentedString(dataSources)).append("\n");
     sb.append("    billing: ").append(toIndentedString(billing)).append("\n");
     sb.append("    gcp: ").append(toIndentedString(gcp)).append("\n");
@@ -1082,6 +1113,11 @@ public class CloudConnection {
     // add `aiSync` to the URL query string
     if (getAiSync() != null) {
       joiner.add(getAiSync().toUrlQueryString(prefix + "aiSync" + suffix));
+    }
+
+    // add `focusSourceId` to the URL query string
+    if (getFocusSourceId() != null) {
+      joiner.add(String.format("%sfocusSourceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFocusSourceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `dataSources` to the URL query string
