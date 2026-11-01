@@ -43,7 +43,8 @@ import ai.pleaxy.client.ApiClient;
   FocusExportSummary.JSON_PROPERTY_FORMAT,
   FocusExportSummary.JSON_PROPERTY_ROW_COUNT,
   FocusExportSummary.JSON_PROPERTY_DOCUMENT_COUNT,
-  FocusExportSummary.JSON_PROPERTY_EXPIRES_AT
+  FocusExportSummary.JSON_PROPERTY_EXPIRES_AT,
+  FocusExportSummary.JSON_PROPERTY_COMMITMENT_COUNT
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FocusExportSummary {
@@ -228,6 +229,10 @@ public class FocusExportSummary {
   public static final String JSON_PROPERTY_EXPIRES_AT = "expiresAt";
   @javax.annotation.Nullable
   private String expiresAt;
+
+  public static final String JSON_PROPERTY_COMMITMENT_COUNT = "commitmentCount";
+  @javax.annotation.Nullable
+  private Double commitmentCount;
 
   public FocusExportSummary() { 
   }
@@ -496,6 +501,30 @@ public class FocusExportSummary {
   }
 
 
+  public FocusExportSummary commitmentCount(@javax.annotation.Nullable Double commitmentCount) {
+    this.commitmentCount = commitmentCount;
+    return this;
+  }
+
+  /**
+   * Get commitmentCount
+   * @return commitmentCount
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMITMENT_COUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getCommitmentCount() {
+    return commitmentCount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMITMENT_COUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCommitmentCount(@javax.annotation.Nullable Double commitmentCount) {
+    this.commitmentCount = commitmentCount;
+  }
+
+
   /**
    * Return true if this FocusExportSummary object is equal to o.
    */
@@ -518,12 +547,13 @@ public class FocusExportSummary {
         Objects.equals(this.format, focusExportSummary.format) &&
         Objects.equals(this.rowCount, focusExportSummary.rowCount) &&
         Objects.equals(this.documentCount, focusExportSummary.documentCount) &&
-        Objects.equals(this.expiresAt, focusExportSummary.expiresAt);
+        Objects.equals(this.expiresAt, focusExportSummary.expiresAt) &&
+        Objects.equals(this.commitmentCount, focusExportSummary.commitmentCount);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, createdAt, version, include, from, to, format, rowCount, documentCount, expiresAt);
+    return Objects.hash(id, status, createdAt, version, include, from, to, format, rowCount, documentCount, expiresAt, commitmentCount);
   }
 
   @Override
@@ -541,6 +571,7 @@ public class FocusExportSummary {
     sb.append("    rowCount: ").append(toIndentedString(rowCount)).append("\n");
     sb.append("    documentCount: ").append(toIndentedString(documentCount)).append("\n");
     sb.append("    expiresAt: ").append(toIndentedString(expiresAt)).append("\n");
+    sb.append("    commitmentCount: ").append(toIndentedString(commitmentCount)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -641,6 +672,11 @@ public class FocusExportSummary {
     // add `expiresAt` to the URL query string
     if (getExpiresAt() != null) {
       joiner.add(String.format("%sexpiresAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpiresAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `commitmentCount` to the URL query string
+    if (getCommitmentCount() != null) {
+      joiner.add(String.format("%scommitmentCount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCommitmentCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

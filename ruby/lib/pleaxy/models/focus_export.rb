@@ -37,9 +37,13 @@ module Pleaxy
 
     attr_accessor :expires_at
 
+    attr_accessor :commitment_count
+
     attr_accessor :download_url
 
     attr_accessor :metadata_url
+
+    attr_accessor :commitments_url
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -77,8 +81,10 @@ module Pleaxy
         :'row_count' => :'rowCount',
         :'document_count' => :'documentCount',
         :'expires_at' => :'expiresAt',
+        :'commitment_count' => :'commitmentCount',
         :'download_url' => :'downloadUrl',
-        :'metadata_url' => :'metadataUrl'
+        :'metadata_url' => :'metadataUrl',
+        :'commitments_url' => :'commitmentsUrl'
       }
     end
 
@@ -101,8 +107,10 @@ module Pleaxy
         :'row_count' => :'Float',
         :'document_count' => :'Float',
         :'expires_at' => :'String',
+        :'commitment_count' => :'Float',
         :'download_url' => :'String',
-        :'metadata_url' => :'String'
+        :'metadata_url' => :'String',
+        :'commitments_url' => :'String'
       }
     end
 
@@ -173,12 +181,20 @@ module Pleaxy
         self.expires_at = attributes[:'expires_at']
       end
 
+      if attributes.key?(:'commitment_count')
+        self.commitment_count = attributes[:'commitment_count']
+      end
+
       if attributes.key?(:'download_url')
         self.download_url = attributes[:'download_url']
       end
 
       if attributes.key?(:'metadata_url')
         self.metadata_url = attributes[:'metadata_url']
+      end
+
+      if attributes.key?(:'commitments_url')
+        self.commitments_url = attributes[:'commitments_url']
       end
     end
 
@@ -266,8 +282,10 @@ module Pleaxy
           row_count == o.row_count &&
           document_count == o.document_count &&
           expires_at == o.expires_at &&
+          commitment_count == o.commitment_count &&
           download_url == o.download_url &&
-          metadata_url == o.metadata_url
+          metadata_url == o.metadata_url &&
+          commitments_url == o.commitments_url
     end
 
     # @see the `==` method
@@ -279,7 +297,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, status, created_at, version, include, from, to, format, row_count, document_count, expires_at, download_url, metadata_url].hash
+      [id, status, created_at, version, include, from, to, format, row_count, document_count, expires_at, commitment_count, download_url, metadata_url, commitments_url].hash
     end
 
     # Builds the object from hash

@@ -1566,6 +1566,7 @@ from .postal_address_input import PostalAddressInput
 from .price_amount import PriceAmount
 from .price_amount_interval import PriceAmountInterval
 from .profile_images import ProfileImages
+from .provider_commitment import ProviderCommitment
 from .punchout_line_origin import PunchoutLineOrigin
 from .punchout_line_origin_classification import PunchoutLineOriginClassification
 from .punchout_line_origin_kind import PunchoutLineOriginKind
@@ -2999,6 +3000,7 @@ __all__ = (
     "PriceAmount",
     "PriceAmountInterval",
     "ProfileImages",
+    "ProviderCommitment",
     "PunchoutLineOrigin",
     "PunchoutLineOriginClassification",
     "PunchoutLineOriginKind",

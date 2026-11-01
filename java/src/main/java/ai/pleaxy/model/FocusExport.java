@@ -44,8 +44,10 @@ import ai.pleaxy.client.ApiClient;
   FocusExport.JSON_PROPERTY_ROW_COUNT,
   FocusExport.JSON_PROPERTY_DOCUMENT_COUNT,
   FocusExport.JSON_PROPERTY_EXPIRES_AT,
+  FocusExport.JSON_PROPERTY_COMMITMENT_COUNT,
   FocusExport.JSON_PROPERTY_DOWNLOAD_URL,
-  FocusExport.JSON_PROPERTY_METADATA_URL
+  FocusExport.JSON_PROPERTY_METADATA_URL,
+  FocusExport.JSON_PROPERTY_COMMITMENTS_URL
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FocusExport {
@@ -231,6 +233,10 @@ public class FocusExport {
   @javax.annotation.Nullable
   private String expiresAt;
 
+  public static final String JSON_PROPERTY_COMMITMENT_COUNT = "commitmentCount";
+  @javax.annotation.Nullable
+  private Double commitmentCount;
+
   public static final String JSON_PROPERTY_DOWNLOAD_URL = "downloadUrl";
   @javax.annotation.Nullable
   private String downloadUrl;
@@ -238,6 +244,10 @@ public class FocusExport {
   public static final String JSON_PROPERTY_METADATA_URL = "metadataUrl";
   @javax.annotation.Nullable
   private String metadataUrl;
+
+  public static final String JSON_PROPERTY_COMMITMENTS_URL = "commitmentsUrl";
+  @javax.annotation.Nullable
+  private String commitmentsUrl;
 
   public FocusExport() { 
   }
@@ -506,6 +516,30 @@ public class FocusExport {
   }
 
 
+  public FocusExport commitmentCount(@javax.annotation.Nullable Double commitmentCount) {
+    this.commitmentCount = commitmentCount;
+    return this;
+  }
+
+  /**
+   * Get commitmentCount
+   * @return commitmentCount
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMITMENT_COUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getCommitmentCount() {
+    return commitmentCount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMITMENT_COUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCommitmentCount(@javax.annotation.Nullable Double commitmentCount) {
+    this.commitmentCount = commitmentCount;
+  }
+
+
   public FocusExport downloadUrl(@javax.annotation.Nullable String downloadUrl) {
     this.downloadUrl = downloadUrl;
     return this;
@@ -554,6 +588,30 @@ public class FocusExport {
   }
 
 
+  public FocusExport commitmentsUrl(@javax.annotation.Nullable String commitmentsUrl) {
+    this.commitmentsUrl = commitmentsUrl;
+    return this;
+  }
+
+  /**
+   * Get commitmentsUrl
+   * @return commitmentsUrl
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMITMENTS_URL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getCommitmentsUrl() {
+    return commitmentsUrl;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMITMENTS_URL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCommitmentsUrl(@javax.annotation.Nullable String commitmentsUrl) {
+    this.commitmentsUrl = commitmentsUrl;
+  }
+
+
   /**
    * Return true if this FocusExport object is equal to o.
    */
@@ -577,13 +635,15 @@ public class FocusExport {
         Objects.equals(this.rowCount, focusExport.rowCount) &&
         Objects.equals(this.documentCount, focusExport.documentCount) &&
         Objects.equals(this.expiresAt, focusExport.expiresAt) &&
+        Objects.equals(this.commitmentCount, focusExport.commitmentCount) &&
         Objects.equals(this.downloadUrl, focusExport.downloadUrl) &&
-        Objects.equals(this.metadataUrl, focusExport.metadataUrl);
+        Objects.equals(this.metadataUrl, focusExport.metadataUrl) &&
+        Objects.equals(this.commitmentsUrl, focusExport.commitmentsUrl);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, createdAt, version, include, from, to, format, rowCount, documentCount, expiresAt, downloadUrl, metadataUrl);
+    return Objects.hash(id, status, createdAt, version, include, from, to, format, rowCount, documentCount, expiresAt, commitmentCount, downloadUrl, metadataUrl, commitmentsUrl);
   }
 
   @Override
@@ -601,8 +661,10 @@ public class FocusExport {
     sb.append("    rowCount: ").append(toIndentedString(rowCount)).append("\n");
     sb.append("    documentCount: ").append(toIndentedString(documentCount)).append("\n");
     sb.append("    expiresAt: ").append(toIndentedString(expiresAt)).append("\n");
+    sb.append("    commitmentCount: ").append(toIndentedString(commitmentCount)).append("\n");
     sb.append("    downloadUrl: ").append(toIndentedString(downloadUrl)).append("\n");
     sb.append("    metadataUrl: ").append(toIndentedString(metadataUrl)).append("\n");
+    sb.append("    commitmentsUrl: ").append(toIndentedString(commitmentsUrl)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -705,6 +767,11 @@ public class FocusExport {
       joiner.add(String.format("%sexpiresAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpiresAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `commitmentCount` to the URL query string
+    if (getCommitmentCount() != null) {
+      joiner.add(String.format("%scommitmentCount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCommitmentCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
     // add `downloadUrl` to the URL query string
     if (getDownloadUrl() != null) {
       joiner.add(String.format("%sdownloadUrl%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDownloadUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -713,6 +780,11 @@ public class FocusExport {
     // add `metadataUrl` to the URL query string
     if (getMetadataUrl() != null) {
       joiner.add(String.format("%smetadataUrl%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMetadataUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `commitmentsUrl` to the URL query string
+    if (getCommitmentsUrl() != null) {
+      joiner.add(String.format("%scommitmentsUrl%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCommitmentsUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

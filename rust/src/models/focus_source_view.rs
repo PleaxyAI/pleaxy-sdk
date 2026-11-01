@@ -43,6 +43,8 @@ pub struct FocusSourceView {
     pub last_run: Option<models::FocusRun>,
     #[serde(rename = "tagKeys", skip_serializing_if = "Option::is_none")]
     pub tag_keys: Option<Vec<String>>,
+    #[serde(rename = "commitments", skip_serializing_if = "Option::is_none")]
+    pub commitments: Option<Vec<models::ProviderCommitment>>,
 }
 
 impl FocusSourceView {
@@ -63,6 +65,7 @@ impl FocusSourceView {
             periods: None,
             last_run: None,
             tag_keys: None,
+            commitments: None,
         }
     }
 }

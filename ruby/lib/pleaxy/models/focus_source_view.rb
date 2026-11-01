@@ -45,6 +45,8 @@ module Pleaxy
 
     attr_accessor :tag_keys
 
+    attr_accessor :commitments
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -84,7 +86,8 @@ module Pleaxy
         :'connection_id' => :'connectionId',
         :'periods' => :'periods',
         :'last_run' => :'lastRun',
-        :'tag_keys' => :'tagKeys'
+        :'tag_keys' => :'tagKeys',
+        :'commitments' => :'commitments'
       }
     end
 
@@ -110,7 +113,8 @@ module Pleaxy
         :'connection_id' => :'String',
         :'periods' => :'Array<String>',
         :'last_run' => :'FocusRun',
-        :'tag_keys' => :'Array<String>'
+        :'tag_keys' => :'Array<String>',
+        :'commitments' => :'Array<ProviderCommitment>'
       }
     end
 
@@ -200,6 +204,12 @@ module Pleaxy
           self.tag_keys = value
         end
       end
+
+      if attributes.key?(:'commitments')
+        if (value = attributes[:'commitments']).is_a?(Array)
+          self.commitments = value
+        end
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -265,7 +275,8 @@ module Pleaxy
           connection_id == o.connection_id &&
           periods == o.periods &&
           last_run == o.last_run &&
-          tag_keys == o.tag_keys
+          tag_keys == o.tag_keys &&
+          commitments == o.commitments
     end
 
     # @see the `==` method
@@ -277,7 +288,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [s3, aws, gcp, azure, oci, provider, id, created_at, updated_at, kind, label, connection_id, periods, last_run, tag_keys].hash
+      [s3, aws, gcp, azure, oci, provider, id, created_at, updated_at, kind, label, connection_id, periods, last_run, tag_keys, commitments].hash
     end
 
     # Builds the object from hash

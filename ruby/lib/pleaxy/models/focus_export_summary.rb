@@ -37,6 +37,8 @@ module Pleaxy
 
     attr_accessor :expires_at
 
+    attr_accessor :commitment_count
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -72,7 +74,8 @@ module Pleaxy
         :'format' => :'format',
         :'row_count' => :'rowCount',
         :'document_count' => :'documentCount',
-        :'expires_at' => :'expiresAt'
+        :'expires_at' => :'expiresAt',
+        :'commitment_count' => :'commitmentCount'
       }
     end
 
@@ -94,7 +97,8 @@ module Pleaxy
         :'format' => :'String',
         :'row_count' => :'Float',
         :'document_count' => :'Float',
-        :'expires_at' => :'String'
+        :'expires_at' => :'String',
+        :'commitment_count' => :'Float'
       }
     end
 
@@ -163,6 +167,10 @@ module Pleaxy
 
       if attributes.key?(:'expires_at')
         self.expires_at = attributes[:'expires_at']
+      end
+
+      if attributes.key?(:'commitment_count')
+        self.commitment_count = attributes[:'commitment_count']
       end
     end
 
@@ -249,7 +257,8 @@ module Pleaxy
           format == o.format &&
           row_count == o.row_count &&
           document_count == o.document_count &&
-          expires_at == o.expires_at
+          expires_at == o.expires_at &&
+          commitment_count == o.commitment_count
     end
 
     # @see the `==` method
@@ -261,7 +270,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, status, created_at, version, include, from, to, format, row_count, document_count, expires_at].hash
+      [id, status, created_at, version, include, from, to, format, row_count, document_count, expires_at, commitment_count].hash
     end
 
     # Builds the object from hash

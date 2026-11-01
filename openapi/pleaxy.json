@@ -20914,6 +20914,10 @@
           },
           "expiresAt": {
             "type": "string"
+          },
+          "commitmentCount": {
+            "type": "number",
+            "format": "double"
           }
         },
         "required": [
@@ -20973,10 +20977,17 @@
           "expiresAt": {
             "type": "string"
           },
+          "commitmentCount": {
+            "type": "number",
+            "format": "double"
+          },
           "downloadUrl": {
             "type": "string"
           },
           "metadataUrl": {
+            "type": "string"
+          },
+          "commitmentsUrl": {
             "type": "string"
           }
         },
@@ -21238,6 +21249,12 @@
             "items": {
               "type": "string"
             }
+          },
+          "commitments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProviderCommitment"
+            }
           }
         },
         "required": [
@@ -21348,6 +21365,58 @@
             }
           }
         }
+      },
+      "ProviderCommitment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "contractId": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "issuer": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "periodStart": {
+            "type": "string"
+          },
+          "periodEnd": {
+            "type": "string"
+          },
+          "cost": {
+            "type": "number",
+            "format": "double"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
       },
       "FocusIssuerView": {
         "type": "object",

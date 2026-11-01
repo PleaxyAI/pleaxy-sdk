@@ -31895,6 +31895,9 @@
           },
           "expiresAt": {
             "type": "string"
+          },
+          "commitmentCount": {
+            "type": "number"
           }
         },
         "required": [
@@ -31962,10 +31965,16 @@
           "expiresAt": {
             "type": "string"
           },
+          "commitmentCount": {
+            "type": "number"
+          },
           "downloadUrl": {
             "type": "string"
           },
           "metadataUrl": {
+            "type": "string"
+          },
+          "commitmentsUrl": {
             "type": "string"
           }
         },
@@ -32291,6 +32300,12 @@
             "items": {
               "type": "string"
             }
+          },
+          "commitments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProviderCommitment"
+            }
           }
         },
         "required": [
@@ -32413,6 +32428,61 @@
           "skipped",
           "skippedByReason",
           "ignoredFiles"
+        ]
+      },
+      "ProviderCommitment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "contractId": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "issuer": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "periodStart": {
+            "type": "string"
+          },
+          "periodEnd": {
+            "type": "string"
+          },
+          "cost": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "contractId",
+          "category",
+          "type",
+          "periodStart",
+          "periodEnd"
         ]
       },
       "FocusIssuerView": {

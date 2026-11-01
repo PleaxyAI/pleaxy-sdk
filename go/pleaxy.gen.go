@@ -9172,19 +9172,21 @@ type FocusDestinationViewDestinationVersion string
 
 // FocusExport defines model for FocusExport.
 type FocusExport struct {
-	CreatedAt     *string             `json:"createdAt,omitempty"`
-	DocumentCount *float64            `json:"documentCount,omitempty"`
-	DownloadUrl   *string             `json:"downloadUrl,omitempty"`
-	ExpiresAt     *string             `json:"expiresAt,omitempty"`
-	Format        *FocusExportFormat  `json:"format,omitempty"`
-	From          *string             `json:"from,omitempty"`
-	Id            string              `json:"id"`
-	Include       *FocusExportInclude `json:"include,omitempty"`
-	MetadataUrl   *string             `json:"metadataUrl,omitempty"`
-	RowCount      *float64            `json:"rowCount,omitempty"`
-	Status        *FocusExportStatus  `json:"status,omitempty"`
-	To            *string             `json:"to,omitempty"`
-	Version       *FocusExportVersion `json:"version,omitempty"`
+	CommitmentCount *float64            `json:"commitmentCount,omitempty"`
+	CommitmentsUrl  *string             `json:"commitmentsUrl,omitempty"`
+	CreatedAt       *string             `json:"createdAt,omitempty"`
+	DocumentCount   *float64            `json:"documentCount,omitempty"`
+	DownloadUrl     *string             `json:"downloadUrl,omitempty"`
+	ExpiresAt       *string             `json:"expiresAt,omitempty"`
+	Format          *FocusExportFormat  `json:"format,omitempty"`
+	From            *string             `json:"from,omitempty"`
+	Id              string              `json:"id"`
+	Include         *FocusExportInclude `json:"include,omitempty"`
+	MetadataUrl     *string             `json:"metadataUrl,omitempty"`
+	RowCount        *float64            `json:"rowCount,omitempty"`
+	Status          *FocusExportStatus  `json:"status,omitempty"`
+	To              *string             `json:"to,omitempty"`
+	Version         *FocusExportVersion `json:"version,omitempty"`
 }
 
 // FocusExportFormat defines model for FocusExport.Format.
@@ -9207,17 +9209,18 @@ type FocusExportList struct {
 
 // FocusExportSummary defines model for FocusExportSummary.
 type FocusExportSummary struct {
-	CreatedAt     *string                    `json:"createdAt,omitempty"`
-	DocumentCount *float64                   `json:"documentCount,omitempty"`
-	ExpiresAt     *string                    `json:"expiresAt,omitempty"`
-	Format        *FocusExportSummaryFormat  `json:"format,omitempty"`
-	From          *string                    `json:"from,omitempty"`
-	Id            string                     `json:"id"`
-	Include       *FocusExportSummaryInclude `json:"include,omitempty"`
-	RowCount      *float64                   `json:"rowCount,omitempty"`
-	Status        *FocusExportSummaryStatus  `json:"status,omitempty"`
-	To            *string                    `json:"to,omitempty"`
-	Version       *FocusExportSummaryVersion `json:"version,omitempty"`
+	CommitmentCount *float64                   `json:"commitmentCount,omitempty"`
+	CreatedAt       *string                    `json:"createdAt,omitempty"`
+	DocumentCount   *float64                   `json:"documentCount,omitempty"`
+	ExpiresAt       *string                    `json:"expiresAt,omitempty"`
+	Format          *FocusExportSummaryFormat  `json:"format,omitempty"`
+	From            *string                    `json:"from,omitempty"`
+	Id              string                     `json:"id"`
+	Include         *FocusExportSummaryInclude `json:"include,omitempty"`
+	RowCount        *float64                   `json:"rowCount,omitempty"`
+	Status          *FocusExportSummaryStatus  `json:"status,omitempty"`
+	To              *string                    `json:"to,omitempty"`
+	Version         *FocusExportSummaryVersion `json:"version,omitempty"`
 }
 
 // FocusExportSummaryFormat defines model for FocusExportSummary.Format.
@@ -9325,8 +9328,9 @@ type FocusSourceView struct {
 		Directory      *string `json:"directory,omitempty"`
 		StorageAccount *string `json:"storageAccount,omitempty"`
 	} `json:"azure,omitempty"`
-	ConnectionId *string `json:"connectionId,omitempty"`
-	CreatedAt    *string `json:"createdAt,omitempty"`
+	Commitments  *[]ProviderCommitment `json:"commitments,omitempty"`
+	ConnectionId *string               `json:"connectionId,omitempty"`
+	CreatedAt    *string               `json:"createdAt,omitempty"`
 	Gcp          *struct {
 		Table *string `json:"table,omitempty"`
 	} `json:"gcp,omitempty"`
@@ -12063,6 +12067,24 @@ type PriceAmountInterval string
 type ProfileImages struct {
 	Company *ImageRef `json:"company"`
 	Profile *ImageRef `json:"profile"`
+}
+
+// ProviderCommitment defines model for ProviderCommitment.
+type ProviderCommitment struct {
+	Category    *string  `json:"category,omitempty"`
+	ContractId  *string  `json:"contractId,omitempty"`
+	Cost        *float64 `json:"cost,omitempty"`
+	Currency    *string  `json:"currency,omitempty"`
+	Description *string  `json:"description,omitempty"`
+	Id          string   `json:"id"`
+	Issuer      *string  `json:"issuer,omitempty"`
+	PeriodEnd   *string  `json:"periodEnd,omitempty"`
+	PeriodStart *string  `json:"periodStart,omitempty"`
+	Provider    *string  `json:"provider,omitempty"`
+	Quantity    *float64 `json:"quantity,omitempty"`
+	Status      *string  `json:"status,omitempty"`
+	Type        *string  `json:"type,omitempty"`
+	Unit        *string  `json:"unit,omitempty"`
 }
 
 // PunchoutLineOrigin defines model for PunchoutLineOrigin.

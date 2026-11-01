@@ -27,8 +27,10 @@ class FocusExport:
         row_count (Union[Unset, float]):
         document_count (Union[Unset, float]):
         expires_at (Union[Unset, str]):
+        commitment_count (Union[Unset, float]):
         download_url (Union[Unset, str]):
         metadata_url (Union[Unset, str]):
+        commitments_url (Union[Unset, str]):
     """
 
     id: str
@@ -42,8 +44,10 @@ class FocusExport:
     row_count: Union[Unset, float] = UNSET
     document_count: Union[Unset, float] = UNSET
     expires_at: Union[Unset, str] = UNSET
+    commitment_count: Union[Unset, float] = UNSET
     download_url: Union[Unset, str] = UNSET
     metadata_url: Union[Unset, str] = UNSET
+    commitments_url: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -77,9 +81,13 @@ class FocusExport:
 
         expires_at = self.expires_at
 
+        commitment_count = self.commitment_count
+
         download_url = self.download_url
 
         metadata_url = self.metadata_url
+
+        commitments_url = self.commitments_url
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -108,10 +116,14 @@ class FocusExport:
             field_dict["documentCount"] = document_count
         if expires_at is not UNSET:
             field_dict["expiresAt"] = expires_at
+        if commitment_count is not UNSET:
+            field_dict["commitmentCount"] = commitment_count
         if download_url is not UNSET:
             field_dict["downloadUrl"] = download_url
         if metadata_url is not UNSET:
             field_dict["metadataUrl"] = metadata_url
+        if commitments_url is not UNSET:
+            field_dict["commitmentsUrl"] = commitments_url
 
         return field_dict
 
@@ -160,9 +172,13 @@ class FocusExport:
 
         expires_at = d.pop("expiresAt", UNSET)
 
+        commitment_count = d.pop("commitmentCount", UNSET)
+
         download_url = d.pop("downloadUrl", UNSET)
 
         metadata_url = d.pop("metadataUrl", UNSET)
+
+        commitments_url = d.pop("commitmentsUrl", UNSET)
 
         focus_export = cls(
             id=id,
@@ -176,8 +192,10 @@ class FocusExport:
             row_count=row_count,
             document_count=document_count,
             expires_at=expires_at,
+            commitment_count=commitment_count,
             download_url=download_url,
             metadata_url=metadata_url,
+            commitments_url=commitments_url,
         )
 
         focus_export.additional_properties = d

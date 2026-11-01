@@ -20,6 +20,7 @@ if TYPE_CHECKING:
     from ..models.focus_source_view_gcp import FocusSourceViewGcp
     from ..models.focus_source_view_oci import FocusSourceViewOci
     from ..models.focus_source_view_s3 import FocusSourceViewS3
+    from ..models.provider_commitment import ProviderCommitment
 
 
 T = TypeVar("T", bound="FocusSourceView")
@@ -44,6 +45,7 @@ class FocusSourceView:
         periods (Union[Unset, List[str]]):
         last_run (Union[Unset, FocusRun]):
         tag_keys (Union[Unset, List[str]]):
+        commitments (Union[Unset, List['ProviderCommitment']]):
     """
 
     id: str
@@ -61,6 +63,7 @@ class FocusSourceView:
     periods: Union[Unset, List[str]] = UNSET
     last_run: Union[Unset, "FocusRun"] = UNSET
     tag_keys: Union[Unset, List[str]] = UNSET
+    commitments: Union[Unset, List["ProviderCommitment"]] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -114,6 +117,13 @@ class FocusSourceView:
         if not isinstance(self.tag_keys, Unset):
             tag_keys = self.tag_keys
 
+        commitments: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.commitments, Unset):
+            commitments = []
+            for commitments_item_data in self.commitments:
+                commitments_item = commitments_item_data.to_dict()
+                commitments.append(commitments_item)
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -149,6 +159,8 @@ class FocusSourceView:
             field_dict["lastRun"] = last_run
         if tag_keys is not UNSET:
             field_dict["tagKeys"] = tag_keys
+        if commitments is not UNSET:
+            field_dict["commitments"] = commitments
 
         return field_dict
 
@@ -160,6 +172,7 @@ class FocusSourceView:
         from ..models.focus_source_view_gcp import FocusSourceViewGcp
         from ..models.focus_source_view_oci import FocusSourceViewOci
         from ..models.focus_source_view_s3 import FocusSourceViewS3
+        from ..models.provider_commitment import ProviderCommitment
 
         d = src_dict.copy()
         id = d.pop("id")
@@ -232,6 +245,13 @@ class FocusSourceView:
 
         tag_keys = cast(List[str], d.pop("tagKeys", UNSET))
 
+        commitments = []
+        _commitments = d.pop("commitments", UNSET)
+        for commitments_item_data in _commitments or []:
+            commitments_item = ProviderCommitment.from_dict(commitments_item_data)
+
+            commitments.append(commitments_item)
+
         focus_source_view = cls(
             id=id,
             s3=s3,
@@ -248,6 +268,7 @@ class FocusSourceView:
             periods=periods,
             last_run=last_run,
             tag_keys=tag_keys,
+            commitments=commitments,
         )
 
         focus_source_view.additional_properties = d

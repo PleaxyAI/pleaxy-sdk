@@ -25,6 +25,7 @@ import ai.pleaxy.model.FocusSourceViewAzure;
 import ai.pleaxy.model.FocusSourceViewGcp;
 import ai.pleaxy.model.FocusSourceViewOci;
 import ai.pleaxy.model.FocusSourceViewS3;
+import ai.pleaxy.model.ProviderCommitment;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -55,7 +56,8 @@ import ai.pleaxy.client.ApiClient;
   FocusSourceView.JSON_PROPERTY_CONNECTION_ID,
   FocusSourceView.JSON_PROPERTY_PERIODS,
   FocusSourceView.JSON_PROPERTY_LAST_RUN,
-  FocusSourceView.JSON_PROPERTY_TAG_KEYS
+  FocusSourceView.JSON_PROPERTY_TAG_KEYS,
+  FocusSourceView.JSON_PROPERTY_COMMITMENTS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class FocusSourceView {
@@ -200,6 +202,10 @@ public class FocusSourceView {
   public static final String JSON_PROPERTY_TAG_KEYS = "tagKeys";
   @javax.annotation.Nullable
   private List<String> tagKeys = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_COMMITMENTS = "commitments";
+  @javax.annotation.Nullable
+  private List<ProviderCommitment> commitments = new ArrayList<>();
 
   public FocusSourceView() { 
   }
@@ -580,6 +586,38 @@ public class FocusSourceView {
   }
 
 
+  public FocusSourceView commitments(@javax.annotation.Nullable List<ProviderCommitment> commitments) {
+    this.commitments = commitments;
+    return this;
+  }
+
+  public FocusSourceView addCommitmentsItem(ProviderCommitment commitmentsItem) {
+    if (this.commitments == null) {
+      this.commitments = new ArrayList<>();
+    }
+    this.commitments.add(commitmentsItem);
+    return this;
+  }
+
+  /**
+   * Get commitments
+   * @return commitments
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMITMENTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<ProviderCommitment> getCommitments() {
+    return commitments;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMITMENTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCommitments(@javax.annotation.Nullable List<ProviderCommitment> commitments) {
+    this.commitments = commitments;
+  }
+
+
   /**
    * Return true if this FocusSourceView object is equal to o.
    */
@@ -606,12 +644,13 @@ public class FocusSourceView {
         Objects.equals(this.connectionId, focusSourceView.connectionId) &&
         Objects.equals(this.periods, focusSourceView.periods) &&
         Objects.equals(this.lastRun, focusSourceView.lastRun) &&
-        Objects.equals(this.tagKeys, focusSourceView.tagKeys);
+        Objects.equals(this.tagKeys, focusSourceView.tagKeys) &&
+        Objects.equals(this.commitments, focusSourceView.commitments);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(s3, aws, gcp, azure, oci, provider, id, createdAt, updatedAt, kind, label, connectionId, periods, lastRun, tagKeys);
+    return Objects.hash(s3, aws, gcp, azure, oci, provider, id, createdAt, updatedAt, kind, label, connectionId, periods, lastRun, tagKeys, commitments);
   }
 
   @Override
@@ -633,6 +672,7 @@ public class FocusSourceView {
     sb.append("    periods: ").append(toIndentedString(periods)).append("\n");
     sb.append("    lastRun: ").append(toIndentedString(lastRun)).append("\n");
     sb.append("    tagKeys: ").append(toIndentedString(tagKeys)).append("\n");
+    sb.append("    commitments: ").append(toIndentedString(commitments)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -760,6 +800,16 @@ public class FocusSourceView {
         joiner.add(String.format("%stagKeys%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getTagKeys().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `commitments` to the URL query string
+    if (getCommitments() != null) {
+      for (int i = 0; i < getCommitments().size(); i++) {
+        if (getCommitments().get(i) != null) {
+          joiner.add(getCommitments().get(i).toUrlQueryString(String.format("%scommitments%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
       }
     }
 

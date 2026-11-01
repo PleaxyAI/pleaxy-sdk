@@ -35,6 +35,8 @@ pub struct FocusExportSummary {
     pub document_count: Option<f64>,
     #[serde(rename = "expiresAt", skip_serializing_if = "Option::is_none")]
     pub expires_at: Option<String>,
+    #[serde(rename = "commitmentCount", skip_serializing_if = "Option::is_none")]
+    pub commitment_count: Option<f64>,
 }
 
 impl FocusExportSummary {
@@ -51,6 +53,7 @@ impl FocusExportSummary {
             row_count: None,
             document_count: None,
             expires_at: None,
+            commitment_count: None,
         }
     }
 }

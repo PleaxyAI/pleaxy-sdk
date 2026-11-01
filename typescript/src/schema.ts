@@ -6533,6 +6533,8 @@ export interface components {
             /** Format: double */
             documentCount?: number;
             expiresAt?: string;
+            /** Format: double */
+            commitmentCount?: number;
         };
         FocusExport: {
             id: string;
@@ -6552,8 +6554,11 @@ export interface components {
             /** Format: double */
             documentCount?: number;
             expiresAt?: string;
+            /** Format: double */
+            commitmentCount?: number;
             downloadUrl?: string;
             metadataUrl?: string;
+            commitmentsUrl?: string;
         };
         FocusDestinationView: {
             enabled?: boolean;
@@ -6634,6 +6639,7 @@ export interface components {
             periods?: string[];
             lastRun?: components["schemas"]["FocusRun"];
             tagKeys?: string[];
+            commitments?: components["schemas"]["ProviderCommitment"][];
         };
         FocusRun: {
             runId?: string;
@@ -6669,6 +6675,24 @@ export interface components {
                 reason?: "other" | "unreachable" | "accessDenied" | "wrongRegion" | "notFound" | "notFocus" | "parquetUnsupported" | "connectionMissing" | "credentialRejected";
                 detail?: string;
             };
+        };
+        ProviderCommitment: {
+            id: string;
+            contractId?: string;
+            category?: string;
+            type?: string;
+            description?: string;
+            issuer?: string;
+            provider?: string;
+            periodStart?: string;
+            periodEnd?: string;
+            /** Format: double */
+            cost?: number;
+            currency?: string;
+            /** Format: double */
+            quantity?: number;
+            unit?: string;
+            status?: string;
         };
         FocusIssuerView: {
             issuer?: string;

@@ -39,6 +39,7 @@ class FocusExportSummary:
         row_count (Union[Unset, float]):
         document_count (Union[Unset, float]):
         expires_at (Union[Unset, str]):
+        commitment_count (Union[Unset, float]):
     """
 
     id: str
@@ -52,6 +53,7 @@ class FocusExportSummary:
     row_count: Union[Unset, float] = UNSET
     document_count: Union[Unset, float] = UNSET
     expires_at: Union[Unset, str] = UNSET
+    commitment_count: Union[Unset, float] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -85,6 +87,8 @@ class FocusExportSummary:
 
         expires_at = self.expires_at
 
+        commitment_count = self.commitment_count
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -112,6 +116,8 @@ class FocusExportSummary:
             field_dict["documentCount"] = document_count
         if expires_at is not UNSET:
             field_dict["expiresAt"] = expires_at
+        if commitment_count is not UNSET:
+            field_dict["commitmentCount"] = commitment_count
 
         return field_dict
 
@@ -160,6 +166,8 @@ class FocusExportSummary:
 
         expires_at = d.pop("expiresAt", UNSET)
 
+        commitment_count = d.pop("commitmentCount", UNSET)
+
         focus_export_summary = cls(
             id=id,
             status=status,
@@ -172,6 +180,7 @@ class FocusExportSummary:
             row_count=row_count,
             document_count=document_count,
             expires_at=expires_at,
+            commitment_count=commitment_count,
         )
 
         focus_export_summary.additional_properties = d

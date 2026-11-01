@@ -35,10 +35,14 @@ pub struct FocusExport {
     pub document_count: Option<f64>,
     #[serde(rename = "expiresAt", skip_serializing_if = "Option::is_none")]
     pub expires_at: Option<String>,
+    #[serde(rename = "commitmentCount", skip_serializing_if = "Option::is_none")]
+    pub commitment_count: Option<f64>,
     #[serde(rename = "downloadUrl", skip_serializing_if = "Option::is_none")]
     pub download_url: Option<String>,
     #[serde(rename = "metadataUrl", skip_serializing_if = "Option::is_none")]
     pub metadata_url: Option<String>,
+    #[serde(rename = "commitmentsUrl", skip_serializing_if = "Option::is_none")]
+    pub commitments_url: Option<String>,
 }
 
 impl FocusExport {
@@ -55,8 +59,10 @@ impl FocusExport {
             row_count: None,
             document_count: None,
             expires_at: None,
+            commitment_count: None,
             download_url: None,
             metadata_url: None,
+            commitments_url: None,
         }
     }
 }

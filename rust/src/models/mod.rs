@@ -656,6 +656,8 @@ pub mod price_amount;
 pub use self::price_amount::PriceAmount;
 pub mod profile_images;
 pub use self::profile_images::ProfileImages;
+pub mod provider_commitment;
+pub use self::provider_commitment::ProviderCommitment;
 pub mod punchout_line_origin;
 pub use self::punchout_line_origin::PunchoutLineOrigin;
 pub mod punchout_line_origin_classification;
