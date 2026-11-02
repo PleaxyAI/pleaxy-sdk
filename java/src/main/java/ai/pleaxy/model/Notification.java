@@ -107,8 +107,6 @@ public class Notification {
    * Gets or Sets type
    */
   public enum TypeEnum {
-    FOCUS_DELIVERY_FAILED(String.valueOf("focus_delivery_failed")),
-    
     AI_FORECAST_OVER_BUDGET(String.valueOf("ai_forecast_over_budget")),
     
     AI_DRAFTS_READY(String.valueOf("ai_drafts_ready")),

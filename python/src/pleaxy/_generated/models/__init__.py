@@ -655,7 +655,6 @@ from .currency_exchange_details_input import CurrencyExchangeDetailsInput
 from .databricks_connection_input import DatabricksConnectionInput
 from .decline_confirmation_changes_input import DeclineConfirmationChangesInput
 from .delete_ai_provider_result import DeleteAiProviderResult
-from .delete_focus_destination_result import DeleteFocusDestinationResult
 from .delete_focus_source_result import DeleteFocusSourceResult
 from .discover_azure_scopes_input import DiscoverAzureScopesInput
 from .draft_ai_orders_input import DraftAiOrdersInput
@@ -763,29 +762,6 @@ from .file_answer_input import FileAnswerInput
 from .focus_aws_source_input import FocusAwsSourceInput
 from .focus_azure_source_input import FocusAzureSourceInput
 from .focus_cost_center_total import FocusCostCenterTotal
-from .focus_delivery import FocusDelivery
-from .focus_delivery_reason import FocusDeliveryReason
-from .focus_delivery_trigger import FocusDeliveryTrigger
-from .focus_destination_setup import FocusDestinationSetup
-from .focus_destination_view import FocusDestinationView
-from .focus_destination_view_destination_type_0 import (
-    FocusDestinationViewDestinationType0,
-)
-from .focus_destination_view_destination_type_0_format import (
-    FocusDestinationViewDestinationType0Format,
-)
-from .focus_destination_view_destination_type_0_include import (
-    FocusDestinationViewDestinationType0Include,
-)
-from .focus_destination_view_destination_type_0_provider import (
-    FocusDestinationViewDestinationType0Provider,
-)
-from .focus_destination_view_destination_type_0_status import (
-    FocusDestinationViewDestinationType0Status,
-)
-from .focus_destination_view_destination_type_0_version import (
-    FocusDestinationViewDestinationType0Version,
-)
 from .focus_export import FocusExport
 from .focus_export_format import FocusExportFormat
 from .focus_export_include import FocusExportInclude
@@ -1669,10 +1645,6 @@ from .purchase_request_request_type import PurchaseRequestRequestType
 from .purchase_request_status import PurchaseRequestStatus
 from .purchase_request_supplier import PurchaseRequestSupplier
 from .purchase_request_supplier_input import PurchaseRequestSupplierInput
-from .put_focus_destination_input import PutFocusDestinationInput
-from .put_focus_destination_input_format import PutFocusDestinationInputFormat
-from .put_focus_destination_input_include import PutFocusDestinationInputInclude
-from .put_focus_destination_input_version import PutFocusDestinationInputVersion
 from .question_condition import QuestionCondition
 from .question_option import QuestionOption
 from .questionnaire_field_def import QuestionnaireFieldDef
@@ -2513,7 +2485,6 @@ __all__ = (
     "DatabricksConnectionInput",
     "DeclineConfirmationChangesInput",
     "DeleteAiProviderResult",
-    "DeleteFocusDestinationResult",
     "DeleteFocusSourceResult",
     "DiscoverAzureScopesInput",
     "DraftAiOrdersInput",
@@ -2567,17 +2538,6 @@ __all__ = (
     "FocusAwsSourceInput",
     "FocusAzureSourceInput",
     "FocusCostCenterTotal",
-    "FocusDelivery",
-    "FocusDeliveryReason",
-    "FocusDeliveryTrigger",
-    "FocusDestinationSetup",
-    "FocusDestinationView",
-    "FocusDestinationViewDestinationType0",
-    "FocusDestinationViewDestinationType0Format",
-    "FocusDestinationViewDestinationType0Include",
-    "FocusDestinationViewDestinationType0Provider",
-    "FocusDestinationViewDestinationType0Status",
-    "FocusDestinationViewDestinationType0Version",
     "FocusExport",
     "FocusExportFormat",
     "FocusExportInclude",
@@ -3065,10 +3025,6 @@ __all__ = (
     "PurchaseRequestStatus",
     "PurchaseRequestSupplier",
     "PurchaseRequestSupplierInput",
-    "PutFocusDestinationInput",
-    "PutFocusDestinationInputFormat",
-    "PutFocusDestinationInputInclude",
-    "PutFocusDestinationInputVersion",
     "QuestionCondition",
     "QuestionnaireFieldDef",
     "QuestionnaireFieldDefDocType",

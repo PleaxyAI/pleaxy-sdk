@@ -48,9 +48,9 @@ public class FocusRunFailure {
     
     ACCESS_DENIED(String.valueOf("accessDenied")),
     
-    WRONG_REGION(String.valueOf("wrongRegion")),
-    
     NOT_FOUND(String.valueOf("notFound")),
+    
+    WRONG_REGION(String.valueOf("wrongRegion")),
     
     NOT_FOCUS(String.valueOf("notFocus")),
     

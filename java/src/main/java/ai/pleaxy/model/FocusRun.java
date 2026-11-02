@@ -112,9 +112,9 @@ public class FocusRun {
   public enum TriggerEnum {
     MANUAL(String.valueOf("manual")),
     
-    SCHEDULE(String.valueOf("schedule")),
+    UPLOAD(String.valueOf("upload")),
     
-    UPLOAD(String.valueOf("upload"));
+    SCHEDULE(String.valueOf("schedule"));
 
     private String value;
 

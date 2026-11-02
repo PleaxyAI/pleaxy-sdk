@@ -22,9 +22,7 @@ import ai.pleaxy.model.CreateFocusExportInput;
 import ai.pleaxy.model.CreateFocusSourceInput;
 import ai.pleaxy.model.CreateFocusUploadInput;
 import ai.pleaxy.model.CreateFocusUploadResult;
-import ai.pleaxy.model.DeleteFocusDestinationResult;
 import ai.pleaxy.model.DeleteFocusSourceResult;
-import ai.pleaxy.model.FocusDestinationView;
 import ai.pleaxy.model.FocusExport;
 import ai.pleaxy.model.FocusExportList;
 import ai.pleaxy.model.FocusIssuerView;
@@ -32,7 +30,6 @@ import ai.pleaxy.model.FocusSourceView;
 import ai.pleaxy.model.GetFocusSourcePeriodResult;
 import ai.pleaxy.model.ListFocusSourcesResult;
 import ai.pleaxy.model.MapFocusIssuerInput;
-import ai.pleaxy.model.PutFocusDestinationInput;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -404,72 +401,6 @@ public class FocusApi {
   }
 
   /**
-   * [Buyer] Stop delivering FOCUS files. Files already in the bucket stay; delete the PleaxyFocusDestination stack to remove Pleaxy&#39;s access. &#39;edit&#39; on invoices; a signed-in person only.
-   * 
-   * @return DeleteFocusDestinationResult
-   * @throws ApiException if fails to make API call
-   */
-  public DeleteFocusDestinationResult deleteFocusDestination() throws ApiException {
-    ApiResponse<DeleteFocusDestinationResult> localVarResponse = deleteFocusDestinationWithHttpInfo();
-    return localVarResponse.getData();
-  }
-
-  /**
-   * [Buyer] Stop delivering FOCUS files. Files already in the bucket stay; delete the PleaxyFocusDestination stack to remove Pleaxy&#39;s access. &#39;edit&#39; on invoices; a signed-in person only.
-   * 
-   * @return ApiResponse&lt;DeleteFocusDestinationResult&gt;
-   * @throws ApiException if fails to make API call
-   */
-  public ApiResponse<DeleteFocusDestinationResult> deleteFocusDestinationWithHttpInfo() throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteFocusDestinationRequestBuilder();
-    try {
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }
-      try {
-        if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("deleteFocusDestination", localVarResponse);
-        }
-        return new ApiResponse<DeleteFocusDestinationResult>(
-          localVarResponse.statusCode(),
-          localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<DeleteFocusDestinationResult>() {}) // closes the InputStream
-        );
-      } finally {
-      }
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
-    }
-  }
-
-  private HttpRequest.Builder deleteFocusDestinationRequestBuilder() throws ApiException {
-
-    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
-
-    String localVarPath = "/focus-destination";
-
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-
-    localVarRequestBuilder.header("Accept", "application/json");
-
-    localVarRequestBuilder.method("DELETE", HttpRequest.BodyPublishers.noBody());
-    if (memberVarReadTimeout != null) {
-      localVarRequestBuilder.timeout(memberVarReadTimeout);
-    }
-    if (memberVarInterceptor != null) {
-      memberVarInterceptor.accept(localVarRequestBuilder);
-    }
-    return localVarRequestBuilder;
-  }
-
-  /**
    * [Buyer] Remove a FOCUS source with the months and AI lines it stored; its connection&#39;s own AI read resumes. &#39;edit&#39; on invoices; a signed-in person only.
    * 
    * @param sourceId  (required)
@@ -533,138 +464,6 @@ public class FocusApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     localVarRequestBuilder.method("DELETE", HttpRequest.BodyPublishers.noBody());
-    if (memberVarReadTimeout != null) {
-      localVarRequestBuilder.timeout(memberVarReadTimeout);
-    }
-    if (memberVarInterceptor != null) {
-      memberVarInterceptor.accept(localVarRequestBuilder);
-    }
-    return localVarRequestBuilder;
-  }
-
-  /**
-   * [Buyer] Deliver now: write this month&#39;s and last month&#39;s FOCUS files to the destination, as the daily run does. &#39;edit&#39; on invoices.
-   * 
-   * @return FocusDestinationView
-   * @throws ApiException if fails to make API call
-   */
-  public FocusDestinationView deliverFocusDestination() throws ApiException {
-    ApiResponse<FocusDestinationView> localVarResponse = deliverFocusDestinationWithHttpInfo();
-    return localVarResponse.getData();
-  }
-
-  /**
-   * [Buyer] Deliver now: write this month&#39;s and last month&#39;s FOCUS files to the destination, as the daily run does. &#39;edit&#39; on invoices.
-   * 
-   * @return ApiResponse&lt;FocusDestinationView&gt;
-   * @throws ApiException if fails to make API call
-   */
-  public ApiResponse<FocusDestinationView> deliverFocusDestinationWithHttpInfo() throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deliverFocusDestinationRequestBuilder();
-    try {
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }
-      try {
-        if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("deliverFocusDestination", localVarResponse);
-        }
-        return new ApiResponse<FocusDestinationView>(
-          localVarResponse.statusCode(),
-          localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<FocusDestinationView>() {}) // closes the InputStream
-        );
-      } finally {
-      }
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
-    }
-  }
-
-  private HttpRequest.Builder deliverFocusDestinationRequestBuilder() throws ApiException {
-
-    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
-
-    String localVarPath = "/focus-destination/deliver";
-
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-
-    localVarRequestBuilder.header("Accept", "application/json");
-
-    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
-    if (memberVarReadTimeout != null) {
-      localVarRequestBuilder.timeout(memberVarReadTimeout);
-    }
-    if (memberVarInterceptor != null) {
-      memberVarInterceptor.accept(localVarRequestBuilder);
-    }
-    return localVarRequestBuilder;
-  }
-
-  /**
-   * [Buyer] Where Pleaxy delivers the workspace&#39;s FOCUS files every day (an S3 bucket, folder and region, the format, FOCUS version and suppliers included), its status (awaiting_role, active or failing), the last delivery, and what the setup stack needs (Pleaxy&#39;s account, the template URL, the External ID). destination is null when none is set. &#39;view&#39; on invoices.
-   * 
-   * @return FocusDestinationView
-   * @throws ApiException if fails to make API call
-   */
-  public FocusDestinationView getFocusDestination() throws ApiException {
-    ApiResponse<FocusDestinationView> localVarResponse = getFocusDestinationWithHttpInfo();
-    return localVarResponse.getData();
-  }
-
-  /**
-   * [Buyer] Where Pleaxy delivers the workspace&#39;s FOCUS files every day (an S3 bucket, folder and region, the format, FOCUS version and suppliers included), its status (awaiting_role, active or failing), the last delivery, and what the setup stack needs (Pleaxy&#39;s account, the template URL, the External ID). destination is null when none is set. &#39;view&#39; on invoices.
-   * 
-   * @return ApiResponse&lt;FocusDestinationView&gt;
-   * @throws ApiException if fails to make API call
-   */
-  public ApiResponse<FocusDestinationView> getFocusDestinationWithHttpInfo() throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getFocusDestinationRequestBuilder();
-    try {
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }
-      try {
-        if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("getFocusDestination", localVarResponse);
-        }
-        return new ApiResponse<FocusDestinationView>(
-          localVarResponse.statusCode(),
-          localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<FocusDestinationView>() {}) // closes the InputStream
-        );
-      } finally {
-      }
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
-    }
-  }
-
-  private HttpRequest.Builder getFocusDestinationRequestBuilder() throws ApiException {
-
-    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
-
-    String localVarPath = "/focus-destination";
-
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-
-    localVarRequestBuilder.header("Accept", "application/json");
-
-    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -1184,84 +983,6 @@ public class FocusApi {
   }
 
   /**
-   * [Buyer] Set where Pleaxy delivers FOCUS files: bucket, folder (prefix), region, format (csv, gzipped, or parquet), FOCUS version (1.2 or 1.4) and include (all or non_cloud). Without roleArn it saves the destination awaiting its PleaxyFocusWriter role and returns the External ID for the stack; with roleArn Pleaxy writes and deletes a test object first and saves nothing if it can&#39;t. Every day Pleaxy then writes this month (and, through the 5th, last month) as one file per month under &lt;prefix&gt;/focus/&lt;version&gt;/billing_period&#x3D;YYYY-MM/. &#39;edit&#39; on invoices; a signed-in person only.
-   * 
-   * @param putFocusDestinationInput  (required)
-   * @return FocusDestinationView
-   * @throws ApiException if fails to make API call
-   */
-  public FocusDestinationView putFocusDestination(PutFocusDestinationInput putFocusDestinationInput) throws ApiException {
-    ApiResponse<FocusDestinationView> localVarResponse = putFocusDestinationWithHttpInfo(putFocusDestinationInput);
-    return localVarResponse.getData();
-  }
-
-  /**
-   * [Buyer] Set where Pleaxy delivers FOCUS files: bucket, folder (prefix), region, format (csv, gzipped, or parquet), FOCUS version (1.2 or 1.4) and include (all or non_cloud). Without roleArn it saves the destination awaiting its PleaxyFocusWriter role and returns the External ID for the stack; with roleArn Pleaxy writes and deletes a test object first and saves nothing if it can&#39;t. Every day Pleaxy then writes this month (and, through the 5th, last month) as one file per month under &lt;prefix&gt;/focus/&lt;version&gt;/billing_period&#x3D;YYYY-MM/. &#39;edit&#39; on invoices; a signed-in person only.
-   * 
-   * @param putFocusDestinationInput  (required)
-   * @return ApiResponse&lt;FocusDestinationView&gt;
-   * @throws ApiException if fails to make API call
-   */
-  public ApiResponse<FocusDestinationView> putFocusDestinationWithHttpInfo(PutFocusDestinationInput putFocusDestinationInput) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = putFocusDestinationRequestBuilder(putFocusDestinationInput);
-    try {
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }
-      try {
-        if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("putFocusDestination", localVarResponse);
-        }
-        return new ApiResponse<FocusDestinationView>(
-          localVarResponse.statusCode(),
-          localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<FocusDestinationView>() {}) // closes the InputStream
-        );
-      } finally {
-      }
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
-    }
-  }
-
-  private HttpRequest.Builder putFocusDestinationRequestBuilder(PutFocusDestinationInput putFocusDestinationInput) throws ApiException {
-    // verify the required parameter 'putFocusDestinationInput' is set
-    if (putFocusDestinationInput == null) {
-      throw new ApiException(400, "Missing the required parameter 'putFocusDestinationInput' when calling putFocusDestination");
-    }
-
-    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
-
-    String localVarPath = "/focus-destination";
-
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-
-    localVarRequestBuilder.header("Content-Type", "application/json");
-    localVarRequestBuilder.header("Accept", "application/json");
-
-    try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(putFocusDestinationInput);
-      localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
-    if (memberVarReadTimeout != null) {
-      localVarRequestBuilder.timeout(memberVarReadTimeout);
-    }
-    if (memberVarInterceptor != null) {
-      memberVarInterceptor.accept(localVarRequestBuilder);
-    }
-    return localVarRequestBuilder;
-  }
-
-  /**
    * [Buyer] Read a FOCUS source now, in the background, re-reading the months it holds. &#39;edit&#39; on invoices.
    * 
    * @param sourceId  (required)
@@ -1319,72 +1040,6 @@ public class FocusApi {
 
     String localVarPath = "/focus-sources/{sourceId}/sync"
         .replace("{sourceId}", ApiClient.urlEncode(sourceId.toString()));
-
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-
-    localVarRequestBuilder.header("Accept", "application/json");
-
-    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
-    if (memberVarReadTimeout != null) {
-      localVarRequestBuilder.timeout(memberVarReadTimeout);
-    }
-    if (memberVarInterceptor != null) {
-      memberVarInterceptor.accept(localVarRequestBuilder);
-    }
-    return localVarRequestBuilder;
-  }
-
-  /**
-   * [Buyer] Write and delete a test object in the FOCUS destination; a pass makes a failing destination active again. &#39;edit&#39; on invoices; a signed-in person only.
-   * 
-   * @return FocusDestinationView
-   * @throws ApiException if fails to make API call
-   */
-  public FocusDestinationView testFocusDestination() throws ApiException {
-    ApiResponse<FocusDestinationView> localVarResponse = testFocusDestinationWithHttpInfo();
-    return localVarResponse.getData();
-  }
-
-  /**
-   * [Buyer] Write and delete a test object in the FOCUS destination; a pass makes a failing destination active again. &#39;edit&#39; on invoices; a signed-in person only.
-   * 
-   * @return ApiResponse&lt;FocusDestinationView&gt;
-   * @throws ApiException if fails to make API call
-   */
-  public ApiResponse<FocusDestinationView> testFocusDestinationWithHttpInfo() throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testFocusDestinationRequestBuilder();
-    try {
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }
-      try {
-        if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("testFocusDestination", localVarResponse);
-        }
-        return new ApiResponse<FocusDestinationView>(
-          localVarResponse.statusCode(),
-          localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<FocusDestinationView>() {}) // closes the InputStream
-        );
-      } finally {
-      }
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
-    }
-  }
-
-  private HttpRequest.Builder testFocusDestinationRequestBuilder() throws ApiException {
-
-    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
-
-    String localVarPath = "/focus-destination/test";
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

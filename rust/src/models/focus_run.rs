@@ -81,10 +81,10 @@ impl Default for Status {
 pub enum Trigger {
     #[serde(rename = "manual")]
     Manual,
-    #[serde(rename = "schedule")]
-    Schedule,
     #[serde(rename = "upload")]
     Upload,
+    #[serde(rename = "schedule")]
+    Schedule,
 }
 
 impl Default for Trigger {

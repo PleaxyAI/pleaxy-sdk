@@ -92,10 +92,10 @@ impl Default for Provider {
 pub enum Kind {
     #[serde(rename = "oci")]
     Oci,
-    #[serde(rename = "aws_s3")]
-    AwsS3,
     #[serde(rename = "upload")]
     Upload,
+    #[serde(rename = "aws_s3")]
+    AwsS3,
     #[serde(rename = "azure_blob")]
     AzureBlob,
     #[serde(rename = "gcp_bigquery")]

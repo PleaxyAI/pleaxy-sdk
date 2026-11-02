@@ -1741,59 +1741,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/focus-destination": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** [Buyer] Where Pleaxy delivers the workspace's FOCUS files every day (an S3 bucket, folder and region, the format, FOCUS version and suppliers included), its status (awaiting_role, active or failing), the last delivery, and what the setup stack needs (Pleaxy's account, the template URL, the External ID). destination is null when none is set. 'view' on invoices. */
-        get: operations["GetFocusDestination"];
-        /** [Buyer] Set where Pleaxy delivers FOCUS files: bucket, folder (prefix), region, format (csv, gzipped, or parquet), FOCUS version (1.2 or 1.4) and include (all or non_cloud). Without roleArn it saves the destination awaiting its PleaxyFocusWriter role and returns the External ID for the stack; with roleArn Pleaxy writes and deletes a test object first and saves nothing if it can't. Every day Pleaxy then writes this month (and, through the 5th, last month) as one file per month under <prefix>/focus/<version>/billing_period=YYYY-MM/. 'edit' on invoices; a signed-in person only. */
-        put: operations["PutFocusDestination"];
-        post?: never;
-        /** [Buyer] Stop delivering FOCUS files. Files already in the bucket stay; delete the PleaxyFocusDestination stack to remove Pleaxy's access. 'edit' on invoices; a signed-in person only. */
-        delete: operations["DeleteFocusDestination"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/focus-destination/test": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** [Buyer] Write and delete a test object in the FOCUS destination; a pass makes a failing destination active again. 'edit' on invoices; a signed-in person only. */
-        post: operations["TestFocusDestination"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/focus-destination/deliver": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** [Buyer] Deliver now: write this month's and last month's FOCUS files to the destination, as the daily run does. 'edit' on invoices. */
-        post: operations["DeliverFocusDestination"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/focus-sources": {
         parameters: {
             query?: never;
@@ -3218,18 +3165,6 @@ export interface components {
             /** @enum {string} */
             format?: "csv" | "parquet";
         };
-        PutFocusDestinationInput: {
-            bucket: string;
-            prefix?: string;
-            region: string;
-            roleArn?: string;
-            /** @enum {string} */
-            format?: "csv" | "parquet";
-            /** @enum {string} */
-            version?: "1.2" | "1.4";
-            /** @enum {string} */
-            include?: "all" | "non_cloud";
-        };
         MapFocusIssuerInput: {
             supplierConnectionId?: string | null;
         };
@@ -3797,7 +3732,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "focus_delivery_failed" | "ai_forecast_over_budget" | "ai_drafts_ready" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
+            type?: "ai_forecast_over_budget" | "ai_drafts_ready" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -6560,48 +6495,6 @@ export interface components {
             metadataUrl?: string;
             commitmentsUrl?: string;
         };
-        FocusDestinationView: {
-            enabled?: boolean;
-            destination?: {
-                /** @enum {string} */
-                provider?: "aws_s3";
-                /** @enum {string} */
-                status?: "active" | "awaiting_role" | "failing";
-                createdAt?: string;
-                updatedAt?: string;
-                /** @enum {string} */
-                version?: "1.2" | "1.4";
-                /** @enum {string} */
-                include?: "all" | "non_cloud";
-                /** @enum {string} */
-                format?: "csv" | "parquet";
-                bucket?: string;
-                prefix?: string;
-                region?: string;
-                externalId?: string;
-                roleArn?: string;
-                awsAccountId?: string;
-                lastDelivery?: components["schemas"]["FocusDelivery"];
-            } | null;
-            setup?: components["schemas"]["FocusDestinationSetup"];
-        };
-        FocusDelivery: {
-            at?: string;
-            ok?: boolean;
-            periods?: string[];
-            /** Format: double */
-            rowCount?: number;
-            /** @enum {string} */
-            reason?: "other" | "accessDenied" | "noSuchBucket" | "wrongRegion" | "assumeRoleFailed" | "kmsDenied";
-            /** @enum {string} */
-            trigger?: "manual" | "schedule";
-        };
-        FocusDestinationSetup: {
-            pleaxyAccountId?: string;
-            templateUrl?: string;
-            roleName?: string;
-            stackName?: string;
-        };
         FocusSourceView: {
             s3?: {
                 endpoint?: string;
@@ -6633,7 +6526,7 @@ export interface components {
             createdAt?: string;
             updatedAt?: string;
             /** @enum {string} */
-            kind?: "oci" | "aws_s3" | "upload" | "azure_blob" | "gcp_bigquery" | "s3_compatible";
+            kind?: "oci" | "upload" | "aws_s3" | "azure_blob" | "gcp_bigquery" | "s3_compatible";
             label?: string;
             connectionId?: string;
             periods?: string[];
@@ -6648,7 +6541,7 @@ export interface components {
             /** @enum {string} */
             status?: "failed" | "ok" | "partial";
             /** @enum {string} */
-            trigger?: "manual" | "schedule" | "upload";
+            trigger?: "manual" | "upload" | "schedule";
             periods?: string[];
             /** Format: double */
             files?: number;
@@ -6672,7 +6565,7 @@ export interface components {
             ignoredFiles?: number;
             failure?: {
                 /** @enum {string} */
-                reason?: "other" | "unreachable" | "accessDenied" | "wrongRegion" | "notFound" | "notFocus" | "parquetUnsupported" | "connectionMissing" | "credentialRejected";
+                reason?: "other" | "unreachable" | "accessDenied" | "notFound" | "wrongRegion" | "notFocus" | "parquetUnsupported" | "connectionMissing" | "credentialRejected";
                 detail?: string;
             };
         };
@@ -9419,9 +9312,6 @@ export interface components {
         };
         ListWebhookDeliveriesResult: {
             deliveries?: components["schemas"]["WebhookDelivery"][];
-        };
-        DeleteFocusDestinationResult: {
-            removed?: boolean;
         };
         ListFocusSourcesResult: {
             enabled?: boolean;
@@ -13275,150 +13165,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["FocusExport"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    GetFocusDestination: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["FocusDestinationView"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    PutFocusDestination: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PutFocusDestinationInput"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["FocusDestinationView"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    DeleteFocusDestination: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["DeleteFocusDestinationResult"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    TestFocusDestination: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["FocusDestinationView"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    DeliverFocusDestination: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["FocusDestinationView"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

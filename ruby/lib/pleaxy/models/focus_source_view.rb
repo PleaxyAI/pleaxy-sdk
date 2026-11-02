@@ -231,7 +231,7 @@ module Pleaxy
       provider_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci"])
       return false unless provider_validator.valid?(@provider)
       return false if @id.nil?
-      kind_validator = EnumAttributeValidator.new('String', ["oci", "aws_s3", "upload", "azure_blob", "gcp_bigquery", "s3_compatible"])
+      kind_validator = EnumAttributeValidator.new('String', ["oci", "upload", "aws_s3", "azure_blob", "gcp_bigquery", "s3_compatible"])
       return false unless kind_validator.valid?(@kind)
       true
     end
@@ -249,7 +249,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] kind Object to be assigned
     def kind=(kind)
-      validator = EnumAttributeValidator.new('String', ["oci", "aws_s3", "upload", "azure_blob", "gcp_bigquery", "s3_compatible"])
+      validator = EnumAttributeValidator.new('String', ["oci", "upload", "aws_s3", "azure_blob", "gcp_bigquery", "s3_compatible"])
       unless validator.valid?(kind)
         fail ArgumentError, "invalid value for \"kind\", must be one of #{validator.allowable_values}."
       end

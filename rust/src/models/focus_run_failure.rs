@@ -36,10 +36,10 @@ pub enum Reason {
     Unreachable,
     #[serde(rename = "accessDenied")]
     AccessDenied,
-    #[serde(rename = "wrongRegion")]
-    WrongRegion,
     #[serde(rename = "notFound")]
     NotFound,
+    #[serde(rename = "wrongRegion")]
+    WrongRegion,
     #[serde(rename = "notFocus")]
     NotFocus,
     #[serde(rename = "parquetUnsupported")]

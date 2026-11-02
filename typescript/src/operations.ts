@@ -561,31 +561,10 @@ export class FocusResource {
   }
 
   /**
-   * [Buyer] Stop delivering FOCUS files. Files already in the bucket stay; delete the PleaxyFocusDestination stack to remove Pleaxy's access. 'edit' on invoices; a signed-in person only.
-   */
-  deleteFocusDestination(options?: RequestOptions): Promise<ResponseBody<"DeleteFocusDestination">> {
-    return this.transport.request("delete", "/focus-destination", { path: undefined, options }) as Promise<ResponseBody<"DeleteFocusDestination">>;
-  }
-
-  /**
    * [Buyer] Remove a FOCUS source with the months and AI lines it stored; its connection's own AI read resumes. 'edit' on invoices; a signed-in person only.
    */
   deleteFocusSource(sourceId: string, options?: RequestOptions): Promise<ResponseBody<"DeleteFocusSource">> {
     return this.transport.request("delete", "/focus-sources/{sourceId}", { path: { sourceId }, options }) as Promise<ResponseBody<"DeleteFocusSource">>;
-  }
-
-  /**
-   * [Buyer] Deliver now: write this month's and last month's FOCUS files to the destination, as the daily run does. 'edit' on invoices.
-   */
-  deliverFocusDestination(options?: RequestOptions): Promise<ResponseBody<"DeliverFocusDestination">> {
-    return this.transport.request("post", "/focus-destination/deliver", { path: undefined, options }) as Promise<ResponseBody<"DeliverFocusDestination">>;
-  }
-
-  /**
-   * [Buyer] Where Pleaxy delivers the workspace's FOCUS files every day (an S3 bucket, folder and region, the format, FOCUS version and suppliers included), its status (awaiting_role, active or failing), the last delivery, and what the setup stack needs (Pleaxy's account, the template URL, the External ID). destination is null when none is set. 'view' on invoices.
-   */
-  getFocusDestination(options?: RequestOptions): Promise<ResponseBody<"GetFocusDestination">> {
-    return this.transport.request("get", "/focus-destination", { path: undefined, options }) as Promise<ResponseBody<"GetFocusDestination">>;
   }
 
   /**
@@ -638,24 +617,10 @@ export class FocusResource {
   }
 
   /**
-   * [Buyer] Set where Pleaxy delivers FOCUS files: bucket, folder (prefix), region, format (csv, gzipped, or parquet), FOCUS version (1.2 or 1.4) and include (all or non_cloud). Without roleArn it saves the destination awaiting its PleaxyFocusWriter role and returns the External ID for the stack; with roleArn Pleaxy writes and deletes a test object first and saves nothing if it can't. Every day Pleaxy then writes this month (and, through the 5th, last month) as one file per month under <prefix>/focus/<version>/billing_period=YYYY-MM/. 'edit' on invoices; a signed-in person only.
-   */
-  putFocusDestination(body: RequestBody<"PutFocusDestination">, options?: RequestOptions): Promise<ResponseBody<"PutFocusDestination">> {
-    return this.transport.request("put", "/focus-destination", { path: undefined, body, options }) as Promise<ResponseBody<"PutFocusDestination">>;
-  }
-
-  /**
    * [Buyer] Read a FOCUS source now, in the background, re-reading the months it holds. 'edit' on invoices.
    */
   syncFocusSource(sourceId: string, options?: RequestOptions): Promise<ResponseBody<"SyncFocusSource">> {
     return this.transport.request("post", "/focus-sources/{sourceId}/sync", { path: { sourceId }, options }) as Promise<ResponseBody<"SyncFocusSource">>;
-  }
-
-  /**
-   * [Buyer] Write and delete a test object in the FOCUS destination; a pass makes a failing destination active again. 'edit' on invoices; a signed-in person only.
-   */
-  testFocusDestination(options?: RequestOptions): Promise<ResponseBody<"TestFocusDestination">> {
-    return this.transport.request("post", "/focus-destination/test", { path: undefined, options }) as Promise<ResponseBody<"TestFocusDestination">>;
   }
 }
 

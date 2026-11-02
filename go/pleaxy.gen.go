@@ -2245,52 +2245,6 @@ const (
 	RATEDIFFERS    FeedValidationWarningCode = "RATE_DIFFERS"
 )
 
-// Defines values for FocusDeliveryReason.
-const (
-	FocusDeliveryReasonAccessDenied     FocusDeliveryReason = "accessDenied"
-	FocusDeliveryReasonAssumeRoleFailed FocusDeliveryReason = "assumeRoleFailed"
-	FocusDeliveryReasonKmsDenied        FocusDeliveryReason = "kmsDenied"
-	FocusDeliveryReasonNoSuchBucket     FocusDeliveryReason = "noSuchBucket"
-	FocusDeliveryReasonOther            FocusDeliveryReason = "other"
-	FocusDeliveryReasonWrongRegion      FocusDeliveryReason = "wrongRegion"
-)
-
-// Defines values for FocusDeliveryTrigger.
-const (
-	FocusDeliveryTriggerManual   FocusDeliveryTrigger = "manual"
-	FocusDeliveryTriggerSchedule FocusDeliveryTrigger = "schedule"
-)
-
-// Defines values for FocusDestinationViewDestinationFormat.
-const (
-	FocusDestinationViewDestinationFormatCsv     FocusDestinationViewDestinationFormat = "csv"
-	FocusDestinationViewDestinationFormatParquet FocusDestinationViewDestinationFormat = "parquet"
-)
-
-// Defines values for FocusDestinationViewDestinationInclude.
-const (
-	FocusDestinationViewDestinationIncludeAll      FocusDestinationViewDestinationInclude = "all"
-	FocusDestinationViewDestinationIncludeNonCloud FocusDestinationViewDestinationInclude = "non_cloud"
-)
-
-// Defines values for FocusDestinationViewDestinationProvider.
-const (
-	FocusDestinationViewDestinationProviderAwsS3 FocusDestinationViewDestinationProvider = "aws_s3"
-)
-
-// Defines values for FocusDestinationViewDestinationStatus.
-const (
-	Active       FocusDestinationViewDestinationStatus = "active"
-	AwaitingRole FocusDestinationViewDestinationStatus = "awaiting_role"
-	Failing      FocusDestinationViewDestinationStatus = "failing"
-)
-
-// Defines values for FocusDestinationViewDestinationVersion.
-const (
-	FocusDestinationViewDestinationVersionN12 FocusDestinationViewDestinationVersion = "1.2"
-	FocusDestinationViewDestinationVersionN14 FocusDestinationViewDestinationVersion = "1.4"
-)
-
 // Defines values for FocusExportFormat.
 const (
 	FocusExportFormatCsv     FocusExportFormat = "csv"
@@ -2316,14 +2270,14 @@ const (
 
 // Defines values for FocusExportSummaryFormat.
 const (
-	FocusExportSummaryFormatCsv     FocusExportSummaryFormat = "csv"
-	FocusExportSummaryFormatParquet FocusExportSummaryFormat = "parquet"
+	Csv     FocusExportSummaryFormat = "csv"
+	Parquet FocusExportSummaryFormat = "parquet"
 )
 
 // Defines values for FocusExportSummaryInclude.
 const (
-	FocusExportSummaryIncludeAll      FocusExportSummaryInclude = "all"
-	FocusExportSummaryIncludeNonCloud FocusExportSummaryInclude = "non_cloud"
+	All      FocusExportSummaryInclude = "all"
+	NonCloud FocusExportSummaryInclude = "non_cloud"
 )
 
 // Defines values for FocusExportSummaryStatus.
@@ -2418,11 +2372,11 @@ const (
 
 // Defines values for GetFocusSourcePeriodResultVersion.
 const (
-	GetFocusSourcePeriodResultVersionN10 GetFocusSourcePeriodResultVersion = "1.0"
-	GetFocusSourcePeriodResultVersionN11 GetFocusSourcePeriodResultVersion = "1.1"
-	GetFocusSourcePeriodResultVersionN12 GetFocusSourcePeriodResultVersion = "1.2"
-	GetFocusSourcePeriodResultVersionN13 GetFocusSourcePeriodResultVersion = "1.3"
-	GetFocusSourcePeriodResultVersionN14 GetFocusSourcePeriodResultVersion = "1.4"
+	N10 GetFocusSourcePeriodResultVersion = "1.0"
+	N11 GetFocusSourcePeriodResultVersion = "1.1"
+	N12 GetFocusSourcePeriodResultVersion = "1.2"
+	N13 GetFocusSourcePeriodResultVersion = "1.3"
+	N14 GetFocusSourcePeriodResultVersion = "1.4"
 )
 
 // Defines values for GetInvoiceBankAccountResultHold.
@@ -3965,7 +3919,6 @@ const (
 	NotificationTypeCreditNoteApplied                NotificationType = "credit_note_applied"
 	NotificationTypeCreditNoteReceived               NotificationType = "credit_note_received"
 	NotificationTypeCreditNoteRejected               NotificationType = "credit_note_rejected"
-	NotificationTypeFocusDeliveryFailed              NotificationType = "focus_delivery_failed"
 	NotificationTypeInvoiceApprovalRequested         NotificationType = "invoice_approval_requested"
 	NotificationTypeInvoiceApproved                  NotificationType = "invoice_approved"
 	NotificationTypeInvoiceBankAccountToApprove      NotificationType = "invoice_bank_account_to_approve"
@@ -4354,24 +4307,6 @@ const (
 	PurchaseRequestLineInputLineTypeService PurchaseRequestLineInputLineType = "service"
 )
 
-// Defines values for PutFocusDestinationInputFormat.
-const (
-	Csv     PutFocusDestinationInputFormat = "csv"
-	Parquet PutFocusDestinationInputFormat = "parquet"
-)
-
-// Defines values for PutFocusDestinationInputInclude.
-const (
-	All      PutFocusDestinationInputInclude = "all"
-	NonCloud PutFocusDestinationInputInclude = "non_cloud"
-)
-
-// Defines values for PutFocusDestinationInputVersion.
-const (
-	N12 PutFocusDestinationInputVersion = "1.2"
-	N14 PutFocusDestinationInputVersion = "1.4"
-)
-
 // Defines values for QuestionnaireFieldDefDocType.
 const (
 	QuestionnaireFieldDefDocTypeBankLetter      QuestionnaireFieldDefDocType = "bank_letter"
@@ -4670,7 +4605,7 @@ const (
 
 // Defines values for RemoveInvoiceReplacementLinkResultInvoiceKind.
 const (
-	Prepayment RemoveInvoiceReplacementLinkResultInvoiceKind = "prepayment"
+	RemoveInvoiceReplacementLinkResultInvoiceKindPrepayment RemoveInvoiceReplacementLinkResultInvoiceKind = "prepayment"
 )
 
 // Defines values for RemoveInvoiceReplacementLinkResultMatchBasis.
@@ -8720,11 +8655,6 @@ type DeleteAiProviderResult struct {
 	Provider *string `json:"provider,omitempty"`
 }
 
-// DeleteFocusDestinationResult defines model for DeleteFocusDestinationResult.
-type DeleteFocusDestinationResult struct {
-	Removed *bool `json:"removed,omitempty"`
-}
-
 // DeleteFocusSourceResult defines model for DeleteFocusSourceResult.
 type DeleteFocusSourceResult struct {
 	Removed *bool `json:"removed,omitempty"`
@@ -9108,67 +9038,6 @@ type FocusCostCenterTotal struct {
 	Currency        *string  `json:"currency,omitempty"`
 	ServiceCategory *string  `json:"serviceCategory,omitempty"`
 }
-
-// FocusDelivery defines model for FocusDelivery.
-type FocusDelivery struct {
-	At       *string               `json:"at,omitempty"`
-	Ok       *bool                 `json:"ok,omitempty"`
-	Periods  *[]string             `json:"periods,omitempty"`
-	Reason   *FocusDeliveryReason  `json:"reason,omitempty"`
-	RowCount *float64              `json:"rowCount,omitempty"`
-	Trigger  *FocusDeliveryTrigger `json:"trigger,omitempty"`
-}
-
-// FocusDeliveryReason defines model for FocusDelivery.Reason.
-type FocusDeliveryReason string
-
-// FocusDeliveryTrigger defines model for FocusDelivery.Trigger.
-type FocusDeliveryTrigger string
-
-// FocusDestinationSetup defines model for FocusDestinationSetup.
-type FocusDestinationSetup struct {
-	PleaxyAccountId *string `json:"pleaxyAccountId,omitempty"`
-	RoleName        *string `json:"roleName,omitempty"`
-	StackName       *string `json:"stackName,omitempty"`
-	TemplateUrl     *string `json:"templateUrl,omitempty"`
-}
-
-// FocusDestinationView defines model for FocusDestinationView.
-type FocusDestinationView struct {
-	Destination *struct {
-		AwsAccountId *string                                  `json:"awsAccountId,omitempty"`
-		Bucket       *string                                  `json:"bucket,omitempty"`
-		CreatedAt    *string                                  `json:"createdAt,omitempty"`
-		ExternalId   *string                                  `json:"externalId,omitempty"`
-		Format       *FocusDestinationViewDestinationFormat   `json:"format,omitempty"`
-		Include      *FocusDestinationViewDestinationInclude  `json:"include,omitempty"`
-		LastDelivery *FocusDelivery                           `json:"lastDelivery,omitempty"`
-		Prefix       *string                                  `json:"prefix,omitempty"`
-		Provider     *FocusDestinationViewDestinationProvider `json:"provider,omitempty"`
-		Region       *string                                  `json:"region,omitempty"`
-		RoleArn      *string                                  `json:"roleArn,omitempty"`
-		Status       *FocusDestinationViewDestinationStatus   `json:"status,omitempty"`
-		UpdatedAt    *string                                  `json:"updatedAt,omitempty"`
-		Version      *FocusDestinationViewDestinationVersion  `json:"version,omitempty"`
-	} `json:"destination"`
-	Enabled *bool                  `json:"enabled,omitempty"`
-	Setup   *FocusDestinationSetup `json:"setup,omitempty"`
-}
-
-// FocusDestinationViewDestinationFormat defines model for FocusDestinationView.Destination.Format.
-type FocusDestinationViewDestinationFormat string
-
-// FocusDestinationViewDestinationInclude defines model for FocusDestinationView.Destination.Include.
-type FocusDestinationViewDestinationInclude string
-
-// FocusDestinationViewDestinationProvider defines model for FocusDestinationView.Destination.Provider.
-type FocusDestinationViewDestinationProvider string
-
-// FocusDestinationViewDestinationStatus defines model for FocusDestinationView.Destination.Status.
-type FocusDestinationViewDestinationStatus string
-
-// FocusDestinationViewDestinationVersion defines model for FocusDestinationView.Destination.Version.
-type FocusDestinationViewDestinationVersion string
 
 // FocusExport defines model for FocusExport.
 type FocusExport struct {
@@ -12569,26 +12438,6 @@ type PurchaseRequestSupplierInput struct {
 	SupplierRegionId *string `json:"supplierRegionId,omitempty"`
 }
 
-// PutFocusDestinationInput defines model for PutFocusDestinationInput.
-type PutFocusDestinationInput struct {
-	Bucket  string                           `json:"bucket"`
-	Format  *PutFocusDestinationInputFormat  `json:"format,omitempty"`
-	Include *PutFocusDestinationInputInclude `json:"include,omitempty"`
-	Prefix  *string                          `json:"prefix,omitempty"`
-	Region  string                           `json:"region"`
-	RoleArn *string                          `json:"roleArn,omitempty"`
-	Version *PutFocusDestinationInputVersion `json:"version,omitempty"`
-}
-
-// PutFocusDestinationInputFormat defines model for PutFocusDestinationInput.Format.
-type PutFocusDestinationInputFormat string
-
-// PutFocusDestinationInputInclude defines model for PutFocusDestinationInput.Include.
-type PutFocusDestinationInputInclude string
-
-// PutFocusDestinationInputVersion defines model for PutFocusDestinationInput.Version.
-type PutFocusDestinationInputVersion string
-
 // QuestionCondition defines model for QuestionCondition.
 type QuestionCondition struct {
 	AnyOf   *[]string `json:"anyOf,omitempty"`
@@ -15016,9 +14865,6 @@ type DiscoverAzureBillingScopesJSONRequestBody = DiscoverAzureScopesInput
 
 // SetExchangeRateWarningJSONRequestBody defines body for SetExchangeRateWarning for application/json ContentType.
 type SetExchangeRateWarningJSONRequestBody = SetWarningPctInput
-
-// PutFocusDestinationJSONRequestBody defines body for PutFocusDestination for application/json ContentType.
-type PutFocusDestinationJSONRequestBody = PutFocusDestinationInput
 
 // CreateFocusExportJSONRequestBody defines body for CreateFocusExport for application/json ContentType.
 type CreateFocusExportJSONRequestBody = CreateFocusExportInput
@@ -18185,23 +18031,6 @@ type ClientInterface interface {
 
 	SetExchangeRateWarning(ctx context.Context, body SetExchangeRateWarningJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// DeleteFocusDestination request
-	DeleteFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetFocusDestination request
-	GetFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PutFocusDestinationWithBody request with any body
-	PutFocusDestinationWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PutFocusDestination(ctx context.Context, body PutFocusDestinationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// DeliverFocusDestination request
-	DeliverFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// TestFocusDestination request
-	TestFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
-
 	// ListFocusExports request
 	ListFocusExports(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -19396,78 +19225,6 @@ func (c *RawClient) SetExchangeRateWarningWithBody(ctx context.Context, contentT
 
 func (c *RawClient) SetExchangeRateWarning(ctx context.Context, body SetExchangeRateWarningJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSetExchangeRateWarningRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *RawClient) DeleteFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteFocusDestinationRequest(c.Server)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *RawClient) GetFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetFocusDestinationRequest(c.Server)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *RawClient) PutFocusDestinationWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutFocusDestinationRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *RawClient) PutFocusDestination(ctx context.Context, body PutFocusDestinationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutFocusDestinationRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *RawClient) DeliverFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeliverFocusDestinationRequest(c.Server)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *RawClient) TestFocusDestination(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewTestFocusDestinationRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -23407,154 +23164,6 @@ func NewSetExchangeRateWarningRequestWithBody(server string, contentType string,
 	}
 
 	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewDeleteFocusDestinationRequest generates requests for DeleteFocusDestination
-func NewDeleteFocusDestinationRequest(server string) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/focus-destination")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetFocusDestinationRequest generates requests for GetFocusDestination
-func NewGetFocusDestinationRequest(server string) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/focus-destination")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPutFocusDestinationRequest calls the generic PutFocusDestination builder with application/json body
-func NewPutFocusDestinationRequest(server string, body PutFocusDestinationJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPutFocusDestinationRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewPutFocusDestinationRequestWithBody generates requests for PutFocusDestination with any type of body
-func NewPutFocusDestinationRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/focus-destination")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("PUT", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewDeliverFocusDestinationRequest generates requests for DeliverFocusDestination
-func NewDeliverFocusDestinationRequest(server string) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/focus-destination/deliver")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewTestFocusDestinationRequest generates requests for TestFocusDestination
-func NewTestFocusDestinationRequest(server string) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/focus-destination/test")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
 
 	return req, nil
 }
@@ -28477,23 +28086,6 @@ type ClientWithResponsesInterface interface {
 
 	SetExchangeRateWarningWithResponse(ctx context.Context, body SetExchangeRateWarningJSONRequestBody, reqEditors ...RequestEditorFn) (*SetExchangeRateWarningResponse, error)
 
-	// DeleteFocusDestinationWithResponse request
-	DeleteFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DeleteFocusDestinationResponse, error)
-
-	// GetFocusDestinationWithResponse request
-	GetFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetFocusDestinationResponse, error)
-
-	// PutFocusDestinationWithBodyWithResponse request with any body
-	PutFocusDestinationWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutFocusDestinationResponse, error)
-
-	PutFocusDestinationWithResponse(ctx context.Context, body PutFocusDestinationJSONRequestBody, reqEditors ...RequestEditorFn) (*PutFocusDestinationResponse, error)
-
-	// DeliverFocusDestinationWithResponse request
-	DeliverFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DeliverFocusDestinationResponse, error)
-
-	// TestFocusDestinationWithResponse request
-	TestFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*TestFocusDestinationResponse, error)
-
 	// ListFocusExportsWithResponse request
 	ListFocusExportsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListFocusExportsResponse, error)
 
@@ -30082,121 +29674,6 @@ func (r SetExchangeRateWarningResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r SetExchangeRateWarningResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type DeleteFocusDestinationResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *DeleteFocusDestinationResult
-	JSONDefault  *ApiError
-}
-
-// Status returns HTTPResponse.Status
-func (r DeleteFocusDestinationResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r DeleteFocusDestinationResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetFocusDestinationResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *FocusDestinationView
-	JSONDefault  *ApiError
-}
-
-// Status returns HTTPResponse.Status
-func (r GetFocusDestinationResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetFocusDestinationResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PutFocusDestinationResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *FocusDestinationView
-	JSONDefault  *ApiError
-}
-
-// Status returns HTTPResponse.Status
-func (r PutFocusDestinationResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PutFocusDestinationResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type DeliverFocusDestinationResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *FocusDestinationView
-	JSONDefault  *ApiError
-}
-
-// Status returns HTTPResponse.Status
-func (r DeliverFocusDestinationResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r DeliverFocusDestinationResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type TestFocusDestinationResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *FocusDestinationView
-	JSONDefault  *ApiError
-}
-
-// Status returns HTTPResponse.Status
-func (r TestFocusDestinationResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r TestFocusDestinationResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -33172,59 +32649,6 @@ func (c *ClientWithResponses) SetExchangeRateWarningWithResponse(ctx context.Con
 	return ParseSetExchangeRateWarningResponse(rsp)
 }
 
-// DeleteFocusDestinationWithResponse request returning *DeleteFocusDestinationResponse
-func (c *ClientWithResponses) DeleteFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DeleteFocusDestinationResponse, error) {
-	rsp, err := c.DeleteFocusDestination(ctx, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseDeleteFocusDestinationResponse(rsp)
-}
-
-// GetFocusDestinationWithResponse request returning *GetFocusDestinationResponse
-func (c *ClientWithResponses) GetFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetFocusDestinationResponse, error) {
-	rsp, err := c.GetFocusDestination(ctx, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetFocusDestinationResponse(rsp)
-}
-
-// PutFocusDestinationWithBodyWithResponse request with arbitrary body returning *PutFocusDestinationResponse
-func (c *ClientWithResponses) PutFocusDestinationWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutFocusDestinationResponse, error) {
-	rsp, err := c.PutFocusDestinationWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePutFocusDestinationResponse(rsp)
-}
-
-func (c *ClientWithResponses) PutFocusDestinationWithResponse(ctx context.Context, body PutFocusDestinationJSONRequestBody, reqEditors ...RequestEditorFn) (*PutFocusDestinationResponse, error) {
-	rsp, err := c.PutFocusDestination(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePutFocusDestinationResponse(rsp)
-}
-
-// DeliverFocusDestinationWithResponse request returning *DeliverFocusDestinationResponse
-func (c *ClientWithResponses) DeliverFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DeliverFocusDestinationResponse, error) {
-	rsp, err := c.DeliverFocusDestination(ctx, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseDeliverFocusDestinationResponse(rsp)
-}
-
-// TestFocusDestinationWithResponse request returning *TestFocusDestinationResponse
-func (c *ClientWithResponses) TestFocusDestinationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*TestFocusDestinationResponse, error) {
-	rsp, err := c.TestFocusDestination(ctx, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseTestFocusDestinationResponse(rsp)
-}
-
 // ListFocusExportsWithResponse request returning *ListFocusExportsResponse
 func (c *ClientWithResponses) ListFocusExportsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListFocusExportsResponse, error) {
 	rsp, err := c.ListFocusExports(ctx, reqEditors...)
@@ -36141,171 +35565,6 @@ func ParseSetExchangeRateWarningResponse(rsp *http.Response) (*SetExchangeRateWa
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest SetExchangeRateWarningResult
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
-		var dest ApiError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSONDefault = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseDeleteFocusDestinationResponse parses an HTTP response from a DeleteFocusDestinationWithResponse call
-func ParseDeleteFocusDestinationResponse(rsp *http.Response) (*DeleteFocusDestinationResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeleteFocusDestinationResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest DeleteFocusDestinationResult
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
-		var dest ApiError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSONDefault = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetFocusDestinationResponse parses an HTTP response from a GetFocusDestinationWithResponse call
-func ParseGetFocusDestinationResponse(rsp *http.Response) (*GetFocusDestinationResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetFocusDestinationResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest FocusDestinationView
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
-		var dest ApiError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSONDefault = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePutFocusDestinationResponse parses an HTTP response from a PutFocusDestinationWithResponse call
-func ParsePutFocusDestinationResponse(rsp *http.Response) (*PutFocusDestinationResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PutFocusDestinationResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest FocusDestinationView
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
-		var dest ApiError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSONDefault = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseDeliverFocusDestinationResponse parses an HTTP response from a DeliverFocusDestinationWithResponse call
-func ParseDeliverFocusDestinationResponse(rsp *http.Response) (*DeliverFocusDestinationResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeliverFocusDestinationResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest FocusDestinationView
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
-		var dest ApiError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSONDefault = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseTestFocusDestinationResponse parses an HTTP response from a TestFocusDestinationWithResponse call
-func ParseTestFocusDestinationResponse(rsp *http.Response) (*TestFocusDestinationResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &TestFocusDestinationResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest FocusDestinationView
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

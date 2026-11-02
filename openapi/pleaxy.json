@@ -5423,167 +5423,6 @@
         ]
       }
     },
-    "/focus-destination": {
-      "get": {
-        "operationId": "GetFocusDestination",
-        "summary": "[Buyer] Where Pleaxy delivers the workspace's FOCUS files every day (an S3 bucket, folder and region, the format, FOCUS version and suppliers included), its status (awaiting_role, active or failing), the last delivery, and what the setup stack needs (Pleaxy's account, the template URL, the External ID). destination is null when none is set. 'view' on invoices.",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FocusDestinationView"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "focus"
-        ]
-      },
-      "put": {
-        "operationId": "PutFocusDestination",
-        "summary": "[Buyer] Set where Pleaxy delivers FOCUS files: bucket, folder (prefix), region, format (csv, gzipped, or parquet), FOCUS version (1.2 or 1.4) and include (all or non_cloud). Without roleArn it saves the destination awaiting its PleaxyFocusWriter role and returns the External ID for the stack; with roleArn Pleaxy writes and deletes a test object first and saves nothing if it can't. Every day Pleaxy then writes this month (and, through the 5th, last month) as one file per month under <prefix>/focus/<version>/billing_period=YYYY-MM/. 'edit' on invoices; a signed-in person only.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PutFocusDestinationInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FocusDestinationView"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "focus"
-        ]
-      },
-      "delete": {
-        "operationId": "DeleteFocusDestination",
-        "summary": "[Buyer] Stop delivering FOCUS files. Files already in the bucket stay; delete the PleaxyFocusDestination stack to remove Pleaxy's access. 'edit' on invoices; a signed-in person only.",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteFocusDestinationResult"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "focus"
-        ]
-      }
-    },
-    "/focus-destination/test": {
-      "post": {
-        "operationId": "TestFocusDestination",
-        "summary": "[Buyer] Write and delete a test object in the FOCUS destination; a pass makes a failing destination active again. 'edit' on invoices; a signed-in person only.",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FocusDestinationView"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "focus"
-        ]
-      }
-    },
-    "/focus-destination/deliver": {
-      "post": {
-        "operationId": "DeliverFocusDestination",
-        "summary": "[Buyer] Deliver now: write this month's and last month's FOCUS files to the destination, as the daily run does. 'edit' on invoices.",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FocusDestinationView"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "focus"
-        ]
-      }
-    },
     "/focus-sources": {
       "get": {
         "operationId": "ListFocusSources",
@@ -9979,52 +9818,6 @@
           "to"
         ]
       },
-      "PutFocusDestinationInput": {
-        "type": "object",
-        "properties": {
-          "bucket": {
-            "type": "string",
-            "maxLength": 63
-          },
-          "prefix": {
-            "type": "string",
-            "maxLength": 200
-          },
-          "region": {
-            "type": "string",
-            "maxLength": 30
-          },
-          "roleArn": {
-            "type": "string",
-            "maxLength": 200
-          },
-          "format": {
-            "type": "string",
-            "enum": [
-              "csv",
-              "parquet"
-            ]
-          },
-          "version": {
-            "type": "string",
-            "enum": [
-              "1.2",
-              "1.4"
-            ]
-          },
-          "include": {
-            "type": "string",
-            "enum": [
-              "all",
-              "non_cloud"
-            ]
-          }
-        },
-        "required": [
-          "bucket",
-          "region"
-        ]
-      },
       "MapFocusIssuerInput": {
         "type": "object",
         "properties": {
@@ -11795,7 +11588,6 @@
           "type": {
             "type": "string",
             "enum": [
-              "focus_delivery_failed",
               "ai_forecast_over_budget",
               "ai_drafts_ready",
               "report_ready",
@@ -20995,141 +20787,6 @@
           "id"
         ]
       },
-      "FocusDestinationView": {
-        "type": "object",
-        "properties": {
-          "enabled": {
-            "type": "boolean"
-          },
-          "destination": {
-            "type": "object",
-            "properties": {
-              "provider": {
-                "type": "string",
-                "enum": [
-                  "aws_s3"
-                ]
-              },
-              "status": {
-                "type": "string",
-                "enum": [
-                  "active",
-                  "awaiting_role",
-                  "failing"
-                ]
-              },
-              "createdAt": {
-                "type": "string"
-              },
-              "updatedAt": {
-                "type": "string"
-              },
-              "version": {
-                "type": "string",
-                "enum": [
-                  "1.2",
-                  "1.4"
-                ]
-              },
-              "include": {
-                "type": "string",
-                "enum": [
-                  "all",
-                  "non_cloud"
-                ]
-              },
-              "format": {
-                "type": "string",
-                "enum": [
-                  "csv",
-                  "parquet"
-                ]
-              },
-              "bucket": {
-                "type": "string"
-              },
-              "prefix": {
-                "type": "string"
-              },
-              "region": {
-                "type": "string"
-              },
-              "externalId": {
-                "type": "string"
-              },
-              "roleArn": {
-                "type": "string"
-              },
-              "awsAccountId": {
-                "type": "string"
-              },
-              "lastDelivery": {
-                "$ref": "#/components/schemas/FocusDelivery"
-              }
-            },
-            "nullable": true
-          },
-          "setup": {
-            "$ref": "#/components/schemas/FocusDestinationSetup"
-          }
-        }
-      },
-      "FocusDelivery": {
-        "type": "object",
-        "properties": {
-          "at": {
-            "type": "string"
-          },
-          "ok": {
-            "type": "boolean"
-          },
-          "periods": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "rowCount": {
-            "type": "number",
-            "format": "double"
-          },
-          "reason": {
-            "type": "string",
-            "enum": [
-              "other",
-              "accessDenied",
-              "noSuchBucket",
-              "wrongRegion",
-              "assumeRoleFailed",
-              "kmsDenied"
-            ]
-          },
-          "trigger": {
-            "type": "string",
-            "enum": [
-              "manual",
-              "schedule"
-            ]
-          }
-        }
-      },
-      "FocusDestinationSetup": {
-        "type": "object",
-        "properties": {
-          "pleaxyAccountId": {
-            "type": "string"
-          },
-          "templateUrl": {
-            "type": "string"
-          },
-          "roleName": {
-            "type": "string"
-          },
-          "stackName": {
-            "type": "string"
-          }
-        }
-      },
       "FocusSourceView": {
         "type": "object",
         "properties": {
@@ -21222,8 +20879,8 @@
             "type": "string",
             "enum": [
               "oci",
-              "aws_s3",
               "upload",
+              "aws_s3",
               "azure_blob",
               "gcp_bigquery",
               "s3_compatible"
@@ -21285,8 +20942,8 @@
             "type": "string",
             "enum": [
               "manual",
-              "schedule",
-              "upload"
+              "upload",
+              "schedule"
             ]
           },
           "periods": {
@@ -21351,8 +21008,8 @@
                   "other",
                   "unreachable",
                   "accessDenied",
-                  "wrongRegion",
                   "notFound",
+                  "wrongRegion",
                   "notFocus",
                   "parquetUnsupported",
                   "connectionMissing",
@@ -30786,14 +30443,6 @@
             "items": {
               "$ref": "#/components/schemas/WebhookDelivery"
             }
-          }
-        }
-      },
-      "DeleteFocusDestinationResult": {
-        "type": "object",
-        "properties": {
-          "removed": {
-            "type": "boolean"
           }
         }
       },

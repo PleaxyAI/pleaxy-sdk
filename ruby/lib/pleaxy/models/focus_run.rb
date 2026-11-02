@@ -196,7 +196,7 @@ module Pleaxy
       warn '[DEPRECATED] the `valid?` method is obsolete'
       status_validator = EnumAttributeValidator.new('String', ["failed", "ok", "partial"])
       return false unless status_validator.valid?(@status)
-      trigger_validator = EnumAttributeValidator.new('String', ["manual", "schedule", "upload"])
+      trigger_validator = EnumAttributeValidator.new('String', ["manual", "upload", "schedule"])
       return false unless trigger_validator.valid?(@trigger)
       version_validator = EnumAttributeValidator.new('String', ["1.2", "1.4", "1.0", "1.1", "1.3"])
       return false unless version_validator.valid?(@version)
@@ -216,7 +216,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] trigger Object to be assigned
     def trigger=(trigger)
-      validator = EnumAttributeValidator.new('String', ["manual", "schedule", "upload"])
+      validator = EnumAttributeValidator.new('String', ["manual", "upload", "schedule"])
       unless validator.valid?(trigger)
         fail ArgumentError, "invalid value for \"trigger\", must be one of #{validator.allowable_values}."
       end

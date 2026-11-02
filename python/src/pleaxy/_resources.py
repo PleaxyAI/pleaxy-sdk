@@ -671,27 +671,11 @@ class FocusResource:
             "pleaxy._generated.api.focus.create_focus_upload", body=body
         )
 
-    def delete_focus_destination(self) -> DeleteFocusDestinationResult:
-        """[Buyer] Stop delivering FOCUS files. Files already in the bucket stay; delete the PleaxyFocusDestination stack to remove Pleaxy's access. 'edit' on invoices; a signed-in person only."""
-        return self._transport.call(
-            "pleaxy._generated.api.focus.delete_focus_destination"
-        )
-
     def delete_focus_source(self, source_id: str) -> DeleteFocusSourceResult:
         """[Buyer] Remove a FOCUS source with the months and AI lines it stored; its connection's own AI read resumes. 'edit' on invoices; a signed-in person only."""
         return self._transport.call(
             "pleaxy._generated.api.focus.delete_focus_source", source_id=source_id
         )
-
-    def deliver_focus_destination(self) -> FocusDestinationView:
-        """[Buyer] Deliver now: write this month's and last month's FOCUS files to the destination, as the daily run does. 'edit' on invoices."""
-        return self._transport.call(
-            "pleaxy._generated.api.focus.deliver_focus_destination"
-        )
-
-    def get_focus_destination(self) -> FocusDestinationView:
-        """[Buyer] Where Pleaxy delivers the workspace's FOCUS files every day (an S3 bucket, folder and region, the format, FOCUS version and suppliers included), its status (awaiting_role, active or failing), the last delivery, and what the setup stack needs (Pleaxy's account, the template URL, the External ID). destination is null when none is set. 'view' on invoices."""
-        return self._transport.call("pleaxy._generated.api.focus.get_focus_destination")
 
     def get_focus_export(self, export_id: str) -> FocusExport:
         """[Buyer] One FOCUS export of the last 7 days, with fresh download links for its CSV and metadata (valid 15 minutes). 'view' on invoices."""
@@ -735,24 +719,10 @@ class FocusResource:
             "pleaxy._generated.api.focus.map_focus_issuer", issuer=issuer, body=body
         )
 
-    def put_focus_destination(
-        self, *, body: PutFocusDestinationInput
-    ) -> FocusDestinationView:
-        """[Buyer] Set where Pleaxy delivers FOCUS files: bucket, folder (prefix), region, format (csv, gzipped, or parquet), FOCUS version (1.2 or 1.4) and include (all or non_cloud). Without roleArn it saves the destination awaiting its PleaxyFocusWriter role and returns the External ID for the stack; with roleArn Pleaxy writes and deletes a test object first and saves nothing if it can't. Every day Pleaxy then writes this month (and, through the 5th, last month) as one file per month under <prefix>/focus/<version>/billing_period=YYYY-MM/. 'edit' on invoices; a signed-in person only."""
-        return self._transport.call(
-            "pleaxy._generated.api.focus.put_focus_destination", body=body
-        )
-
     def sync_focus_source(self, source_id: str) -> FocusSourceView:
         """[Buyer] Read a FOCUS source now, in the background, re-reading the months it holds. 'edit' on invoices."""
         return self._transport.call(
             "pleaxy._generated.api.focus.sync_focus_source", source_id=source_id
-        )
-
-    def test_focus_destination(self) -> FocusDestinationView:
-        """[Buyer] Write and delete a test object in the FOCUS destination; a pass makes a failing destination active again. 'edit' on invoices; a signed-in person only."""
-        return self._transport.call(
-            "pleaxy._generated.api.focus.test_focus_destination"
         )
 
 

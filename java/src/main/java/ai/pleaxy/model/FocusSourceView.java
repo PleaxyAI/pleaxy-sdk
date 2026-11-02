@@ -142,9 +142,9 @@ public class FocusSourceView {
   public enum KindEnum {
     OCI(String.valueOf("oci")),
     
-    AWS_S3(String.valueOf("aws_s3")),
-    
     UPLOAD(String.valueOf("upload")),
+    
+    AWS_S3(String.valueOf("aws_s3")),
     
     AZURE_BLOB(String.valueOf("azure_blob")),
     

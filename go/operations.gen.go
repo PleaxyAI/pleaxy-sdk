@@ -328,18 +328,6 @@ func (c *Client) DeleteAiProvider(ctx context.Context, id string) (*DeleteAiProv
 	return resp.JSON200, nil
 }
 
-// DeleteFocusDestination - [Buyer] Stop delivering FOCUS files. Files already in the bucket stay; delete the PleaxyFocusDestination stack to remove Pleaxy's access. 'edit' on invoices; a signed-in person only.
-func (c *Client) DeleteFocusDestination(ctx context.Context) (*DeleteFocusDestinationResult, error) {
-	resp, err := c.api.DeleteFocusDestinationWithResponse(ctx)
-	if err != nil {
-		return nil, err
-	}
-	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
-		return nil, err
-	}
-	return resp.JSON200, nil
-}
-
 // DeleteFocusSource - [Buyer] Remove a FOCUS source with the months and AI lines it stored; its connection's own AI read resumes. 'edit' on invoices; a signed-in person only.
 func (c *Client) DeleteFocusSource(ctx context.Context, sourceId string) (*DeleteFocusSourceResult, error) {
 	resp, err := c.api.DeleteFocusSourceWithResponse(ctx, sourceId)
@@ -359,18 +347,6 @@ func (c *Client) DeleteWebhook(ctx context.Context, webhookId string) error {
 		return err
 	}
 	return checkStatus(resp.HTTPResponse, resp.Body)
-}
-
-// DeliverFocusDestination - [Buyer] Deliver now: write this month's and last month's FOCUS files to the destination, as the daily run does. 'edit' on invoices.
-func (c *Client) DeliverFocusDestination(ctx context.Context) (*FocusDestinationView, error) {
-	resp, err := c.api.DeliverFocusDestinationWithResponse(ctx)
-	if err != nil {
-		return nil, err
-	}
-	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
-		return nil, err
-	}
-	return resp.JSON200, nil
 }
 
 // DisconnectCloudConnection - [Buyer] Disconnect a cloud account (logged-in users only, 'edit' on suppliers). Deletes the connection with everything Pleaxy stored for it (for Oracle Cloud, its encrypted API key) and records who disconnected it; for Oracle Cloud the response names the key fingerprint to delete from user pleaxy-billing. A setup still in progress can only be cancelled by the person who started it (403 otherwise).
@@ -580,18 +556,6 @@ func (c *Client) GetBuyerWorkspace(ctx context.Context, params *GetBuyerWorkspac
 // GetExchangeRates - [Buyer] The currencies this workspace's orders, invoices and suppliers use, each with today's reference rate into your currency. `?currency=` adds one more currency's row. Used only for approval and spend checks; amounts are never converted. Signed-in session only: the rate provider's terms don't allow programmatic access to its rates. Rates by Exchange Rate API.
 func (c *Client) GetExchangeRates(ctx context.Context, params *GetExchangeRatesParams) (*ExchangeRatesView, error) {
 	resp, err := c.api.GetExchangeRatesWithResponse(ctx, params)
-	if err != nil {
-		return nil, err
-	}
-	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
-		return nil, err
-	}
-	return resp.JSON200, nil
-}
-
-// GetFocusDestination - [Buyer] Where Pleaxy delivers the workspace's FOCUS files every day (an S3 bucket, folder and region, the format, FOCUS version and suppliers included), its status (awaiting_role, active or failing), the last delivery, and what the setup stack needs (Pleaxy's account, the template URL, the External ID). destination is null when none is set. 'view' on invoices.
-func (c *Client) GetFocusDestination(ctx context.Context) (*FocusDestinationView, error) {
-	resp, err := c.api.GetFocusDestinationWithResponse(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1330,18 +1294,6 @@ func (c *Client) MarkNotificationRead(ctx context.Context, notificationId string
 	return checkStatus(resp.HTTPResponse, resp.Body)
 }
 
-// PutFocusDestination - [Buyer] Set where Pleaxy delivers FOCUS files: bucket, folder (prefix), region, format (csv, gzipped, or parquet), FOCUS version (1.2 or 1.4) and include (all or non_cloud). Without roleArn it saves the destination awaiting its PleaxyFocusWriter role and returns the External ID for the stack; with roleArn Pleaxy writes and deletes a test object first and saves nothing if it can't. Every day Pleaxy then writes this month (and, through the 5th, last month) as one file per month under <prefix>/focus/<version>/billing_period=YYYY-MM/. 'edit' on invoices; a signed-in person only.
-func (c *Client) PutFocusDestination(ctx context.Context, body PutFocusDestinationJSONRequestBody) (*FocusDestinationView, error) {
-	resp, err := c.api.PutFocusDestinationWithResponse(ctx, body)
-	if err != nil {
-		return nil, err
-	}
-	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
-		return nil, err
-	}
-	return resp.JSON200, nil
-}
-
 // RaiseNextAiPeriod - [Buyer] Drafts the same order for the month after its lines': each AI line's quantity is the forecast from this month's usage so far (its own quantity when there is none yet), every other line as it is. Returns the draft purchase order; submitting it goes through the usual approval. 'create' on purchase orders.
 func (c *Client) RaiseNextAiPeriod(ctx context.Context, poId string) (*PurchaseOrder, error) {
 	resp, err := c.api.RaiseNextAiPeriodWithResponse(ctx, poId)
@@ -1757,18 +1709,6 @@ func (c *Client) SyncFocusSource(ctx context.Context, sourceId string) (*FocusSo
 		return nil, err
 	}
 	return resp.JSON202, nil
-}
-
-// TestFocusDestination - [Buyer] Write and delete a test object in the FOCUS destination; a pass makes a failing destination active again. 'edit' on invoices; a signed-in person only.
-func (c *Client) TestFocusDestination(ctx context.Context) (*FocusDestinationView, error) {
-	resp, err := c.api.TestFocusDestinationWithResponse(ctx)
-	if err != nil {
-		return nil, err
-	}
-	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
-		return nil, err
-	}
-	return resp.JSON200, nil
 }
 
 // TestWebhook - [Both, admin] Send the endpoint a signed ping now, once: { ok, status?, errorCode?, durationMs }.
