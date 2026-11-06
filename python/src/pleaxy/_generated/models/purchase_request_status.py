@@ -1,7 +1,13 @@
 from typing import Literal, Set, cast
 
 PurchaseRequestStatus = Literal[
-    "approved", "canceled", "draft", "ordered", "pending_approval", "rejected"
+    "approved",
+    "canceled",
+    "draft",
+    "ordered",
+    "pending_approval",
+    "rejected",
+    "sourcing",
 ]
 
 PURCHASE_REQUEST_STATUS_VALUES: Set[PurchaseRequestStatus] = {
@@ -11,6 +17,7 @@ PURCHASE_REQUEST_STATUS_VALUES: Set[PurchaseRequestStatus] = {
     "ordered",
     "pending_approval",
     "rejected",
+    "sourcing",
 }
 
 

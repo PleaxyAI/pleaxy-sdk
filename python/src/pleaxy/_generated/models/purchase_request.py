@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -49,6 +49,8 @@ class PurchaseRequest:
         approval_version (Union[Unset, float]):
         budget_check (Union[Unset, BudgetCheck]):
         po_id (Union[Unset, str]):
+        po_ids (Union[Unset, List[str]]):
+        sourcing_event_id (Union[Unset, str]):
         rejection_reason (Union[Unset, str]):
         created_at (Union[Unset, str]):
         updated_at (Union[Unset, str]):
@@ -80,6 +82,8 @@ class PurchaseRequest:
     approval_version: Union[Unset, float] = UNSET
     budget_check: Union[Unset, "BudgetCheck"] = UNSET
     po_id: Union[Unset, str] = UNSET
+    po_ids: Union[Unset, List[str]] = UNSET
+    sourcing_event_id: Union[Unset, str] = UNSET
     rejection_reason: Union[Unset, str] = UNSET
     created_at: Union[Unset, str] = UNSET
     updated_at: Union[Unset, str] = UNSET
@@ -161,6 +165,12 @@ class PurchaseRequest:
 
         po_id = self.po_id
 
+        po_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.po_ids, Unset):
+            po_ids = self.po_ids
+
+        sourcing_event_id = self.sourcing_event_id
+
         rejection_reason = self.rejection_reason
 
         created_at = self.created_at
@@ -224,6 +234,10 @@ class PurchaseRequest:
             field_dict["budgetCheck"] = budget_check
         if po_id is not UNSET:
             field_dict["poId"] = po_id
+        if po_ids is not UNSET:
+            field_dict["poIds"] = po_ids
+        if sourcing_event_id is not UNSET:
+            field_dict["sourcingEventId"] = sourcing_event_id
         if rejection_reason is not UNSET:
             field_dict["rejectionReason"] = rejection_reason
         if created_at is not UNSET:
@@ -342,6 +356,10 @@ class PurchaseRequest:
 
         po_id = d.pop("poId", UNSET)
 
+        po_ids = cast(List[str], d.pop("poIds", UNSET))
+
+        sourcing_event_id = d.pop("sourcingEventId", UNSET)
+
         rejection_reason = d.pop("rejectionReason", UNSET)
 
         created_at = d.pop("createdAt", UNSET)
@@ -379,6 +397,8 @@ class PurchaseRequest:
             approval_version=approval_version,
             budget_check=budget_check,
             po_id=po_id,
+            po_ids=po_ids,
+            sourcing_event_id=sourcing_event_id,
             rejection_reason=rejection_reason,
             created_at=created_at,
             updated_at=updated_at,

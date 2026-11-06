@@ -133,6 +133,34 @@ public class Notification {
     
     REQUEST_ORDERED(String.valueOf("request_ordered")),
     
+    RFQ_INVITED(String.valueOf("rfq_invited")),
+    
+    RFQ_DUE_SOON(String.valueOf("rfq_due_soon")),
+    
+    RFQ_DEADLINE_MOVED(String.valueOf("rfq_deadline_moved")),
+    
+    RFQ_CANCELED(String.valueOf("rfq_canceled")),
+    
+    RFQ_AWARDED(String.valueOf("rfq_awarded")),
+    
+    RFQ_NOT_SELECTED(String.valueOf("rfq_not_selected")),
+    
+    RFQ_QUESTION_ANSWERED(String.valueOf("rfq_question_answered")),
+    
+    RFQ_ANSWER_RECEIVED(String.valueOf("rfq_answer_received")),
+    
+    RFQ_DEADLINE_PASSED(String.valueOf("rfq_deadline_passed")),
+    
+    RFQ_DECLINED(String.valueOf("rfq_declined")),
+    
+    RFQ_QUESTION_ASKED(String.valueOf("rfq_question_asked")),
+    
+    RFQ_NOT_SHORTLISTED(String.valueOf("rfq_not_shortlisted")),
+    
+    RFQ_EVALUATE(String.valueOf("rfq_evaluate")),
+    
+    RFQ_EVALUATION_COMPLETE(String.valueOf("rfq_evaluation_complete")),
+    
     PO_STORE_ORDER_PROBLEM(String.valueOf("po_store_order_problem")),
     
     PO_SUPPLIER_CONFIRMED(String.valueOf("po_supplier_confirmed")),

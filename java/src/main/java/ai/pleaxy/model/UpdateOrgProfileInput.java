@@ -50,6 +50,7 @@ import ai.pleaxy.client.ApiClient;
   UpdateOrgProfileInput.JSON_PROPERTY_COUNTRIES,
   UpdateOrgProfileInput.JSON_PROPERTY_TIME_ZONE,
   UpdateOrgProfileInput.JSON_PROPERTY_LISTED_IN_DIRECTORY,
+  UpdateOrgProfileInput.JSON_PROPERTY_LOCALE,
   UpdateOrgProfileInput.JSON_PROPERTY_GEOGRAPHY_PRESET_ID
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -109,6 +110,53 @@ public class UpdateOrgProfileInput {
   public static final String JSON_PROPERTY_LISTED_IN_DIRECTORY = "listedInDirectory";
   @javax.annotation.Nullable
   private Boolean listedInDirectory;
+
+  /**
+   * Gets or Sets locale
+   */
+  public enum LocaleEnum {
+    EN(String.valueOf("en")),
+    
+    ES(String.valueOf("es")),
+    
+    PT_BR(String.valueOf("pt-BR")),
+    
+    DE(String.valueOf("de")),
+    
+    FR(String.valueOf("fr")),
+    
+    IT(String.valueOf("it"));
+
+    private String value;
+
+    LocaleEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static LocaleEnum fromValue(String value) {
+      for (LocaleEnum b : LocaleEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  public static final String JSON_PROPERTY_LOCALE = "locale";
+  @javax.annotation.Nullable
+  private LocaleEnum locale;
 
   /**
    * Gets or Sets geographyPresetId
@@ -538,6 +586,30 @@ public class UpdateOrgProfileInput {
   }
 
 
+  public UpdateOrgProfileInput locale(@javax.annotation.Nullable LocaleEnum locale) {
+    this.locale = locale;
+    return this;
+  }
+
+  /**
+   * Get locale
+   * @return locale
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_LOCALE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public LocaleEnum getLocale() {
+    return locale;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_LOCALE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setLocale(@javax.annotation.Nullable LocaleEnum locale) {
+    this.locale = locale;
+  }
+
+
   public UpdateOrgProfileInput geographyPresetId(@javax.annotation.Nullable GeographyPresetIdEnum geographyPresetId) {
     this.geographyPresetId = geographyPresetId;
     return this;
@@ -588,12 +660,13 @@ public class UpdateOrgProfileInput {
         Objects.equals(this.countries, updateOrgProfileInput.countries) &&
         Objects.equals(this.timeZone, updateOrgProfileInput.timeZone) &&
         Objects.equals(this.listedInDirectory, updateOrgProfileInput.listedInDirectory) &&
+        Objects.equals(this.locale, updateOrgProfileInput.locale) &&
         Objects.equals(this.geographyPresetId, updateOrgProfileInput.geographyPresetId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(regionName, companyName, billingEmail, billingAddress, billingAddressParts, taxId, currency, otherCurrencies, paymentCurrencies, primaryContactName, primaryContactEmail, countries, timeZone, listedInDirectory, geographyPresetId);
+    return Objects.hash(regionName, companyName, billingEmail, billingAddress, billingAddressParts, taxId, currency, otherCurrencies, paymentCurrencies, primaryContactName, primaryContactEmail, countries, timeZone, listedInDirectory, locale, geographyPresetId);
   }
 
   @Override
@@ -614,6 +687,7 @@ public class UpdateOrgProfileInput {
     sb.append("    countries: ").append(toIndentedString(countries)).append("\n");
     sb.append("    timeZone: ").append(toIndentedString(timeZone)).append("\n");
     sb.append("    listedInDirectory: ").append(toIndentedString(listedInDirectory)).append("\n");
+    sb.append("    locale: ").append(toIndentedString(locale)).append("\n");
     sb.append("    geographyPresetId: ").append(toIndentedString(geographyPresetId)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -742,6 +816,11 @@ public class UpdateOrgProfileInput {
     // add `listedInDirectory` to the URL query string
     if (getListedInDirectory() != null) {
       joiner.add(String.format("%slistedInDirectory%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getListedInDirectory()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `locale` to the URL query string
+    if (getLocale() != null) {
+      joiner.add(String.format("%slocale%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLocale()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `geographyPresetId` to the URL query string

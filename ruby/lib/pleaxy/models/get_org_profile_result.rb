@@ -53,6 +53,8 @@ module Pleaxy
 
     attr_accessor :time_zone
 
+    attr_accessor :locale
+
     attr_accessor :primary_contact_name
 
     attr_accessor :primary_contact_email
@@ -111,6 +113,7 @@ module Pleaxy
         :'countries' => :'countries',
         :'geography' => :'geography',
         :'time_zone' => :'timeZone',
+        :'locale' => :'locale',
         :'primary_contact_name' => :'primaryContactName',
         :'primary_contact_email' => :'primaryContactEmail',
         :'created_at' => :'createdAt',
@@ -148,6 +151,7 @@ module Pleaxy
         :'countries' => :'Array<String>',
         :'geography' => :'Geography',
         :'time_zone' => :'String',
+        :'locale' => :'String',
         :'primary_contact_name' => :'String',
         :'primary_contact_email' => :'String',
         :'created_at' => :'String',
@@ -263,6 +267,10 @@ module Pleaxy
         self.time_zone = attributes[:'time_zone']
       end
 
+      if attributes.key?(:'locale')
+        self.locale = attributes[:'locale']
+      end
+
       if attributes.key?(:'primary_contact_name')
         self.primary_contact_name = attributes[:'primary_contact_name']
       end
@@ -311,6 +319,8 @@ module Pleaxy
       return false if @id.nil?
       role_validator = EnumAttributeValidator.new('String', ["buyer", "supplier"])
       return false unless role_validator.valid?(@role)
+      locale_validator = EnumAttributeValidator.new('String', ["en", "es", "pt-BR", "de", "fr", "it"])
+      return false unless locale_validator.valid?(@locale)
       true
     end
 
@@ -322,6 +332,16 @@ module Pleaxy
         fail ArgumentError, "invalid value for \"role\", must be one of #{validator.allowable_values}."
       end
       @role = role
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] locale Object to be assigned
+    def locale=(locale)
+      validator = EnumAttributeValidator.new('String', ["en", "es", "pt-BR", "de", "fr", "it"])
+      unless validator.valid?(locale)
+        fail ArgumentError, "invalid value for \"locale\", must be one of #{validator.allowable_values}."
+      end
+      @locale = locale
     end
 
     # Checks equality by comparing each attribute.
@@ -348,6 +368,7 @@ module Pleaxy
           countries == o.countries &&
           geography == o.geography &&
           time_zone == o.time_zone &&
+          locale == o.locale &&
           primary_contact_name == o.primary_contact_name &&
           primary_contact_email == o.primary_contact_email &&
           created_at == o.created_at &&
@@ -366,7 +387,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [images, id, role, region_id, region_name, company_name, billing_email, billing_address, billing_address_parts, billing_address_legacy_text, billing_address_needs_review, tax_id, currency, other_currencies, payment_currencies, fx_warning_pct, countries, geography, time_zone, primary_contact_name, primary_contact_email, created_at, same_domain_acknowledged, verified, listed_in_directory, directory_id].hash
+      [images, id, role, region_id, region_name, company_name, billing_email, billing_address, billing_address_parts, billing_address_legacy_text, billing_address_needs_review, tax_id, currency, other_currencies, payment_currencies, fx_warning_pct, countries, geography, time_zone, locale, primary_contact_name, primary_contact_email, created_at, same_domain_acknowledged, verified, listed_in_directory, directory_id].hash
     end
 
     # Builds the object from hash

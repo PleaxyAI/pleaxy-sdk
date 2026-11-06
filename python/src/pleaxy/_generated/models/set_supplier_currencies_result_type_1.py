@@ -11,6 +11,10 @@ from ..models.set_supplier_currencies_result_type_1_cloud_provider import (
     SetSupplierCurrenciesResultType1CloudProvider,
     check_set_supplier_currencies_result_type_1_cloud_provider,
 )
+from ..models.set_supplier_currencies_result_type_1_origin import (
+    SetSupplierCurrenciesResultType1Origin,
+    check_set_supplier_currencies_result_type_1_origin,
+)
 from ..models.set_supplier_currencies_result_type_1_status import (
     SetSupplierCurrenciesResultType1Status,
     check_set_supplier_currencies_result_type_1_status,
@@ -37,6 +41,8 @@ class SetSupplierCurrenciesResultType1:
         invited_as_name (Union[Unset, str]):
         supplier_contact_email (Union[Unset, str]):
         status (Union[Unset, SetSupplierCurrenciesResultType1Status]):
+        origin (Union[Unset, SetSupplierCurrenciesResultType1Origin]):
+        questionnaire_requested (Union[Unset, bool]):
         questionnaire_template_id (Union[Unset, str]):
         questionnaire_template_version (Union[Unset, float]):
         created_at (Union[Unset, str]):
@@ -78,6 +84,8 @@ class SetSupplierCurrenciesResultType1:
     invited_as_name: Union[Unset, str] = UNSET
     supplier_contact_email: Union[Unset, str] = UNSET
     status: Union[Unset, SetSupplierCurrenciesResultType1Status] = UNSET
+    origin: Union[Unset, SetSupplierCurrenciesResultType1Origin] = UNSET
+    questionnaire_requested: Union[Unset, bool] = UNSET
     questionnaire_template_id: Union[Unset, str] = UNSET
     questionnaire_template_version: Union[Unset, float] = UNSET
     created_at: Union[Unset, str] = UNSET
@@ -129,6 +137,12 @@ class SetSupplierCurrenciesResultType1:
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
             status = self.status
+
+        origin: Union[Unset, str] = UNSET
+        if not isinstance(self.origin, Unset):
+            origin = self.origin
+
+        questionnaire_requested = self.questionnaire_requested
 
         questionnaire_template_id = self.questionnaire_template_id
 
@@ -221,6 +235,10 @@ class SetSupplierCurrenciesResultType1:
             field_dict["supplierContactEmail"] = supplier_contact_email
         if status is not UNSET:
             field_dict["status"] = status
+        if origin is not UNSET:
+            field_dict["origin"] = origin
+        if questionnaire_requested is not UNSET:
+            field_dict["questionnaireRequested"] = questionnaire_requested
         if questionnaire_template_id is not UNSET:
             field_dict["questionnaireTemplateId"] = questionnaire_template_id
         if questionnaire_template_version is not UNSET:
@@ -314,6 +332,15 @@ class SetSupplierCurrenciesResultType1:
             status = UNSET
         else:
             status = check_set_supplier_currencies_result_type_1_status(_status)
+
+        _origin = d.pop("origin", UNSET)
+        origin: Union[Unset, SetSupplierCurrenciesResultType1Origin]
+        if isinstance(_origin, Unset):
+            origin = UNSET
+        else:
+            origin = check_set_supplier_currencies_result_type_1_origin(_origin)
+
+        questionnaire_requested = d.pop("questionnaireRequested", UNSET)
 
         questionnaire_template_id = d.pop("questionnaireTemplateId", UNSET)
 
@@ -412,6 +439,8 @@ class SetSupplierCurrenciesResultType1:
             invited_as_name=invited_as_name,
             supplier_contact_email=supplier_contact_email,
             status=status,
+            origin=origin,
+            questionnaire_requested=questionnaire_requested,
             questionnaire_template_id=questionnaire_template_id,
             questionnaire_template_version=questionnaire_template_version,
             created_at=created_at,

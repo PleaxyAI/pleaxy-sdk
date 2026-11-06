@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.ApprovedByOthersRecord;
 import ai.pleaxy.model.PaymentHistoryEntryRecord;
 import ai.pleaxy.model.SolePayerWaiverRecord;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -44,6 +45,7 @@ import ai.pleaxy.client.ApiClient;
   PaymentHistoryEntry.JSON_PROPERTY_CREDIT_NOTE_ID,
   PaymentHistoryEntry.JSON_PROPERTY_AMOUNT,
   PaymentHistoryEntry.JSON_PROPERTY_SOLE_PAYER,
+  PaymentHistoryEntry.JSON_PROPERTY_APPROVED_BY_OTHERS,
   PaymentHistoryEntry.JSON_PROPERTY_RECORD
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -144,6 +146,10 @@ public class PaymentHistoryEntry {
   public static final String JSON_PROPERTY_SOLE_PAYER = "solePayer";
   @javax.annotation.Nullable
   private SolePayerWaiverRecord solePayer;
+
+  public static final String JSON_PROPERTY_APPROVED_BY_OTHERS = "approvedByOthers";
+  @javax.annotation.Nullable
+  private ApprovedByOthersRecord approvedByOthers;
 
   public static final String JSON_PROPERTY_RECORD = "record";
   @javax.annotation.Nullable
@@ -368,6 +374,30 @@ public class PaymentHistoryEntry {
   }
 
 
+  public PaymentHistoryEntry approvedByOthers(@javax.annotation.Nullable ApprovedByOthersRecord approvedByOthers) {
+    this.approvedByOthers = approvedByOthers;
+    return this;
+  }
+
+  /**
+   * Get approvedByOthers
+   * @return approvedByOthers
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_APPROVED_BY_OTHERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public ApprovedByOthersRecord getApprovedByOthers() {
+    return approvedByOthers;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_APPROVED_BY_OTHERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setApprovedByOthers(@javax.annotation.Nullable ApprovedByOthersRecord approvedByOthers) {
+    this.approvedByOthers = approvedByOthers;
+  }
+
+
   public PaymentHistoryEntry record(@javax.annotation.Nullable PaymentHistoryEntryRecord record) {
     this.record = record;
     return this;
@@ -413,12 +443,13 @@ public class PaymentHistoryEntry {
         Objects.equals(this.creditNoteId, paymentHistoryEntry.creditNoteId) &&
         Objects.equals(this.amount, paymentHistoryEntry.amount) &&
         Objects.equals(this.solePayer, paymentHistoryEntry.solePayer) &&
+        Objects.equals(this.approvedByOthers, paymentHistoryEntry.approvedByOthers) &&
         Objects.equals(this.record, paymentHistoryEntry.record);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(action, at, by, byName, bySupplier, remittanceId, creditNoteId, amount, solePayer, record);
+    return Objects.hash(action, at, by, byName, bySupplier, remittanceId, creditNoteId, amount, solePayer, approvedByOthers, record);
   }
 
   @Override
@@ -434,6 +465,7 @@ public class PaymentHistoryEntry {
     sb.append("    creditNoteId: ").append(toIndentedString(creditNoteId)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    solePayer: ").append(toIndentedString(solePayer)).append("\n");
+    sb.append("    approvedByOthers: ").append(toIndentedString(approvedByOthers)).append("\n");
     sb.append("    record: ").append(toIndentedString(record)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -525,6 +557,11 @@ public class PaymentHistoryEntry {
     // add `solePayer` to the URL query string
     if (getSolePayer() != null) {
       joiner.add(getSolePayer().toUrlQueryString(prefix + "solePayer" + suffix));
+    }
+
+    // add `approvedByOthers` to the URL query string
+    if (getApprovedByOthers() != null) {
+      joiner.add(getApprovedByOthers().toUrlQueryString(prefix + "approvedByOthers" + suffix));
     }
 
     // add `record` to the URL query string

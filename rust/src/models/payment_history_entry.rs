@@ -31,6 +31,8 @@ pub struct PaymentHistoryEntry {
     pub amount: Option<f64>,
     #[serde(rename = "solePayer", skip_serializing_if = "Option::is_none")]
     pub sole_payer: Option<models::SolePayerWaiverRecord>,
+    #[serde(rename = "approvedByOthers", skip_serializing_if = "Option::is_none")]
+    pub approved_by_others: Option<models::ApprovedByOthersRecord>,
     #[serde(rename = "record", skip_serializing_if = "Option::is_none")]
     pub record: Option<models::PaymentHistoryEntryRecord>,
 }
@@ -47,6 +49,7 @@ impl PaymentHistoryEntry {
             credit_note_id: None,
             amount: None,
             sole_payer: None,
+            approved_by_others: None,
             record: None,
         }
     }

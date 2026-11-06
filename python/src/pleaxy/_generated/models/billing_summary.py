@@ -11,6 +11,10 @@ from ..models.billing_summary_managed_by import (
     BillingSummaryManagedBy,
     check_billing_summary_managed_by,
 )
+from ..models.billing_summary_modules_item import (
+    BillingSummaryModulesItem,
+    check_billing_summary_modules_item,
+)
 from ..models.billing_summary_plan import BillingSummaryPlan, check_billing_summary_plan
 from ..models.billing_summary_subscription_status import (
     BillingSummarySubscriptionStatus,
@@ -23,6 +27,10 @@ if TYPE_CHECKING:
         BillingSummaryAvailablePlansItem,
     )
     from ..models.billing_summary_aws_marketplace import BillingSummaryAwsMarketplace
+    from ..models.billing_summary_pending_module_removal import (
+        BillingSummaryPendingModuleRemoval,
+    )
+    from ..models.module_offer import ModuleOffer
     from ..models.price_amount import PriceAmount
 
 
@@ -50,6 +58,9 @@ class BillingSummary:
         current_price (Union[Unset, PriceAmount]):
         current_total_label (Union[Unset, str]):
         current_total (Union[Unset, PriceAmount]):
+        modules (Union[Unset, List[BillingSummaryModulesItem]]):
+        module_offers (Union[Unset, List['ModuleOffer']]):
+        pending_module_removal (Union[Unset, BillingSummaryPendingModuleRemoval]):
     """
 
     billing_enabled: Union[Unset, bool] = UNSET
@@ -69,6 +80,9 @@ class BillingSummary:
     current_price: Union[Unset, "PriceAmount"] = UNSET
     current_total_label: Union[Unset, str] = UNSET
     current_total: Union[Unset, "PriceAmount"] = UNSET
+    modules: Union[Unset, List[BillingSummaryModulesItem]] = UNSET
+    module_offers: Union[Unset, List["ModuleOffer"]] = UNSET
+    pending_module_removal: Union[Unset, "BillingSummaryPendingModuleRemoval"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -125,6 +139,24 @@ class BillingSummary:
         if not isinstance(self.current_total, Unset):
             current_total = self.current_total.to_dict()
 
+        modules: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.modules, Unset):
+            modules = []
+            for modules_item_data in self.modules:
+                modules_item: str = modules_item_data
+                modules.append(modules_item)
+
+        module_offers: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.module_offers, Unset):
+            module_offers = []
+            for module_offers_item_data in self.module_offers:
+                module_offers_item = module_offers_item_data.to_dict()
+                module_offers.append(module_offers_item)
+
+        pending_module_removal: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.pending_module_removal, Unset):
+            pending_module_removal = self.pending_module_removal.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -162,6 +194,12 @@ class BillingSummary:
             field_dict["currentTotalLabel"] = current_total_label
         if current_total is not UNSET:
             field_dict["currentTotal"] = current_total
+        if modules is not UNSET:
+            field_dict["modules"] = modules
+        if module_offers is not UNSET:
+            field_dict["moduleOffers"] = module_offers
+        if pending_module_removal is not UNSET:
+            field_dict["pendingModuleRemoval"] = pending_module_removal
 
         return field_dict
 
@@ -173,6 +211,10 @@ class BillingSummary:
         from ..models.billing_summary_aws_marketplace import (
             BillingSummaryAwsMarketplace,
         )
+        from ..models.billing_summary_pending_module_removal import (
+            BillingSummaryPendingModuleRemoval,
+        )
+        from ..models.module_offer import ModuleOffer
         from ..models.price_amount import PriceAmount
 
         d = src_dict.copy()
@@ -254,6 +296,29 @@ class BillingSummary:
         else:
             current_total = PriceAmount.from_dict(_current_total)
 
+        modules = []
+        _modules = d.pop("modules", UNSET)
+        for modules_item_data in _modules or []:
+            modules_item = check_billing_summary_modules_item(modules_item_data)
+
+            modules.append(modules_item)
+
+        module_offers = []
+        _module_offers = d.pop("moduleOffers", UNSET)
+        for module_offers_item_data in _module_offers or []:
+            module_offers_item = ModuleOffer.from_dict(module_offers_item_data)
+
+            module_offers.append(module_offers_item)
+
+        _pending_module_removal = d.pop("pendingModuleRemoval", UNSET)
+        pending_module_removal: Union[Unset, BillingSummaryPendingModuleRemoval]
+        if isinstance(_pending_module_removal, Unset):
+            pending_module_removal = UNSET
+        else:
+            pending_module_removal = BillingSummaryPendingModuleRemoval.from_dict(
+                _pending_module_removal
+            )
+
         billing_summary = cls(
             billing_enabled=billing_enabled,
             plan=plan,
@@ -272,6 +337,9 @@ class BillingSummary:
             current_price=current_price,
             current_total_label=current_total_label,
             current_total=current_total,
+            modules=modules,
+            module_offers=module_offers,
+            pending_module_removal=pending_module_removal,
         )
 
         billing_summary.additional_properties = d

@@ -1932,74 +1932,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/purchase-orders/{poId}/emails": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** [Both] The order's own email address and the emails that reached it, newest first: { address?, emails: [{ id, from, subject, receivedAt, trust: verified|unverified, kind: cxml|text, outcome: applied|draft|held|noAction|test|failed|ignored, reasonCode?, reason?, summary?, text?, attachments, draft?, result?, decision? }] }. A supplier replying to the order email, or its system sending a cXML ConfirmationRequest or ShipNoticeRequest, reaches this address. A verified sender's cXML document is recorded at once (applied); a plain email is read by the Pleaxy Assistant into a draft confirmation or ship notice, and an unverified sender's cXML document is held, both for someone to record with RecordPurchaseOrderEmail. address is absent until the order is issued, or when email-in is off. Takes the same ?buyer= as GetPurchaseOrder. */
-        get: operations["ListPurchaseOrderEmails"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/purchase-orders/{poId}/emails/{emailId}/record": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** [Both] Record an email's draft (outcome draft or held) as the supplier's order confirmation or ship notice, from email, with the same checks as ConfirmPurchaseOrder and SendShipNotice. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed, NOTHING_TO_RECORD for any other outcome; the fulfillment refusals (ORDER_NOT_OPEN, an unknown line) as those routes give them. */
-        post: operations["RecordPurchaseOrderEmail"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/purchase-orders/{poId}/emails/{emailId}/dismiss": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** [Both] Leave the order as it is instead of recording what an email asks. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed. */
-        post: operations["DismissPurchaseOrderEmail"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/settlement/billing": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** [Buyer] Current plan, subscription state, and purchasable plans */
-        get: operations["GetBilling"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/purchase-requests": {
         parameters: {
             query?: never;
@@ -2181,6 +2113,74 @@ export interface paths {
         };
         /** [Buyer] One supplier's risk, by its connection id: as ListSupplierRisk, with bank.status none|approved|waiting|changing and the screening's status and checkedAt. */
         get: operations["GetSupplierRisk"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-orders/{poId}/emails": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Both] The order's own email address and the emails that reached it, newest first: { address?, emails: [{ id, from, subject, receivedAt, trust: verified|unverified, kind: cxml|text, outcome: applied|draft|held|noAction|test|failed|ignored, reasonCode?, reason?, summary?, text?, attachments, draft?, result?, decision? }] }. A supplier replying to the order email, or its system sending a cXML ConfirmationRequest or ShipNoticeRequest, reaches this address. A verified sender's cXML document is recorded at once (applied); a plain email is read by the Pleaxy Assistant into a draft confirmation or ship notice, and an unverified sender's cXML document is held, both for someone to record with RecordPurchaseOrderEmail. address is absent until the order is issued, or when email-in is off. Takes the same ?buyer= as GetPurchaseOrder. */
+        get: operations["ListPurchaseOrderEmails"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-orders/{poId}/emails/{emailId}/record": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Both] Record an email's draft (outcome draft or held) as the supplier's order confirmation or ship notice, from email, with the same checks as ConfirmPurchaseOrder and SendShipNotice. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed, NOTHING_TO_RECORD for any other outcome; the fulfillment refusals (ORDER_NOT_OPEN, an unknown line) as those routes give them. */
+        post: operations["RecordPurchaseOrderEmail"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-orders/{poId}/emails/{emailId}/dismiss": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Both] Leave the order as it is instead of recording what an email asks. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed. */
+        post: operations["DismissPurchaseOrderEmail"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/settlement/billing": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Current plan, subscription state, and purchasable plans */
+        get: operations["GetBilling"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2424,6 +2424,8 @@ export interface components {
             countries?: string[];
             timeZone?: string;
             listedInDirectory?: boolean;
+            /** @enum {string|null} */
+            locale?: "en" | "es" | "pt-BR" | "de" | "fr" | "it" | null;
             /** @enum {string|null} */
             geographyPresetId?: "eu" | "eea" | "uk" | "emea" | "apac" | "latam" | "namer" | "global" | "continent-africa" | "continent-antarctica" | "continent-asia" | "continent-europe" | "continent-north-america" | "continent-oceania" | "continent-south-america" | null;
         };
@@ -3732,7 +3734,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "ai_forecast_over_budget" | "ai_drafts_ready" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
+            type?: "ai_forecast_over_budget" | "ai_drafts_ready" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "rfq_invited" | "rfq_due_soon" | "rfq_deadline_moved" | "rfq_canceled" | "rfq_awarded" | "rfq_not_selected" | "rfq_question_answered" | "rfq_answer_received" | "rfq_deadline_passed" | "rfq_declined" | "rfq_question_asked" | "rfq_not_shortlisted" | "rfq_evaluate" | "rfq_evaluation_complete" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -3822,6 +3824,8 @@ export interface components {
             countries?: string[];
             geography?: components["schemas"]["Geography"];
             timeZone?: string;
+            /** @enum {string} */
+            locale?: "en" | "es" | "pt-BR" | "de" | "fr" | "it";
             primaryContactName?: string;
             primaryContactEmail?: string;
             createdAt?: string;
@@ -4742,6 +4746,7 @@ export interface components {
             /** Format: double */
             amount?: number;
             solePayer?: components["schemas"]["SolePayerWaiverRecord"];
+            approvedByOthers?: components["schemas"]["ApprovedByOthersRecord"];
             record?: {
                 withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
                 /** @enum {string} */
@@ -4787,6 +4792,9 @@ export interface components {
             byKey?: string;
             byName?: string;
             bySso?: boolean;
+        };
+        ApprovedByOthersRecord: {
+            approverKeys?: string[];
         };
         InvoicePaymentProblem: {
             /** @enum {string} */
@@ -6679,6 +6687,100 @@ export interface components {
                 error?: string;
             }[];
         };
+        PurchaseRequest: {
+            id: string;
+            title?: string;
+            description?: string;
+            requesterEmployeeKey?: string;
+            requesterName?: string;
+            costCenter?: string;
+            glCode?: string;
+            supplier?: {
+                name?: string;
+                supplierConnectionId?: string;
+                supplierRegionId?: string;
+            };
+            lineItems?: components["schemas"]["PurchaseRequestLine"][];
+            /** Format: double */
+            amount?: number;
+            currency?: string;
+            neededBy?: string;
+            quoteDocument?: components["schemas"]["PurchaseOrderQuoteDocument"];
+            notes?: string;
+            requestType?: {
+                id: string;
+                name?: string;
+                /** Format: double */
+                version?: number;
+            };
+            formFields?: components["schemas"]["QuestionnaireFieldDef"][];
+            answers?: components["schemas"]["RequestAnswer"][];
+            /** @enum {string} */
+            status?: "approved" | "rejected" | "sourcing" | "pending_approval" | "draft" | "canceled" | "ordered";
+            approval?: components["schemas"]["ApprovalChain"];
+            /** Format: double */
+            approvalVersion?: number;
+            budgetCheck?: components["schemas"]["BudgetCheck"];
+            poId?: string;
+            poIds?: string[];
+            sourcingEventId?: string;
+            rejectionReason?: string;
+            createdAt?: string;
+            updatedAt?: string;
+            submittedAt?: string;
+            decidedAt?: string;
+            canceledAt?: string;
+            canceledBy?: string;
+        };
+        PurchaseRequestLine: {
+            name?: string;
+            /** @enum {string} */
+            lineType?: "goods" | "service";
+            /** Format: double */
+            qty?: number;
+            unit?: string;
+            /** Format: double */
+            unitPrice?: number;
+        };
+        RequestAnswer: {
+            fieldId?: string;
+            textAnswer?: string;
+            selectedOptionIds?: string[];
+            file?: components["schemas"]["QuestionnaireFileAnswer"];
+            flagged?: boolean;
+        };
+        SupplierRisk: {
+            connectionId?: string;
+            supplierName?: string;
+            /** @enum {string} */
+            level?: "ok" | "attention" | "blocked";
+            bank?: {
+                /** @enum {string} */
+                state?: "ok" | "none" | "attention" | "blocked";
+                /** Format: double */
+                waiting?: number;
+                /** @enum {string} */
+                status?: "approved" | "none" | "changing" | "waiting";
+            };
+            screening?: {
+                /** @enum {string} */
+                state?: "ok" | "none" | "attention" | "blocked";
+                /** @enum {string} */
+                status?: "off" | "clear" | "possible_match" | "confirmed_match" | "not_screened";
+                checkedAt?: string;
+            };
+            flaggedAnswers?: {
+                /** @enum {string} */
+                state?: "ok" | "none" | "attention" | "blocked";
+                /** Format: double */
+                count?: number;
+            };
+            missingDocuments?: {
+                /** @enum {string} */
+                state?: "ok" | "none" | "attention" | "blocked";
+                fields?: string[];
+            };
+        };
         PurchaseOrderEmails: {
             address?: string;
             emails?: components["schemas"]["InboundEmail"][];
@@ -6804,6 +6906,12 @@ export interface components {
             currentPrice?: components["schemas"]["PriceAmount"];
             currentTotalLabel?: string;
             currentTotal?: components["schemas"]["PriceAmount"];
+            modules?: ("invoice" | "sourcing" | "contracts" | "suppliers" | "payment" | "request" | "order" | "receipt" | "aiSpend")[];
+            moduleOffers?: components["schemas"]["ModuleOffer"][];
+            pendingModuleRemoval?: {
+                modules?: ("invoice" | "sourcing" | "contracts" | "suppliers" | "payment" | "request" | "order" | "receipt" | "aiSpend")[];
+                at?: string;
+            };
         };
         PriceAmount: {
             /** Format: double */
@@ -6819,97 +6927,16 @@ export interface components {
             toRegion?: number | null;
             price?: components["schemas"]["PriceAmount"];
         };
-        PurchaseRequest: {
-            id: string;
-            title?: string;
-            description?: string;
-            requesterEmployeeKey?: string;
-            requesterName?: string;
-            costCenter?: string;
-            glCode?: string;
-            supplier?: {
-                name?: string;
-                supplierConnectionId?: string;
-                supplierRegionId?: string;
-            };
-            lineItems?: components["schemas"]["PurchaseRequestLine"][];
-            /** Format: double */
-            amount?: number;
-            currency?: string;
-            neededBy?: string;
-            quoteDocument?: components["schemas"]["PurchaseOrderQuoteDocument"];
-            notes?: string;
-            requestType?: {
-                id: string;
-                name?: string;
-                /** Format: double */
-                version?: number;
-            };
-            formFields?: components["schemas"]["QuestionnaireFieldDef"][];
-            answers?: components["schemas"]["RequestAnswer"][];
+        ModuleOffer: {
             /** @enum {string} */
-            status?: "approved" | "rejected" | "pending_approval" | "draft" | "canceled" | "ordered";
-            approval?: components["schemas"]["ApprovalChain"];
-            /** Format: double */
-            approvalVersion?: number;
-            budgetCheck?: components["schemas"]["BudgetCheck"];
-            poId?: string;
-            rejectionReason?: string;
-            createdAt?: string;
-            updatedAt?: string;
-            submittedAt?: string;
-            decidedAt?: string;
-            canceledAt?: string;
-            canceledBy?: string;
-        };
-        PurchaseRequestLine: {
-            name?: string;
+            item?: "invoice" | "sourcing" | "contracts" | "suppliers" | "payment" | "source" | "request" | "order" | "receipt" | "aiSpend" | "procureToPay" | "suite";
             /** @enum {string} */
-            lineType?: "goods" | "service";
-            /** Format: double */
-            qty?: number;
-            unit?: string;
-            /** Format: double */
-            unitPrice?: number;
-        };
-        RequestAnswer: {
-            fieldId?: string;
-            textAnswer?: string;
-            selectedOptionIds?: string[];
-            file?: components["schemas"]["QuestionnaireFileAnswer"];
-            flagged?: boolean;
-        };
-        SupplierRisk: {
-            connectionId?: string;
-            supplierName?: string;
-            /** @enum {string} */
-            level?: "ok" | "attention" | "blocked";
-            bank?: {
-                /** @enum {string} */
-                state?: "ok" | "none" | "attention" | "blocked";
-                /** Format: double */
-                waiting?: number;
-                /** @enum {string} */
-                status?: "approved" | "none" | "changing" | "waiting";
-            };
-            screening?: {
-                /** @enum {string} */
-                state?: "ok" | "none" | "attention" | "blocked";
-                /** @enum {string} */
-                status?: "off" | "clear" | "possible_match" | "confirmed_match" | "not_screened";
-                checkedAt?: string;
-            };
-            flaggedAnswers?: {
-                /** @enum {string} */
-                state?: "ok" | "none" | "attention" | "blocked";
-                /** Format: double */
-                count?: number;
-            };
-            missingDocuments?: {
-                /** @enum {string} */
-                state?: "ok" | "none" | "attention" | "blocked";
-                fields?: string[];
-            };
+            kind?: "suite" | "module" | "group";
+            modules?: ("invoice" | "sourcing" | "contracts" | "suppliers" | "payment" | "request" | "order" | "receipt" | "aiSpend")[];
+            monthlyPriceLabel?: string;
+            monthlyPrice?: components["schemas"]["PriceAmount"];
+            yearlyPriceLabel?: string;
+            yearlyPrice?: components["schemas"]["PriceAmount"];
         };
         ApprovalQueue: {
             purchaseOrders?: components["schemas"]["PurchaseOrder"][];
@@ -7064,6 +7091,9 @@ export interface components {
             supplierContactEmail?: string;
             /** @enum {string} */
             status?: "pending_invite" | "invited" | "in_progress" | "submitted" | "approved" | "rejected";
+            /** @enum {string} */
+            origin?: "rfq";
+            questionnaireRequested?: boolean;
             questionnaireTemplateId?: string;
             /** Format: double */
             questionnaireTemplateVersion?: number;
@@ -7112,6 +7142,9 @@ export interface components {
             supplierContactEmail?: string;
             /** @enum {string} */
             status?: "pending_invite" | "invited" | "in_progress" | "submitted" | "approved" | "rejected";
+            /** @enum {string} */
+            origin?: "rfq";
+            questionnaireRequested?: boolean;
             questionnaireTemplateId?: string;
             /** Format: double */
             questionnaireTemplateVersion?: number;
@@ -7159,6 +7192,9 @@ export interface components {
             supplierContactEmail?: string;
             /** @enum {string} */
             status?: "pending_invite" | "invited" | "in_progress" | "submitted" | "approved" | "rejected";
+            /** @enum {string} */
+            origin?: "rfq";
+            questionnaireRequested?: boolean;
             questionnaireTemplateId?: string;
             /** Format: double */
             questionnaireTemplateVersion?: number;
@@ -7208,6 +7244,9 @@ export interface components {
             supplierContactEmail?: string;
             /** @enum {string} */
             status?: "pending_invite" | "invited" | "in_progress" | "submitted" | "approved" | "rejected";
+            /** @enum {string} */
+            origin?: "rfq";
+            questionnaireRequested?: boolean;
             questionnaireTemplateId?: string;
             /** Format: double */
             questionnaireTemplateVersion?: number;
@@ -7257,6 +7296,9 @@ export interface components {
             supplierContactEmail?: string;
             /** @enum {string} */
             status?: "pending_invite" | "invited" | "in_progress" | "submitted" | "approved" | "rejected";
+            /** @enum {string} */
+            origin?: "rfq";
+            questionnaireRequested?: boolean;
             questionnaireTemplateId?: string;
             /** Format: double */
             questionnaireTemplateVersion?: number;
@@ -7316,6 +7358,8 @@ export interface components {
             countries?: string[];
             geography?: components["schemas"]["Geography"];
             timeZone?: string;
+            /** @enum {string} */
+            locale?: "en" | "es" | "pt-BR" | "de" | "fr" | "it";
             primaryContactName?: string;
             primaryContactEmail?: string;
             createdAt?: string;
@@ -9175,6 +9219,9 @@ export interface components {
             supplierContactEmail?: string;
             /** @enum {string} */
             status?: "pending_invite" | "invited" | "in_progress" | "submitted" | "approved" | "rejected";
+            /** @enum {string} */
+            origin?: "rfq";
+            questionnaireRequested?: boolean;
             questionnaireTemplateId?: string;
             /** Format: double */
             questionnaireTemplateVersion?: number;
@@ -13641,136 +13688,10 @@ export interface operations {
             };
         };
     };
-    ListPurchaseOrderEmails: {
-        parameters: {
-            query?: {
-                buyer?: string;
-            };
-            header?: never;
-            path: {
-                poId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PurchaseOrderEmails"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    RecordPurchaseOrderEmail: {
-        parameters: {
-            query?: {
-                buyer?: string;
-            };
-            header?: never;
-            path: {
-                poId: string;
-                emailId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["InboundEmail"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    DismissPurchaseOrderEmail: {
-        parameters: {
-            query?: {
-                buyer?: string;
-            };
-            header?: never;
-            path: {
-                poId: string;
-                emailId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["InboundEmail"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    GetBilling: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BillingSummary"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
     ListPurchaseRequests: {
         parameters: {
             query?: {
-                status?: "draft" | "pending_approval" | "approved" | "ordered" | "rejected" | "canceled";
+                status?: "draft" | "pending_approval" | "approved" | "sourcing" | "ordered" | "rejected" | "canceled";
                 /** @description true: only the caller's own requests. */
                 mine?: boolean;
                 /** @description true: only the requests waiting on the caller's approval (the approvals queue). */
@@ -14167,6 +14088,132 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SupplierRisk"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListPurchaseOrderEmails: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseOrderEmails"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    RecordPurchaseOrderEmail: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+                emailId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InboundEmail"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    DismissPurchaseOrderEmail: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+                emailId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InboundEmail"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetBilling: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingSummary"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

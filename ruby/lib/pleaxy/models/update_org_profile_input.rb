@@ -43,6 +43,8 @@ module Pleaxy
 
     attr_accessor :listed_in_directory
 
+    attr_accessor :locale
+
     attr_accessor :geography_preset_id
 
     class EnumAttributeValidator
@@ -84,6 +86,7 @@ module Pleaxy
         :'countries' => :'countries',
         :'time_zone' => :'timeZone',
         :'listed_in_directory' => :'listedInDirectory',
+        :'locale' => :'locale',
         :'geography_preset_id' => :'geographyPresetId'
       }
     end
@@ -110,6 +113,7 @@ module Pleaxy
         :'countries' => :'Array<String>',
         :'time_zone' => :'String',
         :'listed_in_directory' => :'Boolean',
+        :'locale' => :'String',
         :'geography_preset_id' => :'String'
       }
     end
@@ -118,6 +122,7 @@ module Pleaxy
     def self.openapi_nullable
       Set.new([
         :'billing_address_parts',
+        :'locale',
         :'geography_preset_id'
       ])
     end
@@ -199,6 +204,10 @@ module Pleaxy
         self.listed_in_directory = attributes[:'listed_in_directory']
       end
 
+      if attributes.key?(:'locale')
+        self.locale = attributes[:'locale']
+      end
+
       if attributes.key?(:'geography_preset_id')
         self.geography_preset_id = attributes[:'geography_preset_id']
       end
@@ -236,6 +245,8 @@ module Pleaxy
       return false if !@company_name.nil? && @company_name.to_s.length > 200
       return false if !@billing_address.nil? && @billing_address.to_s.length > 500
       return false if !@tax_id.nil? && @tax_id.to_s.length > 64
+      locale_validator = EnumAttributeValidator.new('String', ["en", "es", "pt-BR", "de", "fr", "it"])
+      return false unless locale_validator.valid?(@locale)
       geography_preset_id_validator = EnumAttributeValidator.new('String', ["eu", "eea", "uk", "emea", "apac", "latam", "namer", "global", "continent-africa", "continent-antarctica", "continent-asia", "continent-europe", "continent-north-america", "continent-oceania", "continent-south-america"])
       return false unless geography_preset_id_validator.valid?(@geography_preset_id)
       true
@@ -298,6 +309,16 @@ module Pleaxy
     end
 
     # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] locale Object to be assigned
+    def locale=(locale)
+      validator = EnumAttributeValidator.new('String', ["en", "es", "pt-BR", "de", "fr", "it"])
+      unless validator.valid?(locale)
+        fail ArgumentError, "invalid value for \"locale\", must be one of #{validator.allowable_values}."
+      end
+      @locale = locale
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
     # @param [Object] geography_preset_id Object to be assigned
     def geography_preset_id=(geography_preset_id)
       validator = EnumAttributeValidator.new('String', ["eu", "eea", "uk", "emea", "apac", "latam", "namer", "global", "continent-africa", "continent-antarctica", "continent-asia", "continent-europe", "continent-north-america", "continent-oceania", "continent-south-america"])
@@ -326,6 +347,7 @@ module Pleaxy
           countries == o.countries &&
           time_zone == o.time_zone &&
           listed_in_directory == o.listed_in_directory &&
+          locale == o.locale &&
           geography_preset_id == o.geography_preset_id
     end
 
@@ -338,7 +360,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [region_name, company_name, billing_email, billing_address, billing_address_parts, tax_id, currency, other_currencies, payment_currencies, primary_contact_name, primary_contact_email, countries, time_zone, listed_in_directory, geography_preset_id].hash
+      [region_name, company_name, billing_email, billing_address, billing_address_parts, tax_id, currency, other_currencies, payment_currencies, primary_contact_name, primary_contact_email, countries, time_zone, listed_in_directory, locale, geography_preset_id].hash
     end
 
     # Builds the object from hash

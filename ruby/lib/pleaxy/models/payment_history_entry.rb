@@ -33,6 +33,8 @@ module Pleaxy
 
     attr_accessor :sole_payer
 
+    attr_accessor :approved_by_others
+
     attr_accessor :record
 
     class EnumAttributeValidator
@@ -69,6 +71,7 @@ module Pleaxy
         :'credit_note_id' => :'creditNoteId',
         :'amount' => :'amount',
         :'sole_payer' => :'solePayer',
+        :'approved_by_others' => :'approvedByOthers',
         :'record' => :'record'
       }
     end
@@ -90,6 +93,7 @@ module Pleaxy
         :'credit_note_id' => :'String',
         :'amount' => :'Float',
         :'sole_payer' => :'SolePayerWaiverRecord',
+        :'approved_by_others' => :'ApprovedByOthersRecord',
         :'record' => :'PaymentHistoryEntryRecord'
       }
     end
@@ -151,6 +155,10 @@ module Pleaxy
         self.sole_payer = attributes[:'sole_payer']
       end
 
+      if attributes.key?(:'approved_by_others')
+        self.approved_by_others = attributes[:'approved_by_others']
+      end
+
       if attributes.key?(:'record')
         self.record = attributes[:'record']
       end
@@ -197,6 +205,7 @@ module Pleaxy
           credit_note_id == o.credit_note_id &&
           amount == o.amount &&
           sole_payer == o.sole_payer &&
+          approved_by_others == o.approved_by_others &&
           record == o.record
     end
 
@@ -209,7 +218,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [action, at, by, by_name, by_supplier, remittance_id, credit_note_id, amount, sole_payer, record].hash
+      [action, at, by, by_name, by_supplier, remittance_id, credit_note_id, amount, sole_payer, approved_by_others, record].hash
     end
 
     # Builds the object from hash

@@ -6062,200 +6062,6 @@
         ]
       }
     },
-    "/purchase-orders/{poId}/emails": {
-      "get": {
-        "operationId": "ListPurchaseOrderEmails",
-        "summary": "[Both] The order's own email address and the emails that reached it, newest first: { address?, emails: [{ id, from, subject, receivedAt, trust: verified|unverified, kind: cxml|text, outcome: applied|draft|held|noAction|test|failed|ignored, reasonCode?, reason?, summary?, text?, attachments, draft?, result?, decision? }] }. A supplier replying to the order email, or its system sending a cXML ConfirmationRequest or ShipNoticeRequest, reaches this address. A verified sender's cXML document is recorded at once (applied); a plain email is read by the Pleaxy Assistant into a draft confirmation or ship notice, and an unverified sender's cXML document is held, both for someone to record with RecordPurchaseOrderEmail. address is absent until the order is issued, or when email-in is off. Takes the same ?buyer= as GetPurchaseOrder.",
-        "parameters": [
-          {
-            "name": "poId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "buyer",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PurchaseOrderEmails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "fulfillment"
-        ]
-      }
-    },
-    "/purchase-orders/{poId}/emails/{emailId}/record": {
-      "post": {
-        "operationId": "RecordPurchaseOrderEmail",
-        "summary": "[Both] Record an email's draft (outcome draft or held) as the supplier's order confirmation or ship notice, from email, with the same checks as ConfirmPurchaseOrder and SendShipNotice. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed, NOTHING_TO_RECORD for any other outcome; the fulfillment refusals (ORDER_NOT_OPEN, an unknown line) as those routes give them.",
-        "parameters": [
-          {
-            "name": "poId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "emailId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "buyer",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/InboundEmail"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "fulfillment"
-        ]
-      }
-    },
-    "/purchase-orders/{poId}/emails/{emailId}/dismiss": {
-      "post": {
-        "operationId": "DismissPurchaseOrderEmail",
-        "summary": "[Both] Leave the order as it is instead of recording what an email asks. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed.",
-        "parameters": [
-          {
-            "name": "poId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "emailId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "buyer",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/InboundEmail"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "fulfillment"
-        ]
-      }
-    },
-    "/settlement/billing": {
-      "get": {
-        "operationId": "GetBilling",
-        "summary": "[Buyer] Current plan, subscription state, and purchasable plans",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillingSummary"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "billing"
-        ]
-      }
-    },
     "/purchase-requests": {
       "get": {
         "operationId": "ListPurchaseRequests",
@@ -6270,6 +6076,7 @@
                 "draft",
                 "pending_approval",
                 "approved",
+                "sourcing",
                 "ordered",
                 "rejected",
                 "canceled"
@@ -6852,6 +6659,200 @@
         },
         "tags": [
           "supplier-risk"
+        ]
+      }
+    },
+    "/purchase-orders/{poId}/emails": {
+      "get": {
+        "operationId": "ListPurchaseOrderEmails",
+        "summary": "[Both] The order's own email address and the emails that reached it, newest first: { address?, emails: [{ id, from, subject, receivedAt, trust: verified|unverified, kind: cxml|text, outcome: applied|draft|held|noAction|test|failed|ignored, reasonCode?, reason?, summary?, text?, attachments, draft?, result?, decision? }] }. A supplier replying to the order email, or its system sending a cXML ConfirmationRequest or ShipNoticeRequest, reaches this address. A verified sender's cXML document is recorded at once (applied); a plain email is read by the Pleaxy Assistant into a draft confirmation or ship notice, and an unverified sender's cXML document is held, both for someone to record with RecordPurchaseOrderEmail. address is absent until the order is issued, or when email-in is off. Takes the same ?buyer= as GetPurchaseOrder.",
+        "parameters": [
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseOrderEmails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fulfillment"
+        ]
+      }
+    },
+    "/purchase-orders/{poId}/emails/{emailId}/record": {
+      "post": {
+        "operationId": "RecordPurchaseOrderEmail",
+        "summary": "[Both] Record an email's draft (outcome draft or held) as the supplier's order confirmation or ship notice, from email, with the same checks as ConfirmPurchaseOrder and SendShipNotice. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed, NOTHING_TO_RECORD for any other outcome; the fulfillment refusals (ORDER_NOT_OPEN, an unknown line) as those routes give them.",
+        "parameters": [
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "emailId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InboundEmail"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fulfillment"
+        ]
+      }
+    },
+    "/purchase-orders/{poId}/emails/{emailId}/dismiss": {
+      "post": {
+        "operationId": "DismissPurchaseOrderEmail",
+        "summary": "[Both] Leave the order as it is instead of recording what an email asks. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed.",
+        "parameters": [
+          {
+            "name": "poId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "emailId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buyer",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InboundEmail"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fulfillment"
+        ]
+      }
+    },
+    "/settlement/billing": {
+      "get": {
+        "operationId": "GetBilling",
+        "summary": "[Buyer] Current plan, subscription state, and purchasable plans",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BillingSummary"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "billing"
         ]
       }
     },
@@ -7640,6 +7641,18 @@
           },
           "listedInDirectory": {
             "type": "boolean"
+          },
+          "locale": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "en",
+              "es",
+              "pt-BR",
+              "de",
+              "fr",
+              "it"
+            ]
           },
           "geographyPresetId": {
             "type": "string",
@@ -11601,6 +11614,20 @@
               "request_approved",
               "request_rejected",
               "request_ordered",
+              "rfq_invited",
+              "rfq_due_soon",
+              "rfq_deadline_moved",
+              "rfq_canceled",
+              "rfq_awarded",
+              "rfq_not_selected",
+              "rfq_question_answered",
+              "rfq_answer_received",
+              "rfq_deadline_passed",
+              "rfq_declined",
+              "rfq_question_asked",
+              "rfq_not_shortlisted",
+              "rfq_evaluate",
+              "rfq_evaluation_complete",
               "po_store_order_problem",
               "po_supplier_confirmed",
               "po_supplier_exception",
@@ -11984,6 +12011,17 @@
           },
           "timeZone": {
             "type": "string"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "en",
+              "es",
+              "pt-BR",
+              "de",
+              "fr",
+              "it"
+            ]
           },
           "primaryContactName": {
             "type": "string"
@@ -14938,6 +14976,9 @@
           "solePayer": {
             "$ref": "#/components/schemas/SolePayerWaiverRecord"
           },
+          "approvedByOthers": {
+            "$ref": "#/components/schemas/ApprovedByOthersRecord"
+          },
           "record": {
             "type": "object",
             "properties": {
@@ -15071,6 +15112,17 @@
           },
           "bySso": {
             "type": "boolean"
+          }
+        }
+      },
+      "ApprovedByOthersRecord": {
+        "type": "object",
+        "properties": {
+          "approverKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -21343,6 +21395,316 @@
           }
         }
       },
+      "PurchaseRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "requesterEmployeeKey": {
+            "type": "string"
+          },
+          "requesterName": {
+            "type": "string"
+          },
+          "costCenter": {
+            "type": "string"
+          },
+          "glCode": {
+            "type": "string"
+          },
+          "supplier": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "supplierConnectionId": {
+                "type": "string"
+              },
+              "supplierRegionId": {
+                "type": "string"
+              }
+            }
+          },
+          "lineItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseRequestLine"
+            }
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "neededBy": {
+            "type": "string"
+          },
+          "quoteDocument": {
+            "$ref": "#/components/schemas/PurchaseOrderQuoteDocument"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "requestType": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "version": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "formFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionnaireFieldDef"
+            }
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RequestAnswer"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "rejected",
+              "sourcing",
+              "pending_approval",
+              "draft",
+              "canceled",
+              "ordered"
+            ]
+          },
+          "approval": {
+            "$ref": "#/components/schemas/ApprovalChain"
+          },
+          "approvalVersion": {
+            "type": "number",
+            "format": "double"
+          },
+          "budgetCheck": {
+            "$ref": "#/components/schemas/BudgetCheck"
+          },
+          "poId": {
+            "type": "string"
+          },
+          "poIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sourcingEventId": {
+            "type": "string"
+          },
+          "rejectionReason": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "submittedAt": {
+            "type": "string"
+          },
+          "decidedAt": {
+            "type": "string"
+          },
+          "canceledAt": {
+            "type": "string"
+          },
+          "canceledBy": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "PurchaseRequestLine": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "lineType": {
+            "type": "string",
+            "enum": [
+              "goods",
+              "service"
+            ]
+          },
+          "qty": {
+            "type": "number",
+            "format": "double"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "unitPrice": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "RequestAnswer": {
+        "type": "object",
+        "properties": {
+          "fieldId": {
+            "type": "string"
+          },
+          "textAnswer": {
+            "type": "string"
+          },
+          "selectedOptionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "file": {
+            "$ref": "#/components/schemas/QuestionnaireFileAnswer"
+          },
+          "flagged": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SupplierRisk": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          },
+          "supplierName": {
+            "type": "string"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "attention",
+              "blocked"
+            ]
+          },
+          "bank": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "string",
+                "enum": [
+                  "ok",
+                  "none",
+                  "attention",
+                  "blocked"
+                ]
+              },
+              "waiting": {
+                "type": "number",
+                "format": "double"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "approved",
+                  "none",
+                  "changing",
+                  "waiting"
+                ]
+              }
+            }
+          },
+          "screening": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "string",
+                "enum": [
+                  "ok",
+                  "none",
+                  "attention",
+                  "blocked"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "off",
+                  "clear",
+                  "possible_match",
+                  "confirmed_match",
+                  "not_screened"
+                ]
+              },
+              "checkedAt": {
+                "type": "string"
+              }
+            }
+          },
+          "flaggedAnswers": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "string",
+                "enum": [
+                  "ok",
+                  "none",
+                  "attention",
+                  "blocked"
+                ]
+              },
+              "count": {
+                "type": "number",
+                "format": "double"
+              }
+            }
+          },
+          "missingDocuments": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "string",
+                "enum": [
+                  "ok",
+                  "none",
+                  "attention",
+                  "blocked"
+                ]
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
       "PurchaseOrderEmails": {
         "type": "object",
         "properties": {
@@ -21755,6 +22117,54 @@
           },
           "currentTotal": {
             "$ref": "#/components/schemas/PriceAmount"
+          },
+          "modules": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "invoice",
+                "sourcing",
+                "contracts",
+                "suppliers",
+                "payment",
+                "request",
+                "order",
+                "receipt",
+                "aiSpend"
+              ]
+            }
+          },
+          "moduleOffers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModuleOffer"
+            }
+          },
+          "pendingModuleRemoval": {
+            "type": "object",
+            "properties": {
+              "modules": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "invoice",
+                    "sourcing",
+                    "contracts",
+                    "suppliers",
+                    "payment",
+                    "request",
+                    "order",
+                    "receipt",
+                    "aiSpend"
+                  ]
+                }
+              },
+              "at": {
+                "type": "string"
+              }
+            }
           }
         }
       },
@@ -21794,303 +22204,62 @@
           }
         }
       },
-      "PurchaseRequest": {
+      "ModuleOffer": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "requesterEmployeeKey": {
-            "type": "string"
-          },
-          "requesterName": {
-            "type": "string"
-          },
-          "costCenter": {
-            "type": "string"
-          },
-          "glCode": {
-            "type": "string"
-          },
-          "supplier": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "supplierConnectionId": {
-                "type": "string"
-              },
-              "supplierRegionId": {
-                "type": "string"
-              }
-            }
-          },
-          "lineItems": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PurchaseRequestLine"
-            }
-          },
-          "amount": {
-            "type": "number",
-            "format": "double"
-          },
-          "currency": {
-            "type": "string"
-          },
-          "neededBy": {
-            "type": "string"
-          },
-          "quoteDocument": {
-            "$ref": "#/components/schemas/PurchaseOrderQuoteDocument"
-          },
-          "notes": {
-            "type": "string"
-          },
-          "requestType": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "version": {
-                "type": "number",
-                "format": "double"
-              }
-            },
-            "required": [
-              "id"
-            ]
-          },
-          "formFields": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/QuestionnaireFieldDef"
-            }
-          },
-          "answers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RequestAnswer"
-            }
-          },
-          "status": {
+          "item": {
             "type": "string",
             "enum": [
-              "approved",
-              "rejected",
-              "pending_approval",
-              "draft",
-              "canceled",
-              "ordered"
+              "invoice",
+              "sourcing",
+              "contracts",
+              "suppliers",
+              "payment",
+              "source",
+              "request",
+              "order",
+              "receipt",
+              "aiSpend",
+              "procureToPay",
+              "suite"
             ]
           },
-          "approval": {
-            "$ref": "#/components/schemas/ApprovalChain"
-          },
-          "approvalVersion": {
-            "type": "number",
-            "format": "double"
-          },
-          "budgetCheck": {
-            "$ref": "#/components/schemas/BudgetCheck"
-          },
-          "poId": {
-            "type": "string"
-          },
-          "rejectionReason": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string"
-          },
-          "updatedAt": {
-            "type": "string"
-          },
-          "submittedAt": {
-            "type": "string"
-          },
-          "decidedAt": {
-            "type": "string"
-          },
-          "canceledAt": {
-            "type": "string"
-          },
-          "canceledBy": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id"
-        ]
-      },
-      "PurchaseRequestLine": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "lineType": {
+          "kind": {
             "type": "string",
             "enum": [
-              "goods",
-              "service"
+              "suite",
+              "module",
+              "group"
             ]
           },
-          "qty": {
-            "type": "number",
-            "format": "double"
-          },
-          "unit": {
-            "type": "string"
-          },
-          "unitPrice": {
-            "type": "number",
-            "format": "double"
-          }
-        }
-      },
-      "RequestAnswer": {
-        "type": "object",
-        "properties": {
-          "fieldId": {
-            "type": "string"
-          },
-          "textAnswer": {
-            "type": "string"
-          },
-          "selectedOptionIds": {
+          "modules": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "invoice",
+                "sourcing",
+                "contracts",
+                "suppliers",
+                "payment",
+                "request",
+                "order",
+                "receipt",
+                "aiSpend"
+              ]
             }
           },
-          "file": {
-            "$ref": "#/components/schemas/QuestionnaireFileAnswer"
-          },
-          "flagged": {
-            "type": "boolean"
-          }
-        }
-      },
-      "SupplierRisk": {
-        "type": "object",
-        "properties": {
-          "connectionId": {
+          "monthlyPriceLabel": {
             "type": "string"
           },
-          "supplierName": {
+          "monthlyPrice": {
+            "$ref": "#/components/schemas/PriceAmount"
+          },
+          "yearlyPriceLabel": {
             "type": "string"
           },
-          "level": {
-            "type": "string",
-            "enum": [
-              "ok",
-              "attention",
-              "blocked"
-            ]
-          },
-          "bank": {
-            "type": "object",
-            "properties": {
-              "state": {
-                "type": "string",
-                "enum": [
-                  "ok",
-                  "none",
-                  "attention",
-                  "blocked"
-                ]
-              },
-              "waiting": {
-                "type": "number",
-                "format": "double"
-              },
-              "status": {
-                "type": "string",
-                "enum": [
-                  "approved",
-                  "none",
-                  "changing",
-                  "waiting"
-                ]
-              }
-            }
-          },
-          "screening": {
-            "type": "object",
-            "properties": {
-              "state": {
-                "type": "string",
-                "enum": [
-                  "ok",
-                  "none",
-                  "attention",
-                  "blocked"
-                ]
-              },
-              "status": {
-                "type": "string",
-                "enum": [
-                  "off",
-                  "clear",
-                  "possible_match",
-                  "confirmed_match",
-                  "not_screened"
-                ]
-              },
-              "checkedAt": {
-                "type": "string"
-              }
-            }
-          },
-          "flaggedAnswers": {
-            "type": "object",
-            "properties": {
-              "state": {
-                "type": "string",
-                "enum": [
-                  "ok",
-                  "none",
-                  "attention",
-                  "blocked"
-                ]
-              },
-              "count": {
-                "type": "number",
-                "format": "double"
-              }
-            }
-          },
-          "missingDocuments": {
-            "type": "object",
-            "properties": {
-              "state": {
-                "type": "string",
-                "enum": [
-                  "ok",
-                  "none",
-                  "attention",
-                  "blocked"
-                ]
-              },
-              "fields": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
+          "yearlyPrice": {
+            "$ref": "#/components/schemas/PriceAmount"
           }
         }
       },
@@ -22622,6 +22791,15 @@
               "rejected"
             ]
           },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "rfq"
+            ]
+          },
+          "questionnaireRequested": {
+            "type": "boolean"
+          },
           "questionnaireTemplateId": {
             "type": "string"
           },
@@ -22792,6 +22970,15 @@
                   "rejected"
                 ]
               },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "rfq"
+                ]
+              },
+              "questionnaireRequested": {
+                "type": "boolean"
+              },
               "questionnaireTemplateId": {
                 "type": "string"
               },
@@ -22959,6 +23146,15 @@
                   "approved",
                   "rejected"
                 ]
+              },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "rfq"
+                ]
+              },
+              "questionnaireRequested": {
+                "type": "boolean"
               },
               "questionnaireTemplateId": {
                 "type": "string"
@@ -23134,6 +23330,15 @@
                   "rejected"
                 ]
               },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "rfq"
+                ]
+              },
+              "questionnaireRequested": {
+                "type": "boolean"
+              },
               "questionnaireTemplateId": {
                 "type": "string"
               },
@@ -23312,6 +23517,15 @@
                   "approved",
                   "rejected"
                 ]
+              },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "rfq"
+                ]
+              },
+              "questionnaireRequested": {
+                "type": "boolean"
               },
               "questionnaireTemplateId": {
                 "type": "string"
@@ -23512,6 +23726,17 @@
           },
           "timeZone": {
             "type": "string"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "en",
+              "es",
+              "pt-BR",
+              "de",
+              "fr",
+              "it"
+            ]
           },
           "primaryContactName": {
             "type": "string"
@@ -29887,6 +30112,15 @@
               "approved",
               "rejected"
             ]
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "rfq"
+            ]
+          },
+          "questionnaireRequested": {
+            "type": "boolean"
           },
           "questionnaireTemplateId": {
             "type": "string"

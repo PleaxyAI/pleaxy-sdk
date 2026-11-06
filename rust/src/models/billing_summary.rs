@@ -50,6 +50,15 @@ pub struct BillingSummary {
     pub current_total_label: Option<String>,
     #[serde(rename = "currentTotal", skip_serializing_if = "Option::is_none")]
     pub current_total: Option<models::PriceAmount>,
+    #[serde(rename = "modules", skip_serializing_if = "Option::is_none")]
+    pub modules: Option<Vec<Modules>>,
+    #[serde(rename = "moduleOffers", skip_serializing_if = "Option::is_none")]
+    pub module_offers: Option<Vec<models::ModuleOffer>>,
+    #[serde(
+        rename = "pendingModuleRemoval",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub pending_module_removal: Option<models::BillingSummaryPendingModuleRemoval>,
 }
 
 impl BillingSummary {
@@ -72,6 +81,9 @@ impl BillingSummary {
             current_price: None,
             current_total_label: None,
             current_total: None,
+            modules: None,
+            module_offers: None,
+            pending_module_removal: None,
         }
     }
 }
@@ -153,5 +165,33 @@ pub enum Interval {
 impl Default for Interval {
     fn default() -> Interval {
         Self::Month
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Modules {
+    #[serde(rename = "invoice")]
+    Invoice,
+    #[serde(rename = "sourcing")]
+    Sourcing,
+    #[serde(rename = "contracts")]
+    Contracts,
+    #[serde(rename = "suppliers")]
+    Suppliers,
+    #[serde(rename = "payment")]
+    Payment,
+    #[serde(rename = "request")]
+    Request,
+    #[serde(rename = "order")]
+    Order,
+    #[serde(rename = "receipt")]
+    Receipt,
+    #[serde(rename = "aiSpend")]
+    AiSpend,
+}
+
+impl Default for Modules {
+    fn default() -> Modules {
+        Self::Invoice
     }
 }

@@ -58,6 +58,7 @@ import ai.pleaxy.client.ApiClient;
   GetOrgProfileResult.JSON_PROPERTY_COUNTRIES,
   GetOrgProfileResult.JSON_PROPERTY_GEOGRAPHY,
   GetOrgProfileResult.JSON_PROPERTY_TIME_ZONE,
+  GetOrgProfileResult.JSON_PROPERTY_LOCALE,
   GetOrgProfileResult.JSON_PROPERTY_PRIMARY_CONTACT_NAME,
   GetOrgProfileResult.JSON_PROPERTY_PRIMARY_CONTACT_EMAIL,
   GetOrgProfileResult.JSON_PROPERTY_CREATED_AT,
@@ -178,6 +179,53 @@ public class GetOrgProfileResult {
   public static final String JSON_PROPERTY_TIME_ZONE = "timeZone";
   @javax.annotation.Nullable
   private String timeZone;
+
+  /**
+   * Gets or Sets locale
+   */
+  public enum LocaleEnum {
+    EN(String.valueOf("en")),
+    
+    ES(String.valueOf("es")),
+    
+    PT_BR(String.valueOf("pt-BR")),
+    
+    DE(String.valueOf("de")),
+    
+    FR(String.valueOf("fr")),
+    
+    IT(String.valueOf("it"));
+
+    private String value;
+
+    LocaleEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static LocaleEnum fromValue(String value) {
+      for (LocaleEnum b : LocaleEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_LOCALE = "locale";
+  @javax.annotation.Nullable
+  private LocaleEnum locale;
 
   public static final String JSON_PROPERTY_PRIMARY_CONTACT_NAME = "primaryContactName";
   @javax.annotation.Nullable
@@ -690,6 +738,30 @@ public class GetOrgProfileResult {
   }
 
 
+  public GetOrgProfileResult locale(@javax.annotation.Nullable LocaleEnum locale) {
+    this.locale = locale;
+    return this;
+  }
+
+  /**
+   * Get locale
+   * @return locale
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_LOCALE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public LocaleEnum getLocale() {
+    return locale;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_LOCALE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setLocale(@javax.annotation.Nullable LocaleEnum locale) {
+    this.locale = locale;
+  }
+
+
   public GetOrgProfileResult primaryContactName(@javax.annotation.Nullable String primaryContactName) {
     this.primaryContactName = primaryContactName;
     return this;
@@ -889,6 +961,7 @@ public class GetOrgProfileResult {
         Objects.equals(this.countries, getOrgProfileResult.countries) &&
         Objects.equals(this.geography, getOrgProfileResult.geography) &&
         Objects.equals(this.timeZone, getOrgProfileResult.timeZone) &&
+        Objects.equals(this.locale, getOrgProfileResult.locale) &&
         Objects.equals(this.primaryContactName, getOrgProfileResult.primaryContactName) &&
         Objects.equals(this.primaryContactEmail, getOrgProfileResult.primaryContactEmail) &&
         Objects.equals(this.createdAt, getOrgProfileResult.createdAt) &&
@@ -900,7 +973,7 @@ public class GetOrgProfileResult {
 
   @Override
   public int hashCode() {
-    return Objects.hash(images, id, role, regionId, regionName, companyName, billingEmail, billingAddress, billingAddressParts, billingAddressLegacyText, billingAddressNeedsReview, taxId, currency, otherCurrencies, paymentCurrencies, fxWarningPct, countries, geography, timeZone, primaryContactName, primaryContactEmail, createdAt, sameDomainAcknowledged, verified, listedInDirectory, directoryId);
+    return Objects.hash(images, id, role, regionId, regionName, companyName, billingEmail, billingAddress, billingAddressParts, billingAddressLegacyText, billingAddressNeedsReview, taxId, currency, otherCurrencies, paymentCurrencies, fxWarningPct, countries, geography, timeZone, locale, primaryContactName, primaryContactEmail, createdAt, sameDomainAcknowledged, verified, listedInDirectory, directoryId);
   }
 
   @Override
@@ -926,6 +999,7 @@ public class GetOrgProfileResult {
     sb.append("    countries: ").append(toIndentedString(countries)).append("\n");
     sb.append("    geography: ").append(toIndentedString(geography)).append("\n");
     sb.append("    timeZone: ").append(toIndentedString(timeZone)).append("\n");
+    sb.append("    locale: ").append(toIndentedString(locale)).append("\n");
     sb.append("    primaryContactName: ").append(toIndentedString(primaryContactName)).append("\n");
     sb.append("    primaryContactEmail: ").append(toIndentedString(primaryContactEmail)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
@@ -1085,6 +1159,11 @@ public class GetOrgProfileResult {
     // add `timeZone` to the URL query string
     if (getTimeZone() != null) {
       joiner.add(String.format("%stimeZone%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTimeZone()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `locale` to the URL query string
+    if (getLocale() != null) {
+      joiner.add(String.format("%slocale%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLocale()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `primaryContactName` to the URL query string

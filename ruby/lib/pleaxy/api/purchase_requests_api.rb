@@ -439,7 +439,7 @@ module Pleaxy
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: PurchaseRequestsApi.list_purchase_requests ...'
       end
-      allowable_values = ["draft", "pending_approval", "approved", "ordered", "rejected", "canceled"]
+      allowable_values = ["draft", "pending_approval", "approved", "sourcing", "ordered", "rejected", "canceled"]
       if @api_client.config.client_side_validation && opts[:'status'] && !allowable_values.include?(opts[:'status'])
         fail ArgumentError, "invalid value for \"status\", must be one of #{allowable_values}"
       end

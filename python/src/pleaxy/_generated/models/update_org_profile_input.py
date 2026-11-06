@@ -7,6 +7,10 @@ from ..models.update_org_profile_input_geography_preset_id import (
     UpdateOrgProfileInputGeographyPresetId,
     check_update_org_profile_input_geography_preset_id,
 )
+from ..models.update_org_profile_input_locale import (
+    UpdateOrgProfileInputLocale,
+    check_update_org_profile_input_locale,
+)
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -34,6 +38,7 @@ class UpdateOrgProfileInput:
         countries (Union[Unset, List[str]]):
         time_zone (Union[Unset, str]):
         listed_in_directory (Union[Unset, bool]):
+        locale (Union[Unset, UpdateOrgProfileInputLocale]):
         geography_preset_id (Union[Unset, UpdateOrgProfileInputGeographyPresetId]):
     """
 
@@ -51,6 +56,7 @@ class UpdateOrgProfileInput:
     countries: Union[Unset, List[str]] = UNSET
     time_zone: Union[Unset, str] = UNSET
     listed_in_directory: Union[Unset, bool] = UNSET
+    locale: Union[Unset, UpdateOrgProfileInputLocale] = UNSET
     geography_preset_id: Union[Unset, UpdateOrgProfileInputGeographyPresetId] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -91,6 +97,10 @@ class UpdateOrgProfileInput:
 
         listed_in_directory = self.listed_in_directory
 
+        locale: Union[Unset, str] = UNSET
+        if not isinstance(self.locale, Unset):
+            locale = self.locale
+
         geography_preset_id: Union[Unset, str] = UNSET
         if not isinstance(self.geography_preset_id, Unset):
             geography_preset_id = self.geography_preset_id
@@ -126,6 +136,8 @@ class UpdateOrgProfileInput:
             field_dict["timeZone"] = time_zone
         if listed_in_directory is not UNSET:
             field_dict["listedInDirectory"] = listed_in_directory
+        if locale is not UNSET:
+            field_dict["locale"] = locale
         if geography_preset_id is not UNSET:
             field_dict["geographyPresetId"] = geography_preset_id
 
@@ -169,6 +181,13 @@ class UpdateOrgProfileInput:
 
         listed_in_directory = d.pop("listedInDirectory", UNSET)
 
+        _locale = d.pop("locale", UNSET)
+        locale: Union[Unset, UpdateOrgProfileInputLocale]
+        if isinstance(_locale, Unset):
+            locale = UNSET
+        else:
+            locale = check_update_org_profile_input_locale(_locale)
+
         _geography_preset_id = d.pop("geographyPresetId", UNSET)
         geography_preset_id: Union[Unset, UpdateOrgProfileInputGeographyPresetId]
         if isinstance(_geography_preset_id, Unset):
@@ -193,6 +212,7 @@ class UpdateOrgProfileInput:
             countries=countries,
             time_zone=time_zone,
             listed_in_directory=listed_in_directory,
+            locale=locale,
             geography_preset_id=geography_preset_id,
         )
 

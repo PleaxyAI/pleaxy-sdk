@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.BillingSummaryAvailablePlansInner;
 import ai.pleaxy.model.BillingSummaryAwsMarketplace;
+import ai.pleaxy.model.BillingSummaryPendingModuleRemoval;
+import ai.pleaxy.model.ModuleOffer;
 import ai.pleaxy.model.PriceAmount;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -54,7 +56,10 @@ import ai.pleaxy.client.ApiClient;
   BillingSummary.JSON_PROPERTY_CURRENT_PRICE_LABEL,
   BillingSummary.JSON_PROPERTY_CURRENT_PRICE,
   BillingSummary.JSON_PROPERTY_CURRENT_TOTAL_LABEL,
-  BillingSummary.JSON_PROPERTY_CURRENT_TOTAL
+  BillingSummary.JSON_PROPERTY_CURRENT_TOTAL,
+  BillingSummary.JSON_PROPERTY_MODULES,
+  BillingSummary.JSON_PROPERTY_MODULE_OFFERS,
+  BillingSummary.JSON_PROPERTY_PENDING_MODULE_REMOVAL
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class BillingSummary {
@@ -289,6 +294,67 @@ public class BillingSummary {
   public static final String JSON_PROPERTY_CURRENT_TOTAL = "currentTotal";
   @javax.annotation.Nullable
   private PriceAmount currentTotal;
+
+  /**
+   * Gets or Sets modules
+   */
+  public enum ModulesEnum {
+    INVOICE(String.valueOf("invoice")),
+    
+    SOURCING(String.valueOf("sourcing")),
+    
+    CONTRACTS(String.valueOf("contracts")),
+    
+    SUPPLIERS(String.valueOf("suppliers")),
+    
+    PAYMENT(String.valueOf("payment")),
+    
+    REQUEST(String.valueOf("request")),
+    
+    ORDER(String.valueOf("order")),
+    
+    RECEIPT(String.valueOf("receipt")),
+    
+    AI_SPEND(String.valueOf("aiSpend"));
+
+    private String value;
+
+    ModulesEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ModulesEnum fromValue(String value) {
+      for (ModulesEnum b : ModulesEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_MODULES = "modules";
+  @javax.annotation.Nullable
+  private List<ModulesEnum> modules = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_MODULE_OFFERS = "moduleOffers";
+  @javax.annotation.Nullable
+  private List<ModuleOffer> moduleOffers = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_PENDING_MODULE_REMOVAL = "pendingModuleRemoval";
+  @javax.annotation.Nullable
+  private BillingSummaryPendingModuleRemoval pendingModuleRemoval;
 
   public BillingSummary() { 
   }
@@ -709,6 +775,94 @@ public class BillingSummary {
   }
 
 
+  public BillingSummary modules(@javax.annotation.Nullable List<ModulesEnum> modules) {
+    this.modules = modules;
+    return this;
+  }
+
+  public BillingSummary addModulesItem(ModulesEnum modulesItem) {
+    if (this.modules == null) {
+      this.modules = new ArrayList<>();
+    }
+    this.modules.add(modulesItem);
+    return this;
+  }
+
+  /**
+   * Get modules
+   * @return modules
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MODULES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<ModulesEnum> getModules() {
+    return modules;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MODULES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setModules(@javax.annotation.Nullable List<ModulesEnum> modules) {
+    this.modules = modules;
+  }
+
+
+  public BillingSummary moduleOffers(@javax.annotation.Nullable List<ModuleOffer> moduleOffers) {
+    this.moduleOffers = moduleOffers;
+    return this;
+  }
+
+  public BillingSummary addModuleOffersItem(ModuleOffer moduleOffersItem) {
+    if (this.moduleOffers == null) {
+      this.moduleOffers = new ArrayList<>();
+    }
+    this.moduleOffers.add(moduleOffersItem);
+    return this;
+  }
+
+  /**
+   * Get moduleOffers
+   * @return moduleOffers
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MODULE_OFFERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<ModuleOffer> getModuleOffers() {
+    return moduleOffers;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MODULE_OFFERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setModuleOffers(@javax.annotation.Nullable List<ModuleOffer> moduleOffers) {
+    this.moduleOffers = moduleOffers;
+  }
+
+
+  public BillingSummary pendingModuleRemoval(@javax.annotation.Nullable BillingSummaryPendingModuleRemoval pendingModuleRemoval) {
+    this.pendingModuleRemoval = pendingModuleRemoval;
+    return this;
+  }
+
+  /**
+   * Get pendingModuleRemoval
+   * @return pendingModuleRemoval
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PENDING_MODULE_REMOVAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public BillingSummaryPendingModuleRemoval getPendingModuleRemoval() {
+    return pendingModuleRemoval;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PENDING_MODULE_REMOVAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPendingModuleRemoval(@javax.annotation.Nullable BillingSummaryPendingModuleRemoval pendingModuleRemoval) {
+    this.pendingModuleRemoval = pendingModuleRemoval;
+  }
+
+
   /**
    * Return true if this BillingSummary object is equal to o.
    */
@@ -737,12 +891,15 @@ public class BillingSummary {
         Objects.equals(this.currentPriceLabel, billingSummary.currentPriceLabel) &&
         Objects.equals(this.currentPrice, billingSummary.currentPrice) &&
         Objects.equals(this.currentTotalLabel, billingSummary.currentTotalLabel) &&
-        Objects.equals(this.currentTotal, billingSummary.currentTotal);
+        Objects.equals(this.currentTotal, billingSummary.currentTotal) &&
+        Objects.equals(this.modules, billingSummary.modules) &&
+        Objects.equals(this.moduleOffers, billingSummary.moduleOffers) &&
+        Objects.equals(this.pendingModuleRemoval, billingSummary.pendingModuleRemoval);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(billingEnabled, plan, managedBy, awsMarketplace, hasBillingAccount, subscriptionStatus, currentPeriodEnd, cancelAtPeriodEnd, pastDueSince, buyerRegionCount, supplierRegionCount, interval, availablePlans, currentPriceLabel, currentPrice, currentTotalLabel, currentTotal);
+    return Objects.hash(billingEnabled, plan, managedBy, awsMarketplace, hasBillingAccount, subscriptionStatus, currentPeriodEnd, cancelAtPeriodEnd, pastDueSince, buyerRegionCount, supplierRegionCount, interval, availablePlans, currentPriceLabel, currentPrice, currentTotalLabel, currentTotal, modules, moduleOffers, pendingModuleRemoval);
   }
 
   @Override
@@ -766,6 +923,9 @@ public class BillingSummary {
     sb.append("    currentPrice: ").append(toIndentedString(currentPrice)).append("\n");
     sb.append("    currentTotalLabel: ").append(toIndentedString(currentTotalLabel)).append("\n");
     sb.append("    currentTotal: ").append(toIndentedString(currentTotal)).append("\n");
+    sb.append("    modules: ").append(toIndentedString(modules)).append("\n");
+    sb.append("    moduleOffers: ").append(toIndentedString(moduleOffers)).append("\n");
+    sb.append("    pendingModuleRemoval: ").append(toIndentedString(pendingModuleRemoval)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -901,6 +1061,30 @@ public class BillingSummary {
     // add `currentTotal` to the URL query string
     if (getCurrentTotal() != null) {
       joiner.add(getCurrentTotal().toUrlQueryString(prefix + "currentTotal" + suffix));
+    }
+
+    // add `modules` to the URL query string
+    if (getModules() != null) {
+      for (int i = 0; i < getModules().size(); i++) {
+        joiner.add(String.format("%smodules%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getModules().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `moduleOffers` to the URL query string
+    if (getModuleOffers() != null) {
+      for (int i = 0; i < getModuleOffers().size(); i++) {
+        if (getModuleOffers().get(i) != null) {
+          joiner.add(getModuleOffers().get(i).toUrlQueryString(String.format("%smoduleOffers%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `pendingModuleRemoval` to the URL query string
+    if (getPendingModuleRemoval() != null) {
+      joiner.add(getPendingModuleRemoval().toUrlQueryString(prefix + "pendingModuleRemoval" + suffix));
     }
 
     return joiner.toString();

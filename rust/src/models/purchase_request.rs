@@ -60,6 +60,10 @@ pub struct PurchaseRequest {
     pub budget_check: Option<models::BudgetCheck>,
     #[serde(rename = "poId", skip_serializing_if = "Option::is_none")]
     pub po_id: Option<String>,
+    #[serde(rename = "poIds", skip_serializing_if = "Option::is_none")]
+    pub po_ids: Option<Vec<String>>,
+    #[serde(rename = "sourcingEventId", skip_serializing_if = "Option::is_none")]
+    pub sourcing_event_id: Option<String>,
     #[serde(rename = "rejectionReason", skip_serializing_if = "Option::is_none")]
     pub rejection_reason: Option<String>,
     #[serde(rename = "createdAt", skip_serializing_if = "Option::is_none")]
@@ -101,6 +105,8 @@ impl PurchaseRequest {
             approval_version: None,
             budget_check: None,
             po_id: None,
+            po_ids: None,
+            sourcing_event_id: None,
             rejection_reason: None,
             created_at: None,
             updated_at: None,
@@ -118,6 +124,8 @@ pub enum Status {
     Approved,
     #[serde(rename = "rejected")]
     Rejected,
+    #[serde(rename = "sourcing")]
+    Sourcing,
     #[serde(rename = "pending_approval")]
     PendingApproval,
     #[serde(rename = "draft")]

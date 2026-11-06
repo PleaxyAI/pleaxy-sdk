@@ -50,6 +50,11 @@ const (
 	AddAiProviderSupplierResultCloudProviderOci   AddAiProviderSupplierResultCloudProvider = "oci"
 )
 
+// Defines values for AddAiProviderSupplierResultOrigin.
+const (
+	AddAiProviderSupplierResultOriginRfq AddAiProviderSupplierResultOrigin = "rfq"
+)
+
 // Defines values for AddAiProviderSupplierResultStatus.
 const (
 	AddAiProviderSupplierResultStatusApproved      AddAiProviderSupplierResultStatus = "approved"
@@ -85,6 +90,11 @@ const (
 	AddCloudProviderAsSupplierResultCloudProviderAzure AddCloudProviderAsSupplierResultCloudProvider = "azure"
 	AddCloudProviderAsSupplierResultCloudProviderGcp   AddCloudProviderAsSupplierResultCloudProvider = "gcp"
 	AddCloudProviderAsSupplierResultCloudProviderOci   AddCloudProviderAsSupplierResultCloudProvider = "oci"
+)
+
+// Defines values for AddCloudProviderAsSupplierResultOrigin.
+const (
+	AddCloudProviderAsSupplierResultOriginRfq AddCloudProviderAsSupplierResultOrigin = "rfq"
 )
 
 // Defines values for AddCloudProviderAsSupplierResultStatus.
@@ -1224,6 +1234,32 @@ const (
 	AwsMarketplace BillingSummaryManagedBy = "aws-marketplace"
 	Platform       BillingSummaryManagedBy = "platform"
 	SelfServe      BillingSummaryManagedBy = "self-serve"
+)
+
+// Defines values for BillingSummaryModules.
+const (
+	BillingSummaryModulesAiSpend   BillingSummaryModules = "aiSpend"
+	BillingSummaryModulesContracts BillingSummaryModules = "contracts"
+	BillingSummaryModulesInvoice   BillingSummaryModules = "invoice"
+	BillingSummaryModulesOrder     BillingSummaryModules = "order"
+	BillingSummaryModulesPayment   BillingSummaryModules = "payment"
+	BillingSummaryModulesReceipt   BillingSummaryModules = "receipt"
+	BillingSummaryModulesRequest   BillingSummaryModules = "request"
+	BillingSummaryModulesSourcing  BillingSummaryModules = "sourcing"
+	BillingSummaryModulesSuppliers BillingSummaryModules = "suppliers"
+)
+
+// Defines values for BillingSummaryPendingModuleRemovalModules.
+const (
+	BillingSummaryPendingModuleRemovalModulesAiSpend   BillingSummaryPendingModuleRemovalModules = "aiSpend"
+	BillingSummaryPendingModuleRemovalModulesContracts BillingSummaryPendingModuleRemovalModules = "contracts"
+	BillingSummaryPendingModuleRemovalModulesInvoice   BillingSummaryPendingModuleRemovalModules = "invoice"
+	BillingSummaryPendingModuleRemovalModulesOrder     BillingSummaryPendingModuleRemovalModules = "order"
+	BillingSummaryPendingModuleRemovalModulesPayment   BillingSummaryPendingModuleRemovalModules = "payment"
+	BillingSummaryPendingModuleRemovalModulesReceipt   BillingSummaryPendingModuleRemovalModules = "receipt"
+	BillingSummaryPendingModuleRemovalModulesRequest   BillingSummaryPendingModuleRemovalModules = "request"
+	BillingSummaryPendingModuleRemovalModulesSourcing  BillingSummaryPendingModuleRemovalModules = "sourcing"
+	BillingSummaryPendingModuleRemovalModulesSuppliers BillingSummaryPendingModuleRemovalModules = "suppliers"
 )
 
 // Defines values for BillingSummaryPlan.
@@ -2745,6 +2781,16 @@ const (
 	GetInvoiceResultSupplierInvoiceWithdrawnPayment1StatusStripe GetInvoiceResultSupplierInvoiceWithdrawnPayment1Status = "stripe"
 )
 
+// Defines values for GetOrgProfileResultLocale.
+const (
+	GetOrgProfileResultLocaleDe   GetOrgProfileResultLocale = "de"
+	GetOrgProfileResultLocaleEn   GetOrgProfileResultLocale = "en"
+	GetOrgProfileResultLocaleEs   GetOrgProfileResultLocale = "es"
+	GetOrgProfileResultLocaleFr   GetOrgProfileResultLocale = "fr"
+	GetOrgProfileResultLocaleIt   GetOrgProfileResultLocale = "it"
+	GetOrgProfileResultLocalePtBR GetOrgProfileResultLocale = "pt-BR"
+)
+
 // Defines values for GetOrgProfileResultRole.
 const (
 	GetOrgProfileResultRoleBuyer    GetOrgProfileResultRole = "buyer"
@@ -3155,8 +3201,8 @@ const (
 
 // Defines values for InvoiceRateWarningObject.
 const (
-	Payment InvoiceRateWarningObject = "payment"
-	Tax     InvoiceRateWarningObject = "tax"
+	InvoiceRateWarningObjectPayment InvoiceRateWarningObject = "payment"
+	InvoiceRateWarningObjectTax     InvoiceRateWarningObject = "tax"
 )
 
 // Defines values for InvoiceRateWarningSource.
@@ -3888,6 +3934,42 @@ const (
 	ListWebhooksResultEventTypesPurchaseOrderUpdated    ListWebhooksResultEventTypes = "purchase_order.updated"
 )
 
+// Defines values for ModuleOfferItem.
+const (
+	ModuleOfferItemAiSpend      ModuleOfferItem = "aiSpend"
+	ModuleOfferItemContracts    ModuleOfferItem = "contracts"
+	ModuleOfferItemInvoice      ModuleOfferItem = "invoice"
+	ModuleOfferItemOrder        ModuleOfferItem = "order"
+	ModuleOfferItemPayment      ModuleOfferItem = "payment"
+	ModuleOfferItemProcureToPay ModuleOfferItem = "procureToPay"
+	ModuleOfferItemReceipt      ModuleOfferItem = "receipt"
+	ModuleOfferItemRequest      ModuleOfferItem = "request"
+	ModuleOfferItemSource       ModuleOfferItem = "source"
+	ModuleOfferItemSourcing     ModuleOfferItem = "sourcing"
+	ModuleOfferItemSuite        ModuleOfferItem = "suite"
+	ModuleOfferItemSuppliers    ModuleOfferItem = "suppliers"
+)
+
+// Defines values for ModuleOfferKind.
+const (
+	Group  ModuleOfferKind = "group"
+	Module ModuleOfferKind = "module"
+	Suite  ModuleOfferKind = "suite"
+)
+
+// Defines values for ModuleOfferModules.
+const (
+	ModuleOfferModulesAiSpend   ModuleOfferModules = "aiSpend"
+	ModuleOfferModulesContracts ModuleOfferModules = "contracts"
+	ModuleOfferModulesInvoice   ModuleOfferModules = "invoice"
+	ModuleOfferModulesOrder     ModuleOfferModules = "order"
+	ModuleOfferModulesPayment   ModuleOfferModules = "payment"
+	ModuleOfferModulesReceipt   ModuleOfferModules = "receipt"
+	ModuleOfferModulesRequest   ModuleOfferModules = "request"
+	ModuleOfferModulesSourcing  ModuleOfferModules = "sourcing"
+	ModuleOfferModulesSuppliers ModuleOfferModules = "suppliers"
+)
+
 // Defines values for NotificationAudience.
 const (
 	NotificationAudienceBuyer    NotificationAudience = "buyer"
@@ -3969,6 +4051,20 @@ const (
 	NotificationTypeRequestApproved                  NotificationType = "request_approved"
 	NotificationTypeRequestOrdered                   NotificationType = "request_ordered"
 	NotificationTypeRequestRejected                  NotificationType = "request_rejected"
+	NotificationTypeRfqAnswerReceived                NotificationType = "rfq_answer_received"
+	NotificationTypeRfqAwarded                       NotificationType = "rfq_awarded"
+	NotificationTypeRfqCanceled                      NotificationType = "rfq_canceled"
+	NotificationTypeRfqDeadlineMoved                 NotificationType = "rfq_deadline_moved"
+	NotificationTypeRfqDeadlinePassed                NotificationType = "rfq_deadline_passed"
+	NotificationTypeRfqDeclined                      NotificationType = "rfq_declined"
+	NotificationTypeRfqDueSoon                       NotificationType = "rfq_due_soon"
+	NotificationTypeRfqEvaluate                      NotificationType = "rfq_evaluate"
+	NotificationTypeRfqEvaluationComplete            NotificationType = "rfq_evaluation_complete"
+	NotificationTypeRfqInvited                       NotificationType = "rfq_invited"
+	NotificationTypeRfqNotSelected                   NotificationType = "rfq_not_selected"
+	NotificationTypeRfqNotShortlisted                NotificationType = "rfq_not_shortlisted"
+	NotificationTypeRfqQuestionAnswered              NotificationType = "rfq_question_answered"
+	NotificationTypeRfqQuestionAsked                 NotificationType = "rfq_question_asked"
 	NotificationTypeSesApprovalOverdue               NotificationType = "ses_approval_overdue"
 	NotificationTypeSesApprovalRequested             NotificationType = "ses_approval_requested"
 	NotificationTypeSesApproved                      NotificationType = "ses_approved"
@@ -4042,6 +4138,16 @@ const (
 const (
 	OrderConfirmationSubstituteLineTypeGoods   OrderConfirmationSubstituteLineType = "goods"
 	OrderConfirmationSubstituteLineTypeService OrderConfirmationSubstituteLineType = "service"
+)
+
+// Defines values for OrgProfileLocale.
+const (
+	OrgProfileLocaleDe   OrgProfileLocale = "de"
+	OrgProfileLocaleEn   OrgProfileLocale = "en"
+	OrgProfileLocaleEs   OrgProfileLocale = "es"
+	OrgProfileLocaleFr   OrgProfileLocale = "fr"
+	OrgProfileLocaleIt   OrgProfileLocale = "it"
+	OrgProfileLocalePtBR OrgProfileLocale = "pt-BR"
 )
 
 // Defines values for OrgProfileRole.
@@ -4293,6 +4399,7 @@ const (
 	PurchaseRequestStatusOrdered         PurchaseRequestStatus = "ordered"
 	PurchaseRequestStatusPendingApproval PurchaseRequestStatus = "pending_approval"
 	PurchaseRequestStatusRejected        PurchaseRequestStatus = "rejected"
+	PurchaseRequestStatusSourcing        PurchaseRequestStatus = "sourcing"
 )
 
 // Defines values for PurchaseRequestLineLineType.
@@ -4848,6 +4955,11 @@ const (
 	SetInvoiceFeedResult0FeedReadinessUntested     SetInvoiceFeedResult0FeedReadiness = "untested"
 )
 
+// Defines values for SetInvoiceFeedResult0Origin.
+const (
+	SetInvoiceFeedResult0OriginRfq SetInvoiceFeedResult0Origin = "rfq"
+)
+
 // Defines values for SetInvoiceFeedResult0Status.
 const (
 	SetInvoiceFeedResult0StatusApproved      SetInvoiceFeedResult0Status = "approved"
@@ -4895,6 +5007,11 @@ const (
 	SetInvoiceFeedResult1FeedReadinessUntested     SetInvoiceFeedResult1FeedReadiness = "untested"
 )
 
+// Defines values for SetInvoiceFeedResult1Origin.
+const (
+	SetInvoiceFeedResult1OriginRfq SetInvoiceFeedResult1Origin = "rfq"
+)
+
 // Defines values for SetInvoiceFeedResult1Status.
 const (
 	SetInvoiceFeedResult1StatusApproved      SetInvoiceFeedResult1Status = "approved"
@@ -4932,6 +5049,11 @@ const (
 	SetSupplierCurrenciesResult0CloudProviderOci   SetSupplierCurrenciesResult0CloudProvider = "oci"
 )
 
+// Defines values for SetSupplierCurrenciesResult0Origin.
+const (
+	SetSupplierCurrenciesResult0OriginRfq SetSupplierCurrenciesResult0Origin = "rfq"
+)
+
 // Defines values for SetSupplierCurrenciesResult0Status.
 const (
 	SetSupplierCurrenciesResult0StatusApproved      SetSupplierCurrenciesResult0Status = "approved"
@@ -4967,6 +5089,11 @@ const (
 	SetSupplierCurrenciesResult1CloudProviderAzure SetSupplierCurrenciesResult1CloudProvider = "azure"
 	SetSupplierCurrenciesResult1CloudProviderGcp   SetSupplierCurrenciesResult1CloudProvider = "gcp"
 	SetSupplierCurrenciesResult1CloudProviderOci   SetSupplierCurrenciesResult1CloudProvider = "oci"
+)
+
+// Defines values for SetSupplierCurrenciesResult1Origin.
+const (
+	SetSupplierCurrenciesResult1OriginRfq SetSupplierCurrenciesResult1Origin = "rfq"
 )
 
 // Defines values for SetSupplierCurrenciesResult1Status.
@@ -5418,13 +5545,23 @@ const (
 	UpdateOrgProfileInputGeographyPresetIdUk                    UpdateOrgProfileInputGeographyPresetId = "uk"
 )
 
+// Defines values for UpdateOrgProfileInputLocale.
+const (
+	De   UpdateOrgProfileInputLocale = "de"
+	En   UpdateOrgProfileInputLocale = "en"
+	Es   UpdateOrgProfileInputLocale = "es"
+	Fr   UpdateOrgProfileInputLocale = "fr"
+	It   UpdateOrgProfileInputLocale = "it"
+	PtBR UpdateOrgProfileInputLocale = "pt-BR"
+)
+
 // Defines values for ValidateFeedInvoiceResultCreditNoteCreditNoteReason.
 const (
-	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonOther           ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "other"
-	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonPriceAdjustment ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "price_adjustment"
-	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonRebate          ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "rebate"
-	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonReturnedGoods   ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "returned_goods"
-	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonServiceCredit   ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "service_credit"
+	Other           ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "other"
+	PriceAdjustment ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "price_adjustment"
+	Rebate          ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "rebate"
+	ReturnedGoods   ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "returned_goods"
+	ServiceCredit   ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "service_credit"
 )
 
 // Defines values for ValidateFeedInvoiceResultCreditNoteDocumentType.
@@ -5572,6 +5709,7 @@ const (
 	ListPurchaseRequestsParamsStatusOrdered         ListPurchaseRequestsParamsStatus = "ordered"
 	ListPurchaseRequestsParamsStatusPendingApproval ListPurchaseRequestsParamsStatus = "pending_approval"
 	ListPurchaseRequestsParamsStatusRejected        ListPurchaseRequestsParamsStatus = "rejected"
+	ListPurchaseRequestsParamsStatusSourcing        ListPurchaseRequestsParamsStatus = "sourcing"
 )
 
 // AddAiProviderSupplierResult defines model for AddAiProviderSupplierResult.
@@ -5603,7 +5741,9 @@ type AddAiProviderSupplierResult struct {
 	LateFeeTermsAttestedAt         *string                                   `json:"lateFeeTermsAttestedAt,omitempty"`
 	LateFeeTermsUpdatedAt          *string                                   `json:"lateFeeTermsUpdatedAt,omitempty"`
 	OffPlatformInvoicesRecorded    *bool                                     `json:"offPlatformInvoicesRecorded,omitempty"`
+	Origin                         *AddAiProviderSupplierResultOrigin        `json:"origin,omitempty"`
 	PaymentCurrency                *string                                   `json:"paymentCurrency,omitempty"`
+	QuestionnaireRequested         *bool                                     `json:"questionnaireRequested,omitempty"`
 	QuestionnaireTemplateId        *string                                   `json:"questionnaireTemplateId,omitempty"`
 	QuestionnaireTemplateVersion   *float64                                  `json:"questionnaireTemplateVersion,omitempty"`
 	RejectionReason                *string                                   `json:"rejectionReason,omitempty"`
@@ -5623,6 +5763,9 @@ type AddAiProviderSupplierResultAiProvider string
 
 // AddAiProviderSupplierResultCloudProvider defines model for AddAiProviderSupplierResult.CloudProvider.
 type AddAiProviderSupplierResultCloudProvider string
+
+// AddAiProviderSupplierResultOrigin defines model for AddAiProviderSupplierResult.Origin.
+type AddAiProviderSupplierResultOrigin string
 
 // AddAiProviderSupplierResultStatus defines model for AddAiProviderSupplierResult.Status.
 type AddAiProviderSupplierResultStatus string
@@ -5656,7 +5799,9 @@ type AddCloudProviderAsSupplierResult struct {
 	LateFeeTermsAttestedAt         *string                                        `json:"lateFeeTermsAttestedAt,omitempty"`
 	LateFeeTermsUpdatedAt          *string                                        `json:"lateFeeTermsUpdatedAt,omitempty"`
 	OffPlatformInvoicesRecorded    *bool                                          `json:"offPlatformInvoicesRecorded,omitempty"`
+	Origin                         *AddCloudProviderAsSupplierResultOrigin        `json:"origin,omitempty"`
 	PaymentCurrency                *string                                        `json:"paymentCurrency,omitempty"`
+	QuestionnaireRequested         *bool                                          `json:"questionnaireRequested,omitempty"`
 	QuestionnaireTemplateId        *string                                        `json:"questionnaireTemplateId,omitempty"`
 	QuestionnaireTemplateVersion   *float64                                       `json:"questionnaireTemplateVersion,omitempty"`
 	RejectionReason                *string                                        `json:"rejectionReason,omitempty"`
@@ -5676,6 +5821,9 @@ type AddCloudProviderAsSupplierResultAiProvider string
 
 // AddCloudProviderAsSupplierResultCloudProvider defines model for AddCloudProviderAsSupplierResult.CloudProvider.
 type AddCloudProviderAsSupplierResultCloudProvider string
+
+// AddCloudProviderAsSupplierResultOrigin defines model for AddCloudProviderAsSupplierResult.Origin.
+type AddCloudProviderAsSupplierResultOrigin string
 
 // AddCloudProviderAsSupplierResultStatus defines model for AddCloudProviderAsSupplierResult.Status.
 type AddCloudProviderAsSupplierResultStatus string
@@ -6886,6 +7034,11 @@ type ApprovePurchaseRequestInput struct {
 	ExpectedVersion *float64 `json:"expectedVersion,omitempty"`
 }
 
+// ApprovedByOthersRecord defines model for ApprovedByOthersRecord.
+type ApprovedByOthersRecord struct {
+	ApproverKeys *[]string `json:"approverKeys,omitempty"`
+}
+
 // AutomationRule defines model for AutomationRule.
 type AutomationRule struct {
 	AutoApprove *bool                    `json:"autoApprove,omitempty"`
@@ -7080,18 +7233,24 @@ type BillingSummary struct {
 		EndsAt         *string  `json:"endsAt,omitempty"`
 		RegionsCovered *float64 `json:"regionsCovered,omitempty"`
 	} `json:"awsMarketplace,omitempty"`
-	BillingEnabled      *bool                             `json:"billingEnabled,omitempty"`
-	BuyerRegionCount    *float64                          `json:"buyerRegionCount,omitempty"`
-	CancelAtPeriodEnd   *bool                             `json:"cancelAtPeriodEnd,omitempty"`
-	CurrentPeriodEnd    *string                           `json:"currentPeriodEnd,omitempty"`
-	CurrentPrice        *PriceAmount                      `json:"currentPrice,omitempty"`
-	CurrentPriceLabel   *string                           `json:"currentPriceLabel,omitempty"`
-	CurrentTotal        *PriceAmount                      `json:"currentTotal,omitempty"`
-	CurrentTotalLabel   *string                           `json:"currentTotalLabel,omitempty"`
-	HasBillingAccount   *bool                             `json:"hasBillingAccount,omitempty"`
-	Interval            *BillingSummaryInterval           `json:"interval,omitempty"`
-	ManagedBy           *BillingSummaryManagedBy          `json:"managedBy,omitempty"`
-	PastDueSince        *string                           `json:"pastDueSince,omitempty"`
+	BillingEnabled       *bool                    `json:"billingEnabled,omitempty"`
+	BuyerRegionCount     *float64                 `json:"buyerRegionCount,omitempty"`
+	CancelAtPeriodEnd    *bool                    `json:"cancelAtPeriodEnd,omitempty"`
+	CurrentPeriodEnd     *string                  `json:"currentPeriodEnd,omitempty"`
+	CurrentPrice         *PriceAmount             `json:"currentPrice,omitempty"`
+	CurrentPriceLabel    *string                  `json:"currentPriceLabel,omitempty"`
+	CurrentTotal         *PriceAmount             `json:"currentTotal,omitempty"`
+	CurrentTotalLabel    *string                  `json:"currentTotalLabel,omitempty"`
+	HasBillingAccount    *bool                    `json:"hasBillingAccount,omitempty"`
+	Interval             *BillingSummaryInterval  `json:"interval,omitempty"`
+	ManagedBy            *BillingSummaryManagedBy `json:"managedBy,omitempty"`
+	ModuleOffers         *[]ModuleOffer           `json:"moduleOffers,omitempty"`
+	Modules              *[]BillingSummaryModules `json:"modules,omitempty"`
+	PastDueSince         *string                  `json:"pastDueSince,omitempty"`
+	PendingModuleRemoval *struct {
+		At      *string                                      `json:"at,omitempty"`
+		Modules *[]BillingSummaryPendingModuleRemovalModules `json:"modules,omitempty"`
+	} `json:"pendingModuleRemoval,omitempty"`
 	Plan                *BillingSummaryPlan               `json:"plan,omitempty"`
 	SubscriptionStatus  *BillingSummarySubscriptionStatus `json:"subscriptionStatus,omitempty"`
 	SupplierRegionCount *float64                          `json:"supplierRegionCount,omitempty"`
@@ -7105,6 +7264,12 @@ type BillingSummaryInterval string
 
 // BillingSummaryManagedBy defines model for BillingSummary.ManagedBy.
 type BillingSummaryManagedBy string
+
+// BillingSummaryModules defines model for BillingSummary.Modules.
+type BillingSummaryModules string
+
+// BillingSummaryPendingModuleRemovalModules defines model for BillingSummary.PendingModuleRemoval.Modules.
+type BillingSummaryPendingModuleRemovalModules string
 
 // BillingSummaryPlan defines model for BillingSummary.Plan.
 type BillingSummaryPlan string
@@ -9894,6 +10059,7 @@ type GetOrgProfileResult struct {
 	Id                        string                     `json:"id"`
 	Images                    *ProfileImages             `json:"images,omitempty"`
 	ListedInDirectory         *bool                      `json:"listedInDirectory,omitempty"`
+	Locale                    *GetOrgProfileResultLocale `json:"locale,omitempty"`
 	OtherCurrencies           *[]string                  `json:"otherCurrencies,omitempty"`
 	PaymentCurrencies         *[]string                  `json:"paymentCurrencies,omitempty"`
 	PrimaryContactEmail       *string                    `json:"primaryContactEmail,omitempty"`
@@ -9906,6 +10072,9 @@ type GetOrgProfileResult struct {
 	TimeZone                  *string                    `json:"timeZone,omitempty"`
 	Verified                  *bool                      `json:"verified,omitempty"`
 }
+
+// GetOrgProfileResultLocale defines model for GetOrgProfileResult.Locale.
+type GetOrgProfileResultLocale string
 
 // GetOrgProfileResultRole defines model for GetOrgProfileResult.Role.
 type GetOrgProfileResultRole string
@@ -11677,6 +11846,26 @@ type MarkAllNotificationsReadResult struct {
 	Updated    *float64 `json:"updated,omitempty"`
 }
 
+// ModuleOffer defines model for ModuleOffer.
+type ModuleOffer struct {
+	Item              *ModuleOfferItem      `json:"item,omitempty"`
+	Kind              *ModuleOfferKind      `json:"kind,omitempty"`
+	Modules           *[]ModuleOfferModules `json:"modules,omitempty"`
+	MonthlyPrice      *PriceAmount          `json:"monthlyPrice,omitempty"`
+	MonthlyPriceLabel *string               `json:"monthlyPriceLabel,omitempty"`
+	YearlyPrice       *PriceAmount          `json:"yearlyPrice,omitempty"`
+	YearlyPriceLabel  *string               `json:"yearlyPriceLabel,omitempty"`
+}
+
+// ModuleOfferItem defines model for ModuleOffer.Item.
+type ModuleOfferItem string
+
+// ModuleOfferKind defines model for ModuleOffer.Kind.
+type ModuleOfferKind string
+
+// ModuleOfferModules defines model for ModuleOffer.Modules.
+type ModuleOfferModules string
+
 // NoPoComparison defines model for NoPoComparison.
 type NoPoComparison struct {
 	At            *string   `json:"at,omitempty"`
@@ -11833,6 +12022,7 @@ type OrgProfile struct {
 	Geography                 *Geography                 `json:"geography,omitempty"`
 	Id                        string                     `json:"id"`
 	ListedInDirectory         *bool                      `json:"listedInDirectory,omitempty"`
+	Locale                    *OrgProfileLocale          `json:"locale,omitempty"`
 	OtherCurrencies           *[]string                  `json:"otherCurrencies,omitempty"`
 	PaymentCurrencies         *[]string                  `json:"paymentCurrencies,omitempty"`
 	PrimaryContactEmail       *string                    `json:"primaryContactEmail,omitempty"`
@@ -11845,6 +12035,9 @@ type OrgProfile struct {
 	TimeZone                  *string                    `json:"timeZone,omitempty"`
 	Verified                  *bool                      `json:"verified,omitempty"`
 }
+
+// OrgProfileLocale defines model for OrgProfile.Locale.
+type OrgProfileLocale string
 
 // OrgProfileRole defines model for OrgProfile.Role.
 type OrgProfileRole string
@@ -11871,14 +12064,15 @@ type PaymentExportInput struct {
 
 // PaymentHistoryEntry defines model for PaymentHistoryEntry.
 type PaymentHistoryEntry struct {
-	Action       *PaymentHistoryEntryAction `json:"action,omitempty"`
-	Amount       *float64                   `json:"amount,omitempty"`
-	At           *string                    `json:"at,omitempty"`
-	By           *string                    `json:"by,omitempty"`
-	ByName       *string                    `json:"byName,omitempty"`
-	BySupplier   *bool                      `json:"bySupplier,omitempty"`
-	CreditNoteId *string                    `json:"creditNoteId,omitempty"`
-	Record       *struct {
+	Action           *PaymentHistoryEntryAction `json:"action,omitempty"`
+	Amount           *float64                   `json:"amount,omitempty"`
+	ApprovedByOthers *ApprovedByOthersRecord    `json:"approvedByOthers,omitempty"`
+	At               *string                    `json:"at,omitempty"`
+	By               *string                    `json:"by,omitempty"`
+	ByName           *string                    `json:"byName,omitempty"`
+	BySupplier       *bool                      `json:"bySupplier,omitempty"`
+	CreditNoteId     *string                    `json:"creditNoteId,omitempty"`
+	Record           *struct {
 		AdviceVersion *float64                         `json:"adviceVersion,omitempty"`
 		Method        *PaymentHistoryEntryRecordMethod `json:"method,omitempty"`
 		PaidAmount    *struct {
@@ -12355,6 +12549,7 @@ type PurchaseRequest struct {
 	NeededBy        *string                     `json:"neededBy,omitempty"`
 	Notes           *string                     `json:"notes,omitempty"`
 	PoId            *string                     `json:"poId,omitempty"`
+	PoIds           *[]string                   `json:"poIds,omitempty"`
 	QuoteDocument   *PurchaseOrderQuoteDocument `json:"quoteDocument,omitempty"`
 	RejectionReason *string                     `json:"rejectionReason,omitempty"`
 	RequestType     *struct {
@@ -12364,6 +12559,7 @@ type PurchaseRequest struct {
 	} `json:"requestType,omitempty"`
 	RequesterEmployeeKey *string                `json:"requesterEmployeeKey,omitempty"`
 	RequesterName        *string                `json:"requesterName,omitempty"`
+	SourcingEventId      *string                `json:"sourcingEventId,omitempty"`
 	Status               *PurchaseRequestStatus `json:"status,omitempty"`
 	SubmittedAt          *string                `json:"submittedAt,omitempty"`
 	Supplier             *struct {
@@ -13459,7 +13655,9 @@ type SetInvoiceFeedResult0 struct {
 	LateFeeTermsAttestedAt         *string                             `json:"lateFeeTermsAttestedAt,omitempty"`
 	LateFeeTermsUpdatedAt          *string                             `json:"lateFeeTermsUpdatedAt,omitempty"`
 	OffPlatformInvoicesRecorded    *bool                               `json:"offPlatformInvoicesRecorded,omitempty"`
+	Origin                         *SetInvoiceFeedResult0Origin        `json:"origin,omitempty"`
 	PaymentCurrency                *string                             `json:"paymentCurrency,omitempty"`
+	QuestionnaireRequested         *bool                               `json:"questionnaireRequested,omitempty"`
 	QuestionnaireTemplateId        *string                             `json:"questionnaireTemplateId,omitempty"`
 	QuestionnaireTemplateVersion   *float64                            `json:"questionnaireTemplateVersion,omitempty"`
 	RejectionReason                *string                             `json:"rejectionReason,omitempty"`
@@ -13482,6 +13680,9 @@ type SetInvoiceFeedResult0CloudProvider string
 
 // SetInvoiceFeedResult0FeedReadiness defines model for SetInvoiceFeedResult.0.FeedReadiness.
 type SetInvoiceFeedResult0FeedReadiness string
+
+// SetInvoiceFeedResult0Origin defines model for SetInvoiceFeedResult.0.Origin.
+type SetInvoiceFeedResult0Origin string
 
 // SetInvoiceFeedResult0Status defines model for SetInvoiceFeedResult.0.Status.
 type SetInvoiceFeedResult0Status string
@@ -13515,8 +13716,10 @@ type SetInvoiceFeedResult1 struct {
 	LateFeeTermsAttestedAt         *string                             `json:"lateFeeTermsAttestedAt,omitempty"`
 	LateFeeTermsUpdatedAt          *string                             `json:"lateFeeTermsUpdatedAt,omitempty"`
 	OffPlatformInvoicesRecorded    *bool                               `json:"offPlatformInvoicesRecorded,omitempty"`
+	Origin                         *SetInvoiceFeedResult1Origin        `json:"origin,omitempty"`
 	PaymentCurrency                *string                             `json:"paymentCurrency,omitempty"`
 	QuestionnaireRedacted          *bool                               `json:"questionnaireRedacted,omitempty"`
+	QuestionnaireRequested         *bool                               `json:"questionnaireRequested,omitempty"`
 	QuestionnaireTemplateId        *string                             `json:"questionnaireTemplateId,omitempty"`
 	QuestionnaireTemplateVersion   *float64                            `json:"questionnaireTemplateVersion,omitempty"`
 	RejectionReason                *string                             `json:"rejectionReason,omitempty"`
@@ -13538,6 +13741,9 @@ type SetInvoiceFeedResult1CloudProvider string
 
 // SetInvoiceFeedResult1FeedReadiness defines model for SetInvoiceFeedResult.1.FeedReadiness.
 type SetInvoiceFeedResult1FeedReadiness string
+
+// SetInvoiceFeedResult1Origin defines model for SetInvoiceFeedResult.1.Origin.
+type SetInvoiceFeedResult1Origin string
 
 // SetInvoiceFeedResult1Status defines model for SetInvoiceFeedResult.1.Status.
 type SetInvoiceFeedResult1Status string
@@ -13576,7 +13782,9 @@ type SetSupplierCurrenciesResult0 struct {
 	LateFeeTermsAttestedAt         *string                                    `json:"lateFeeTermsAttestedAt,omitempty"`
 	LateFeeTermsUpdatedAt          *string                                    `json:"lateFeeTermsUpdatedAt,omitempty"`
 	OffPlatformInvoicesRecorded    *bool                                      `json:"offPlatformInvoicesRecorded,omitempty"`
+	Origin                         *SetSupplierCurrenciesResult0Origin        `json:"origin,omitempty"`
 	PaymentCurrency                *string                                    `json:"paymentCurrency,omitempty"`
+	QuestionnaireRequested         *bool                                      `json:"questionnaireRequested,omitempty"`
 	QuestionnaireTemplateId        *string                                    `json:"questionnaireTemplateId,omitempty"`
 	QuestionnaireTemplateVersion   *float64                                   `json:"questionnaireTemplateVersion,omitempty"`
 	RejectionReason                *string                                    `json:"rejectionReason,omitempty"`
@@ -13596,6 +13804,9 @@ type SetSupplierCurrenciesResult0AiProvider string
 
 // SetSupplierCurrenciesResult0CloudProvider defines model for SetSupplierCurrenciesResult.0.CloudProvider.
 type SetSupplierCurrenciesResult0CloudProvider string
+
+// SetSupplierCurrenciesResult0Origin defines model for SetSupplierCurrenciesResult.0.Origin.
+type SetSupplierCurrenciesResult0Origin string
 
 // SetSupplierCurrenciesResult0Status defines model for SetSupplierCurrenciesResult.0.Status.
 type SetSupplierCurrenciesResult0Status string
@@ -13628,8 +13839,10 @@ type SetSupplierCurrenciesResult1 struct {
 	LateFeeTermsAttestedAt         *string                                    `json:"lateFeeTermsAttestedAt,omitempty"`
 	LateFeeTermsUpdatedAt          *string                                    `json:"lateFeeTermsUpdatedAt,omitempty"`
 	OffPlatformInvoicesRecorded    *bool                                      `json:"offPlatformInvoicesRecorded,omitempty"`
+	Origin                         *SetSupplierCurrenciesResult1Origin        `json:"origin,omitempty"`
 	PaymentCurrency                *string                                    `json:"paymentCurrency,omitempty"`
 	QuestionnaireRedacted          *bool                                      `json:"questionnaireRedacted,omitempty"`
+	QuestionnaireRequested         *bool                                      `json:"questionnaireRequested,omitempty"`
 	QuestionnaireTemplateId        *string                                    `json:"questionnaireTemplateId,omitempty"`
 	QuestionnaireTemplateVersion   *float64                                   `json:"questionnaireTemplateVersion,omitempty"`
 	RejectionReason                *string                                    `json:"rejectionReason,omitempty"`
@@ -13648,6 +13861,9 @@ type SetSupplierCurrenciesResult1AiProvider string
 
 // SetSupplierCurrenciesResult1CloudProvider defines model for SetSupplierCurrenciesResult.1.CloudProvider.
 type SetSupplierCurrenciesResult1CloudProvider string
+
+// SetSupplierCurrenciesResult1Origin defines model for SetSupplierCurrenciesResult.1.Origin.
+type SetSupplierCurrenciesResult1Origin string
 
 // SetSupplierCurrenciesResult1Status defines model for SetSupplierCurrenciesResult.1.Status.
 type SetSupplierCurrenciesResult1Status string
@@ -14310,6 +14526,7 @@ type UpdateOrgProfileInput struct {
 	Currency            *string                                 `json:"currency,omitempty"`
 	GeographyPresetId   *UpdateOrgProfileInputGeographyPresetId `json:"geographyPresetId"`
 	ListedInDirectory   *bool                                   `json:"listedInDirectory,omitempty"`
+	Locale              *UpdateOrgProfileInputLocale            `json:"locale"`
 	OtherCurrencies     *[]string                               `json:"otherCurrencies,omitempty"`
 	PaymentCurrencies   *[]string                               `json:"paymentCurrencies,omitempty"`
 	PrimaryContactEmail *string                                 `json:"primaryContactEmail,omitempty"`
@@ -14321,6 +14538,9 @@ type UpdateOrgProfileInput struct {
 
 // UpdateOrgProfileInputGeographyPresetId defines model for UpdateOrgProfileInput.GeographyPresetId.
 type UpdateOrgProfileInputGeographyPresetId string
+
+// UpdateOrgProfileInputLocale defines model for UpdateOrgProfileInput.Locale.
+type UpdateOrgProfileInputLocale string
 
 // UpdatePurchaseOrderInput defines model for UpdatePurchaseOrderInput.
 type UpdatePurchaseOrderInput struct {

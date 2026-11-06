@@ -32,6 +32,13 @@ pub struct SetSupplierCurrenciesResultAnyOf1 {
     pub supplier_contact_email: Option<String>,
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<Status>,
+    #[serde(rename = "origin", skip_serializing_if = "Option::is_none")]
+    pub origin: Option<Origin>,
+    #[serde(
+        rename = "questionnaireRequested",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub questionnaire_requested: Option<bool>,
     #[serde(
         rename = "questionnaireTemplateId",
         skip_serializing_if = "Option::is_none"
@@ -140,6 +147,8 @@ impl SetSupplierCurrenciesResultAnyOf1 {
             invited_as_name: None,
             supplier_contact_email: None,
             status: None,
+            origin: None,
+            questionnaire_requested: None,
             questionnaire_template_id: None,
             questionnaire_template_version: None,
             created_at: None,
@@ -194,6 +203,18 @@ pub enum Status {
 impl Default for Status {
     fn default() -> Status {
         Self::PendingInvite
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Origin {
+    #[serde(rename = "rfq")]
+    Rfq,
+}
+
+impl Default for Origin {
+    fn default() -> Origin {
+        Self::Rfq
     }
 }
 ///

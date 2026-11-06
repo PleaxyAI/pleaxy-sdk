@@ -47,6 +47,8 @@ import ai.pleaxy.client.ApiClient;
   AddAiProviderSupplierResult.JSON_PROPERTY_INVITED_AS_NAME,
   AddAiProviderSupplierResult.JSON_PROPERTY_SUPPLIER_CONTACT_EMAIL,
   AddAiProviderSupplierResult.JSON_PROPERTY_STATUS,
+  AddAiProviderSupplierResult.JSON_PROPERTY_ORIGIN,
+  AddAiProviderSupplierResult.JSON_PROPERTY_QUESTIONNAIRE_REQUESTED,
   AddAiProviderSupplierResult.JSON_PROPERTY_QUESTIONNAIRE_TEMPLATE_ID,
   AddAiProviderSupplierResult.JSON_PROPERTY_QUESTIONNAIRE_TEMPLATE_VERSION,
   AddAiProviderSupplierResult.JSON_PROPERTY_FIELDS,
@@ -156,6 +158,47 @@ public class AddAiProviderSupplierResult {
   public static final String JSON_PROPERTY_STATUS = "status";
   @javax.annotation.Nullable
   private StatusEnum status;
+
+  /**
+   * Gets or Sets origin
+   */
+  public enum OriginEnum {
+    RFQ(String.valueOf("rfq"));
+
+    private String value;
+
+    OriginEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static OriginEnum fromValue(String value) {
+      for (OriginEnum b : OriginEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_ORIGIN = "origin";
+  @javax.annotation.Nullable
+  private OriginEnum origin;
+
+  public static final String JSON_PROPERTY_QUESTIONNAIRE_REQUESTED = "questionnaireRequested";
+  @javax.annotation.Nullable
+  private Boolean questionnaireRequested;
 
   public static final String JSON_PROPERTY_QUESTIONNAIRE_TEMPLATE_ID = "questionnaireTemplateId";
   @javax.annotation.Nullable
@@ -577,6 +620,54 @@ public class AddAiProviderSupplierResult {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
+  }
+
+
+  public AddAiProviderSupplierResult origin(@javax.annotation.Nullable OriginEnum origin) {
+    this.origin = origin;
+    return this;
+  }
+
+  /**
+   * Get origin
+   * @return origin
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ORIGIN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public OriginEnum getOrigin() {
+    return origin;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ORIGIN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOrigin(@javax.annotation.Nullable OriginEnum origin) {
+    this.origin = origin;
+  }
+
+
+  public AddAiProviderSupplierResult questionnaireRequested(@javax.annotation.Nullable Boolean questionnaireRequested) {
+    this.questionnaireRequested = questionnaireRequested;
+    return this;
+  }
+
+  /**
+   * Get questionnaireRequested
+   * @return questionnaireRequested
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_QUESTIONNAIRE_REQUESTED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getQuestionnaireRequested() {
+    return questionnaireRequested;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_QUESTIONNAIRE_REQUESTED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setQuestionnaireRequested(@javax.annotation.Nullable Boolean questionnaireRequested) {
+    this.questionnaireRequested = questionnaireRequested;
   }
 
 
@@ -1384,6 +1475,8 @@ public class AddAiProviderSupplierResult {
         Objects.equals(this.invitedAsName, addAiProviderSupplierResult.invitedAsName) &&
         Objects.equals(this.supplierContactEmail, addAiProviderSupplierResult.supplierContactEmail) &&
         Objects.equals(this.status, addAiProviderSupplierResult.status) &&
+        Objects.equals(this.origin, addAiProviderSupplierResult.origin) &&
+        Objects.equals(this.questionnaireRequested, addAiProviderSupplierResult.questionnaireRequested) &&
         Objects.equals(this.questionnaireTemplateId, addAiProviderSupplierResult.questionnaireTemplateId) &&
         Objects.equals(this.questionnaireTemplateVersion, addAiProviderSupplierResult.questionnaireTemplateVersion) &&
         Objects.equals(this.fields, addAiProviderSupplierResult.fields) &&
@@ -1420,7 +1513,7 @@ public class AddAiProviderSupplierResult {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, buyerOrgId, buyerName, supplierOrgId, supplierName, invitedAsName, supplierContactEmail, status, questionnaireTemplateId, questionnaireTemplateVersion, fields, responses, createdAt, invitedAt, respondedAt, reviewedAt, reviewedBy, rejectionReason, cloudProvider, aiProvider, billingCurrency, paymentCurrency, offPlatformInvoicesRecorded, supplierRegion, acceptedRegionName, acceptedRegionMatchesRequest, invoiceFeedEnabled, invoiceFeedUpdatedAt, invoiceFeedUpdatedBy, feedLastAttemptAt, feedLastAcceptedAt, feedAcceptedCount, feedLastRefusedAt, feedLastRefusedCode, feedLastValidAt, feedValidCount, lateFeeTerms, lateFeeTermsUpdatedAt, lateFeeTermsAttestedAt, lateFeeTermsAttestationVersion);
+    return Objects.hash(id, buyerOrgId, buyerName, supplierOrgId, supplierName, invitedAsName, supplierContactEmail, status, origin, questionnaireRequested, questionnaireTemplateId, questionnaireTemplateVersion, fields, responses, createdAt, invitedAt, respondedAt, reviewedAt, reviewedBy, rejectionReason, cloudProvider, aiProvider, billingCurrency, paymentCurrency, offPlatformInvoicesRecorded, supplierRegion, acceptedRegionName, acceptedRegionMatchesRequest, invoiceFeedEnabled, invoiceFeedUpdatedAt, invoiceFeedUpdatedBy, feedLastAttemptAt, feedLastAcceptedAt, feedAcceptedCount, feedLastRefusedAt, feedLastRefusedCode, feedLastValidAt, feedValidCount, lateFeeTerms, lateFeeTermsUpdatedAt, lateFeeTermsAttestedAt, lateFeeTermsAttestationVersion);
   }
 
   @Override
@@ -1435,6 +1528,8 @@ public class AddAiProviderSupplierResult {
     sb.append("    invitedAsName: ").append(toIndentedString(invitedAsName)).append("\n");
     sb.append("    supplierContactEmail: ").append(toIndentedString(supplierContactEmail)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    origin: ").append(toIndentedString(origin)).append("\n");
+    sb.append("    questionnaireRequested: ").append(toIndentedString(questionnaireRequested)).append("\n");
     sb.append("    questionnaireTemplateId: ").append(toIndentedString(questionnaireTemplateId)).append("\n");
     sb.append("    questionnaireTemplateVersion: ").append(toIndentedString(questionnaireTemplateVersion)).append("\n");
     sb.append("    fields: ").append(toIndentedString(fields)).append("\n");
@@ -1552,6 +1647,16 @@ public class AddAiProviderSupplierResult {
     // add `status` to the URL query string
     if (getStatus() != null) {
       joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `origin` to the URL query string
+    if (getOrigin() != null) {
+      joiner.add(String.format("%sorigin%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOrigin()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `questionnaireRequested` to the URL query string
+    if (getQuestionnaireRequested() != null) {
+      joiner.add(String.format("%squestionnaireRequested%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuestionnaireRequested()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `questionnaireTemplateId` to the URL query string

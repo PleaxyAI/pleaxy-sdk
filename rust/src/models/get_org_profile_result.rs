@@ -60,6 +60,8 @@ pub struct GetOrgProfileResult {
     pub geography: Option<models::Geography>,
     #[serde(rename = "timeZone", skip_serializing_if = "Option::is_none")]
     pub time_zone: Option<String>,
+    #[serde(rename = "locale", skip_serializing_if = "Option::is_none")]
+    pub locale: Option<Locale>,
     #[serde(rename = "primaryContactName", skip_serializing_if = "Option::is_none")]
     pub primary_contact_name: Option<String>,
     #[serde(
@@ -104,6 +106,7 @@ impl GetOrgProfileResult {
             countries: None,
             geography: None,
             time_zone: None,
+            locale: None,
             primary_contact_name: None,
             primary_contact_email: None,
             created_at: None,
@@ -126,5 +129,27 @@ pub enum Role {
 impl Default for Role {
     fn default() -> Role {
         Self::Buyer
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Locale {
+    #[serde(rename = "en")]
+    En,
+    #[serde(rename = "es")]
+    Es,
+    #[serde(rename = "pt-BR")]
+    PtBr,
+    #[serde(rename = "de")]
+    De,
+    #[serde(rename = "fr")]
+    Fr,
+    #[serde(rename = "it")]
+    It,
+}
+
+impl Default for Locale {
+    fn default() -> Locale {
+        Self::En
     }
 }

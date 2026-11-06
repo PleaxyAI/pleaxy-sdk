@@ -59,6 +59,10 @@ module Pleaxy
 
     attr_accessor :po_id
 
+    attr_accessor :po_ids
+
+    attr_accessor :sourcing_event_id
+
     attr_accessor :rejection_reason
 
     attr_accessor :created_at
@@ -120,6 +124,8 @@ module Pleaxy
         :'approval_version' => :'approvalVersion',
         :'budget_check' => :'budgetCheck',
         :'po_id' => :'poId',
+        :'po_ids' => :'poIds',
+        :'sourcing_event_id' => :'sourcingEventId',
         :'rejection_reason' => :'rejectionReason',
         :'created_at' => :'createdAt',
         :'updated_at' => :'updatedAt',
@@ -160,6 +166,8 @@ module Pleaxy
         :'approval_version' => :'Float',
         :'budget_check' => :'BudgetCheck',
         :'po_id' => :'String',
+        :'po_ids' => :'Array<String>',
+        :'sourcing_event_id' => :'String',
         :'rejection_reason' => :'String',
         :'created_at' => :'String',
         :'updated_at' => :'String',
@@ -287,6 +295,16 @@ module Pleaxy
         self.po_id = attributes[:'po_id']
       end
 
+      if attributes.key?(:'po_ids')
+        if (value = attributes[:'po_ids']).is_a?(Array)
+          self.po_ids = value
+        end
+      end
+
+      if attributes.key?(:'sourcing_event_id')
+        self.sourcing_event_id = attributes[:'sourcing_event_id']
+      end
+
       if attributes.key?(:'rejection_reason')
         self.rejection_reason = attributes[:'rejection_reason']
       end
@@ -333,7 +351,7 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @id.nil?
-      status_validator = EnumAttributeValidator.new('String', ["approved", "rejected", "pending_approval", "draft", "canceled", "ordered"])
+      status_validator = EnumAttributeValidator.new('String', ["approved", "rejected", "sourcing", "pending_approval", "draft", "canceled", "ordered"])
       return false unless status_validator.valid?(@status)
       true
     end
@@ -341,7 +359,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] status Object to be assigned
     def status=(status)
-      validator = EnumAttributeValidator.new('String', ["approved", "rejected", "pending_approval", "draft", "canceled", "ordered"])
+      validator = EnumAttributeValidator.new('String', ["approved", "rejected", "sourcing", "pending_approval", "draft", "canceled", "ordered"])
       unless validator.valid?(status)
         fail ArgumentError, "invalid value for \"status\", must be one of #{validator.allowable_values}."
       end
@@ -375,6 +393,8 @@ module Pleaxy
           approval_version == o.approval_version &&
           budget_check == o.budget_check &&
           po_id == o.po_id &&
+          po_ids == o.po_ids &&
+          sourcing_event_id == o.sourcing_event_id &&
           rejection_reason == o.rejection_reason &&
           created_at == o.created_at &&
           updated_at == o.updated_at &&
@@ -393,7 +413,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, title, description, requester_employee_key, requester_name, cost_center, gl_code, supplier, line_items, amount, currency, needed_by, quote_document, notes, request_type, form_fields, answers, status, approval, approval_version, budget_check, po_id, rejection_reason, created_at, updated_at, submitted_at, decided_at, canceled_at, canceled_by].hash
+      [id, title, description, requester_employee_key, requester_name, cost_center, gl_code, supplier, line_items, amount, currency, needed_by, quote_document, notes, request_type, form_fields, answers, status, approval, approval_version, budget_check, po_id, po_ids, sourcing_event_id, rejection_reason, created_at, updated_at, submitted_at, decided_at, canceled_at, canceled_by].hash
     end
 
     # Builds the object from hash

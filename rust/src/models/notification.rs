@@ -115,6 +115,34 @@ pub enum Type {
     RequestRejected,
     #[serde(rename = "request_ordered")]
     RequestOrdered,
+    #[serde(rename = "rfq_invited")]
+    RfqInvited,
+    #[serde(rename = "rfq_due_soon")]
+    RfqDueSoon,
+    #[serde(rename = "rfq_deadline_moved")]
+    RfqDeadlineMoved,
+    #[serde(rename = "rfq_canceled")]
+    RfqCanceled,
+    #[serde(rename = "rfq_awarded")]
+    RfqAwarded,
+    #[serde(rename = "rfq_not_selected")]
+    RfqNotSelected,
+    #[serde(rename = "rfq_question_answered")]
+    RfqQuestionAnswered,
+    #[serde(rename = "rfq_answer_received")]
+    RfqAnswerReceived,
+    #[serde(rename = "rfq_deadline_passed")]
+    RfqDeadlinePassed,
+    #[serde(rename = "rfq_declined")]
+    RfqDeclined,
+    #[serde(rename = "rfq_question_asked")]
+    RfqQuestionAsked,
+    #[serde(rename = "rfq_not_shortlisted")]
+    RfqNotShortlisted,
+    #[serde(rename = "rfq_evaluate")]
+    RfqEvaluate,
+    #[serde(rename = "rfq_evaluation_complete")]
+    RfqEvaluationComplete,
     #[serde(rename = "po_store_order_problem")]
     PoStoreOrderProblem,
     #[serde(rename = "po_supplier_confirmed")]

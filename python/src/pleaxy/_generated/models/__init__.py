@@ -7,6 +7,7 @@ from .add_ai_provider_supplier_result_ai_provider import (
 from .add_ai_provider_supplier_result_cloud_provider import (
     AddAiProviderSupplierResultCloudProvider,
 )
+from .add_ai_provider_supplier_result_origin import AddAiProviderSupplierResultOrigin
 from .add_ai_provider_supplier_result_status import AddAiProviderSupplierResultStatus
 from .add_cloud_provider_as_supplier_result import AddCloudProviderAsSupplierResult
 from .add_cloud_provider_as_supplier_result_ai_provider import (
@@ -14,6 +15,9 @@ from .add_cloud_provider_as_supplier_result_ai_provider import (
 )
 from .add_cloud_provider_as_supplier_result_cloud_provider import (
     AddCloudProviderAsSupplierResultCloudProvider,
+)
+from .add_cloud_provider_as_supplier_result_origin import (
+    AddCloudProviderAsSupplierResultOrigin,
 )
 from .add_cloud_provider_as_supplier_result_status import (
     AddCloudProviderAsSupplierResultStatus,
@@ -261,6 +265,7 @@ from .approval_step_condition_input_field import ApprovalStepConditionInputField
 from .approval_step_condition_input_operator import ApprovalStepConditionInputOperator
 from .approval_step_condition_operator import ApprovalStepConditionOperator
 from .approve_purchase_request_input import ApprovePurchaseRequestInput
+from .approved_by_others_record import ApprovedByOthersRecord
 from .automation_rule import AutomationRule
 from .automation_rule_condition import AutomationRuleCondition
 from .automation_rule_condition_input import AutomationRuleConditionInput
@@ -301,6 +306,11 @@ from .billing_summary_available_plans_item_plan import (
 from .billing_summary_aws_marketplace import BillingSummaryAwsMarketplace
 from .billing_summary_interval import BillingSummaryInterval
 from .billing_summary_managed_by import BillingSummaryManagedBy
+from .billing_summary_modules_item import BillingSummaryModulesItem
+from .billing_summary_pending_module_removal import BillingSummaryPendingModuleRemoval
+from .billing_summary_pending_module_removal_modules_item import (
+    BillingSummaryPendingModuleRemovalModulesItem,
+)
 from .billing_summary_plan import BillingSummaryPlan
 from .billing_summary_subscription_status import BillingSummarySubscriptionStatus
 from .breakdown_entry_input import BreakdownEntryInput
@@ -1041,6 +1051,7 @@ from .get_invoice_result_supplier_invoice_withdrawn_payment_type_1_status import
 )
 from .get_invoice_status_document_format import GetInvoiceStatusDocumentFormat
 from .get_org_profile_result import GetOrgProfileResult
+from .get_org_profile_result_locale import GetOrgProfileResultLocale
 from .get_org_profile_result_role import GetOrgProfileResultRole
 from .get_purchase_order_document_format import GetPurchaseOrderDocumentFormat
 from .get_purchase_request_file_result import GetPurchaseRequestFileResult
@@ -1505,6 +1516,10 @@ from .list_webhooks_result_event_types_item import ListWebhooksResultEventTypesI
 from .map_focus_issuer_input import MapFocusIssuerInput
 from .mark_all_notifications_read_audience import MarkAllNotificationsReadAudience
 from .mark_all_notifications_read_result import MarkAllNotificationsReadResult
+from .module_offer import ModuleOffer
+from .module_offer_item import ModuleOfferItem
+from .module_offer_kind import ModuleOfferKind
+from .module_offer_modules_item import ModuleOfferModulesItem
 from .no_po_comparison import NoPoComparison
 from .notification import Notification
 from .notification_audience import NotificationAudience
@@ -1526,6 +1541,7 @@ from .order_confirmation_source import OrderConfirmationSource
 from .order_confirmation_substitute import OrderConfirmationSubstitute
 from .order_confirmation_substitute_line_type import OrderConfirmationSubstituteLineType
 from .org_profile import OrgProfile
+from .org_profile_locale import OrgProfileLocale
 from .org_profile_role import OrgProfileRole
 from .payer_account_ref import PayerAccountRef
 from .payer_account_ref_input import PayerAccountRefInput
@@ -1847,6 +1863,7 @@ from .set_invoice_feed_result_type_0_cloud_provider import (
 from .set_invoice_feed_result_type_0_feed_readiness import (
     SetInvoiceFeedResultType0FeedReadiness,
 )
+from .set_invoice_feed_result_type_0_origin import SetInvoiceFeedResultType0Origin
 from .set_invoice_feed_result_type_0_status import SetInvoiceFeedResultType0Status
 from .set_invoice_feed_result_type_1 import SetInvoiceFeedResultType1
 from .set_invoice_feed_result_type_1_ai_provider import (
@@ -1858,6 +1875,7 @@ from .set_invoice_feed_result_type_1_cloud_provider import (
 from .set_invoice_feed_result_type_1_feed_readiness import (
     SetInvoiceFeedResultType1FeedReadiness,
 )
+from .set_invoice_feed_result_type_1_origin import SetInvoiceFeedResultType1Origin
 from .set_invoice_feed_result_type_1_status import SetInvoiceFeedResultType1Status
 from .set_supplier_currencies_result_type_0 import SetSupplierCurrenciesResultType0
 from .set_supplier_currencies_result_type_0_ai_provider import (
@@ -1865,6 +1883,9 @@ from .set_supplier_currencies_result_type_0_ai_provider import (
 )
 from .set_supplier_currencies_result_type_0_cloud_provider import (
     SetSupplierCurrenciesResultType0CloudProvider,
+)
+from .set_supplier_currencies_result_type_0_origin import (
+    SetSupplierCurrenciesResultType0Origin,
 )
 from .set_supplier_currencies_result_type_0_status import (
     SetSupplierCurrenciesResultType0Status,
@@ -1875,6 +1896,9 @@ from .set_supplier_currencies_result_type_1_ai_provider import (
 )
 from .set_supplier_currencies_result_type_1_cloud_provider import (
     SetSupplierCurrenciesResultType1CloudProvider,
+)
+from .set_supplier_currencies_result_type_1_origin import (
+    SetSupplierCurrenciesResultType1Origin,
 )
 from .set_supplier_currencies_result_type_1_status import (
     SetSupplierCurrenciesResultType1Status,
@@ -2036,6 +2060,7 @@ from .update_org_profile_input import UpdateOrgProfileInput
 from .update_org_profile_input_geography_preset_id import (
     UpdateOrgProfileInputGeographyPresetId,
 )
+from .update_org_profile_input_locale import UpdateOrgProfileInputLocale
 from .update_purchase_order_input import UpdatePurchaseOrderInput
 from .update_purchase_request_input import UpdatePurchaseRequestInput
 from .update_reminder_settings_input import UpdateReminderSettingsInput
@@ -2073,10 +2098,12 @@ __all__ = (
     "AddAiProviderSupplierResult",
     "AddAiProviderSupplierResultAiProvider",
     "AddAiProviderSupplierResultCloudProvider",
+    "AddAiProviderSupplierResultOrigin",
     "AddAiProviderSupplierResultStatus",
     "AddCloudProviderAsSupplierResult",
     "AddCloudProviderAsSupplierResultAiProvider",
     "AddCloudProviderAsSupplierResultCloudProvider",
+    "AddCloudProviderAsSupplierResultOrigin",
     "AddCloudProviderAsSupplierResultStatus",
     "AddInvoiceReplacementLinksResult",
     "AddInvoiceReplacementLinksResultDiscrepancyReason",
@@ -2266,6 +2293,7 @@ __all__ = (
     "ApprovalStepConditionInputField",
     "ApprovalStepConditionInputOperator",
     "ApprovalStepConditionOperator",
+    "ApprovedByOthersRecord",
     "ApprovePurchaseRequestInput",
     "AutomationRule",
     "AutomationRuleCondition",
@@ -2302,6 +2330,9 @@ __all__ = (
     "BillingSummaryAwsMarketplace",
     "BillingSummaryInterval",
     "BillingSummaryManagedBy",
+    "BillingSummaryModulesItem",
+    "BillingSummaryPendingModuleRemoval",
+    "BillingSummaryPendingModuleRemovalModulesItem",
     "BillingSummaryPlan",
     "BillingSummarySubscriptionStatus",
     "BillToPartyInput",
@@ -2667,6 +2698,7 @@ __all__ = (
     "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1Status",
     "GetInvoiceStatusDocumentFormat",
     "GetOrgProfileResult",
+    "GetOrgProfileResultLocale",
     "GetOrgProfileResultRole",
     "GetPurchaseOrderDocumentFormat",
     "GetPurchaseRequestFileResult",
@@ -2925,6 +2957,10 @@ __all__ = (
     "MapFocusIssuerInput",
     "MarkAllNotificationsReadAudience",
     "MarkAllNotificationsReadResult",
+    "ModuleOffer",
+    "ModuleOfferItem",
+    "ModuleOfferKind",
+    "ModuleOfferModulesItem",
     "NoPoComparison",
     "Notification",
     "NotificationAudience",
@@ -2946,6 +2982,7 @@ __all__ = (
     "OrderConfirmationSubstitute",
     "OrderConfirmationSubstituteLineType",
     "OrgProfile",
+    "OrgProfileLocale",
     "OrgProfileRole",
     "PayerAccountRef",
     "PayerAccountRefInput",
@@ -3161,19 +3198,23 @@ __all__ = (
     "SetInvoiceFeedResultType0AiProvider",
     "SetInvoiceFeedResultType0CloudProvider",
     "SetInvoiceFeedResultType0FeedReadiness",
+    "SetInvoiceFeedResultType0Origin",
     "SetInvoiceFeedResultType0Status",
     "SetInvoiceFeedResultType1",
     "SetInvoiceFeedResultType1AiProvider",
     "SetInvoiceFeedResultType1CloudProvider",
     "SetInvoiceFeedResultType1FeedReadiness",
+    "SetInvoiceFeedResultType1Origin",
     "SetInvoiceFeedResultType1Status",
     "SetSupplierCurrenciesResultType0",
     "SetSupplierCurrenciesResultType0AiProvider",
     "SetSupplierCurrenciesResultType0CloudProvider",
+    "SetSupplierCurrenciesResultType0Origin",
     "SetSupplierCurrenciesResultType0Status",
     "SetSupplierCurrenciesResultType1",
     "SetSupplierCurrenciesResultType1AiProvider",
     "SetSupplierCurrenciesResultType1CloudProvider",
+    "SetSupplierCurrenciesResultType1Origin",
     "SetSupplierCurrenciesResultType1Status",
     "SetWarningPctInput",
     "ShipNotice",
@@ -3288,6 +3329,7 @@ __all__ = (
     "UpdateBudgetControlInputPeriod",
     "UpdateOrgProfileInput",
     "UpdateOrgProfileInputGeographyPresetId",
+    "UpdateOrgProfileInputLocale",
     "UpdatePurchaseOrderInput",
     "UpdatePurchaseRequestInput",
     "UpdateReminderSettingsInput",

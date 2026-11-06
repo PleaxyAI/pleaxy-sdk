@@ -31,6 +31,10 @@ module Pleaxy
 
     attr_accessor :status
 
+    attr_accessor :origin
+
+    attr_accessor :questionnaire_requested
+
     attr_accessor :questionnaire_template_id
 
     attr_accessor :questionnaire_template_version
@@ -128,6 +132,8 @@ module Pleaxy
         :'invited_as_name' => :'invitedAsName',
         :'supplier_contact_email' => :'supplierContactEmail',
         :'status' => :'status',
+        :'origin' => :'origin',
+        :'questionnaire_requested' => :'questionnaireRequested',
         :'questionnaire_template_id' => :'questionnaireTemplateId',
         :'questionnaire_template_version' => :'questionnaireTemplateVersion',
         :'fields' => :'fields',
@@ -179,6 +185,8 @@ module Pleaxy
         :'invited_as_name' => :'String',
         :'supplier_contact_email' => :'String',
         :'status' => :'String',
+        :'origin' => :'String',
+        :'questionnaire_requested' => :'Boolean',
         :'questionnaire_template_id' => :'String',
         :'questionnaire_template_version' => :'Float',
         :'fields' => :'Array<QuestionnaireFieldDef>',
@@ -267,6 +275,14 @@ module Pleaxy
 
       if attributes.key?(:'status')
         self.status = attributes[:'status']
+      end
+
+      if attributes.key?(:'origin')
+        self.origin = attributes[:'origin']
+      end
+
+      if attributes.key?(:'questionnaire_requested')
+        self.questionnaire_requested = attributes[:'questionnaire_requested']
       end
 
       if attributes.key?(:'questionnaire_template_id')
@@ -421,6 +437,8 @@ module Pleaxy
       return false if @id.nil?
       status_validator = EnumAttributeValidator.new('String', ["pending_invite", "invited", "in_progress", "submitted", "approved", "rejected"])
       return false unless status_validator.valid?(@status)
+      origin_validator = EnumAttributeValidator.new('String', ["rfq"])
+      return false unless origin_validator.valid?(@origin)
       cloud_provider_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci"])
       return false unless cloud_provider_validator.valid?(@cloud_provider)
       ai_provider_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft"])
@@ -436,6 +454,16 @@ module Pleaxy
         fail ArgumentError, "invalid value for \"status\", must be one of #{validator.allowable_values}."
       end
       @status = status
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] origin Object to be assigned
+    def origin=(origin)
+      validator = EnumAttributeValidator.new('String', ["rfq"])
+      unless validator.valid?(origin)
+        fail ArgumentError, "invalid value for \"origin\", must be one of #{validator.allowable_values}."
+      end
+      @origin = origin
     end
 
     # Custom attribute writer method checking allowed values (enum).
@@ -471,6 +499,8 @@ module Pleaxy
           invited_as_name == o.invited_as_name &&
           supplier_contact_email == o.supplier_contact_email &&
           status == o.status &&
+          origin == o.origin &&
+          questionnaire_requested == o.questionnaire_requested &&
           questionnaire_template_id == o.questionnaire_template_id &&
           questionnaire_template_version == o.questionnaire_template_version &&
           fields == o.fields &&
@@ -514,7 +544,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, buyer_org_id, buyer_name, supplier_org_id, supplier_name, invited_as_name, supplier_contact_email, status, questionnaire_template_id, questionnaire_template_version, fields, responses, created_at, invited_at, responded_at, reviewed_at, reviewed_by, rejection_reason, cloud_provider, ai_provider, billing_currency, payment_currency, off_platform_invoices_recorded, supplier_region, accepted_region_name, accepted_region_matches_request, invoice_feed_enabled, invoice_feed_updated_at, invoice_feed_updated_by, feed_last_attempt_at, feed_last_accepted_at, feed_accepted_count, feed_last_refused_at, feed_last_refused_code, feed_last_valid_at, feed_valid_count, late_fee_terms, late_fee_terms_updated_at, late_fee_terms_attested_at, late_fee_terms_attestation_version].hash
+      [id, buyer_org_id, buyer_name, supplier_org_id, supplier_name, invited_as_name, supplier_contact_email, status, origin, questionnaire_requested, questionnaire_template_id, questionnaire_template_version, fields, responses, created_at, invited_at, responded_at, reviewed_at, reviewed_by, rejection_reason, cloud_provider, ai_provider, billing_currency, payment_currency, off_platform_invoices_recorded, supplier_region, accepted_region_name, accepted_region_matches_request, invoice_feed_enabled, invoice_feed_updated_at, invoice_feed_updated_by, feed_last_attempt_at, feed_last_accepted_at, feed_accepted_count, feed_last_refused_at, feed_last_refused_code, feed_last_valid_at, feed_valid_count, late_fee_terms, late_fee_terms_updated_at, late_fee_terms_attested_at, late_fee_terms_attestation_version].hash
     end
 
     # Builds the object from hash

@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.org_profile_locale import OrgProfileLocale, check_org_profile_locale
 from ..models.org_profile_role import OrgProfileRole, check_org_profile_role
 from ..types import UNSET, Unset
 
@@ -37,6 +38,7 @@ class OrgProfile:
         countries (Union[Unset, List[str]]):
         geography (Union[Unset, Geography]):
         time_zone (Union[Unset, str]):
+        locale (Union[Unset, OrgProfileLocale]):
         primary_contact_name (Union[Unset, str]):
         primary_contact_email (Union[Unset, str]):
         created_at (Union[Unset, str]):
@@ -64,6 +66,7 @@ class OrgProfile:
     countries: Union[Unset, List[str]] = UNSET
     geography: Union[Unset, "Geography"] = UNSET
     time_zone: Union[Unset, str] = UNSET
+    locale: Union[Unset, OrgProfileLocale] = UNSET
     primary_contact_name: Union[Unset, str] = UNSET
     primary_contact_email: Union[Unset, str] = UNSET
     created_at: Union[Unset, str] = UNSET
@@ -122,6 +125,10 @@ class OrgProfile:
 
         time_zone = self.time_zone
 
+        locale: Union[Unset, str] = UNSET
+        if not isinstance(self.locale, Unset):
+            locale = self.locale
+
         primary_contact_name = self.primary_contact_name
 
         primary_contact_email = self.primary_contact_email
@@ -179,6 +186,8 @@ class OrgProfile:
             field_dict["geography"] = geography
         if time_zone is not UNSET:
             field_dict["timeZone"] = time_zone
+        if locale is not UNSET:
+            field_dict["locale"] = locale
         if primary_contact_name is not UNSET:
             field_dict["primaryContactName"] = primary_contact_name
         if primary_contact_email is not UNSET:
@@ -254,6 +263,13 @@ class OrgProfile:
 
         time_zone = d.pop("timeZone", UNSET)
 
+        _locale = d.pop("locale", UNSET)
+        locale: Union[Unset, OrgProfileLocale]
+        if isinstance(_locale, Unset):
+            locale = UNSET
+        else:
+            locale = check_org_profile_locale(_locale)
+
         primary_contact_name = d.pop("primaryContactName", UNSET)
 
         primary_contact_email = d.pop("primaryContactEmail", UNSET)
@@ -294,6 +310,7 @@ class OrgProfile:
             countries=countries,
             geography=geography,
             time_zone=time_zone,
+            locale=locale,
             primary_contact_name=primary_contact_name,
             primary_contact_email=primary_contact_email,
             created_at=created_at,

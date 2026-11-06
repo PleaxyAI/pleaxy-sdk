@@ -50,6 +50,13 @@ pub struct UpdateOrgProfileInput {
     #[serde(rename = "listedInDirectory", skip_serializing_if = "Option::is_none")]
     pub listed_in_directory: Option<bool>,
     #[serde(
+        rename = "locale",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub locale: Option<Option<Locale>>,
+    #[serde(
         rename = "geographyPresetId",
         default,
         with = "::serde_with::rust::double_option",
@@ -75,8 +82,31 @@ impl UpdateOrgProfileInput {
             countries: None,
             time_zone: None,
             listed_in_directory: None,
+            locale: None,
             geography_preset_id: None,
         }
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Locale {
+    #[serde(rename = "en")]
+    En,
+    #[serde(rename = "es")]
+    Es,
+    #[serde(rename = "pt-BR")]
+    PtBr,
+    #[serde(rename = "de")]
+    De,
+    #[serde(rename = "fr")]
+    Fr,
+    #[serde(rename = "it")]
+    It,
+}
+
+impl Default for Locale {
+    fn default() -> Locale {
+        Self::En
     }
 }
 ///

@@ -49,6 +49,12 @@ module Pleaxy
 
     attr_accessor :current_total
 
+    attr_accessor :modules
+
+    attr_accessor :module_offers
+
+    attr_accessor :pending_module_removal
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -90,7 +96,10 @@ module Pleaxy
         :'current_price_label' => :'currentPriceLabel',
         :'current_price' => :'currentPrice',
         :'current_total_label' => :'currentTotalLabel',
-        :'current_total' => :'currentTotal'
+        :'current_total' => :'currentTotal',
+        :'modules' => :'modules',
+        :'module_offers' => :'moduleOffers',
+        :'pending_module_removal' => :'pendingModuleRemoval'
       }
     end
 
@@ -118,7 +127,10 @@ module Pleaxy
         :'current_price_label' => :'String',
         :'current_price' => :'PriceAmount',
         :'current_total_label' => :'String',
-        :'current_total' => :'PriceAmount'
+        :'current_total' => :'PriceAmount',
+        :'modules' => :'Array<String>',
+        :'module_offers' => :'Array<ModuleOffer>',
+        :'pending_module_removal' => :'BillingSummaryPendingModuleRemoval'
       }
     end
 
@@ -212,6 +224,22 @@ module Pleaxy
       if attributes.key?(:'current_total')
         self.current_total = attributes[:'current_total']
       end
+
+      if attributes.key?(:'modules')
+        if (value = attributes[:'modules']).is_a?(Array)
+          self.modules = value
+        end
+      end
+
+      if attributes.key?(:'module_offers')
+        if (value = attributes[:'module_offers']).is_a?(Array)
+          self.module_offers = value
+        end
+      end
+
+      if attributes.key?(:'pending_module_removal')
+        self.pending_module_removal = attributes[:'pending_module_removal']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -298,7 +326,10 @@ module Pleaxy
           current_price_label == o.current_price_label &&
           current_price == o.current_price &&
           current_total_label == o.current_total_label &&
-          current_total == o.current_total
+          current_total == o.current_total &&
+          modules == o.modules &&
+          module_offers == o.module_offers &&
+          pending_module_removal == o.pending_module_removal
     end
 
     # @see the `==` method
@@ -310,7 +341,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [billing_enabled, plan, managed_by, aws_marketplace, has_billing_account, subscription_status, current_period_end, cancel_at_period_end, past_due_since, buyer_region_count, supplier_region_count, interval, available_plans, current_price_label, current_price, current_total_label, current_total].hash
+      [billing_enabled, plan, managed_by, aws_marketplace, has_billing_account, subscription_status, current_period_end, cancel_at_period_end, past_due_since, buyer_region_count, supplier_region_count, interval, available_plans, current_price_label, current_price, current_total_label, current_total, modules, module_offers, pending_module_removal].hash
     end
 
     # Builds the object from hash

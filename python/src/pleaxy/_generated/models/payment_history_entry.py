@@ -10,6 +10,7 @@ from ..models.payment_history_entry_action import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.approved_by_others_record import ApprovedByOthersRecord
     from ..models.payment_history_entry_record import PaymentHistoryEntryRecord
     from ..models.sole_payer_waiver_record import SolePayerWaiverRecord
 
@@ -30,6 +31,7 @@ class PaymentHistoryEntry:
         credit_note_id (Union[Unset, str]):
         amount (Union[Unset, float]):
         sole_payer (Union[Unset, SolePayerWaiverRecord]):
+        approved_by_others (Union[Unset, ApprovedByOthersRecord]):
         record (Union[Unset, PaymentHistoryEntryRecord]):
     """
 
@@ -42,6 +44,7 @@ class PaymentHistoryEntry:
     credit_note_id: Union[Unset, str] = UNSET
     amount: Union[Unset, float] = UNSET
     sole_payer: Union[Unset, "SolePayerWaiverRecord"] = UNSET
+    approved_by_others: Union[Unset, "ApprovedByOthersRecord"] = UNSET
     record: Union[Unset, "PaymentHistoryEntryRecord"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -68,6 +71,10 @@ class PaymentHistoryEntry:
         if not isinstance(self.sole_payer, Unset):
             sole_payer = self.sole_payer.to_dict()
 
+        approved_by_others: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.approved_by_others, Unset):
+            approved_by_others = self.approved_by_others.to_dict()
+
         record: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.record, Unset):
             record = self.record.to_dict()
@@ -93,6 +100,8 @@ class PaymentHistoryEntry:
             field_dict["amount"] = amount
         if sole_payer is not UNSET:
             field_dict["solePayer"] = sole_payer
+        if approved_by_others is not UNSET:
+            field_dict["approvedByOthers"] = approved_by_others
         if record is not UNSET:
             field_dict["record"] = record
 
@@ -100,6 +109,7 @@ class PaymentHistoryEntry:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.approved_by_others_record import ApprovedByOthersRecord
         from ..models.payment_history_entry_record import PaymentHistoryEntryRecord
         from ..models.sole_payer_waiver_record import SolePayerWaiverRecord
 
@@ -132,6 +142,13 @@ class PaymentHistoryEntry:
         else:
             sole_payer = SolePayerWaiverRecord.from_dict(_sole_payer)
 
+        _approved_by_others = d.pop("approvedByOthers", UNSET)
+        approved_by_others: Union[Unset, ApprovedByOthersRecord]
+        if isinstance(_approved_by_others, Unset):
+            approved_by_others = UNSET
+        else:
+            approved_by_others = ApprovedByOthersRecord.from_dict(_approved_by_others)
+
         _record = d.pop("record", UNSET)
         record: Union[Unset, PaymentHistoryEntryRecord]
         if isinstance(_record, Unset):
@@ -149,6 +166,7 @@ class PaymentHistoryEntry:
             credit_note_id=credit_note_id,
             amount=amount,
             sole_payer=sole_payer,
+            approved_by_others=approved_by_others,
             record=record,
         )
 

@@ -11,6 +11,10 @@ from ..models.add_ai_provider_supplier_result_cloud_provider import (
     AddAiProviderSupplierResultCloudProvider,
     check_add_ai_provider_supplier_result_cloud_provider,
 )
+from ..models.add_ai_provider_supplier_result_origin import (
+    AddAiProviderSupplierResultOrigin,
+    check_add_ai_provider_supplier_result_origin,
+)
 from ..models.add_ai_provider_supplier_result_status import (
     AddAiProviderSupplierResultStatus,
     check_add_ai_provider_supplier_result_status,
@@ -39,6 +43,8 @@ class AddAiProviderSupplierResult:
         invited_as_name (Union[Unset, str]):
         supplier_contact_email (Union[Unset, str]):
         status (Union[Unset, AddAiProviderSupplierResultStatus]):
+        origin (Union[Unset, AddAiProviderSupplierResultOrigin]):
+        questionnaire_requested (Union[Unset, bool]):
         questionnaire_template_id (Union[Unset, str]):
         questionnaire_template_version (Union[Unset, float]):
         fields (Union[Unset, List['QuestionnaireFieldDef']]):
@@ -81,6 +87,8 @@ class AddAiProviderSupplierResult:
     invited_as_name: Union[Unset, str] = UNSET
     supplier_contact_email: Union[Unset, str] = UNSET
     status: Union[Unset, AddAiProviderSupplierResultStatus] = UNSET
+    origin: Union[Unset, AddAiProviderSupplierResultOrigin] = UNSET
+    questionnaire_requested: Union[Unset, bool] = UNSET
     questionnaire_template_id: Union[Unset, str] = UNSET
     questionnaire_template_version: Union[Unset, float] = UNSET
     fields: Union[Unset, List["QuestionnaireFieldDef"]] = UNSET
@@ -133,6 +141,12 @@ class AddAiProviderSupplierResult:
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
             status = self.status
+
+        origin: Union[Unset, str] = UNSET
+        if not isinstance(self.origin, Unset):
+            origin = self.origin
+
+        questionnaire_requested = self.questionnaire_requested
 
         questionnaire_template_id = self.questionnaire_template_id
 
@@ -237,6 +251,10 @@ class AddAiProviderSupplierResult:
             field_dict["supplierContactEmail"] = supplier_contact_email
         if status is not UNSET:
             field_dict["status"] = status
+        if origin is not UNSET:
+            field_dict["origin"] = origin
+        if questionnaire_requested is not UNSET:
+            field_dict["questionnaireRequested"] = questionnaire_requested
         if questionnaire_template_id is not UNSET:
             field_dict["questionnaireTemplateId"] = questionnaire_template_id
         if questionnaire_template_version is not UNSET:
@@ -334,6 +352,15 @@ class AddAiProviderSupplierResult:
             status = UNSET
         else:
             status = check_add_ai_provider_supplier_result_status(_status)
+
+        _origin = d.pop("origin", UNSET)
+        origin: Union[Unset, AddAiProviderSupplierResultOrigin]
+        if isinstance(_origin, Unset):
+            origin = UNSET
+        else:
+            origin = check_add_ai_provider_supplier_result_origin(_origin)
+
+        questionnaire_requested = d.pop("questionnaireRequested", UNSET)
 
         questionnaire_template_id = d.pop("questionnaireTemplateId", UNSET)
 
@@ -444,6 +471,8 @@ class AddAiProviderSupplierResult:
             invited_as_name=invited_as_name,
             supplier_contact_email=supplier_contact_email,
             status=status,
+            origin=origin,
+            questionnaire_requested=questionnaire_requested,
             questionnaire_template_id=questionnaire_template_id,
             questionnaire_template_version=questionnaire_template_version,
             fields=fields,

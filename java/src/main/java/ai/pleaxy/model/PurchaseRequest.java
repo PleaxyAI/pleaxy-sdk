@@ -65,6 +65,8 @@ import ai.pleaxy.client.ApiClient;
   PurchaseRequest.JSON_PROPERTY_APPROVAL_VERSION,
   PurchaseRequest.JSON_PROPERTY_BUDGET_CHECK,
   PurchaseRequest.JSON_PROPERTY_PO_ID,
+  PurchaseRequest.JSON_PROPERTY_PO_IDS,
+  PurchaseRequest.JSON_PROPERTY_SOURCING_EVENT_ID,
   PurchaseRequest.JSON_PROPERTY_REJECTION_REASON,
   PurchaseRequest.JSON_PROPERTY_CREATED_AT,
   PurchaseRequest.JSON_PROPERTY_UPDATED_AT,
@@ -151,6 +153,8 @@ public class PurchaseRequest {
     
     REJECTED(String.valueOf("rejected")),
     
+    SOURCING(String.valueOf("sourcing")),
+    
     PENDING_APPROVAL(String.valueOf("pending_approval")),
     
     DRAFT(String.valueOf("draft")),
@@ -205,6 +209,14 @@ public class PurchaseRequest {
   public static final String JSON_PROPERTY_PO_ID = "poId";
   @javax.annotation.Nullable
   private String poId;
+
+  public static final String JSON_PROPERTY_PO_IDS = "poIds";
+  @javax.annotation.Nullable
+  private List<String> poIds = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_SOURCING_EVENT_ID = "sourcingEventId";
+  @javax.annotation.Nullable
+  private String sourcingEventId;
 
   public static final String JSON_PROPERTY_REJECTION_REASON = "rejectionReason";
   @javax.annotation.Nullable
@@ -789,6 +801,62 @@ public class PurchaseRequest {
   }
 
 
+  public PurchaseRequest poIds(@javax.annotation.Nullable List<String> poIds) {
+    this.poIds = poIds;
+    return this;
+  }
+
+  public PurchaseRequest addPoIdsItem(String poIdsItem) {
+    if (this.poIds == null) {
+      this.poIds = new ArrayList<>();
+    }
+    this.poIds.add(poIdsItem);
+    return this;
+  }
+
+  /**
+   * Get poIds
+   * @return poIds
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PO_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getPoIds() {
+    return poIds;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PO_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPoIds(@javax.annotation.Nullable List<String> poIds) {
+    this.poIds = poIds;
+  }
+
+
+  public PurchaseRequest sourcingEventId(@javax.annotation.Nullable String sourcingEventId) {
+    this.sourcingEventId = sourcingEventId;
+    return this;
+  }
+
+  /**
+   * Get sourcingEventId
+   * @return sourcingEventId
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SOURCING_EVENT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getSourcingEventId() {
+    return sourcingEventId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SOURCING_EVENT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSourcingEventId(@javax.annotation.Nullable String sourcingEventId) {
+    this.sourcingEventId = sourcingEventId;
+  }
+
+
   public PurchaseRequest rejectionReason(@javax.annotation.Nullable String rejectionReason) {
     this.rejectionReason = rejectionReason;
     return this;
@@ -991,6 +1059,8 @@ public class PurchaseRequest {
         Objects.equals(this.approvalVersion, purchaseRequest.approvalVersion) &&
         Objects.equals(this.budgetCheck, purchaseRequest.budgetCheck) &&
         Objects.equals(this.poId, purchaseRequest.poId) &&
+        Objects.equals(this.poIds, purchaseRequest.poIds) &&
+        Objects.equals(this.sourcingEventId, purchaseRequest.sourcingEventId) &&
         Objects.equals(this.rejectionReason, purchaseRequest.rejectionReason) &&
         Objects.equals(this.createdAt, purchaseRequest.createdAt) &&
         Objects.equals(this.updatedAt, purchaseRequest.updatedAt) &&
@@ -1002,7 +1072,7 @@ public class PurchaseRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, requesterEmployeeKey, requesterName, costCenter, glCode, supplier, lineItems, amount, currency, neededBy, quoteDocument, notes, requestType, formFields, answers, status, approval, approvalVersion, budgetCheck, poId, rejectionReason, createdAt, updatedAt, submittedAt, decidedAt, canceledAt, canceledBy);
+    return Objects.hash(id, title, description, requesterEmployeeKey, requesterName, costCenter, glCode, supplier, lineItems, amount, currency, neededBy, quoteDocument, notes, requestType, formFields, answers, status, approval, approvalVersion, budgetCheck, poId, poIds, sourcingEventId, rejectionReason, createdAt, updatedAt, submittedAt, decidedAt, canceledAt, canceledBy);
   }
 
   @Override
@@ -1031,6 +1101,8 @@ public class PurchaseRequest {
     sb.append("    approvalVersion: ").append(toIndentedString(approvalVersion)).append("\n");
     sb.append("    budgetCheck: ").append(toIndentedString(budgetCheck)).append("\n");
     sb.append("    poId: ").append(toIndentedString(poId)).append("\n");
+    sb.append("    poIds: ").append(toIndentedString(poIds)).append("\n");
+    sb.append("    sourcingEventId: ").append(toIndentedString(sourcingEventId)).append("\n");
     sb.append("    rejectionReason: ").append(toIndentedString(rejectionReason)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
@@ -1208,6 +1280,20 @@ public class PurchaseRequest {
     // add `poId` to the URL query string
     if (getPoId() != null) {
       joiner.add(String.format("%spoId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPoId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `poIds` to the URL query string
+    if (getPoIds() != null) {
+      for (int i = 0; i < getPoIds().size(); i++) {
+        joiner.add(String.format("%spoIds%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getPoIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `sourcingEventId` to the URL query string
+    if (getSourcingEventId() != null) {
+      joiner.add(String.format("%ssourcingEventId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSourcingEventId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `rejectionReason` to the URL query string
