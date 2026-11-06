@@ -23,7 +23,7 @@ from ._resources import Resources
 from ._transport import PleaxyError, Transport, build_client
 
 __all__ = ["Client", "PleaxyError", "models", "DEFAULT_BASE_URL"]
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 DEFAULT_BASE_URL = "https://api.pleaxy.ai"
 

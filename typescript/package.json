@@ -1,6 +1,6 @@
 {
   "name": "@pleaxy/sdk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Official TypeScript/JavaScript client for the Pleaxy API: purchase orders, invoices and settlement for cloud spend.",
   "license": "MIT",
   "homepage": "https://pleaxy.ai/sdks",

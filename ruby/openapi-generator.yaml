@@ -10,7 +10,7 @@ library: faraday
 additionalProperties:
   gemName: pleaxy
   moduleName: Pleaxy
-  gemVersion: 0.1.0
+  gemVersion: 0.2.0
   gemLicense: MIT
   gemHomepage: https://pleaxy.ai/sdks
   gemSummary: Official Ruby client for the Pleaxy API

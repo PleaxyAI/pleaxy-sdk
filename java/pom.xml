@@ -5,7 +5,7 @@
     <artifactId>pleaxy-java</artifactId>
     <packaging>jar</packaging>
     <name>pleaxy-java</name>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <url>https://pleaxy.ai/sdks</url>
     <description>Official Java client for the Pleaxy API</description>
     <scm>
