@@ -55,7 +55,8 @@ jobs:
       - run: npm run build
 
   python:
-    runs-on: ubuntu-latest
+    # Python 3.9 isn't available for ubuntu-latest (Ubuntu 26.04) any more, and the package supports >=3.9.
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         python: ["3.9", "3.13"]
