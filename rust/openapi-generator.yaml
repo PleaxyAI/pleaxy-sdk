@@ -7,7 +7,7 @@ outputDir: .
 library: reqwest
 additionalProperties:
   packageName: pleaxy
-  packageVersion: 0.2.0
+  packageVersion: 0.3.0
   supportAsync: true
   useSingleRequestParameter: false
   avoidBoxedModels: true

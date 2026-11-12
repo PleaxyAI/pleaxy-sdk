@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pleaxy"
-version = "0.2.0"
+version = "0.3.0"
 description = "Official Python client for the Pleaxy API: purchase orders, invoices and settlement for cloud spend."
 readme = "README.md"
 license = "MIT"

@@ -7,7 +7,7 @@ outputDir: .
 library: native
 groupId: ai.pleaxy
 artifactId: pleaxy-java
-artifactVersion: 0.2.0
+artifactVersion: 0.3.0
 artifactDescription: Official Java client for the Pleaxy API
 artifactUrl: https://pleaxy.ai/sdks
 scmUrl: https://github.com/pleaxyai/pleaxy-sdk

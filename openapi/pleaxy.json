@@ -8293,7 +8293,7 @@
   "info": {
     "title": "Pleaxy API",
     "description": "PO-to-payment lifecycle: purchase orders, usage-based matching, settlement. Each endpoint is tagged **[Buyer]**, **[Supplier]**, or **[Both]** for which side of the workspace calls it. To say which side you act as, put a Workspace ID in the path: `<regionId>.buyer` or `<regionId>.supplier`. With a bare region id, someone who holds both a buyer and a supplier profile in that region acts as the buyer.",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "contact": {},
     "license": {
       "name": "MIT",
