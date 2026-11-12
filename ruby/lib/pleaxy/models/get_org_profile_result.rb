@@ -69,6 +69,8 @@ module Pleaxy
 
     attr_accessor :directory_id
 
+    attr_accessor :setup_goal
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -120,7 +122,8 @@ module Pleaxy
         :'same_domain_acknowledged' => :'sameDomainAcknowledged',
         :'verified' => :'verified',
         :'listed_in_directory' => :'listedInDirectory',
-        :'directory_id' => :'directoryId'
+        :'directory_id' => :'directoryId',
+        :'setup_goal' => :'setupGoal'
       }
     end
 
@@ -158,7 +161,8 @@ module Pleaxy
         :'same_domain_acknowledged' => :'SameDomainAcknowledgement',
         :'verified' => :'Boolean',
         :'listed_in_directory' => :'Boolean',
-        :'directory_id' => :'String'
+        :'directory_id' => :'String',
+        :'setup_goal' => :'String'
       }
     end
 
@@ -298,6 +302,10 @@ module Pleaxy
       if attributes.key?(:'directory_id')
         self.directory_id = attributes[:'directory_id']
       end
+
+      if attributes.key?(:'setup_goal')
+        self.setup_goal = attributes[:'setup_goal']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -321,6 +329,8 @@ module Pleaxy
       return false unless role_validator.valid?(@role)
       locale_validator = EnumAttributeValidator.new('String', ["en", "es", "pt-BR", "de", "fr", "it"])
       return false unless locale_validator.valid?(@locale)
+      setup_goal_validator = EnumAttributeValidator.new('String', ["audit", "network"])
+      return false unless setup_goal_validator.valid?(@setup_goal)
       true
     end
 
@@ -342,6 +352,16 @@ module Pleaxy
         fail ArgumentError, "invalid value for \"locale\", must be one of #{validator.allowable_values}."
       end
       @locale = locale
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] setup_goal Object to be assigned
+    def setup_goal=(setup_goal)
+      validator = EnumAttributeValidator.new('String', ["audit", "network"])
+      unless validator.valid?(setup_goal)
+        fail ArgumentError, "invalid value for \"setup_goal\", must be one of #{validator.allowable_values}."
+      end
+      @setup_goal = setup_goal
     end
 
     # Checks equality by comparing each attribute.
@@ -375,7 +395,8 @@ module Pleaxy
           same_domain_acknowledged == o.same_domain_acknowledged &&
           verified == o.verified &&
           listed_in_directory == o.listed_in_directory &&
-          directory_id == o.directory_id
+          directory_id == o.directory_id &&
+          setup_goal == o.setup_goal
     end
 
     # @see the `==` method
@@ -387,7 +408,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [images, id, role, region_id, region_name, company_name, billing_email, billing_address, billing_address_parts, billing_address_legacy_text, billing_address_needs_review, tax_id, currency, other_currencies, payment_currencies, fx_warning_pct, countries, geography, time_zone, locale, primary_contact_name, primary_contact_email, created_at, same_domain_acknowledged, verified, listed_in_directory, directory_id].hash
+      [images, id, role, region_id, region_name, company_name, billing_email, billing_address, billing_address_parts, billing_address_legacy_text, billing_address_needs_review, tax_id, currency, other_currencies, payment_currencies, fx_warning_pct, countries, geography, time_zone, locale, primary_contact_name, primary_contact_email, created_at, same_domain_acknowledged, verified, listed_in_directory, directory_id, setup_goal].hash
     end
 
     # Builds the object from hash

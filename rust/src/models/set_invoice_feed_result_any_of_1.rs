@@ -97,6 +97,12 @@ pub struct SetInvoiceFeedResultAnyOf1 {
         skip_serializing_if = "Option::is_none"
     )]
     pub invoice_feed_updated_by: Option<String>,
+    #[serde(rename = "commentsMuted", skip_serializing_if = "Option::is_none")]
+    pub comments_muted: Option<bool>,
+    #[serde(rename = "commentsMutedAt", skip_serializing_if = "Option::is_none")]
+    pub comments_muted_at: Option<String>,
+    #[serde(rename = "commentsMutedBy", skip_serializing_if = "Option::is_none")]
+    pub comments_muted_by: Option<String>,
     #[serde(rename = "feedLastAttemptAt", skip_serializing_if = "Option::is_none")]
     pub feed_last_attempt_at: Option<String>,
     #[serde(rename = "feedLastAcceptedAt", skip_serializing_if = "Option::is_none")]
@@ -171,6 +177,9 @@ impl SetInvoiceFeedResultAnyOf1 {
             invoice_feed_enabled: None,
             invoice_feed_updated_at: None,
             invoice_feed_updated_by: None,
+            comments_muted: None,
+            comments_muted_at: None,
+            comments_muted_by: None,
             feed_last_attempt_at: None,
             feed_last_accepted_at: None,
             feed_accepted_count: None,

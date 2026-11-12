@@ -75,6 +75,8 @@ module Pleaxy
 
     attr_accessor :last_reminded_at
 
+    attr_accessor :last_approver_reminded_at
+
     attr_accessor :rejection
 
     attr_accessor :replaces_invoice_id
@@ -200,6 +202,7 @@ module Pleaxy
         :'payment_problem' => :'paymentProblem',
         :'due_date_source' => :'dueDateSource',
         :'last_reminded_at' => :'lastRemindedAt',
+        :'last_approver_reminded_at' => :'lastApproverRemindedAt',
         :'rejection' => :'rejection',
         :'replaces_invoice_id' => :'replacesInvoiceId',
         :'replaces_invoice_ids' => :'replacesInvoiceIds',
@@ -276,6 +279,7 @@ module Pleaxy
         :'payment_problem' => :'SupplierPaymentProblemView',
         :'due_date_source' => :'String',
         :'last_reminded_at' => :'String',
+        :'last_approver_reminded_at' => :'String',
         :'rejection' => :'InvoiceRejection',
         :'replaces_invoice_id' => :'String',
         :'replaces_invoice_ids' => :'Array<String>',
@@ -457,6 +461,10 @@ module Pleaxy
 
       if attributes.key?(:'last_reminded_at')
         self.last_reminded_at = attributes[:'last_reminded_at']
+      end
+
+      if attributes.key?(:'last_approver_reminded_at')
+        self.last_approver_reminded_at = attributes[:'last_approver_reminded_at']
       end
 
       if attributes.key?(:'rejection')
@@ -754,6 +762,7 @@ module Pleaxy
           payment_problem == o.payment_problem &&
           due_date_source == o.due_date_source &&
           last_reminded_at == o.last_reminded_at &&
+          last_approver_reminded_at == o.last_approver_reminded_at &&
           rejection == o.rejection &&
           replaces_invoice_id == o.replaces_invoice_id &&
           replaces_invoice_ids == o.replaces_invoice_ids &&
@@ -800,7 +809,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier, buyer_org_id, supplier_org_id, late_fee_terms, amount, settlement, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, no_po_comparison, payment_route, paid, due_in_days, due_date, paid_at, payment, remittances, payment_problem, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, entered_by, invoice_date, submitted_format, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, bank_details_confirmation, bank_lane, source_document, has_original_pdf, base_currency_amount, withdrawn_payment, buyer_workspace_id, next_reminder_at].hash
+      [supplier, buyer_org_id, supplier_org_id, late_fee_terms, amount, settlement, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, no_po_comparison, payment_route, paid, due_in_days, due_date, paid_at, payment, remittances, payment_problem, due_date_source, last_reminded_at, last_approver_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, entered_by, invoice_date, submitted_format, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, bank_details_confirmation, bank_lane, source_document, has_original_pdf, base_currency_amount, withdrawn_payment, buyer_workspace_id, next_reminder_at].hash
     end
 
     # Builds the object from hash

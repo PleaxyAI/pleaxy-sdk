@@ -489,6 +489,23 @@ export interface paths {
         patch: operations["UpdatePurchaseOrder"];
         trace?: never;
     };
+    "/purchase-orders/{poId}/pdf": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Both] Get the purchase order as a PDF - the supplier's copy whoever asks (no cost center, budget owner, notes or approvals), to download, print or forward. Takes the same ?buyer= qualifier as GetPurchaseOrder. Send `Accept: application/pdf`, or the deployed API returns the body base64-encoded. */
+        get: operations["GetPurchaseOrderPdf"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/purchase-orders/{poId}/submit": {
         parameters: {
             query?: never;
@@ -534,6 +551,23 @@ export interface paths {
         put?: never;
         /** [Buyer] Manually close out a purchase order */
         post: operations["ClosePurchaseOrder"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-orders/{poId}/cost-center": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer, administrator] Rebook a closed, paid or canceled purchase order to another cost center, with a reason. Only the cost center changes; the change is kept on the order (`costCenterChanges`). An open order changes its cost center with PATCH instead. */
+        post: operations["ChangeFinishedPurchaseOrderCostCenter"];
         delete?: never;
         options?: never;
         head?: never;
@@ -772,7 +806,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Buyer] Match an invoice: against the provider's usage for a cloud provider's order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO. */
+        /** [Buyer] Match an invoice: against the provider's usage for a cloud provider's order (Pleaxy runs that match itself as the invoice arrives; call this when it couldn't, e.g. no figure was in yet); otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO. */
         post: operations["RunInvoiceMatch"];
         delete?: never;
         options?: never;
@@ -968,6 +1002,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/invoices/{invoiceId}/remittance-upload": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] A presigned URL to upload a proof of payment (a bank's transfer receipt) for an approved or paid invoice: { contentType: application/pdf|image/png|image/jpeg }. PUT the file to uploadUrl with that Content-Type within 5 minutes, up to maxBytes (10 MB), then send its fileId with SendRemittance or RecordPayment's remittance. An upload nothing attaches is deleted after a couple of days. Human session only. */
+        post: operations["RequestRemittanceUpload"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/invoices/{invoiceId}/remittance": {
         parameters: {
             query?: never;
@@ -977,6 +1028,24 @@ export interface paths {
         };
         /** [Both] The payment signal for an invoice, for the supplier's cash application: status unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion, what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as GetInvoice. */
         get: operations["GetInvoiceRemittance"];
+        put?: never;
+        /** [Buyer] Send the supplier a remittance for a paid invoice: { note?, file?: { fileId, fileName } }, at least one. The note (up to 1,000 characters) goes in the supplier's notification, which its Slack or Teams channel also gets when routed there; the file is a proof of payment uploaded with RequestRemittanceUpload. Up to 20 per invoice. 409 REMITTANCE_NEEDS_PAYMENT before a payment is recorded. Human session only. */
+        post: operations["SendRemittance"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/invoices/{invoiceId}/remittances/{remittanceId}/file": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Both] A link, valid for 5 minutes, to the proof of payment a remittance carries: { url, fileName, contentType }. 404 REMITTANCE_NOT_FOUND when the remittance has no file. Takes the same ?buyer= qualifier as GetInvoice. */
+        get: operations["GetRemittanceFile"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1203,6 +1272,178 @@ export interface paths {
         /** [Buyer] Preview the budget check for an amount on a cost center, against its budget in the amount's currency: within, over, no_budget or off. Writes nothing. */
         post: operations["CheckBudget"];
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/credit-notes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Both] List credit notes: a Buyer caller gets the ones it received, a Supplier caller the ones it issued, each with what's left to apply (remaining). */
+        get: operations["ListCreditNotes"];
+        put?: never;
+        /** [Both] Issue a credit note against the invoice it corrects (invoiceId) or a counterparty (connectionId); a buyer records one it received the same way, optionally from a document Pleaxy read (sourceImportId). Its total is computed from its lines and tax. One that corrects an invoice and isn't for more than it is accepted at once; otherwise the buyer accepts or rejects it. */
+        post: operations["CreateCreditNote"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/credit-notes/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Who settles accepted credits: pleaxy (applied to invoices here) or accounting_system (exported for your ERP to clear). chosen: false when it's the default. */
+        get: operations["GetCreditSettlement"];
+        /** [Buyer] Choose who settles accepted credits. 409 CREDITS_APPLIED_TO_UNPAID when moving to accounting_system while credits sit on unpaid invoices. */
+        put: operations["SetCreditSettlement"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/credit-notes/{creditNoteId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Both] One credit note, with what it corrects, the PO balance it gave back, where its money went and what's left of it. */
+        get: operations["GetCreditNote"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/credit-notes/{creditNoteId}/pdf": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Both] The credit note's own PDF, as attached when it was issued or the document it was recorded from. 404 CREDIT_NOTE_NO_PDF when it has none (hasPdf is false). Send `Accept: application/pdf`, or the deployed API returns the body base64-encoded. */
+        get: operations["GetCreditNotePdf"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/credit-notes/{creditNoteId}/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Accept a credit note. A correction gives PO balance back; when Pleaxy settles credits, it's applied to the unpaid invoice it corrects. */
+        post: operations["AcceptCreditNote"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/credit-notes/{creditNoteId}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Reject a credit note waiting for acceptance, with a reason the supplier reads. */
+        post: operations["RejectCreditNote"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/credit-notes/{creditNoteId}/void": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Supplier] Void a credit note the buyer hasn't decided on yet. Its number stays used. */
+        post: operations["VoidCreditNote"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/invoices/{invoiceId}/available-credits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Accepted credits from the invoice's supplier in its currency, oldest first, each with a suggested amount; pending ones to accept; and whether the invoice can take credits. */
+        get: operations["ListAvailableCredits"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/invoices/{invoiceId}/credit-applications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Apply accepted credit notes to an invoice, all or none, up to what it owes; an approved invoice covered in full is marked paid by credit. 409 when credits are settled in your accounting system. */
+        post: operations["ApplyCredits"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/invoices/{invoiceId}/credit-applications/{applicationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** [Buyer] Take a credit back off an invoice that isn't exported or paid. It goes back to its credit note. */
+        delete: operations["RemoveCreditApplication"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1476,6 +1717,161 @@ export interface paths {
         get: operations["ListWebhookDeliveries"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Purchase requests the caller can see, newest first: their own, everyone's with purchase order access, and any waiting on them */
+        get: operations["ListPurchaseRequests"];
+        put?: never;
+        /** [Buyer] Ask for something: saved as a draft, or submitted for approval with `submit: true`. Any workspace member. */
+        post: operations["CreatePurchaseRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-requests/files/upload-url": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] A presigned URL to upload the answer to a request form's 'file' question (PDF, image, Word, Excel, CSV or text, up to 25 MB). PUT the file there, then save the answer with the returned fileId. Any workspace member, before or after the request exists. */
+        post: operations["RequestPurchaseRequestFileUpload"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-requests/{requestId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] One purchase request, with its approval chain, budget check and the order it became */
+        get: operations["GetPurchaseRequest"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** [Buyer] The requester changes a draft, or a request waiting for approval (which sends it back through approval) */
+        patch: operations["UpdatePurchaseRequest"];
+        trace?: never;
+    };
+    "/purchase-requests/{requestId}/files/{fileId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] A short-lived link to a file answering one of the request's questions, for whoever may see the request */
+        get: operations["GetPurchaseRequestFile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-requests/{requestId}/submit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] The requester submits a draft for approval. Refused (409) over budget when budgets are enforced. */
+        post: operations["SubmitPurchaseRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-requests/{requestId}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Approve a purchase request - only the current step's approver, signed in */
+        post: operations["ApprovePurchaseRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-requests/{requestId}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Reject a purchase request with a reason - only the current step's approver */
+        post: operations["RejectPurchaseRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-requests/{requestId}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] The requester, or an administrator, withdraws a request until it is ordered */
+        post: operations["CancelPurchaseRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-requests/{requestId}/convert": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** [Buyer] Order an approved request: a purchase order from its lines, supplier, cost center, GL account and quote, each overridable. Within what was approved it keeps the request's approval. */
+        post: operations["ConvertPurchaseRequest"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1932,68 +2328,33 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/purchase-requests": {
+    "/sourcing-events": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** [Buyer] Purchase requests the caller can see, newest first: their own, everyone's with purchase order access, and any waiting on them */
-        get: operations["ListPurchaseRequests"];
+        /** [Buyer] The workspace's RFQs, newest first, with answer counts and (unless sealed) the lowest total */
+        get: operations["ListSourcingEvents"];
         put?: never;
-        /** [Buyer] Ask for something: saved as a draft, or submitted for approval with `submit: true`. Any workspace member. */
-        post: operations["CreatePurchaseRequest"];
+        /** [Buyer] Start an RFQ as a draft: blank, or `{ fromRequestId }` from an approved request with no order, whose lines, cost center, GL account, needed-by and files are copied (the request moves to `sourcing`) */
+        post: operations["CreateSourcingEvent"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/purchase-requests/files/upload-url": {
+    "/sourcing-events/{rfqId}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        put?: never;
-        /** [Buyer] A presigned URL to upload the answer to a request form's 'file' question (PDF, image, Word, Excel, CSV or text, up to 25 MB). PUT the file there, then save the answer with the returned fileId. Any workspace member, before or after the request exists. */
-        post: operations["RequestPurchaseRequestFileUpload"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/purchase-requests/{requestId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** [Buyer] One purchase request, with its approval chain, budget check and the order it became */
-        get: operations["GetPurchaseRequest"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** [Buyer] The requester changes a draft, or a request waiting for approval (which sends it back through approval) */
-        patch: operations["UpdatePurchaseRequest"];
-        trace?: never;
-    };
-    "/purchase-requests/{requestId}/files/{fileId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** [Buyer] A short-lived link to a file answering one of the request's questions, for whoever may see the request */
-        get: operations["GetPurchaseRequestFile"];
+        /** [Buyer] One RFQ. While open and sealed: each invitee's state and when it answered, never prices or files */
+        get: operations["GetSourcingEvent"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2002,85 +2363,17 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/purchase-requests/{requestId}/submit": {
+    "/sourcing-events/{rfqId}/comparison": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** [Buyer] The answers side by side: per line each price and total (lowest marked), totals, lead times against needed-by, terms, risk and onboarding; with criteria the weighted total, with evaluators their averages and spread (hidden from an evaluator until its own scorecard is in). `?round=n` shows an earlier round (default the latest). Refused while the current round is sealed */
+        get: operations["GetSourcingComparison"];
         put?: never;
-        /** [Buyer] The requester submits a draft for approval. Refused (409) over budget when budgets are enforced. */
-        post: operations["SubmitPurchaseRequest"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/purchase-requests/{requestId}/approve": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** [Buyer] Approve a purchase request - only the current step's approver, signed in */
-        post: operations["ApprovePurchaseRequest"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/purchase-requests/{requestId}/reject": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** [Buyer] Reject a purchase request with a reason - only the current step's approver */
-        post: operations["RejectPurchaseRequest"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/purchase-requests/{requestId}/cancel": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** [Buyer] The requester, or an administrator, withdraws a request until it is ordered */
-        post: operations["CancelPurchaseRequest"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/purchase-requests/{requestId}/convert": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** [Buyer] Order an approved request: a purchase order from its lines, supplier, cost center, GL account and quote, each overridable. Within what was approved it keeps the request's approval. */
-        post: operations["ConvertPurchaseRequest"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2167,6 +2460,93 @@ export interface paths {
         /** [Both] Leave the order as it is instead of recording what an email asks. Answers the email with its decision. 409 EMAIL_DECIDED once recorded or dismissed. */
         post: operations["DismissPurchaseOrderEmail"];
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/invoices/{invoiceId}/activity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Both] An invoice's activity, oldest first: its arrival, checks, matches, approval steps, rejection, payments, reminders and comments. Each entry has a `kind` and structured `data`, never prose. A Supplier caller gets its arrival, outcome, recorded payments, reminders and shared comments only. Takes GetInvoice's ?buyer=. */
+        get: operations["GetInvoiceActivity"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/invoices/{invoiceId}/comments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Both] Comments on an invoice, oldest first: your side's internal ones and every shared one. Takes GetInvoice's ?buyer=. */
+        get: operations["ListInvoiceComments"];
+        put?: never;
+        /** [Both] Comment on an invoice - internal to your team, or shared with the other side. A Supplier's comments are always shared. `mentions` notifies people in your own workspace. Human session only. */
+        post: operations["AddInvoiceComment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/invoices/{invoiceId}/comments/{commentId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** [Both] Take back your own comment on an invoice: its text is removed, the thread keeps that a comment was made. Human session only. */
+        delete: operations["DeleteInvoiceComment"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-orders/{poId}/comments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Both] Comments on a purchase order, oldest first: your side's internal ones and every shared one. Takes GetPurchaseOrder's ?buyer=. */
+        get: operations["ListPurchaseOrderComments"];
+        put?: never;
+        /** [Both] Comment on a purchase order - as AddInvoiceComment. Human session only. */
+        post: operations["AddPurchaseOrderComment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/purchase-orders/{poId}/comments/{commentId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** [Both] Take back your own comment on a purchase order. Human session only. */
+        delete: operations["DeletePurchaseOrderComment"];
         options?: never;
         head?: never;
         patch?: never;
@@ -2606,6 +2986,12 @@ export interface components {
         CancelPurchaseOrderInput: {
             reason?: string;
         };
+        ChangeFinishedCostCenterInput: {
+            /** @description The cost center to book the order to: an active one from the workspace's cost centers when it keeps a list. */
+            costCenter: string;
+            /** @description Why it moves, kept on the order with who changed it and when. */
+            reason: string;
+        };
         ReassignApprovalStageInput: {
             /** @description Id of the pending stage to reassign. May be in any group, not only the current one. */
             stageId: string;
@@ -2967,6 +3353,10 @@ export interface components {
             invoiceIds?: string[];
             confirmReplaced?: boolean;
         };
+        RequestRemittanceUploadInput: {
+            /** @enum {string} */
+            contentType: "application/pdf" | "image/png" | "image/jpeg";
+        };
         CreditPriceInput: {
             /** Format: double */
             amount: number;
@@ -2985,11 +3375,15 @@ export interface components {
             clientId: string;
             warehouseId: string;
         };
+        GitHubConnectionInput: {
+            org: string;
+        };
         CreateAiProviderInput: {
             provider: string;
             key?: string;
             snowflake?: components["schemas"]["SnowflakeConnectionInput"];
             databricks?: components["schemas"]["DatabricksConnectionInput"];
+            github?: components["schemas"]["GitHubConnectionInput"];
             creditPrice?: components["schemas"]["CreditPriceInput"];
         };
         UpdateBudgetControlInput: {
@@ -3025,6 +3419,63 @@ export interface components {
             expectedMonthly?: number;
             /** @description With blanket: the last day it runs (YYYY-MM-DD), its lines' latest validUntil; open-ended when absent. */
             validUntil?: string;
+        };
+        CreditSettlementInput: {
+            /**
+             * @description pleaxy: accepted credits are applied to invoices here. accounting_system: they go out in the payment export for your ERP to clear.
+             * @enum {string}
+             */
+            creditSettlement: "pleaxy" | "accounting_system";
+        };
+        CreateCreditNoteInput: {
+            /** @description The invoice it corrects. Its buyer, supplier, currency, PO and PO line are the credit note's. Give this or connectionId. */
+            invoiceId?: string;
+            /** @description The counterparty it's for, when it corrects no one invoice - see GET .../invoices/counterparties. */
+            connectionId?: string;
+            /** @description The supplier's own number for it: unique per supplier within the buyer, case-insensitively. */
+            externalCreditNoteNumber: string;
+            /** @description YYYY-MM-DD - not in the future, not more than 365 days back */
+            issueDate: string;
+            /**
+             * @description returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't.
+             * @enum {string}
+             */
+            reason: "returned_goods" | "price_adjustment" | "service_credit" | "rebate" | "other";
+            /** @description Reason "other" only: it corrects what was billed, so it gives PO balance back too. */
+            correctsBilling?: boolean;
+            /** @description 1–1000 characters, e.g. the return's RMA number. */
+            note?: string;
+            /** @description ISO 4217. Required without invoiceId; with one, it must be the invoice's. */
+            currency?: string;
+            /** @description What is credited, before tax. 1–200 lines. */
+            lineItems: components["schemas"]["CreateManualInvoiceLineItemInput"][];
+            /**
+             * Format: double
+             * @description The tax credited, included in the credit note's total.
+             */
+            taxAmount?: number;
+            /** @description Tax by type, summing to taxAmount. At most 20. */
+            taxBreakdown?: components["schemas"]["BreakdownEntryInput"][];
+            /** @description Base64-encoded PDF of the credit note as issued, kept with it. Up to 8 MB. */
+            pdfBase64?: string;
+            /** @description Buyer only: the invoice import (POST .../invoice-imports) this credit note was recorded from - the supplier's credit note document Pleaxy read. Its document is kept with the credit note when it is a PDF under 8 MB, and the import records the credit note. */
+            sourceImportId?: string;
+        };
+        RejectCreditNoteInput: {
+            /** @description Why, 1–1000 characters. The supplier reads it. */
+            reason: string;
+        };
+        CreditApplicationInput: {
+            creditNoteId: string;
+            /**
+             * Format: double
+             * @description More than 0, in the invoice's currency, at most what's left of the credit note.
+             */
+            amount: number;
+        };
+        ApplyCreditsInput: {
+            /** @description All or none, in one write. 1–20. */
+            applications: components["schemas"]["CreditApplicationInput"][];
         };
         SubstituteItemInput: {
             supplierPartId: string;
@@ -3087,152 +3538,6 @@ export interface components {
             url?: string;
             description?: string;
             events?: string[];
-        };
-        CheckAiSpendInput: {
-            invoicerId?: string;
-            costCenter?: string;
-            poId?: string;
-            period?: string;
-        };
-        DraftAiOrdersInput: {
-            /** @description The invoicers (cloud accounts or AI provider connections) to draft an order for: the ones recommendations lists under uncovered. */
-            invoicerIds: string[];
-            /** @description The month the orders cover, YYYY-MM. Default this month. */
-            period?: string;
-            /**
-             * @description ai (default): lines per model and meter for the AI usage. account: one amount line for everything the cloud account bills, for a cloud account recommendations lists under accounts.
-             * @enum {string}
-             */
-            scope?: "ai" | "account";
-        };
-        SetAiRenewalRuleInput: {
-            /** @description Whether next month's AI orders are drafted from the forecast. */
-            enabled: boolean;
-            /**
-             * Format: double
-             * @description The day of the month (1-28) from which the drafts are raised. Default 25.
-             */
-            dayOfMonth?: number;
-            /** @description Whether Pleaxy also drafts an order for this month's spend no order covers (GetAiRecommendations' uncovered and accounts), once per provider or account a month, from the 3rd. Drafts only: a person reviews and submits them. Unchanged when absent. */
-            draftUncovered?: boolean;
-        };
-        AiAttributionRuleInput: {
-            /** @description The rule's id, to keep it; a new rule gets one. */
-            id?: string;
-            /** @description Only this invoicer's lines (a cloud connection or AI provider id). Every invoicer when left out. */
-            invoicerId?: string;
-            /** @enum {string} */
-            dimension: "tag" | "label" | "project" | "workspace" | "api_key" | "inference_profile" | "resource_group" | "compartment" | "cluster";
-            /** @description The tag or label key; tag and label only. */
-            key?: string;
-            /** @description The value the line must carry for the dimension (and key). */
-            value: string;
-            /** @description The cost center's code. */
-            costCenter: string;
-        };
-        SetAiAttributionInput: {
-            /** @description Every rule, in order: first match wins. At most 200. */
-            rules: components["schemas"]["AiAttributionRuleInput"][];
-            /**
-             * Format: double
-             * @description The version the rules were read at (GetAiAttribution's version); 0 for the first save.
-             */
-            version: number;
-        };
-        SetAiSeatCountInput: {
-            /**
-             * @description Who bills the seats.
-             * @enum {string}
-             */
-            invoicer: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
-            /** @description The seat product, as the order line names it (its ai.model), e.g. chatgpt-enterprise. */
-            product: string;
-            /** @description The month, YYYY-MM. */
-            period: string;
-            /**
-             * Format: double
-             * @description Active users in the identity provider that month: those holding a seat who signed in.
-             */
-            activeUsers: number;
-            /** @enum {string} */
-            source: "okta" | "entra" | "google_workspace" | "jumpcloud" | "provider_console" | "manual";
-        };
-        CreateFocusExportInput: {
-            from: string;
-            to: string;
-            /** @enum {string} */
-            version?: "1.2" | "1.4";
-            /** @enum {string} */
-            include?: "all" | "non_cloud";
-            /** @enum {string} */
-            format?: "csv" | "parquet";
-        };
-        MapFocusIssuerInput: {
-            supplierConnectionId?: string | null;
-        };
-        CreateFocusUploadInput: {
-            fileName: string;
-        };
-        FocusAwsSourceInput: {
-            bucket: string;
-            prefix?: string;
-            region: string;
-        };
-        FocusAzureSourceInput: {
-            storageAccount: string;
-            container: string;
-            directory?: string;
-        };
-        FocusGcpSourceInput: {
-            table: string;
-        };
-        FocusOciSourceInput: {
-            region: string;
-        };
-        FocusS3CompatibleSourceInput: {
-            endpoint: string;
-            region: string;
-            bucket: string;
-            prefix?: string;
-            accessKeyId: string;
-            secretAccessKey: string;
-        };
-        CreateFocusSourceInput: {
-            /** @enum {string} */
-            kind: "aws_s3" | "azure_blob" | "gcp_bigquery" | "oci" | "s3_compatible";
-            label?: string;
-            connectionId?: string;
-            aws?: components["schemas"]["FocusAwsSourceInput"];
-            azure?: components["schemas"]["FocusAzureSourceInput"];
-            gcp?: components["schemas"]["FocusGcpSourceInput"];
-            oci?: components["schemas"]["FocusOciSourceInput"];
-            s3?: components["schemas"]["FocusS3CompatibleSourceInput"];
-        };
-        SetAiSpendLimitInput: {
-            /** @description The invoicer the order covers: a cloud connection or AI provider id with a limits credential. */
-            invoicerId: string;
-            /** @description OpenAI: the project (proj_...). Anthropic: the workspace (wrkspc_...). Google Cloud: the project id, for a spend cap. */
-            target?: string;
-            /** @description Stop spend at the ceiling where the provider can (default true); false only alerts. */
-            deny?: boolean;
-        };
-        SetAiLimitCredentialInput: {
-            /** @description AWS: the limits role the setup script created (budgets only), never the read-only billing role. */
-            roleArn?: string;
-            /** @description AWS, for a ceiling that stops spend: the budget action's execution role (trusting budgets.amazonaws.com). */
-            executionRoleArn?: string;
-            /** @description AWS: the deny policy the budget action attaches at 100%. */
-            denyPolicyArn?: string;
-            /** @description AWS: the roles (names, not ARNs) the deny policy is attached to, e.g. the ones your apps call Bedrock with. */
-            roleNames?: string[];
-            /** @description Google Cloud: the limits service account (Billing Account Costs Manager, plus spend caps where wanted). */
-            serviceAccountEmail?: string;
-            /** @description Azure: the limits app registration's client id (Cost Management Contributor on the billing profile). */
-            clientId?: string;
-            /** @description OpenAI and Anthropic: a separate admin key for the limits, never the read key. Stored encrypted, never returned. */
-            key?: string;
-            /** @description Who the provider emails when a ceiling is reached (AWS budget actions, Azure budgets). */
-            notifyEmail?: string;
         };
         PurchaseRequestSupplierInput: {
             /** @description The supplier's name, as the requester knows it. */
@@ -3400,6 +3705,221 @@ export interface components {
             /** @description Save as a draft instead of submitting for approval. Submit it later with SubmitPurchaseOrderDraft. */
             draft?: boolean;
             lineItems?: components["schemas"]["LineItemInput"][];
+        };
+        CheckAiSpendInput: {
+            invoicerId?: string;
+            costCenter?: string;
+            poId?: string;
+            period?: string;
+        };
+        DraftAiOrdersInput: {
+            /** @description The invoicers (cloud accounts or AI provider connections) to draft an order for: the ones recommendations lists under uncovered. */
+            invoicerIds: string[];
+            /** @description The month the orders cover, YYYY-MM. Default this month. */
+            period?: string;
+            /**
+             * @description ai (default): lines per model and meter for the AI usage. account: one amount line for everything the cloud account bills, for a cloud account recommendations lists under accounts.
+             * @enum {string}
+             */
+            scope?: "ai" | "account";
+        };
+        SetAiRenewalRuleInput: {
+            /** @description Whether next month's AI orders are drafted from the forecast. */
+            enabled: boolean;
+            /**
+             * Format: double
+             * @description The day of the month (1-28) from which the drafts are raised. Default 25.
+             */
+            dayOfMonth?: number;
+            /** @description Whether Pleaxy also drafts an order for this month's spend no order covers (GetAiRecommendations' uncovered and accounts), once per provider or account a month, from the 3rd. Drafts only: a person reviews and submits them. Unchanged when absent. */
+            draftUncovered?: boolean;
+        };
+        AiAttributionRuleInput: {
+            /** @description The rule's id, to keep it; a new rule gets one. */
+            id?: string;
+            /** @description Only this invoicer's lines (a cloud connection or AI provider id). Every invoicer when left out. */
+            invoicerId?: string;
+            /** @enum {string} */
+            dimension: "tag" | "label" | "project" | "workspace" | "api_key" | "inference_profile" | "resource_group" | "compartment" | "cluster";
+            /** @description The tag or label key; tag and label only. */
+            key?: string;
+            /** @description The value the line must carry for the dimension (and key). */
+            value: string;
+            /** @description The cost center's code. */
+            costCenter: string;
+        };
+        SetAiAttributionInput: {
+            /** @description Every rule, in order: first match wins. At most 200. */
+            rules: components["schemas"]["AiAttributionRuleInput"][];
+            /**
+             * Format: double
+             * @description The version the rules were read at (GetAiAttribution's version); 0 for the first save.
+             */
+            version: number;
+        };
+        SetAiSeatCountInput: {
+            /**
+             * @description Who bills the seats.
+             * @enum {string}
+             */
+            invoicer: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            /** @description The seat product, as the order line names it (its ai.model), e.g. chatgpt-enterprise. */
+            product: string;
+            /** @description The month, YYYY-MM. */
+            period: string;
+            /**
+             * Format: double
+             * @description Active users in the identity provider that month: those holding a seat who signed in.
+             */
+            activeUsers: number;
+            /** @enum {string} */
+            source: "okta" | "entra" | "google_workspace" | "jumpcloud" | "provider_console" | "manual";
+        };
+        CreateFocusExportInput: {
+            from: string;
+            to: string;
+            /** @enum {string} */
+            version?: "1.2" | "1.4";
+            /** @enum {string} */
+            include?: "all" | "non_cloud";
+            /** @enum {string} */
+            format?: "csv" | "parquet";
+        };
+        MapFocusIssuerInput: {
+            supplierConnectionId?: string | null;
+        };
+        CreateFocusUploadInput: {
+            fileName: string;
+        };
+        FocusAwsSourceInput: {
+            bucket: string;
+            prefix?: string;
+            region: string;
+        };
+        FocusAzureSourceInput: {
+            storageAccount: string;
+            container: string;
+            directory?: string;
+        };
+        FocusGcpSourceInput: {
+            table: string;
+        };
+        FocusOciSourceInput: {
+            region: string;
+        };
+        FocusS3CompatibleSourceInput: {
+            endpoint: string;
+            region: string;
+            bucket: string;
+            prefix?: string;
+            accessKeyId: string;
+            secretAccessKey: string;
+        };
+        CreateFocusSourceInput: {
+            /** @enum {string} */
+            kind: "aws_s3" | "azure_blob" | "gcp_bigquery" | "oci" | "s3_compatible";
+            label?: string;
+            connectionId?: string;
+            aws?: components["schemas"]["FocusAwsSourceInput"];
+            azure?: components["schemas"]["FocusAzureSourceInput"];
+            gcp?: components["schemas"]["FocusGcpSourceInput"];
+            oci?: components["schemas"]["FocusOciSourceInput"];
+            s3?: components["schemas"]["FocusS3CompatibleSourceInput"];
+        };
+        SetAiSpendLimitInput: {
+            /** @description The invoicer the order covers: a cloud connection or AI provider id with a limits credential. */
+            invoicerId: string;
+            /** @description OpenAI: the project (proj_...). Anthropic: the workspace (wrkspc_...). Google Cloud: the project id, for a spend cap. */
+            target?: string;
+            /** @description Stop spend at the ceiling where the provider can (default true); false only alerts. */
+            deny?: boolean;
+        };
+        SetAiLimitCredentialInput: {
+            /** @description AWS: the limits role the setup script created (budgets only), never the read-only billing role. */
+            roleArn?: string;
+            /** @description AWS, for a ceiling that stops spend: the budget action's execution role (trusting budgets.amazonaws.com). */
+            executionRoleArn?: string;
+            /** @description AWS: the deny policy the budget action attaches at 100%. */
+            denyPolicyArn?: string;
+            /** @description AWS: the roles (names, not ARNs) the deny policy is attached to, e.g. the ones your apps call Bedrock with. */
+            roleNames?: string[];
+            /** @description Google Cloud: the limits service account (Billing Account Costs Manager, plus spend caps where wanted). */
+            serviceAccountEmail?: string;
+            /** @description Azure: the limits app registration's client id (Cost Management Contributor on the billing profile). */
+            clientId?: string;
+            /** @description OpenAI and Anthropic: a separate admin key for the limits, never the read key. Stored encrypted, never returned. */
+            key?: string;
+            /** @description Who the provider emails when a ceiling is reached (AWS budget actions, Azure budgets). */
+            notifyEmail?: string;
+        };
+        SourcingLineInput: {
+            /** @description The line's id, kept across edits so answers stay on it. Absent on a new line: the server gives one. */
+            id?: string;
+            /** @description What is asked for, 1–200 characters. */
+            name: string;
+            /**
+             * Format: double
+             * @description How many.
+             */
+            qty: number;
+            /** @description e.g. each, hour, month. */
+            unit?: string;
+            /** @description When it is needed, YYYY-MM-DD. The comparison tells whether each answer's lead time meets it. */
+            neededBy?: string;
+            /** @description Specifications or notes for suppliers, up to 2,000 characters. */
+            notes?: string;
+            /**
+             * Format: double
+             * @description The buyer's target unit price. Buyer-only: never shown to a supplier.
+             */
+            targetUnitPrice?: number;
+        };
+        CreateSourcingEventInput: {
+            /** @description An approved purchase request with no order: its lines, cost center, GL account, needed-by and files are copied, and it moves to `sourcing`. */
+            fromRequestId?: string;
+            /** @description 1–200 characters. From a request: the request's title unless given. */
+            title?: string;
+            /** @description What the suppliers are asked for, up to 5,000 characters. */
+            description?: string;
+            /** @description ISO 4217: the currency suppliers answer in. Default: the request's, else the workspace's. */
+            currency?: string;
+            /** @description The answer deadline, an ISO timestamp; it must be in the future when the RFQ is sent. Default: 7 days from now. */
+            dueAt?: string;
+            /** @description Sealed (the default): until it closes, the buyer sees who answered and when, never prices or files. */
+            sealed?: boolean;
+            /** @description From a request: the request's lines unless given. */
+            lines?: components["schemas"]["SourcingLineInput"][];
+            costCenter?: string;
+            glCode?: string;
+        };
+        CommentMeetingInput: {
+            /** @description What the meeting is about, on one line. */
+            topic: string;
+            /**
+             * Format: double
+             * @description How long the meeting lasts, in minutes.
+             * @enum {number}
+             */
+            durationMinutes: 15 | 30 | 45;
+            /** @description Your time zone, as an IANA name such as Europe/Madrid. */
+            timeZone: string;
+            /** @description Two or three proposed start times, ISO 8601 with an offset, in the future. */
+            times: string[];
+            /** @description An https link to the call. */
+            link?: string;
+        };
+        CreateCommentInput: {
+            /** @description Plain text. Line breaks are kept; control, bidi and invisible characters are removed. */
+            body: string;
+            /**
+             * @description internal: your own team only. shared: the other side of the relationship reads and answers it too. A supplier's comments are always shared.
+             * @enum {string}
+             */
+            visibility: "internal" | "shared";
+            /** @description Employee keys of people in your own workspace to notify. */
+            mentions?: string[];
+            /** @description Makes the comment a meeting request to the other company (shared only): `topic` (one line), `durationMinutes` (15, 30 or 45), `timeZone` (yours, IANA), `times` (two or three ISO 8601 starts with an offset, in the future) and an optional https `link` to the call. Starting one needs a paid plan; one open request per document. */
+            meeting?: components["schemas"]["CommentMeetingInput"];
         };
         EmployeeSummary: {
             key?: string;
@@ -3833,6 +4353,8 @@ export interface components {
             verified?: boolean;
             listedInDirectory?: boolean;
             directoryId?: string;
+            /** @enum {string} */
+            setupGoal?: "audit" | "network";
         };
         PurchaseOrder: {
             id: string;
@@ -4088,6 +4610,7 @@ export interface components {
             status?: "pending" | "approved" | "rejected";
             history?: components["schemas"]["ApprovalHistoryEntry"][];
             autonomy?: boolean;
+            routedAutomatically?: boolean;
             spendLimitGate?: components["schemas"]["SpendLimitGate"];
             excludedEmployeeKeys?: string[];
             selfApproved?: boolean;
@@ -4551,6 +5074,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             lastRemindedAt?: string;
+            lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
             replacesInvoiceId?: string;
             replacesInvoiceIds?: string[];
@@ -4597,6 +5121,7 @@ export interface components {
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
             viewerIsSupplierMember?: boolean;
+            nextApproverReminderAt?: string;
             replacement?: components["schemas"]["InvoiceReplacementCheck"];
             uncreditedOriginals?: components["schemas"]["UncreditedOriginal"][];
         };
@@ -5015,6 +5540,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             lastRemindedAt?: string;
+            lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
             replacesInvoiceId?: string;
             replacesInvoiceIds?: string[];
@@ -5367,6 +5893,7 @@ export interface components {
                 /** @enum {string} */
                 dueDateSource?: "default" | "stated";
                 lastRemindedAt?: string;
+                lastApproverRemindedAt?: string;
                 rejection?: components["schemas"]["InvoiceRejection"];
                 replacesInvoiceId?: string;
                 replacesInvoiceIds?: string[];
@@ -5775,6 +6302,9 @@ export interface components {
                 clientId?: string;
                 warehouseId?: string;
             };
+            github?: {
+                org?: string;
+            };
             creditPrice?: {
                 /** Format: double */
                 amount?: number;
@@ -5839,6 +6369,83 @@ export interface components {
             pending?: number;
             /** Format: double */
             unconverted?: number;
+        };
+        BuyerCreditNoteView: {
+            supplier?: string;
+            id: string;
+            buyerOrgId?: string;
+            supplierOrgId?: string;
+            /** @enum {string} */
+            status?: "rejected" | "accepted" | "pending_acceptance" | "void";
+            createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
+            /** Format: double */
+            amount?: number;
+            supplierConnectionId?: string;
+            currency?: string;
+            invoiceId?: string;
+            buyerOrgName?: string;
+            lineItems?: components["schemas"]["InvoiceLineItem"][];
+            /** Format: double */
+            version?: number;
+            po?: string;
+            /** Format: double */
+            poLineNo?: number;
+            rejection?: {
+                at?: string;
+                byName?: string;
+                reason?: string;
+            };
+            /** @enum {string} */
+            source?: "feed" | "cloud_sync";
+            /** @enum {string} */
+            enteredBy?: "buyer" | "supplier";
+            /** @enum {string} */
+            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedBy?: string;
+            externalInvoiceNumber?: string;
+            adjustments?: components["schemas"]["InvoiceAdjustment"][];
+            /** Format: double */
+            taxAmount?: number;
+            taxBreakdown?: components["schemas"]["InvoiceBreakdownEntry"][];
+            sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
+            note?: string;
+            externalCreditNoteNumber?: string;
+            issueDate?: string;
+            /** @enum {string} */
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            correctsBilling?: boolean;
+            /** Format: double */
+            refunded?: number;
+            acceptedAt?: string;
+            acceptedByName?: string;
+            autoAccepted?: boolean;
+            poEffect?: {
+                /** @enum {string} */
+                kind?: "release";
+                po?: string;
+                /** Format: double */
+                poLineNo?: number;
+                /** Format: double */
+                amount?: number;
+                /** Format: double */
+                qty?: number;
+            } | {
+                /** @enum {string} */
+                kind?: "none";
+                /** @enum {string} */
+                why?: "not_a_correction" | "no_po" | "po_closed";
+            };
+            applications?: components["schemas"]["CreditNoteApplication"][];
+            exports?: {
+                exportId?: string;
+                exportedAt?: string;
+            }[];
+            history?: components["schemas"]["CreditNoteHistoryEntry"][];
+            /** Format: double */
+            remaining?: number;
+            hasPdf?: boolean;
         };
         PurchaseOrderFulfillment: {
             confirmation?: components["schemas"]["OrderConfirmation"];
@@ -6014,6 +6621,68 @@ export interface components {
             /** @enum {string} */
             lastErrorCode?: "failed" | "http_status" | "blocked_address" | "unreachable" | "timeout" | "redirect" | "too_large" | "endpoint_off";
             deliveredAt?: string;
+        };
+        PurchaseRequest: {
+            id: string;
+            title?: string;
+            description?: string;
+            requesterEmployeeKey?: string;
+            requesterName?: string;
+            costCenter?: string;
+            glCode?: string;
+            supplier?: {
+                name?: string;
+                supplierConnectionId?: string;
+                supplierRegionId?: string;
+            };
+            lineItems?: components["schemas"]["PurchaseRequestLine"][];
+            /** Format: double */
+            amount?: number;
+            currency?: string;
+            neededBy?: string;
+            quoteDocument?: components["schemas"]["PurchaseOrderQuoteDocument"];
+            notes?: string;
+            requestType?: {
+                id: string;
+                name?: string;
+                /** Format: double */
+                version?: number;
+            };
+            formFields?: components["schemas"]["QuestionnaireFieldDef"][];
+            answers?: components["schemas"]["RequestAnswer"][];
+            /** @enum {string} */
+            status?: "approved" | "rejected" | "sourcing" | "pending_approval" | "draft" | "canceled" | "ordered";
+            approval?: components["schemas"]["ApprovalChain"];
+            /** Format: double */
+            approvalVersion?: number;
+            budgetCheck?: components["schemas"]["BudgetCheck"];
+            poId?: string;
+            poIds?: string[];
+            sourcingEventId?: string;
+            rejectionReason?: string;
+            createdAt?: string;
+            updatedAt?: string;
+            submittedAt?: string;
+            decidedAt?: string;
+            canceledAt?: string;
+            canceledBy?: string;
+        };
+        PurchaseRequestLine: {
+            name?: string;
+            /** @enum {string} */
+            lineType?: "goods" | "service";
+            /** Format: double */
+            qty?: number;
+            unit?: string;
+            /** Format: double */
+            unitPrice?: number;
+        };
+        RequestAnswer: {
+            fieldId?: string;
+            textAnswer?: string;
+            selectedOptionIds?: string[];
+            file?: components["schemas"]["QuestionnaireFileAnswer"];
+            flagged?: boolean;
         };
         AiSpendResponse: {
             period?: string;
@@ -6687,67 +7356,448 @@ export interface components {
                 error?: string;
             }[];
         };
-        PurchaseRequest: {
+        BuyerSourcingEventSummary: {
+            id: string;
+            title?: string;
+            /** @enum {string} */
+            status?: "draft" | "canceled" | "closed" | "open" | "awarded";
+            currency?: string;
+            dueAt?: string;
+            sealed?: boolean;
+            sealedNow?: boolean;
+            answers?: components["schemas"]["SourcingAnswerCounts"];
+            /** Format: double */
+            lineCount?: number;
+            /** Format: double */
+            lowestTotal?: number | null;
+            fromRequestId?: string;
+            award?: {
+                supplierName?: string;
+                currency?: string;
+                /** Format: double */
+                total?: number;
+                /** @enum {string} */
+                order?: "submit" | "none" | "draft";
+                poId?: string;
+            };
+            awards?: {
+                supplierName?: string;
+                currency?: string;
+                contractId?: string;
+                /** Format: double */
+                total?: number;
+                /** @enum {string} */
+                order?: "submit" | "none" | "draft";
+                poId?: string;
+                supplierKey?: string;
+            }[];
+            createdAt?: string;
+            updatedAt?: string;
+        };
+        SourcingAnswerCounts: {
+            /** Format: double */
+            invited?: number;
+            /** Format: double */
+            submitted?: number;
+            /** Format: double */
+            declined?: number;
+        };
+        BuyerSourcingEventView: {
             id: string;
             title?: string;
             description?: string;
-            requesterEmployeeKey?: string;
-            requesterName?: string;
+            /** @enum {string} */
+            status?: "draft" | "canceled" | "closed" | "open" | "awarded";
+            currency?: string;
+            dueAt?: string;
+            sealed?: boolean;
+            sealedNow?: boolean;
+            lines?: components["schemas"]["SourcingLine"][];
+            attachments?: components["schemas"]["SourcingAttachment"][];
+            fromRequestId?: string;
             costCenter?: string;
             glCode?: string;
-            supplier?: {
-                name?: string;
-                supplierConnectionId?: string;
-                supplierRegionId?: string;
+            award?: components["schemas"]["SourcingAward"];
+            awards?: components["schemas"]["SourcingAward"][];
+            questionnaire?: components["schemas"]["SourcingQuestionnaire"];
+            scoring?: {
+                [key: string]: components["schemas"]["SourcingFieldScoring"];
             };
-            lineItems?: components["schemas"]["PurchaseRequestLine"][];
+            manualPoints?: components["schemas"]["SourcingManualPoints"];
+            assistantRead?: components["schemas"]["SourcingAssistantRead"];
             /** Format: double */
-            amount?: number;
-            currency?: string;
-            neededBy?: string;
-            quoteDocument?: components["schemas"]["PurchaseOrderQuoteDocument"];
-            notes?: string;
-            requestType?: {
-                id: string;
-                name?: string;
-                /** Format: double */
-                version?: number;
-            };
-            formFields?: components["schemas"]["QuestionnaireFieldDef"][];
-            answers?: components["schemas"]["RequestAnswer"][];
-            /** @enum {string} */
-            status?: "approved" | "rejected" | "sourcing" | "pending_approval" | "draft" | "canceled" | "ordered";
-            approval?: components["schemas"]["ApprovalChain"];
-            /** Format: double */
-            approvalVersion?: number;
-            budgetCheck?: components["schemas"]["BudgetCheck"];
-            poId?: string;
-            poIds?: string[];
-            sourcingEventId?: string;
-            rejectionReason?: string;
+            round?: number;
+            rounds?: components["schemas"]["SourcingRound"][];
+            criteria?: components["schemas"]["SourcingCriterion"][];
+            evaluators?: string[];
+            createdBy?: string;
+            createdByName?: string;
             createdAt?: string;
             updatedAt?: string;
-            submittedAt?: string;
-            decidedAt?: string;
+            publishedAt?: string;
+            closedAt?: string;
             canceledAt?: string;
-            canceledBy?: string;
+            /** Format: double */
+            version?: number;
+            invitees?: components["schemas"]["BuyerSourcingInviteeView"][];
+            answers?: components["schemas"]["SourcingAnswerCounts"];
+            responses?: components["schemas"]["BuyerSourcingResponseView"][];
+            questions?: components["schemas"]["BuyerSourcingQuestionView"][];
+            activity?: components["schemas"]["SourcingActivity"][];
         };
-        PurchaseRequestLine: {
+        SourcingLine: {
+            id: string;
             name?: string;
+            /** Format: double */
+            qty?: number;
+            unit?: string;
+            neededBy?: string;
+            notes?: string;
+            /** Format: double */
+            targetUnitPrice?: number;
+        };
+        SourcingAttachment: {
+            id: string;
+            fileName?: string;
+            contentType?: string;
+            /** Format: double */
+            sizeBytes?: number;
+            addedAt?: string;
             /** @enum {string} */
-            lineType?: "goods" | "service";
+            source?: "request" | "upload";
+            shared?: boolean;
+        };
+        SourcingAward: {
+            supplierKey?: string;
+            supplierConnectionId?: string;
+            supplierName?: string;
+            reason?: string;
+            /** Format: double */
+            total?: number;
+            currency?: string;
+            lines?: components["schemas"]["SourcingAwardLine"][];
+            awardedAt?: string;
+            awardedBy?: string;
+            /** @enum {string} */
+            order?: "submit" | "none" | "draft";
+            poId?: string;
+            quoteImportId?: string;
+            /** @enum {string} */
+            outcome?: "contract" | "order" | "both";
+            contractId?: string;
+        };
+        SourcingAwardLine: {
+            lineId?: string;
+            name?: string;
             /** Format: double */
             qty?: number;
             unit?: string;
             /** Format: double */
             unitPrice?: number;
+            /** Format: double */
+            total?: number;
         };
-        RequestAnswer: {
+        SourcingQuestionnaire: {
+            templateId?: string;
+            /** Format: double */
+            version?: number;
+            name?: string;
+            fields?: components["schemas"]["QuestionnaireFieldDef"][];
+        };
+        SourcingFieldScoring: {
+            /** Format: double */
+            weight?: number;
+            optionPoints?: {
+                [key: string]: number;
+            };
+        };
+        SourcingManualPoints: {
+            [key: string]: {
+                [key: string]: number;
+            };
+        };
+        SourcingAssistantRead: {
+            sentences?: components["schemas"]["AssistantReadSentence"][];
+            model?: string;
+            generatedAt?: string;
+            inputHash?: string;
+        };
+        AssistantReadSentence: {
+            text?: string;
+            cites?: components["schemas"]["AssistantReadCite"][];
+        };
+        AssistantReadCite: {
+            supplierKey?: string;
+            lineId?: string;
+            /** @enum {string} */
+            field?: "validUntil" | "declined" | "total" | "unitPrice" | "leadTime" | "neededBy" | "paymentTerms" | "score" | "risk" | "weighted" | "evaluation";
+        };
+        SourcingRound: {
+            /** Format: double */
+            round?: number;
+            supplierKeys?: string[];
+            dueAt?: string;
+            /** @enum {string} */
+            feedback?: "none" | "rank" | "gap";
+            feedbackBySupplier?: {
+                [key: string]: {
+                    /** @enum {string} */
+                    kind?: "rank";
+                    /** Format: double */
+                    rank?: number;
+                    /** Format: double */
+                    of?: number;
+                } | {
+                    /** @enum {string} */
+                    kind?: "gap";
+                    lowest?: boolean;
+                    /** Format: double */
+                    gapPct?: number;
+                };
+            };
+            openedAt?: string;
+            openedBy?: string;
+            closedAt?: string;
+        };
+        SourcingCriterion: {
+            id: string;
+            name?: string;
+            /** Format: double */
+            weight?: number;
+            /** @enum {string} */
+            kind?: "price" | "questionnaire" | "evaluators";
+        };
+        BuyerSourcingInviteeView: {
+            supplierKey?: string;
+            supplierConnectionId?: string;
+            supplierName?: string;
+            email?: string;
+            onPleaxy?: boolean;
+            /** @enum {string} */
+            state?: "invited" | "declined" | "viewed" | "responded";
+            declineReason?: string;
+            invitedAt?: string;
+            viewedAt?: string;
+            declinedAt?: string;
+            submittedAt?: string;
+            /** Format: double */
+            submissions?: number;
+            shortlisted?: boolean;
+        };
+        BuyerSourcingResponseView: {
+            supplierKey?: string;
+            supplierName?: string;
+            lines?: components["schemas"]["SourcingResponseLine"][];
+            validUntil?: string;
+            /** Format: double */
+            paymentTermsDays?: number;
+            reference?: string;
+            note?: string;
+            attachments?: components["schemas"]["SourcingAttachment"][];
+            quoteImportId?: string;
+            submittedAt?: string;
+            /** Format: double */
+            version?: number;
+            /** Format: double */
+            total?: number | null;
+            answers?: components["schemas"]["SourcingQuestionAnswer"][];
+            /** @enum {string} */
+            answeredVia?: "link";
+            answeredByEmail?: string;
+            /** Format: double */
+            carriedFrom?: number;
+        };
+        SourcingResponseLine: {
+            lineId?: string;
+            /** Format: double */
+            unitPrice?: number;
+            /** Format: double */
+            leadTimeDays?: number;
+            note?: string;
+        };
+        SourcingQuestionAnswer: {
             fieldId?: string;
             textAnswer?: string;
             selectedOptionIds?: string[];
-            file?: components["schemas"]["QuestionnaireFileAnswer"];
+            fileId?: string;
+        };
+        BuyerSourcingQuestionView: {
+            supplierKey?: string;
+            supplierName?: string;
+            id: string;
+            text?: string;
+            askedAt?: string;
+            answer?: string;
+            answeredAt?: string;
+        };
+        SourcingActivity: {
+            at?: string;
+            /** @enum {string} */
+            actor?: "buyer" | "supplier" | "system";
+            actorName?: string;
+            /** @enum {string} */
+            action?: "invited" | "canceled" | "closed" | "withdrawn" | "reopened" | "declined" | "awarded" | "viewed" | "created" | "edited" | "published" | "deadline_moved" | "answer_saved" | "answer_submitted" | "question_asked" | "question_answered" | "scored" | "round_opened" | "scorecard_submitted";
+            supplierKey?: string;
+            supplierName?: string;
+            detail?: {
+                [key: string]: string | number | boolean;
+            };
+        };
+        SourcingComparison: {
+            rfqId?: string;
+            /** @enum {string} */
+            status?: "draft" | "canceled" | "closed" | "open" | "awarded";
+            currency?: string;
+            today?: string;
+            lines?: components["schemas"]["SourcingComparisonLine"][];
+            responders?: components["schemas"]["SourcingComparisonResponder"][];
+            lowestTotal?: {
+                supplierKey?: string;
+                /** Format: double */
+                total?: number;
+            } | null;
+            declined?: {
+                supplierKey?: string;
+                supplierName?: string;
+                reason?: string;
+            }[];
+            noAnswer?: {
+                supplierKey?: string;
+                supplierName?: string;
+            }[];
+            questionnaire?: {
+                templateId?: string;
+                /** Format: double */
+                version?: number;
+                name?: string;
+                fields?: components["schemas"]["SourcingComparisonField"][];
+            };
+            /** Format: double */
+            round?: number;
+            /** Format: double */
+            rounds?: number;
+            criteria?: components["schemas"]["SourcingCriterion"][];
+            evaluation?: {
+                criteria?: components["schemas"]["SourcingEvaluationCriterion"][];
+                /** Format: double */
+                evaluators?: number;
+                /** Format: double */
+                submitted?: number;
+                complete?: boolean;
+                hidden?: boolean;
+            };
+        };
+        SourcingComparisonLine: {
+            lineId?: string;
+            name?: string;
+            /** Format: double */
+            qty?: number;
+            unit?: string;
+            neededBy?: string;
+            /** Format: double */
+            targetUnitPrice?: number;
+            offers?: components["schemas"]["SourcingComparisonOffer"][];
+        };
+        SourcingComparisonOffer: {
+            supplierKey?: string;
+            /** Format: double */
+            unitPrice?: number | null;
+            /** Format: double */
+            lineTotal?: number | null;
+            /** Format: double */
+            leadTimeDays?: number | null;
+            note?: string;
+            lowest?: boolean;
+            meetsNeededBy?: boolean | null;
+        };
+        SourcingComparisonResponder: {
+            supplierKey?: string;
+            supplierConnectionId?: string;
+            supplierName?: string;
+            /** Format: double */
+            total?: number | null;
+            complete?: boolean;
+            lowestTotal?: boolean;
+            /** Format: double */
+            longestLeadTimeDays?: number | null;
+            meetsNeededBy?: boolean | null;
+            /** Format: double */
+            paymentTermsDays?: number;
+            validUntil?: string;
+            reference?: string;
+            note?: string;
+            quoteImportId?: string;
+            attachments?: components["schemas"]["SourcingAttachment"][];
+            submittedAt?: string;
+            /** Format: double */
+            version?: number;
+            /** @enum {string} */
+            answeredVia?: "link";
+            answeredByEmail?: string;
+            /** @enum {string|null} */
+            riskLevel?: "ok" | "attention" | "blocked" | null;
+            /** @enum {string|null} */
+            onboarding?: "pending_invite" | "invited" | "in_progress" | "submitted" | "approved" | "rejected" | null;
+            /** Format: double */
+            score?: number | null;
+            scoreComplete?: boolean;
+            /** Format: double */
+            carriedFrom?: number;
+            weighted?: components["schemas"]["SourcingWeightedScore"];
+            evaluation?: {
+                byCriterion?: {
+                    [key: string]: components["schemas"]["SourcingEvaluationAggregate"];
+                };
+            };
+        };
+        SourcingWeightedScore: {
+            /** Format: double */
+            total?: number | null;
+            byCriterion?: {
+                [key: string]: number | null;
+            };
+        };
+        SourcingEvaluationAggregate: {
+            /** Format: double */
+            average?: number | null;
+            /** Format: double */
+            lowest?: number | null;
+            /** Format: double */
+            highest?: number | null;
+            /** Format: double */
+            count?: number;
+        };
+        SourcingComparisonField: {
+            fieldId?: string;
+            label?: string;
+            /** @enum {string} */
+            type?: "number" | "text" | "long_text" | "yes_no" | "single_choice" | "multi_choice" | "date" | "file";
+            section?: string;
+            options?: components["schemas"]["QuestionOption"][];
+            /** Format: double */
+            weight?: number;
+            /** @enum {string|null} */
+            scoring?: "manual" | "choice" | null;
+            optionPoints?: {
+                [key: string]: number;
+            };
+            answers?: components["schemas"]["SourcingComparisonAnswer"][];
+        };
+        SourcingComparisonAnswer: {
+            supplierKey?: string;
+            asked?: boolean;
+            fileName?: string;
+            /** Format: double */
+            points?: number | null;
             flagged?: boolean;
+            fileId?: string;
+            textAnswer?: string;
+            selectedOptionIds?: string[];
+        };
+        SourcingEvaluationCriterion: {
+            id: string;
+            name?: string;
+            builtIn?: boolean;
         };
         SupplierRisk: {
             connectionId?: string;
@@ -6868,6 +7918,77 @@ export interface components {
                 lines?: components["schemas"]["ShipNoticeLine"][];
             };
             payloadId?: string;
+        };
+        InvoiceActivityEntry: {
+            id: string;
+            at?: string;
+            /** @enum {string} */
+            kind?: "approved" | "rejected" | "approval" | "received" | "payment" | "replacement" | "corrects" | "control_findings" | "match" | "sent_for_approval" | "reminder" | "comment";
+            actorName?: string;
+            actorKey?: string;
+            /** @enum {string} */
+            actorSide?: "buyer" | "supplier" | "system";
+            data?: {
+                [key: string]: string | number | boolean | string[];
+            };
+            comment?: components["schemas"]["DocumentCommentView"];
+        };
+        DocumentCommentView: {
+            authorKey?: string;
+            mentions?: components["schemas"]["CommentMention"][];
+            meeting?: components["schemas"]["CommentMeetingView"];
+            viewerIsAuthor?: boolean;
+            id: string;
+            createdAt?: string;
+            /** @enum {string} */
+            documentKind?: "invoice" | "purchase_order" | "contract";
+            documentId?: string;
+            body?: string;
+            /** @enum {string} */
+            visibility?: "internal" | "shared";
+            /** @enum {string} */
+            authorSide?: "buyer" | "supplier";
+            authorName?: string;
+            authorOrgName?: string;
+            deletedAt?: string;
+        };
+        CommentMention: {
+            employeeKey?: string;
+            name?: string;
+        };
+        CommentMeetingView: {
+            /** @enum {string} */
+            status?: "accepted" | "expired" | "cancelled" | "open" | "declined";
+            attendees?: components["schemas"]["CommentMeetingAttendee"][];
+            canAnswer?: boolean;
+            canPropose?: boolean;
+            canCancel?: boolean;
+            updatedAt?: string;
+            link?: string;
+            topic?: string;
+            /** Format: double */
+            durationMinutes?: number;
+            timeZone?: string;
+            times?: string[];
+            /** @enum {string} */
+            proposedBy?: "buyer" | "supplier";
+            proposerName?: string;
+            /** Format: double */
+            counterProposals?: number;
+            acceptedTime?: string;
+            attendeeName?: string;
+            /** @enum {string} */
+            attendeeSide?: "buyer" | "supplier";
+            declineReason?: string;
+            /** @enum {string} */
+            closedBySide?: "buyer" | "supplier";
+            closedByName?: string;
+        };
+        CommentMeetingAttendee: {
+            /** @enum {string} */
+            side?: "buyer" | "supplier";
+            name?: string;
+            email?: string;
         };
         BillingSummary: {
             billingEnabled?: boolean;
@@ -7118,6 +8239,9 @@ export interface components {
             invoiceFeedEnabled?: boolean;
             invoiceFeedUpdatedAt?: string;
             invoiceFeedUpdatedBy?: string;
+            commentsMuted?: boolean;
+            commentsMutedAt?: string;
+            commentsMutedBy?: string;
             feedLastAttemptAt?: string;
             feedLastAcceptedAt?: string;
             /** Format: double */
@@ -7169,6 +8293,9 @@ export interface components {
             invoiceFeedEnabled?: boolean;
             invoiceFeedUpdatedAt?: string;
             invoiceFeedUpdatedBy?: string;
+            commentsMuted?: boolean;
+            commentsMutedAt?: string;
+            commentsMutedBy?: string;
             feedLastAttemptAt?: string;
             feedLastAcceptedAt?: string;
             /** Format: double */
@@ -7217,6 +8344,9 @@ export interface components {
             invoiceFeedEnabled?: boolean;
             invoiceFeedUpdatedAt?: string;
             invoiceFeedUpdatedBy?: string;
+            commentsMuted?: boolean;
+            commentsMutedAt?: string;
+            commentsMutedBy?: string;
             feedLastAttemptAt?: string;
             feedLastAcceptedAt?: string;
             /** Format: double */
@@ -7271,6 +8401,9 @@ export interface components {
             invoiceFeedEnabled?: boolean;
             invoiceFeedUpdatedAt?: string;
             invoiceFeedUpdatedBy?: string;
+            commentsMuted?: boolean;
+            commentsMutedAt?: string;
+            commentsMutedBy?: string;
             feedLastAttemptAt?: string;
             feedLastAcceptedAt?: string;
             /** Format: double */
@@ -7321,6 +8454,9 @@ export interface components {
             invoiceFeedEnabled?: boolean;
             invoiceFeedUpdatedAt?: string;
             invoiceFeedUpdatedBy?: string;
+            commentsMuted?: boolean;
+            commentsMutedAt?: string;
+            commentsMutedBy?: string;
             feedLastAttemptAt?: string;
             feedLastAcceptedAt?: string;
             /** Format: double */
@@ -7367,6 +8503,8 @@ export interface components {
             verified?: boolean;
             listedInDirectory?: boolean;
             directoryId?: string;
+            /** @enum {string} */
+            setupGoal?: "audit" | "network";
         };
         GetBuyerWorkspaceResult: {
             viewerIsSoleInvoiceReviewer?: boolean;
@@ -7517,6 +8655,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             lastRemindedAt?: string;
+            lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
             replacesInvoiceId?: string;
             replacesInvoiceIds?: string[];
@@ -7563,6 +8702,7 @@ export interface components {
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
             viewerIsSupplierMember?: boolean;
+            nextApproverReminderAt?: string;
             replacement?: components["schemas"]["InvoiceReplacementCheck"];
             uncreditedOriginals?: components["schemas"]["UncreditedOriginal"][];
         };
@@ -7603,6 +8743,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             lastRemindedAt?: string;
+            lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
             replacesInvoiceId?: string;
             replacesInvoiceIds?: string[];
@@ -7824,7 +8965,6 @@ export interface components {
             /** @enum {string} */
             submittedFormat?: "json" | "ubl" | "cxml";
             submittedBy?: string;
-            feedPayloadHash?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -7989,7 +9129,6 @@ export interface components {
             /** @enum {string} */
             submittedFormat?: "json" | "ubl" | "cxml";
             submittedBy?: string;
-            feedPayloadHash?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -8124,6 +9263,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             lastRemindedAt?: string;
+            lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
             replacesInvoiceId?: string;
             replacesInvoiceIds?: string[];
@@ -8170,6 +9310,7 @@ export interface components {
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
             viewerIsSupplierMember?: boolean;
+            nextApproverReminderAt?: string;
             replacement?: components["schemas"]["InvoiceReplacementCheck"];
             uncreditedOriginals?: components["schemas"]["UncreditedOriginal"][];
         };
@@ -8210,6 +9351,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             lastRemindedAt?: string;
+            lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
             replacesInvoiceId?: string;
             replacesInvoiceIds?: string[];
@@ -8435,7 +9577,6 @@ export interface components {
             /** @enum {string} */
             submittedFormat?: "json" | "ubl" | "cxml";
             submittedBy?: string;
-            feedPayloadHash?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -8572,6 +9713,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             lastRemindedAt?: string;
+            lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
             replacesInvoiceId?: string;
             replacesInvoiceIds?: string[];
@@ -8618,6 +9760,7 @@ export interface components {
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
             viewerIsSupplierMember?: boolean;
+            nextApproverReminderAt?: string;
         };
         GetInvoiceResultSupplierInvoice: {
             replacement?: components["schemas"]["InvoiceReplacementCheck"];
@@ -8658,6 +9801,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             lastRemindedAt?: string;
+            lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
             replacesInvoiceId?: string;
             replacesInvoiceIds?: string[];
@@ -8852,6 +9996,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             lastRemindedAt?: string;
+            lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
             replacesInvoiceId?: string;
             replacesInvoiceIds?: string[];
@@ -8898,6 +10043,7 @@ export interface components {
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
             viewerIsSupplierMember?: boolean;
+            nextApproverReminderAt?: string;
         };
         RemoveInvoiceReplacementLinkResult: {
             replacement?: components["schemas"]["InvoiceReplacementCheck"];
@@ -8990,6 +10136,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             lastRemindedAt?: string;
+            lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
             replacesInvoiceId?: string;
             replacesInvoiceIds?: string[];
@@ -9036,6 +10183,7 @@ export interface components {
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
             viewerIsSupplierMember?: boolean;
+            nextApproverReminderAt?: string;
         };
         GetInvoiceBankAccountResult: {
             /** @enum {string} */
@@ -9133,6 +10281,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             lastRemindedAt?: string;
+            lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
             replacesInvoiceId?: string;
             replacesInvoiceIds?: string[];
@@ -9179,6 +10328,7 @@ export interface components {
             hasOriginalPdf?: boolean;
             baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
             viewerIsSupplierMember?: boolean;
+            nextApproverReminderAt?: string;
             replacement?: components["schemas"]["InvoiceReplacementCheck"];
             uncreditedOriginals?: components["schemas"]["UncreditedOriginal"][];
         };
@@ -9200,6 +10350,17 @@ export interface components {
             alreadyRecorded?: number;
             /** Format: double */
             refused?: number;
+        };
+        RequestRemittanceUploadResult: {
+            fileId?: string;
+            uploadUrl?: string;
+            /** Format: double */
+            maxBytes?: number;
+        };
+        GetRemittanceFileResult: {
+            url?: string;
+            fileName?: string;
+            contentType?: string;
         };
         GetSupplierScreeningResult: {
             enabled?: boolean;
@@ -9246,6 +10407,9 @@ export interface components {
             invoiceFeedEnabled?: boolean;
             invoiceFeedUpdatedAt?: string;
             invoiceFeedUpdatedBy?: string;
+            commentsMuted?: boolean;
+            commentsMutedAt?: string;
+            commentsMutedBy?: string;
             feedLastAttemptAt?: string;
             feedLastAcceptedAt?: string;
             /** Format: double */
@@ -9300,6 +10464,55 @@ export interface components {
                 currency?: string;
             }[];
         };
+        ListCreditNotesResult: {
+            creditNotes?: (components["schemas"]["SupplierCreditNoteView"] | components["schemas"]["BuyerCreditNoteView"])[];
+        };
+        CreateCreditNoteResult: components["schemas"]["SupplierCreditNoteView"] | components["schemas"]["BuyerCreditNoteView"];
+        GetCreditSettlementResult: {
+            /** @enum {string} */
+            creditSettlement?: "pleaxy" | "accounting_system";
+            chosen?: boolean;
+        };
+        SetCreditSettlementResult: {
+            /** @enum {string} */
+            creditSettlement?: "pleaxy" | "accounting_system";
+            chosen?: boolean;
+        };
+        GetCreditNoteResult: components["schemas"]["SupplierCreditNoteView"] | components["schemas"]["BuyerCreditNoteView"];
+        ListAvailableCreditsResult: {
+            /** Format: double */
+            amountDue?: number;
+            currency?: string;
+            credits?: {
+                creditNoteId?: string;
+                externalCreditNoteNumber?: string;
+                /** @enum {string} */
+                reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+                issueDate?: string;
+                /** Format: double */
+                amount?: number;
+                /** Format: double */
+                remaining?: number;
+                /** Format: double */
+                suggested?: number;
+            }[];
+            pending?: {
+                creditNoteId?: string;
+                externalCreditNoteNumber?: string;
+                /** @enum {string} */
+                reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+                /** Format: double */
+                amount?: number;
+            }[];
+            /** Format: double */
+            suggestedTotal?: number;
+            /** @enum {string} */
+            locked?: "rejected" | "paid" | "exported" | "otherCurrency";
+            /** @enum {string} */
+            creditSettlement?: "pleaxy" | "accounting_system";
+        };
+        ApplyCreditsResult: components["schemas"]["InvoiceBuyerView"] | components["schemas"]["InvoiceSupplierView"];
+        RemoveCreditApplicationResult: components["schemas"]["InvoiceBuyerView"] | components["schemas"]["InvoiceSupplierView"];
         ApplyConfirmationChangesResult: {
             purchaseOrder?: components["schemas"]["PurchaseOrder"];
             confirmation?: components["schemas"]["OrderConfirmation"];
@@ -9360,6 +10573,19 @@ export interface components {
         ListWebhookDeliveriesResult: {
             deliveries?: components["schemas"]["WebhookDelivery"][];
         };
+        RequestPurchaseRequestFileUploadResult: {
+            fileId?: string;
+            uploadUrl?: string;
+            /** Format: double */
+            maxBytes?: number;
+        };
+        GetPurchaseRequestFileResult: {
+            url?: string;
+        };
+        ConvertPurchaseRequestResult: {
+            request?: components["schemas"]["PurchaseRequest"];
+            purchaseOrder?: components["schemas"]["PurchaseOrder"];
+        };
         ListFocusSourcesResult: {
             enabled?: boolean;
             sources?: components["schemas"]["FocusSourceView"][];
@@ -9411,18 +10637,20 @@ export interface components {
         RemoveAiLimitCredentialResult: {
             invoicerId?: string;
         };
-        RequestPurchaseRequestFileUploadResult: {
-            fileId?: string;
-            uploadUrl?: string;
-            /** Format: double */
-            maxBytes?: number;
+        GetInvoiceActivityResult: {
+            entries?: components["schemas"]["InvoiceActivityEntry"][];
         };
-        GetPurchaseRequestFileResult: {
-            url?: string;
+        ListInvoiceCommentsResult: {
+            sharing?: string;
+            comments?: components["schemas"]["DocumentCommentView"][];
+            awaitingReply?: boolean;
+            meetingRequests?: string;
         };
-        ConvertPurchaseRequestResult: {
-            request?: components["schemas"]["PurchaseRequest"];
-            purchaseOrder?: components["schemas"]["PurchaseOrder"];
+        ListPurchaseOrderCommentsResult: {
+            sharing?: string;
+            comments?: components["schemas"]["DocumentCommentView"][];
+            awaitingReply?: boolean;
+            meetingRequests?: string;
         };
         StartStripePaymentResult: {
             url?: string;
@@ -10593,6 +11821,38 @@ export interface operations {
             };
         };
     };
+    GetPurchaseOrderPdf: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     SubmitPurchaseOrderDraft: {
         parameters: {
             query?: never;
@@ -10667,6 +11927,40 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseOrder"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ChangeFinishedPurchaseOrderCostCenter: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                poId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangeFinishedCostCenterInput"];
+            };
+        };
         responses: {
             201: {
                 headers: {
@@ -11578,6 +12872,40 @@ export interface operations {
             };
         };
     };
+    RequestRemittanceUpload: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invoiceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RequestRemittanceUploadInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RequestRemittanceUploadResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     GetInvoiceRemittance: {
         parameters: {
             query?: {
@@ -11597,6 +12925,73 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["RemittanceView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SendRemittance: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invoiceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SendRemittanceInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InvoiceBuyerView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetRemittanceFile: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                invoiceId: string;
+                remittanceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetRemittanceFileResult"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
@@ -12048,6 +13443,375 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BudgetCheck"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListCreditNotes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListCreditNotesResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CreateCreditNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCreditNoteInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreateCreditNoteResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetCreditSettlement: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetCreditSettlementResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SetCreditSettlement: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreditSettlementInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SetCreditSettlementResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetCreditNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                creditNoteId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetCreditNoteResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetCreditNotePdf: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                creditNoteId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AcceptCreditNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                creditNoteId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BuyerCreditNoteView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    RejectCreditNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                creditNoteId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RejectCreditNoteInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BuyerCreditNoteView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    VoidCreditNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                creditNoteId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SupplierCreditNoteView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListAvailableCredits: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invoiceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListAvailableCreditsResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ApplyCredits: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invoiceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplyCreditsInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplyCreditsResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    RemoveCreditApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invoiceId: string;
+                applicationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RemoveCreditApplicationResult"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
@@ -12625,6 +14389,361 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ListWebhookDeliveriesResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListPurchaseRequests: {
+        parameters: {
+            query?: {
+                status?: "draft" | "pending_approval" | "approved" | "sourcing" | "ordered" | "rejected" | "canceled";
+                /** @description true: only the caller's own requests. */
+                mine?: boolean;
+                /** @description true: only the requests waiting on the caller's approval (the approvals queue). */
+                awaitingMe?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"][];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CreatePurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreatePurchaseRequestInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    RequestPurchaseRequestFileUpload: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RequestFileUploadInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RequestPurchaseRequestFileUploadResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetPurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    UpdatePurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePurchaseRequestInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetPurchaseRequestFile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+                fileId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetPurchaseRequestFileResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SubmitPurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ApprovePurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApprovePurchaseRequestInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    RejectPurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RejectPurchaseRequestInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CancelPurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequest"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ConvertPurchaseRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConvertPurchaseRequestInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConvertPurchaseRequestResult"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
@@ -13688,14 +15807,10 @@ export interface operations {
             };
         };
     };
-    ListPurchaseRequests: {
+    ListSourcingEvents: {
         parameters: {
             query?: {
-                status?: "draft" | "pending_approval" | "approved" | "sourcing" | "ordered" | "rejected" | "canceled";
-                /** @description true: only the caller's own requests. */
-                mine?: boolean;
-                /** @description true: only the requests waiting on the caller's approval (the approvals queue). */
-                awaitingMe?: boolean;
+                status?: "draft" | "open" | "closed" | "awarded" | "canceled";
             };
             header?: never;
             path?: never;
@@ -13708,7 +15823,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PurchaseRequest"][];
+                    "application/json": components["schemas"]["BuyerSourcingEventSummary"][];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
@@ -13722,7 +15837,7 @@ export interface operations {
             };
         };
     };
-    CreatePurchaseRequest: {
+    CreateSourcingEvent: {
         parameters: {
             query?: never;
             header?: never;
@@ -13731,7 +15846,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreatePurchaseRequestInput"];
+                "application/json": components["schemas"]["CreateSourcingEventInput"];
             };
         };
         responses: {
@@ -13740,7 +15855,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PurchaseRequest"];
+                    "application/json": components["schemas"]["BuyerSourcingEventView"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
@@ -13754,44 +15869,12 @@ export interface operations {
             };
         };
     };
-    RequestPurchaseRequestFileUpload: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RequestFileUploadInput"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RequestPurchaseRequestFileUploadResult"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    GetPurchaseRequest: {
+    GetSourcingEvent: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                requestId: string;
+                rfqId: string;
             };
             cookie?: never;
         };
@@ -13802,7 +15885,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PurchaseRequest"];
+                    "application/json": components["schemas"]["BuyerSourcingEventView"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
@@ -13816,47 +15899,15 @@ export interface operations {
             };
         };
     };
-    UpdatePurchaseRequest: {
+    GetSourcingComparison: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Phase 4 §1: the round to show, from 1. Default: the latest. */
+                round?: number;
+            };
             header?: never;
             path: {
-                requestId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdatePurchaseRequestInput"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PurchaseRequest"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    GetPurchaseRequestFile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                requestId: string;
-                fileId: string;
+                rfqId: string;
             };
             cookie?: never;
         };
@@ -13867,169 +15918,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["GetPurchaseRequestFileResult"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    SubmitPurchaseRequest: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                requestId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PurchaseRequest"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    ApprovePurchaseRequest: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                requestId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ApprovePurchaseRequestInput"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PurchaseRequest"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    RejectPurchaseRequest: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                requestId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RejectPurchaseRequestInput"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PurchaseRequest"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    CancelPurchaseRequest: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                requestId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PurchaseRequest"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    ConvertPurchaseRequest: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                requestId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ConvertPurchaseRequestInput"];
-            };
-        };
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ConvertPurchaseRequestResult"];
+                    "application/json": components["schemas"]["SourcingComparison"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
@@ -14186,6 +16075,240 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["InboundEmail"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetInvoiceActivity: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                invoiceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetInvoiceActivityResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListInvoiceComments: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                invoiceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListInvoiceCommentsResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AddInvoiceComment: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                invoiceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCommentInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DocumentCommentView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    DeleteInvoiceComment: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                invoiceId: string;
+                commentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DocumentCommentView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ListPurchaseOrderComments: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListPurchaseOrderCommentsResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AddPurchaseOrderComment: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCommentInput"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DocumentCommentView"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    DeletePurchaseOrderComment: {
+        parameters: {
+            query?: {
+                buyer?: string;
+            };
+            header?: never;
+            path: {
+                poId: string;
+                commentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DocumentCommentView"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

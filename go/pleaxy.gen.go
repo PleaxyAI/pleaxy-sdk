@@ -1065,9 +1065,9 @@ const (
 
 // Defines values for ApprovalRoutingTouchlessSkipped.
 const (
-	FlaggedAnswer ApprovalRoutingTouchlessSkipped = "flagged_answer"
-	HumanOnly     ApprovalRoutingTouchlessSkipped = "human_only"
-	OtherCurrency ApprovalRoutingTouchlessSkipped = "other_currency"
+	ApprovalRoutingTouchlessSkippedFlaggedAnswer ApprovalRoutingTouchlessSkipped = "flagged_answer"
+	ApprovalRoutingTouchlessSkippedHumanOnly     ApprovalRoutingTouchlessSkipped = "human_only"
+	ApprovalRoutingTouchlessSkippedOtherCurrency ApprovalRoutingTouchlessSkipped = "other_currency"
 )
 
 // Defines values for ApprovalStageGroupDefMode.
@@ -1147,6 +1147,21 @@ const (
 	ApprovalStepConditionInputOperatorIsNot ApprovalStepConditionInputOperator = "is_not"
 	ApprovalStepConditionInputOperatorLt    ApprovalStepConditionInputOperator = "lt"
 	ApprovalStepConditionInputOperatorLte   ApprovalStepConditionInputOperator = "lte"
+)
+
+// Defines values for AssistantReadCiteField.
+const (
+	AssistantReadCiteFieldDeclined     AssistantReadCiteField = "declined"
+	AssistantReadCiteFieldEvaluation   AssistantReadCiteField = "evaluation"
+	AssistantReadCiteFieldLeadTime     AssistantReadCiteField = "leadTime"
+	AssistantReadCiteFieldNeededBy     AssistantReadCiteField = "neededBy"
+	AssistantReadCiteFieldPaymentTerms AssistantReadCiteField = "paymentTerms"
+	AssistantReadCiteFieldRisk         AssistantReadCiteField = "risk"
+	AssistantReadCiteFieldScore        AssistantReadCiteField = "score"
+	AssistantReadCiteFieldTotal        AssistantReadCiteField = "total"
+	AssistantReadCiteFieldUnitPrice    AssistantReadCiteField = "unitPrice"
+	AssistantReadCiteFieldValidUntil   AssistantReadCiteField = "validUntil"
+	AssistantReadCiteFieldWeighted     AssistantReadCiteField = "weighted"
 )
 
 // Defines values for AutomationRuleSetProcess.
@@ -1336,6 +1351,112 @@ const (
 	BudgetStatusPeriodKindYear    BudgetStatusPeriodKind = "year"
 )
 
+// Defines values for BuyerCreditNoteViewCloudProvider.
+const (
+	BuyerCreditNoteViewCloudProviderAws   BuyerCreditNoteViewCloudProvider = "aws"
+	BuyerCreditNoteViewCloudProviderAzure BuyerCreditNoteViewCloudProvider = "azure"
+	BuyerCreditNoteViewCloudProviderGcp   BuyerCreditNoteViewCloudProvider = "gcp"
+	BuyerCreditNoteViewCloudProviderOci   BuyerCreditNoteViewCloudProvider = "oci"
+)
+
+// Defines values for BuyerCreditNoteViewEnteredBy.
+const (
+	BuyerCreditNoteViewEnteredByBuyer    BuyerCreditNoteViewEnteredBy = "buyer"
+	BuyerCreditNoteViewEnteredBySupplier BuyerCreditNoteViewEnteredBy = "supplier"
+)
+
+// Defines values for BuyerCreditNoteViewPoEffect0Kind.
+const (
+	BuyerCreditNoteViewPoEffect0KindRelease BuyerCreditNoteViewPoEffect0Kind = "release"
+)
+
+// Defines values for BuyerCreditNoteViewPoEffect1Kind.
+const (
+	BuyerCreditNoteViewPoEffect1KindNone BuyerCreditNoteViewPoEffect1Kind = "none"
+)
+
+// Defines values for BuyerCreditNoteViewPoEffect1Why.
+const (
+	BuyerCreditNoteViewPoEffect1WhyNoPo           BuyerCreditNoteViewPoEffect1Why = "no_po"
+	BuyerCreditNoteViewPoEffect1WhyNotACorrection BuyerCreditNoteViewPoEffect1Why = "not_a_correction"
+	BuyerCreditNoteViewPoEffect1WhyPoClosed       BuyerCreditNoteViewPoEffect1Why = "po_closed"
+)
+
+// Defines values for BuyerCreditNoteViewReason.
+const (
+	BuyerCreditNoteViewReasonOther           BuyerCreditNoteViewReason = "other"
+	BuyerCreditNoteViewReasonPriceAdjustment BuyerCreditNoteViewReason = "price_adjustment"
+	BuyerCreditNoteViewReasonRebate          BuyerCreditNoteViewReason = "rebate"
+	BuyerCreditNoteViewReasonReturnedGoods   BuyerCreditNoteViewReason = "returned_goods"
+	BuyerCreditNoteViewReasonServiceCredit   BuyerCreditNoteViewReason = "service_credit"
+)
+
+// Defines values for BuyerCreditNoteViewSource.
+const (
+	BuyerCreditNoteViewSourceCloudSync BuyerCreditNoteViewSource = "cloud_sync"
+	BuyerCreditNoteViewSourceFeed      BuyerCreditNoteViewSource = "feed"
+)
+
+// Defines values for BuyerCreditNoteViewStatus.
+const (
+	BuyerCreditNoteViewStatusAccepted          BuyerCreditNoteViewStatus = "accepted"
+	BuyerCreditNoteViewStatusPendingAcceptance BuyerCreditNoteViewStatus = "pending_acceptance"
+	BuyerCreditNoteViewStatusRejected          BuyerCreditNoteViewStatus = "rejected"
+	BuyerCreditNoteViewStatusVoid              BuyerCreditNoteViewStatus = "void"
+)
+
+// Defines values for BuyerCreditNoteViewSubmittedFormat.
+const (
+	BuyerCreditNoteViewSubmittedFormatCxml BuyerCreditNoteViewSubmittedFormat = "cxml"
+	BuyerCreditNoteViewSubmittedFormatJson BuyerCreditNoteViewSubmittedFormat = "json"
+	BuyerCreditNoteViewSubmittedFormatUbl  BuyerCreditNoteViewSubmittedFormat = "ubl"
+)
+
+// Defines values for BuyerSourcingEventSummaryAwardOrder.
+const (
+	BuyerSourcingEventSummaryAwardOrderDraft  BuyerSourcingEventSummaryAwardOrder = "draft"
+	BuyerSourcingEventSummaryAwardOrderNone   BuyerSourcingEventSummaryAwardOrder = "none"
+	BuyerSourcingEventSummaryAwardOrderSubmit BuyerSourcingEventSummaryAwardOrder = "submit"
+)
+
+// Defines values for BuyerSourcingEventSummaryAwardsOrder.
+const (
+	BuyerSourcingEventSummaryAwardsOrderDraft  BuyerSourcingEventSummaryAwardsOrder = "draft"
+	BuyerSourcingEventSummaryAwardsOrderNone   BuyerSourcingEventSummaryAwardsOrder = "none"
+	BuyerSourcingEventSummaryAwardsOrderSubmit BuyerSourcingEventSummaryAwardsOrder = "submit"
+)
+
+// Defines values for BuyerSourcingEventSummaryStatus.
+const (
+	BuyerSourcingEventSummaryStatusAwarded  BuyerSourcingEventSummaryStatus = "awarded"
+	BuyerSourcingEventSummaryStatusCanceled BuyerSourcingEventSummaryStatus = "canceled"
+	BuyerSourcingEventSummaryStatusClosed   BuyerSourcingEventSummaryStatus = "closed"
+	BuyerSourcingEventSummaryStatusDraft    BuyerSourcingEventSummaryStatus = "draft"
+	BuyerSourcingEventSummaryStatusOpen     BuyerSourcingEventSummaryStatus = "open"
+)
+
+// Defines values for BuyerSourcingEventViewStatus.
+const (
+	BuyerSourcingEventViewStatusAwarded  BuyerSourcingEventViewStatus = "awarded"
+	BuyerSourcingEventViewStatusCanceled BuyerSourcingEventViewStatus = "canceled"
+	BuyerSourcingEventViewStatusClosed   BuyerSourcingEventViewStatus = "closed"
+	BuyerSourcingEventViewStatusDraft    BuyerSourcingEventViewStatus = "draft"
+	BuyerSourcingEventViewStatusOpen     BuyerSourcingEventViewStatus = "open"
+)
+
+// Defines values for BuyerSourcingInviteeViewState.
+const (
+	BuyerSourcingInviteeViewStateDeclined  BuyerSourcingInviteeViewState = "declined"
+	BuyerSourcingInviteeViewStateInvited   BuyerSourcingInviteeViewState = "invited"
+	BuyerSourcingInviteeViewStateResponded BuyerSourcingInviteeViewState = "responded"
+	BuyerSourcingInviteeViewStateViewed    BuyerSourcingInviteeViewState = "viewed"
+)
+
+// Defines values for BuyerSourcingResponseViewAnsweredVia.
+const (
+	BuyerSourcingResponseViewAnsweredViaLink BuyerSourcingResponseViewAnsweredVia = "link"
+)
+
 // Defines values for CloudAiSyncStateCode.
 const (
 	CloudAiSyncStateCodeAccessRevoked  CloudAiSyncStateCode = "access_revoked"
@@ -1457,6 +1578,46 @@ const (
 	CloudSetupViewStateStartedBySomeoneElse CloudSetupViewState = "started_by_someone_else"
 	CloudSetupViewStateUnavailable          CloudSetupViewState = "unavailable"
 	CloudSetupViewStateVerifying            CloudSetupViewState = "verifying"
+)
+
+// Defines values for CommentMeetingAttendeeSide.
+const (
+	CommentMeetingAttendeeSideBuyer    CommentMeetingAttendeeSide = "buyer"
+	CommentMeetingAttendeeSideSupplier CommentMeetingAttendeeSide = "supplier"
+)
+
+// Defines values for CommentMeetingInputDurationMinutes.
+const (
+	N15 CommentMeetingInputDurationMinutes = 15
+	N30 CommentMeetingInputDurationMinutes = 30
+	N45 CommentMeetingInputDurationMinutes = 45
+)
+
+// Defines values for CommentMeetingViewAttendeeSide.
+const (
+	CommentMeetingViewAttendeeSideBuyer    CommentMeetingViewAttendeeSide = "buyer"
+	CommentMeetingViewAttendeeSideSupplier CommentMeetingViewAttendeeSide = "supplier"
+)
+
+// Defines values for CommentMeetingViewClosedBySide.
+const (
+	CommentMeetingViewClosedBySideBuyer    CommentMeetingViewClosedBySide = "buyer"
+	CommentMeetingViewClosedBySideSupplier CommentMeetingViewClosedBySide = "supplier"
+)
+
+// Defines values for CommentMeetingViewProposedBy.
+const (
+	CommentMeetingViewProposedByBuyer    CommentMeetingViewProposedBy = "buyer"
+	CommentMeetingViewProposedBySupplier CommentMeetingViewProposedBy = "supplier"
+)
+
+// Defines values for CommentMeetingViewStatus.
+const (
+	CommentMeetingViewStatusAccepted  CommentMeetingViewStatus = "accepted"
+	CommentMeetingViewStatusCancelled CommentMeetingViewStatus = "cancelled"
+	CommentMeetingViewStatusDeclined  CommentMeetingViewStatus = "declined"
+	CommentMeetingViewStatusExpired   CommentMeetingViewStatus = "expired"
+	CommentMeetingViewStatusOpen      CommentMeetingViewStatus = "open"
 )
 
 // Defines values for ConvertPurchaseRequestInputMatching.
@@ -1596,6 +1757,21 @@ const (
 	CreateCloudConnectionInputProviderAzure CreateCloudConnectionInputProvider = "azure"
 	CreateCloudConnectionInputProviderGcp   CreateCloudConnectionInputProvider = "gcp"
 	CreateCloudConnectionInputProviderOci   CreateCloudConnectionInputProvider = "oci"
+)
+
+// Defines values for CreateCommentInputVisibility.
+const (
+	CreateCommentInputVisibilityInternal CreateCommentInputVisibility = "internal"
+	CreateCommentInputVisibilityShared   CreateCommentInputVisibility = "shared"
+)
+
+// Defines values for CreateCreditNoteInputReason.
+const (
+	CreateCreditNoteInputReasonOther           CreateCreditNoteInputReason = "other"
+	CreateCreditNoteInputReasonPriceAdjustment CreateCreditNoteInputReason = "price_adjustment"
+	CreateCreditNoteInputReasonRebate          CreateCreditNoteInputReason = "rebate"
+	CreateCreditNoteInputReasonReturnedGoods   CreateCreditNoteInputReason = "returned_goods"
+	CreateCreditNoteInputReasonServiceCredit   CreateCreditNoteInputReason = "service_credit"
 )
 
 // Defines values for CreateFeedInvoiceInputDocumentType.
@@ -2090,6 +2266,31 @@ const (
 	OnDemand CreditPriceInputKind = "on_demand"
 )
 
+// Defines values for CreditSettlementInputCreditSettlement.
+const (
+	CreditSettlementInputCreditSettlementAccountingSystem CreditSettlementInputCreditSettlement = "accounting_system"
+	CreditSettlementInputCreditSettlementPleaxy           CreditSettlementInputCreditSettlement = "pleaxy"
+)
+
+// Defines values for DocumentCommentViewAuthorSide.
+const (
+	DocumentCommentViewAuthorSideBuyer    DocumentCommentViewAuthorSide = "buyer"
+	DocumentCommentViewAuthorSideSupplier DocumentCommentViewAuthorSide = "supplier"
+)
+
+// Defines values for DocumentCommentViewDocumentKind.
+const (
+	DocumentCommentViewDocumentKindContract      DocumentCommentViewDocumentKind = "contract"
+	DocumentCommentViewDocumentKindInvoice       DocumentCommentViewDocumentKind = "invoice"
+	DocumentCommentViewDocumentKindPurchaseOrder DocumentCommentViewDocumentKind = "purchase_order"
+)
+
+// Defines values for DocumentCommentViewVisibility.
+const (
+	DocumentCommentViewVisibilityInternal DocumentCommentViewVisibility = "internal"
+	DocumentCommentViewVisibilityShared   DocumentCommentViewVisibility = "shared"
+)
+
 // Defines values for DraftAiOrdersInputScope.
 const (
 	DraftAiOrdersInputScopeAccount DraftAiOrdersInputScope = "account"
@@ -2105,8 +2306,8 @@ const (
 
 // Defines values for FeedAttemptMode.
 const (
-	Submit   FeedAttemptMode = "submit"
-	Validate FeedAttemptMode = "validate"
+	FeedAttemptModeSubmit   FeedAttemptMode = "submit"
+	FeedAttemptModeValidate FeedAttemptMode = "validate"
 )
 
 // Defines values for FeedAttemptOutcome.
@@ -2404,6 +2605,12 @@ const (
 	GeographyPresetIdLatam                 GeographyPresetId = "latam"
 	GeographyPresetIdNamer                 GeographyPresetId = "namer"
 	GeographyPresetIdUk                    GeographyPresetId = "uk"
+)
+
+// Defines values for GetCreditSettlementResultCreditSettlement.
+const (
+	GetCreditSettlementResultCreditSettlementAccountingSystem GetCreditSettlementResultCreditSettlement = "accounting_system"
+	GetCreditSettlementResultCreditSettlementPleaxy           GetCreditSettlementResultCreditSettlement = "pleaxy"
 )
 
 // Defines values for GetFocusSourcePeriodResultVersion.
@@ -2797,6 +3004,12 @@ const (
 	GetOrgProfileResultRoleSupplier GetOrgProfileResultRole = "supplier"
 )
 
+// Defines values for GetOrgProfileResultSetupGoal.
+const (
+	GetOrgProfileResultSetupGoalAudit   GetOrgProfileResultSetupGoal = "audit"
+	GetOrgProfileResultSetupGoalNetwork GetOrgProfileResultSetupGoal = "network"
+)
+
 // Defines values for InboundEmailDecisionAction.
 const (
 	InboundEmailDecisionActionDismissed InboundEmailDecisionAction = "dismissed"
@@ -2876,6 +3089,29 @@ const (
 const (
 	InvoiceAccessRemovalActionRemoved     InvoiceAccessRemovalAction = "removed"
 	InvoiceAccessRemovalActionRoleChanged InvoiceAccessRemovalAction = "role_changed"
+)
+
+// Defines values for InvoiceActivityEntryActorSide.
+const (
+	InvoiceActivityEntryActorSideBuyer    InvoiceActivityEntryActorSide = "buyer"
+	InvoiceActivityEntryActorSideSupplier InvoiceActivityEntryActorSide = "supplier"
+	InvoiceActivityEntryActorSideSystem   InvoiceActivityEntryActorSide = "system"
+)
+
+// Defines values for InvoiceActivityEntryKind.
+const (
+	InvoiceActivityEntryKindApproval        InvoiceActivityEntryKind = "approval"
+	InvoiceActivityEntryKindApproved        InvoiceActivityEntryKind = "approved"
+	InvoiceActivityEntryKindComment         InvoiceActivityEntryKind = "comment"
+	InvoiceActivityEntryKindControlFindings InvoiceActivityEntryKind = "control_findings"
+	InvoiceActivityEntryKindCorrects        InvoiceActivityEntryKind = "corrects"
+	InvoiceActivityEntryKindMatch           InvoiceActivityEntryKind = "match"
+	InvoiceActivityEntryKindPayment         InvoiceActivityEntryKind = "payment"
+	InvoiceActivityEntryKindReceived        InvoiceActivityEntryKind = "received"
+	InvoiceActivityEntryKindRejected        InvoiceActivityEntryKind = "rejected"
+	InvoiceActivityEntryKindReminder        InvoiceActivityEntryKind = "reminder"
+	InvoiceActivityEntryKindReplacement     InvoiceActivityEntryKind = "replacement"
+	InvoiceActivityEntryKindSentForApproval InvoiceActivityEntryKind = "sent_for_approval"
 )
 
 // Defines values for InvoiceAdjustmentType.
@@ -3549,6 +3785,38 @@ const (
 	ListAiInvoicersItemTierSeats        ListAiInvoicersItemTier = "seats"
 )
 
+// Defines values for ListAvailableCreditsResultCreditSettlement.
+const (
+	ListAvailableCreditsResultCreditSettlementAccountingSystem ListAvailableCreditsResultCreditSettlement = "accounting_system"
+	ListAvailableCreditsResultCreditSettlementPleaxy           ListAvailableCreditsResultCreditSettlement = "pleaxy"
+)
+
+// Defines values for ListAvailableCreditsResultCreditsReason.
+const (
+	ListAvailableCreditsResultCreditsReasonOther           ListAvailableCreditsResultCreditsReason = "other"
+	ListAvailableCreditsResultCreditsReasonPriceAdjustment ListAvailableCreditsResultCreditsReason = "price_adjustment"
+	ListAvailableCreditsResultCreditsReasonRebate          ListAvailableCreditsResultCreditsReason = "rebate"
+	ListAvailableCreditsResultCreditsReasonReturnedGoods   ListAvailableCreditsResultCreditsReason = "returned_goods"
+	ListAvailableCreditsResultCreditsReasonServiceCredit   ListAvailableCreditsResultCreditsReason = "service_credit"
+)
+
+// Defines values for ListAvailableCreditsResultLocked.
+const (
+	ListAvailableCreditsResultLockedExported      ListAvailableCreditsResultLocked = "exported"
+	ListAvailableCreditsResultLockedOtherCurrency ListAvailableCreditsResultLocked = "otherCurrency"
+	ListAvailableCreditsResultLockedPaid          ListAvailableCreditsResultLocked = "paid"
+	ListAvailableCreditsResultLockedRejected      ListAvailableCreditsResultLocked = "rejected"
+)
+
+// Defines values for ListAvailableCreditsResultPendingReason.
+const (
+	ListAvailableCreditsResultPendingReasonOther           ListAvailableCreditsResultPendingReason = "other"
+	ListAvailableCreditsResultPendingReasonPriceAdjustment ListAvailableCreditsResultPendingReason = "price_adjustment"
+	ListAvailableCreditsResultPendingReasonRebate          ListAvailableCreditsResultPendingReason = "rebate"
+	ListAvailableCreditsResultPendingReasonReturnedGoods   ListAvailableCreditsResultPendingReason = "returned_goods"
+	ListAvailableCreditsResultPendingReasonServiceCredit   ListAvailableCreditsResultPendingReason = "service_credit"
+)
+
 // Defines values for ListInvoicesItemBuyerCreditNoteCloudProvider.
 const (
 	ListInvoicesItemBuyerCreditNoteCloudProviderAws   ListInvoicesItemBuyerCreditNoteCloudProvider = "aws"
@@ -3952,9 +4220,9 @@ const (
 
 // Defines values for ModuleOfferKind.
 const (
-	Group  ModuleOfferKind = "group"
-	Module ModuleOfferKind = "module"
-	Suite  ModuleOfferKind = "suite"
+	ModuleOfferKindGroup  ModuleOfferKind = "group"
+	ModuleOfferKindModule ModuleOfferKind = "module"
+	ModuleOfferKindSuite  ModuleOfferKind = "suite"
 )
 
 // Defines values for ModuleOfferModules.
@@ -4156,23 +4424,29 @@ const (
 	OrgProfileRoleSupplier OrgProfileRole = "supplier"
 )
 
+// Defines values for OrgProfileSetupGoal.
+const (
+	OrgProfileSetupGoalAudit   OrgProfileSetupGoal = "audit"
+	OrgProfileSetupGoalNetwork OrgProfileSetupGoal = "network"
+)
+
 // Defines values for PaymentHistoryEntryAction.
 const (
-	CreditApplied    PaymentHistoryEntryAction = "credit_applied"
-	CreditRemoved    PaymentHistoryEntryAction = "credit_removed"
-	ExportWithdrawn  PaymentHistoryEntryAction = "export_withdrawn"
-	Exported         PaymentHistoryEntryAction = "exported"
-	ProblemAnswered  PaymentHistoryEntryAction = "problem_answered"
-	ProblemReported  PaymentHistoryEntryAction = "problem_reported"
-	RecordWithdrawn  PaymentHistoryEntryAction = "record_withdrawn"
-	Recorded         PaymentHistoryEntryAction = "recorded"
-	RemittanceSent   PaymentHistoryEntryAction = "remittance_sent"
-	Settled          PaymentHistoryEntryAction = "settled"
-	SettlementUndone PaymentHistoryEntryAction = "settlement_undone"
-	StripeFailed     PaymentHistoryEntryAction = "stripe_failed"
-	StripeReleased   PaymentHistoryEntryAction = "stripe_released"
-	StripeStarted    PaymentHistoryEntryAction = "stripe_started"
-	StripeSucceeded  PaymentHistoryEntryAction = "stripe_succeeded"
+	PaymentHistoryEntryActionCreditApplied    PaymentHistoryEntryAction = "credit_applied"
+	PaymentHistoryEntryActionCreditRemoved    PaymentHistoryEntryAction = "credit_removed"
+	PaymentHistoryEntryActionExportWithdrawn  PaymentHistoryEntryAction = "export_withdrawn"
+	PaymentHistoryEntryActionExported         PaymentHistoryEntryAction = "exported"
+	PaymentHistoryEntryActionProblemAnswered  PaymentHistoryEntryAction = "problem_answered"
+	PaymentHistoryEntryActionProblemReported  PaymentHistoryEntryAction = "problem_reported"
+	PaymentHistoryEntryActionRecordWithdrawn  PaymentHistoryEntryAction = "record_withdrawn"
+	PaymentHistoryEntryActionRecorded         PaymentHistoryEntryAction = "recorded"
+	PaymentHistoryEntryActionRemittanceSent   PaymentHistoryEntryAction = "remittance_sent"
+	PaymentHistoryEntryActionSettled          PaymentHistoryEntryAction = "settled"
+	PaymentHistoryEntryActionSettlementUndone PaymentHistoryEntryAction = "settlement_undone"
+	PaymentHistoryEntryActionStripeFailed     PaymentHistoryEntryAction = "stripe_failed"
+	PaymentHistoryEntryActionStripeReleased   PaymentHistoryEntryAction = "stripe_released"
+	PaymentHistoryEntryActionStripeStarted    PaymentHistoryEntryAction = "stripe_started"
+	PaymentHistoryEntryActionStripeSucceeded  PaymentHistoryEntryAction = "stripe_succeeded"
 )
 
 // Defines values for PaymentHistoryEntryRecordMethod.
@@ -4431,14 +4705,14 @@ const (
 
 // Defines values for QuestionnaireFieldDefType.
 const (
-	Date         QuestionnaireFieldDefType = "date"
-	File         QuestionnaireFieldDefType = "file"
-	LongText     QuestionnaireFieldDefType = "long_text"
-	MultiChoice  QuestionnaireFieldDefType = "multi_choice"
-	Number       QuestionnaireFieldDefType = "number"
-	SingleChoice QuestionnaireFieldDefType = "single_choice"
-	Text         QuestionnaireFieldDefType = "text"
-	YesNo        QuestionnaireFieldDefType = "yes_no"
+	QuestionnaireFieldDefTypeDate         QuestionnaireFieldDefType = "date"
+	QuestionnaireFieldDefTypeFile         QuestionnaireFieldDefType = "file"
+	QuestionnaireFieldDefTypeLongText     QuestionnaireFieldDefType = "long_text"
+	QuestionnaireFieldDefTypeMultiChoice  QuestionnaireFieldDefType = "multi_choice"
+	QuestionnaireFieldDefTypeNumber       QuestionnaireFieldDefType = "number"
+	QuestionnaireFieldDefTypeSingleChoice QuestionnaireFieldDefType = "single_choice"
+	QuestionnaireFieldDefTypeText         QuestionnaireFieldDefType = "text"
+	QuestionnaireFieldDefTypeYesNo        QuestionnaireFieldDefType = "yes_no"
 )
 
 // Defines values for QuestionnaireResponseItemStatus.
@@ -4764,11 +5038,11 @@ const (
 
 // Defines values for RemoveInvoiceReplacementLinkResultUnverifiedReason.
 const (
-	RemoveInvoiceReplacementLinkResultUnverifiedReasonDebitNote           RemoveInvoiceReplacementLinkResultUnverifiedReason = "debit_note"
-	RemoveInvoiceReplacementLinkResultUnverifiedReasonNoBillingConnection RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_billing_connection"
-	RemoveInvoiceReplacementLinkResultUnverifiedReasonNoPoFirstInvoice    RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_po_first_invoice"
-	RemoveInvoiceReplacementLinkResultUnverifiedReasonNoPurchaseOrder     RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_purchase_order"
-	RemoveInvoiceReplacementLinkResultUnverifiedReasonPayerAccountUnclear RemoveInvoiceReplacementLinkResultUnverifiedReason = "payer_account_unclear"
+	DebitNote           RemoveInvoiceReplacementLinkResultUnverifiedReason = "debit_note"
+	NoBillingConnection RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_billing_connection"
+	NoPoFirstInvoice    RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_po_first_invoice"
+	NoPurchaseOrder     RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_purchase_order"
+	PayerAccountUnclear RemoveInvoiceReplacementLinkResultUnverifiedReason = "payer_account_unclear"
 )
 
 // Defines values for RemoveInvoiceReplacementLinkResultUsageSource.
@@ -4793,6 +5067,13 @@ const (
 	RequestFileUploadInputContentTypeImagepng                                                           RequestFileUploadInputContentType = "image/png"
 	RequestFileUploadInputContentTypeTextcsv                                                            RequestFileUploadInputContentType = "text/csv"
 	RequestFileUploadInputContentTypeTextplain                                                          RequestFileUploadInputContentType = "text/plain"
+)
+
+// Defines values for RequestRemittanceUploadInputContentType.
+const (
+	RequestRemittanceUploadInputContentTypeApplicationpdf RequestRemittanceUploadInputContentType = "application/pdf"
+	RequestRemittanceUploadInputContentTypeImagejpeg      RequestRemittanceUploadInputContentType = "image/jpeg"
+	RequestRemittanceUploadInputContentTypeImagepng       RequestRemittanceUploadInputContentType = "image/png"
 )
 
 // Defines values for RequestTypeDefaultsLineType.
@@ -4916,6 +5197,12 @@ const (
 	SetAiSeatCountInputSourceManual          SetAiSeatCountInputSource = "manual"
 	SetAiSeatCountInputSourceOkta            SetAiSeatCountInputSource = "okta"
 	SetAiSeatCountInputSourceProviderConsole SetAiSeatCountInputSource = "provider_console"
+)
+
+// Defines values for SetCreditSettlementResultCreditSettlement.
+const (
+	SetCreditSettlementResultCreditSettlementAccountingSystem SetCreditSettlementResultCreditSettlement = "accounting_system"
+	SetCreditSettlementResultCreditSettlementPleaxy           SetCreditSettlementResultCreditSettlement = "pleaxy"
 )
 
 // Defines values for SetInvoiceFeedResult0AiProvider.
@@ -5121,6 +5408,129 @@ const (
 	ShipNoticeStatusShipped  ShipNoticeStatus = "shipped"
 )
 
+// Defines values for SourcingActivityAction.
+const (
+	SourcingActivityActionAnswerSaved        SourcingActivityAction = "answer_saved"
+	SourcingActivityActionAnswerSubmitted    SourcingActivityAction = "answer_submitted"
+	SourcingActivityActionAwarded            SourcingActivityAction = "awarded"
+	SourcingActivityActionCanceled           SourcingActivityAction = "canceled"
+	SourcingActivityActionClosed             SourcingActivityAction = "closed"
+	SourcingActivityActionCreated            SourcingActivityAction = "created"
+	SourcingActivityActionDeadlineMoved      SourcingActivityAction = "deadline_moved"
+	SourcingActivityActionDeclined           SourcingActivityAction = "declined"
+	SourcingActivityActionEdited             SourcingActivityAction = "edited"
+	SourcingActivityActionInvited            SourcingActivityAction = "invited"
+	SourcingActivityActionPublished          SourcingActivityAction = "published"
+	SourcingActivityActionQuestionAnswered   SourcingActivityAction = "question_answered"
+	SourcingActivityActionQuestionAsked      SourcingActivityAction = "question_asked"
+	SourcingActivityActionReopened           SourcingActivityAction = "reopened"
+	SourcingActivityActionRoundOpened        SourcingActivityAction = "round_opened"
+	SourcingActivityActionScorecardSubmitted SourcingActivityAction = "scorecard_submitted"
+	SourcingActivityActionScored             SourcingActivityAction = "scored"
+	SourcingActivityActionViewed             SourcingActivityAction = "viewed"
+	SourcingActivityActionWithdrawn          SourcingActivityAction = "withdrawn"
+)
+
+// Defines values for SourcingActivityActor.
+const (
+	SourcingActivityActorBuyer    SourcingActivityActor = "buyer"
+	SourcingActivityActorSupplier SourcingActivityActor = "supplier"
+	SourcingActivityActorSystem   SourcingActivityActor = "system"
+)
+
+// Defines values for SourcingAttachmentSource.
+const (
+	Request SourcingAttachmentSource = "request"
+	Upload  SourcingAttachmentSource = "upload"
+)
+
+// Defines values for SourcingAwardOrder.
+const (
+	SourcingAwardOrderDraft  SourcingAwardOrder = "draft"
+	SourcingAwardOrderNone   SourcingAwardOrder = "none"
+	SourcingAwardOrderSubmit SourcingAwardOrder = "submit"
+)
+
+// Defines values for SourcingAwardOutcome.
+const (
+	Both     SourcingAwardOutcome = "both"
+	Contract SourcingAwardOutcome = "contract"
+	Order    SourcingAwardOutcome = "order"
+)
+
+// Defines values for SourcingComparisonStatus.
+const (
+	SourcingComparisonStatusAwarded  SourcingComparisonStatus = "awarded"
+	SourcingComparisonStatusCanceled SourcingComparisonStatus = "canceled"
+	SourcingComparisonStatusClosed   SourcingComparisonStatus = "closed"
+	SourcingComparisonStatusDraft    SourcingComparisonStatus = "draft"
+	SourcingComparisonStatusOpen     SourcingComparisonStatus = "open"
+)
+
+// Defines values for SourcingComparisonFieldScoring.
+const (
+	SourcingComparisonFieldScoringChoice SourcingComparisonFieldScoring = "choice"
+	SourcingComparisonFieldScoringManual SourcingComparisonFieldScoring = "manual"
+)
+
+// Defines values for SourcingComparisonFieldType.
+const (
+	SourcingComparisonFieldTypeDate         SourcingComparisonFieldType = "date"
+	SourcingComparisonFieldTypeFile         SourcingComparisonFieldType = "file"
+	SourcingComparisonFieldTypeLongText     SourcingComparisonFieldType = "long_text"
+	SourcingComparisonFieldTypeMultiChoice  SourcingComparisonFieldType = "multi_choice"
+	SourcingComparisonFieldTypeNumber       SourcingComparisonFieldType = "number"
+	SourcingComparisonFieldTypeSingleChoice SourcingComparisonFieldType = "single_choice"
+	SourcingComparisonFieldTypeText         SourcingComparisonFieldType = "text"
+	SourcingComparisonFieldTypeYesNo        SourcingComparisonFieldType = "yes_no"
+)
+
+// Defines values for SourcingComparisonResponderAnsweredVia.
+const (
+	SourcingComparisonResponderAnsweredViaLink SourcingComparisonResponderAnsweredVia = "link"
+)
+
+// Defines values for SourcingComparisonResponderOnboarding.
+const (
+	SourcingComparisonResponderOnboardingApproved      SourcingComparisonResponderOnboarding = "approved"
+	SourcingComparisonResponderOnboardingInProgress    SourcingComparisonResponderOnboarding = "in_progress"
+	SourcingComparisonResponderOnboardingInvited       SourcingComparisonResponderOnboarding = "invited"
+	SourcingComparisonResponderOnboardingPendingInvite SourcingComparisonResponderOnboarding = "pending_invite"
+	SourcingComparisonResponderOnboardingRejected      SourcingComparisonResponderOnboarding = "rejected"
+	SourcingComparisonResponderOnboardingSubmitted     SourcingComparisonResponderOnboarding = "submitted"
+)
+
+// Defines values for SourcingComparisonResponderRiskLevel.
+const (
+	SourcingComparisonResponderRiskLevelAttention SourcingComparisonResponderRiskLevel = "attention"
+	SourcingComparisonResponderRiskLevelBlocked   SourcingComparisonResponderRiskLevel = "blocked"
+	SourcingComparisonResponderRiskLevelOk        SourcingComparisonResponderRiskLevel = "ok"
+)
+
+// Defines values for SourcingCriterionKind.
+const (
+	Evaluators    SourcingCriterionKind = "evaluators"
+	Price         SourcingCriterionKind = "price"
+	Questionnaire SourcingCriterionKind = "questionnaire"
+)
+
+// Defines values for SourcingRoundFeedback.
+const (
+	SourcingRoundFeedbackGap  SourcingRoundFeedback = "gap"
+	SourcingRoundFeedbackNone SourcingRoundFeedback = "none"
+	SourcingRoundFeedbackRank SourcingRoundFeedback = "rank"
+)
+
+// Defines values for SourcingRoundFeedbackBySupplier0Kind.
+const (
+	SourcingRoundFeedbackBySupplier0KindRank SourcingRoundFeedbackBySupplier0Kind = "rank"
+)
+
+// Defines values for SourcingRoundFeedbackBySupplier1Kind.
+const (
+	Gap SourcingRoundFeedbackBySupplier1Kind = "gap"
+)
+
 // Defines values for SpendLimitBreachSubject.
 const (
 	Actor     SpendLimitBreachSubject = "actor"
@@ -5319,7 +5729,7 @@ const (
 
 // Defines values for SupplierCreditNoteViewPoEffect0Kind.
 const (
-	Release SupplierCreditNoteViewPoEffect0Kind = "release"
+	SupplierCreditNoteViewPoEffect0KindRelease SupplierCreditNoteViewPoEffect0Kind = "release"
 )
 
 // Defines values for SupplierCreditNoteViewPoEffect1Kind.
@@ -5329,9 +5739,9 @@ const (
 
 // Defines values for SupplierCreditNoteViewPoEffect1Why.
 const (
-	NoPo           SupplierCreditNoteViewPoEffect1Why = "no_po"
-	NotACorrection SupplierCreditNoteViewPoEffect1Why = "not_a_correction"
-	PoClosed       SupplierCreditNoteViewPoEffect1Why = "po_closed"
+	SupplierCreditNoteViewPoEffect1WhyNoPo           SupplierCreditNoteViewPoEffect1Why = "no_po"
+	SupplierCreditNoteViewPoEffect1WhyNotACorrection SupplierCreditNoteViewPoEffect1Why = "not_a_correction"
+	SupplierCreditNoteViewPoEffect1WhyPoClosed       SupplierCreditNoteViewPoEffect1Why = "po_closed"
 )
 
 // Defines values for SupplierCreditNoteViewReason.
@@ -5372,9 +5782,9 @@ const (
 
 // Defines values for SupplierRemittanceViewFileContentType.
 const (
-	Applicationpdf SupplierRemittanceViewFileContentType = "application/pdf"
-	Imagejpeg      SupplierRemittanceViewFileContentType = "image/jpeg"
-	Imagepng       SupplierRemittanceViewFileContentType = "image/png"
+	SupplierRemittanceViewFileContentTypeApplicationpdf SupplierRemittanceViewFileContentType = "application/pdf"
+	SupplierRemittanceViewFileContentTypeImagejpeg      SupplierRemittanceViewFileContentType = "image/jpeg"
+	SupplierRemittanceViewFileContentTypeImagepng       SupplierRemittanceViewFileContentType = "image/png"
 )
 
 // Defines values for SupplierRiskBankState.
@@ -5418,10 +5828,10 @@ const (
 
 // Defines values for SupplierRiskScreeningState.
 const (
-	SupplierRiskScreeningStateAttention SupplierRiskScreeningState = "attention"
-	SupplierRiskScreeningStateBlocked   SupplierRiskScreeningState = "blocked"
-	SupplierRiskScreeningStateNone      SupplierRiskScreeningState = "none"
-	SupplierRiskScreeningStateOk        SupplierRiskScreeningState = "ok"
+	Attention SupplierRiskScreeningState = "attention"
+	Blocked   SupplierRiskScreeningState = "blocked"
+	None      SupplierRiskScreeningState = "none"
+	Ok        SupplierRiskScreeningState = "ok"
 )
 
 // Defines values for SupplierRiskScreeningStatus.
@@ -5691,8 +6101,8 @@ const (
 
 // Defines values for MarkAllNotificationsReadParamsAudience.
 const (
-	Buyer    MarkAllNotificationsReadParamsAudience = "buyer"
-	Supplier MarkAllNotificationsReadParamsAudience = "supplier"
+	MarkAllNotificationsReadParamsAudienceBuyer    MarkAllNotificationsReadParamsAudience = "buyer"
+	MarkAllNotificationsReadParamsAudienceSupplier MarkAllNotificationsReadParamsAudience = "supplier"
 )
 
 // Defines values for GetPurchaseOrderDocumentParamsFormat.
@@ -5712,6 +6122,15 @@ const (
 	ListPurchaseRequestsParamsStatusSourcing        ListPurchaseRequestsParamsStatus = "sourcing"
 )
 
+// Defines values for ListSourcingEventsParamsStatus.
+const (
+	Awarded  ListSourcingEventsParamsStatus = "awarded"
+	Canceled ListSourcingEventsParamsStatus = "canceled"
+	Closed   ListSourcingEventsParamsStatus = "closed"
+	Draft    ListSourcingEventsParamsStatus = "draft"
+	Open     ListSourcingEventsParamsStatus = "open"
+)
+
 // AddAiProviderSupplierResult defines model for AddAiProviderSupplierResult.
 type AddAiProviderSupplierResult struct {
 	AcceptedRegionMatchesRequest   *bool                                     `json:"acceptedRegionMatchesRequest,omitempty"`
@@ -5721,6 +6140,9 @@ type AddAiProviderSupplierResult struct {
 	BuyerName                      *string                                   `json:"buyerName,omitempty"`
 	BuyerOrgId                     *string                                   `json:"buyerOrgId,omitempty"`
 	CloudProvider                  *AddAiProviderSupplierResultCloudProvider `json:"cloudProvider,omitempty"`
+	CommentsMuted                  *bool                                     `json:"commentsMuted,omitempty"`
+	CommentsMutedAt                *string                                   `json:"commentsMutedAt,omitempty"`
+	CommentsMutedBy                *string                                   `json:"commentsMutedBy,omitempty"`
 	CreatedAt                      *string                                   `json:"createdAt,omitempty"`
 	FeedAcceptedCount              *float64                                  `json:"feedAcceptedCount,omitempty"`
 	FeedLastAcceptedAt             *string                                   `json:"feedLastAcceptedAt,omitempty"`
@@ -5779,6 +6201,9 @@ type AddCloudProviderAsSupplierResult struct {
 	BuyerName                      *string                                        `json:"buyerName,omitempty"`
 	BuyerOrgId                     *string                                        `json:"buyerOrgId,omitempty"`
 	CloudProvider                  *AddCloudProviderAsSupplierResultCloudProvider `json:"cloudProvider,omitempty"`
+	CommentsMuted                  *bool                                          `json:"commentsMuted,omitempty"`
+	CommentsMutedAt                *string                                        `json:"commentsMutedAt,omitempty"`
+	CommentsMutedBy                *string                                        `json:"commentsMutedBy,omitempty"`
 	CreatedAt                      *string                                        `json:"createdAt,omitempty"`
 	FeedAcceptedCount              *float64                                       `json:"feedAcceptedCount,omitempty"`
 	FeedLastAcceptedAt             *string                                        `json:"feedLastAcceptedAt,omitempty"`
@@ -5867,12 +6292,14 @@ type AddInvoiceReplacementLinksResult struct {
 	Id                          string                                             `json:"id"`
 	InvoiceDate                 *string                                            `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *AddInvoiceReplacementLinksResultInvoiceKind       `json:"invoiceKind,omitempty"`
+	LastApproverRemindedAt      *string                                            `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                            `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                      `json:"lateFeeTerms,omitempty"`
 	LineItems                   *[]InvoiceLineItem                                 `json:"lineItems,omitempty"`
 	MatchBasis                  *AddInvoiceReplacementLinksResultMatchBasis        `json:"matchBasis,omitempty"`
 	MatchStatus                 *AddInvoiceReplacementLinksResultMatchStatus       `json:"matchStatus,omitempty"`
 	MatchType                   *AddInvoiceReplacementLinksResultMatchType         `json:"matchType,omitempty"`
+	NextApproverReminderAt      *string                                            `json:"nextApproverReminderAt,omitempty"`
 	NoPoComparison              *NoPoComparison                                    `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                              `json:"paid,omitempty"`
 	PaidAt                      *string                                            `json:"paidAt,omitempty"`
@@ -6277,6 +6704,9 @@ type AiProvider struct {
 		Host        *string `json:"host,omitempty"`
 		WarehouseId *string `json:"warehouseId,omitempty"`
 	} `json:"databricks,omitempty"`
+	Github *struct {
+		Org *string `json:"org,omitempty"`
+	} `json:"github,omitempty"`
 	Id                string                       `json:"id"`
 	KeyHint           *string                      `json:"keyHint,omitempty"`
 	LastSyncError     *string                      `json:"lastSyncError,omitempty"`
@@ -6717,6 +7147,17 @@ type ApplyConfirmationChangesResult struct {
 	PurchaseOrder *PurchaseOrder     `json:"purchaseOrder,omitempty"`
 }
 
+// ApplyCreditsInput defines model for ApplyCreditsInput.
+type ApplyCreditsInput struct {
+	// Applications All or none, in one write. 1–20.
+	Applications []CreditApplicationInput `json:"applications"`
+}
+
+// ApplyCreditsResult defines model for ApplyCreditsResult.
+type ApplyCreditsResult struct {
+	union json.RawMessage
+}
+
 // ApprovalChain defines model for ApprovalChain.
 type ApprovalChain struct {
 	Autonomy             *bool     `json:"autonomy,omitempty"`
@@ -6732,6 +7173,7 @@ type ApprovalChain struct {
 	History              *[]ApprovalHistoryEntry       `json:"history,omitempty"`
 	Requester            *string                       `json:"requester,omitempty"`
 	RequesterEmployeeKey *string                       `json:"requesterEmployeeKey,omitempty"`
+	RoutedAutomatically  *bool                         `json:"routedAutomatically,omitempty"`
 	Routing              *ApprovalRouting              `json:"routing,omitempty"`
 	SelfApproved         *bool                         `json:"selfApproved,omitempty"`
 	SpendLimitGate       *SpendLimitGate               `json:"spendLimitGate,omitempty"`
@@ -7037,6 +7479,22 @@ type ApprovePurchaseRequestInput struct {
 // ApprovedByOthersRecord defines model for ApprovedByOthersRecord.
 type ApprovedByOthersRecord struct {
 	ApproverKeys *[]string `json:"approverKeys,omitempty"`
+}
+
+// AssistantReadCite defines model for AssistantReadCite.
+type AssistantReadCite struct {
+	Field       *AssistantReadCiteField `json:"field,omitempty"`
+	LineId      *string                 `json:"lineId,omitempty"`
+	SupplierKey *string                 `json:"supplierKey,omitempty"`
+}
+
+// AssistantReadCiteField defines model for AssistantReadCite.Field.
+type AssistantReadCiteField string
+
+// AssistantReadSentence defines model for AssistantReadSentence.
+type AssistantReadSentence struct {
+	Cites *[]AssistantReadCite `json:"cites,omitempty"`
+	Text  *string              `json:"text,omitempty"`
 }
 
 // AutomationRule defines model for AutomationRule.
@@ -7395,9 +7853,256 @@ type BudgetStatus struct {
 // BudgetStatusPeriodKind defines model for BudgetStatus.Period.Kind.
 type BudgetStatusPeriodKind string
 
+// BuyerCreditNoteView defines model for BuyerCreditNoteView.
+type BuyerCreditNoteView struct {
+	AcceptedAt      *string                           `json:"acceptedAt,omitempty"`
+	AcceptedByName  *string                           `json:"acceptedByName,omitempty"`
+	Adjustments     *[]InvoiceAdjustment              `json:"adjustments,omitempty"`
+	Amount          *float64                          `json:"amount,omitempty"`
+	Applications    *[]CreditNoteApplication          `json:"applications,omitempty"`
+	AutoAccepted    *bool                             `json:"autoAccepted,omitempty"`
+	BuyerOrgId      *string                           `json:"buyerOrgId,omitempty"`
+	BuyerOrgName    *string                           `json:"buyerOrgName,omitempty"`
+	CloudProvider   *BuyerCreditNoteViewCloudProvider `json:"cloudProvider,omitempty"`
+	CorrectsBilling *bool                             `json:"correctsBilling,omitempty"`
+	CreatedAt       *string                           `json:"createdAt,omitempty"`
+	Currency        *string                           `json:"currency,omitempty"`
+	EnteredBy       *BuyerCreditNoteViewEnteredBy     `json:"enteredBy,omitempty"`
+	Exports         *[]struct {
+		ExportId   *string `json:"exportId,omitempty"`
+		ExportedAt *string `json:"exportedAt,omitempty"`
+	} `json:"exports,omitempty"`
+	ExternalCreditNoteNumber *string                       `json:"externalCreditNoteNumber,omitempty"`
+	ExternalInvoiceNumber    *string                       `json:"externalInvoiceNumber,omitempty"`
+	HasPdf                   *bool                         `json:"hasPdf,omitempty"`
+	History                  *[]CreditNoteHistoryEntry     `json:"history,omitempty"`
+	Id                       string                        `json:"id"`
+	InvoiceId                *string                       `json:"invoiceId,omitempty"`
+	IssueDate                *string                       `json:"issueDate,omitempty"`
+	LineItems                *[]InvoiceLineItem            `json:"lineItems,omitempty"`
+	Note                     *string                       `json:"note,omitempty"`
+	Po                       *string                       `json:"po,omitempty"`
+	PoEffect                 *BuyerCreditNoteView_PoEffect `json:"poEffect,omitempty"`
+	PoLineNo                 *float64                      `json:"poLineNo,omitempty"`
+	Reason                   *BuyerCreditNoteViewReason    `json:"reason,omitempty"`
+	Refunded                 *float64                      `json:"refunded,omitempty"`
+	Rejection                *struct {
+		At     *string `json:"at,omitempty"`
+		ByName *string `json:"byName,omitempty"`
+		Reason *string `json:"reason,omitempty"`
+	} `json:"rejection,omitempty"`
+	Remaining            *float64                            `json:"remaining,omitempty"`
+	Source               *BuyerCreditNoteViewSource          `json:"source,omitempty"`
+	SourceDocument       *InvoiceSourceDocument              `json:"sourceDocument,omitempty"`
+	Status               *BuyerCreditNoteViewStatus          `json:"status,omitempty"`
+	SubmittedBy          *string                             `json:"submittedBy,omitempty"`
+	SubmittedFormat      *BuyerCreditNoteViewSubmittedFormat `json:"submittedFormat,omitempty"`
+	Supplier             *string                             `json:"supplier,omitempty"`
+	SupplierConnectionId *string                             `json:"supplierConnectionId,omitempty"`
+	SupplierOrgId        *string                             `json:"supplierOrgId,omitempty"`
+	TaxAmount            *float64                            `json:"taxAmount,omitempty"`
+	TaxBreakdown         *[]InvoiceBreakdownEntry            `json:"taxBreakdown,omitempty"`
+	Version              *float64                            `json:"version,omitempty"`
+}
+
+// BuyerCreditNoteViewCloudProvider defines model for BuyerCreditNoteView.CloudProvider.
+type BuyerCreditNoteViewCloudProvider string
+
+// BuyerCreditNoteViewEnteredBy defines model for BuyerCreditNoteView.EnteredBy.
+type BuyerCreditNoteViewEnteredBy string
+
+// BuyerCreditNoteViewPoEffect0 defines model for .
+type BuyerCreditNoteViewPoEffect0 struct {
+	Amount   *float64                          `json:"amount,omitempty"`
+	Kind     *BuyerCreditNoteViewPoEffect0Kind `json:"kind,omitempty"`
+	Po       *string                           `json:"po,omitempty"`
+	PoLineNo *float64                          `json:"poLineNo,omitempty"`
+	Qty      *float64                          `json:"qty,omitempty"`
+}
+
+// BuyerCreditNoteViewPoEffect0Kind defines model for BuyerCreditNoteView.PoEffect.0.Kind.
+type BuyerCreditNoteViewPoEffect0Kind string
+
+// BuyerCreditNoteViewPoEffect1 defines model for .
+type BuyerCreditNoteViewPoEffect1 struct {
+	Kind *BuyerCreditNoteViewPoEffect1Kind `json:"kind,omitempty"`
+	Why  *BuyerCreditNoteViewPoEffect1Why  `json:"why,omitempty"`
+}
+
+// BuyerCreditNoteViewPoEffect1Kind defines model for BuyerCreditNoteView.PoEffect.1.Kind.
+type BuyerCreditNoteViewPoEffect1Kind string
+
+// BuyerCreditNoteViewPoEffect1Why defines model for BuyerCreditNoteView.PoEffect.1.Why.
+type BuyerCreditNoteViewPoEffect1Why string
+
+// BuyerCreditNoteView_PoEffect defines model for BuyerCreditNoteView.PoEffect.
+type BuyerCreditNoteView_PoEffect struct {
+	union json.RawMessage
+}
+
+// BuyerCreditNoteViewReason defines model for BuyerCreditNoteView.Reason.
+type BuyerCreditNoteViewReason string
+
+// BuyerCreditNoteViewSource defines model for BuyerCreditNoteView.Source.
+type BuyerCreditNoteViewSource string
+
+// BuyerCreditNoteViewStatus defines model for BuyerCreditNoteView.Status.
+type BuyerCreditNoteViewStatus string
+
+// BuyerCreditNoteViewSubmittedFormat defines model for BuyerCreditNoteView.SubmittedFormat.
+type BuyerCreditNoteViewSubmittedFormat string
+
+// BuyerSourcingEventSummary defines model for BuyerSourcingEventSummary.
+type BuyerSourcingEventSummary struct {
+	Answers *SourcingAnswerCounts `json:"answers,omitempty"`
+	Award   *struct {
+		Currency     *string                              `json:"currency,omitempty"`
+		Order        *BuyerSourcingEventSummaryAwardOrder `json:"order,omitempty"`
+		PoId         *string                              `json:"poId,omitempty"`
+		SupplierName *string                              `json:"supplierName,omitempty"`
+		Total        *float64                             `json:"total,omitempty"`
+	} `json:"award,omitempty"`
+	Awards *[]struct {
+		ContractId   *string                               `json:"contractId,omitempty"`
+		Currency     *string                               `json:"currency,omitempty"`
+		Order        *BuyerSourcingEventSummaryAwardsOrder `json:"order,omitempty"`
+		PoId         *string                               `json:"poId,omitempty"`
+		SupplierKey  *string                               `json:"supplierKey,omitempty"`
+		SupplierName *string                               `json:"supplierName,omitempty"`
+		Total        *float64                              `json:"total,omitempty"`
+	} `json:"awards,omitempty"`
+	CreatedAt     *string                          `json:"createdAt,omitempty"`
+	Currency      *string                          `json:"currency,omitempty"`
+	DueAt         *string                          `json:"dueAt,omitempty"`
+	FromRequestId *string                          `json:"fromRequestId,omitempty"`
+	Id            string                           `json:"id"`
+	LineCount     *float64                         `json:"lineCount,omitempty"`
+	LowestTotal   *float64                         `json:"lowestTotal"`
+	Sealed        *bool                            `json:"sealed,omitempty"`
+	SealedNow     *bool                            `json:"sealedNow,omitempty"`
+	Status        *BuyerSourcingEventSummaryStatus `json:"status,omitempty"`
+	Title         *string                          `json:"title,omitempty"`
+	UpdatedAt     *string                          `json:"updatedAt,omitempty"`
+}
+
+// BuyerSourcingEventSummaryAwardOrder defines model for BuyerSourcingEventSummary.Award.Order.
+type BuyerSourcingEventSummaryAwardOrder string
+
+// BuyerSourcingEventSummaryAwardsOrder defines model for BuyerSourcingEventSummary.Awards.Order.
+type BuyerSourcingEventSummaryAwardsOrder string
+
+// BuyerSourcingEventSummaryStatus defines model for BuyerSourcingEventSummary.Status.
+type BuyerSourcingEventSummaryStatus string
+
+// BuyerSourcingEventView defines model for BuyerSourcingEventView.
+type BuyerSourcingEventView struct {
+	Activity      *[]SourcingActivity              `json:"activity,omitempty"`
+	Answers       *SourcingAnswerCounts            `json:"answers,omitempty"`
+	AssistantRead *SourcingAssistantRead           `json:"assistantRead,omitempty"`
+	Attachments   *[]SourcingAttachment            `json:"attachments,omitempty"`
+	Award         *SourcingAward                   `json:"award,omitempty"`
+	Awards        *[]SourcingAward                 `json:"awards,omitempty"`
+	CanceledAt    *string                          `json:"canceledAt,omitempty"`
+	ClosedAt      *string                          `json:"closedAt,omitempty"`
+	CostCenter    *string                          `json:"costCenter,omitempty"`
+	CreatedAt     *string                          `json:"createdAt,omitempty"`
+	CreatedBy     *string                          `json:"createdBy,omitempty"`
+	CreatedByName *string                          `json:"createdByName,omitempty"`
+	Criteria      *[]SourcingCriterion             `json:"criteria,omitempty"`
+	Currency      *string                          `json:"currency,omitempty"`
+	Description   *string                          `json:"description,omitempty"`
+	DueAt         *string                          `json:"dueAt,omitempty"`
+	Evaluators    *[]string                        `json:"evaluators,omitempty"`
+	FromRequestId *string                          `json:"fromRequestId,omitempty"`
+	GlCode        *string                          `json:"glCode,omitempty"`
+	Id            string                           `json:"id"`
+	Invitees      *[]BuyerSourcingInviteeView      `json:"invitees,omitempty"`
+	Lines         *[]SourcingLine                  `json:"lines,omitempty"`
+	ManualPoints  *SourcingManualPoints            `json:"manualPoints,omitempty"`
+	PublishedAt   *string                          `json:"publishedAt,omitempty"`
+	Questionnaire *SourcingQuestionnaire           `json:"questionnaire,omitempty"`
+	Questions     *[]BuyerSourcingQuestionView     `json:"questions,omitempty"`
+	Responses     *[]BuyerSourcingResponseView     `json:"responses,omitempty"`
+	Round         *float64                         `json:"round,omitempty"`
+	Rounds        *[]SourcingRound                 `json:"rounds,omitempty"`
+	Scoring       *map[string]SourcingFieldScoring `json:"scoring,omitempty"`
+	Sealed        *bool                            `json:"sealed,omitempty"`
+	SealedNow     *bool                            `json:"sealedNow,omitempty"`
+	Status        *BuyerSourcingEventViewStatus    `json:"status,omitempty"`
+	Title         *string                          `json:"title,omitempty"`
+	UpdatedAt     *string                          `json:"updatedAt,omitempty"`
+	Version       *float64                         `json:"version,omitempty"`
+}
+
+// BuyerSourcingEventViewStatus defines model for BuyerSourcingEventView.Status.
+type BuyerSourcingEventViewStatus string
+
+// BuyerSourcingInviteeView defines model for BuyerSourcingInviteeView.
+type BuyerSourcingInviteeView struct {
+	DeclineReason        *string                        `json:"declineReason,omitempty"`
+	DeclinedAt           *string                        `json:"declinedAt,omitempty"`
+	Email                *string                        `json:"email,omitempty"`
+	InvitedAt            *string                        `json:"invitedAt,omitempty"`
+	OnPleaxy             *bool                          `json:"onPleaxy,omitempty"`
+	Shortlisted          *bool                          `json:"shortlisted,omitempty"`
+	State                *BuyerSourcingInviteeViewState `json:"state,omitempty"`
+	Submissions          *float64                       `json:"submissions,omitempty"`
+	SubmittedAt          *string                        `json:"submittedAt,omitempty"`
+	SupplierConnectionId *string                        `json:"supplierConnectionId,omitempty"`
+	SupplierKey          *string                        `json:"supplierKey,omitempty"`
+	SupplierName         *string                        `json:"supplierName,omitempty"`
+	ViewedAt             *string                        `json:"viewedAt,omitempty"`
+}
+
+// BuyerSourcingInviteeViewState defines model for BuyerSourcingInviteeView.State.
+type BuyerSourcingInviteeViewState string
+
+// BuyerSourcingQuestionView defines model for BuyerSourcingQuestionView.
+type BuyerSourcingQuestionView struct {
+	Answer       *string `json:"answer,omitempty"`
+	AnsweredAt   *string `json:"answeredAt,omitempty"`
+	AskedAt      *string `json:"askedAt,omitempty"`
+	Id           string  `json:"id"`
+	SupplierKey  *string `json:"supplierKey,omitempty"`
+	SupplierName *string `json:"supplierName,omitempty"`
+	Text         *string `json:"text,omitempty"`
+}
+
+// BuyerSourcingResponseView defines model for BuyerSourcingResponseView.
+type BuyerSourcingResponseView struct {
+	AnsweredByEmail  *string                               `json:"answeredByEmail,omitempty"`
+	AnsweredVia      *BuyerSourcingResponseViewAnsweredVia `json:"answeredVia,omitempty"`
+	Answers          *[]SourcingQuestionAnswer             `json:"answers,omitempty"`
+	Attachments      *[]SourcingAttachment                 `json:"attachments,omitempty"`
+	CarriedFrom      *float64                              `json:"carriedFrom,omitempty"`
+	Lines            *[]SourcingResponseLine               `json:"lines,omitempty"`
+	Note             *string                               `json:"note,omitempty"`
+	PaymentTermsDays *float64                              `json:"paymentTermsDays,omitempty"`
+	QuoteImportId    *string                               `json:"quoteImportId,omitempty"`
+	Reference        *string                               `json:"reference,omitempty"`
+	SubmittedAt      *string                               `json:"submittedAt,omitempty"`
+	SupplierKey      *string                               `json:"supplierKey,omitempty"`
+	SupplierName     *string                               `json:"supplierName,omitempty"`
+	Total            *float64                              `json:"total"`
+	ValidUntil       *string                               `json:"validUntil,omitempty"`
+	Version          *float64                              `json:"version,omitempty"`
+}
+
+// BuyerSourcingResponseViewAnsweredVia defines model for BuyerSourcingResponseView.AnsweredVia.
+type BuyerSourcingResponseViewAnsweredVia string
+
 // CancelPurchaseOrderInput defines model for CancelPurchaseOrderInput.
 type CancelPurchaseOrderInput struct {
 	Reason *string `json:"reason,omitempty"`
+}
+
+// ChangeFinishedCostCenterInput defines model for ChangeFinishedCostCenterInput.
+type ChangeFinishedCostCenterInput struct {
+	// CostCenter The cost center to book the order to: an active one from the workspace's cost centers when it keeps a list.
+	CostCenter string `json:"costCenter"`
+
+	// Reason Why it moves, kept on the order with who changed it and when.
+	Reason string `json:"reason"`
 }
 
 // CheckAiSpendInput defines model for CheckAiSpendInput.
@@ -7560,6 +8265,79 @@ type CloudSetupView struct {
 // CloudSetupViewState defines model for CloudSetupView.State.
 type CloudSetupViewState string
 
+// CommentMeetingAttendee defines model for CommentMeetingAttendee.
+type CommentMeetingAttendee struct {
+	Email *string                     `json:"email,omitempty"`
+	Name  *string                     `json:"name,omitempty"`
+	Side  *CommentMeetingAttendeeSide `json:"side,omitempty"`
+}
+
+// CommentMeetingAttendeeSide defines model for CommentMeetingAttendee.Side.
+type CommentMeetingAttendeeSide string
+
+// CommentMeetingInput defines model for CommentMeetingInput.
+type CommentMeetingInput struct {
+	// DurationMinutes How long the meeting lasts, in minutes.
+	DurationMinutes CommentMeetingInputDurationMinutes `json:"durationMinutes"`
+
+	// Link An https link to the call.
+	Link *string `json:"link,omitempty"`
+
+	// TimeZone Your time zone, as an IANA name such as Europe/Madrid.
+	TimeZone string `json:"timeZone"`
+
+	// Times Two or three proposed start times, ISO 8601 with an offset, in the future.
+	Times []string `json:"times"`
+
+	// Topic What the meeting is about, on one line.
+	Topic string `json:"topic"`
+}
+
+// CommentMeetingInputDurationMinutes How long the meeting lasts, in minutes.
+type CommentMeetingInputDurationMinutes float64
+
+// CommentMeetingView defines model for CommentMeetingView.
+type CommentMeetingView struct {
+	AcceptedTime     *string                         `json:"acceptedTime,omitempty"`
+	AttendeeName     *string                         `json:"attendeeName,omitempty"`
+	AttendeeSide     *CommentMeetingViewAttendeeSide `json:"attendeeSide,omitempty"`
+	Attendees        *[]CommentMeetingAttendee       `json:"attendees,omitempty"`
+	CanAnswer        *bool                           `json:"canAnswer,omitempty"`
+	CanCancel        *bool                           `json:"canCancel,omitempty"`
+	CanPropose       *bool                           `json:"canPropose,omitempty"`
+	ClosedByName     *string                         `json:"closedByName,omitempty"`
+	ClosedBySide     *CommentMeetingViewClosedBySide `json:"closedBySide,omitempty"`
+	CounterProposals *float64                        `json:"counterProposals,omitempty"`
+	DeclineReason    *string                         `json:"declineReason,omitempty"`
+	DurationMinutes  *float64                        `json:"durationMinutes,omitempty"`
+	Link             *string                         `json:"link,omitempty"`
+	ProposedBy       *CommentMeetingViewProposedBy   `json:"proposedBy,omitempty"`
+	ProposerName     *string                         `json:"proposerName,omitempty"`
+	Status           *CommentMeetingViewStatus       `json:"status,omitempty"`
+	TimeZone         *string                         `json:"timeZone,omitempty"`
+	Times            *[]string                       `json:"times,omitempty"`
+	Topic            *string                         `json:"topic,omitempty"`
+	UpdatedAt        *string                         `json:"updatedAt,omitempty"`
+}
+
+// CommentMeetingViewAttendeeSide defines model for CommentMeetingView.AttendeeSide.
+type CommentMeetingViewAttendeeSide string
+
+// CommentMeetingViewClosedBySide defines model for CommentMeetingView.ClosedBySide.
+type CommentMeetingViewClosedBySide string
+
+// CommentMeetingViewProposedBy defines model for CommentMeetingView.ProposedBy.
+type CommentMeetingViewProposedBy string
+
+// CommentMeetingViewStatus defines model for CommentMeetingView.Status.
+type CommentMeetingViewStatus string
+
+// CommentMention defines model for CommentMention.
+type CommentMention struct {
+	EmployeeKey *string `json:"employeeKey,omitempty"`
+	Name        *string `json:"name,omitempty"`
+}
+
 // ConvertPurchaseRequestInput defines model for ConvertPurchaseRequestInput.
 type ConvertPurchaseRequestInput struct {
 	// BillTo Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; ignored when `billToParty` is sent.
@@ -7643,6 +8421,7 @@ type ConvertPurchaseRequestResult struct {
 type CreateAiProviderInput struct {
 	CreditPrice *CreditPriceInput          `json:"creditPrice,omitempty"`
 	Databricks  *DatabricksConnectionInput `json:"databricks,omitempty"`
+	Github      *GitHubConnectionInput     `json:"github,omitempty"`
 	Key         *string                    `json:"key,omitempty"`
 	Provider    string                     `json:"provider"`
 	Snowflake   *SnowflakeConnectionInput  `json:"snowflake,omitempty"`
@@ -7765,6 +8544,74 @@ type CreateCloudConnectionInputOciHomeRegion string
 
 // CreateCloudConnectionInputProvider defines model for CreateCloudConnectionInput.Provider.
 type CreateCloudConnectionInputProvider string
+
+// CreateCommentInput defines model for CreateCommentInput.
+type CreateCommentInput struct {
+	// Body Plain text. Line breaks are kept; control, bidi and invisible characters are removed.
+	Body string `json:"body"`
+
+	// Meeting Makes the comment a meeting request to the other company (shared only): `topic` (one line), `durationMinutes` (15, 30 or 45), `timeZone` (yours, IANA), `times` (two or three ISO 8601 starts with an offset, in the future) and an optional https `link` to the call. Starting one needs a paid plan; one open request per document.
+	Meeting *CommentMeetingInput `json:"meeting,omitempty"`
+
+	// Mentions Employee keys of people in your own workspace to notify.
+	Mentions *[]string `json:"mentions,omitempty"`
+
+	// Visibility internal: your own team only. shared: the other side of the relationship reads and answers it too. A supplier's comments are always shared.
+	Visibility CreateCommentInputVisibility `json:"visibility"`
+}
+
+// CreateCommentInputVisibility internal: your own team only. shared: the other side of the relationship reads and answers it too. A supplier's comments are always shared.
+type CreateCommentInputVisibility string
+
+// CreateCreditNoteInput defines model for CreateCreditNoteInput.
+type CreateCreditNoteInput struct {
+	// ConnectionId The counterparty it's for, when it corrects no one invoice - see GET .../invoices/counterparties.
+	ConnectionId *string `json:"connectionId,omitempty"`
+
+	// CorrectsBilling Reason "other" only: it corrects what was billed, so it gives PO balance back too.
+	CorrectsBilling *bool `json:"correctsBilling,omitempty"`
+
+	// Currency ISO 4217. Required without invoiceId; with one, it must be the invoice's.
+	Currency *string `json:"currency,omitempty"`
+
+	// ExternalCreditNoteNumber The supplier's own number for it: unique per supplier within the buyer, case-insensitively.
+	ExternalCreditNoteNumber string `json:"externalCreditNoteNumber"`
+
+	// InvoiceId The invoice it corrects. Its buyer, supplier, currency, PO and PO line are the credit note's. Give this or connectionId.
+	InvoiceId *string `json:"invoiceId,omitempty"`
+
+	// IssueDate YYYY-MM-DD - not in the future, not more than 365 days back
+	IssueDate string `json:"issueDate"`
+
+	// LineItems What is credited, before tax. 1–200 lines.
+	LineItems []CreateManualInvoiceLineItemInput `json:"lineItems"`
+
+	// Note 1–1000 characters, e.g. the return's RMA number.
+	Note *string `json:"note,omitempty"`
+
+	// PdfBase64 Base64-encoded PDF of the credit note as issued, kept with it. Up to 8 MB.
+	PdfBase64 *string `json:"pdfBase64,omitempty"`
+
+	// Reason returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't.
+	Reason CreateCreditNoteInputReason `json:"reason"`
+
+	// SourceImportId Buyer only: the invoice import (POST .../invoice-imports) this credit note was recorded from - the supplier's credit note document Pleaxy read. Its document is kept with the credit note when it is a PDF under 8 MB, and the import records the credit note.
+	SourceImportId *string `json:"sourceImportId,omitempty"`
+
+	// TaxAmount The tax credited, included in the credit note's total.
+	TaxAmount *float64 `json:"taxAmount,omitempty"`
+
+	// TaxBreakdown Tax by type, summing to taxAmount. At most 20.
+	TaxBreakdown *[]BreakdownEntryInput `json:"taxBreakdown,omitempty"`
+}
+
+// CreateCreditNoteInputReason returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't.
+type CreateCreditNoteInputReason string
+
+// CreateCreditNoteResult defines model for CreateCreditNoteResult.
+type CreateCreditNoteResult struct {
+	union json.RawMessage
+}
 
 // CreateFeedInvoiceInput defines model for CreateFeedInvoiceInput.
 type CreateFeedInvoiceInput struct {
@@ -7919,7 +8766,6 @@ type CreateInvoiceResultBuyerCreditNote struct {
 	} `json:"exports,omitempty"`
 	ExternalCreditNoteNumber *string                                      `json:"externalCreditNoteNumber,omitempty"`
 	ExternalInvoiceNumber    *string                                      `json:"externalInvoiceNumber,omitempty"`
-	FeedPayloadHash          *string                                      `json:"feedPayloadHash,omitempty"`
 	HasPdf                   *bool                                        `json:"hasPdf,omitempty"`
 	History                  *[]CreditNoteHistoryEntry                    `json:"history,omitempty"`
 	Id                       string                                       `json:"id"`
@@ -8040,12 +8886,14 @@ type CreateInvoiceResultBuyerInvoice struct {
 	Id                          string                                            `json:"id"`
 	InvoiceDate                 *string                                           `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *CreateInvoiceResultBuyerInvoiceInvoiceKind       `json:"invoiceKind,omitempty"`
+	LastApproverRemindedAt      *string                                           `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                           `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                     `json:"lateFeeTerms,omitempty"`
 	LineItems                   *[]InvoiceLineItem                                `json:"lineItems,omitempty"`
 	MatchBasis                  *CreateInvoiceResultBuyerInvoiceMatchBasis        `json:"matchBasis,omitempty"`
 	MatchStatus                 *CreateInvoiceResultBuyerInvoiceMatchStatus       `json:"matchStatus,omitempty"`
 	MatchType                   *CreateInvoiceResultBuyerInvoiceMatchType         `json:"matchType,omitempty"`
+	NextApproverReminderAt      *string                                           `json:"nextApproverReminderAt,omitempty"`
 	NoPoComparison              *NoPoComparison                                   `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                             `json:"paid,omitempty"`
 	PaidAt                      *string                                           `json:"paidAt,omitempty"`
@@ -8299,6 +9147,7 @@ type CreateInvoiceResultSupplierInvoice struct {
 	Id                          string                                           `json:"id"`
 	InvoiceDate                 *string                                          `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *CreateInvoiceResultSupplierInvoiceInvoiceKind   `json:"invoiceKind,omitempty"`
+	LastApproverRemindedAt      *string                                          `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                          `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                    `json:"lateFeeTerms,omitempty"`
 	LineItems                   *[]InvoiceLineItem                               `json:"lineItems,omitempty"`
@@ -8697,6 +9546,33 @@ type CreateShipNoticeInput struct {
 // CreateShipNoticeInputStatus defines model for CreateShipNoticeInput.Status.
 type CreateShipNoticeInputStatus string
 
+// CreateSourcingEventInput defines model for CreateSourcingEventInput.
+type CreateSourcingEventInput struct {
+	CostCenter *string `json:"costCenter,omitempty"`
+
+	// Currency ISO 4217: the currency suppliers answer in. Default: the request's, else the workspace's.
+	Currency *string `json:"currency,omitempty"`
+
+	// Description What the suppliers are asked for, up to 5,000 characters.
+	Description *string `json:"description,omitempty"`
+
+	// DueAt The answer deadline, an ISO timestamp; it must be in the future when the RFQ is sent. Default: 7 days from now.
+	DueAt *string `json:"dueAt,omitempty"`
+
+	// FromRequestId An approved purchase request with no order: its lines, cost center, GL account, needed-by and files are copied, and it moves to `sourcing`.
+	FromRequestId *string `json:"fromRequestId,omitempty"`
+	GlCode        *string `json:"glCode,omitempty"`
+
+	// Lines From a request: the request's lines unless given.
+	Lines *[]SourcingLineInput `json:"lines,omitempty"`
+
+	// Sealed Sealed (the default): until it closes, the buyer sees who answered and when, never prices or files.
+	Sealed *bool `json:"sealed,omitempty"`
+
+	// Title 1–200 characters. From a request: the request's title unless given.
+	Title *string `json:"title,omitempty"`
+}
+
 // CreateWebhookInput defines model for CreateWebhookInput.
 type CreateWebhookInput struct {
 	// Description Up to 100 characters, to tell endpoints apart.
@@ -8734,6 +9610,13 @@ type CreateWebhookResultEvents string
 // CreateWebhookResultLastErrorCode defines model for CreateWebhookResult.LastErrorCode.
 type CreateWebhookResultLastErrorCode string
 
+// CreditApplicationInput defines model for CreditApplicationInput.
+type CreditApplicationInput struct {
+	// Amount More than 0, in the invoice's currency, at most what's left of the credit note.
+	Amount       float64 `json:"amount"`
+	CreditNoteId string  `json:"creditNoteId"`
+}
+
 // CreditNoteApplication defines model for CreditNoteApplication.
 type CreditNoteApplication struct {
 	Amount                *float64 `json:"amount,omitempty"`
@@ -8769,6 +9652,15 @@ type CreditPriceInput struct {
 
 // CreditPriceInputKind defines model for CreditPriceInput.Kind.
 type CreditPriceInputKind string
+
+// CreditSettlementInput defines model for CreditSettlementInput.
+type CreditSettlementInput struct {
+	// CreditSettlement pleaxy: accepted credits are applied to invoices here. accounting_system: they go out in the payment export for your ERP to clear.
+	CreditSettlement CreditSettlementInputCreditSettlement `json:"creditSettlement"`
+}
+
+// CreditSettlementInputCreditSettlement pleaxy: accepted credits are applied to invoices here. accounting_system: they go out in the payment export for your ERP to clear.
+type CreditSettlementInputCreditSettlement string
 
 // CurrencyAmountInput defines model for CurrencyAmountInput.
 type CurrencyAmountInput struct {
@@ -8842,6 +9734,33 @@ type DiscoverAzureScopesInput struct {
 	// AzureTenantId The Microsoft Entra tenant the app was registered in (GUID).
 	AzureTenantId string `json:"azureTenantId"`
 }
+
+// DocumentCommentView defines model for DocumentCommentView.
+type DocumentCommentView struct {
+	AuthorKey      *string                          `json:"authorKey,omitempty"`
+	AuthorName     *string                          `json:"authorName,omitempty"`
+	AuthorOrgName  *string                          `json:"authorOrgName,omitempty"`
+	AuthorSide     *DocumentCommentViewAuthorSide   `json:"authorSide,omitempty"`
+	Body           *string                          `json:"body,omitempty"`
+	CreatedAt      *string                          `json:"createdAt,omitempty"`
+	DeletedAt      *string                          `json:"deletedAt,omitempty"`
+	DocumentId     *string                          `json:"documentId,omitempty"`
+	DocumentKind   *DocumentCommentViewDocumentKind `json:"documentKind,omitempty"`
+	Id             string                           `json:"id"`
+	Meeting        *CommentMeetingView              `json:"meeting,omitempty"`
+	Mentions       *[]CommentMention                `json:"mentions,omitempty"`
+	ViewerIsAuthor *bool                            `json:"viewerIsAuthor,omitempty"`
+	Visibility     *DocumentCommentViewVisibility   `json:"visibility,omitempty"`
+}
+
+// DocumentCommentViewAuthorSide defines model for DocumentCommentView.AuthorSide.
+type DocumentCommentViewAuthorSide string
+
+// DocumentCommentViewDocumentKind defines model for DocumentCommentView.DocumentKind.
+type DocumentCommentViewDocumentKind string
+
+// DocumentCommentViewVisibility defines model for DocumentCommentView.Visibility.
+type DocumentCommentViewVisibility string
 
 // DraftAiOrdersInput defines model for DraftAiOrdersInput.
 type DraftAiOrdersInput struct {
@@ -8996,6 +9915,7 @@ type FeedValidationResult struct {
 		HasOriginalPdf              *bool                                     `json:"hasOriginalPdf,omitempty"`
 		InvoiceDate                 *string                                   `json:"invoiceDate,omitempty"`
 		InvoiceKind                 *FeedValidationResultInvoiceInvoiceKind   `json:"invoiceKind,omitempty"`
+		LastApproverRemindedAt      *string                                   `json:"lastApproverRemindedAt,omitempty"`
 		LastRemindedAt              *string                                   `json:"lastRemindedAt,omitempty"`
 		LateFeeTerms                *LateFeeTerms                             `json:"lateFeeTerms,omitempty"`
 		LineItems                   *[]InvoiceLineItem                        `json:"lineItems,omitempty"`
@@ -9450,6 +10370,20 @@ type GetBuyerWorkspaceResult_RecentPurchaseOrders_Item struct {
 	union json.RawMessage
 }
 
+// GetCreditNoteResult defines model for GetCreditNoteResult.
+type GetCreditNoteResult struct {
+	union json.RawMessage
+}
+
+// GetCreditSettlementResult defines model for GetCreditSettlementResult.
+type GetCreditSettlementResult struct {
+	Chosen           *bool                                      `json:"chosen,omitempty"`
+	CreditSettlement *GetCreditSettlementResultCreditSettlement `json:"creditSettlement,omitempty"`
+}
+
+// GetCreditSettlementResultCreditSettlement defines model for GetCreditSettlementResult.CreditSettlement.
+type GetCreditSettlementResultCreditSettlement string
+
 // GetFocusSourcePeriodResult defines model for GetFocusSourcePeriodResult.
 type GetFocusSourcePeriodResult struct {
 	AsOf        *string                        `json:"asOf,omitempty"`
@@ -9468,6 +10402,11 @@ type GetFocusSourcePeriodResult struct {
 
 // GetFocusSourcePeriodResultVersion defines model for GetFocusSourcePeriodResult.Version.
 type GetFocusSourcePeriodResultVersion string
+
+// GetInvoiceActivityResult defines model for GetInvoiceActivityResult.
+type GetInvoiceActivityResult struct {
+	Entries *[]InvoiceActivityEntry `json:"entries,omitempty"`
+}
 
 // GetInvoiceBankAccountResult defines model for GetInvoiceBankAccountResult.
 type GetInvoiceBankAccountResult struct {
@@ -9506,7 +10445,6 @@ type GetInvoiceResultBuyerCreditNote struct {
 	} `json:"exports,omitempty"`
 	ExternalCreditNoteNumber *string                                   `json:"externalCreditNoteNumber,omitempty"`
 	ExternalInvoiceNumber    *string                                   `json:"externalInvoiceNumber,omitempty"`
-	FeedPayloadHash          *string                                   `json:"feedPayloadHash,omitempty"`
 	HasPdf                   *bool                                     `json:"hasPdf,omitempty"`
 	History                  *[]CreditNoteHistoryEntry                 `json:"history,omitempty"`
 	Id                       string                                    `json:"id"`
@@ -9627,12 +10565,14 @@ type GetInvoiceResultBuyerInvoice struct {
 	Id                          string                                         `json:"id"`
 	InvoiceDate                 *string                                        `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *GetInvoiceResultBuyerInvoiceInvoiceKind       `json:"invoiceKind,omitempty"`
+	LastApproverRemindedAt      *string                                        `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                        `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                  `json:"lateFeeTerms,omitempty"`
 	LineItems                   *[]InvoiceLineItem                             `json:"lineItems,omitempty"`
 	MatchBasis                  *GetInvoiceResultBuyerInvoiceMatchBasis        `json:"matchBasis,omitempty"`
 	MatchStatus                 *GetInvoiceResultBuyerInvoiceMatchStatus       `json:"matchStatus,omitempty"`
 	MatchType                   *GetInvoiceResultBuyerInvoiceMatchType         `json:"matchType,omitempty"`
+	NextApproverReminderAt      *string                                        `json:"nextApproverReminderAt,omitempty"`
 	NoPoComparison              *NoPoComparison                                `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                          `json:"paid,omitempty"`
 	PaidAt                      *string                                        `json:"paidAt,omitempty"`
@@ -9886,6 +10826,7 @@ type GetInvoiceResultSupplierInvoice struct {
 	Id                          string                                        `json:"id"`
 	InvoiceDate                 *string                                       `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *GetInvoiceResultSupplierInvoiceInvoiceKind   `json:"invoiceKind,omitempty"`
+	LastApproverRemindedAt      *string                                       `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                       `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                 `json:"lateFeeTerms,omitempty"`
 	LineItems                   *[]InvoiceLineItem                            `json:"lineItems,omitempty"`
@@ -10044,33 +10985,34 @@ type GetInvoiceResultSupplierInvoice_WithdrawnPayment struct {
 
 // GetOrgProfileResult defines model for GetOrgProfileResult.
 type GetOrgProfileResult struct {
-	BillingAddress            *string                    `json:"billingAddress,omitempty"`
-	BillingAddressLegacyText  *string                    `json:"billingAddressLegacyText,omitempty"`
-	BillingAddressNeedsReview *bool                      `json:"billingAddressNeedsReview,omitempty"`
-	BillingAddressParts       *PostalAddress             `json:"billingAddressParts,omitempty"`
-	BillingEmail              *string                    `json:"billingEmail,omitempty"`
-	CompanyName               *string                    `json:"companyName,omitempty"`
-	Countries                 *[]string                  `json:"countries,omitempty"`
-	CreatedAt                 *string                    `json:"createdAt,omitempty"`
-	Currency                  *string                    `json:"currency,omitempty"`
-	DirectoryId               *string                    `json:"directoryId,omitempty"`
-	FxWarningPct              *float64                   `json:"fxWarningPct,omitempty"`
-	Geography                 *Geography                 `json:"geography,omitempty"`
-	Id                        string                     `json:"id"`
-	Images                    *ProfileImages             `json:"images,omitempty"`
-	ListedInDirectory         *bool                      `json:"listedInDirectory,omitempty"`
-	Locale                    *GetOrgProfileResultLocale `json:"locale,omitempty"`
-	OtherCurrencies           *[]string                  `json:"otherCurrencies,omitempty"`
-	PaymentCurrencies         *[]string                  `json:"paymentCurrencies,omitempty"`
-	PrimaryContactEmail       *string                    `json:"primaryContactEmail,omitempty"`
-	PrimaryContactName        *string                    `json:"primaryContactName,omitempty"`
-	RegionId                  *string                    `json:"regionId,omitempty"`
-	RegionName                *string                    `json:"regionName,omitempty"`
-	Role                      *GetOrgProfileResultRole   `json:"role,omitempty"`
-	SameDomainAcknowledged    *SameDomainAcknowledgement `json:"sameDomainAcknowledged,omitempty"`
-	TaxId                     *string                    `json:"taxId,omitempty"`
-	TimeZone                  *string                    `json:"timeZone,omitempty"`
-	Verified                  *bool                      `json:"verified,omitempty"`
+	BillingAddress            *string                       `json:"billingAddress,omitempty"`
+	BillingAddressLegacyText  *string                       `json:"billingAddressLegacyText,omitempty"`
+	BillingAddressNeedsReview *bool                         `json:"billingAddressNeedsReview,omitempty"`
+	BillingAddressParts       *PostalAddress                `json:"billingAddressParts,omitempty"`
+	BillingEmail              *string                       `json:"billingEmail,omitempty"`
+	CompanyName               *string                       `json:"companyName,omitempty"`
+	Countries                 *[]string                     `json:"countries,omitempty"`
+	CreatedAt                 *string                       `json:"createdAt,omitempty"`
+	Currency                  *string                       `json:"currency,omitempty"`
+	DirectoryId               *string                       `json:"directoryId,omitempty"`
+	FxWarningPct              *float64                      `json:"fxWarningPct,omitempty"`
+	Geography                 *Geography                    `json:"geography,omitempty"`
+	Id                        string                        `json:"id"`
+	Images                    *ProfileImages                `json:"images,omitempty"`
+	ListedInDirectory         *bool                         `json:"listedInDirectory,omitempty"`
+	Locale                    *GetOrgProfileResultLocale    `json:"locale,omitempty"`
+	OtherCurrencies           *[]string                     `json:"otherCurrencies,omitempty"`
+	PaymentCurrencies         *[]string                     `json:"paymentCurrencies,omitempty"`
+	PrimaryContactEmail       *string                       `json:"primaryContactEmail,omitempty"`
+	PrimaryContactName        *string                       `json:"primaryContactName,omitempty"`
+	RegionId                  *string                       `json:"regionId,omitempty"`
+	RegionName                *string                       `json:"regionName,omitempty"`
+	Role                      *GetOrgProfileResultRole      `json:"role,omitempty"`
+	SameDomainAcknowledged    *SameDomainAcknowledgement    `json:"sameDomainAcknowledged,omitempty"`
+	SetupGoal                 *GetOrgProfileResultSetupGoal `json:"setupGoal,omitempty"`
+	TaxId                     *string                       `json:"taxId,omitempty"`
+	TimeZone                  *string                       `json:"timeZone,omitempty"`
+	Verified                  *bool                         `json:"verified,omitempty"`
 }
 
 // GetOrgProfileResultLocale defines model for GetOrgProfileResult.Locale.
@@ -10078,6 +11020,9 @@ type GetOrgProfileResultLocale string
 
 // GetOrgProfileResultRole defines model for GetOrgProfileResult.Role.
 type GetOrgProfileResultRole string
+
+// GetOrgProfileResultSetupGoal defines model for GetOrgProfileResult.SetupGoal.
+type GetOrgProfileResultSetupGoal string
 
 // GetPurchaseOrderResult defines model for GetPurchaseOrderResult.
 type GetPurchaseOrderResult struct {
@@ -10092,6 +11037,13 @@ type GetPurchaseRequestFileResult struct {
 // GetReferenceRateResult defines model for GetReferenceRateResult.
 type GetReferenceRateResult struct {
 	Reference *ReferenceRate `json:"reference,omitempty"`
+}
+
+// GetRemittanceFileResult defines model for GetRemittanceFileResult.
+type GetRemittanceFileResult struct {
+	ContentType *string `json:"contentType,omitempty"`
+	FileName    *string `json:"fileName,omitempty"`
+	Url         *string `json:"url,omitempty"`
 }
 
 // GetSupplierScreeningResult defines model for GetSupplierScreeningResult.
@@ -10126,6 +11078,11 @@ type GetSupplierWorkspaceResult_RecentSupplierInvoices_Item struct {
 // GetSupplierWorkspaceResult_SupplierInvoices_Item defines model for GetSupplierWorkspaceResult.supplierInvoices.Item.
 type GetSupplierWorkspaceResult_SupplierInvoices_Item struct {
 	union json.RawMessage
+}
+
+// GitHubConnectionInput defines model for GitHubConnectionInput.
+type GitHubConnectionInput struct {
+	Org string `json:"org"`
 }
 
 // ImageRef defines model for ImageRef.
@@ -10264,6 +11221,41 @@ type InvoiceAccessRemoval struct {
 // InvoiceAccessRemovalAction defines model for InvoiceAccessRemoval.Action.
 type InvoiceAccessRemovalAction string
 
+// InvoiceActivityEntry defines model for InvoiceActivityEntry.
+type InvoiceActivityEntry struct {
+	ActorKey  *string                                                    `json:"actorKey,omitempty"`
+	ActorName *string                                                    `json:"actorName,omitempty"`
+	ActorSide *InvoiceActivityEntryActorSide                             `json:"actorSide,omitempty"`
+	At        *string                                                    `json:"at,omitempty"`
+	Comment   *DocumentCommentView                                       `json:"comment,omitempty"`
+	Data      *map[string]InvoiceActivityEntry_Data_AdditionalProperties `json:"data,omitempty"`
+	Id        string                                                     `json:"id"`
+	Kind      *InvoiceActivityEntryKind                                  `json:"kind,omitempty"`
+}
+
+// InvoiceActivityEntryActorSide defines model for InvoiceActivityEntry.ActorSide.
+type InvoiceActivityEntryActorSide string
+
+// InvoiceActivityEntryData0 defines model for .
+type InvoiceActivityEntryData0 = string
+
+// InvoiceActivityEntryData1 defines model for .
+type InvoiceActivityEntryData1 = float64
+
+// InvoiceActivityEntryData2 defines model for .
+type InvoiceActivityEntryData2 = bool
+
+// InvoiceActivityEntryData3 defines model for .
+type InvoiceActivityEntryData3 = []string
+
+// InvoiceActivityEntry_Data_AdditionalProperties defines model for InvoiceActivityEntry.data.AdditionalProperties.
+type InvoiceActivityEntry_Data_AdditionalProperties struct {
+	union json.RawMessage
+}
+
+// InvoiceActivityEntryKind defines model for InvoiceActivityEntry.Kind.
+type InvoiceActivityEntryKind string
+
 // InvoiceAdjustment defines model for InvoiceAdjustment.
 type InvoiceAdjustment struct {
 	Amount      *float64               `json:"amount,omitempty"`
@@ -10394,12 +11386,14 @@ type InvoiceBuyerView struct {
 	Id                          string                             `json:"id"`
 	InvoiceDate                 *string                            `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *InvoiceBuyerViewInvoiceKind       `json:"invoiceKind,omitempty"`
+	LastApproverRemindedAt      *string                            `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                            `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                      `json:"lateFeeTerms,omitempty"`
 	LineItems                   *[]InvoiceLineItem                 `json:"lineItems,omitempty"`
 	MatchBasis                  *InvoiceBuyerViewMatchBasis        `json:"matchBasis,omitempty"`
 	MatchStatus                 *InvoiceBuyerViewMatchStatus       `json:"matchStatus,omitempty"`
 	MatchType                   *InvoiceBuyerViewMatchType         `json:"matchType,omitempty"`
+	NextApproverReminderAt      *string                            `json:"nextApproverReminderAt,omitempty"`
 	NoPoComparison              *NoPoComparison                    `json:"noPoComparison,omitempty"`
 	Paid                        *bool                              `json:"paid,omitempty"`
 	PaidAt                      *string                            `json:"paidAt,omitempty"`
@@ -10917,6 +11911,7 @@ type InvoiceSupplierView struct {
 	Id                          string                               `json:"id"`
 	InvoiceDate                 *string                              `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *InvoiceSupplierViewInvoiceKind      `json:"invoiceKind,omitempty"`
+	LastApproverRemindedAt      *string                              `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                              `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                        `json:"lateFeeTerms,omitempty"`
 	LineItems                   *[]InvoiceLineItem                   `json:"lineItems,omitempty"`
@@ -11235,6 +12230,42 @@ type ListAiSpendLimitsResult struct {
 	Limits      *[]AiSpendLimit      `json:"limits,omitempty"`
 }
 
+// ListAvailableCreditsResult defines model for ListAvailableCreditsResult.
+type ListAvailableCreditsResult struct {
+	AmountDue        *float64                                    `json:"amountDue,omitempty"`
+	CreditSettlement *ListAvailableCreditsResultCreditSettlement `json:"creditSettlement,omitempty"`
+	Credits          *[]struct {
+		Amount                   *float64                                 `json:"amount,omitempty"`
+		CreditNoteId             *string                                  `json:"creditNoteId,omitempty"`
+		ExternalCreditNoteNumber *string                                  `json:"externalCreditNoteNumber,omitempty"`
+		IssueDate                *string                                  `json:"issueDate,omitempty"`
+		Reason                   *ListAvailableCreditsResultCreditsReason `json:"reason,omitempty"`
+		Remaining                *float64                                 `json:"remaining,omitempty"`
+		Suggested                *float64                                 `json:"suggested,omitempty"`
+	} `json:"credits,omitempty"`
+	Currency *string                           `json:"currency,omitempty"`
+	Locked   *ListAvailableCreditsResultLocked `json:"locked,omitempty"`
+	Pending  *[]struct {
+		Amount                   *float64                                 `json:"amount,omitempty"`
+		CreditNoteId             *string                                  `json:"creditNoteId,omitempty"`
+		ExternalCreditNoteNumber *string                                  `json:"externalCreditNoteNumber,omitempty"`
+		Reason                   *ListAvailableCreditsResultPendingReason `json:"reason,omitempty"`
+	} `json:"pending,omitempty"`
+	SuggestedTotal *float64 `json:"suggestedTotal,omitempty"`
+}
+
+// ListAvailableCreditsResultCreditSettlement defines model for ListAvailableCreditsResult.CreditSettlement.
+type ListAvailableCreditsResultCreditSettlement string
+
+// ListAvailableCreditsResultCreditsReason defines model for ListAvailableCreditsResult.Credits.Reason.
+type ListAvailableCreditsResultCreditsReason string
+
+// ListAvailableCreditsResultLocked defines model for ListAvailableCreditsResult.Locked.
+type ListAvailableCreditsResultLocked string
+
+// ListAvailableCreditsResultPendingReason defines model for ListAvailableCreditsResult.Pending.Reason.
+type ListAvailableCreditsResultPendingReason string
+
 // ListCloudConnectionsResult defines model for ListCloudConnectionsResult.
 type ListCloudConnectionsResult struct {
 	union json.RawMessage
@@ -11243,10 +12274,28 @@ type ListCloudConnectionsResult struct {
 // ListCloudConnectionsResult1 defines model for .
 type ListCloudConnectionsResult1 = []CloudConnection
 
+// ListCreditNotesResult defines model for ListCreditNotesResult.
+type ListCreditNotesResult struct {
+	CreditNotes *[]ListCreditNotesResult_CreditNotes_Item `json:"creditNotes,omitempty"`
+}
+
+// ListCreditNotesResult_CreditNotes_Item defines model for ListCreditNotesResult.creditNotes.Item.
+type ListCreditNotesResult_CreditNotes_Item struct {
+	union json.RawMessage
+}
+
 // ListFocusSourcesResult defines model for ListFocusSourcesResult.
 type ListFocusSourcesResult struct {
 	Enabled *bool              `json:"enabled,omitempty"`
 	Sources *[]FocusSourceView `json:"sources,omitempty"`
+}
+
+// ListInvoiceCommentsResult defines model for ListInvoiceCommentsResult.
+type ListInvoiceCommentsResult struct {
+	AwaitingReply   *bool                  `json:"awaitingReply,omitempty"`
+	Comments        *[]DocumentCommentView `json:"comments,omitempty"`
+	MeetingRequests *string                `json:"meetingRequests,omitempty"`
+	Sharing         *string                `json:"sharing,omitempty"`
 }
 
 // ListInvoiceCounterpartiesResult defines model for ListInvoiceCounterpartiesResult.
@@ -11281,7 +12330,6 @@ type ListInvoicesItemBuyerCreditNote struct {
 	} `json:"exports,omitempty"`
 	ExternalCreditNoteNumber *string                                   `json:"externalCreditNoteNumber,omitempty"`
 	ExternalInvoiceNumber    *string                                   `json:"externalInvoiceNumber,omitempty"`
-	FeedPayloadHash          *string                                   `json:"feedPayloadHash,omitempty"`
 	HasPdf                   *bool                                     `json:"hasPdf,omitempty"`
 	History                  *[]CreditNoteHistoryEntry                 `json:"history,omitempty"`
 	Id                       string                                    `json:"id"`
@@ -11402,12 +12450,14 @@ type ListInvoicesItemBuyerInvoice struct {
 	Id                          string                                         `json:"id"`
 	InvoiceDate                 *string                                        `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *ListInvoicesItemBuyerInvoiceInvoiceKind       `json:"invoiceKind,omitempty"`
+	LastApproverRemindedAt      *string                                        `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                        `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                  `json:"lateFeeTerms,omitempty"`
 	LineItems                   *[]InvoiceLineItem                             `json:"lineItems,omitempty"`
 	MatchBasis                  *ListInvoicesItemBuyerInvoiceMatchBasis        `json:"matchBasis,omitempty"`
 	MatchStatus                 *ListInvoicesItemBuyerInvoiceMatchStatus       `json:"matchStatus,omitempty"`
 	MatchType                   *ListInvoicesItemBuyerInvoiceMatchType         `json:"matchType,omitempty"`
+	NextApproverReminderAt      *string                                        `json:"nextApproverReminderAt,omitempty"`
 	NoPoComparison              *NoPoComparison                                `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                          `json:"paid,omitempty"`
 	PaidAt                      *string                                        `json:"paidAt,omitempty"`
@@ -11661,6 +12711,7 @@ type ListInvoicesItemSupplierInvoice struct {
 	Id                          string                                        `json:"id"`
 	InvoiceDate                 *string                                       `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *ListInvoicesItemSupplierInvoiceInvoiceKind   `json:"invoiceKind,omitempty"`
+	LastApproverRemindedAt      *string                                       `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                       `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                 `json:"lateFeeTerms,omitempty"`
 	LineItems                   *[]InvoiceLineItem                            `json:"lineItems,omitempty"`
@@ -11813,6 +12864,14 @@ type ListInvoicesItemSupplierInvoiceWithdrawnPayment1Status string
 // ListInvoicesItemSupplierInvoice_WithdrawnPayment defines model for ListInvoicesItemSupplierInvoice.WithdrawnPayment.
 type ListInvoicesItemSupplierInvoice_WithdrawnPayment struct {
 	union json.RawMessage
+}
+
+// ListPurchaseOrderCommentsResult defines model for ListPurchaseOrderCommentsResult.
+type ListPurchaseOrderCommentsResult struct {
+	AwaitingReply   *bool                  `json:"awaitingReply,omitempty"`
+	Comments        *[]DocumentCommentView `json:"comments,omitempty"`
+	MeetingRequests *string                `json:"meetingRequests,omitempty"`
+	Sharing         *string                `json:"sharing,omitempty"`
 }
 
 // ListPurchaseOrdersItem defines model for ListPurchaseOrdersItem.
@@ -12031,6 +13090,7 @@ type OrgProfile struct {
 	RegionName                *string                    `json:"regionName,omitempty"`
 	Role                      *OrgProfileRole            `json:"role,omitempty"`
 	SameDomainAcknowledged    *SameDomainAcknowledgement `json:"sameDomainAcknowledged,omitempty"`
+	SetupGoal                 *OrgProfileSetupGoal       `json:"setupGoal,omitempty"`
 	TaxId                     *string                    `json:"taxId,omitempty"`
 	TimeZone                  *string                    `json:"timeZone,omitempty"`
 	Verified                  *bool                      `json:"verified,omitempty"`
@@ -12041,6 +13101,9 @@ type OrgProfileLocale string
 
 // OrgProfileRole defines model for OrgProfile.Role.
 type OrgProfileRole string
+
+// OrgProfileSetupGoal defines model for OrgProfile.SetupGoal.
+type OrgProfileSetupGoal string
 
 // PayerAccountRef defines model for PayerAccountRef.
 type PayerAccountRef struct {
@@ -12862,12 +13925,14 @@ type RecordPaymentResult struct {
 	Id                          string                                `json:"id"`
 	InvoiceDate                 *string                               `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *RecordPaymentResultInvoiceKind       `json:"invoiceKind,omitempty"`
+	LastApproverRemindedAt      *string                               `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                               `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                         `json:"lateFeeTerms,omitempty"`
 	LineItems                   *[]InvoiceLineItem                    `json:"lineItems,omitempty"`
 	MatchBasis                  *RecordPaymentResultMatchBasis        `json:"matchBasis,omitempty"`
 	MatchStatus                 *RecordPaymentResultMatchStatus       `json:"matchStatus,omitempty"`
 	MatchType                   *RecordPaymentResultMatchType         `json:"matchType,omitempty"`
+	NextApproverReminderAt      *string                               `json:"nextApproverReminderAt,omitempty"`
 	NoPoComparison              *NoPoComparison                       `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                 `json:"paid,omitempty"`
 	PaidAt                      *string                               `json:"paidAt,omitempty"`
@@ -13019,6 +14084,12 @@ type RegionTierPrice struct {
 	FromRegion *float64     `json:"fromRegion,omitempty"`
 	Price      *PriceAmount `json:"price,omitempty"`
 	ToRegion   *float64     `json:"toRegion"`
+}
+
+// RejectCreditNoteInput defines model for RejectCreditNoteInput.
+type RejectCreditNoteInput struct {
+	// Reason Why, 1–1000 characters. The supplier reads it.
+	Reason string `json:"reason"`
 }
 
 // RejectInvoiceInput defines model for RejectInvoiceInput.
@@ -13174,6 +14245,11 @@ type RemoveAiLimitCredentialResult struct {
 	InvoicerId *string `json:"invoicerId,omitempty"`
 }
 
+// RemoveCreditApplicationResult defines model for RemoveCreditApplicationResult.
+type RemoveCreditApplicationResult struct {
+	union json.RawMessage
+}
+
 // RemoveInvoiceReplacementLinkResult defines model for RemoveInvoiceReplacementLinkResult.
 type RemoveInvoiceReplacementLinkResult struct {
 	Adjustments                 *[]InvoiceAdjustment                                 `json:"adjustments,omitempty"`
@@ -13213,12 +14289,14 @@ type RemoveInvoiceReplacementLinkResult struct {
 	Id                          string                                               `json:"id"`
 	InvoiceDate                 *string                                              `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *RemoveInvoiceReplacementLinkResultInvoiceKind       `json:"invoiceKind,omitempty"`
+	LastApproverRemindedAt      *string                                              `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                              `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                        `json:"lateFeeTerms,omitempty"`
 	LineItems                   *[]InvoiceLineItem                                   `json:"lineItems,omitempty"`
 	MatchBasis                  *RemoveInvoiceReplacementLinkResultMatchBasis        `json:"matchBasis,omitempty"`
 	MatchStatus                 *RemoveInvoiceReplacementLinkResultMatchStatus       `json:"matchStatus,omitempty"`
 	MatchType                   *RemoveInvoiceReplacementLinkResultMatchType         `json:"matchType,omitempty"`
+	NextApproverReminderAt      *string                                              `json:"nextApproverReminderAt,omitempty"`
 	NoPoComparison              *NoPoComparison                                      `json:"noPoComparison,omitempty"`
 	Paid                        *bool                                                `json:"paid,omitempty"`
 	PaidAt                      *string                                              `json:"paidAt,omitempty"`
@@ -13348,6 +14426,21 @@ type RequestFileUploadInputContentType string
 
 // RequestPurchaseRequestFileUploadResult defines model for RequestPurchaseRequestFileUploadResult.
 type RequestPurchaseRequestFileUploadResult struct {
+	FileId    *string  `json:"fileId,omitempty"`
+	MaxBytes  *float64 `json:"maxBytes,omitempty"`
+	UploadUrl *string  `json:"uploadUrl,omitempty"`
+}
+
+// RequestRemittanceUploadInput defines model for RequestRemittanceUploadInput.
+type RequestRemittanceUploadInput struct {
+	ContentType RequestRemittanceUploadInputContentType `json:"contentType"`
+}
+
+// RequestRemittanceUploadInputContentType defines model for RequestRemittanceUploadInput.ContentType.
+type RequestRemittanceUploadInputContentType string
+
+// RequestRemittanceUploadResult defines model for RequestRemittanceUploadResult.
+type RequestRemittanceUploadResult struct {
 	FileId    *string  `json:"fileId,omitempty"`
 	MaxBytes  *float64 `json:"maxBytes,omitempty"`
 	UploadUrl *string  `json:"uploadUrl,omitempty"`
@@ -13609,6 +14702,15 @@ type SetConnectionCurrenciesInput struct {
 	PaymentCurrency *string `json:"paymentCurrency"`
 }
 
+// SetCreditSettlementResult defines model for SetCreditSettlementResult.
+type SetCreditSettlementResult struct {
+	Chosen           *bool                                      `json:"chosen,omitempty"`
+	CreditSettlement *SetCreditSettlementResultCreditSettlement `json:"creditSettlement,omitempty"`
+}
+
+// SetCreditSettlementResultCreditSettlement defines model for SetCreditSettlementResult.CreditSettlement.
+type SetCreditSettlementResultCreditSettlement string
+
 // SetExchangeRateWarningResult defines model for SetExchangeRateWarningResult.
 type SetExchangeRateWarningResult struct {
 	WarningPct *float64 `json:"warningPct,omitempty"`
@@ -13634,6 +14736,9 @@ type SetInvoiceFeedResult0 struct {
 	BuyerName                      *string                             `json:"buyerName,omitempty"`
 	BuyerOrgId                     *string                             `json:"buyerOrgId,omitempty"`
 	CloudProvider                  *SetInvoiceFeedResult0CloudProvider `json:"cloudProvider,omitempty"`
+	CommentsMuted                  *bool                               `json:"commentsMuted,omitempty"`
+	CommentsMutedAt                *string                             `json:"commentsMutedAt,omitempty"`
+	CommentsMutedBy                *string                             `json:"commentsMutedBy,omitempty"`
 	CreatedAt                      *string                             `json:"createdAt,omitempty"`
 	FeedAcceptedCount              *float64                            `json:"feedAcceptedCount,omitempty"`
 	FeedLastAcceptedAt             *string                             `json:"feedLastAcceptedAt,omitempty"`
@@ -13696,6 +14801,9 @@ type SetInvoiceFeedResult1 struct {
 	BuyerName                      *string                             `json:"buyerName,omitempty"`
 	BuyerOrgId                     *string                             `json:"buyerOrgId,omitempty"`
 	CloudProvider                  *SetInvoiceFeedResult1CloudProvider `json:"cloudProvider,omitempty"`
+	CommentsMuted                  *bool                               `json:"commentsMuted,omitempty"`
+	CommentsMutedAt                *string                             `json:"commentsMutedAt,omitempty"`
+	CommentsMutedBy                *string                             `json:"commentsMutedBy,omitempty"`
 	CreatedAt                      *string                             `json:"createdAt,omitempty"`
 	FeedAcceptedCount              *float64                            `json:"feedAcceptedCount,omitempty"`
 	FeedLastAcceptedAt             *string                             `json:"feedLastAcceptedAt,omitempty"`
@@ -13762,6 +14870,9 @@ type SetSupplierCurrenciesResult0 struct {
 	BuyerName                      *string                                    `json:"buyerName,omitempty"`
 	BuyerOrgId                     *string                                    `json:"buyerOrgId,omitempty"`
 	CloudProvider                  *SetSupplierCurrenciesResult0CloudProvider `json:"cloudProvider,omitempty"`
+	CommentsMuted                  *bool                                      `json:"commentsMuted,omitempty"`
+	CommentsMutedAt                *string                                    `json:"commentsMutedAt,omitempty"`
+	CommentsMutedBy                *string                                    `json:"commentsMutedBy,omitempty"`
 	CreatedAt                      *string                                    `json:"createdAt,omitempty"`
 	FeedAcceptedCount              *float64                                   `json:"feedAcceptedCount,omitempty"`
 	FeedLastAcceptedAt             *string                                    `json:"feedLastAcceptedAt,omitempty"`
@@ -13820,6 +14931,9 @@ type SetSupplierCurrenciesResult1 struct {
 	BuyerName                      *string                                    `json:"buyerName,omitempty"`
 	BuyerOrgId                     *string                                    `json:"buyerOrgId,omitempty"`
 	CloudProvider                  *SetSupplierCurrenciesResult1CloudProvider `json:"cloudProvider,omitempty"`
+	CommentsMuted                  *bool                                      `json:"commentsMuted,omitempty"`
+	CommentsMutedAt                *string                                    `json:"commentsMutedAt,omitempty"`
+	CommentsMutedBy                *string                                    `json:"commentsMutedBy,omitempty"`
 	CreatedAt                      *string                                    `json:"createdAt,omitempty"`
 	FeedAcceptedCount              *float64                                   `json:"feedAcceptedCount,omitempty"`
 	FeedLastAcceptedAt             *string                                    `json:"feedLastAcceptedAt,omitempty"`
@@ -13925,6 +15039,375 @@ type SnowflakeConnectionInput struct {
 type SolePayerWaiverRecord struct {
 	AccessRemoved      *[]InvoiceAccessRemoval `json:"accessRemoved,omitempty"`
 	AccessRemovedTotal *float64                `json:"accessRemovedTotal,omitempty"`
+}
+
+// SourcingActivity defines model for SourcingActivity.
+type SourcingActivity struct {
+	Action       *SourcingActivityAction                                  `json:"action,omitempty"`
+	Actor        *SourcingActivityActor                                   `json:"actor,omitempty"`
+	ActorName    *string                                                  `json:"actorName,omitempty"`
+	At           *string                                                  `json:"at,omitempty"`
+	Detail       *map[string]SourcingActivity_Detail_AdditionalProperties `json:"detail,omitempty"`
+	SupplierKey  *string                                                  `json:"supplierKey,omitempty"`
+	SupplierName *string                                                  `json:"supplierName,omitempty"`
+}
+
+// SourcingActivityAction defines model for SourcingActivity.Action.
+type SourcingActivityAction string
+
+// SourcingActivityActor defines model for SourcingActivity.Actor.
+type SourcingActivityActor string
+
+// SourcingActivityDetail0 defines model for .
+type SourcingActivityDetail0 = string
+
+// SourcingActivityDetail1 defines model for .
+type SourcingActivityDetail1 = float64
+
+// SourcingActivityDetail2 defines model for .
+type SourcingActivityDetail2 = bool
+
+// SourcingActivity_Detail_AdditionalProperties defines model for SourcingActivity.detail.AdditionalProperties.
+type SourcingActivity_Detail_AdditionalProperties struct {
+	union json.RawMessage
+}
+
+// SourcingAnswerCounts defines model for SourcingAnswerCounts.
+type SourcingAnswerCounts struct {
+	Declined  *float64 `json:"declined,omitempty"`
+	Invited   *float64 `json:"invited,omitempty"`
+	Submitted *float64 `json:"submitted,omitempty"`
+}
+
+// SourcingAssistantRead defines model for SourcingAssistantRead.
+type SourcingAssistantRead struct {
+	GeneratedAt *string                  `json:"generatedAt,omitempty"`
+	InputHash   *string                  `json:"inputHash,omitempty"`
+	Model       *string                  `json:"model,omitempty"`
+	Sentences   *[]AssistantReadSentence `json:"sentences,omitempty"`
+}
+
+// SourcingAttachment defines model for SourcingAttachment.
+type SourcingAttachment struct {
+	AddedAt     *string                   `json:"addedAt,omitempty"`
+	ContentType *string                   `json:"contentType,omitempty"`
+	FileName    *string                   `json:"fileName,omitempty"`
+	Id          string                    `json:"id"`
+	Shared      *bool                     `json:"shared,omitempty"`
+	SizeBytes   *float64                  `json:"sizeBytes,omitempty"`
+	Source      *SourcingAttachmentSource `json:"source,omitempty"`
+}
+
+// SourcingAttachmentSource defines model for SourcingAttachment.Source.
+type SourcingAttachmentSource string
+
+// SourcingAward defines model for SourcingAward.
+type SourcingAward struct {
+	AwardedAt            *string               `json:"awardedAt,omitempty"`
+	AwardedBy            *string               `json:"awardedBy,omitempty"`
+	ContractId           *string               `json:"contractId,omitempty"`
+	Currency             *string               `json:"currency,omitempty"`
+	Lines                *[]SourcingAwardLine  `json:"lines,omitempty"`
+	Order                *SourcingAwardOrder   `json:"order,omitempty"`
+	Outcome              *SourcingAwardOutcome `json:"outcome,omitempty"`
+	PoId                 *string               `json:"poId,omitempty"`
+	QuoteImportId        *string               `json:"quoteImportId,omitempty"`
+	Reason               *string               `json:"reason,omitempty"`
+	SupplierConnectionId *string               `json:"supplierConnectionId,omitempty"`
+	SupplierKey          *string               `json:"supplierKey,omitempty"`
+	SupplierName         *string               `json:"supplierName,omitempty"`
+	Total                *float64              `json:"total,omitempty"`
+}
+
+// SourcingAwardOrder defines model for SourcingAward.Order.
+type SourcingAwardOrder string
+
+// SourcingAwardOutcome defines model for SourcingAward.Outcome.
+type SourcingAwardOutcome string
+
+// SourcingAwardLine defines model for SourcingAwardLine.
+type SourcingAwardLine struct {
+	LineId    *string  `json:"lineId,omitempty"`
+	Name      *string  `json:"name,omitempty"`
+	Qty       *float64 `json:"qty,omitempty"`
+	Total     *float64 `json:"total,omitempty"`
+	Unit      *string  `json:"unit,omitempty"`
+	UnitPrice *float64 `json:"unitPrice,omitempty"`
+}
+
+// SourcingComparison defines model for SourcingComparison.
+type SourcingComparison struct {
+	Criteria *[]SourcingCriterion `json:"criteria,omitempty"`
+	Currency *string              `json:"currency,omitempty"`
+	Declined *[]struct {
+		Reason       *string `json:"reason,omitempty"`
+		SupplierKey  *string `json:"supplierKey,omitempty"`
+		SupplierName *string `json:"supplierName,omitempty"`
+	} `json:"declined,omitempty"`
+	Evaluation *struct {
+		Complete   *bool                          `json:"complete,omitempty"`
+		Criteria   *[]SourcingEvaluationCriterion `json:"criteria,omitempty"`
+		Evaluators *float64                       `json:"evaluators,omitempty"`
+		Hidden     *bool                          `json:"hidden,omitempty"`
+		Submitted  *float64                       `json:"submitted,omitempty"`
+	} `json:"evaluation,omitempty"`
+	Lines       *[]SourcingComparisonLine `json:"lines,omitempty"`
+	LowestTotal *struct {
+		SupplierKey *string  `json:"supplierKey,omitempty"`
+		Total       *float64 `json:"total,omitempty"`
+	} `json:"lowestTotal"`
+	NoAnswer *[]struct {
+		SupplierKey  *string `json:"supplierKey,omitempty"`
+		SupplierName *string `json:"supplierName,omitempty"`
+	} `json:"noAnswer,omitempty"`
+	Questionnaire *struct {
+		Fields     *[]SourcingComparisonField `json:"fields,omitempty"`
+		Name       *string                    `json:"name,omitempty"`
+		TemplateId *string                    `json:"templateId,omitempty"`
+		Version    *float64                   `json:"version,omitempty"`
+	} `json:"questionnaire,omitempty"`
+	Responders *[]SourcingComparisonResponder `json:"responders,omitempty"`
+	RfqId      *string                        `json:"rfqId,omitempty"`
+	Round      *float64                       `json:"round,omitempty"`
+	Rounds     *float64                       `json:"rounds,omitempty"`
+	Status     *SourcingComparisonStatus      `json:"status,omitempty"`
+	Today      *string                        `json:"today,omitempty"`
+}
+
+// SourcingComparisonStatus defines model for SourcingComparison.Status.
+type SourcingComparisonStatus string
+
+// SourcingComparisonAnswer defines model for SourcingComparisonAnswer.
+type SourcingComparisonAnswer struct {
+	Asked             *bool     `json:"asked,omitempty"`
+	FileId            *string   `json:"fileId,omitempty"`
+	FileName          *string   `json:"fileName,omitempty"`
+	Flagged           *bool     `json:"flagged,omitempty"`
+	Points            *float64  `json:"points"`
+	SelectedOptionIds *[]string `json:"selectedOptionIds,omitempty"`
+	SupplierKey       *string   `json:"supplierKey,omitempty"`
+	TextAnswer        *string   `json:"textAnswer,omitempty"`
+}
+
+// SourcingComparisonField defines model for SourcingComparisonField.
+type SourcingComparisonField struct {
+	Answers      *[]SourcingComparisonAnswer     `json:"answers,omitempty"`
+	FieldId      *string                         `json:"fieldId,omitempty"`
+	Label        *string                         `json:"label,omitempty"`
+	OptionPoints *map[string]float64             `json:"optionPoints,omitempty"`
+	Options      *[]QuestionOption               `json:"options,omitempty"`
+	Scoring      *SourcingComparisonFieldScoring `json:"scoring"`
+	Section      *string                         `json:"section,omitempty"`
+	Type         *SourcingComparisonFieldType    `json:"type,omitempty"`
+	Weight       *float64                        `json:"weight,omitempty"`
+}
+
+// SourcingComparisonFieldScoring defines model for SourcingComparisonField.Scoring.
+type SourcingComparisonFieldScoring string
+
+// SourcingComparisonFieldType defines model for SourcingComparisonField.Type.
+type SourcingComparisonFieldType string
+
+// SourcingComparisonLine defines model for SourcingComparisonLine.
+type SourcingComparisonLine struct {
+	LineId          *string                    `json:"lineId,omitempty"`
+	Name            *string                    `json:"name,omitempty"`
+	NeededBy        *string                    `json:"neededBy,omitempty"`
+	Offers          *[]SourcingComparisonOffer `json:"offers,omitempty"`
+	Qty             *float64                   `json:"qty,omitempty"`
+	TargetUnitPrice *float64                   `json:"targetUnitPrice,omitempty"`
+	Unit            *string                    `json:"unit,omitempty"`
+}
+
+// SourcingComparisonOffer defines model for SourcingComparisonOffer.
+type SourcingComparisonOffer struct {
+	LeadTimeDays  *float64 `json:"leadTimeDays"`
+	LineTotal     *float64 `json:"lineTotal"`
+	Lowest        *bool    `json:"lowest,omitempty"`
+	MeetsNeededBy *bool    `json:"meetsNeededBy"`
+	Note          *string  `json:"note,omitempty"`
+	SupplierKey   *string  `json:"supplierKey,omitempty"`
+	UnitPrice     *float64 `json:"unitPrice"`
+}
+
+// SourcingComparisonResponder defines model for SourcingComparisonResponder.
+type SourcingComparisonResponder struct {
+	AnsweredByEmail *string                                 `json:"answeredByEmail,omitempty"`
+	AnsweredVia     *SourcingComparisonResponderAnsweredVia `json:"answeredVia,omitempty"`
+	Attachments     *[]SourcingAttachment                   `json:"attachments,omitempty"`
+	CarriedFrom     *float64                                `json:"carriedFrom,omitempty"`
+	Complete        *bool                                   `json:"complete,omitempty"`
+	Evaluation      *struct {
+		ByCriterion *map[string]SourcingEvaluationAggregate `json:"byCriterion,omitempty"`
+	} `json:"evaluation,omitempty"`
+	LongestLeadTimeDays  *float64                               `json:"longestLeadTimeDays"`
+	LowestTotal          *bool                                  `json:"lowestTotal,omitempty"`
+	MeetsNeededBy        *bool                                  `json:"meetsNeededBy"`
+	Note                 *string                                `json:"note,omitempty"`
+	Onboarding           *SourcingComparisonResponderOnboarding `json:"onboarding"`
+	PaymentTermsDays     *float64                               `json:"paymentTermsDays,omitempty"`
+	QuoteImportId        *string                                `json:"quoteImportId,omitempty"`
+	Reference            *string                                `json:"reference,omitempty"`
+	RiskLevel            *SourcingComparisonResponderRiskLevel  `json:"riskLevel"`
+	Score                *float64                               `json:"score"`
+	ScoreComplete        *bool                                  `json:"scoreComplete,omitempty"`
+	SubmittedAt          *string                                `json:"submittedAt,omitempty"`
+	SupplierConnectionId *string                                `json:"supplierConnectionId,omitempty"`
+	SupplierKey          *string                                `json:"supplierKey,omitempty"`
+	SupplierName         *string                                `json:"supplierName,omitempty"`
+	Total                *float64                               `json:"total"`
+	ValidUntil           *string                                `json:"validUntil,omitempty"`
+	Version              *float64                               `json:"version,omitempty"`
+	Weighted             *SourcingWeightedScore                 `json:"weighted,omitempty"`
+}
+
+// SourcingComparisonResponderAnsweredVia defines model for SourcingComparisonResponder.AnsweredVia.
+type SourcingComparisonResponderAnsweredVia string
+
+// SourcingComparisonResponderOnboarding defines model for SourcingComparisonResponder.Onboarding.
+type SourcingComparisonResponderOnboarding string
+
+// SourcingComparisonResponderRiskLevel defines model for SourcingComparisonResponder.RiskLevel.
+type SourcingComparisonResponderRiskLevel string
+
+// SourcingCriterion defines model for SourcingCriterion.
+type SourcingCriterion struct {
+	Id     string                 `json:"id"`
+	Kind   *SourcingCriterionKind `json:"kind,omitempty"`
+	Name   *string                `json:"name,omitempty"`
+	Weight *float64               `json:"weight,omitempty"`
+}
+
+// SourcingCriterionKind defines model for SourcingCriterion.Kind.
+type SourcingCriterionKind string
+
+// SourcingEvaluationAggregate defines model for SourcingEvaluationAggregate.
+type SourcingEvaluationAggregate struct {
+	Average *float64 `json:"average"`
+	Count   *float64 `json:"count,omitempty"`
+	Highest *float64 `json:"highest"`
+	Lowest  *float64 `json:"lowest"`
+}
+
+// SourcingEvaluationCriterion defines model for SourcingEvaluationCriterion.
+type SourcingEvaluationCriterion struct {
+	BuiltIn *bool   `json:"builtIn,omitempty"`
+	Id      string  `json:"id"`
+	Name    *string `json:"name,omitempty"`
+}
+
+// SourcingFieldScoring defines model for SourcingFieldScoring.
+type SourcingFieldScoring struct {
+	OptionPoints *map[string]float64 `json:"optionPoints,omitempty"`
+	Weight       *float64            `json:"weight,omitempty"`
+}
+
+// SourcingLine defines model for SourcingLine.
+type SourcingLine struct {
+	Id              string   `json:"id"`
+	Name            *string  `json:"name,omitempty"`
+	NeededBy        *string  `json:"neededBy,omitempty"`
+	Notes           *string  `json:"notes,omitempty"`
+	Qty             *float64 `json:"qty,omitempty"`
+	TargetUnitPrice *float64 `json:"targetUnitPrice,omitempty"`
+	Unit            *string  `json:"unit,omitempty"`
+}
+
+// SourcingLineInput defines model for SourcingLineInput.
+type SourcingLineInput struct {
+	// Id The line's id, kept across edits so answers stay on it. Absent on a new line: the server gives one.
+	Id *string `json:"id,omitempty"`
+
+	// Name What is asked for, 1–200 characters.
+	Name string `json:"name"`
+
+	// NeededBy When it is needed, YYYY-MM-DD. The comparison tells whether each answer's lead time meets it.
+	NeededBy *string `json:"neededBy,omitempty"`
+
+	// Notes Specifications or notes for suppliers, up to 2,000 characters.
+	Notes *string `json:"notes,omitempty"`
+
+	// Qty How many.
+	Qty float64 `json:"qty"`
+
+	// TargetUnitPrice The buyer's target unit price. Buyer-only: never shown to a supplier.
+	TargetUnitPrice *float64 `json:"targetUnitPrice,omitempty"`
+
+	// Unit e.g. each, hour, month.
+	Unit *string `json:"unit,omitempty"`
+}
+
+// SourcingManualPoints defines model for SourcingManualPoints.
+type SourcingManualPoints map[string]map[string]float64
+
+// SourcingQuestionAnswer defines model for SourcingQuestionAnswer.
+type SourcingQuestionAnswer struct {
+	FieldId           *string   `json:"fieldId,omitempty"`
+	FileId            *string   `json:"fileId,omitempty"`
+	SelectedOptionIds *[]string `json:"selectedOptionIds,omitempty"`
+	TextAnswer        *string   `json:"textAnswer,omitempty"`
+}
+
+// SourcingQuestionnaire defines model for SourcingQuestionnaire.
+type SourcingQuestionnaire struct {
+	Fields     *[]QuestionnaireFieldDef `json:"fields,omitempty"`
+	Name       *string                  `json:"name,omitempty"`
+	TemplateId *string                  `json:"templateId,omitempty"`
+	Version    *float64                 `json:"version,omitempty"`
+}
+
+// SourcingResponseLine defines model for SourcingResponseLine.
+type SourcingResponseLine struct {
+	LeadTimeDays *float64 `json:"leadTimeDays,omitempty"`
+	LineId       *string  `json:"lineId,omitempty"`
+	Note         *string  `json:"note,omitempty"`
+	UnitPrice    *float64 `json:"unitPrice,omitempty"`
+}
+
+// SourcingRound defines model for SourcingRound.
+type SourcingRound struct {
+	ClosedAt           *string                                                           `json:"closedAt,omitempty"`
+	DueAt              *string                                                           `json:"dueAt,omitempty"`
+	Feedback           *SourcingRoundFeedback                                            `json:"feedback,omitempty"`
+	FeedbackBySupplier *map[string]SourcingRound_FeedbackBySupplier_AdditionalProperties `json:"feedbackBySupplier,omitempty"`
+	OpenedAt           *string                                                           `json:"openedAt,omitempty"`
+	OpenedBy           *string                                                           `json:"openedBy,omitempty"`
+	Round              *float64                                                          `json:"round,omitempty"`
+	SupplierKeys       *[]string                                                         `json:"supplierKeys,omitempty"`
+}
+
+// SourcingRoundFeedback defines model for SourcingRound.Feedback.
+type SourcingRoundFeedback string
+
+// SourcingRoundFeedbackBySupplier0 defines model for .
+type SourcingRoundFeedbackBySupplier0 struct {
+	Kind *SourcingRoundFeedbackBySupplier0Kind `json:"kind,omitempty"`
+	Of   *float64                              `json:"of,omitempty"`
+	Rank *float64                              `json:"rank,omitempty"`
+}
+
+// SourcingRoundFeedbackBySupplier0Kind defines model for SourcingRound.FeedbackBySupplier.0.Kind.
+type SourcingRoundFeedbackBySupplier0Kind string
+
+// SourcingRoundFeedbackBySupplier1 defines model for .
+type SourcingRoundFeedbackBySupplier1 struct {
+	GapPct *float64                              `json:"gapPct,omitempty"`
+	Kind   *SourcingRoundFeedbackBySupplier1Kind `json:"kind,omitempty"`
+	Lowest *bool                                 `json:"lowest,omitempty"`
+}
+
+// SourcingRoundFeedbackBySupplier1Kind defines model for SourcingRound.FeedbackBySupplier.1.Kind.
+type SourcingRoundFeedbackBySupplier1Kind string
+
+// SourcingRound_FeedbackBySupplier_AdditionalProperties defines model for SourcingRound.feedbackBySupplier.AdditionalProperties.
+type SourcingRound_FeedbackBySupplier_AdditionalProperties struct {
+	union json.RawMessage
+}
+
+// SourcingWeightedScore defines model for SourcingWeightedScore.
+type SourcingWeightedScore struct {
+	ByCriterion *map[string]*float64 `json:"byCriterion,omitempty"`
+	Total       *float64             `json:"total"`
 }
 
 // SpendFigures defines model for SpendFigures.
@@ -14841,8 +16324,28 @@ type GetInvoiceParams struct {
 	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
 }
 
+// GetInvoiceActivityParams defines parameters for GetInvoiceActivity.
+type GetInvoiceActivityParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
+
 // GetInvoiceBankAccountParams defines parameters for GetInvoiceBankAccount.
 type GetInvoiceBankAccountParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
+
+// ListInvoiceCommentsParams defines parameters for ListInvoiceComments.
+type ListInvoiceCommentsParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
+
+// AddInvoiceCommentParams defines parameters for AddInvoiceComment.
+type AddInvoiceCommentParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
+
+// DeleteInvoiceCommentParams defines parameters for DeleteInvoiceComment.
+type DeleteInvoiceCommentParams struct {
 	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
 }
 
@@ -14878,6 +16381,11 @@ type GetInvoiceRemittanceDocumentParams struct {
 
 // GetInvoiceRemittanceDocumentParamsFormat defines parameters for GetInvoiceRemittanceDocument.
 type GetInvoiceRemittanceDocumentParamsFormat string
+
+// GetRemittanceFileParams defines parameters for GetRemittanceFile.
+type GetRemittanceFileParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
 
 // GetInvoiceStatusParams defines parameters for GetInvoiceStatus.
 type GetInvoiceStatusParams struct {
@@ -14946,6 +16454,21 @@ type GetPurchaseOrderParams struct {
 	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
 }
 
+// ListPurchaseOrderCommentsParams defines parameters for ListPurchaseOrderComments.
+type ListPurchaseOrderCommentsParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
+
+// AddPurchaseOrderCommentParams defines parameters for AddPurchaseOrderComment.
+type AddPurchaseOrderCommentParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
+
+// DeletePurchaseOrderCommentParams defines parameters for DeletePurchaseOrderComment.
+type DeletePurchaseOrderCommentParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
+
 // ConfirmPurchaseOrderParams defines parameters for ConfirmPurchaseOrder.
 type ConfirmPurchaseOrderParams struct {
 	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
@@ -14985,6 +16508,11 @@ type GetPurchaseOrderFulfillmentParams struct {
 	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
 }
 
+// GetPurchaseOrderPdfParams defines parameters for GetPurchaseOrderPdf.
+type GetPurchaseOrderPdfParams struct {
+	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
+}
+
 // SendShipNoticeParams defines parameters for SendShipNotice.
 type SendShipNoticeParams struct {
 	Buyer *string `form:"buyer,omitempty" json:"buyer,omitempty"`
@@ -15015,6 +16543,20 @@ type GetReferenceRateParams struct {
 type ListRequestTypesParams struct {
 	// IncludeInactive true: also the inactive types (for the settings page).
 	IncludeInactive *bool `form:"includeInactive,omitempty" json:"includeInactive,omitempty"`
+}
+
+// ListSourcingEventsParams defines parameters for ListSourcingEvents.
+type ListSourcingEventsParams struct {
+	Status *ListSourcingEventsParamsStatus `form:"status,omitempty" json:"status,omitempty"`
+}
+
+// ListSourcingEventsParamsStatus defines parameters for ListSourcingEvents.
+type ListSourcingEventsParamsStatus string
+
+// GetSourcingComparisonParams defines parameters for GetSourcingComparison.
+type GetSourcingComparisonParams struct {
+	// Round Phase 4 §1: the round to show, from 1. Default: the latest.
+	Round *float64 `form:"round,omitempty" json:"round,omitempty"`
 }
 
 // GetSupplierWorkspaceParams defines parameters for GetSupplierWorkspace.
@@ -15083,6 +16625,15 @@ type CreateCloudConnectionJSONRequestBody = CreateCloudConnectionInput
 // DiscoverAzureBillingScopesJSONRequestBody defines body for DiscoverAzureBillingScopes for application/json ContentType.
 type DiscoverAzureBillingScopesJSONRequestBody = DiscoverAzureScopesInput
 
+// CreateCreditNoteJSONRequestBody defines body for CreateCreditNote for application/json ContentType.
+type CreateCreditNoteJSONRequestBody = CreateCreditNoteInput
+
+// SetCreditSettlementJSONRequestBody defines body for SetCreditSettlement for application/json ContentType.
+type SetCreditSettlementJSONRequestBody = CreditSettlementInput
+
+// RejectCreditNoteJSONRequestBody defines body for RejectCreditNote for application/json ContentType.
+type RejectCreditNoteJSONRequestBody = RejectCreditNoteInput
+
 // SetExchangeRateWarningJSONRequestBody defines body for SetExchangeRateWarning for application/json ContentType.
 type SetExchangeRateWarningJSONRequestBody = SetWarningPctInput
 
@@ -15116,11 +16667,23 @@ type RecordPaymentsJSONRequestBody = RecordPaymentsBatchInput
 // ReassignInvoiceApprovalStageJSONRequestBody defines body for ReassignInvoiceApprovalStage for application/json ContentType.
 type ReassignInvoiceApprovalStageJSONRequestBody = ReassignApprovalStageInput
 
+// AddInvoiceCommentJSONRequestBody defines body for AddInvoiceComment for application/json ContentType.
+type AddInvoiceCommentJSONRequestBody = CreateCommentInput
+
+// ApplyCreditsJSONRequestBody defines body for ApplyCredits for application/json ContentType.
+type ApplyCreditsJSONRequestBody = ApplyCreditsInput
+
 // RecordPaymentJSONRequestBody defines body for RecordPayment for application/json ContentType.
 type RecordPaymentJSONRequestBody = RecordPaymentInput
 
 // RejectInvoiceJSONRequestBody defines body for RejectInvoice for application/json ContentType.
 type RejectInvoiceJSONRequestBody = RejectInvoiceInput
+
+// SendRemittanceJSONRequestBody defines body for SendRemittance for application/json ContentType.
+type SendRemittanceJSONRequestBody = SendRemittanceInput
+
+// RequestRemittanceUploadJSONRequestBody defines body for RequestRemittanceUpload for application/json ContentType.
+type RequestRemittanceUploadJSONRequestBody = RequestRemittanceUploadInput
 
 // AddInvoiceReplacementLinksJSONRequestBody defines body for AddInvoiceReplacementLinks for application/json ContentType.
 type AddInvoiceReplacementLinksJSONRequestBody = AddReplacementLinksInput
@@ -15143,11 +16706,17 @@ type ReassignPurchaseOrderApprovalStageJSONRequestBody = ReassignApprovalStageIn
 // CancelPurchaseOrderJSONRequestBody defines body for CancelPurchaseOrder for application/json ContentType.
 type CancelPurchaseOrderJSONRequestBody = CancelPurchaseOrderInput
 
+// AddPurchaseOrderCommentJSONRequestBody defines body for AddPurchaseOrderComment for application/json ContentType.
+type AddPurchaseOrderCommentJSONRequestBody = CreateCommentInput
+
 // ConfirmPurchaseOrderJSONRequestBody defines body for ConfirmPurchaseOrder for application/json ContentType.
 type ConfirmPurchaseOrderJSONRequestBody = CreateOrderConfirmationInput
 
 // DeclineConfirmationChangesJSONRequestBody defines body for DeclineConfirmationChanges for application/json ContentType.
 type DeclineConfirmationChangesJSONRequestBody = DeclineConfirmationChangesInput
+
+// ChangeFinishedPurchaseOrderCostCenterJSONRequestBody defines body for ChangeFinishedPurchaseOrderCostCenter for application/json ContentType.
+type ChangeFinishedPurchaseOrderCostCenterJSONRequestBody = ChangeFinishedCostCenterInput
 
 // SendShipNoticeJSONRequestBody defines body for SendShipNotice for application/json ContentType.
 type SendShipNoticeJSONRequestBody = CreateShipNoticeInput
@@ -15172,6 +16741,9 @@ type RejectPurchaseRequestJSONRequestBody = RejectPurchaseRequestInput
 
 // UpdateAutonomySettingsJSONRequestBody defines body for UpdateAutonomySettings for application/json ContentType.
 type UpdateAutonomySettingsJSONRequestBody = UpdateAutonomySettingsInput
+
+// CreateSourcingEventJSONRequestBody defines body for CreateSourcingEvent for application/json ContentType.
+type CreateSourcingEventJSONRequestBody = CreateSourcingEventInput
 
 // SetSupplierCurrenciesJSONRequestBody defines body for SetSupplierCurrencies for application/json ContentType.
 type SetSupplierCurrenciesJSONRequestBody = SetConnectionCurrenciesInput
@@ -15243,6 +16815,68 @@ func (t ApiError_Message) MarshalJSON() ([]byte, error) {
 }
 
 func (t *ApiError_Message) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsInvoiceBuyerView returns the union data inside the ApplyCreditsResult as a InvoiceBuyerView
+func (t ApplyCreditsResult) AsInvoiceBuyerView() (InvoiceBuyerView, error) {
+	var body InvoiceBuyerView
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInvoiceBuyerView overwrites any union data inside the ApplyCreditsResult as the provided InvoiceBuyerView
+func (t *ApplyCreditsResult) FromInvoiceBuyerView(v InvoiceBuyerView) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInvoiceBuyerView performs a merge with any union data inside the ApplyCreditsResult, using the provided InvoiceBuyerView
+func (t *ApplyCreditsResult) MergeInvoiceBuyerView(v InvoiceBuyerView) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsInvoiceSupplierView returns the union data inside the ApplyCreditsResult as a InvoiceSupplierView
+func (t ApplyCreditsResult) AsInvoiceSupplierView() (InvoiceSupplierView, error) {
+	var body InvoiceSupplierView
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInvoiceSupplierView overwrites any union data inside the ApplyCreditsResult as the provided InvoiceSupplierView
+func (t *ApplyCreditsResult) FromInvoiceSupplierView(v InvoiceSupplierView) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInvoiceSupplierView performs a merge with any union data inside the ApplyCreditsResult, using the provided InvoiceSupplierView
+func (t *ApplyCreditsResult) MergeInvoiceSupplierView(v InvoiceSupplierView) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ApplyCreditsResult) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ApplyCreditsResult) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -15367,6 +17001,130 @@ func (t ApprovalStepConditionInput_Value) MarshalJSON() ([]byte, error) {
 }
 
 func (t *ApprovalStepConditionInput_Value) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsBuyerCreditNoteViewPoEffect0 returns the union data inside the BuyerCreditNoteView_PoEffect as a BuyerCreditNoteViewPoEffect0
+func (t BuyerCreditNoteView_PoEffect) AsBuyerCreditNoteViewPoEffect0() (BuyerCreditNoteViewPoEffect0, error) {
+	var body BuyerCreditNoteViewPoEffect0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromBuyerCreditNoteViewPoEffect0 overwrites any union data inside the BuyerCreditNoteView_PoEffect as the provided BuyerCreditNoteViewPoEffect0
+func (t *BuyerCreditNoteView_PoEffect) FromBuyerCreditNoteViewPoEffect0(v BuyerCreditNoteViewPoEffect0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeBuyerCreditNoteViewPoEffect0 performs a merge with any union data inside the BuyerCreditNoteView_PoEffect, using the provided BuyerCreditNoteViewPoEffect0
+func (t *BuyerCreditNoteView_PoEffect) MergeBuyerCreditNoteViewPoEffect0(v BuyerCreditNoteViewPoEffect0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsBuyerCreditNoteViewPoEffect1 returns the union data inside the BuyerCreditNoteView_PoEffect as a BuyerCreditNoteViewPoEffect1
+func (t BuyerCreditNoteView_PoEffect) AsBuyerCreditNoteViewPoEffect1() (BuyerCreditNoteViewPoEffect1, error) {
+	var body BuyerCreditNoteViewPoEffect1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromBuyerCreditNoteViewPoEffect1 overwrites any union data inside the BuyerCreditNoteView_PoEffect as the provided BuyerCreditNoteViewPoEffect1
+func (t *BuyerCreditNoteView_PoEffect) FromBuyerCreditNoteViewPoEffect1(v BuyerCreditNoteViewPoEffect1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeBuyerCreditNoteViewPoEffect1 performs a merge with any union data inside the BuyerCreditNoteView_PoEffect, using the provided BuyerCreditNoteViewPoEffect1
+func (t *BuyerCreditNoteView_PoEffect) MergeBuyerCreditNoteViewPoEffect1(v BuyerCreditNoteViewPoEffect1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t BuyerCreditNoteView_PoEffect) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *BuyerCreditNoteView_PoEffect) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsSupplierCreditNoteView returns the union data inside the CreateCreditNoteResult as a SupplierCreditNoteView
+func (t CreateCreditNoteResult) AsSupplierCreditNoteView() (SupplierCreditNoteView, error) {
+	var body SupplierCreditNoteView
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSupplierCreditNoteView overwrites any union data inside the CreateCreditNoteResult as the provided SupplierCreditNoteView
+func (t *CreateCreditNoteResult) FromSupplierCreditNoteView(v SupplierCreditNoteView) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSupplierCreditNoteView performs a merge with any union data inside the CreateCreditNoteResult, using the provided SupplierCreditNoteView
+func (t *CreateCreditNoteResult) MergeSupplierCreditNoteView(v SupplierCreditNoteView) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsBuyerCreditNoteView returns the union data inside the CreateCreditNoteResult as a BuyerCreditNoteView
+func (t CreateCreditNoteResult) AsBuyerCreditNoteView() (BuyerCreditNoteView, error) {
+	var body BuyerCreditNoteView
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromBuyerCreditNoteView overwrites any union data inside the CreateCreditNoteResult as the provided BuyerCreditNoteView
+func (t *CreateCreditNoteResult) FromBuyerCreditNoteView(v BuyerCreditNoteView) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeBuyerCreditNoteView performs a merge with any union data inside the CreateCreditNoteResult, using the provided BuyerCreditNoteView
+func (t *CreateCreditNoteResult) MergeBuyerCreditNoteView(v BuyerCreditNoteView) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t CreateCreditNoteResult) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *CreateCreditNoteResult) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -16281,6 +18039,68 @@ func (t *GetBuyerWorkspaceResult_RecentPurchaseOrders_Item) UnmarshalJSON(b []by
 	return err
 }
 
+// AsSupplierCreditNoteView returns the union data inside the GetCreditNoteResult as a SupplierCreditNoteView
+func (t GetCreditNoteResult) AsSupplierCreditNoteView() (SupplierCreditNoteView, error) {
+	var body SupplierCreditNoteView
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSupplierCreditNoteView overwrites any union data inside the GetCreditNoteResult as the provided SupplierCreditNoteView
+func (t *GetCreditNoteResult) FromSupplierCreditNoteView(v SupplierCreditNoteView) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSupplierCreditNoteView performs a merge with any union data inside the GetCreditNoteResult, using the provided SupplierCreditNoteView
+func (t *GetCreditNoteResult) MergeSupplierCreditNoteView(v SupplierCreditNoteView) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsBuyerCreditNoteView returns the union data inside the GetCreditNoteResult as a BuyerCreditNoteView
+func (t GetCreditNoteResult) AsBuyerCreditNoteView() (BuyerCreditNoteView, error) {
+	var body BuyerCreditNoteView
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromBuyerCreditNoteView overwrites any union data inside the GetCreditNoteResult as the provided BuyerCreditNoteView
+func (t *GetCreditNoteResult) FromBuyerCreditNoteView(v BuyerCreditNoteView) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeBuyerCreditNoteView performs a merge with any union data inside the GetCreditNoteResult, using the provided BuyerCreditNoteView
+func (t *GetCreditNoteResult) MergeBuyerCreditNoteView(v BuyerCreditNoteView) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t GetCreditNoteResult) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *GetCreditNoteResult) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsGetInvoiceResultSupplierCreditNote returns the union data inside the GetInvoiceResult as a GetInvoiceResultSupplierCreditNote
 func (t GetInvoiceResult) AsGetInvoiceResultSupplierCreditNote() (GetInvoiceResultSupplierCreditNote, error) {
 	var body GetInvoiceResultSupplierCreditNote
@@ -16953,6 +18773,120 @@ func (t *GetSupplierWorkspaceResult_SupplierInvoices_Item) UnmarshalJSON(b []byt
 	return err
 }
 
+// AsInvoiceActivityEntryData0 returns the union data inside the InvoiceActivityEntry_Data_AdditionalProperties as a InvoiceActivityEntryData0
+func (t InvoiceActivityEntry_Data_AdditionalProperties) AsInvoiceActivityEntryData0() (InvoiceActivityEntryData0, error) {
+	var body InvoiceActivityEntryData0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInvoiceActivityEntryData0 overwrites any union data inside the InvoiceActivityEntry_Data_AdditionalProperties as the provided InvoiceActivityEntryData0
+func (t *InvoiceActivityEntry_Data_AdditionalProperties) FromInvoiceActivityEntryData0(v InvoiceActivityEntryData0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInvoiceActivityEntryData0 performs a merge with any union data inside the InvoiceActivityEntry_Data_AdditionalProperties, using the provided InvoiceActivityEntryData0
+func (t *InvoiceActivityEntry_Data_AdditionalProperties) MergeInvoiceActivityEntryData0(v InvoiceActivityEntryData0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsInvoiceActivityEntryData1 returns the union data inside the InvoiceActivityEntry_Data_AdditionalProperties as a InvoiceActivityEntryData1
+func (t InvoiceActivityEntry_Data_AdditionalProperties) AsInvoiceActivityEntryData1() (InvoiceActivityEntryData1, error) {
+	var body InvoiceActivityEntryData1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInvoiceActivityEntryData1 overwrites any union data inside the InvoiceActivityEntry_Data_AdditionalProperties as the provided InvoiceActivityEntryData1
+func (t *InvoiceActivityEntry_Data_AdditionalProperties) FromInvoiceActivityEntryData1(v InvoiceActivityEntryData1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInvoiceActivityEntryData1 performs a merge with any union data inside the InvoiceActivityEntry_Data_AdditionalProperties, using the provided InvoiceActivityEntryData1
+func (t *InvoiceActivityEntry_Data_AdditionalProperties) MergeInvoiceActivityEntryData1(v InvoiceActivityEntryData1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsInvoiceActivityEntryData2 returns the union data inside the InvoiceActivityEntry_Data_AdditionalProperties as a InvoiceActivityEntryData2
+func (t InvoiceActivityEntry_Data_AdditionalProperties) AsInvoiceActivityEntryData2() (InvoiceActivityEntryData2, error) {
+	var body InvoiceActivityEntryData2
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInvoiceActivityEntryData2 overwrites any union data inside the InvoiceActivityEntry_Data_AdditionalProperties as the provided InvoiceActivityEntryData2
+func (t *InvoiceActivityEntry_Data_AdditionalProperties) FromInvoiceActivityEntryData2(v InvoiceActivityEntryData2) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInvoiceActivityEntryData2 performs a merge with any union data inside the InvoiceActivityEntry_Data_AdditionalProperties, using the provided InvoiceActivityEntryData2
+func (t *InvoiceActivityEntry_Data_AdditionalProperties) MergeInvoiceActivityEntryData2(v InvoiceActivityEntryData2) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsInvoiceActivityEntryData3 returns the union data inside the InvoiceActivityEntry_Data_AdditionalProperties as a InvoiceActivityEntryData3
+func (t InvoiceActivityEntry_Data_AdditionalProperties) AsInvoiceActivityEntryData3() (InvoiceActivityEntryData3, error) {
+	var body InvoiceActivityEntryData3
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInvoiceActivityEntryData3 overwrites any union data inside the InvoiceActivityEntry_Data_AdditionalProperties as the provided InvoiceActivityEntryData3
+func (t *InvoiceActivityEntry_Data_AdditionalProperties) FromInvoiceActivityEntryData3(v InvoiceActivityEntryData3) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInvoiceActivityEntryData3 performs a merge with any union data inside the InvoiceActivityEntry_Data_AdditionalProperties, using the provided InvoiceActivityEntryData3
+func (t *InvoiceActivityEntry_Data_AdditionalProperties) MergeInvoiceActivityEntryData3(v InvoiceActivityEntryData3) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t InvoiceActivityEntry_Data_AdditionalProperties) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *InvoiceActivityEntry_Data_AdditionalProperties) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsInvoiceSupplierViewPayment0 returns the union data inside the InvoiceSupplierView_Payment as a InvoiceSupplierViewPayment0
 func (t InvoiceSupplierView_Payment) AsInvoiceSupplierViewPayment0() (InvoiceSupplierViewPayment0, error) {
 	var body InvoiceSupplierViewPayment0
@@ -17135,6 +19069,68 @@ func (t ListCloudConnectionsResult) MarshalJSON() ([]byte, error) {
 }
 
 func (t *ListCloudConnectionsResult) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsSupplierCreditNoteView returns the union data inside the ListCreditNotesResult_CreditNotes_Item as a SupplierCreditNoteView
+func (t ListCreditNotesResult_CreditNotes_Item) AsSupplierCreditNoteView() (SupplierCreditNoteView, error) {
+	var body SupplierCreditNoteView
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSupplierCreditNoteView overwrites any union data inside the ListCreditNotesResult_CreditNotes_Item as the provided SupplierCreditNoteView
+func (t *ListCreditNotesResult_CreditNotes_Item) FromSupplierCreditNoteView(v SupplierCreditNoteView) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSupplierCreditNoteView performs a merge with any union data inside the ListCreditNotesResult_CreditNotes_Item, using the provided SupplierCreditNoteView
+func (t *ListCreditNotesResult_CreditNotes_Item) MergeSupplierCreditNoteView(v SupplierCreditNoteView) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsBuyerCreditNoteView returns the union data inside the ListCreditNotesResult_CreditNotes_Item as a BuyerCreditNoteView
+func (t ListCreditNotesResult_CreditNotes_Item) AsBuyerCreditNoteView() (BuyerCreditNoteView, error) {
+	var body BuyerCreditNoteView
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromBuyerCreditNoteView overwrites any union data inside the ListCreditNotesResult_CreditNotes_Item as the provided BuyerCreditNoteView
+func (t *ListCreditNotesResult_CreditNotes_Item) FromBuyerCreditNoteView(v BuyerCreditNoteView) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeBuyerCreditNoteView performs a merge with any union data inside the ListCreditNotesResult_CreditNotes_Item, using the provided BuyerCreditNoteView
+func (t *ListCreditNotesResult_CreditNotes_Item) MergeBuyerCreditNoteView(v BuyerCreditNoteView) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ListCreditNotesResult_CreditNotes_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ListCreditNotesResult_CreditNotes_Item) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -17563,6 +19559,68 @@ func (t *ListPurchaseOrdersItem) UnmarshalJSON(b []byte) error {
 	return err
 }
 
+// AsInvoiceBuyerView returns the union data inside the RemoveCreditApplicationResult as a InvoiceBuyerView
+func (t RemoveCreditApplicationResult) AsInvoiceBuyerView() (InvoiceBuyerView, error) {
+	var body InvoiceBuyerView
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInvoiceBuyerView overwrites any union data inside the RemoveCreditApplicationResult as the provided InvoiceBuyerView
+func (t *RemoveCreditApplicationResult) FromInvoiceBuyerView(v InvoiceBuyerView) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInvoiceBuyerView performs a merge with any union data inside the RemoveCreditApplicationResult, using the provided InvoiceBuyerView
+func (t *RemoveCreditApplicationResult) MergeInvoiceBuyerView(v InvoiceBuyerView) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsInvoiceSupplierView returns the union data inside the RemoveCreditApplicationResult as a InvoiceSupplierView
+func (t RemoveCreditApplicationResult) AsInvoiceSupplierView() (InvoiceSupplierView, error) {
+	var body InvoiceSupplierView
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInvoiceSupplierView overwrites any union data inside the RemoveCreditApplicationResult as the provided InvoiceSupplierView
+func (t *RemoveCreditApplicationResult) FromInvoiceSupplierView(v InvoiceSupplierView) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInvoiceSupplierView performs a merge with any union data inside the RemoveCreditApplicationResult, using the provided InvoiceSupplierView
+func (t *RemoveCreditApplicationResult) MergeInvoiceSupplierView(v InvoiceSupplierView) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t RemoveCreditApplicationResult) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *RemoveCreditApplicationResult) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsServerMessageParams0 returns the union data inside the ServerMessageParams_AdditionalProperties as a ServerMessageParams0
 func (t ServerMessageParams_AdditionalProperties) AsServerMessageParams0() (ServerMessageParams0, error) {
 	var body ServerMessageParams0
@@ -17797,6 +19855,156 @@ func (t SetSupplierCurrenciesResult) MarshalJSON() ([]byte, error) {
 }
 
 func (t *SetSupplierCurrenciesResult) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsSourcingActivityDetail0 returns the union data inside the SourcingActivity_Detail_AdditionalProperties as a SourcingActivityDetail0
+func (t SourcingActivity_Detail_AdditionalProperties) AsSourcingActivityDetail0() (SourcingActivityDetail0, error) {
+	var body SourcingActivityDetail0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSourcingActivityDetail0 overwrites any union data inside the SourcingActivity_Detail_AdditionalProperties as the provided SourcingActivityDetail0
+func (t *SourcingActivity_Detail_AdditionalProperties) FromSourcingActivityDetail0(v SourcingActivityDetail0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSourcingActivityDetail0 performs a merge with any union data inside the SourcingActivity_Detail_AdditionalProperties, using the provided SourcingActivityDetail0
+func (t *SourcingActivity_Detail_AdditionalProperties) MergeSourcingActivityDetail0(v SourcingActivityDetail0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSourcingActivityDetail1 returns the union data inside the SourcingActivity_Detail_AdditionalProperties as a SourcingActivityDetail1
+func (t SourcingActivity_Detail_AdditionalProperties) AsSourcingActivityDetail1() (SourcingActivityDetail1, error) {
+	var body SourcingActivityDetail1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSourcingActivityDetail1 overwrites any union data inside the SourcingActivity_Detail_AdditionalProperties as the provided SourcingActivityDetail1
+func (t *SourcingActivity_Detail_AdditionalProperties) FromSourcingActivityDetail1(v SourcingActivityDetail1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSourcingActivityDetail1 performs a merge with any union data inside the SourcingActivity_Detail_AdditionalProperties, using the provided SourcingActivityDetail1
+func (t *SourcingActivity_Detail_AdditionalProperties) MergeSourcingActivityDetail1(v SourcingActivityDetail1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSourcingActivityDetail2 returns the union data inside the SourcingActivity_Detail_AdditionalProperties as a SourcingActivityDetail2
+func (t SourcingActivity_Detail_AdditionalProperties) AsSourcingActivityDetail2() (SourcingActivityDetail2, error) {
+	var body SourcingActivityDetail2
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSourcingActivityDetail2 overwrites any union data inside the SourcingActivity_Detail_AdditionalProperties as the provided SourcingActivityDetail2
+func (t *SourcingActivity_Detail_AdditionalProperties) FromSourcingActivityDetail2(v SourcingActivityDetail2) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSourcingActivityDetail2 performs a merge with any union data inside the SourcingActivity_Detail_AdditionalProperties, using the provided SourcingActivityDetail2
+func (t *SourcingActivity_Detail_AdditionalProperties) MergeSourcingActivityDetail2(v SourcingActivityDetail2) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t SourcingActivity_Detail_AdditionalProperties) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *SourcingActivity_Detail_AdditionalProperties) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsSourcingRoundFeedbackBySupplier0 returns the union data inside the SourcingRound_FeedbackBySupplier_AdditionalProperties as a SourcingRoundFeedbackBySupplier0
+func (t SourcingRound_FeedbackBySupplier_AdditionalProperties) AsSourcingRoundFeedbackBySupplier0() (SourcingRoundFeedbackBySupplier0, error) {
+	var body SourcingRoundFeedbackBySupplier0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSourcingRoundFeedbackBySupplier0 overwrites any union data inside the SourcingRound_FeedbackBySupplier_AdditionalProperties as the provided SourcingRoundFeedbackBySupplier0
+func (t *SourcingRound_FeedbackBySupplier_AdditionalProperties) FromSourcingRoundFeedbackBySupplier0(v SourcingRoundFeedbackBySupplier0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSourcingRoundFeedbackBySupplier0 performs a merge with any union data inside the SourcingRound_FeedbackBySupplier_AdditionalProperties, using the provided SourcingRoundFeedbackBySupplier0
+func (t *SourcingRound_FeedbackBySupplier_AdditionalProperties) MergeSourcingRoundFeedbackBySupplier0(v SourcingRoundFeedbackBySupplier0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSourcingRoundFeedbackBySupplier1 returns the union data inside the SourcingRound_FeedbackBySupplier_AdditionalProperties as a SourcingRoundFeedbackBySupplier1
+func (t SourcingRound_FeedbackBySupplier_AdditionalProperties) AsSourcingRoundFeedbackBySupplier1() (SourcingRoundFeedbackBySupplier1, error) {
+	var body SourcingRoundFeedbackBySupplier1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSourcingRoundFeedbackBySupplier1 overwrites any union data inside the SourcingRound_FeedbackBySupplier_AdditionalProperties as the provided SourcingRoundFeedbackBySupplier1
+func (t *SourcingRound_FeedbackBySupplier_AdditionalProperties) FromSourcingRoundFeedbackBySupplier1(v SourcingRoundFeedbackBySupplier1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSourcingRoundFeedbackBySupplier1 performs a merge with any union data inside the SourcingRound_FeedbackBySupplier_AdditionalProperties, using the provided SourcingRoundFeedbackBySupplier1
+func (t *SourcingRound_FeedbackBySupplier_AdditionalProperties) MergeSourcingRoundFeedbackBySupplier1(v SourcingRoundFeedbackBySupplier1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t SourcingRound_FeedbackBySupplier_AdditionalProperties) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *SourcingRound_FeedbackBySupplier_AdditionalProperties) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -18240,6 +20448,39 @@ type ClientInterface interface {
 	// AddCloudProviderAsSupplier request
 	AddCloudProviderAsSupplier(ctx context.Context, provider string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ListCreditNotes request
+	ListCreditNotes(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateCreditNoteWithBody request with any body
+	CreateCreditNoteWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateCreditNote(ctx context.Context, body CreateCreditNoteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetCreditSettlement request
+	GetCreditSettlement(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SetCreditSettlementWithBody request with any body
+	SetCreditSettlementWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SetCreditSettlement(ctx context.Context, body SetCreditSettlementJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetCreditNote request
+	GetCreditNote(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AcceptCreditNote request
+	AcceptCreditNote(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetCreditNotePdf request
+	GetCreditNotePdf(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// RejectCreditNoteWithBody request with any body
+	RejectCreditNoteWithBody(ctx context.Context, creditNoteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	RejectCreditNote(ctx context.Context, creditNoteId string, body RejectCreditNoteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// VoidCreditNote request
+	VoidCreditNote(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ListEmployees request
 	ListEmployees(ctx context.Context, params *ListEmployeesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -18335,6 +20576,9 @@ type ClientInterface interface {
 	// GetInvoice request
 	GetInvoice(ctx context.Context, invoiceId string, params *GetInvoiceParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetInvoiceActivity request
+	GetInvoiceActivity(ctx context.Context, invoiceId string, params *GetInvoiceActivityParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ReassignInvoiceApprovalStageWithBody request with any body
 	ReassignInvoiceApprovalStageWithBody(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -18343,8 +20587,30 @@ type ClientInterface interface {
 	// ApproveInvoice request
 	ApproveInvoice(ctx context.Context, invoiceId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ListAvailableCredits request
+	ListAvailableCredits(ctx context.Context, invoiceId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetInvoiceBankAccount request
 	GetInvoiceBankAccount(ctx context.Context, invoiceId string, params *GetInvoiceBankAccountParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListInvoiceComments request
+	ListInvoiceComments(ctx context.Context, invoiceId string, params *ListInvoiceCommentsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AddInvoiceCommentWithBody request with any body
+	AddInvoiceCommentWithBody(ctx context.Context, invoiceId string, params *AddInvoiceCommentParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	AddInvoiceComment(ctx context.Context, invoiceId string, params *AddInvoiceCommentParams, body AddInvoiceCommentJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteInvoiceComment request
+	DeleteInvoiceComment(ctx context.Context, invoiceId string, commentId string, params *DeleteInvoiceCommentParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ApplyCreditsWithBody request with any body
+	ApplyCreditsWithBody(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	ApplyCredits(ctx context.Context, invoiceId string, body ApplyCreditsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// RemoveCreditApplication request
+	RemoveCreditApplication(ctx context.Context, invoiceId string, applicationId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetInvoiceDocument request
 	GetInvoiceDocument(ctx context.Context, invoiceId string, params *GetInvoiceDocumentParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -18371,11 +20637,24 @@ type ClientInterface interface {
 	// GetInvoiceRemittance request
 	GetInvoiceRemittance(ctx context.Context, invoiceId string, params *GetInvoiceRemittanceParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// SendRemittanceWithBody request with any body
+	SendRemittanceWithBody(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SendRemittance(ctx context.Context, invoiceId string, body SendRemittanceJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetRemittanceAdvice request
 	GetRemittanceAdvice(ctx context.Context, invoiceId string, params *GetRemittanceAdviceParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// RequestRemittanceUploadWithBody request with any body
+	RequestRemittanceUploadWithBody(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	RequestRemittanceUpload(ctx context.Context, invoiceId string, body RequestRemittanceUploadJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetInvoiceRemittanceDocument request
 	GetInvoiceRemittanceDocument(ctx context.Context, invoiceId string, params *GetInvoiceRemittanceDocumentParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetRemittanceFile request
+	GetRemittanceFile(ctx context.Context, invoiceId string, remittanceId string, params *GetRemittanceFileParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// AddInvoiceReplacementLinksWithBody request with any body
 	AddInvoiceReplacementLinksWithBody(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -18463,6 +20742,17 @@ type ClientInterface interface {
 	// ClosePurchaseOrder request
 	ClosePurchaseOrder(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ListPurchaseOrderComments request
+	ListPurchaseOrderComments(ctx context.Context, poId string, params *ListPurchaseOrderCommentsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AddPurchaseOrderCommentWithBody request with any body
+	AddPurchaseOrderCommentWithBody(ctx context.Context, poId string, params *AddPurchaseOrderCommentParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	AddPurchaseOrderComment(ctx context.Context, poId string, params *AddPurchaseOrderCommentParams, body AddPurchaseOrderCommentJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeletePurchaseOrderComment request
+	DeletePurchaseOrderComment(ctx context.Context, poId string, commentId string, params *DeletePurchaseOrderCommentParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ConfirmPurchaseOrderWithBody request with any body
 	ConfirmPurchaseOrderWithBody(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -18475,6 +20765,11 @@ type ClientInterface interface {
 	DeclineConfirmationChangesWithBody(ctx context.Context, poId string, confirmationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	DeclineConfirmationChanges(ctx context.Context, poId string, confirmationId string, body DeclineConfirmationChangesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ChangeFinishedPurchaseOrderCostCenterWithBody request with any body
+	ChangeFinishedPurchaseOrderCostCenterWithBody(ctx context.Context, poId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	ChangeFinishedPurchaseOrderCostCenter(ctx context.Context, poId string, body ChangeFinishedPurchaseOrderCostCenterJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetPurchaseOrderDocument request
 	GetPurchaseOrderDocument(ctx context.Context, poId string, params *GetPurchaseOrderDocumentParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -18493,6 +20788,9 @@ type ClientInterface interface {
 
 	// GetPurchaseOrderFulfillment request
 	GetPurchaseOrderFulfillment(ctx context.Context, poId string, params *GetPurchaseOrderFulfillmentParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetPurchaseOrderPdf request
+	GetPurchaseOrderPdf(ctx context.Context, poId string, params *GetPurchaseOrderPdfParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// RejectPurchaseOrder request
 	RejectPurchaseOrder(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -18575,6 +20873,20 @@ type ClientInterface interface {
 
 	// GetBilling request
 	GetBilling(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListSourcingEvents request
+	ListSourcingEvents(ctx context.Context, params *ListSourcingEventsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateSourcingEventWithBody request with any body
+	CreateSourcingEventWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateSourcingEvent(ctx context.Context, body CreateSourcingEventJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetSourcingEvent request
+	GetSourcingEvent(ctx context.Context, rfqId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetSourcingComparison request
+	GetSourcingComparison(ctx context.Context, rfqId string, params *GetSourcingComparisonParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetSupplierWorkspace request
 	GetSupplierWorkspace(ctx context.Context, params *GetSupplierWorkspaceParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -19407,6 +21719,150 @@ func (c *RawClient) AddCloudProviderAsSupplier(ctx context.Context, provider str
 	return c.Client.Do(req)
 }
 
+func (c *RawClient) ListCreditNotes(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListCreditNotesRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CreateCreditNoteWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateCreditNoteRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CreateCreditNote(ctx context.Context, body CreateCreditNoteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateCreditNoteRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetCreditSettlement(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetCreditSettlementRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SetCreditSettlementWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetCreditSettlementRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SetCreditSettlement(ctx context.Context, body SetCreditSettlementJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetCreditSettlementRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetCreditNote(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetCreditNoteRequest(c.Server, creditNoteId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) AcceptCreditNote(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAcceptCreditNoteRequest(c.Server, creditNoteId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetCreditNotePdf(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetCreditNotePdfRequest(c.Server, creditNoteId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) RejectCreditNoteWithBody(ctx context.Context, creditNoteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRejectCreditNoteRequestWithBody(c.Server, creditNoteId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) RejectCreditNote(ctx context.Context, creditNoteId string, body RejectCreditNoteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRejectCreditNoteRequest(c.Server, creditNoteId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) VoidCreditNote(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVoidCreditNoteRequest(c.Server, creditNoteId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *RawClient) ListEmployees(ctx context.Context, params *ListEmployeesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewListEmployeesRequest(c.Server, params)
 	if err != nil {
@@ -19827,6 +22283,18 @@ func (c *RawClient) GetInvoice(ctx context.Context, invoiceId string, params *Ge
 	return c.Client.Do(req)
 }
 
+func (c *RawClient) GetInvoiceActivity(ctx context.Context, invoiceId string, params *GetInvoiceActivityParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetInvoiceActivityRequest(c.Server, invoiceId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *RawClient) ReassignInvoiceApprovalStageWithBody(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewReassignInvoiceApprovalStageRequestWithBody(c.Server, invoiceId, contentType, body)
 	if err != nil {
@@ -19863,8 +22331,104 @@ func (c *RawClient) ApproveInvoice(ctx context.Context, invoiceId string, reqEdi
 	return c.Client.Do(req)
 }
 
+func (c *RawClient) ListAvailableCredits(ctx context.Context, invoiceId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListAvailableCreditsRequest(c.Server, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *RawClient) GetInvoiceBankAccount(ctx context.Context, invoiceId string, params *GetInvoiceBankAccountParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetInvoiceBankAccountRequest(c.Server, invoiceId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListInvoiceComments(ctx context.Context, invoiceId string, params *ListInvoiceCommentsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListInvoiceCommentsRequest(c.Server, invoiceId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) AddInvoiceCommentWithBody(ctx context.Context, invoiceId string, params *AddInvoiceCommentParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddInvoiceCommentRequestWithBody(c.Server, invoiceId, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) AddInvoiceComment(ctx context.Context, invoiceId string, params *AddInvoiceCommentParams, body AddInvoiceCommentJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddInvoiceCommentRequest(c.Server, invoiceId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) DeleteInvoiceComment(ctx context.Context, invoiceId string, commentId string, params *DeleteInvoiceCommentParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteInvoiceCommentRequest(c.Server, invoiceId, commentId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ApplyCreditsWithBody(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewApplyCreditsRequestWithBody(c.Server, invoiceId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ApplyCredits(ctx context.Context, invoiceId string, body ApplyCreditsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewApplyCreditsRequest(c.Server, invoiceId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) RemoveCreditApplication(ctx context.Context, invoiceId string, applicationId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRemoveCreditApplicationRequest(c.Server, invoiceId, applicationId)
 	if err != nil {
 		return nil, err
 	}
@@ -19983,6 +22547,30 @@ func (c *RawClient) GetInvoiceRemittance(ctx context.Context, invoiceId string, 
 	return c.Client.Do(req)
 }
 
+func (c *RawClient) SendRemittanceWithBody(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSendRemittanceRequestWithBody(c.Server, invoiceId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) SendRemittance(ctx context.Context, invoiceId string, body SendRemittanceJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSendRemittanceRequest(c.Server, invoiceId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *RawClient) GetRemittanceAdvice(ctx context.Context, invoiceId string, params *GetRemittanceAdviceParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetRemittanceAdviceRequest(c.Server, invoiceId, params)
 	if err != nil {
@@ -19995,8 +22583,44 @@ func (c *RawClient) GetRemittanceAdvice(ctx context.Context, invoiceId string, p
 	return c.Client.Do(req)
 }
 
+func (c *RawClient) RequestRemittanceUploadWithBody(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRequestRemittanceUploadRequestWithBody(c.Server, invoiceId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) RequestRemittanceUpload(ctx context.Context, invoiceId string, body RequestRemittanceUploadJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRequestRemittanceUploadRequest(c.Server, invoiceId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *RawClient) GetInvoiceRemittanceDocument(ctx context.Context, invoiceId string, params *GetInvoiceRemittanceDocumentParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetInvoiceRemittanceDocumentRequest(c.Server, invoiceId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetRemittanceFile(ctx context.Context, invoiceId string, remittanceId string, params *GetRemittanceFileParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetRemittanceFileRequest(c.Server, invoiceId, remittanceId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -20379,6 +23003,54 @@ func (c *RawClient) ClosePurchaseOrder(ctx context.Context, poId string, reqEdit
 	return c.Client.Do(req)
 }
 
+func (c *RawClient) ListPurchaseOrderComments(ctx context.Context, poId string, params *ListPurchaseOrderCommentsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListPurchaseOrderCommentsRequest(c.Server, poId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) AddPurchaseOrderCommentWithBody(ctx context.Context, poId string, params *AddPurchaseOrderCommentParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddPurchaseOrderCommentRequestWithBody(c.Server, poId, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) AddPurchaseOrderComment(ctx context.Context, poId string, params *AddPurchaseOrderCommentParams, body AddPurchaseOrderCommentJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddPurchaseOrderCommentRequest(c.Server, poId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) DeletePurchaseOrderComment(ctx context.Context, poId string, commentId string, params *DeletePurchaseOrderCommentParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeletePurchaseOrderCommentRequest(c.Server, poId, commentId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *RawClient) ConfirmPurchaseOrderWithBody(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewConfirmPurchaseOrderRequestWithBody(c.Server, poId, params, contentType, body)
 	if err != nil {
@@ -20429,6 +23101,30 @@ func (c *RawClient) DeclineConfirmationChangesWithBody(ctx context.Context, poId
 
 func (c *RawClient) DeclineConfirmationChanges(ctx context.Context, poId string, confirmationId string, body DeclineConfirmationChangesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewDeclineConfirmationChangesRequest(c.Server, poId, confirmationId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ChangeFinishedPurchaseOrderCostCenterWithBody(ctx context.Context, poId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewChangeFinishedPurchaseOrderCostCenterRequestWithBody(c.Server, poId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ChangeFinishedPurchaseOrderCostCenter(ctx context.Context, poId string, body ChangeFinishedPurchaseOrderCostCenterJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewChangeFinishedPurchaseOrderCostCenterRequest(c.Server, poId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -20501,6 +23197,18 @@ func (c *RawClient) FlipPurchaseOrderToInvoice(ctx context.Context, poId string,
 
 func (c *RawClient) GetPurchaseOrderFulfillment(ctx context.Context, poId string, params *GetPurchaseOrderFulfillmentParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetPurchaseOrderFulfillmentRequest(c.Server, poId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetPurchaseOrderPdf(ctx context.Context, poId string, params *GetPurchaseOrderPdfParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetPurchaseOrderPdfRequest(c.Server, poId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -20861,6 +23569,66 @@ func (c *RawClient) UpdateAutonomySettings(ctx context.Context, body UpdateAuton
 
 func (c *RawClient) GetBilling(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetBillingRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) ListSourcingEvents(ctx context.Context, params *ListSourcingEventsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListSourcingEventsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CreateSourcingEventWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateSourcingEventRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) CreateSourcingEvent(ctx context.Context, body CreateSourcingEventJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateSourcingEventRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetSourcingEvent(ctx context.Context, rfqId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetSourcingEventRequest(c.Server, rfqId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetSourcingComparison(ctx context.Context, rfqId string, params *GetSourcingComparisonParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetSourcingComparisonRequest(c.Server, rfqId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -23254,6 +26022,323 @@ func NewAddCloudProviderAsSupplierRequest(server string, provider string) (*http
 	return req, nil
 }
 
+// NewListCreditNotesRequest generates requests for ListCreditNotes
+func NewListCreditNotesRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/credit-notes")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreateCreditNoteRequest calls the generic CreateCreditNote builder with application/json body
+func NewCreateCreditNoteRequest(server string, body CreateCreditNoteJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateCreditNoteRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreateCreditNoteRequestWithBody generates requests for CreateCreditNote with any type of body
+func NewCreateCreditNoteRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/credit-notes")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetCreditSettlementRequest generates requests for GetCreditSettlement
+func NewGetCreditSettlementRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/credit-notes/settings")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSetCreditSettlementRequest calls the generic SetCreditSettlement builder with application/json body
+func NewSetCreditSettlementRequest(server string, body SetCreditSettlementJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSetCreditSettlementRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewSetCreditSettlementRequestWithBody generates requests for SetCreditSettlement with any type of body
+func NewSetCreditSettlementRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/credit-notes/settings")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetCreditNoteRequest generates requests for GetCreditNote
+func NewGetCreditNoteRequest(server string, creditNoteId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "creditNoteId", runtime.ParamLocationPath, creditNoteId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/credit-notes/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAcceptCreditNoteRequest generates requests for AcceptCreditNote
+func NewAcceptCreditNoteRequest(server string, creditNoteId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "creditNoteId", runtime.ParamLocationPath, creditNoteId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/credit-notes/%s/accept", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetCreditNotePdfRequest generates requests for GetCreditNotePdf
+func NewGetCreditNotePdfRequest(server string, creditNoteId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "creditNoteId", runtime.ParamLocationPath, creditNoteId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/credit-notes/%s/pdf", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewRejectCreditNoteRequest calls the generic RejectCreditNote builder with application/json body
+func NewRejectCreditNoteRequest(server string, creditNoteId string, body RejectCreditNoteJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewRejectCreditNoteRequestWithBody(server, creditNoteId, "application/json", bodyReader)
+}
+
+// NewRejectCreditNoteRequestWithBody generates requests for RejectCreditNote with any type of body
+func NewRejectCreditNoteRequestWithBody(server string, creditNoteId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "creditNoteId", runtime.ParamLocationPath, creditNoteId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/credit-notes/%s/reject", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewVoidCreditNoteRequest generates requests for VoidCreditNote
+func NewVoidCreditNoteRequest(server string, creditNoteId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "creditNoteId", runtime.ParamLocationPath, creditNoteId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/credit-notes/%s/void", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewListEmployeesRequest generates requests for ListEmployees
 func NewListEmployeesRequest(server string, params *ListEmployeesParams) (*http.Request, error) {
 	var err error
@@ -24281,6 +27366,62 @@ func NewGetInvoiceRequest(server string, invoiceId string, params *GetInvoicePar
 	return req, nil
 }
 
+// NewGetInvoiceActivityRequest generates requests for GetInvoiceActivity
+func NewGetInvoiceActivityRequest(server string, invoiceId string, params *GetInvoiceActivityParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invoiceId", runtime.ParamLocationPath, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/invoices/%s/activity", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewReassignInvoiceApprovalStageRequest calls the generic ReassignInvoiceApprovalStage builder with application/json body
 func NewReassignInvoiceApprovalStageRequest(server string, invoiceId string, body ReassignInvoiceApprovalStageJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -24362,6 +27503,40 @@ func NewApproveInvoiceRequest(server string, invoiceId string) (*http.Request, e
 	return req, nil
 }
 
+// NewListAvailableCreditsRequest generates requests for ListAvailableCredits
+func NewListAvailableCreditsRequest(server string, invoiceId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invoiceId", runtime.ParamLocationPath, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/invoices/%s/available-credits", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetInvoiceBankAccountRequest generates requests for GetInvoiceBankAccount
 func NewGetInvoiceBankAccountRequest(server string, invoiceId string, params *GetInvoiceBankAccountParams) (*http.Request, error) {
 	var err error
@@ -24411,6 +27586,282 @@ func NewGetInvoiceBankAccountRequest(server string, invoiceId string, params *Ge
 	}
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListInvoiceCommentsRequest generates requests for ListInvoiceComments
+func NewListInvoiceCommentsRequest(server string, invoiceId string, params *ListInvoiceCommentsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invoiceId", runtime.ParamLocationPath, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/invoices/%s/comments", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAddInvoiceCommentRequest calls the generic AddInvoiceComment builder with application/json body
+func NewAddInvoiceCommentRequest(server string, invoiceId string, params *AddInvoiceCommentParams, body AddInvoiceCommentJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAddInvoiceCommentRequestWithBody(server, invoiceId, params, "application/json", bodyReader)
+}
+
+// NewAddInvoiceCommentRequestWithBody generates requests for AddInvoiceComment with any type of body
+func NewAddInvoiceCommentRequestWithBody(server string, invoiceId string, params *AddInvoiceCommentParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invoiceId", runtime.ParamLocationPath, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/invoices/%s/comments", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteInvoiceCommentRequest generates requests for DeleteInvoiceComment
+func NewDeleteInvoiceCommentRequest(server string, invoiceId string, commentId string, params *DeleteInvoiceCommentParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invoiceId", runtime.ParamLocationPath, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "commentId", runtime.ParamLocationPath, commentId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/invoices/%s/comments/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewApplyCreditsRequest calls the generic ApplyCredits builder with application/json body
+func NewApplyCreditsRequest(server string, invoiceId string, body ApplyCreditsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewApplyCreditsRequestWithBody(server, invoiceId, "application/json", bodyReader)
+}
+
+// NewApplyCreditsRequestWithBody generates requests for ApplyCredits with any type of body
+func NewApplyCreditsRequestWithBody(server string, invoiceId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invoiceId", runtime.ParamLocationPath, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/invoices/%s/credit-applications", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewRemoveCreditApplicationRequest generates requests for RemoveCreditApplication
+func NewRemoveCreditApplicationRequest(server string, invoiceId string, applicationId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invoiceId", runtime.ParamLocationPath, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "applicationId", runtime.ParamLocationPath, applicationId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/invoices/%s/credit-applications/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -24764,6 +28215,53 @@ func NewGetInvoiceRemittanceRequest(server string, invoiceId string, params *Get
 	return req, nil
 }
 
+// NewSendRemittanceRequest calls the generic SendRemittance builder with application/json body
+func NewSendRemittanceRequest(server string, invoiceId string, body SendRemittanceJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSendRemittanceRequestWithBody(server, invoiceId, "application/json", bodyReader)
+}
+
+// NewSendRemittanceRequestWithBody generates requests for SendRemittance with any type of body
+func NewSendRemittanceRequestWithBody(server string, invoiceId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invoiceId", runtime.ParamLocationPath, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/invoices/%s/remittance", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetRemittanceAdviceRequest generates requests for GetRemittanceAdvice
 func NewGetRemittanceAdviceRequest(server string, invoiceId string, params *GetRemittanceAdviceParams) (*http.Request, error) {
 	var err error
@@ -24820,6 +28318,53 @@ func NewGetRemittanceAdviceRequest(server string, invoiceId string, params *GetR
 	return req, nil
 }
 
+// NewRequestRemittanceUploadRequest calls the generic RequestRemittanceUpload builder with application/json body
+func NewRequestRemittanceUploadRequest(server string, invoiceId string, body RequestRemittanceUploadJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewRequestRemittanceUploadRequestWithBody(server, invoiceId, "application/json", bodyReader)
+}
+
+// NewRequestRemittanceUploadRequestWithBody generates requests for RequestRemittanceUpload with any type of body
+func NewRequestRemittanceUploadRequestWithBody(server string, invoiceId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invoiceId", runtime.ParamLocationPath, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/invoices/%s/remittance-upload", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetInvoiceRemittanceDocumentRequest generates requests for GetInvoiceRemittanceDocument
 func NewGetInvoiceRemittanceDocumentRequest(server string, invoiceId string, params *GetInvoiceRemittanceDocumentParams) (*http.Request, error) {
 	var err error
@@ -24864,6 +28409,69 @@ func NewGetInvoiceRemittanceDocumentRequest(server string, invoiceId string, par
 			}
 
 		}
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetRemittanceFileRequest generates requests for GetRemittanceFile
+func NewGetRemittanceFileRequest(server string, invoiceId string, remittanceId string, params *GetRemittanceFileParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invoiceId", runtime.ParamLocationPath, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "remittanceId", runtime.ParamLocationPath, remittanceId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/invoices/%s/remittances/%s/file", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
 
 		if params.Buyer != nil {
 
@@ -25987,6 +29595,194 @@ func NewClosePurchaseOrderRequest(server string, poId string) (*http.Request, er
 	return req, nil
 }
 
+// NewListPurchaseOrderCommentsRequest generates requests for ListPurchaseOrderComments
+func NewListPurchaseOrderCommentsRequest(server string, poId string, params *ListPurchaseOrderCommentsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-orders/%s/comments", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAddPurchaseOrderCommentRequest calls the generic AddPurchaseOrderComment builder with application/json body
+func NewAddPurchaseOrderCommentRequest(server string, poId string, params *AddPurchaseOrderCommentParams, body AddPurchaseOrderCommentJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAddPurchaseOrderCommentRequestWithBody(server, poId, params, "application/json", bodyReader)
+}
+
+// NewAddPurchaseOrderCommentRequestWithBody generates requests for AddPurchaseOrderComment with any type of body
+func NewAddPurchaseOrderCommentRequestWithBody(server string, poId string, params *AddPurchaseOrderCommentParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-orders/%s/comments", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeletePurchaseOrderCommentRequest generates requests for DeletePurchaseOrderComment
+func NewDeletePurchaseOrderCommentRequest(server string, poId string, commentId string, params *DeletePurchaseOrderCommentParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "commentId", runtime.ParamLocationPath, commentId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-orders/%s/comments/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewConfirmPurchaseOrderRequest calls the generic ConfirmPurchaseOrder builder with application/json body
 func NewConfirmPurchaseOrderRequest(server string, poId string, params *ConfirmPurchaseOrderParams, body ConfirmPurchaseOrderJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -26132,6 +29928,53 @@ func NewDeclineConfirmationChangesRequestWithBody(server string, poId string, co
 	}
 
 	operationPath := fmt.Sprintf("/purchase-orders/%s/confirmations/%s/decline", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewChangeFinishedPurchaseOrderCostCenterRequest calls the generic ChangeFinishedPurchaseOrderCostCenter builder with application/json body
+func NewChangeFinishedPurchaseOrderCostCenterRequest(server string, poId string, body ChangeFinishedPurchaseOrderCostCenterJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewChangeFinishedPurchaseOrderCostCenterRequestWithBody(server, poId, "application/json", bodyReader)
+}
+
+// NewChangeFinishedPurchaseOrderCostCenterRequestWithBody generates requests for ChangeFinishedPurchaseOrderCostCenter with any type of body
+func NewChangeFinishedPurchaseOrderCostCenterRequestWithBody(server string, poId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-orders/%s/cost-center", pathParam0)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -26478,6 +30321,62 @@ func NewGetPurchaseOrderFulfillmentRequest(server string, poId string, params *G
 	}
 
 	operationPath := fmt.Sprintf("/purchase-orders/%s/fulfillment", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Buyer != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "buyer", runtime.ParamLocationQuery, *params.Buyer); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetPurchaseOrderPdfRequest generates requests for GetPurchaseOrderPdf
+func NewGetPurchaseOrderPdfRequest(server string, poId string, params *GetPurchaseOrderPdfParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poId", runtime.ParamLocationPath, poId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/purchase-orders/%s/pdf", pathParam0)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -27465,6 +31364,185 @@ func NewGetBillingRequest(server string) (*http.Request, error) {
 	return req, nil
 }
 
+// NewListSourcingEventsRequest generates requests for ListSourcingEvents
+func NewListSourcingEventsRequest(server string, params *ListSourcingEventsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/sourcing-events")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Status != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "status", runtime.ParamLocationQuery, *params.Status); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreateSourcingEventRequest calls the generic CreateSourcingEvent builder with application/json body
+func NewCreateSourcingEventRequest(server string, body CreateSourcingEventJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateSourcingEventRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreateSourcingEventRequestWithBody generates requests for CreateSourcingEvent with any type of body
+func NewCreateSourcingEventRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/sourcing-events")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetSourcingEventRequest generates requests for GetSourcingEvent
+func NewGetSourcingEventRequest(server string, rfqId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "rfqId", runtime.ParamLocationPath, rfqId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/sourcing-events/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetSourcingComparisonRequest generates requests for GetSourcingComparison
+func NewGetSourcingComparisonRequest(server string, rfqId string, params *GetSourcingComparisonParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "rfqId", runtime.ParamLocationPath, rfqId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/sourcing-events/%s/comparison", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Round != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "round", runtime.ParamLocationQuery, *params.Round); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetSupplierWorkspaceRequest generates requests for GetSupplierWorkspace
 func NewGetSupplierWorkspaceRequest(server string, params *GetSupplierWorkspaceParams) (*http.Request, error) {
 	var err error
@@ -28295,6 +32373,39 @@ type ClientWithResponsesInterface interface {
 	// AddCloudProviderAsSupplierWithResponse request
 	AddCloudProviderAsSupplierWithResponse(ctx context.Context, provider string, reqEditors ...RequestEditorFn) (*AddCloudProviderAsSupplierResponse, error)
 
+	// ListCreditNotesWithResponse request
+	ListCreditNotesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListCreditNotesResponse, error)
+
+	// CreateCreditNoteWithBodyWithResponse request with any body
+	CreateCreditNoteWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateCreditNoteResponse, error)
+
+	CreateCreditNoteWithResponse(ctx context.Context, body CreateCreditNoteJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateCreditNoteResponse, error)
+
+	// GetCreditSettlementWithResponse request
+	GetCreditSettlementWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetCreditSettlementResponse, error)
+
+	// SetCreditSettlementWithBodyWithResponse request with any body
+	SetCreditSettlementWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetCreditSettlementResponse, error)
+
+	SetCreditSettlementWithResponse(ctx context.Context, body SetCreditSettlementJSONRequestBody, reqEditors ...RequestEditorFn) (*SetCreditSettlementResponse, error)
+
+	// GetCreditNoteWithResponse request
+	GetCreditNoteWithResponse(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*GetCreditNoteResponse, error)
+
+	// AcceptCreditNoteWithResponse request
+	AcceptCreditNoteWithResponse(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*AcceptCreditNoteResponse, error)
+
+	// GetCreditNotePdfWithResponse request
+	GetCreditNotePdfWithResponse(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*GetCreditNotePdfResponse, error)
+
+	// RejectCreditNoteWithBodyWithResponse request with any body
+	RejectCreditNoteWithBodyWithResponse(ctx context.Context, creditNoteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RejectCreditNoteResponse, error)
+
+	RejectCreditNoteWithResponse(ctx context.Context, creditNoteId string, body RejectCreditNoteJSONRequestBody, reqEditors ...RequestEditorFn) (*RejectCreditNoteResponse, error)
+
+	// VoidCreditNoteWithResponse request
+	VoidCreditNoteWithResponse(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*VoidCreditNoteResponse, error)
+
 	// ListEmployeesWithResponse request
 	ListEmployeesWithResponse(ctx context.Context, params *ListEmployeesParams, reqEditors ...RequestEditorFn) (*ListEmployeesResponse, error)
 
@@ -28390,6 +32501,9 @@ type ClientWithResponsesInterface interface {
 	// GetInvoiceWithResponse request
 	GetInvoiceWithResponse(ctx context.Context, invoiceId string, params *GetInvoiceParams, reqEditors ...RequestEditorFn) (*GetInvoiceResponse, error)
 
+	// GetInvoiceActivityWithResponse request
+	GetInvoiceActivityWithResponse(ctx context.Context, invoiceId string, params *GetInvoiceActivityParams, reqEditors ...RequestEditorFn) (*GetInvoiceActivityResponse, error)
+
 	// ReassignInvoiceApprovalStageWithBodyWithResponse request with any body
 	ReassignInvoiceApprovalStageWithBodyWithResponse(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ReassignInvoiceApprovalStageResponse, error)
 
@@ -28398,8 +32512,30 @@ type ClientWithResponsesInterface interface {
 	// ApproveInvoiceWithResponse request
 	ApproveInvoiceWithResponse(ctx context.Context, invoiceId string, reqEditors ...RequestEditorFn) (*ApproveInvoiceResponse, error)
 
+	// ListAvailableCreditsWithResponse request
+	ListAvailableCreditsWithResponse(ctx context.Context, invoiceId string, reqEditors ...RequestEditorFn) (*ListAvailableCreditsResponse, error)
+
 	// GetInvoiceBankAccountWithResponse request
 	GetInvoiceBankAccountWithResponse(ctx context.Context, invoiceId string, params *GetInvoiceBankAccountParams, reqEditors ...RequestEditorFn) (*GetInvoiceBankAccountResponse, error)
+
+	// ListInvoiceCommentsWithResponse request
+	ListInvoiceCommentsWithResponse(ctx context.Context, invoiceId string, params *ListInvoiceCommentsParams, reqEditors ...RequestEditorFn) (*ListInvoiceCommentsResponse, error)
+
+	// AddInvoiceCommentWithBodyWithResponse request with any body
+	AddInvoiceCommentWithBodyWithResponse(ctx context.Context, invoiceId string, params *AddInvoiceCommentParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddInvoiceCommentResponse, error)
+
+	AddInvoiceCommentWithResponse(ctx context.Context, invoiceId string, params *AddInvoiceCommentParams, body AddInvoiceCommentJSONRequestBody, reqEditors ...RequestEditorFn) (*AddInvoiceCommentResponse, error)
+
+	// DeleteInvoiceCommentWithResponse request
+	DeleteInvoiceCommentWithResponse(ctx context.Context, invoiceId string, commentId string, params *DeleteInvoiceCommentParams, reqEditors ...RequestEditorFn) (*DeleteInvoiceCommentResponse, error)
+
+	// ApplyCreditsWithBodyWithResponse request with any body
+	ApplyCreditsWithBodyWithResponse(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ApplyCreditsResponse, error)
+
+	ApplyCreditsWithResponse(ctx context.Context, invoiceId string, body ApplyCreditsJSONRequestBody, reqEditors ...RequestEditorFn) (*ApplyCreditsResponse, error)
+
+	// RemoveCreditApplicationWithResponse request
+	RemoveCreditApplicationWithResponse(ctx context.Context, invoiceId string, applicationId string, reqEditors ...RequestEditorFn) (*RemoveCreditApplicationResponse, error)
 
 	// GetInvoiceDocumentWithResponse request
 	GetInvoiceDocumentWithResponse(ctx context.Context, invoiceId string, params *GetInvoiceDocumentParams, reqEditors ...RequestEditorFn) (*GetInvoiceDocumentResponse, error)
@@ -28426,11 +32562,24 @@ type ClientWithResponsesInterface interface {
 	// GetInvoiceRemittanceWithResponse request
 	GetInvoiceRemittanceWithResponse(ctx context.Context, invoiceId string, params *GetInvoiceRemittanceParams, reqEditors ...RequestEditorFn) (*GetInvoiceRemittanceResponse, error)
 
+	// SendRemittanceWithBodyWithResponse request with any body
+	SendRemittanceWithBodyWithResponse(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SendRemittanceResponse, error)
+
+	SendRemittanceWithResponse(ctx context.Context, invoiceId string, body SendRemittanceJSONRequestBody, reqEditors ...RequestEditorFn) (*SendRemittanceResponse, error)
+
 	// GetRemittanceAdviceWithResponse request
 	GetRemittanceAdviceWithResponse(ctx context.Context, invoiceId string, params *GetRemittanceAdviceParams, reqEditors ...RequestEditorFn) (*GetRemittanceAdviceResponse, error)
 
+	// RequestRemittanceUploadWithBodyWithResponse request with any body
+	RequestRemittanceUploadWithBodyWithResponse(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RequestRemittanceUploadResponse, error)
+
+	RequestRemittanceUploadWithResponse(ctx context.Context, invoiceId string, body RequestRemittanceUploadJSONRequestBody, reqEditors ...RequestEditorFn) (*RequestRemittanceUploadResponse, error)
+
 	// GetInvoiceRemittanceDocumentWithResponse request
 	GetInvoiceRemittanceDocumentWithResponse(ctx context.Context, invoiceId string, params *GetInvoiceRemittanceDocumentParams, reqEditors ...RequestEditorFn) (*GetInvoiceRemittanceDocumentResponse, error)
+
+	// GetRemittanceFileWithResponse request
+	GetRemittanceFileWithResponse(ctx context.Context, invoiceId string, remittanceId string, params *GetRemittanceFileParams, reqEditors ...RequestEditorFn) (*GetRemittanceFileResponse, error)
 
 	// AddInvoiceReplacementLinksWithBodyWithResponse request with any body
 	AddInvoiceReplacementLinksWithBodyWithResponse(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddInvoiceReplacementLinksResponse, error)
@@ -28518,6 +32667,17 @@ type ClientWithResponsesInterface interface {
 	// ClosePurchaseOrderWithResponse request
 	ClosePurchaseOrderWithResponse(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*ClosePurchaseOrderResponse, error)
 
+	// ListPurchaseOrderCommentsWithResponse request
+	ListPurchaseOrderCommentsWithResponse(ctx context.Context, poId string, params *ListPurchaseOrderCommentsParams, reqEditors ...RequestEditorFn) (*ListPurchaseOrderCommentsResponse, error)
+
+	// AddPurchaseOrderCommentWithBodyWithResponse request with any body
+	AddPurchaseOrderCommentWithBodyWithResponse(ctx context.Context, poId string, params *AddPurchaseOrderCommentParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddPurchaseOrderCommentResponse, error)
+
+	AddPurchaseOrderCommentWithResponse(ctx context.Context, poId string, params *AddPurchaseOrderCommentParams, body AddPurchaseOrderCommentJSONRequestBody, reqEditors ...RequestEditorFn) (*AddPurchaseOrderCommentResponse, error)
+
+	// DeletePurchaseOrderCommentWithResponse request
+	DeletePurchaseOrderCommentWithResponse(ctx context.Context, poId string, commentId string, params *DeletePurchaseOrderCommentParams, reqEditors ...RequestEditorFn) (*DeletePurchaseOrderCommentResponse, error)
+
 	// ConfirmPurchaseOrderWithBodyWithResponse request with any body
 	ConfirmPurchaseOrderWithBodyWithResponse(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ConfirmPurchaseOrderResponse, error)
 
@@ -28530,6 +32690,11 @@ type ClientWithResponsesInterface interface {
 	DeclineConfirmationChangesWithBodyWithResponse(ctx context.Context, poId string, confirmationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeclineConfirmationChangesResponse, error)
 
 	DeclineConfirmationChangesWithResponse(ctx context.Context, poId string, confirmationId string, body DeclineConfirmationChangesJSONRequestBody, reqEditors ...RequestEditorFn) (*DeclineConfirmationChangesResponse, error)
+
+	// ChangeFinishedPurchaseOrderCostCenterWithBodyWithResponse request with any body
+	ChangeFinishedPurchaseOrderCostCenterWithBodyWithResponse(ctx context.Context, poId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ChangeFinishedPurchaseOrderCostCenterResponse, error)
+
+	ChangeFinishedPurchaseOrderCostCenterWithResponse(ctx context.Context, poId string, body ChangeFinishedPurchaseOrderCostCenterJSONRequestBody, reqEditors ...RequestEditorFn) (*ChangeFinishedPurchaseOrderCostCenterResponse, error)
 
 	// GetPurchaseOrderDocumentWithResponse request
 	GetPurchaseOrderDocumentWithResponse(ctx context.Context, poId string, params *GetPurchaseOrderDocumentParams, reqEditors ...RequestEditorFn) (*GetPurchaseOrderDocumentResponse, error)
@@ -28548,6 +32713,9 @@ type ClientWithResponsesInterface interface {
 
 	// GetPurchaseOrderFulfillmentWithResponse request
 	GetPurchaseOrderFulfillmentWithResponse(ctx context.Context, poId string, params *GetPurchaseOrderFulfillmentParams, reqEditors ...RequestEditorFn) (*GetPurchaseOrderFulfillmentResponse, error)
+
+	// GetPurchaseOrderPdfWithResponse request
+	GetPurchaseOrderPdfWithResponse(ctx context.Context, poId string, params *GetPurchaseOrderPdfParams, reqEditors ...RequestEditorFn) (*GetPurchaseOrderPdfResponse, error)
 
 	// RejectPurchaseOrderWithResponse request
 	RejectPurchaseOrderWithResponse(ctx context.Context, poId string, reqEditors ...RequestEditorFn) (*RejectPurchaseOrderResponse, error)
@@ -28630,6 +32798,20 @@ type ClientWithResponsesInterface interface {
 
 	// GetBillingWithResponse request
 	GetBillingWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetBillingResponse, error)
+
+	// ListSourcingEventsWithResponse request
+	ListSourcingEventsWithResponse(ctx context.Context, params *ListSourcingEventsParams, reqEditors ...RequestEditorFn) (*ListSourcingEventsResponse, error)
+
+	// CreateSourcingEventWithBodyWithResponse request with any body
+	CreateSourcingEventWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateSourcingEventResponse, error)
+
+	CreateSourcingEventWithResponse(ctx context.Context, body CreateSourcingEventJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateSourcingEventResponse, error)
+
+	// GetSourcingEventWithResponse request
+	GetSourcingEventWithResponse(ctx context.Context, rfqId string, reqEditors ...RequestEditorFn) (*GetSourcingEventResponse, error)
+
+	// GetSourcingComparisonWithResponse request
+	GetSourcingComparisonWithResponse(ctx context.Context, rfqId string, params *GetSourcingComparisonParams, reqEditors ...RequestEditorFn) (*GetSourcingComparisonResponse, error)
 
 	// GetSupplierWorkspaceWithResponse request
 	GetSupplierWorkspaceWithResponse(ctx context.Context, params *GetSupplierWorkspaceParams, reqEditors ...RequestEditorFn) (*GetSupplierWorkspaceResponse, error)
@@ -29831,6 +34013,212 @@ func (r AddCloudProviderAsSupplierResponse) StatusCode() int {
 	return 0
 }
 
+type ListCreditNotesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ListCreditNotesResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListCreditNotesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListCreditNotesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateCreditNoteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *CreateCreditNoteResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateCreditNoteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateCreditNoteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetCreditSettlementResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *GetCreditSettlementResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetCreditSettlementResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetCreditSettlementResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SetCreditSettlementResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *SetCreditSettlementResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r SetCreditSettlementResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SetCreditSettlementResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetCreditNoteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *GetCreditNoteResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetCreditNoteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetCreditNoteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AcceptCreditNoteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *BuyerCreditNoteView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r AcceptCreditNoteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AcceptCreditNoteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetCreditNotePdfResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetCreditNotePdfResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetCreditNotePdfResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type RejectCreditNoteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *BuyerCreditNoteView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r RejectCreditNoteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RejectCreditNoteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type VoidCreditNoteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *SupplierCreditNoteView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r VoidCreditNoteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r VoidCreditNoteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type ListEmployeesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -30404,6 +34792,29 @@ func (r GetInvoiceResponse) StatusCode() int {
 	return 0
 }
 
+type GetInvoiceActivityResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *GetInvoiceActivityResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetInvoiceActivityResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetInvoiceActivityResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type ReassignInvoiceApprovalStageResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -30450,6 +34861,29 @@ func (r ApproveInvoiceResponse) StatusCode() int {
 	return 0
 }
 
+type ListAvailableCreditsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ListAvailableCreditsResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListAvailableCreditsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListAvailableCreditsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetInvoiceBankAccountResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -30467,6 +34901,121 @@ func (r GetInvoiceBankAccountResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetInvoiceBankAccountResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListInvoiceCommentsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ListInvoiceCommentsResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListInvoiceCommentsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListInvoiceCommentsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AddInvoiceCommentResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *DocumentCommentView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r AddInvoiceCommentResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AddInvoiceCommentResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteInvoiceCommentResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *DocumentCommentView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteInvoiceCommentResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteInvoiceCommentResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ApplyCreditsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *ApplyCreditsResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ApplyCreditsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ApplyCreditsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type RemoveCreditApplicationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *RemoveCreditApplicationResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r RemoveCreditApplicationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RemoveCreditApplicationResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -30634,6 +35183,29 @@ func (r GetInvoiceRemittanceResponse) StatusCode() int {
 	return 0
 }
 
+type SendRemittanceResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *InvoiceBuyerView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r SendRemittanceResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SendRemittanceResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetRemittanceAdviceResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -30650,6 +35222,29 @@ func (r GetRemittanceAdviceResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetRemittanceAdviceResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type RequestRemittanceUploadResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *RequestRemittanceUploadResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r RequestRemittanceUploadResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RequestRemittanceUploadResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -30673,6 +35268,29 @@ func (r GetInvoiceRemittanceDocumentResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetInvoiceRemittanceDocumentResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetRemittanceFileResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *GetRemittanceFileResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetRemittanceFileResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetRemittanceFileResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -31230,6 +35848,75 @@ func (r ClosePurchaseOrderResponse) StatusCode() int {
 	return 0
 }
 
+type ListPurchaseOrderCommentsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ListPurchaseOrderCommentsResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListPurchaseOrderCommentsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListPurchaseOrderCommentsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AddPurchaseOrderCommentResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *DocumentCommentView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r AddPurchaseOrderCommentResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AddPurchaseOrderCommentResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeletePurchaseOrderCommentResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *DocumentCommentView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r DeletePurchaseOrderCommentResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeletePurchaseOrderCommentResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type ConfirmPurchaseOrderResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -31293,6 +35980,29 @@ func (r DeclineConfirmationChangesResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r DeclineConfirmationChangesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ChangeFinishedPurchaseOrderCostCenterResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *PurchaseOrder
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ChangeFinishedPurchaseOrderCostCenterResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ChangeFinishedPurchaseOrderCostCenterResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -31431,6 +36141,28 @@ func (r GetPurchaseOrderFulfillmentResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetPurchaseOrderFulfillmentResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetPurchaseOrderPdfResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetPurchaseOrderPdfResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetPurchaseOrderPdfResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -31937,6 +36669,98 @@ func (r GetBillingResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetBillingResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListSourcingEventsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]BuyerSourcingEventSummary
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListSourcingEventsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListSourcingEventsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateSourcingEventResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *BuyerSourcingEventView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateSourcingEventResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateSourcingEventResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetSourcingEventResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *BuyerSourcingEventView
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetSourcingEventResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetSourcingEventResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetSourcingComparisonResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *SourcingComparison
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetSourcingComparisonResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetSourcingComparisonResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -32834,6 +37658,111 @@ func (c *ClientWithResponses) AddCloudProviderAsSupplierWithResponse(ctx context
 	return ParseAddCloudProviderAsSupplierResponse(rsp)
 }
 
+// ListCreditNotesWithResponse request returning *ListCreditNotesResponse
+func (c *ClientWithResponses) ListCreditNotesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListCreditNotesResponse, error) {
+	rsp, err := c.ListCreditNotes(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListCreditNotesResponse(rsp)
+}
+
+// CreateCreditNoteWithBodyWithResponse request with arbitrary body returning *CreateCreditNoteResponse
+func (c *ClientWithResponses) CreateCreditNoteWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateCreditNoteResponse, error) {
+	rsp, err := c.CreateCreditNoteWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateCreditNoteResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateCreditNoteWithResponse(ctx context.Context, body CreateCreditNoteJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateCreditNoteResponse, error) {
+	rsp, err := c.CreateCreditNote(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateCreditNoteResponse(rsp)
+}
+
+// GetCreditSettlementWithResponse request returning *GetCreditSettlementResponse
+func (c *ClientWithResponses) GetCreditSettlementWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetCreditSettlementResponse, error) {
+	rsp, err := c.GetCreditSettlement(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetCreditSettlementResponse(rsp)
+}
+
+// SetCreditSettlementWithBodyWithResponse request with arbitrary body returning *SetCreditSettlementResponse
+func (c *ClientWithResponses) SetCreditSettlementWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetCreditSettlementResponse, error) {
+	rsp, err := c.SetCreditSettlementWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetCreditSettlementResponse(rsp)
+}
+
+func (c *ClientWithResponses) SetCreditSettlementWithResponse(ctx context.Context, body SetCreditSettlementJSONRequestBody, reqEditors ...RequestEditorFn) (*SetCreditSettlementResponse, error) {
+	rsp, err := c.SetCreditSettlement(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetCreditSettlementResponse(rsp)
+}
+
+// GetCreditNoteWithResponse request returning *GetCreditNoteResponse
+func (c *ClientWithResponses) GetCreditNoteWithResponse(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*GetCreditNoteResponse, error) {
+	rsp, err := c.GetCreditNote(ctx, creditNoteId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetCreditNoteResponse(rsp)
+}
+
+// AcceptCreditNoteWithResponse request returning *AcceptCreditNoteResponse
+func (c *ClientWithResponses) AcceptCreditNoteWithResponse(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*AcceptCreditNoteResponse, error) {
+	rsp, err := c.AcceptCreditNote(ctx, creditNoteId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAcceptCreditNoteResponse(rsp)
+}
+
+// GetCreditNotePdfWithResponse request returning *GetCreditNotePdfResponse
+func (c *ClientWithResponses) GetCreditNotePdfWithResponse(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*GetCreditNotePdfResponse, error) {
+	rsp, err := c.GetCreditNotePdf(ctx, creditNoteId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetCreditNotePdfResponse(rsp)
+}
+
+// RejectCreditNoteWithBodyWithResponse request with arbitrary body returning *RejectCreditNoteResponse
+func (c *ClientWithResponses) RejectCreditNoteWithBodyWithResponse(ctx context.Context, creditNoteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RejectCreditNoteResponse, error) {
+	rsp, err := c.RejectCreditNoteWithBody(ctx, creditNoteId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRejectCreditNoteResponse(rsp)
+}
+
+func (c *ClientWithResponses) RejectCreditNoteWithResponse(ctx context.Context, creditNoteId string, body RejectCreditNoteJSONRequestBody, reqEditors ...RequestEditorFn) (*RejectCreditNoteResponse, error) {
+	rsp, err := c.RejectCreditNote(ctx, creditNoteId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRejectCreditNoteResponse(rsp)
+}
+
+// VoidCreditNoteWithResponse request returning *VoidCreditNoteResponse
+func (c *ClientWithResponses) VoidCreditNoteWithResponse(ctx context.Context, creditNoteId string, reqEditors ...RequestEditorFn) (*VoidCreditNoteResponse, error) {
+	rsp, err := c.VoidCreditNote(ctx, creditNoteId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseVoidCreditNoteResponse(rsp)
+}
+
 // ListEmployeesWithResponse request returning *ListEmployeesResponse
 func (c *ClientWithResponses) ListEmployeesWithResponse(ctx context.Context, params *ListEmployeesParams, reqEditors ...RequestEditorFn) (*ListEmployeesResponse, error) {
 	rsp, err := c.ListEmployees(ctx, params, reqEditors...)
@@ -33139,6 +38068,15 @@ func (c *ClientWithResponses) GetInvoiceWithResponse(ctx context.Context, invoic
 	return ParseGetInvoiceResponse(rsp)
 }
 
+// GetInvoiceActivityWithResponse request returning *GetInvoiceActivityResponse
+func (c *ClientWithResponses) GetInvoiceActivityWithResponse(ctx context.Context, invoiceId string, params *GetInvoiceActivityParams, reqEditors ...RequestEditorFn) (*GetInvoiceActivityResponse, error) {
+	rsp, err := c.GetInvoiceActivity(ctx, invoiceId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetInvoiceActivityResponse(rsp)
+}
+
 // ReassignInvoiceApprovalStageWithBodyWithResponse request with arbitrary body returning *ReassignInvoiceApprovalStageResponse
 func (c *ClientWithResponses) ReassignInvoiceApprovalStageWithBodyWithResponse(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ReassignInvoiceApprovalStageResponse, error) {
 	rsp, err := c.ReassignInvoiceApprovalStageWithBody(ctx, invoiceId, contentType, body, reqEditors...)
@@ -33165,6 +38103,15 @@ func (c *ClientWithResponses) ApproveInvoiceWithResponse(ctx context.Context, in
 	return ParseApproveInvoiceResponse(rsp)
 }
 
+// ListAvailableCreditsWithResponse request returning *ListAvailableCreditsResponse
+func (c *ClientWithResponses) ListAvailableCreditsWithResponse(ctx context.Context, invoiceId string, reqEditors ...RequestEditorFn) (*ListAvailableCreditsResponse, error) {
+	rsp, err := c.ListAvailableCredits(ctx, invoiceId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListAvailableCreditsResponse(rsp)
+}
+
 // GetInvoiceBankAccountWithResponse request returning *GetInvoiceBankAccountResponse
 func (c *ClientWithResponses) GetInvoiceBankAccountWithResponse(ctx context.Context, invoiceId string, params *GetInvoiceBankAccountParams, reqEditors ...RequestEditorFn) (*GetInvoiceBankAccountResponse, error) {
 	rsp, err := c.GetInvoiceBankAccount(ctx, invoiceId, params, reqEditors...)
@@ -33172,6 +38119,67 @@ func (c *ClientWithResponses) GetInvoiceBankAccountWithResponse(ctx context.Cont
 		return nil, err
 	}
 	return ParseGetInvoiceBankAccountResponse(rsp)
+}
+
+// ListInvoiceCommentsWithResponse request returning *ListInvoiceCommentsResponse
+func (c *ClientWithResponses) ListInvoiceCommentsWithResponse(ctx context.Context, invoiceId string, params *ListInvoiceCommentsParams, reqEditors ...RequestEditorFn) (*ListInvoiceCommentsResponse, error) {
+	rsp, err := c.ListInvoiceComments(ctx, invoiceId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListInvoiceCommentsResponse(rsp)
+}
+
+// AddInvoiceCommentWithBodyWithResponse request with arbitrary body returning *AddInvoiceCommentResponse
+func (c *ClientWithResponses) AddInvoiceCommentWithBodyWithResponse(ctx context.Context, invoiceId string, params *AddInvoiceCommentParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddInvoiceCommentResponse, error) {
+	rsp, err := c.AddInvoiceCommentWithBody(ctx, invoiceId, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddInvoiceCommentResponse(rsp)
+}
+
+func (c *ClientWithResponses) AddInvoiceCommentWithResponse(ctx context.Context, invoiceId string, params *AddInvoiceCommentParams, body AddInvoiceCommentJSONRequestBody, reqEditors ...RequestEditorFn) (*AddInvoiceCommentResponse, error) {
+	rsp, err := c.AddInvoiceComment(ctx, invoiceId, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddInvoiceCommentResponse(rsp)
+}
+
+// DeleteInvoiceCommentWithResponse request returning *DeleteInvoiceCommentResponse
+func (c *ClientWithResponses) DeleteInvoiceCommentWithResponse(ctx context.Context, invoiceId string, commentId string, params *DeleteInvoiceCommentParams, reqEditors ...RequestEditorFn) (*DeleteInvoiceCommentResponse, error) {
+	rsp, err := c.DeleteInvoiceComment(ctx, invoiceId, commentId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteInvoiceCommentResponse(rsp)
+}
+
+// ApplyCreditsWithBodyWithResponse request with arbitrary body returning *ApplyCreditsResponse
+func (c *ClientWithResponses) ApplyCreditsWithBodyWithResponse(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ApplyCreditsResponse, error) {
+	rsp, err := c.ApplyCreditsWithBody(ctx, invoiceId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseApplyCreditsResponse(rsp)
+}
+
+func (c *ClientWithResponses) ApplyCreditsWithResponse(ctx context.Context, invoiceId string, body ApplyCreditsJSONRequestBody, reqEditors ...RequestEditorFn) (*ApplyCreditsResponse, error) {
+	rsp, err := c.ApplyCredits(ctx, invoiceId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseApplyCreditsResponse(rsp)
+}
+
+// RemoveCreditApplicationWithResponse request returning *RemoveCreditApplicationResponse
+func (c *ClientWithResponses) RemoveCreditApplicationWithResponse(ctx context.Context, invoiceId string, applicationId string, reqEditors ...RequestEditorFn) (*RemoveCreditApplicationResponse, error) {
+	rsp, err := c.RemoveCreditApplication(ctx, invoiceId, applicationId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRemoveCreditApplicationResponse(rsp)
 }
 
 // GetInvoiceDocumentWithResponse request returning *GetInvoiceDocumentResponse
@@ -33253,6 +38261,23 @@ func (c *ClientWithResponses) GetInvoiceRemittanceWithResponse(ctx context.Conte
 	return ParseGetInvoiceRemittanceResponse(rsp)
 }
 
+// SendRemittanceWithBodyWithResponse request with arbitrary body returning *SendRemittanceResponse
+func (c *ClientWithResponses) SendRemittanceWithBodyWithResponse(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SendRemittanceResponse, error) {
+	rsp, err := c.SendRemittanceWithBody(ctx, invoiceId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSendRemittanceResponse(rsp)
+}
+
+func (c *ClientWithResponses) SendRemittanceWithResponse(ctx context.Context, invoiceId string, body SendRemittanceJSONRequestBody, reqEditors ...RequestEditorFn) (*SendRemittanceResponse, error) {
+	rsp, err := c.SendRemittance(ctx, invoiceId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSendRemittanceResponse(rsp)
+}
+
 // GetRemittanceAdviceWithResponse request returning *GetRemittanceAdviceResponse
 func (c *ClientWithResponses) GetRemittanceAdviceWithResponse(ctx context.Context, invoiceId string, params *GetRemittanceAdviceParams, reqEditors ...RequestEditorFn) (*GetRemittanceAdviceResponse, error) {
 	rsp, err := c.GetRemittanceAdvice(ctx, invoiceId, params, reqEditors...)
@@ -33262,6 +38287,23 @@ func (c *ClientWithResponses) GetRemittanceAdviceWithResponse(ctx context.Contex
 	return ParseGetRemittanceAdviceResponse(rsp)
 }
 
+// RequestRemittanceUploadWithBodyWithResponse request with arbitrary body returning *RequestRemittanceUploadResponse
+func (c *ClientWithResponses) RequestRemittanceUploadWithBodyWithResponse(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RequestRemittanceUploadResponse, error) {
+	rsp, err := c.RequestRemittanceUploadWithBody(ctx, invoiceId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRequestRemittanceUploadResponse(rsp)
+}
+
+func (c *ClientWithResponses) RequestRemittanceUploadWithResponse(ctx context.Context, invoiceId string, body RequestRemittanceUploadJSONRequestBody, reqEditors ...RequestEditorFn) (*RequestRemittanceUploadResponse, error) {
+	rsp, err := c.RequestRemittanceUpload(ctx, invoiceId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRequestRemittanceUploadResponse(rsp)
+}
+
 // GetInvoiceRemittanceDocumentWithResponse request returning *GetInvoiceRemittanceDocumentResponse
 func (c *ClientWithResponses) GetInvoiceRemittanceDocumentWithResponse(ctx context.Context, invoiceId string, params *GetInvoiceRemittanceDocumentParams, reqEditors ...RequestEditorFn) (*GetInvoiceRemittanceDocumentResponse, error) {
 	rsp, err := c.GetInvoiceRemittanceDocument(ctx, invoiceId, params, reqEditors...)
@@ -33269,6 +38311,15 @@ func (c *ClientWithResponses) GetInvoiceRemittanceDocumentWithResponse(ctx conte
 		return nil, err
 	}
 	return ParseGetInvoiceRemittanceDocumentResponse(rsp)
+}
+
+// GetRemittanceFileWithResponse request returning *GetRemittanceFileResponse
+func (c *ClientWithResponses) GetRemittanceFileWithResponse(ctx context.Context, invoiceId string, remittanceId string, params *GetRemittanceFileParams, reqEditors ...RequestEditorFn) (*GetRemittanceFileResponse, error) {
+	rsp, err := c.GetRemittanceFile(ctx, invoiceId, remittanceId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetRemittanceFileResponse(rsp)
 }
 
 // AddInvoiceReplacementLinksWithBodyWithResponse request with arbitrary body returning *AddInvoiceReplacementLinksResponse
@@ -33543,6 +38594,41 @@ func (c *ClientWithResponses) ClosePurchaseOrderWithResponse(ctx context.Context
 	return ParseClosePurchaseOrderResponse(rsp)
 }
 
+// ListPurchaseOrderCommentsWithResponse request returning *ListPurchaseOrderCommentsResponse
+func (c *ClientWithResponses) ListPurchaseOrderCommentsWithResponse(ctx context.Context, poId string, params *ListPurchaseOrderCommentsParams, reqEditors ...RequestEditorFn) (*ListPurchaseOrderCommentsResponse, error) {
+	rsp, err := c.ListPurchaseOrderComments(ctx, poId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListPurchaseOrderCommentsResponse(rsp)
+}
+
+// AddPurchaseOrderCommentWithBodyWithResponse request with arbitrary body returning *AddPurchaseOrderCommentResponse
+func (c *ClientWithResponses) AddPurchaseOrderCommentWithBodyWithResponse(ctx context.Context, poId string, params *AddPurchaseOrderCommentParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddPurchaseOrderCommentResponse, error) {
+	rsp, err := c.AddPurchaseOrderCommentWithBody(ctx, poId, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddPurchaseOrderCommentResponse(rsp)
+}
+
+func (c *ClientWithResponses) AddPurchaseOrderCommentWithResponse(ctx context.Context, poId string, params *AddPurchaseOrderCommentParams, body AddPurchaseOrderCommentJSONRequestBody, reqEditors ...RequestEditorFn) (*AddPurchaseOrderCommentResponse, error) {
+	rsp, err := c.AddPurchaseOrderComment(ctx, poId, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddPurchaseOrderCommentResponse(rsp)
+}
+
+// DeletePurchaseOrderCommentWithResponse request returning *DeletePurchaseOrderCommentResponse
+func (c *ClientWithResponses) DeletePurchaseOrderCommentWithResponse(ctx context.Context, poId string, commentId string, params *DeletePurchaseOrderCommentParams, reqEditors ...RequestEditorFn) (*DeletePurchaseOrderCommentResponse, error) {
+	rsp, err := c.DeletePurchaseOrderComment(ctx, poId, commentId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeletePurchaseOrderCommentResponse(rsp)
+}
+
 // ConfirmPurchaseOrderWithBodyWithResponse request with arbitrary body returning *ConfirmPurchaseOrderResponse
 func (c *ClientWithResponses) ConfirmPurchaseOrderWithBodyWithResponse(ctx context.Context, poId string, params *ConfirmPurchaseOrderParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ConfirmPurchaseOrderResponse, error) {
 	rsp, err := c.ConfirmPurchaseOrderWithBody(ctx, poId, params, contentType, body, reqEditors...)
@@ -33584,6 +38670,23 @@ func (c *ClientWithResponses) DeclineConfirmationChangesWithResponse(ctx context
 		return nil, err
 	}
 	return ParseDeclineConfirmationChangesResponse(rsp)
+}
+
+// ChangeFinishedPurchaseOrderCostCenterWithBodyWithResponse request with arbitrary body returning *ChangeFinishedPurchaseOrderCostCenterResponse
+func (c *ClientWithResponses) ChangeFinishedPurchaseOrderCostCenterWithBodyWithResponse(ctx context.Context, poId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ChangeFinishedPurchaseOrderCostCenterResponse, error) {
+	rsp, err := c.ChangeFinishedPurchaseOrderCostCenterWithBody(ctx, poId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseChangeFinishedPurchaseOrderCostCenterResponse(rsp)
+}
+
+func (c *ClientWithResponses) ChangeFinishedPurchaseOrderCostCenterWithResponse(ctx context.Context, poId string, body ChangeFinishedPurchaseOrderCostCenterJSONRequestBody, reqEditors ...RequestEditorFn) (*ChangeFinishedPurchaseOrderCostCenterResponse, error) {
+	rsp, err := c.ChangeFinishedPurchaseOrderCostCenter(ctx, poId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseChangeFinishedPurchaseOrderCostCenterResponse(rsp)
 }
 
 // GetPurchaseOrderDocumentWithResponse request returning *GetPurchaseOrderDocumentResponse
@@ -33638,6 +38741,15 @@ func (c *ClientWithResponses) GetPurchaseOrderFulfillmentWithResponse(ctx contex
 		return nil, err
 	}
 	return ParseGetPurchaseOrderFulfillmentResponse(rsp)
+}
+
+// GetPurchaseOrderPdfWithResponse request returning *GetPurchaseOrderPdfResponse
+func (c *ClientWithResponses) GetPurchaseOrderPdfWithResponse(ctx context.Context, poId string, params *GetPurchaseOrderPdfParams, reqEditors ...RequestEditorFn) (*GetPurchaseOrderPdfResponse, error) {
+	rsp, err := c.GetPurchaseOrderPdf(ctx, poId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetPurchaseOrderPdfResponse(rsp)
 }
 
 // RejectPurchaseOrderWithResponse request returning *RejectPurchaseOrderResponse
@@ -33900,6 +39012,50 @@ func (c *ClientWithResponses) GetBillingWithResponse(ctx context.Context, reqEdi
 		return nil, err
 	}
 	return ParseGetBillingResponse(rsp)
+}
+
+// ListSourcingEventsWithResponse request returning *ListSourcingEventsResponse
+func (c *ClientWithResponses) ListSourcingEventsWithResponse(ctx context.Context, params *ListSourcingEventsParams, reqEditors ...RequestEditorFn) (*ListSourcingEventsResponse, error) {
+	rsp, err := c.ListSourcingEvents(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListSourcingEventsResponse(rsp)
+}
+
+// CreateSourcingEventWithBodyWithResponse request with arbitrary body returning *CreateSourcingEventResponse
+func (c *ClientWithResponses) CreateSourcingEventWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateSourcingEventResponse, error) {
+	rsp, err := c.CreateSourcingEventWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateSourcingEventResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateSourcingEventWithResponse(ctx context.Context, body CreateSourcingEventJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateSourcingEventResponse, error) {
+	rsp, err := c.CreateSourcingEvent(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateSourcingEventResponse(rsp)
+}
+
+// GetSourcingEventWithResponse request returning *GetSourcingEventResponse
+func (c *ClientWithResponses) GetSourcingEventWithResponse(ctx context.Context, rfqId string, reqEditors ...RequestEditorFn) (*GetSourcingEventResponse, error) {
+	rsp, err := c.GetSourcingEvent(ctx, rfqId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetSourcingEventResponse(rsp)
+}
+
+// GetSourcingComparisonWithResponse request returning *GetSourcingComparisonResponse
+func (c *ClientWithResponses) GetSourcingComparisonWithResponse(ctx context.Context, rfqId string, params *GetSourcingComparisonParams, reqEditors ...RequestEditorFn) (*GetSourcingComparisonResponse, error) {
+	rsp, err := c.GetSourcingComparison(ctx, rfqId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetSourcingComparisonResponse(rsp)
 }
 
 // GetSupplierWorkspaceWithResponse request returning *GetSupplierWorkspaceResponse
@@ -35703,6 +40859,296 @@ func ParseAddCloudProviderAsSupplierResponse(rsp *http.Response) (*AddCloudProvi
 	return response, nil
 }
 
+// ParseListCreditNotesResponse parses an HTTP response from a ListCreditNotesWithResponse call
+func ParseListCreditNotesResponse(rsp *http.Response) (*ListCreditNotesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListCreditNotesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListCreditNotesResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateCreditNoteResponse parses an HTTP response from a CreateCreditNoteWithResponse call
+func ParseCreateCreditNoteResponse(rsp *http.Response) (*CreateCreditNoteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateCreditNoteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest CreateCreditNoteResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetCreditSettlementResponse parses an HTTP response from a GetCreditSettlementWithResponse call
+func ParseGetCreditSettlementResponse(rsp *http.Response) (*GetCreditSettlementResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetCreditSettlementResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetCreditSettlementResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSetCreditSettlementResponse parses an HTTP response from a SetCreditSettlementWithResponse call
+func ParseSetCreditSettlementResponse(rsp *http.Response) (*SetCreditSettlementResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SetCreditSettlementResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SetCreditSettlementResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetCreditNoteResponse parses an HTTP response from a GetCreditNoteWithResponse call
+func ParseGetCreditNoteResponse(rsp *http.Response) (*GetCreditNoteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetCreditNoteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetCreditNoteResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAcceptCreditNoteResponse parses an HTTP response from a AcceptCreditNoteWithResponse call
+func ParseAcceptCreditNoteResponse(rsp *http.Response) (*AcceptCreditNoteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AcceptCreditNoteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest BuyerCreditNoteView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetCreditNotePdfResponse parses an HTTP response from a GetCreditNotePdfWithResponse call
+func ParseGetCreditNotePdfResponse(rsp *http.Response) (*GetCreditNotePdfResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetCreditNotePdfResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRejectCreditNoteResponse parses an HTTP response from a RejectCreditNoteWithResponse call
+func ParseRejectCreditNoteResponse(rsp *http.Response) (*RejectCreditNoteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RejectCreditNoteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest BuyerCreditNoteView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseVoidCreditNoteResponse parses an HTTP response from a VoidCreditNoteWithResponse call
+func ParseVoidCreditNoteResponse(rsp *http.Response) (*VoidCreditNoteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &VoidCreditNoteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest SupplierCreditNoteView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseListEmployeesResponse parses an HTTP response from a ListEmployeesWithResponse call
 func ParseListEmployeesResponse(rsp *http.Response) (*ListEmployeesResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -36514,6 +41960,39 @@ func ParseGetInvoiceResponse(rsp *http.Response) (*GetInvoiceResponse, error) {
 	return response, nil
 }
 
+// ParseGetInvoiceActivityResponse parses an HTTP response from a GetInvoiceActivityWithResponse call
+func ParseGetInvoiceActivityResponse(rsp *http.Response) (*GetInvoiceActivityResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetInvoiceActivityResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetInvoiceActivityResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseReassignInvoiceApprovalStageResponse parses an HTTP response from a ReassignInvoiceApprovalStageWithResponse call
 func ParseReassignInvoiceApprovalStageResponse(rsp *http.Response) (*ReassignInvoiceApprovalStageResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -36580,6 +42059,39 @@ func ParseApproveInvoiceResponse(rsp *http.Response) (*ApproveInvoiceResponse, e
 	return response, nil
 }
 
+// ParseListAvailableCreditsResponse parses an HTTP response from a ListAvailableCreditsWithResponse call
+func ParseListAvailableCreditsResponse(rsp *http.Response) (*ListAvailableCreditsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListAvailableCreditsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListAvailableCreditsResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetInvoiceBankAccountResponse parses an HTTP response from a GetInvoiceBankAccountWithResponse call
 func ParseGetInvoiceBankAccountResponse(rsp *http.Response) (*GetInvoiceBankAccountResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -36596,6 +42108,171 @@ func ParseGetInvoiceBankAccountResponse(rsp *http.Response) (*GetInvoiceBankAcco
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest GetInvoiceBankAccountResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListInvoiceCommentsResponse parses an HTTP response from a ListInvoiceCommentsWithResponse call
+func ParseListInvoiceCommentsResponse(rsp *http.Response) (*ListInvoiceCommentsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListInvoiceCommentsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListInvoiceCommentsResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAddInvoiceCommentResponse parses an HTTP response from a AddInvoiceCommentWithResponse call
+func ParseAddInvoiceCommentResponse(rsp *http.Response) (*AddInvoiceCommentResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AddInvoiceCommentResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest DocumentCommentView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteInvoiceCommentResponse parses an HTTP response from a DeleteInvoiceCommentWithResponse call
+func ParseDeleteInvoiceCommentResponse(rsp *http.Response) (*DeleteInvoiceCommentResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteInvoiceCommentResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest DocumentCommentView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseApplyCreditsResponse parses an HTTP response from a ApplyCreditsWithResponse call
+func ParseApplyCreditsResponse(rsp *http.Response) (*ApplyCreditsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ApplyCreditsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest ApplyCreditsResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRemoveCreditApplicationResponse parses an HTTP response from a RemoveCreditApplicationWithResponse call
+func ParseRemoveCreditApplicationResponse(rsp *http.Response) (*RemoveCreditApplicationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RemoveCreditApplicationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest RemoveCreditApplicationResult
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -36844,6 +42521,39 @@ func ParseGetInvoiceRemittanceResponse(rsp *http.Response) (*GetInvoiceRemittanc
 	return response, nil
 }
 
+// ParseSendRemittanceResponse parses an HTTP response from a SendRemittanceWithResponse call
+func ParseSendRemittanceResponse(rsp *http.Response) (*SendRemittanceResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SendRemittanceResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest InvoiceBuyerView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetRemittanceAdviceResponse parses an HTTP response from a GetRemittanceAdviceWithResponse call
 func ParseGetRemittanceAdviceResponse(rsp *http.Response) (*GetRemittanceAdviceResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -36858,6 +42568,39 @@ func ParseGetRemittanceAdviceResponse(rsp *http.Response) (*GetRemittanceAdviceR
 	}
 
 	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRequestRemittanceUploadResponse parses an HTTP response from a RequestRemittanceUploadWithResponse call
+func ParseRequestRemittanceUploadResponse(rsp *http.Response) (*RequestRemittanceUploadResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RequestRemittanceUploadResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest RequestRemittanceUploadResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest ApiError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -36897,6 +42640,39 @@ func ParseGetInvoiceRemittanceDocumentResponse(rsp *http.Response) (*GetInvoiceR
 			return nil, err
 		}
 		response.XML200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetRemittanceFileResponse parses an HTTP response from a GetRemittanceFileWithResponse call
+func ParseGetRemittanceFileResponse(rsp *http.Response) (*GetRemittanceFileResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetRemittanceFileResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetRemittanceFileResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
 
 	}
 
@@ -37688,6 +43464,105 @@ func ParseClosePurchaseOrderResponse(rsp *http.Response) (*ClosePurchaseOrderRes
 	return response, nil
 }
 
+// ParseListPurchaseOrderCommentsResponse parses an HTTP response from a ListPurchaseOrderCommentsWithResponse call
+func ParseListPurchaseOrderCommentsResponse(rsp *http.Response) (*ListPurchaseOrderCommentsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListPurchaseOrderCommentsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListPurchaseOrderCommentsResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAddPurchaseOrderCommentResponse parses an HTTP response from a AddPurchaseOrderCommentWithResponse call
+func ParseAddPurchaseOrderCommentResponse(rsp *http.Response) (*AddPurchaseOrderCommentResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AddPurchaseOrderCommentResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest DocumentCommentView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeletePurchaseOrderCommentResponse parses an HTTP response from a DeletePurchaseOrderCommentWithResponse call
+func ParseDeletePurchaseOrderCommentResponse(rsp *http.Response) (*DeletePurchaseOrderCommentResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeletePurchaseOrderCommentResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest DocumentCommentView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseConfirmPurchaseOrderResponse parses an HTTP response from a ConfirmPurchaseOrderWithResponse call
 func ParseConfirmPurchaseOrderResponse(rsp *http.Response) (*ConfirmPurchaseOrderResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -37774,6 +43649,39 @@ func ParseDeclineConfirmationChangesResponse(rsp *http.Response) (*DeclineConfir
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseChangeFinishedPurchaseOrderCostCenterResponse parses an HTTP response from a ChangeFinishedPurchaseOrderCostCenterWithResponse call
+func ParseChangeFinishedPurchaseOrderCostCenterResponse(rsp *http.Response) (*ChangeFinishedPurchaseOrderCostCenterResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ChangeFinishedPurchaseOrderCostCenterResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest PurchaseOrder
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest ApiError
@@ -37973,6 +43881,32 @@ func ParseGetPurchaseOrderFulfillmentResponse(rsp *http.Response) (*GetPurchaseO
 		}
 		response.JSON200 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetPurchaseOrderPdfResponse parses an HTTP response from a GetPurchaseOrderPdfWithResponse call
+func ParseGetPurchaseOrderPdfResponse(rsp *http.Response) (*GetPurchaseOrderPdfResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetPurchaseOrderPdfResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest ApiError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -38694,6 +44628,138 @@ func ParseGetBillingResponse(rsp *http.Response) (*GetBillingResponse, error) {
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest BillingSummary
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListSourcingEventsResponse parses an HTTP response from a ListSourcingEventsWithResponse call
+func ParseListSourcingEventsResponse(rsp *http.Response) (*ListSourcingEventsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListSourcingEventsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []BuyerSourcingEventSummary
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateSourcingEventResponse parses an HTTP response from a CreateSourcingEventWithResponse call
+func ParseCreateSourcingEventResponse(rsp *http.Response) (*CreateSourcingEventResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateSourcingEventResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest BuyerSourcingEventView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetSourcingEventResponse parses an HTTP response from a GetSourcingEventWithResponse call
+func ParseGetSourcingEventResponse(rsp *http.Response) (*GetSourcingEventResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetSourcingEventResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest BuyerSourcingEventView
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetSourcingComparisonResponse parses an HTTP response from a GetSourcingComparisonWithResponse call
+func ParseGetSourcingComparisonResponse(rsp *http.Response) (*GetSourcingComparisonResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetSourcingComparisonResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SourcingComparison
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

@@ -2,6 +2,11 @@
 use crate::Client;
 
 impl Client {
+    /// Activity operations.
+    pub fn activity(&self) -> Activity<'_> {
+        Activity(self)
+    }
+
     /// AiProviders operations.
     pub fn ai_providers(&self) -> AiProviders<'_> {
         AiProviders(self)
@@ -50,6 +55,11 @@ impl Client {
     /// CloudConnections operations.
     pub fn cloud_connections(&self) -> CloudConnections<'_> {
         CloudConnections(self)
+    }
+
+    /// CreditNotes operations.
+    pub fn credit_notes(&self) -> CreditNotes<'_> {
+        CreditNotes(self)
     }
 
     /// DocumentSync operations.
@@ -117,6 +127,11 @@ impl Client {
         Settlement(self)
     }
 
+    /// Sourcing operations.
+    pub fn sourcing(&self) -> Sourcing<'_> {
+        Sourcing(self)
+    }
+
     /// SupplierConnections operations.
     pub fn supplier_connections(&self) -> SupplierConnections<'_> {
         SupplierConnections(self)
@@ -130,6 +145,117 @@ impl Client {
     /// Workspaces operations.
     pub fn workspaces(&self) -> Workspaces<'_> {
         Workspaces(self)
+    }
+}
+
+/// Activity operations: `client.activity()`.
+#[derive(Debug, Clone, Copy)]
+pub struct Activity<'a>(&'a Client);
+
+impl<'a> Activity<'a> {
+    pub async fn add_invoice_comment(
+        &self,
+        invoice_id: &str,
+        create_comment_input: crate::models::CreateCommentInput,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::DocumentCommentView,
+        crate::apis::Error<crate::apis::activity_api::AddInvoiceCommentError>,
+    > {
+        crate::apis::activity_api::add_invoice_comment(
+            &self.0.config,
+            invoice_id,
+            create_comment_input,
+            buyer,
+        )
+        .await
+    }
+
+    pub async fn add_purchase_order_comment(
+        &self,
+        po_id: &str,
+        create_comment_input: crate::models::CreateCommentInput,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::DocumentCommentView,
+        crate::apis::Error<crate::apis::activity_api::AddPurchaseOrderCommentError>,
+    > {
+        crate::apis::activity_api::add_purchase_order_comment(
+            &self.0.config,
+            po_id,
+            create_comment_input,
+            buyer,
+        )
+        .await
+    }
+
+    pub async fn delete_invoice_comment(
+        &self,
+        invoice_id: &str,
+        comment_id: &str,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::DocumentCommentView,
+        crate::apis::Error<crate::apis::activity_api::DeleteInvoiceCommentError>,
+    > {
+        crate::apis::activity_api::delete_invoice_comment(
+            &self.0.config,
+            invoice_id,
+            comment_id,
+            buyer,
+        )
+        .await
+    }
+
+    pub async fn delete_purchase_order_comment(
+        &self,
+        po_id: &str,
+        comment_id: &str,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::DocumentCommentView,
+        crate::apis::Error<crate::apis::activity_api::DeletePurchaseOrderCommentError>,
+    > {
+        crate::apis::activity_api::delete_purchase_order_comment(
+            &self.0.config,
+            po_id,
+            comment_id,
+            buyer,
+        )
+        .await
+    }
+
+    pub async fn get_invoice_activity(
+        &self,
+        invoice_id: &str,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::GetInvoiceActivityResult,
+        crate::apis::Error<crate::apis::activity_api::GetInvoiceActivityError>,
+    > {
+        crate::apis::activity_api::get_invoice_activity(&self.0.config, invoice_id, buyer).await
+    }
+
+    pub async fn list_invoice_comments(
+        &self,
+        invoice_id: &str,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::ListInvoiceCommentsResult,
+        crate::apis::Error<crate::apis::activity_api::ListInvoiceCommentsError>,
+    > {
+        crate::apis::activity_api::list_invoice_comments(&self.0.config, invoice_id, buyer).await
+    }
+
+    pub async fn list_purchase_order_comments(
+        &self,
+        po_id: &str,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::ListPurchaseOrderCommentsResult,
+        crate::apis::Error<crate::apis::activity_api::ListPurchaseOrderCommentsError>,
+    > {
+        crate::apis::activity_api::list_purchase_order_comments(&self.0.config, po_id, buyer).await
     }
 }
 
@@ -746,6 +872,159 @@ impl<'a> CloudConnections<'a> {
         crate::apis::Error<crate::apis::cloud_connections_api::SyncCloudConnectionError>,
     > {
         crate::apis::cloud_connections_api::sync_cloud_connection(&self.0.config, id).await
+    }
+}
+
+/// CreditNotes operations: `client.credit_notes()`.
+#[derive(Debug, Clone, Copy)]
+pub struct CreditNotes<'a>(&'a Client);
+
+impl<'a> CreditNotes<'a> {
+    pub async fn accept_credit_note(
+        &self,
+        credit_note_id: &str,
+    ) -> Result<
+        crate::models::BuyerCreditNoteView,
+        crate::apis::Error<crate::apis::credit_notes_api::AcceptCreditNoteError>,
+    > {
+        crate::apis::credit_notes_api::accept_credit_note(&self.0.config, credit_note_id).await
+    }
+
+    pub async fn apply_credits(
+        &self,
+        invoice_id: &str,
+        apply_credits_input: crate::models::ApplyCreditsInput,
+    ) -> Result<
+        crate::models::ApplyCreditsResult,
+        crate::apis::Error<crate::apis::credit_notes_api::ApplyCreditsError>,
+    > {
+        crate::apis::credit_notes_api::apply_credits(
+            &self.0.config,
+            invoice_id,
+            apply_credits_input,
+        )
+        .await
+    }
+
+    pub async fn create_credit_note(
+        &self,
+        create_credit_note_input: crate::models::CreateCreditNoteInput,
+    ) -> Result<
+        crate::models::CreateCreditNoteResult,
+        crate::apis::Error<crate::apis::credit_notes_api::CreateCreditNoteError>,
+    > {
+        crate::apis::credit_notes_api::create_credit_note(&self.0.config, create_credit_note_input)
+            .await
+    }
+
+    pub async fn get_credit_note(
+        &self,
+        credit_note_id: &str,
+    ) -> Result<
+        crate::models::GetCreditNoteResult,
+        crate::apis::Error<crate::apis::credit_notes_api::GetCreditNoteError>,
+    > {
+        crate::apis::credit_notes_api::get_credit_note(&self.0.config, credit_note_id).await
+    }
+
+    pub async fn get_credit_note_pdf(
+        &self,
+        credit_note_id: &str,
+    ) -> Result<Vec<u8>, crate::apis::Error<crate::apis::credit_notes_api::GetCreditNotePdfError>>
+    {
+        self.0
+            .download(
+                reqwest::Method::GET,
+                &"/credit-notes/{creditNoteId}/pdf"
+                    .replace("{creditNoteId}", &crate::apis::urlencode(credit_note_id)),
+                &[],
+                None::<&()>,
+            )
+            .await
+    }
+
+    pub async fn get_credit_settlement(
+        &self,
+    ) -> Result<
+        crate::models::GetCreditSettlementResult,
+        crate::apis::Error<crate::apis::credit_notes_api::GetCreditSettlementError>,
+    > {
+        crate::apis::credit_notes_api::get_credit_settlement(&self.0.config).await
+    }
+
+    pub async fn list_available_credits(
+        &self,
+        invoice_id: &str,
+    ) -> Result<
+        crate::models::ListAvailableCreditsResult,
+        crate::apis::Error<crate::apis::credit_notes_api::ListAvailableCreditsError>,
+    > {
+        crate::apis::credit_notes_api::list_available_credits(&self.0.config, invoice_id).await
+    }
+
+    pub async fn list_credit_notes(
+        &self,
+    ) -> Result<
+        crate::models::ListCreditNotesResult,
+        crate::apis::Error<crate::apis::credit_notes_api::ListCreditNotesError>,
+    > {
+        crate::apis::credit_notes_api::list_credit_notes(&self.0.config).await
+    }
+
+    pub async fn reject_credit_note(
+        &self,
+        credit_note_id: &str,
+        reject_credit_note_input: crate::models::RejectCreditNoteInput,
+    ) -> Result<
+        crate::models::BuyerCreditNoteView,
+        crate::apis::Error<crate::apis::credit_notes_api::RejectCreditNoteError>,
+    > {
+        crate::apis::credit_notes_api::reject_credit_note(
+            &self.0.config,
+            credit_note_id,
+            reject_credit_note_input,
+        )
+        .await
+    }
+
+    pub async fn remove_credit_application(
+        &self,
+        invoice_id: &str,
+        application_id: &str,
+    ) -> Result<
+        crate::models::RemoveCreditApplicationResult,
+        crate::apis::Error<crate::apis::credit_notes_api::RemoveCreditApplicationError>,
+    > {
+        crate::apis::credit_notes_api::remove_credit_application(
+            &self.0.config,
+            invoice_id,
+            application_id,
+        )
+        .await
+    }
+
+    pub async fn set_credit_settlement(
+        &self,
+        credit_settlement_input: crate::models::CreditSettlementInput,
+    ) -> Result<
+        crate::models::SetCreditSettlementResult,
+        crate::apis::Error<crate::apis::credit_notes_api::SetCreditSettlementError>,
+    > {
+        crate::apis::credit_notes_api::set_credit_settlement(
+            &self.0.config,
+            credit_settlement_input,
+        )
+        .await
+    }
+
+    pub async fn void_credit_note(
+        &self,
+        credit_note_id: &str,
+    ) -> Result<
+        crate::models::SupplierCreditNoteView,
+        crate::apis::Error<crate::apis::credit_notes_api::VoidCreditNoteError>,
+    > {
+        crate::apis::credit_notes_api::void_credit_note(&self.0.config, credit_note_id).await
     }
 }
 
@@ -1378,6 +1657,24 @@ impl<'a> Invoices<'a> {
             .await
     }
 
+    pub async fn get_remittance_file(
+        &self,
+        invoice_id: &str,
+        remittance_id: &str,
+        buyer: Option<&str>,
+    ) -> Result<
+        crate::models::GetRemittanceFileResult,
+        crate::apis::Error<crate::apis::invoices_api::GetRemittanceFileError>,
+    > {
+        crate::apis::invoices_api::get_remittance_file(
+            &self.0.config,
+            invoice_id,
+            remittance_id,
+            buyer,
+        )
+        .await
+    }
+
     pub async fn get_stripe_payment(
         &self,
         invoice_id: &str,
@@ -1488,6 +1785,22 @@ impl<'a> Invoices<'a> {
         .await
     }
 
+    pub async fn request_remittance_upload(
+        &self,
+        invoice_id: &str,
+        request_remittance_upload_input: crate::models::RequestRemittanceUploadInput,
+    ) -> Result<
+        crate::models::RequestRemittanceUploadResult,
+        crate::apis::Error<crate::apis::invoices_api::RequestRemittanceUploadError>,
+    > {
+        crate::apis::invoices_api::request_remittance_upload(
+            &self.0.config,
+            invoice_id,
+            request_remittance_upload_input,
+        )
+        .await
+    }
+
     pub async fn resolve_invoice_discrepancy(
         &self,
         invoice_id: &str,
@@ -1506,6 +1819,22 @@ impl<'a> Invoices<'a> {
         crate::apis::Error<crate::apis::invoices_api::RunInvoiceMatchError>,
     > {
         crate::apis::invoices_api::run_invoice_match(&self.0.config, invoice_id).await
+    }
+
+    pub async fn send_remittance(
+        &self,
+        invoice_id: &str,
+        send_remittance_input: crate::models::SendRemittanceInput,
+    ) -> Result<
+        crate::models::InvoiceBuyerView,
+        crate::apis::Error<crate::apis::invoices_api::SendRemittanceError>,
+    > {
+        crate::apis::invoices_api::send_remittance(
+            &self.0.config,
+            invoice_id,
+            send_remittance_input,
+        )
+        .await
     }
 
     pub async fn start_stripe_payment(
@@ -1716,6 +2045,24 @@ impl<'a> PurchaseOrders<'a> {
         .await
     }
 
+    pub async fn change_finished_purchase_order_cost_center(
+        &self,
+        po_id: &str,
+        change_finished_cost_center_input: crate::models::ChangeFinishedCostCenterInput,
+    ) -> Result<
+        crate::models::PurchaseOrder,
+        crate::apis::Error<
+            crate::apis::purchase_orders_api::ChangeFinishedPurchaseOrderCostCenterError,
+        >,
+    > {
+        crate::apis::purchase_orders_api::change_finished_purchase_order_cost_center(
+            &self.0.config,
+            po_id,
+            change_finished_cost_center_input,
+        )
+        .await
+    }
+
     pub async fn close_purchase_order(
         &self,
         po_id: &str,
@@ -1765,6 +2112,24 @@ impl<'a> PurchaseOrders<'a> {
         crate::apis::Error<crate::apis::purchase_orders_api::GetPurchaseOrderError>,
     > {
         crate::apis::purchase_orders_api::get_purchase_order(&self.0.config, po_id, buyer).await
+    }
+
+    pub async fn get_purchase_order_pdf(
+        &self,
+        po_id: &str,
+        buyer: Option<&str>,
+    ) -> Result<
+        Vec<u8>,
+        crate::apis::Error<crate::apis::purchase_orders_api::GetPurchaseOrderPdfError>,
+    > {
+        self.0
+            .download(
+                reqwest::Method::GET,
+                &"/purchase-orders/{poId}/pdf".replace("{poId}", &crate::apis::urlencode(po_id)),
+                &[("buyer", buyer)],
+                None::<&()>,
+            )
+            .await
     }
 
     pub async fn list_purchase_orders(
@@ -2076,6 +2441,57 @@ impl<'a> Settlement<'a> {
             update_autonomy_settings_input,
         )
         .await
+    }
+}
+
+/// Sourcing operations: `client.sourcing()`.
+#[derive(Debug, Clone, Copy)]
+pub struct Sourcing<'a>(&'a Client);
+
+impl<'a> Sourcing<'a> {
+    pub async fn create_sourcing_event(
+        &self,
+        create_sourcing_event_input: crate::models::CreateSourcingEventInput,
+    ) -> Result<
+        crate::models::BuyerSourcingEventView,
+        crate::apis::Error<crate::apis::sourcing_api::CreateSourcingEventError>,
+    > {
+        crate::apis::sourcing_api::create_sourcing_event(
+            &self.0.config,
+            create_sourcing_event_input,
+        )
+        .await
+    }
+
+    pub async fn get_sourcing_comparison(
+        &self,
+        rfq_id: &str,
+        round: Option<f64>,
+    ) -> Result<
+        crate::models::SourcingComparison,
+        crate::apis::Error<crate::apis::sourcing_api::GetSourcingComparisonError>,
+    > {
+        crate::apis::sourcing_api::get_sourcing_comparison(&self.0.config, rfq_id, round).await
+    }
+
+    pub async fn get_sourcing_event(
+        &self,
+        rfq_id: &str,
+    ) -> Result<
+        crate::models::BuyerSourcingEventView,
+        crate::apis::Error<crate::apis::sourcing_api::GetSourcingEventError>,
+    > {
+        crate::apis::sourcing_api::get_sourcing_event(&self.0.config, rfq_id).await
+    }
+
+    pub async fn list_sourcing_events(
+        &self,
+        status: Option<&str>,
+    ) -> Result<
+        Vec<crate::models::BuyerSourcingEventSummary>,
+        crate::apis::Error<crate::apis::sourcing_api::ListSourcingEventsError>,
+    > {
+        crate::apis::sourcing_api::list_sourcing_events(&self.0.config, status).await
     }
 }
 

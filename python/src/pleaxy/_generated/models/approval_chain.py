@@ -32,6 +32,7 @@ class ApprovalChain:
         status (Union[Unset, ApprovalChainStatus]):
         history (Union[Unset, List['ApprovalHistoryEntry']]):
         autonomy (Union[Unset, bool]):
+        routed_automatically (Union[Unset, bool]):
         spend_limit_gate (Union[Unset, SpendLimitGate]):
         excluded_employee_keys (Union[Unset, List[str]]):
         self_approved (Union[Unset, bool]):
@@ -47,6 +48,7 @@ class ApprovalChain:
     status: Union[Unset, ApprovalChainStatus] = UNSET
     history: Union[Unset, List["ApprovalHistoryEntry"]] = UNSET
     autonomy: Union[Unset, bool] = UNSET
+    routed_automatically: Union[Unset, bool] = UNSET
     spend_limit_gate: Union[Unset, "SpendLimitGate"] = UNSET
     excluded_employee_keys: Union[Unset, List[str]] = UNSET
     self_approved: Union[Unset, bool] = UNSET
@@ -81,6 +83,8 @@ class ApprovalChain:
                 history.append(history_item)
 
         autonomy = self.autonomy
+
+        routed_automatically = self.routed_automatically
 
         spend_limit_gate: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.spend_limit_gate, Unset):
@@ -121,6 +125,8 @@ class ApprovalChain:
             field_dict["history"] = history
         if autonomy is not UNSET:
             field_dict["autonomy"] = autonomy
+        if routed_automatically is not UNSET:
+            field_dict["routedAutomatically"] = routed_automatically
         if spend_limit_gate is not UNSET:
             field_dict["spendLimitGate"] = spend_limit_gate
         if excluded_employee_keys is not UNSET:
@@ -175,6 +181,8 @@ class ApprovalChain:
 
         autonomy = d.pop("autonomy", UNSET)
 
+        routed_automatically = d.pop("routedAutomatically", UNSET)
+
         _spend_limit_gate = d.pop("spendLimitGate", UNSET)
         spend_limit_gate: Union[Unset, SpendLimitGate]
         if isinstance(_spend_limit_gate, Unset):
@@ -215,6 +223,7 @@ class ApprovalChain:
             status=status,
             history=history,
             autonomy=autonomy,
+            routed_automatically=routed_automatically,
             spend_limit_gate=spend_limit_gate,
             excluded_employee_keys=excluded_employee_keys,
             self_approved=self_approved,

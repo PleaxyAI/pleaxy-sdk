@@ -80,6 +80,8 @@ pub struct OrgProfile {
     pub listed_in_directory: Option<bool>,
     #[serde(rename = "directoryId", skip_serializing_if = "Option::is_none")]
     pub directory_id: Option<String>,
+    #[serde(rename = "setupGoal", skip_serializing_if = "Option::is_none")]
+    pub setup_goal: Option<SetupGoal>,
 }
 
 impl OrgProfile {
@@ -111,6 +113,7 @@ impl OrgProfile {
             verified: None,
             listed_in_directory: None,
             directory_id: None,
+            setup_goal: None,
         }
     }
 }
@@ -148,5 +151,19 @@ pub enum Locale {
 impl Default for Locale {
     fn default() -> Locale {
         Self::En
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum SetupGoal {
+    #[serde(rename = "audit")]
+    Audit,
+    #[serde(rename = "network")]
+    Network,
+}
+
+impl Default for SetupGoal {
+    fn default() -> SetupGoal {
+        Self::Audit
     }
 }

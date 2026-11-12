@@ -77,6 +77,14 @@ pub enum GetRemittanceAdviceError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`get_remittance_file`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetRemittanceFileError {
+    DefaultResponse(models::ApiError),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`get_stripe_payment`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -149,6 +157,14 @@ pub enum RemoveInvoiceReplacementLinkError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`request_remittance_upload`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum RequestRemittanceUploadError {
+    DefaultResponse(models::ApiError),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`resolve_invoice_discrepancy`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -161,6 +177,14 @@ pub enum ResolveInvoiceDiscrepancyError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum RunInvoiceMatchError {
+    DefaultResponse(models::ApiError),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`send_remittance`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum SendRemittanceError {
     DefaultResponse(models::ApiError),
     UnknownValue(serde_json::Value),
 }
@@ -625,6 +649,65 @@ pub async fn get_remittance_advice(
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<GetRemittanceAdviceError> =
+            serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent {
+            status: local_var_status,
+            content: local_var_content,
+            entity: local_var_entity,
+        };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+pub async fn get_remittance_file(
+    configuration: &configuration::Configuration,
+    invoice_id: &str,
+    remittance_id: &str,
+    buyer: Option<&str>,
+) -> Result<models::GetRemittanceFileResult, Error<GetRemittanceFileError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!(
+        "{}/invoices/{invoiceId}/remittances/{remittanceId}/file",
+        local_var_configuration.base_path,
+        invoiceId = crate::apis::urlencode(invoice_id),
+        remittanceId = crate::apis::urlencode(remittance_id)
+    );
+    let mut local_var_req_builder =
+        local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_str) = buyer {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("buyer", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder =
+            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("X-Api-Key", local_var_value);
+    };
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<GetRemittanceFileError> =
             serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent {
             status: local_var_status,
@@ -1128,6 +1211,60 @@ pub async fn remove_invoice_replacement_link(
     }
 }
 
+pub async fn request_remittance_upload(
+    configuration: &configuration::Configuration,
+    invoice_id: &str,
+    request_remittance_upload_input: models::RequestRemittanceUploadInput,
+) -> Result<models::RequestRemittanceUploadResult, Error<RequestRemittanceUploadError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!(
+        "{}/invoices/{invoiceId}/remittance-upload",
+        local_var_configuration.base_path,
+        invoiceId = crate::apis::urlencode(invoice_id)
+    );
+    let mut local_var_req_builder =
+        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder =
+            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("X-Api-Key", local_var_value);
+    };
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+    local_var_req_builder = local_var_req_builder.json(&request_remittance_upload_input);
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<RequestRemittanceUploadError> =
+            serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent {
+            status: local_var_status,
+            content: local_var_content,
+            entity: local_var_entity,
+        };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
 pub async fn resolve_invoice_discrepancy(
     configuration: &configuration::Configuration,
     invoice_id: &str,
@@ -1222,6 +1359,60 @@ pub async fn run_invoice_match(
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<RunInvoiceMatchError> =
+            serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent {
+            status: local_var_status,
+            content: local_var_content,
+            entity: local_var_entity,
+        };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+pub async fn send_remittance(
+    configuration: &configuration::Configuration,
+    invoice_id: &str,
+    send_remittance_input: models::SendRemittanceInput,
+) -> Result<models::InvoiceBuyerView, Error<SendRemittanceError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!(
+        "{}/invoices/{invoiceId}/remittance",
+        local_var_configuration.base_path,
+        invoiceId = crate::apis::urlencode(invoice_id)
+    );
+    let mut local_var_req_builder =
+        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder =
+            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("X-Api-Key", local_var_value);
+    };
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+    local_var_req_builder = local_var_req_builder.json(&send_remittance_input);
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<SendRemittanceError> =
             serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent {
             status: local_var_status,

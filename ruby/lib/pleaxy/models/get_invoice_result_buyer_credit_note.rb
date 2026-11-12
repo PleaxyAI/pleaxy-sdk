@@ -57,8 +57,6 @@ module Pleaxy
 
     attr_accessor :submitted_by
 
-    attr_accessor :feed_payload_hash
-
     attr_accessor :external_invoice_number
 
     attr_accessor :adjustments
@@ -147,7 +145,6 @@ module Pleaxy
         :'entered_by' => :'enteredBy',
         :'submitted_format' => :'submittedFormat',
         :'submitted_by' => :'submittedBy',
-        :'feed_payload_hash' => :'feedPayloadHash',
         :'external_invoice_number' => :'externalInvoiceNumber',
         :'adjustments' => :'adjustments',
         :'tax_amount' => :'taxAmount',
@@ -196,12 +193,11 @@ module Pleaxy
         :'version' => :'Float',
         :'po' => :'String',
         :'po_line_no' => :'Float',
-        :'rejection' => :'ListInvoicesItemBuyerCreditNoteRejection',
+        :'rejection' => :'BuyerCreditNoteViewRejection',
         :'source' => :'String',
         :'entered_by' => :'String',
         :'submitted_format' => :'String',
         :'submitted_by' => :'String',
-        :'feed_payload_hash' => :'String',
         :'external_invoice_number' => :'String',
         :'adjustments' => :'Array<InvoiceAdjustment>',
         :'tax_amount' => :'Float',
@@ -333,10 +329,6 @@ module Pleaxy
 
       if attributes.key?(:'submitted_by')
         self.submitted_by = attributes[:'submitted_by']
-      end
-
-      if attributes.key?(:'feed_payload_hash')
-        self.feed_payload_hash = attributes[:'feed_payload_hash']
       end
 
       if attributes.key?(:'external_invoice_number')
@@ -564,7 +556,6 @@ module Pleaxy
           entered_by == o.entered_by &&
           submitted_format == o.submitted_format &&
           submitted_by == o.submitted_by &&
-          feed_payload_hash == o.feed_payload_hash &&
           external_invoice_number == o.external_invoice_number &&
           adjustments == o.adjustments &&
           tax_amount == o.tax_amount &&
@@ -597,7 +588,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier, id, buyer_org_id, supplier_org_id, status, created_at, cloud_provider, amount, supplier_connection_id, currency, invoice_id, buyer_org_name, line_items, version, po, po_line_no, rejection, source, entered_by, submitted_format, submitted_by, feed_payload_hash, external_invoice_number, adjustments, tax_amount, tax_breakdown, source_document, note, external_credit_note_number, issue_date, reason, corrects_billing, refunded, accepted_at, accepted_by_name, auto_accepted, po_effect, applications, exports, history, remaining, has_pdf, document_type].hash
+      [supplier, id, buyer_org_id, supplier_org_id, status, created_at, cloud_provider, amount, supplier_connection_id, currency, invoice_id, buyer_org_name, line_items, version, po, po_line_no, rejection, source, entered_by, submitted_format, submitted_by, external_invoice_number, adjustments, tax_amount, tax_breakdown, source_document, note, external_credit_note_number, issue_date, reason, corrects_billing, refunded, accepted_at, accepted_by_name, auto_accepted, po_effect, applications, exports, history, remaining, has_pdf, document_type].hash
     end
 
     # Builds the object from hash

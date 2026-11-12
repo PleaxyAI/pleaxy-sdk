@@ -82,6 +82,7 @@ import ai.pleaxy.client.ApiClient;
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_PAID_AT,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_DUE_DATE_SOURCE,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_LAST_REMINDED_AT,
+  ListInvoicesItemSupplierInvoice.JSON_PROPERTY_LAST_APPROVER_REMINDED_AT,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_REJECTION,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_REPLACES_INVOICE_ID,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_REPLACES_INVOICE_IDS,
@@ -342,6 +343,10 @@ public class ListInvoicesItemSupplierInvoice {
   public static final String JSON_PROPERTY_LAST_REMINDED_AT = "lastRemindedAt";
   @javax.annotation.Nullable
   private String lastRemindedAt;
+
+  public static final String JSON_PROPERTY_LAST_APPROVER_REMINDED_AT = "lastApproverRemindedAt";
+  @javax.annotation.Nullable
+  private String lastApproverRemindedAt;
 
   public static final String JSON_PROPERTY_REJECTION = "rejection";
   @javax.annotation.Nullable
@@ -1340,6 +1345,30 @@ public class ListInvoicesItemSupplierInvoice {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setLastRemindedAt(@javax.annotation.Nullable String lastRemindedAt) {
     this.lastRemindedAt = lastRemindedAt;
+  }
+
+
+  public ListInvoicesItemSupplierInvoice lastApproverRemindedAt(@javax.annotation.Nullable String lastApproverRemindedAt) {
+    this.lastApproverRemindedAt = lastApproverRemindedAt;
+    return this;
+  }
+
+  /**
+   * Get lastApproverRemindedAt
+   * @return lastApproverRemindedAt
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_LAST_APPROVER_REMINDED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getLastApproverRemindedAt() {
+    return lastApproverRemindedAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_LAST_APPROVER_REMINDED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setLastApproverRemindedAt(@javax.annotation.Nullable String lastApproverRemindedAt) {
+    this.lastApproverRemindedAt = lastApproverRemindedAt;
   }
 
 
@@ -2454,6 +2483,7 @@ public class ListInvoicesItemSupplierInvoice {
         Objects.equals(this.paidAt, listInvoicesItemSupplierInvoice.paidAt) &&
         Objects.equals(this.dueDateSource, listInvoicesItemSupplierInvoice.dueDateSource) &&
         Objects.equals(this.lastRemindedAt, listInvoicesItemSupplierInvoice.lastRemindedAt) &&
+        Objects.equals(this.lastApproverRemindedAt, listInvoicesItemSupplierInvoice.lastApproverRemindedAt) &&
         Objects.equals(this.rejection, listInvoicesItemSupplierInvoice.rejection) &&
         Objects.equals(this.replacesInvoiceId, listInvoicesItemSupplierInvoice.replacesInvoiceId) &&
         Objects.equals(this.replacesInvoiceIds, listInvoicesItemSupplierInvoice.replacesInvoiceIds) &&
@@ -2499,7 +2529,7 @@ public class ListInvoicesItemSupplierInvoice {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, noPoComparison, paymentRoute, paid, dueInDays, dueDate, paidAt, dueDateSource, lastRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, bankLane, sourceDocument, hasOriginalPdf, settlement, paymentProblem, bankDetailsConfirmation, baseCurrencyAmount, approval, payment, withdrawnPayment, remittances, buyerWorkspaceId, nextReminderAt);
+    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, noPoComparison, paymentRoute, paid, dueInDays, dueDate, paidAt, dueDateSource, lastRemindedAt, lastApproverRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, bankLane, sourceDocument, hasOriginalPdf, settlement, paymentProblem, bankDetailsConfirmation, baseCurrencyAmount, approval, payment, withdrawnPayment, remittances, buyerWorkspaceId, nextReminderAt);
   }
 
   @Override
@@ -2533,6 +2563,7 @@ public class ListInvoicesItemSupplierInvoice {
     sb.append("    paidAt: ").append(toIndentedString(paidAt)).append("\n");
     sb.append("    dueDateSource: ").append(toIndentedString(dueDateSource)).append("\n");
     sb.append("    lastRemindedAt: ").append(toIndentedString(lastRemindedAt)).append("\n");
+    sb.append("    lastApproverRemindedAt: ").append(toIndentedString(lastApproverRemindedAt)).append("\n");
     sb.append("    rejection: ").append(toIndentedString(rejection)).append("\n");
     sb.append("    replacesInvoiceId: ").append(toIndentedString(replacesInvoiceId)).append("\n");
     sb.append("    replacesInvoiceIds: ").append(toIndentedString(replacesInvoiceIds)).append("\n");
@@ -2759,6 +2790,11 @@ public class ListInvoicesItemSupplierInvoice {
     // add `lastRemindedAt` to the URL query string
     if (getLastRemindedAt() != null) {
       joiner.add(String.format("%slastRemindedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLastRemindedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `lastApproverRemindedAt` to the URL query string
+    if (getLastApproverRemindedAt() != null) {
+      joiner.add(String.format("%slastApproverRemindedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLastApproverRemindedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `rejection` to the URL query string

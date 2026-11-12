@@ -104,8 +104,6 @@ pub struct GetInvoiceResult {
     pub document_type: Option<DocumentType>,
     #[serde(rename = "submittedBy", skip_serializing_if = "Option::is_none")]
     pub submitted_by: Option<String>,
-    #[serde(rename = "feedPayloadHash", skip_serializing_if = "Option::is_none")]
-    pub feed_payload_hash: Option<String>,
     #[serde(rename = "sourceDocument", skip_serializing_if = "Option::is_none")]
     pub source_document: Option<models::InvoiceSourceDocument>,
     #[serde(rename = "acceptedByName", skip_serializing_if = "Option::is_none")]
@@ -211,6 +209,11 @@ pub struct GetInvoiceResult {
     pub due_date_source: Option<DueDateSource>,
     #[serde(rename = "lastRemindedAt", skip_serializing_if = "Option::is_none")]
     pub last_reminded_at: Option<String>,
+    #[serde(
+        rename = "lastApproverRemindedAt",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub last_approver_reminded_at: Option<String>,
     #[serde(rename = "replacesInvoiceId", skip_serializing_if = "Option::is_none")]
     pub replaces_invoice_id: Option<String>,
     #[serde(rename = "replacesInvoiceIds", skip_serializing_if = "Option::is_none")]
@@ -230,6 +233,8 @@ pub struct GetInvoiceResult {
     pub invoice_date: Option<String>,
     #[serde(rename = "sodExcludedKeys", skip_serializing_if = "Option::is_none")]
     pub sod_excluded_keys: Option<Vec<String>>,
+    #[serde(rename = "feedPayloadHash", skip_serializing_if = "Option::is_none")]
+    pub feed_payload_hash: Option<String>,
     #[serde(rename = "withholdings", skip_serializing_if = "Option::is_none")]
     pub withholdings: Option<Vec<models::InvoiceBreakdownEntry>>,
     #[serde(rename = "amendsInvoiceId", skip_serializing_if = "Option::is_none")]
@@ -283,6 +288,11 @@ pub struct GetInvoiceResult {
         skip_serializing_if = "Option::is_none"
     )]
     pub viewer_is_supplier_member: Option<bool>,
+    #[serde(
+        rename = "nextApproverReminderAt",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub next_approver_reminder_at: Option<String>,
     #[serde(rename = "withdrawnPayment", skip_serializing_if = "Option::is_none")]
     pub withdrawn_payment: Option<models::InvoiceSupplierViewPayment>,
     #[serde(rename = "nextReminderAt", skip_serializing_if = "Option::is_none")]
@@ -333,7 +343,6 @@ impl GetInvoiceResult {
             rejection: None,
             document_type: None,
             submitted_by: None,
-            feed_payload_hash: None,
             source_document: None,
             accepted_by_name: None,
             replacement: None,
@@ -376,6 +385,7 @@ impl GetInvoiceResult {
             previous_exported_at: None,
             due_date_source: None,
             last_reminded_at: None,
+            last_approver_reminded_at: None,
             replaces_invoice_id: None,
             replaces_invoice_ids: None,
             replaced_by_invoice_ids: None,
@@ -384,6 +394,7 @@ impl GetInvoiceResult {
             has_lookup_rows: None,
             invoice_date: None,
             sod_excluded_keys: None,
+            feed_payload_hash: None,
             withholdings: None,
             amends_invoice_id: None,
             amends_external_invoice_number: None,
@@ -403,6 +414,7 @@ impl GetInvoiceResult {
             has_original_pdf: None,
             base_currency_amount: None,
             viewer_is_supplier_member: None,
+            next_approver_reminder_at: None,
             withdrawn_payment: None,
             next_reminder_at: None,
         }

@@ -19,7 +19,9 @@ import ai.pleaxy.client.Pair;
 
 import ai.pleaxy.model.ApiError;
 import ai.pleaxy.model.CancelPurchaseOrderInput;
+import ai.pleaxy.model.ChangeFinishedCostCenterInput;
 import ai.pleaxy.model.CreatePurchaseOrderInput;
+import java.io.File;
 import ai.pleaxy.model.GetPurchaseOrderResult;
 import ai.pleaxy.model.ListPurchaseOrdersItem;
 import ai.pleaxy.model.PurchaseOrder;
@@ -234,6 +236,91 @@ public class PurchaseOrdersApi {
 
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(cancelPurchaseOrderInput);
+      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer, administrator] Rebook a closed, paid or canceled purchase order to another cost center, with a reason. Only the cost center changes; the change is kept on the order (&#x60;costCenterChanges&#x60;). An open order changes its cost center with PATCH instead.
+   * 
+   * @param poId  (required)
+   * @param changeFinishedCostCenterInput  (required)
+   * @return PurchaseOrder
+   * @throws ApiException if fails to make API call
+   */
+  public PurchaseOrder changeFinishedPurchaseOrderCostCenter(String poId, ChangeFinishedCostCenterInput changeFinishedCostCenterInput) throws ApiException {
+    ApiResponse<PurchaseOrder> localVarResponse = changeFinishedPurchaseOrderCostCenterWithHttpInfo(poId, changeFinishedCostCenterInput);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer, administrator] Rebook a closed, paid or canceled purchase order to another cost center, with a reason. Only the cost center changes; the change is kept on the order (&#x60;costCenterChanges&#x60;). An open order changes its cost center with PATCH instead.
+   * 
+   * @param poId  (required)
+   * @param changeFinishedCostCenterInput  (required)
+   * @return ApiResponse&lt;PurchaseOrder&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<PurchaseOrder> changeFinishedPurchaseOrderCostCenterWithHttpInfo(String poId, ChangeFinishedCostCenterInput changeFinishedCostCenterInput) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = changeFinishedPurchaseOrderCostCenterRequestBuilder(poId, changeFinishedCostCenterInput);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("changeFinishedPurchaseOrderCostCenter", localVarResponse);
+        }
+        return new ApiResponse<PurchaseOrder>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PurchaseOrder>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder changeFinishedPurchaseOrderCostCenterRequestBuilder(String poId, ChangeFinishedCostCenterInput changeFinishedCostCenterInput) throws ApiException {
+    // verify the required parameter 'poId' is set
+    if (poId == null) {
+      throw new ApiException(400, "Missing the required parameter 'poId' when calling changeFinishedPurchaseOrderCostCenter");
+    }
+    // verify the required parameter 'changeFinishedCostCenterInput' is set
+    if (changeFinishedCostCenterInput == null) {
+      throw new ApiException(400, "Missing the required parameter 'changeFinishedCostCenterInput' when calling changeFinishedPurchaseOrderCostCenter");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/purchase-orders/{poId}/cost-center"
+        .replace("{poId}", ApiClient.urlEncode(poId.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(changeFinishedCostCenterInput);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
@@ -567,6 +654,96 @@ public class PurchaseOrdersApi {
     }
 
     localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Both] Get the purchase order as a PDF - the supplier&#39;s copy whoever asks (no cost center, budget owner, notes or approvals), to download, print or forward. Takes the same ?buyer&#x3D; qualifier as GetPurchaseOrder. Send &#x60;Accept: application/pdf&#x60;, or the deployed API returns the body base64-encoded.
+   * 
+   * @param poId  (required)
+   * @param buyer  (optional)
+   * @return File
+   * @throws ApiException if fails to make API call
+   */
+  public File getPurchaseOrderPdf(String poId, String buyer) throws ApiException {
+    ApiResponse<File> localVarResponse = getPurchaseOrderPdfWithHttpInfo(poId, buyer);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Both] Get the purchase order as a PDF - the supplier&#39;s copy whoever asks (no cost center, budget owner, notes or approvals), to download, print or forward. Takes the same ?buyer&#x3D; qualifier as GetPurchaseOrder. Send &#x60;Accept: application/pdf&#x60;, or the deployed API returns the body base64-encoded.
+   * 
+   * @param poId  (required)
+   * @param buyer  (optional)
+   * @return ApiResponse&lt;File&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<File> getPurchaseOrderPdfWithHttpInfo(String poId, String buyer) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getPurchaseOrderPdfRequestBuilder(poId, buyer);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("getPurchaseOrderPdf", localVarResponse);
+        }
+        return new ApiResponse<File>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : ai.pleaxy.Downloads.toTempFile(localVarResponse.body()) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder getPurchaseOrderPdfRequestBuilder(String poId, String buyer) throws ApiException {
+    // verify the required parameter 'poId' is set
+    if (poId == null) {
+      throw new ApiException(400, "Missing the required parameter 'poId' when calling getPurchaseOrderPdf");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/purchase-orders/{poId}/pdf"
+        .replace("{poId}", ApiClient.urlEncode(poId.toString()));
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "buyer";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("buyer", buyer));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/pdf, application/json");
 
     localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {

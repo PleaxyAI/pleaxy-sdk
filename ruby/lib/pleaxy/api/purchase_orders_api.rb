@@ -152,6 +152,78 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Buyer, administrator] Rebook a closed, paid or canceled purchase order to another cost center, with a reason. Only the cost center changes; the change is kept on the order (`costCenterChanges`). An open order changes its cost center with PATCH instead.
+    # @param po_id [String] 
+    # @param change_finished_cost_center_input [ChangeFinishedCostCenterInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [PurchaseOrder]
+    def change_finished_purchase_order_cost_center(po_id, change_finished_cost_center_input, opts = {})
+      data, _status_code, _headers = change_finished_purchase_order_cost_center_with_http_info(po_id, change_finished_cost_center_input, opts)
+      data
+    end
+
+    # [Buyer, administrator] Rebook a closed, paid or canceled purchase order to another cost center, with a reason. Only the cost center changes; the change is kept on the order (&#x60;costCenterChanges&#x60;). An open order changes its cost center with PATCH instead.
+    # @param po_id [String] 
+    # @param change_finished_cost_center_input [ChangeFinishedCostCenterInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(PurchaseOrder, Integer, Hash)>] PurchaseOrder data, response status code and response headers
+    def change_finished_purchase_order_cost_center_with_http_info(po_id, change_finished_cost_center_input, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: PurchaseOrdersApi.change_finished_purchase_order_cost_center ...'
+      end
+      # verify the required parameter 'po_id' is set
+      if @api_client.config.client_side_validation && po_id.nil?
+        fail ArgumentError, "Missing the required parameter 'po_id' when calling PurchaseOrdersApi.change_finished_purchase_order_cost_center"
+      end
+      # verify the required parameter 'change_finished_cost_center_input' is set
+      if @api_client.config.client_side_validation && change_finished_cost_center_input.nil?
+        fail ArgumentError, "Missing the required parameter 'change_finished_cost_center_input' when calling PurchaseOrdersApi.change_finished_purchase_order_cost_center"
+      end
+      # resource path
+      local_var_path = '/purchase-orders/{poId}/cost-center'.sub('{' + 'poId' + '}', CGI.escape(po_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(change_finished_cost_center_input)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'PurchaseOrder'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"PurchaseOrdersApi.change_finished_purchase_order_cost_center",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PurchaseOrdersApi#change_finished_purchase_order_cost_center\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] Manually close out a purchase order
     # @param po_id [String] 
     # @param [Hash] opts the optional parameters
@@ -403,6 +475,70 @@ module Pleaxy
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PurchaseOrdersApi#get_purchase_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Both] Get the purchase order as a PDF - the supplier's copy whoever asks (no cost center, budget owner, notes or approvals), to download, print or forward. Takes the same ?buyer= qualifier as GetPurchaseOrder. Send `Accept: application/pdf`, or the deployed API returns the body base64-encoded.
+    # @param po_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :buyer 
+    # @return [File]
+    def get_purchase_order_pdf(po_id, opts = {})
+      data, _status_code, _headers = get_purchase_order_pdf_with_http_info(po_id, opts)
+      data
+    end
+
+    # [Both] Get the purchase order as a PDF - the supplier&#39;s copy whoever asks (no cost center, budget owner, notes or approvals), to download, print or forward. Takes the same ?buyer&#x3D; qualifier as GetPurchaseOrder. Send &#x60;Accept: application/pdf&#x60;, or the deployed API returns the body base64-encoded.
+    # @param po_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :buyer 
+    # @return [Array<(File, Integer, Hash)>] File data, response status code and response headers
+    def get_purchase_order_pdf_with_http_info(po_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: PurchaseOrdersApi.get_purchase_order_pdf ...'
+      end
+      # verify the required parameter 'po_id' is set
+      if @api_client.config.client_side_validation && po_id.nil?
+        fail ArgumentError, "Missing the required parameter 'po_id' when calling PurchaseOrdersApi.get_purchase_order_pdf"
+      end
+      # resource path
+      local_var_path = '/purchase-orders/{poId}/pdf'.sub('{' + 'poId' + '}', CGI.escape(po_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'buyer'] = opts[:'buyer'] if !opts[:'buyer'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/pdf', 'application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'File'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"PurchaseOrdersApi.get_purchase_order_pdf",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PurchaseOrdersApi#get_purchase_order_pdf\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

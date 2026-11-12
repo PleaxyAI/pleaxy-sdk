@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.AiProviderCreditPrice;
 import ai.pleaxy.model.AiProviderDatabricks;
+import ai.pleaxy.model.AiProviderGithub;
 import ai.pleaxy.model.AiProviderSnowflake;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -45,6 +46,7 @@ import ai.pleaxy.client.ApiClient;
   AiProvider.JSON_PROPERTY_CONNECTED_BY,
   AiProvider.JSON_PROPERTY_SNOWFLAKE,
   AiProvider.JSON_PROPERTY_DATABRICKS,
+  AiProvider.JSON_PROPERTY_GITHUB,
   AiProvider.JSON_PROPERTY_CREDIT_PRICE,
   AiProvider.JSON_PROPERTY_SUPPLIER_CONNECTION_ID,
   AiProvider.JSON_PROPERTY_LAST_SYNCED_AT,
@@ -186,6 +188,10 @@ public class AiProvider {
   public static final String JSON_PROPERTY_DATABRICKS = "databricks";
   @javax.annotation.Nullable
   private AiProviderDatabricks databricks;
+
+  public static final String JSON_PROPERTY_GITHUB = "github";
+  @javax.annotation.Nullable
+  private AiProviderGithub github;
 
   public static final String JSON_PROPERTY_CREDIT_PRICE = "creditPrice";
   @javax.annotation.Nullable
@@ -512,6 +518,30 @@ public class AiProvider {
   }
 
 
+  public AiProvider github(@javax.annotation.Nullable AiProviderGithub github) {
+    this.github = github;
+    return this;
+  }
+
+  /**
+   * Get github
+   * @return github
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_GITHUB)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public AiProviderGithub getGithub() {
+    return github;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_GITHUB)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setGithub(@javax.annotation.Nullable AiProviderGithub github) {
+    this.github = github;
+  }
+
+
   public AiProvider creditPrice(@javax.annotation.Nullable AiProviderCreditPrice creditPrice) {
     this.creditPrice = creditPrice;
     return this;
@@ -701,6 +731,7 @@ public class AiProvider {
         Objects.equals(this.connectedBy, aiProvider.connectedBy) &&
         Objects.equals(this.snowflake, aiProvider.snowflake) &&
         Objects.equals(this.databricks, aiProvider.databricks) &&
+        Objects.equals(this.github, aiProvider.github) &&
         Objects.equals(this.creditPrice, aiProvider.creditPrice) &&
         Objects.equals(this.supplierConnectionId, aiProvider.supplierConnectionId) &&
         Objects.equals(this.lastSyncedAt, aiProvider.lastSyncedAt) &&
@@ -712,7 +743,7 @@ public class AiProvider {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, provider, accountLabel, keyHint, status, connectedAt, connectedBy, snowflake, databricks, creditPrice, supplierConnectionId, lastSyncedAt, lastSyncStatus, lastSyncError, lastSyncErrorCode, currency);
+    return Objects.hash(id, provider, accountLabel, keyHint, status, connectedAt, connectedBy, snowflake, databricks, github, creditPrice, supplierConnectionId, lastSyncedAt, lastSyncStatus, lastSyncError, lastSyncErrorCode, currency);
   }
 
   @Override
@@ -728,6 +759,7 @@ public class AiProvider {
     sb.append("    connectedBy: ").append(toIndentedString(connectedBy)).append("\n");
     sb.append("    snowflake: ").append(toIndentedString(snowflake)).append("\n");
     sb.append("    databricks: ").append(toIndentedString(databricks)).append("\n");
+    sb.append("    github: ").append(toIndentedString(github)).append("\n");
     sb.append("    creditPrice: ").append(toIndentedString(creditPrice)).append("\n");
     sb.append("    supplierConnectionId: ").append(toIndentedString(supplierConnectionId)).append("\n");
     sb.append("    lastSyncedAt: ").append(toIndentedString(lastSyncedAt)).append("\n");
@@ -825,6 +857,11 @@ public class AiProvider {
     // add `databricks` to the URL query string
     if (getDatabricks() != null) {
       joiner.add(getDatabricks().toUrlQueryString(prefix + "databricks" + suffix));
+    }
+
+    // add `github` to the URL query string
+    if (getGithub() != null) {
+      joiner.add(getGithub().toUrlQueryString(prefix + "github" + suffix));
     }
 
     // add `creditPrice` to the URL query string

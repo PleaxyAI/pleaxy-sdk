@@ -117,6 +117,8 @@ module Pleaxy
 
     attr_accessor :last_reminded_at
 
+    attr_accessor :last_approver_reminded_at
+
     attr_accessor :rejection
 
     attr_accessor :replaces_invoice_id
@@ -194,6 +196,8 @@ module Pleaxy
     attr_accessor :base_currency_amount
 
     attr_accessor :viewer_is_supplier_member
+
+    attr_accessor :next_approver_reminder_at
 
     attr_accessor :replacement
 
@@ -275,6 +279,7 @@ module Pleaxy
         :'previous_exported_at' => :'previousExportedAt',
         :'due_date_source' => :'dueDateSource',
         :'last_reminded_at' => :'lastRemindedAt',
+        :'last_approver_reminded_at' => :'lastApproverRemindedAt',
         :'rejection' => :'rejection',
         :'replaces_invoice_id' => :'replacesInvoiceId',
         :'replaces_invoice_ids' => :'replacesInvoiceIds',
@@ -314,6 +319,7 @@ module Pleaxy
         :'has_original_pdf' => :'hasOriginalPdf',
         :'base_currency_amount' => :'baseCurrencyAmount',
         :'viewer_is_supplier_member' => :'viewerIsSupplierMember',
+        :'next_approver_reminder_at' => :'nextApproverReminderAt',
         :'replacement' => :'replacement',
         :'uncredited_originals' => :'uncreditedOriginals'
       }
@@ -378,6 +384,7 @@ module Pleaxy
         :'previous_exported_at' => :'String',
         :'due_date_source' => :'String',
         :'last_reminded_at' => :'String',
+        :'last_approver_reminded_at' => :'String',
         :'rejection' => :'InvoiceRejection',
         :'replaces_invoice_id' => :'String',
         :'replaces_invoice_ids' => :'Array<String>',
@@ -417,6 +424,7 @@ module Pleaxy
         :'has_original_pdf' => :'Boolean',
         :'base_currency_amount' => :'InvoiceBaseCurrencyAmount',
         :'viewer_is_supplier_member' => :'Boolean',
+        :'next_approver_reminder_at' => :'String',
         :'replacement' => :'InvoiceReplacementCheck',
         :'uncredited_originals' => :'Array<UncreditedOriginal>'
       }
@@ -657,6 +665,10 @@ module Pleaxy
         self.last_reminded_at = attributes[:'last_reminded_at']
       end
 
+      if attributes.key?(:'last_approver_reminded_at')
+        self.last_approver_reminded_at = attributes[:'last_approver_reminded_at']
+      end
+
       if attributes.key?(:'rejection')
         self.rejection = attributes[:'rejection']
       end
@@ -835,6 +847,10 @@ module Pleaxy
 
       if attributes.key?(:'viewer_is_supplier_member')
         self.viewer_is_supplier_member = attributes[:'viewer_is_supplier_member']
+      end
+
+      if attributes.key?(:'next_approver_reminder_at')
+        self.next_approver_reminder_at = attributes[:'next_approver_reminder_at']
       end
 
       if attributes.key?(:'replacement')
@@ -1080,6 +1096,7 @@ module Pleaxy
           previous_exported_at == o.previous_exported_at &&
           due_date_source == o.due_date_source &&
           last_reminded_at == o.last_reminded_at &&
+          last_approver_reminded_at == o.last_approver_reminded_at &&
           rejection == o.rejection &&
           replaces_invoice_id == o.replaces_invoice_id &&
           replaces_invoice_ids == o.replaces_invoice_ids &&
@@ -1119,6 +1136,7 @@ module Pleaxy
           has_original_pdf == o.has_original_pdf &&
           base_currency_amount == o.base_currency_amount &&
           viewer_is_supplier_member == o.viewer_is_supplier_member &&
+          next_approver_reminder_at == o.next_approver_reminder_at &&
           replacement == o.replacement &&
           uncredited_originals == o.uncredited_originals
     end
@@ -1132,7 +1150,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [already_recorded, supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, settlement, approval_version, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, usage_amount, usage_amount_simulated, usage_simulated_after_disconnect, usage_currency, usage_source, tolerance_pct, match_status, unverified_reason, match_basis, no_po_comparison, payment_route, receipt_check_skipped, receipt_tolerance_applied, match_type, discrepancy_reason, control_findings, paid, due_in_days, due_date, paid_at, payment, remittances, payment_history, payment_problem, receipt_confirmation_reminded_at, export_available_from, previous_exported_at, due_date_source, last_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, sod_excluded_keys, submitted_format, submitted_by, feed_payload_hash, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, rate_warnings, remittance_instructions, remittance_check, bank_details_confirmation, bank_lane, source_document, has_original_pdf, base_currency_amount, viewer_is_supplier_member, replacement, uncredited_originals].hash
+      [already_recorded, supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, settlement, approval_version, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, usage_amount, usage_amount_simulated, usage_simulated_after_disconnect, usage_currency, usage_source, tolerance_pct, match_status, unverified_reason, match_basis, no_po_comparison, payment_route, receipt_check_skipped, receipt_tolerance_applied, match_type, discrepancy_reason, control_findings, paid, due_in_days, due_date, paid_at, payment, remittances, payment_history, payment_problem, receipt_confirmation_reminded_at, export_available_from, previous_exported_at, due_date_source, last_reminded_at, last_approver_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, sod_excluded_keys, submitted_format, submitted_by, feed_payload_hash, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, rate_warnings, remittance_instructions, remittance_check, bank_details_confirmation, bank_lane, source_document, has_original_pdf, base_currency_amount, viewer_is_supplier_member, next_approver_reminder_at, replacement, uncredited_originals].hash
     end
 
     # Builds the object from hash

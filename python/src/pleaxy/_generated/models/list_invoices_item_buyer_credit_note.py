@@ -90,7 +90,6 @@ class ListInvoicesItemBuyerCreditNote:
         entered_by (Union[Unset, ListInvoicesItemBuyerCreditNoteEnteredBy]):
         submitted_format (Union[Unset, ListInvoicesItemBuyerCreditNoteSubmittedFormat]):
         submitted_by (Union[Unset, str]):
-        feed_payload_hash (Union[Unset, str]):
         external_invoice_number (Union[Unset, str]):
         adjustments (Union[Unset, List['InvoiceAdjustment']]):
         tax_amount (Union[Unset, float]):
@@ -138,7 +137,6 @@ class ListInvoicesItemBuyerCreditNote:
         UNSET
     )
     submitted_by: Union[Unset, str] = UNSET
-    feed_payload_hash: Union[Unset, str] = UNSET
     external_invoice_number: Union[Unset, str] = UNSET
     adjustments: Union[Unset, List["InvoiceAdjustment"]] = UNSET
     tax_amount: Union[Unset, float] = UNSET
@@ -229,8 +227,6 @@ class ListInvoicesItemBuyerCreditNote:
             submitted_format = self.submitted_format
 
         submitted_by = self.submitted_by
-
-        feed_payload_hash = self.feed_payload_hash
 
         external_invoice_number = self.external_invoice_number
 
@@ -358,8 +354,6 @@ class ListInvoicesItemBuyerCreditNote:
             field_dict["submittedFormat"] = submitted_format
         if submitted_by is not UNSET:
             field_dict["submittedBy"] = submitted_by
-        if feed_payload_hash is not UNSET:
-            field_dict["feedPayloadHash"] = feed_payload_hash
         if external_invoice_number is not UNSET:
             field_dict["externalInvoiceNumber"] = external_invoice_number
         if adjustments is not UNSET:
@@ -512,8 +506,6 @@ class ListInvoicesItemBuyerCreditNote:
 
         submitted_by = d.pop("submittedBy", UNSET)
 
-        feed_payload_hash = d.pop("feedPayloadHash", UNSET)
-
         external_invoice_number = d.pop("externalInvoiceNumber", UNSET)
 
         adjustments = []
@@ -651,7 +643,6 @@ class ListInvoicesItemBuyerCreditNote:
             entered_by=entered_by,
             submitted_format=submitted_format,
             submitted_by=submitted_by,
-            feed_payload_hash=feed_payload_hash,
             external_invoice_number=external_invoice_number,
             adjustments=adjustments,
             tax_amount=tax_amount,

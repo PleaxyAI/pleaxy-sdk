@@ -8,6 +8,7 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.credit_price_input import CreditPriceInput
     from ..models.databricks_connection_input import DatabricksConnectionInput
+    from ..models.git_hub_connection_input import GitHubConnectionInput
     from ..models.snowflake_connection_input import SnowflakeConnectionInput
 
 
@@ -22,6 +23,7 @@ class CreateAiProviderInput:
         key (Union[Unset, str]):
         snowflake (Union[Unset, SnowflakeConnectionInput]):
         databricks (Union[Unset, DatabricksConnectionInput]):
+        github (Union[Unset, GitHubConnectionInput]):
         credit_price (Union[Unset, CreditPriceInput]):
     """
 
@@ -29,6 +31,7 @@ class CreateAiProviderInput:
     key: Union[Unset, str] = UNSET
     snowflake: Union[Unset, "SnowflakeConnectionInput"] = UNSET
     databricks: Union[Unset, "DatabricksConnectionInput"] = UNSET
+    github: Union[Unset, "GitHubConnectionInput"] = UNSET
     credit_price: Union[Unset, "CreditPriceInput"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -44,6 +47,10 @@ class CreateAiProviderInput:
         databricks: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.databricks, Unset):
             databricks = self.databricks.to_dict()
+
+        github: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.github, Unset):
+            github = self.github.to_dict()
 
         credit_price: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.credit_price, Unset):
@@ -62,6 +69,8 @@ class CreateAiProviderInput:
             field_dict["snowflake"] = snowflake
         if databricks is not UNSET:
             field_dict["databricks"] = databricks
+        if github is not UNSET:
+            field_dict["github"] = github
         if credit_price is not UNSET:
             field_dict["creditPrice"] = credit_price
 
@@ -71,6 +80,7 @@ class CreateAiProviderInput:
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.credit_price_input import CreditPriceInput
         from ..models.databricks_connection_input import DatabricksConnectionInput
+        from ..models.git_hub_connection_input import GitHubConnectionInput
         from ..models.snowflake_connection_input import SnowflakeConnectionInput
 
         d = src_dict.copy()
@@ -92,6 +102,13 @@ class CreateAiProviderInput:
         else:
             databricks = DatabricksConnectionInput.from_dict(_databricks)
 
+        _github = d.pop("github", UNSET)
+        github: Union[Unset, GitHubConnectionInput]
+        if isinstance(_github, Unset):
+            github = UNSET
+        else:
+            github = GitHubConnectionInput.from_dict(_github)
+
         _credit_price = d.pop("creditPrice", UNSET)
         credit_price: Union[Unset, CreditPriceInput]
         if isinstance(_credit_price, Unset):
@@ -104,6 +121,7 @@ class CreateAiProviderInput:
             key=key,
             snowflake=snowflake,
             databricks=databricks,
+            github=github,
             credit_price=credit_price,
         )
 

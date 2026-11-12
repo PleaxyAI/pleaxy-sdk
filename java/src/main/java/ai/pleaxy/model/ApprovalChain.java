@@ -48,6 +48,7 @@ import ai.pleaxy.client.ApiClient;
   ApprovalChain.JSON_PROPERTY_STATUS,
   ApprovalChain.JSON_PROPERTY_HISTORY,
   ApprovalChain.JSON_PROPERTY_AUTONOMY,
+  ApprovalChain.JSON_PROPERTY_ROUTED_AUTOMATICALLY,
   ApprovalChain.JSON_PROPERTY_SPEND_LIMIT_GATE,
   ApprovalChain.JSON_PROPERTY_EXCLUDED_EMPLOYEE_KEYS,
   ApprovalChain.JSON_PROPERTY_SELF_APPROVED,
@@ -121,6 +122,10 @@ public class ApprovalChain {
   public static final String JSON_PROPERTY_AUTONOMY = "autonomy";
   @javax.annotation.Nullable
   private Boolean autonomy;
+
+  public static final String JSON_PROPERTY_ROUTED_AUTOMATICALLY = "routedAutomatically";
+  @javax.annotation.Nullable
+  private Boolean routedAutomatically;
 
   public static final String JSON_PROPERTY_SPEND_LIMIT_GATE = "spendLimitGate";
   @javax.annotation.Nullable
@@ -333,6 +338,30 @@ public class ApprovalChain {
   }
 
 
+  public ApprovalChain routedAutomatically(@javax.annotation.Nullable Boolean routedAutomatically) {
+    this.routedAutomatically = routedAutomatically;
+    return this;
+  }
+
+  /**
+   * Get routedAutomatically
+   * @return routedAutomatically
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ROUTED_AUTOMATICALLY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getRoutedAutomatically() {
+    return routedAutomatically;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ROUTED_AUTOMATICALLY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRoutedAutomatically(@javax.annotation.Nullable Boolean routedAutomatically) {
+    this.routedAutomatically = routedAutomatically;
+  }
+
+
   public ApprovalChain spendLimitGate(@javax.annotation.Nullable SpendLimitGate spendLimitGate) {
     this.spendLimitGate = spendLimitGate;
     return this;
@@ -504,6 +533,7 @@ public class ApprovalChain {
         Objects.equals(this.status, approvalChain.status) &&
         Objects.equals(this.history, approvalChain.history) &&
         Objects.equals(this.autonomy, approvalChain.autonomy) &&
+        Objects.equals(this.routedAutomatically, approvalChain.routedAutomatically) &&
         Objects.equals(this.spendLimitGate, approvalChain.spendLimitGate) &&
         Objects.equals(this.excludedEmployeeKeys, approvalChain.excludedEmployeeKeys) &&
         Objects.equals(this.selfApproved, approvalChain.selfApproved) &&
@@ -514,7 +544,7 @@ public class ApprovalChain {
 
   @Override
   public int hashCode() {
-    return Objects.hash(requester, requesterEmployeeKey, groups, groupIndex, status, history, autonomy, spendLimitGate, excludedEmployeeKeys, selfApproved, fx, fromRequest, routing);
+    return Objects.hash(requester, requesterEmployeeKey, groups, groupIndex, status, history, autonomy, routedAutomatically, spendLimitGate, excludedEmployeeKeys, selfApproved, fx, fromRequest, routing);
   }
 
   @Override
@@ -528,6 +558,7 @@ public class ApprovalChain {
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    history: ").append(toIndentedString(history)).append("\n");
     sb.append("    autonomy: ").append(toIndentedString(autonomy)).append("\n");
+    sb.append("    routedAutomatically: ").append(toIndentedString(routedAutomatically)).append("\n");
     sb.append("    spendLimitGate: ").append(toIndentedString(spendLimitGate)).append("\n");
     sb.append("    excludedEmployeeKeys: ").append(toIndentedString(excludedEmployeeKeys)).append("\n");
     sb.append("    selfApproved: ").append(toIndentedString(selfApproved)).append("\n");
@@ -624,6 +655,11 @@ public class ApprovalChain {
     // add `autonomy` to the URL query string
     if (getAutonomy() != null) {
       joiner.add(String.format("%sautonomy%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAutonomy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `routedAutomatically` to the URL query string
+    if (getRoutedAutomatically() != null) {
+      joiner.add(String.format("%sroutedAutomatically%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRoutedAutomatically()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `spendLimitGate` to the URL query string

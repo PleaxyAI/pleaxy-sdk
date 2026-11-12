@@ -51,11 +51,13 @@ def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Response[InvoiceBuyerView]:
-    """[Buyer] Match an invoice: against the provider's usage for a cloud provider's order; otherwise
-    against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as
-    a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the
-    PO and contract as they stand now: still over, its controlFindings are brought up to date; within
-    them, it goes back to the match it would have been created with. Only against an approved PO.
+    """[Buyer] Match an invoice: against the provider's usage for a cloud provider's order (Pleaxy runs
+    that match itself as the invoice arrives; call this when it couldn't, e.g. no figure was in yet);
+    otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an
+    invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it
+    again against the PO and contract as they stand now: still over, its controlFindings are brought up
+    to date; within them, it goes back to the match it would have been created with. Only against an
+    approved PO.
 
     Args:
         invoice_id (str):
@@ -84,11 +86,13 @@ def sync(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[InvoiceBuyerView]:
-    """[Buyer] Match an invoice: against the provider's usage for a cloud provider's order; otherwise
-    against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as
-    a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the
-    PO and contract as they stand now: still over, its controlFindings are brought up to date; within
-    them, it goes back to the match it would have been created with. Only against an approved PO.
+    """[Buyer] Match an invoice: against the provider's usage for a cloud provider's order (Pleaxy runs
+    that match itself as the invoice arrives; call this when it couldn't, e.g. no figure was in yet);
+    otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an
+    invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it
+    again against the PO and contract as they stand now: still over, its controlFindings are brought up
+    to date; within them, it goes back to the match it would have been created with. Only against an
+    approved PO.
 
     Args:
         invoice_id (str):
@@ -112,11 +116,13 @@ async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Response[InvoiceBuyerView]:
-    """[Buyer] Match an invoice: against the provider's usage for a cloud provider's order; otherwise
-    against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as
-    a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the
-    PO and contract as they stand now: still over, its controlFindings are brought up to date; within
-    them, it goes back to the match it would have been created with. Only against an approved PO.
+    """[Buyer] Match an invoice: against the provider's usage for a cloud provider's order (Pleaxy runs
+    that match itself as the invoice arrives; call this when it couldn't, e.g. no figure was in yet);
+    otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an
+    invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it
+    again against the PO and contract as they stand now: still over, its controlFindings are brought up
+    to date; within them, it goes back to the match it would have been created with. Only against an
+    approved PO.
 
     Args:
         invoice_id (str):
@@ -143,11 +149,13 @@ async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[InvoiceBuyerView]:
-    """[Buyer] Match an invoice: against the provider's usage for a cloud provider's order; otherwise
-    against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as
-    a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the
-    PO and contract as they stand now: still over, its controlFindings are brought up to date; within
-    them, it goes back to the match it would have been created with. Only against an approved PO.
+    """[Buyer] Match an invoice: against the provider's usage for a cloud provider's order (Pleaxy runs
+    that match itself as the invoice arrives; call this when it couldn't, e.g. no figure was in yet);
+    otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an
+    invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it
+    again against the PO and contract as they stand now: still over, its controlFindings are brought up
+    to date; within them, it goes back to the match it would have been created with. Only against an
+    approved PO.
 
     Args:
         invoice_id (str):

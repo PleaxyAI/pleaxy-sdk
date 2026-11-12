@@ -65,7 +65,8 @@ import ai.pleaxy.client.ApiClient;
   GetOrgProfileResult.JSON_PROPERTY_SAME_DOMAIN_ACKNOWLEDGED,
   GetOrgProfileResult.JSON_PROPERTY_VERIFIED,
   GetOrgProfileResult.JSON_PROPERTY_LISTED_IN_DIRECTORY,
-  GetOrgProfileResult.JSON_PROPERTY_DIRECTORY_ID
+  GetOrgProfileResult.JSON_PROPERTY_DIRECTORY_ID,
+  GetOrgProfileResult.JSON_PROPERTY_SETUP_GOAL
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class GetOrgProfileResult {
@@ -254,6 +255,45 @@ public class GetOrgProfileResult {
   public static final String JSON_PROPERTY_DIRECTORY_ID = "directoryId";
   @javax.annotation.Nullable
   private String directoryId;
+
+  /**
+   * Gets or Sets setupGoal
+   */
+  public enum SetupGoalEnum {
+    AUDIT(String.valueOf("audit")),
+    
+    NETWORK(String.valueOf("network"));
+
+    private String value;
+
+    SetupGoalEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static SetupGoalEnum fromValue(String value) {
+      for (SetupGoalEnum b : SetupGoalEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_SETUP_GOAL = "setupGoal";
+  @javax.annotation.Nullable
+  private SetupGoalEnum setupGoal;
 
   public GetOrgProfileResult() { 
   }
@@ -930,6 +970,30 @@ public class GetOrgProfileResult {
   }
 
 
+  public GetOrgProfileResult setupGoal(@javax.annotation.Nullable SetupGoalEnum setupGoal) {
+    this.setupGoal = setupGoal;
+    return this;
+  }
+
+  /**
+   * Get setupGoal
+   * @return setupGoal
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SETUP_GOAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SetupGoalEnum getSetupGoal() {
+    return setupGoal;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SETUP_GOAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSetupGoal(@javax.annotation.Nullable SetupGoalEnum setupGoal) {
+    this.setupGoal = setupGoal;
+  }
+
+
   /**
    * Return true if this GetOrgProfileResult object is equal to o.
    */
@@ -968,12 +1032,13 @@ public class GetOrgProfileResult {
         Objects.equals(this.sameDomainAcknowledged, getOrgProfileResult.sameDomainAcknowledged) &&
         Objects.equals(this.verified, getOrgProfileResult.verified) &&
         Objects.equals(this.listedInDirectory, getOrgProfileResult.listedInDirectory) &&
-        Objects.equals(this.directoryId, getOrgProfileResult.directoryId);
+        Objects.equals(this.directoryId, getOrgProfileResult.directoryId) &&
+        Objects.equals(this.setupGoal, getOrgProfileResult.setupGoal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(images, id, role, regionId, regionName, companyName, billingEmail, billingAddress, billingAddressParts, billingAddressLegacyText, billingAddressNeedsReview, taxId, currency, otherCurrencies, paymentCurrencies, fxWarningPct, countries, geography, timeZone, locale, primaryContactName, primaryContactEmail, createdAt, sameDomainAcknowledged, verified, listedInDirectory, directoryId);
+    return Objects.hash(images, id, role, regionId, regionName, companyName, billingEmail, billingAddress, billingAddressParts, billingAddressLegacyText, billingAddressNeedsReview, taxId, currency, otherCurrencies, paymentCurrencies, fxWarningPct, countries, geography, timeZone, locale, primaryContactName, primaryContactEmail, createdAt, sameDomainAcknowledged, verified, listedInDirectory, directoryId, setupGoal);
   }
 
   @Override
@@ -1007,6 +1072,7 @@ public class GetOrgProfileResult {
     sb.append("    verified: ").append(toIndentedString(verified)).append("\n");
     sb.append("    listedInDirectory: ").append(toIndentedString(listedInDirectory)).append("\n");
     sb.append("    directoryId: ").append(toIndentedString(directoryId)).append("\n");
+    sb.append("    setupGoal: ").append(toIndentedString(setupGoal)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -1199,6 +1265,11 @@ public class GetOrgProfileResult {
     // add `directoryId` to the URL query string
     if (getDirectoryId() != null) {
       joiner.add(String.format("%sdirectoryId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDirectoryId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `setupGoal` to the URL query string
+    if (getSetupGoal() != null) {
+      joiner.add(String.format("%ssetupGoal%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSetupGoal()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

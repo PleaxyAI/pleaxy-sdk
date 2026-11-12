@@ -19,13 +19,13 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.BuyerCreditNoteViewRejection;
 import ai.pleaxy.model.CreditNoteApplication;
 import ai.pleaxy.model.CreditNoteHistoryEntry;
 import ai.pleaxy.model.InvoiceAdjustment;
 import ai.pleaxy.model.InvoiceBreakdownEntry;
 import ai.pleaxy.model.InvoiceLineItem;
 import ai.pleaxy.model.InvoiceSourceDocument;
-import ai.pleaxy.model.ListInvoicesItemBuyerCreditNoteRejection;
 import ai.pleaxy.model.SupplierCreditNoteViewExportsInner;
 import ai.pleaxy.model.SupplierCreditNoteViewPoEffect;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -65,7 +65,6 @@ import ai.pleaxy.client.ApiClient;
   ListInvoicesItemBuyerCreditNote.JSON_PROPERTY_ENTERED_BY,
   ListInvoicesItemBuyerCreditNote.JSON_PROPERTY_SUBMITTED_FORMAT,
   ListInvoicesItemBuyerCreditNote.JSON_PROPERTY_SUBMITTED_BY,
-  ListInvoicesItemBuyerCreditNote.JSON_PROPERTY_FEED_PAYLOAD_HASH,
   ListInvoicesItemBuyerCreditNote.JSON_PROPERTY_EXTERNAL_INVOICE_NUMBER,
   ListInvoicesItemBuyerCreditNote.JSON_PROPERTY_ADJUSTMENTS,
   ListInvoicesItemBuyerCreditNote.JSON_PROPERTY_TAX_AMOUNT,
@@ -234,7 +233,7 @@ public class ListInvoicesItemBuyerCreditNote {
 
   public static final String JSON_PROPERTY_REJECTION = "rejection";
   @javax.annotation.Nullable
-  private ListInvoicesItemBuyerCreditNoteRejection rejection;
+  private BuyerCreditNoteViewRejection rejection;
 
   /**
    * Gets or Sets source
@@ -358,10 +357,6 @@ public class ListInvoicesItemBuyerCreditNote {
   public static final String JSON_PROPERTY_SUBMITTED_BY = "submittedBy";
   @javax.annotation.Nullable
   private String submittedBy;
-
-  public static final String JSON_PROPERTY_FEED_PAYLOAD_HASH = "feedPayloadHash";
-  @javax.annotation.Nullable
-  private String feedPayloadHash;
 
   public static final String JSON_PROPERTY_EXTERNAL_INVOICE_NUMBER = "externalInvoiceNumber";
   @javax.annotation.Nullable
@@ -920,7 +915,7 @@ public class ListInvoicesItemBuyerCreditNote {
   }
 
 
-  public ListInvoicesItemBuyerCreditNote rejection(@javax.annotation.Nullable ListInvoicesItemBuyerCreditNoteRejection rejection) {
+  public ListInvoicesItemBuyerCreditNote rejection(@javax.annotation.Nullable BuyerCreditNoteViewRejection rejection) {
     this.rejection = rejection;
     return this;
   }
@@ -932,14 +927,14 @@ public class ListInvoicesItemBuyerCreditNote {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_REJECTION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public ListInvoicesItemBuyerCreditNoteRejection getRejection() {
+  public BuyerCreditNoteViewRejection getRejection() {
     return rejection;
   }
 
 
   @JsonProperty(JSON_PROPERTY_REJECTION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setRejection(@javax.annotation.Nullable ListInvoicesItemBuyerCreditNoteRejection rejection) {
+  public void setRejection(@javax.annotation.Nullable BuyerCreditNoteViewRejection rejection) {
     this.rejection = rejection;
   }
 
@@ -1037,30 +1032,6 @@ public class ListInvoicesItemBuyerCreditNote {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSubmittedBy(@javax.annotation.Nullable String submittedBy) {
     this.submittedBy = submittedBy;
-  }
-
-
-  public ListInvoicesItemBuyerCreditNote feedPayloadHash(@javax.annotation.Nullable String feedPayloadHash) {
-    this.feedPayloadHash = feedPayloadHash;
-    return this;
-  }
-
-  /**
-   * Get feedPayloadHash
-   * @return feedPayloadHash
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FEED_PAYLOAD_HASH)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public String getFeedPayloadHash() {
-    return feedPayloadHash;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_FEED_PAYLOAD_HASH)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFeedPayloadHash(@javax.annotation.Nullable String feedPayloadHash) {
-    this.feedPayloadHash = feedPayloadHash;
   }
 
 
@@ -1641,7 +1612,6 @@ public class ListInvoicesItemBuyerCreditNote {
         Objects.equals(this.enteredBy, listInvoicesItemBuyerCreditNote.enteredBy) &&
         Objects.equals(this.submittedFormat, listInvoicesItemBuyerCreditNote.submittedFormat) &&
         Objects.equals(this.submittedBy, listInvoicesItemBuyerCreditNote.submittedBy) &&
-        Objects.equals(this.feedPayloadHash, listInvoicesItemBuyerCreditNote.feedPayloadHash) &&
         Objects.equals(this.externalInvoiceNumber, listInvoicesItemBuyerCreditNote.externalInvoiceNumber) &&
         Objects.equals(this.adjustments, listInvoicesItemBuyerCreditNote.adjustments) &&
         Objects.equals(this.taxAmount, listInvoicesItemBuyerCreditNote.taxAmount) &&
@@ -1667,7 +1637,7 @@ public class ListInvoicesItemBuyerCreditNote {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, status, createdAt, cloudProvider, amount, supplierConnectionId, currency, invoiceId, buyerOrgName, lineItems, version, po, poLineNo, rejection, source, enteredBy, submittedFormat, submittedBy, feedPayloadHash, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, sourceDocument, note, externalCreditNoteNumber, issueDate, reason, correctsBilling, refunded, acceptedAt, acceptedByName, autoAccepted, poEffect, applications, exports, history, remaining, hasPdf, documentType);
+    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, status, createdAt, cloudProvider, amount, supplierConnectionId, currency, invoiceId, buyerOrgName, lineItems, version, po, poLineNo, rejection, source, enteredBy, submittedFormat, submittedBy, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, sourceDocument, note, externalCreditNoteNumber, issueDate, reason, correctsBilling, refunded, acceptedAt, acceptedByName, autoAccepted, poEffect, applications, exports, history, remaining, hasPdf, documentType);
   }
 
   @Override
@@ -1695,7 +1665,6 @@ public class ListInvoicesItemBuyerCreditNote {
     sb.append("    enteredBy: ").append(toIndentedString(enteredBy)).append("\n");
     sb.append("    submittedFormat: ").append(toIndentedString(submittedFormat)).append("\n");
     sb.append("    submittedBy: ").append(toIndentedString(submittedBy)).append("\n");
-    sb.append("    feedPayloadHash: ").append(toIndentedString(feedPayloadHash)).append("\n");
     sb.append("    externalInvoiceNumber: ").append(toIndentedString(externalInvoiceNumber)).append("\n");
     sb.append("    adjustments: ").append(toIndentedString(adjustments)).append("\n");
     sb.append("    taxAmount: ").append(toIndentedString(taxAmount)).append("\n");
@@ -1872,11 +1841,6 @@ public class ListInvoicesItemBuyerCreditNote {
     // add `submittedBy` to the URL query string
     if (getSubmittedBy() != null) {
       joiner.add(String.format("%ssubmittedBy%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSubmittedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `feedPayloadHash` to the URL query string
-    if (getFeedPayloadHash() != null) {
-      joiner.add(String.format("%sfeedPayloadHash%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFeedPayloadHash()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `externalInvoiceNumber` to the URL query string

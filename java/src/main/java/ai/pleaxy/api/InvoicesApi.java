@@ -26,6 +26,7 @@ import ai.pleaxy.model.CreateManualInvoiceInput;
 import java.io.File;
 import ai.pleaxy.model.GetInvoiceBankAccountResult;
 import ai.pleaxy.model.GetInvoiceResult;
+import ai.pleaxy.model.GetRemittanceFileResult;
 import ai.pleaxy.model.InvoiceBuyerView;
 import ai.pleaxy.model.InvoiceSupplierView;
 import ai.pleaxy.model.ListInvoiceCounterpartiesResult;
@@ -38,6 +39,9 @@ import ai.pleaxy.model.RecordPaymentsBatchInput;
 import ai.pleaxy.model.RecordPaymentsResult;
 import ai.pleaxy.model.RejectInvoiceInput;
 import ai.pleaxy.model.RemoveInvoiceReplacementLinkResult;
+import ai.pleaxy.model.RequestRemittanceUploadInput;
+import ai.pleaxy.model.RequestRemittanceUploadResult;
+import ai.pleaxy.model.SendRemittanceInput;
 import ai.pleaxy.model.StartStripePaymentResult;
 import ai.pleaxy.model.StripePaymentStatus;
 import ai.pleaxy.model.SubmitFeedInvoiceResult;
@@ -747,6 +751,103 @@ public class InvoicesApi {
     }
 
     localVarRequestBuilder.header("Accept", "application/pdf, application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Both] A link, valid for 5 minutes, to the proof of payment a remittance carries: { url, fileName, contentType }. 404 REMITTANCE_NOT_FOUND when the remittance has no file. Takes the same ?buyer&#x3D; qualifier as GetInvoice.
+   * 
+   * @param invoiceId  (required)
+   * @param remittanceId  (required)
+   * @param buyer  (optional)
+   * @return GetRemittanceFileResult
+   * @throws ApiException if fails to make API call
+   */
+  public GetRemittanceFileResult getRemittanceFile(String invoiceId, String remittanceId, String buyer) throws ApiException {
+    ApiResponse<GetRemittanceFileResult> localVarResponse = getRemittanceFileWithHttpInfo(invoiceId, remittanceId, buyer);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Both] A link, valid for 5 minutes, to the proof of payment a remittance carries: { url, fileName, contentType }. 404 REMITTANCE_NOT_FOUND when the remittance has no file. Takes the same ?buyer&#x3D; qualifier as GetInvoice.
+   * 
+   * @param invoiceId  (required)
+   * @param remittanceId  (required)
+   * @param buyer  (optional)
+   * @return ApiResponse&lt;GetRemittanceFileResult&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<GetRemittanceFileResult> getRemittanceFileWithHttpInfo(String invoiceId, String remittanceId, String buyer) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getRemittanceFileRequestBuilder(invoiceId, remittanceId, buyer);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("getRemittanceFile", localVarResponse);
+        }
+        return new ApiResponse<GetRemittanceFileResult>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<GetRemittanceFileResult>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder getRemittanceFileRequestBuilder(String invoiceId, String remittanceId, String buyer) throws ApiException {
+    // verify the required parameter 'invoiceId' is set
+    if (invoiceId == null) {
+      throw new ApiException(400, "Missing the required parameter 'invoiceId' when calling getRemittanceFile");
+    }
+    // verify the required parameter 'remittanceId' is set
+    if (remittanceId == null) {
+      throw new ApiException(400, "Missing the required parameter 'remittanceId' when calling getRemittanceFile");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/invoices/{invoiceId}/remittances/{remittanceId}/file"
+        .replace("{invoiceId}", ApiClient.urlEncode(invoiceId.toString()))
+        .replace("{remittanceId}", ApiClient.urlEncode(remittanceId.toString()));
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "buyer";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("buyer", buyer));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
 
     localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {
@@ -1509,6 +1610,91 @@ public class InvoicesApi {
   }
 
   /**
+   * [Buyer] A presigned URL to upload a proof of payment (a bank&#39;s transfer receipt) for an approved or paid invoice: { contentType: application/pdf|image/png|image/jpeg }. PUT the file to uploadUrl with that Content-Type within 5 minutes, up to maxBytes (10 MB), then send its fileId with SendRemittance or RecordPayment&#39;s remittance. An upload nothing attaches is deleted after a couple of days. Human session only.
+   * 
+   * @param invoiceId  (required)
+   * @param requestRemittanceUploadInput  (required)
+   * @return RequestRemittanceUploadResult
+   * @throws ApiException if fails to make API call
+   */
+  public RequestRemittanceUploadResult requestRemittanceUpload(String invoiceId, RequestRemittanceUploadInput requestRemittanceUploadInput) throws ApiException {
+    ApiResponse<RequestRemittanceUploadResult> localVarResponse = requestRemittanceUploadWithHttpInfo(invoiceId, requestRemittanceUploadInput);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] A presigned URL to upload a proof of payment (a bank&#39;s transfer receipt) for an approved or paid invoice: { contentType: application/pdf|image/png|image/jpeg }. PUT the file to uploadUrl with that Content-Type within 5 minutes, up to maxBytes (10 MB), then send its fileId with SendRemittance or RecordPayment&#39;s remittance. An upload nothing attaches is deleted after a couple of days. Human session only.
+   * 
+   * @param invoiceId  (required)
+   * @param requestRemittanceUploadInput  (required)
+   * @return ApiResponse&lt;RequestRemittanceUploadResult&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<RequestRemittanceUploadResult> requestRemittanceUploadWithHttpInfo(String invoiceId, RequestRemittanceUploadInput requestRemittanceUploadInput) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = requestRemittanceUploadRequestBuilder(invoiceId, requestRemittanceUploadInput);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("requestRemittanceUpload", localVarResponse);
+        }
+        return new ApiResponse<RequestRemittanceUploadResult>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<RequestRemittanceUploadResult>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder requestRemittanceUploadRequestBuilder(String invoiceId, RequestRemittanceUploadInput requestRemittanceUploadInput) throws ApiException {
+    // verify the required parameter 'invoiceId' is set
+    if (invoiceId == null) {
+      throw new ApiException(400, "Missing the required parameter 'invoiceId' when calling requestRemittanceUpload");
+    }
+    // verify the required parameter 'requestRemittanceUploadInput' is set
+    if (requestRemittanceUploadInput == null) {
+      throw new ApiException(400, "Missing the required parameter 'requestRemittanceUploadInput' when calling requestRemittanceUpload");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/invoices/{invoiceId}/remittance-upload"
+        .replace("{invoiceId}", ApiClient.urlEncode(invoiceId.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(requestRemittanceUploadInput);
+      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
    * [Buyer] Resolve a matching discrepancy - an unverified invoice needs a signed-in person, not an API key
    * 
    * @param invoiceId  (required)
@@ -1582,7 +1768,7 @@ public class InvoicesApi {
   }
 
   /**
-   * [Buyer] Match an invoice: against the provider&#39;s usage for a cloud provider&#39;s order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
+   * [Buyer] Match an invoice: against the provider&#39;s usage for a cloud provider&#39;s order (Pleaxy runs that match itself as the invoice arrives; call this when it couldn&#39;t, e.g. no figure was in yet); otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
    * 
    * @param invoiceId  (required)
    * @return InvoiceBuyerView
@@ -1594,7 +1780,7 @@ public class InvoicesApi {
   }
 
   /**
-   * [Buyer] Match an invoice: against the provider&#39;s usage for a cloud provider&#39;s order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
+   * [Buyer] Match an invoice: against the provider&#39;s usage for a cloud provider&#39;s order (Pleaxy runs that match itself as the invoice arrives; call this when it couldn&#39;t, e.g. no figure was in yet); otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
    * 
    * @param invoiceId  (required)
    * @return ApiResponse&lt;InvoiceBuyerView&gt;
@@ -1645,6 +1831,91 @@ public class InvoicesApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] Send the supplier a remittance for a paid invoice: { note?, file?: { fileId, fileName } }, at least one. The note (up to 1,000 characters) goes in the supplier&#39;s notification, which its Slack or Teams channel also gets when routed there; the file is a proof of payment uploaded with RequestRemittanceUpload. Up to 20 per invoice. 409 REMITTANCE_NEEDS_PAYMENT before a payment is recorded. Human session only.
+   * 
+   * @param invoiceId  (required)
+   * @param sendRemittanceInput  (required)
+   * @return InvoiceBuyerView
+   * @throws ApiException if fails to make API call
+   */
+  public InvoiceBuyerView sendRemittance(String invoiceId, SendRemittanceInput sendRemittanceInput) throws ApiException {
+    ApiResponse<InvoiceBuyerView> localVarResponse = sendRemittanceWithHttpInfo(invoiceId, sendRemittanceInput);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Send the supplier a remittance for a paid invoice: { note?, file?: { fileId, fileName } }, at least one. The note (up to 1,000 characters) goes in the supplier&#39;s notification, which its Slack or Teams channel also gets when routed there; the file is a proof of payment uploaded with RequestRemittanceUpload. Up to 20 per invoice. 409 REMITTANCE_NEEDS_PAYMENT before a payment is recorded. Human session only.
+   * 
+   * @param invoiceId  (required)
+   * @param sendRemittanceInput  (required)
+   * @return ApiResponse&lt;InvoiceBuyerView&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<InvoiceBuyerView> sendRemittanceWithHttpInfo(String invoiceId, SendRemittanceInput sendRemittanceInput) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = sendRemittanceRequestBuilder(invoiceId, sendRemittanceInput);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("sendRemittance", localVarResponse);
+        }
+        return new ApiResponse<InvoiceBuyerView>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<InvoiceBuyerView>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder sendRemittanceRequestBuilder(String invoiceId, SendRemittanceInput sendRemittanceInput) throws ApiException {
+    // verify the required parameter 'invoiceId' is set
+    if (invoiceId == null) {
+      throw new ApiException(400, "Missing the required parameter 'invoiceId' when calling sendRemittance");
+    }
+    // verify the required parameter 'sendRemittanceInput' is set
+    if (sendRemittanceInput == null) {
+      throw new ApiException(400, "Missing the required parameter 'sendRemittanceInput' when calling sendRemittance");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/invoices/{invoiceId}/remittance"
+        .replace("{invoiceId}", ApiClient.urlEncode(invoiceId.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(sendRemittanceInput);
+      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }

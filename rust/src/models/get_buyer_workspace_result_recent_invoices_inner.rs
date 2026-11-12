@@ -134,6 +134,11 @@ pub struct GetBuyerWorkspaceResultRecentInvoicesInner {
     pub due_date_source: Option<DueDateSource>,
     #[serde(rename = "lastRemindedAt", skip_serializing_if = "Option::is_none")]
     pub last_reminded_at: Option<String>,
+    #[serde(
+        rename = "lastApproverRemindedAt",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub last_approver_reminded_at: Option<String>,
     #[serde(rename = "rejection", skip_serializing_if = "Option::is_none")]
     pub rejection: Option<models::InvoiceRejection>,
     #[serde(rename = "replacesInvoiceId", skip_serializing_if = "Option::is_none")]
@@ -233,6 +238,11 @@ pub struct GetBuyerWorkspaceResultRecentInvoicesInner {
         skip_serializing_if = "Option::is_none"
     )]
     pub viewer_is_supplier_member: Option<bool>,
+    #[serde(
+        rename = "nextApproverReminderAt",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub next_approver_reminder_at: Option<String>,
     #[serde(rename = "replacement", skip_serializing_if = "Option::is_none")]
     pub replacement: Option<models::InvoiceReplacementCheck>,
     #[serde(
@@ -301,6 +311,7 @@ impl GetBuyerWorkspaceResultRecentInvoicesInner {
             previous_exported_at: None,
             due_date_source: None,
             last_reminded_at: None,
+            last_approver_reminded_at: None,
             rejection: None,
             replaces_invoice_id: None,
             replaces_invoice_ids: None,
@@ -340,6 +351,7 @@ impl GetBuyerWorkspaceResultRecentInvoicesInner {
             has_original_pdf: None,
             base_currency_amount: None,
             viewer_is_supplier_member: None,
+            next_approver_reminder_at: None,
             replacement: None,
             uncredited_originals: None,
             withdrawn_payment: None,

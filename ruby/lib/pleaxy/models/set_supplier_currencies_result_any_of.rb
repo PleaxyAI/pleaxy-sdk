@@ -77,6 +77,12 @@ module Pleaxy
 
     attr_accessor :invoice_feed_updated_by
 
+    attr_accessor :comments_muted
+
+    attr_accessor :comments_muted_at
+
+    attr_accessor :comments_muted_by
+
     attr_accessor :feed_last_attempt_at
 
     attr_accessor :feed_last_accepted_at
@@ -155,6 +161,9 @@ module Pleaxy
         :'invoice_feed_enabled' => :'invoiceFeedEnabled',
         :'invoice_feed_updated_at' => :'invoiceFeedUpdatedAt',
         :'invoice_feed_updated_by' => :'invoiceFeedUpdatedBy',
+        :'comments_muted' => :'commentsMuted',
+        :'comments_muted_at' => :'commentsMutedAt',
+        :'comments_muted_by' => :'commentsMutedBy',
         :'feed_last_attempt_at' => :'feedLastAttemptAt',
         :'feed_last_accepted_at' => :'feedLastAcceptedAt',
         :'feed_accepted_count' => :'feedAcceptedCount',
@@ -208,6 +217,9 @@ module Pleaxy
         :'invoice_feed_enabled' => :'Boolean',
         :'invoice_feed_updated_at' => :'String',
         :'invoice_feed_updated_by' => :'String',
+        :'comments_muted' => :'Boolean',
+        :'comments_muted_at' => :'String',
+        :'comments_muted_by' => :'String',
         :'feed_last_attempt_at' => :'String',
         :'feed_last_accepted_at' => :'String',
         :'feed_accepted_count' => :'Float',
@@ -373,6 +385,18 @@ module Pleaxy
         self.invoice_feed_updated_by = attributes[:'invoice_feed_updated_by']
       end
 
+      if attributes.key?(:'comments_muted')
+        self.comments_muted = attributes[:'comments_muted']
+      end
+
+      if attributes.key?(:'comments_muted_at')
+        self.comments_muted_at = attributes[:'comments_muted_at']
+      end
+
+      if attributes.key?(:'comments_muted_by')
+        self.comments_muted_by = attributes[:'comments_muted_by']
+      end
+
       if attributes.key?(:'feed_last_attempt_at')
         self.feed_last_attempt_at = attributes[:'feed_last_attempt_at']
       end
@@ -522,6 +546,9 @@ module Pleaxy
           invoice_feed_enabled == o.invoice_feed_enabled &&
           invoice_feed_updated_at == o.invoice_feed_updated_at &&
           invoice_feed_updated_by == o.invoice_feed_updated_by &&
+          comments_muted == o.comments_muted &&
+          comments_muted_at == o.comments_muted_at &&
+          comments_muted_by == o.comments_muted_by &&
           feed_last_attempt_at == o.feed_last_attempt_at &&
           feed_last_accepted_at == o.feed_last_accepted_at &&
           feed_accepted_count == o.feed_accepted_count &&
@@ -544,7 +571,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, buyer_org_id, buyer_name, supplier_org_id, supplier_name, invited_as_name, supplier_contact_email, status, origin, questionnaire_requested, questionnaire_template_id, questionnaire_template_version, fields, responses, created_at, invited_at, responded_at, reviewed_at, reviewed_by, rejection_reason, cloud_provider, ai_provider, billing_currency, payment_currency, off_platform_invoices_recorded, supplier_region, accepted_region_name, accepted_region_matches_request, invoice_feed_enabled, invoice_feed_updated_at, invoice_feed_updated_by, feed_last_attempt_at, feed_last_accepted_at, feed_accepted_count, feed_last_refused_at, feed_last_refused_code, feed_last_valid_at, feed_valid_count, late_fee_terms, late_fee_terms_updated_at, late_fee_terms_attested_at, late_fee_terms_attestation_version].hash
+      [id, buyer_org_id, buyer_name, supplier_org_id, supplier_name, invited_as_name, supplier_contact_email, status, origin, questionnaire_requested, questionnaire_template_id, questionnaire_template_version, fields, responses, created_at, invited_at, responded_at, reviewed_at, reviewed_by, rejection_reason, cloud_provider, ai_provider, billing_currency, payment_currency, off_platform_invoices_recorded, supplier_region, accepted_region_name, accepted_region_matches_request, invoice_feed_enabled, invoice_feed_updated_at, invoice_feed_updated_by, comments_muted, comments_muted_at, comments_muted_by, feed_last_attempt_at, feed_last_accepted_at, feed_accepted_count, feed_last_refused_at, feed_last_refused_code, feed_last_valid_at, feed_valid_count, late_fee_terms, late_fee_terms_updated_at, late_fee_terms_attested_at, late_fee_terms_attestation_version].hash
     end
 
     # Builds the object from hash

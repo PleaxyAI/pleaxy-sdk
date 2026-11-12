@@ -30,6 +30,11 @@ pub struct ApprovalChain {
     pub history: Option<Vec<models::ApprovalHistoryEntry>>,
     #[serde(rename = "autonomy", skip_serializing_if = "Option::is_none")]
     pub autonomy: Option<bool>,
+    #[serde(
+        rename = "routedAutomatically",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub routed_automatically: Option<bool>,
     #[serde(rename = "spendLimitGate", skip_serializing_if = "Option::is_none")]
     pub spend_limit_gate: Option<models::SpendLimitGate>,
     #[serde(
@@ -57,6 +62,7 @@ impl ApprovalChain {
             status: None,
             history: None,
             autonomy: None,
+            routed_automatically: None,
             spend_limit_gate: None,
             excluded_employee_keys: None,
             self_approved: None,

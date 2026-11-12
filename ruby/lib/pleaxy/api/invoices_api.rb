@@ -533,6 +533,76 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Both] A link, valid for 5 minutes, to the proof of payment a remittance carries: { url, fileName, contentType }. 404 REMITTANCE_NOT_FOUND when the remittance has no file. Takes the same ?buyer= qualifier as GetInvoice.
+    # @param invoice_id [String] 
+    # @param remittance_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :buyer 
+    # @return [GetRemittanceFileResult]
+    def get_remittance_file(invoice_id, remittance_id, opts = {})
+      data, _status_code, _headers = get_remittance_file_with_http_info(invoice_id, remittance_id, opts)
+      data
+    end
+
+    # [Both] A link, valid for 5 minutes, to the proof of payment a remittance carries: { url, fileName, contentType }. 404 REMITTANCE_NOT_FOUND when the remittance has no file. Takes the same ?buyer&#x3D; qualifier as GetInvoice.
+    # @param invoice_id [String] 
+    # @param remittance_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :buyer 
+    # @return [Array<(GetRemittanceFileResult, Integer, Hash)>] GetRemittanceFileResult data, response status code and response headers
+    def get_remittance_file_with_http_info(invoice_id, remittance_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: InvoicesApi.get_remittance_file ...'
+      end
+      # verify the required parameter 'invoice_id' is set
+      if @api_client.config.client_side_validation && invoice_id.nil?
+        fail ArgumentError, "Missing the required parameter 'invoice_id' when calling InvoicesApi.get_remittance_file"
+      end
+      # verify the required parameter 'remittance_id' is set
+      if @api_client.config.client_side_validation && remittance_id.nil?
+        fail ArgumentError, "Missing the required parameter 'remittance_id' when calling InvoicesApi.get_remittance_file"
+      end
+      # resource path
+      local_var_path = '/invoices/{invoiceId}/remittances/{remittanceId}/file'.sub('{' + 'invoiceId' + '}', CGI.escape(invoice_id.to_s)).sub('{' + 'remittanceId' + '}', CGI.escape(remittance_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'buyer'] = opts[:'buyer'] if !opts[:'buyer'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'GetRemittanceFileResult'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"InvoicesApi.get_remittance_file",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: InvoicesApi#get_remittance_file\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] Whether this invoice can be paid through Pleaxy with Stripe: { available, reason?, state?, paymentMethodType?, quote? }. `quote` is { amount, fee, total, currency } in dollars: the buyer covers Stripe's bank-transfer fee (0.8%, capped at $5) so the supplier receives the full invoice amount. `reason` explains why not (not_configured, not_approved, payment_locked, supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). `state` is the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded.
     # @param invoice_id [String] 
     # @param [Hash] opts the optional parameters
@@ -1129,6 +1199,78 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Buyer] A presigned URL to upload a proof of payment (a bank's transfer receipt) for an approved or paid invoice: { contentType: application/pdf|image/png|image/jpeg }. PUT the file to uploadUrl with that Content-Type within 5 minutes, up to maxBytes (10 MB), then send its fileId with SendRemittance or RecordPayment's remittance. An upload nothing attaches is deleted after a couple of days. Human session only.
+    # @param invoice_id [String] 
+    # @param request_remittance_upload_input [RequestRemittanceUploadInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [RequestRemittanceUploadResult]
+    def request_remittance_upload(invoice_id, request_remittance_upload_input, opts = {})
+      data, _status_code, _headers = request_remittance_upload_with_http_info(invoice_id, request_remittance_upload_input, opts)
+      data
+    end
+
+    # [Buyer] A presigned URL to upload a proof of payment (a bank&#39;s transfer receipt) for an approved or paid invoice: { contentType: application/pdf|image/png|image/jpeg }. PUT the file to uploadUrl with that Content-Type within 5 minutes, up to maxBytes (10 MB), then send its fileId with SendRemittance or RecordPayment&#39;s remittance. An upload nothing attaches is deleted after a couple of days. Human session only.
+    # @param invoice_id [String] 
+    # @param request_remittance_upload_input [RequestRemittanceUploadInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(RequestRemittanceUploadResult, Integer, Hash)>] RequestRemittanceUploadResult data, response status code and response headers
+    def request_remittance_upload_with_http_info(invoice_id, request_remittance_upload_input, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: InvoicesApi.request_remittance_upload ...'
+      end
+      # verify the required parameter 'invoice_id' is set
+      if @api_client.config.client_side_validation && invoice_id.nil?
+        fail ArgumentError, "Missing the required parameter 'invoice_id' when calling InvoicesApi.request_remittance_upload"
+      end
+      # verify the required parameter 'request_remittance_upload_input' is set
+      if @api_client.config.client_side_validation && request_remittance_upload_input.nil?
+        fail ArgumentError, "Missing the required parameter 'request_remittance_upload_input' when calling InvoicesApi.request_remittance_upload"
+      end
+      # resource path
+      local_var_path = '/invoices/{invoiceId}/remittance-upload'.sub('{' + 'invoiceId' + '}', CGI.escape(invoice_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(request_remittance_upload_input)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'RequestRemittanceUploadResult'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"InvoicesApi.request_remittance_upload",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: InvoicesApi#request_remittance_upload\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] Resolve a matching discrepancy - an unverified invoice needs a signed-in person, not an API key
     # @param invoice_id [String] 
     # @param [Hash] opts the optional parameters
@@ -1190,7 +1332,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] Match an invoice: against the provider's usage for a cloud provider's order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
+    # [Buyer] Match an invoice: against the provider's usage for a cloud provider's order (Pleaxy runs that match itself as the invoice arrives; call this when it couldn't, e.g. no figure was in yet); otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
     # @param invoice_id [String] 
     # @param [Hash] opts the optional parameters
     # @return [InvoiceBuyerView]
@@ -1199,7 +1341,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] Match an invoice: against the provider&#39;s usage for a cloud provider&#39;s order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
+    # [Buyer] Match an invoice: against the provider&#39;s usage for a cloud provider&#39;s order (Pleaxy runs that match itself as the invoice arrives; call this when it couldn&#39;t, e.g. no figure was in yet); otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
     # @param invoice_id [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(InvoiceBuyerView, Integer, Hash)>] InvoiceBuyerView data, response status code and response headers
@@ -1247,6 +1389,78 @@ module Pleaxy
       data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: InvoicesApi#run_invoice_match\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # [Buyer] Send the supplier a remittance for a paid invoice: { note?, file?: { fileId, fileName } }, at least one. The note (up to 1,000 characters) goes in the supplier's notification, which its Slack or Teams channel also gets when routed there; the file is a proof of payment uploaded with RequestRemittanceUpload. Up to 20 per invoice. 409 REMITTANCE_NEEDS_PAYMENT before a payment is recorded. Human session only.
+    # @param invoice_id [String] 
+    # @param send_remittance_input [SendRemittanceInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [InvoiceBuyerView]
+    def send_remittance(invoice_id, send_remittance_input, opts = {})
+      data, _status_code, _headers = send_remittance_with_http_info(invoice_id, send_remittance_input, opts)
+      data
+    end
+
+    # [Buyer] Send the supplier a remittance for a paid invoice: { note?, file?: { fileId, fileName } }, at least one. The note (up to 1,000 characters) goes in the supplier&#39;s notification, which its Slack or Teams channel also gets when routed there; the file is a proof of payment uploaded with RequestRemittanceUpload. Up to 20 per invoice. 409 REMITTANCE_NEEDS_PAYMENT before a payment is recorded. Human session only.
+    # @param invoice_id [String] 
+    # @param send_remittance_input [SendRemittanceInput] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(InvoiceBuyerView, Integer, Hash)>] InvoiceBuyerView data, response status code and response headers
+    def send_remittance_with_http_info(invoice_id, send_remittance_input, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: InvoicesApi.send_remittance ...'
+      end
+      # verify the required parameter 'invoice_id' is set
+      if @api_client.config.client_side_validation && invoice_id.nil?
+        fail ArgumentError, "Missing the required parameter 'invoice_id' when calling InvoicesApi.send_remittance"
+      end
+      # verify the required parameter 'send_remittance_input' is set
+      if @api_client.config.client_side_validation && send_remittance_input.nil?
+        fail ArgumentError, "Missing the required parameter 'send_remittance_input' when calling InvoicesApi.send_remittance"
+      end
+      # resource path
+      local_var_path = '/invoices/{invoiceId}/remittance'.sub('{' + 'invoiceId' + '}', CGI.escape(invoice_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(send_remittance_input)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'InvoiceBuyerView'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"InvoicesApi.send_remittance",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: InvoicesApi#send_remittance\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

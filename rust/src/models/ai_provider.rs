@@ -31,6 +31,8 @@ pub struct AiProvider {
     pub snowflake: Option<models::AiProviderSnowflake>,
     #[serde(rename = "databricks", skip_serializing_if = "Option::is_none")]
     pub databricks: Option<models::AiProviderDatabricks>,
+    #[serde(rename = "github", skip_serializing_if = "Option::is_none")]
+    pub github: Option<models::AiProviderGithub>,
     #[serde(rename = "creditPrice", skip_serializing_if = "Option::is_none")]
     pub credit_price: Option<models::AiProviderCreditPrice>,
     #[serde(
@@ -62,6 +64,7 @@ impl AiProvider {
             connected_by: None,
             snowflake: None,
             databricks: None,
+            github: None,
             credit_price: None,
             supplier_connection_id: None,
             last_synced_at: None,

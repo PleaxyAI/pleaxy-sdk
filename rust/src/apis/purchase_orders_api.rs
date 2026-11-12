@@ -29,6 +29,14 @@ pub enum CancelPurchaseOrderError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`change_finished_purchase_order_cost_center`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ChangeFinishedPurchaseOrderCostCenterError {
+    DefaultResponse(models::ApiError),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`close_purchase_order`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -57,6 +65,14 @@ pub enum FlipPurchaseOrderToInvoiceError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPurchaseOrderError {
+    DefaultResponse(models::ApiError),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`get_purchase_order_pdf`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetPurchaseOrderPdfError {
     DefaultResponse(models::ApiError),
     UnknownValue(serde_json::Value),
 }
@@ -197,6 +213,60 @@ pub async fn cancel_purchase_order(
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<CancelPurchaseOrderError> =
+            serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent {
+            status: local_var_status,
+            content: local_var_content,
+            entity: local_var_entity,
+        };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+pub async fn change_finished_purchase_order_cost_center(
+    configuration: &configuration::Configuration,
+    po_id: &str,
+    change_finished_cost_center_input: models::ChangeFinishedCostCenterInput,
+) -> Result<models::PurchaseOrder, Error<ChangeFinishedPurchaseOrderCostCenterError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!(
+        "{}/purchase-orders/{poId}/cost-center",
+        local_var_configuration.base_path,
+        poId = crate::apis::urlencode(po_id)
+    );
+    let mut local_var_req_builder =
+        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder =
+            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("X-Api-Key", local_var_value);
+    };
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+    local_var_req_builder = local_var_req_builder.json(&change_finished_cost_center_input);
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<ChangeFinishedPurchaseOrderCostCenterError> =
             serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent {
             status: local_var_status,
@@ -412,6 +482,63 @@ pub async fn get_purchase_order(
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<GetPurchaseOrderError> =
+            serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent {
+            status: local_var_status,
+            content: local_var_content,
+            entity: local_var_entity,
+        };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+pub async fn get_purchase_order_pdf(
+    configuration: &configuration::Configuration,
+    po_id: &str,
+    buyer: Option<&str>,
+) -> Result<std::path::PathBuf, Error<GetPurchaseOrderPdfError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!(
+        "{}/purchase-orders/{poId}/pdf",
+        local_var_configuration.base_path,
+        poId = crate::apis::urlencode(po_id)
+    );
+    let mut local_var_req_builder =
+        local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_str) = buyer {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("buyer", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder =
+            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("X-Api-Key", local_var_value);
+    };
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<GetPurchaseOrderPdfError> =
             serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent {
             status: local_var_status,

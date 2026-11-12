@@ -49,7 +49,7 @@ pub struct CreateInvoiceResultBuyerCreditNote {
     #[serde(rename = "poLineNo", skip_serializing_if = "Option::is_none")]
     pub po_line_no: Option<f64>,
     #[serde(rename = "rejection", skip_serializing_if = "Option::is_none")]
-    pub rejection: Option<models::ListInvoicesItemBuyerCreditNoteRejection>,
+    pub rejection: Option<models::BuyerCreditNoteViewRejection>,
     #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
     pub source: Option<Source>,
     #[serde(rename = "enteredBy", skip_serializing_if = "Option::is_none")]
@@ -58,8 +58,6 @@ pub struct CreateInvoiceResultBuyerCreditNote {
     pub submitted_format: Option<SubmittedFormat>,
     #[serde(rename = "submittedBy", skip_serializing_if = "Option::is_none")]
     pub submitted_by: Option<String>,
-    #[serde(rename = "feedPayloadHash", skip_serializing_if = "Option::is_none")]
-    pub feed_payload_hash: Option<String>,
     #[serde(
         rename = "externalInvoiceNumber",
         skip_serializing_if = "Option::is_none"
@@ -134,7 +132,6 @@ impl CreateInvoiceResultBuyerCreditNote {
             entered_by: None,
             submitted_format: None,
             submitted_by: None,
-            feed_payload_hash: None,
             external_invoice_number: None,
             adjustments: None,
             tax_amount: None,

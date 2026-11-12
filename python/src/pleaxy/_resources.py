@@ -11,6 +11,89 @@ if TYPE_CHECKING:
     from ._transport import Transport
 
 
+class ActivityResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def add_invoice_comment(
+        self,
+        invoice_id: str,
+        *,
+        body: CreateCommentInput,
+        buyer: Union[Unset, str] = UNSET,
+    ) -> DocumentCommentView:
+        """[Both] Comment on an invoice - internal to your team, or shared with the other side. A Supplier's comments are always shared. `mentions` notifies people in your own workspace. Human session only."""
+        return self._transport.call(
+            "pleaxy._generated.api.activity.add_invoice_comment",
+            invoice_id=invoice_id,
+            body=body,
+            buyer=buyer,
+        )
+
+    def add_purchase_order_comment(
+        self, po_id: str, *, body: CreateCommentInput, buyer: Union[Unset, str] = UNSET
+    ) -> DocumentCommentView:
+        """[Both] Comment on a purchase order - as AddInvoiceComment. Human session only."""
+        return self._transport.call(
+            "pleaxy._generated.api.activity.add_purchase_order_comment",
+            po_id=po_id,
+            body=body,
+            buyer=buyer,
+        )
+
+    def delete_invoice_comment(
+        self, invoice_id: str, comment_id: str, *, buyer: Union[Unset, str] = UNSET
+    ) -> DocumentCommentView:
+        """[Both] Take back your own comment on an invoice: its text is removed, the thread keeps that a comment was made. Human session only."""
+        return self._transport.call(
+            "pleaxy._generated.api.activity.delete_invoice_comment",
+            invoice_id=invoice_id,
+            comment_id=comment_id,
+            buyer=buyer,
+        )
+
+    def delete_purchase_order_comment(
+        self, po_id: str, comment_id: str, *, buyer: Union[Unset, str] = UNSET
+    ) -> DocumentCommentView:
+        """[Both] Take back your own comment on a purchase order. Human session only."""
+        return self._transport.call(
+            "pleaxy._generated.api.activity.delete_purchase_order_comment",
+            po_id=po_id,
+            comment_id=comment_id,
+            buyer=buyer,
+        )
+
+    def get_invoice_activity(
+        self, invoice_id: str, *, buyer: Union[Unset, str] = UNSET
+    ) -> GetInvoiceActivityResult:
+        """[Both] An invoice's activity, oldest first: its arrival, checks, matches, approval steps, rejection, payments, reminders and comments. Each entry has a `kind` and structured `data`, never prose. A Supplier caller gets its arrival, outcome, recorded payments, reminders and shared comments only. Takes GetInvoice's ?buyer=."""
+        return self._transport.call(
+            "pleaxy._generated.api.activity.get_invoice_activity",
+            invoice_id=invoice_id,
+            buyer=buyer,
+        )
+
+    def list_invoice_comments(
+        self, invoice_id: str, *, buyer: Union[Unset, str] = UNSET
+    ) -> ListInvoiceCommentsResult:
+        """[Both] Comments on an invoice, oldest first: your side's internal ones and every shared one. Takes GetInvoice's ?buyer=."""
+        return self._transport.call(
+            "pleaxy._generated.api.activity.list_invoice_comments",
+            invoice_id=invoice_id,
+            buyer=buyer,
+        )
+
+    def list_purchase_order_comments(
+        self, po_id: str, *, buyer: Union[Unset, str] = UNSET
+    ) -> ListPurchaseOrderCommentsResult:
+        """[Both] Comments on a purchase order, oldest first: your side's internal ones and every shared one. Takes GetPurchaseOrder's ?buyer=."""
+        return self._transport.call(
+            "pleaxy._generated.api.activity.list_purchase_order_comments",
+            po_id=po_id,
+            buyer=buyer,
+        )
+
+
 class AiProvidersResource:
     def __init__(self, transport: Transport) -> None:
         self._transport = transport
@@ -446,6 +529,107 @@ class CloudConnectionsResource:
         """[Buyer] Manually sync one connected cloud account's billing data now (rate-limited). 'create' on suppliers or 'edit' on invoices."""
         return self._transport.call(
             "pleaxy._generated.api.cloud_connections.sync_cloud_connection", id=id
+        )
+
+
+class CreditNotesResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def accept_credit_note(self, credit_note_id: str) -> BuyerCreditNoteView:
+        """[Buyer] Accept a credit note. A correction gives PO balance back; when Pleaxy settles credits, it's applied to the unpaid invoice it corrects."""
+        return self._transport.call(
+            "pleaxy._generated.api.credit_notes.accept_credit_note",
+            credit_note_id=credit_note_id,
+        )
+
+    def apply_credits(
+        self, invoice_id: str, *, body: ApplyCreditsInput
+    ) -> Union["InvoiceBuyerView", "InvoiceSupplierView"]:
+        """[Buyer] Apply accepted credit notes to an invoice, all or none, up to what it owes; an approved invoice covered in full is marked paid by credit. 409 when credits are settled in your accounting system."""
+        return self._transport.call(
+            "pleaxy._generated.api.credit_notes.apply_credits",
+            invoice_id=invoice_id,
+            body=body,
+        )
+
+    def create_credit_note(
+        self, *, body: CreateCreditNoteInput
+    ) -> Union["BuyerCreditNoteView", "SupplierCreditNoteView"]:
+        """[Both] Issue a credit note against the invoice it corrects (invoiceId) or a counterparty (connectionId); a buyer records one it received the same way, optionally from a document Pleaxy read (sourceImportId). Its total is computed from its lines and tax. One that corrects an invoice and isn't for more than it is accepted at once; otherwise the buyer accepts or rejects it."""
+        return self._transport.call(
+            "pleaxy._generated.api.credit_notes.create_credit_note", body=body
+        )
+
+    def get_credit_note(
+        self, credit_note_id: str
+    ) -> Union["BuyerCreditNoteView", "SupplierCreditNoteView"]:
+        """[Both] One credit note, with what it corrects, the PO balance it gave back, where its money went and what's left of it."""
+        return self._transport.call(
+            "pleaxy._generated.api.credit_notes.get_credit_note",
+            credit_note_id=credit_note_id,
+        )
+
+    def get_credit_note_pdf(self, credit_note_id: str) -> bytes:
+        """[Both] The credit note's own PDF, as attached when it was issued or the document it was recorded from. 404 CREDIT_NOTE_NO_PDF when it has none (hasPdf is false). Send `Accept: application/pdf`, or the deployed API returns the body base64-encoded."""
+        return self._transport.call(
+            "pleaxy._generated.api.credit_notes.get_credit_note_pdf",
+            binary=True,
+            credit_note_id=credit_note_id,
+        )
+
+    def get_credit_settlement(self) -> GetCreditSettlementResult:
+        """[Buyer] Who settles accepted credits: pleaxy (applied to invoices here) or accounting_system (exported for your ERP to clear). chosen: false when it's the default."""
+        return self._transport.call(
+            "pleaxy._generated.api.credit_notes.get_credit_settlement"
+        )
+
+    def list_available_credits(self, invoice_id: str) -> ListAvailableCreditsResult:
+        """[Buyer] Accepted credits from the invoice's supplier in its currency, oldest first, each with a suggested amount; pending ones to accept; and whether the invoice can take credits."""
+        return self._transport.call(
+            "pleaxy._generated.api.credit_notes.list_available_credits",
+            invoice_id=invoice_id,
+        )
+
+    def list_credit_notes(self) -> ListCreditNotesResult:
+        """[Both] List credit notes: a Buyer caller gets the ones it received, a Supplier caller the ones it issued, each with what's left to apply (remaining)."""
+        return self._transport.call(
+            "pleaxy._generated.api.credit_notes.list_credit_notes"
+        )
+
+    def reject_credit_note(
+        self, credit_note_id: str, *, body: RejectCreditNoteInput
+    ) -> BuyerCreditNoteView:
+        """[Buyer] Reject a credit note waiting for acceptance, with a reason the supplier reads."""
+        return self._transport.call(
+            "pleaxy._generated.api.credit_notes.reject_credit_note",
+            credit_note_id=credit_note_id,
+            body=body,
+        )
+
+    def remove_credit_application(
+        self, invoice_id: str, application_id: str
+    ) -> Union["InvoiceBuyerView", "InvoiceSupplierView"]:
+        """[Buyer] Take a credit back off an invoice that isn't exported or paid. It goes back to its credit note."""
+        return self._transport.call(
+            "pleaxy._generated.api.credit_notes.remove_credit_application",
+            invoice_id=invoice_id,
+            application_id=application_id,
+        )
+
+    def set_credit_settlement(
+        self, *, body: CreditSettlementInput
+    ) -> SetCreditSettlementResult:
+        """[Buyer] Choose who settles accepted credits. 409 CREDITS_APPLIED_TO_UNPAID when moving to accounting_system while credits sit on unpaid invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.credit_notes.set_credit_settlement", body=body
+        )
+
+    def void_credit_note(self, credit_note_id: str) -> SupplierCreditNoteView:
+        """[Supplier] Void a credit note the buyer hasn't decided on yet. Its number stays used."""
+        return self._transport.call(
+            "pleaxy._generated.api.credit_notes.void_credit_note",
+            credit_note_id=credit_note_id,
         )
 
 
@@ -909,6 +1093,17 @@ class InvoicesResource:
             buyer=buyer,
         )
 
+    def get_remittance_file(
+        self, invoice_id: str, remittance_id: str, *, buyer: Union[Unset, str] = UNSET
+    ) -> GetRemittanceFileResult:
+        """[Both] A link, valid for 5 minutes, to the proof of payment a remittance carries: { url, fileName, contentType }. 404 REMITTANCE_NOT_FOUND when the remittance has no file. Takes the same ?buyer= qualifier as GetInvoice."""
+        return self._transport.call(
+            "pleaxy._generated.api.invoices.get_remittance_file",
+            invoice_id=invoice_id,
+            remittance_id=remittance_id,
+            buyer=buyer,
+        )
+
     def get_stripe_payment(self, invoice_id: str) -> StripePaymentStatus:
         """[Buyer] Whether this invoice can be paid through Pleaxy with Stripe: { available, reason?, state?, paymentMethodType?, quote? }. `quote` is { amount, fee, total, currency } in dollars: the buyer covers Stripe's bank-transfer fee (0.8%, capped at $5) so the supplier receives the full invoice amount. `reason` explains why not (not_configured, not_approved, payment_locked, supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). `state` is the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded."""
         return self._transport.call(
@@ -1004,6 +1199,16 @@ class InvoicesResource:
             original_id=original_id,
         )
 
+    def request_remittance_upload(
+        self, invoice_id: str, *, body: RequestRemittanceUploadInput
+    ) -> RequestRemittanceUploadResult:
+        """[Buyer] A presigned URL to upload a proof of payment (a bank's transfer receipt) for an approved or paid invoice: { contentType: application/pdf|image/png|image/jpeg }. PUT the file to uploadUrl with that Content-Type within 5 minutes, up to maxBytes (10 MB), then send its fileId with SendRemittance or RecordPayment's remittance. An upload nothing attaches is deleted after a couple of days. Human session only."""
+        return self._transport.call(
+            "pleaxy._generated.api.invoices.request_remittance_upload",
+            invoice_id=invoice_id,
+            body=body,
+        )
+
     def resolve_invoice_discrepancy(self, invoice_id: str) -> InvoiceBuyerView:
         """[Buyer] Resolve a matching discrepancy - an unverified invoice needs a signed-in person, not an API key"""
         return self._transport.call(
@@ -1012,9 +1217,19 @@ class InvoicesResource:
         )
 
     def run_invoice_match(self, invoice_id: str) -> InvoiceBuyerView:
-        """[Buyer] Match an invoice: against the provider's usage for a cloud provider's order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO."""
+        """[Buyer] Match an invoice: against the provider's usage for a cloud provider's order (Pleaxy runs that match itself as the invoice arrives; call this when it couldn't, e.g. no figure was in yet); otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO."""
         return self._transport.call(
             "pleaxy._generated.api.invoices.run_invoice_match", invoice_id=invoice_id
+        )
+
+    def send_remittance(
+        self, invoice_id: str, *, body: SendRemittanceInput
+    ) -> InvoiceBuyerView:
+        """[Buyer] Send the supplier a remittance for a paid invoice: { note?, file?: { fileId, fileName } }, at least one. The note (up to 1,000 characters) goes in the supplier's notification, which its Slack or Teams channel also gets when routed there; the file is a proof of payment uploaded with RequestRemittanceUpload. Up to 20 per invoice. 409 REMITTANCE_NEEDS_PAYMENT before a payment is recorded. Human session only."""
+        return self._transport.call(
+            "pleaxy._generated.api.invoices.send_remittance",
+            invoice_id=invoice_id,
+            body=body,
         )
 
     def start_stripe_payment(
@@ -1161,6 +1376,16 @@ class PurchaseOrdersResource:
             body=body,
         )
 
+    def change_finished_purchase_order_cost_center(
+        self, po_id: str, *, body: ChangeFinishedCostCenterInput
+    ) -> PurchaseOrder:
+        """[Buyer, administrator] Rebook a closed, paid or canceled purchase order to another cost center, with a reason. Only the cost center changes; the change is kept on the order (`costCenterChanges`). An open order changes its cost center with PATCH instead."""
+        return self._transport.call(
+            "pleaxy._generated.api.purchase_orders.change_finished_purchase_order_cost_center",
+            po_id=po_id,
+            body=body,
+        )
+
     def close_purchase_order(self, po_id: str) -> PurchaseOrder:
         """[Buyer] Manually close out a purchase order"""
         return self._transport.call(
@@ -1189,6 +1414,17 @@ class PurchaseOrdersResource:
         """[Both] Get a single purchase order. A Supplier caller gets a reduced view - no costCenter/budgetOwner/buyerName/notes, no AWS sync state, and approval collapsed to a bare status. A Supplier whose id two buyers both issued gets 409 PO_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>."""
         return self._transport.call(
             "pleaxy._generated.api.purchase_orders.get_purchase_order",
+            po_id=po_id,
+            buyer=buyer,
+        )
+
+    def get_purchase_order_pdf(
+        self, po_id: str, *, buyer: Union[Unset, str] = UNSET
+    ) -> bytes:
+        """[Both] Get the purchase order as a PDF - the supplier's copy whoever asks (no cost center, budget owner, notes or approvals), to download, print or forward. Takes the same ?buyer= qualifier as GetPurchaseOrder. Send `Accept: application/pdf`, or the deployed API returns the body base64-encoded."""
+        return self._transport.call(
+            "pleaxy._generated.api.purchase_orders.get_purchase_order_pdf",
+            binary=True,
             po_id=po_id,
             buyer=buyer,
         )
@@ -1402,6 +1638,43 @@ class SettlementResource:
         )
 
 
+class SourcingResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def create_sourcing_event(
+        self, *, body: CreateSourcingEventInput
+    ) -> BuyerSourcingEventView:
+        """[Buyer] Start an RFQ as a draft: blank, or `{ fromRequestId }` from an approved request with no order, whose lines, cost center, GL account, needed-by and files are copied (the request moves to `sourcing`)"""
+        return self._transport.call(
+            "pleaxy._generated.api.sourcing.create_sourcing_event", body=body
+        )
+
+    def get_sourcing_comparison(
+        self, rfq_id: str, *, round_: Union[Unset, float] = UNSET
+    ) -> SourcingComparison:
+        """[Buyer] The answers side by side: per line each price and total (lowest marked), totals, lead times against needed-by, terms, risk and onboarding; with criteria the weighted total, with evaluators their averages and spread (hidden from an evaluator until its own scorecard is in). `?round=n` shows an earlier round (default the latest). Refused while the current round is sealed"""
+        return self._transport.call(
+            "pleaxy._generated.api.sourcing.get_sourcing_comparison",
+            rfq_id=rfq_id,
+            round_=round_,
+        )
+
+    def get_sourcing_event(self, rfq_id: str) -> BuyerSourcingEventView:
+        """[Buyer] One RFQ. While open and sealed: each invitee's state and when it answered, never prices or files"""
+        return self._transport.call(
+            "pleaxy._generated.api.sourcing.get_sourcing_event", rfq_id=rfq_id
+        )
+
+    def list_sourcing_events(
+        self, *, status: Union[Unset, ListSourcingEventsStatus] = UNSET
+    ) -> List["BuyerSourcingEventSummary"]:
+        """[Buyer] The workspace's RFQs, newest first, with answer counts and (unless sealed) the lowest total"""
+        return self._transport.call(
+            "pleaxy._generated.api.sourcing.list_sourcing_events", status=status
+        )
+
+
 class SupplierConnectionsResource:
     def __init__(self, transport: Transport) -> None:
         self._transport = transport
@@ -1494,6 +1767,7 @@ class Resources:
     """Every resource, one per API area."""
 
     def __init__(self, transport: Transport) -> None:
+        self.activity = ActivityResource(transport)
         self.ai_providers = AiProvidersResource(transport)
         self.ai_spend = AiSpendResource(transport)
         self.api_keys = ApiKeysResource(transport)
@@ -1504,6 +1778,7 @@ class Resources:
         self.billing = BillingResource(transport)
         self.budget_control = BudgetControlResource(transport)
         self.cloud_connections = CloudConnectionsResource(transport)
+        self.credit_notes = CreditNotesResource(transport)
         self.document_sync = DocumentSyncResource(transport)
         self.employees = EmployeesResource(transport)
         self.exchange_rates = ExchangeRatesResource(transport)
@@ -1517,6 +1792,7 @@ class Resources:
         self.request_types = RequestTypesResource(transport)
         self.screening = ScreeningResource(transport)
         self.settlement = SettlementResource(transport)
+        self.sourcing = SourcingResource(transport)
         self.supplier_connections = SupplierConnectionsResource(transport)
         self.supplier_risk = SupplierRiskResource(transport)
         self.workspaces = WorkspacesResource(transport)

@@ -26,6 +26,9 @@ import ai.pleaxy.api.PurchaseOrdersApi;
 import ai.pleaxy.api.SettlementApi;
 import ai.pleaxy.api.SupplierConnectionsApi;
 import ai.pleaxy.api.WorkspacesApi;
+import ai.pleaxy.api.ActivityApi;
+import ai.pleaxy.api.CreditNotesApi;
+import ai.pleaxy.api.SourcingApi;
 import ai.pleaxy.client.ApiClient;
 import ai.pleaxy.client.ApiException;
 import ai.pleaxy.model.ApiError;
@@ -82,6 +85,9 @@ public final class PleaxyClient {
   private final SettlementApi settlement;
   private final SupplierConnectionsApi supplierConnections;
   private final WorkspacesApi workspaces;
+  private final ActivityApi activity;
+  private final CreditNotesApi creditNotes;
+  private final SourcingApi sourcing;
 
   private PleaxyClient(Builder builder) {
     if (builder.workspaceId == null || builder.workspaceId.isEmpty()) {
@@ -134,6 +140,9 @@ public final class PleaxyClient {
     this.settlement = new SettlementApi(apiClient);
     this.supplierConnections = new SupplierConnectionsApi(apiClient);
     this.workspaces = new WorkspacesApi(apiClient);
+    this.activity = new ActivityApi(apiClient);
+    this.creditNotes = new CreditNotesApi(apiClient);
+    this.sourcing = new SourcingApi(apiClient);
   }
 
   public static Builder builder() {
@@ -273,6 +282,21 @@ public final class PleaxyClient {
   /** Workspaces operations. */
   public WorkspacesApi workspaces() {
     return workspaces;
+  }
+
+  /** An invoice's activity, and comments on invoices and purchase orders. */
+  public ActivityApi activity() {
+    return activity;
+  }
+
+  /** Credit notes, and applying accepted credits to invoices. */
+  public CreditNotesApi creditNotes() {
+    return creditNotes;
+  }
+
+  /** Requests for quotes (RFQs) and their answers side by side. */
+  public SourcingApi sourcing() {
+    return sourcing;
   }
 
   /**

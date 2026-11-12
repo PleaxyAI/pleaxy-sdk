@@ -4,6 +4,18 @@ package pleaxy
 
 import "context"
 
+// AcceptCreditNote - [Buyer] Accept a credit note. A correction gives PO balance back; when Pleaxy settles credits, it's applied to the unpaid invoice it corrects.
+func (c *Client) AcceptCreditNote(ctx context.Context, creditNoteId string) (*BuyerCreditNoteView, error) {
+	resp, err := c.api.AcceptCreditNoteWithResponse(ctx, creditNoteId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
 // AddAiProviderSupplier - [Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create' on suppliers.
 func (c *Client) AddAiProviderSupplier(ctx context.Context, provider string) (*AddAiProviderSupplierResult, error) {
 	resp, err := c.api.AddAiProviderSupplierWithResponse(ctx, provider)
@@ -28,6 +40,18 @@ func (c *Client) AddCloudProviderAsSupplier(ctx context.Context, provider string
 	return resp.JSON201, nil
 }
 
+// AddInvoiceComment - [Both] Comment on an invoice - internal to your team, or shared with the other side. A Supplier's comments are always shared. `mentions` notifies people in your own workspace. Human session only.
+func (c *Client) AddInvoiceComment(ctx context.Context, invoiceId string, params *AddInvoiceCommentParams, body AddInvoiceCommentJSONRequestBody) (*DocumentCommentView, error) {
+	resp, err := c.api.AddInvoiceCommentWithResponse(ctx, invoiceId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
 // AddInvoiceReplacementLinks - [Buyer] Name the invoices this invoice replaces (credit and rebill, credit notes spec §20), when that wasn't known as it was entered: { invoiceIds }, 1–20 invoices or debit notes from the same supplier. Each original then lists it in replacedByInvoiceIds; links already there are kept. 404 REPLACES_NOT_FOUND, 400 REPLACES_INVALID, 409 REPLACEMENT_CHANGED.
 func (c *Client) AddInvoiceReplacementLinks(ctx context.Context, invoiceId string, body AddInvoiceReplacementLinksJSONRequestBody) (*AddInvoiceReplacementLinksResult, error) {
 	resp, err := c.api.AddInvoiceReplacementLinksWithResponse(ctx, invoiceId, body)
@@ -40,9 +64,33 @@ func (c *Client) AddInvoiceReplacementLinks(ctx context.Context, invoiceId strin
 	return resp.JSON200, nil
 }
 
+// AddPurchaseOrderComment - [Both] Comment on a purchase order - as AddInvoiceComment. Human session only.
+func (c *Client) AddPurchaseOrderComment(ctx context.Context, poId string, params *AddPurchaseOrderCommentParams, body AddPurchaseOrderCommentJSONRequestBody) (*DocumentCommentView, error) {
+	resp, err := c.api.AddPurchaseOrderCommentWithResponse(ctx, poId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
 // ApplyConfirmationChanges - [Buyer] Take the new quantities and unit prices in the supplier's latest confirmation (outcome changed) into the order: { purchaseOrder, confirmation }. An ordinary line edit, as UpdatePurchaseOrder: the order gets a new version, goes back to approval when its rules say so, and the supplier hears po_changed. 409 CONFIRMATION_SUPERSEDED when the supplier confirmed again since, CONFIRMATION_DECIDED when it was already applied or declined, NO_CHANGES, or ORDER_NOT_OPEN.
 func (c *Client) ApplyConfirmationChanges(ctx context.Context, poId string, confirmationId string) (*ApplyConfirmationChangesResult, error) {
 	resp, err := c.api.ApplyConfirmationChangesWithResponse(ctx, poId, confirmationId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
+// ApplyCredits - [Buyer] Apply accepted credit notes to an invoice, all or none, up to what it owes; an approved invoice covered in full is marked paid by credit. 409 when credits are settled in your accounting system.
+func (c *Client) ApplyCredits(ctx context.Context, invoiceId string, body ApplyCreditsJSONRequestBody) (*ApplyCreditsResult, error) {
+	resp, err := c.api.ApplyCreditsWithResponse(ctx, invoiceId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -110,6 +158,18 @@ func (c *Client) CancelPurchaseRequest(ctx context.Context, requestId string) (*
 		return nil, err
 	}
 	return resp.JSON200, nil
+}
+
+// ChangeFinishedPurchaseOrderCostCenter - [Buyer, administrator] Rebook a closed, paid or canceled purchase order to another cost center, with a reason. Only the cost center changes; the change is kept on the order (`costCenterChanges`). An open order changes its cost center with PATCH instead.
+func (c *Client) ChangeFinishedPurchaseOrderCostCenter(ctx context.Context, poId string, body ChangeFinishedPurchaseOrderCostCenterJSONRequestBody) (*PurchaseOrder, error) {
+	resp, err := c.api.ChangeFinishedPurchaseOrderCostCenterWithResponse(ctx, poId, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
 }
 
 // CheckAiSpend - [Buyer] Whether the period's AI forecast for an invoicer, a purchase order or a cost center fits what its open purchase order lines (and the cost center's budget) have left: fits, over, no_po or no_budget. Nothing is saved and nothing blocks. Name at least one of invoicerId, costCenter and poId. 'view' on suppliers or on invoices.
@@ -220,6 +280,18 @@ func (c *Client) CreateCloudConnection(ctx context.Context, body CreateCloudConn
 	return resp.JSON201, nil
 }
 
+// CreateCreditNote - [Both] Issue a credit note against the invoice it corrects (invoiceId) or a counterparty (connectionId); a buyer records one it received the same way, optionally from a document Pleaxy read (sourceImportId). Its total is computed from its lines and tax. One that corrects an invoice and isn't for more than it is accepted at once; otherwise the buyer accepts or rejects it.
+func (c *Client) CreateCreditNote(ctx context.Context, body CreateCreditNoteJSONRequestBody) (*CreateCreditNoteResult, error) {
+	resp, err := c.api.CreateCreditNoteWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
 // CreateFocusExport - [Buyer] Export the workspace's invoices, debit notes and accepted credit notes for billing periods from..to (YYYY-MM, at most 36 months) as a FOCUS Cost and Usage dataset in CSV (version 1.2 by default, or 1.4), with a metadata file. One row per line, tax entry and adjustment; credit notes negative; amounts in each document's currency. include=non_cloud leaves out cloud and AI providers' invoices. Returns download links valid 15 minutes; the files are kept 7 days. 'view' on invoices.
 func (c *Client) CreateFocusExport(ctx context.Context, body CreateFocusExportJSONRequestBody) (*FocusExport, error) {
 	resp, err := c.api.CreateFocusExportWithResponse(ctx, body)
@@ -292,6 +364,18 @@ func (c *Client) CreatePurchaseRequest(ctx context.Context, body CreatePurchaseR
 	return resp.JSON201, nil
 }
 
+// CreateSourcingEvent - [Buyer] Start an RFQ as a draft: blank, or `{ fromRequestId }` from an approved request with no order, whose lines, cost center, GL account, needed-by and files are copied (the request moves to `sourcing`)
+func (c *Client) CreateSourcingEvent(ctx context.Context, body CreateSourcingEventJSONRequestBody) (*BuyerSourcingEventView, error) {
+	resp, err := c.api.CreateSourcingEventWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
 // CreateWebhook - [Both, admin] Add an endpoint: { url, description?, events? }. Every event of those types (all of your side's when events is left out) is POSTed to it as JSON - ListSyncEvents' event plus workspaceId and documentPath - signed in the Pleaxy-Signature header (t=<unix seconds>,v1=<hex HMAC-SHA256 of "<t>.<body>">) with the secret returned here, once. A 2xx within 10 seconds is delivered; anything else is retried after 1 min, 5 min, 30 min, 2 h, 6 h, 12 h and 24 h, then given up. Up to 5 per side. Signed-in administrators only.
 func (c *Client) CreateWebhook(ctx context.Context, body CreateWebhookJSONRequestBody) (*CreateWebhookResult, error) {
 	resp, err := c.api.CreateWebhookWithResponse(ctx, body)
@@ -331,6 +415,30 @@ func (c *Client) DeleteAiProvider(ctx context.Context, id string) (*DeleteAiProv
 // DeleteFocusSource - [Buyer] Remove a FOCUS source with the months and AI lines it stored; its connection's own AI read resumes. 'edit' on invoices; a signed-in person only.
 func (c *Client) DeleteFocusSource(ctx context.Context, sourceId string) (*DeleteFocusSourceResult, error) {
 	resp, err := c.api.DeleteFocusSourceWithResponse(ctx, sourceId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// DeleteInvoiceComment - [Both] Take back your own comment on an invoice: its text is removed, the thread keeps that a comment was made. Human session only.
+func (c *Client) DeleteInvoiceComment(ctx context.Context, invoiceId string, commentId string, params *DeleteInvoiceCommentParams) (*DocumentCommentView, error) {
+	resp, err := c.api.DeleteInvoiceCommentWithResponse(ctx, invoiceId, commentId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// DeletePurchaseOrderComment - [Both] Take back your own comment on a purchase order. Human session only.
+func (c *Client) DeletePurchaseOrderComment(ctx context.Context, poId string, commentId string, params *DeletePurchaseOrderCommentParams) (*DocumentCommentView, error) {
+	resp, err := c.api.DeletePurchaseOrderCommentWithResponse(ctx, poId, commentId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -553,6 +661,42 @@ func (c *Client) GetBuyerWorkspace(ctx context.Context, params *GetBuyerWorkspac
 	return resp.JSON200, nil
 }
 
+// GetCreditNote - [Both] One credit note, with what it corrects, the PO balance it gave back, where its money went and what's left of it.
+func (c *Client) GetCreditNote(ctx context.Context, creditNoteId string) (*GetCreditNoteResult, error) {
+	resp, err := c.api.GetCreditNoteWithResponse(ctx, creditNoteId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// GetCreditNotePdf - [Both] The credit note's own PDF, as attached when it was issued or the document it was recorded from. 404 CREDIT_NOTE_NO_PDF when it has none (hasPdf is false). Send `Accept: application/pdf`, or the deployed API returns the body base64-encoded.
+func (c *Client) GetCreditNotePdf(ctx context.Context, creditNoteId string) ([]byte, error) {
+	resp, err := c.api.GetCreditNotePdfWithResponse(ctx, creditNoteId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.Body, nil
+}
+
+// GetCreditSettlement - [Buyer] Who settles accepted credits: pleaxy (applied to invoices here) or accounting_system (exported for your ERP to clear). chosen: false when it's the default.
+func (c *Client) GetCreditSettlement(ctx context.Context) (*GetCreditSettlementResult, error) {
+	resp, err := c.api.GetCreditSettlementWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // GetExchangeRates - [Buyer] The currencies this workspace's orders, invoices and suppliers use, each with today's reference rate into your currency. `?currency=` adds one more currency's row. Used only for approval and spend checks; amounts are never converted. Signed-in session only: the rate provider's terms don't allow programmatic access to its rates. Rates by Exchange Rate API.
 func (c *Client) GetExchangeRates(ctx context.Context, params *GetExchangeRatesParams) (*ExchangeRatesView, error) {
 	resp, err := c.api.GetExchangeRatesWithResponse(ctx, params)
@@ -604,6 +748,18 @@ func (c *Client) GetFocusSourcePeriod(ctx context.Context, sourceId string, peri
 // GetInvoice - [Both] Get a single invoice, or with a credit note's id (CN-…) that credit note; documentType says which. A Supplier caller gets a reduced view - no approval workflow detail (requester/stages/history/autonomy, collapsed to a bare status), no usageAmount/tolerancePct (the buyer's matching internals), no submittedBy. A Supplier whose id two buyers both issued gets 409 INVOICE_ID_AMBIGUOUS and picks one with ?buyer=<buyer Workspace ID>. A Buyer caller also gets, on a replaced invoice, replacement (whether its credit notes cover it in full), and on a replacement, uncreditedOriginals (credit and rebill).
 func (c *Client) GetInvoice(ctx context.Context, invoiceId string, params *GetInvoiceParams) (*GetInvoiceResult, error) {
 	resp, err := c.api.GetInvoiceWithResponse(ctx, invoiceId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// GetInvoiceActivity - [Both] An invoice's activity, oldest first: its arrival, checks, matches, approval steps, rejection, payments, reminders and comments. Each entry has a `kind` and structured `data`, never prose. A Supplier caller gets its arrival, outcome, recorded payments, reminders and shared comments only. Takes GetInvoice's ?buyer=.
+func (c *Client) GetInvoiceActivity(ctx context.Context, invoiceId string, params *GetInvoiceActivityParams) (*GetInvoiceActivityResult, error) {
+	resp, err := c.api.GetInvoiceActivityWithResponse(ctx, invoiceId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -745,6 +901,18 @@ func (c *Client) GetPurchaseOrderFulfillment(ctx context.Context, poId string, p
 	return resp.JSON200, nil
 }
 
+// GetPurchaseOrderPdf - [Both] Get the purchase order as a PDF - the supplier's copy whoever asks (no cost center, budget owner, notes or approvals), to download, print or forward. Takes the same ?buyer= qualifier as GetPurchaseOrder. Send `Accept: application/pdf`, or the deployed API returns the body base64-encoded.
+func (c *Client) GetPurchaseOrderPdf(ctx context.Context, poId string, params *GetPurchaseOrderPdfParams) ([]byte, error) {
+	resp, err := c.api.GetPurchaseOrderPdfWithResponse(ctx, poId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.Body, nil
+}
+
 // GetPurchaseRequest - [Buyer] One purchase request, with its approval chain, budget check and the order it became
 func (c *Client) GetPurchaseRequest(ctx context.Context, requestId string) (*PurchaseRequest, error) {
 	resp, err := c.api.GetPurchaseRequestWithResponse(ctx, requestId)
@@ -805,9 +973,45 @@ func (c *Client) GetRemittanceAdvice(ctx context.Context, invoiceId string, para
 	return resp.Body, nil
 }
 
+// GetRemittanceFile - [Both] A link, valid for 5 minutes, to the proof of payment a remittance carries: { url, fileName, contentType }. 404 REMITTANCE_NOT_FOUND when the remittance has no file. Takes the same ?buyer= qualifier as GetInvoice.
+func (c *Client) GetRemittanceFile(ctx context.Context, invoiceId string, remittanceId string, params *GetRemittanceFileParams) (*GetRemittanceFileResult, error) {
+	resp, err := c.api.GetRemittanceFileWithResponse(ctx, invoiceId, remittanceId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // GetRequestType - [Buyer] One request type, active or not, with its intake form
 func (c *Client) GetRequestType(ctx context.Context, typeId string) (*RequestType, error) {
 	resp, err := c.api.GetRequestTypeWithResponse(ctx, typeId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// GetSourcingComparison - [Buyer] The answers side by side: per line each price and total (lowest marked), totals, lead times against needed-by, terms, risk and onboarding; with criteria the weighted total, with evaluators their averages and spread (hidden from an evaluator until its own scorecard is in). `?round=n` shows an earlier round (default the latest). Refused while the current round is sealed
+func (c *Client) GetSourcingComparison(ctx context.Context, rfqId string, params *GetSourcingComparisonParams) (*SourcingComparison, error) {
+	resp, err := c.api.GetSourcingComparisonWithResponse(ctx, rfqId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// GetSourcingEvent - [Buyer] One RFQ. While open and sealed: each invitee's state and when it answered, never prices or files
+func (c *Client) GetSourcingEvent(ctx context.Context, rfqId string) (*BuyerSourcingEventView, error) {
+	resp, err := c.api.GetSourcingEventWithResponse(ctx, rfqId)
 	if err != nil {
 		return nil, err
 	}
@@ -1009,6 +1213,18 @@ func (c *Client) ListApprovals(ctx context.Context) (*ApprovalQueue, error) {
 	return resp.JSON200, nil
 }
 
+// ListAvailableCredits - [Buyer] Accepted credits from the invoice's supplier in its currency, oldest first, each with a suggested amount; pending ones to accept; and whether the invoice can take credits.
+func (c *Client) ListAvailableCredits(ctx context.Context, invoiceId string) (*ListAvailableCreditsResult, error) {
+	resp, err := c.api.ListAvailableCreditsWithResponse(ctx, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // ListBankAccountsToApprove - [Buyer] Suppliers' bank accounts waiting for approval: a billing lane's first account (status unverified) or a change (status changing, with pendingChange). Invoices paid to them wait until they are approved. Numbers masked to the last four.
 func (c *Client) ListBankAccountsToApprove(ctx context.Context) (*[]BankAccountView, error) {
 	resp, err := c.api.ListBankAccountsToApproveWithResponse(ctx)
@@ -1024,6 +1240,18 @@ func (c *Client) ListBankAccountsToApprove(ctx context.Context) (*[]BankAccountV
 // ListCloudConnections - [Buyer] List cloud provider connections. With `limit` (1–200): one page, `{ items, nextCursor? }`, oldest first - pass `cursor` back for the next page. Without it: every connection, as before (unbounded; a workspace with thousands of bulk-connected accounts should page). 'view' on suppliers or on invoices.
 func (c *Client) ListCloudConnections(ctx context.Context, params *ListCloudConnectionsParams) (*ListCloudConnectionsResult, error) {
 	resp, err := c.api.ListCloudConnectionsWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// ListCreditNotes - [Both] List credit notes: a Buyer caller gets the ones it received, a Supplier caller the ones it issued, each with what's left to apply (remaining).
+func (c *Client) ListCreditNotes(ctx context.Context) (*ListCreditNotesResult, error) {
+	resp, err := c.api.ListCreditNotesWithResponse(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1093,6 +1321,18 @@ func (c *Client) ListFocusSources(ctx context.Context) (*ListFocusSourcesResult,
 	return resp.JSON200, nil
 }
 
+// ListInvoiceComments - [Both] Comments on an invoice, oldest first: your side's internal ones and every shared one. Takes GetInvoice's ?buyer=.
+func (c *Client) ListInvoiceComments(ctx context.Context, invoiceId string, params *ListInvoiceCommentsParams) (*ListInvoiceCommentsResult, error) {
+	resp, err := c.api.ListInvoiceCommentsWithResponse(ctx, invoiceId, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // ListInvoiceCounterparties - [Both] Active counterparties the caller can invoice through POST .../invoices with a connectionId - connection id, display name, the buyer's currency, and the open POs between exactly that pair; a Supplier caller also gets the buyer's regionName. One row per counterparty; a Buyer caller can pass ?perConnection=true to list every approved connection instead, each with approvedAt, feedReadiness and the feed's figures (feedAcceptedCount, feedLastAcceptedAt, feedValidCount, feedLastValidAt) and, when a supplier has several, multipleConnections. Without ?perConnection a Buyer caller also gets its off-platform suppliers: any supplier in its list with no Pleaxy account yet, invited or not (offPlatform: true, cloudProvider for a cloud provider, no POs). For those, currency is only the default: the invoice takes its own currency. Human session only.
 func (c *Client) ListInvoiceCounterparties(ctx context.Context, params *ListInvoiceCounterpartiesParams) (*ListInvoiceCounterpartiesResult, error) {
 	resp, err := c.api.ListInvoiceCounterpartiesWithResponse(ctx, params)
@@ -1132,6 +1372,18 @@ func (c *Client) ListNotifications(ctx context.Context, params *ListNotification
 // ListNotificationsPage - [Both] List notifications a page at a time, newest first
 func (c *Client) ListNotificationsPage(ctx context.Context, params *ListNotificationsPageParams) (*NotificationPage, error) {
 	resp, err := c.api.ListNotificationsPageWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// ListPurchaseOrderComments - [Both] Comments on a purchase order, oldest first: your side's internal ones and every shared one. Takes GetPurchaseOrder's ?buyer=.
+func (c *Client) ListPurchaseOrderComments(ctx context.Context, poId string, params *ListPurchaseOrderCommentsParams) (*ListPurchaseOrderCommentsResult, error) {
+	resp, err := c.api.ListPurchaseOrderCommentsWithResponse(ctx, poId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -1192,6 +1444,18 @@ func (c *Client) ListRequestTypes(ctx context.Context, params *ListRequestTypesP
 // ListScreeningMatches - [Buyer] Suppliers whose sanctions screening has a possible match to review (status possible_match) or a confirmed one (confirmed_match). Payments to them wait; a supplier with a confirmed match takes no new orders or buyer-entered invoices. Empty while screening is off.
 func (c *Client) ListScreeningMatches(ctx context.Context) (*[]SupplierScreening, error) {
 	resp, err := c.api.ListScreeningMatchesWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// ListSourcingEvents - [Buyer] The workspace's RFQs, newest first, with answer counts and (unless sealed) the lowest total
+func (c *Client) ListSourcingEvents(ctx context.Context, params *ListSourcingEventsParams) (*[]BuyerSourcingEventSummary, error) {
+	resp, err := c.api.ListSourcingEventsWithResponse(ctx, params)
 	if err != nil {
 		return nil, err
 	}
@@ -1366,6 +1630,18 @@ func (c *Client) RecordPurchaseOrderEmail(ctx context.Context, poId string, emai
 	return resp.JSON200, nil
 }
 
+// RejectCreditNote - [Buyer] Reject a credit note waiting for acceptance, with a reason the supplier reads.
+func (c *Client) RejectCreditNote(ctx context.Context, creditNoteId string, body RejectCreditNoteJSONRequestBody) (*BuyerCreditNoteView, error) {
+	resp, err := c.api.RejectCreditNoteWithResponse(ctx, creditNoteId, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
 // RejectInvoice - [Buyer] Reject an invoice with a reason the supplier sees - only the current stage's assigned approver may call this, or, for an unverified/discrepancy invoice with no approval chain yet, any buyer with invoices:edit. Human session only: an API key gets 403 HUMAN_APPROVAL_REQUIRED. Rejecting a PO-backed invoice reopens its purchase order for a corrected invoice.
 func (c *Client) RejectInvoice(ctx context.Context, invoiceId string, body RejectInvoiceJSONRequestBody) (*InvoiceBuyerView, error) {
 	resp, err := c.api.RejectInvoiceWithResponse(ctx, invoiceId, body)
@@ -1438,6 +1714,18 @@ func (c *Client) RemoveAiSpendLimit(ctx context.Context, poId string, lineNo flo
 	return resp.JSON200, nil
 }
 
+// RemoveCreditApplication - [Buyer] Take a credit back off an invoice that isn't exported or paid. It goes back to its credit note.
+func (c *Client) RemoveCreditApplication(ctx context.Context, invoiceId string, applicationId string) (*RemoveCreditApplicationResult, error) {
+	resp, err := c.api.RemoveCreditApplicationWithResponse(ctx, invoiceId, applicationId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // RemoveInvoiceReplacementLink - [Buyer] Undo a replacement link entered wrongly (credit notes spec §20), on both invoices. The rejected invoice an invoice corrects on its purchase order stays linked.
 func (c *Client) RemoveInvoiceReplacementLink(ctx context.Context, invoiceId string, originalId string) (*RemoveInvoiceReplacementLinkResult, error) {
 	resp, err := c.api.RemoveInvoiceReplacementLinkWithResponse(ctx, invoiceId, originalId)
@@ -1453,6 +1741,18 @@ func (c *Client) RemoveInvoiceReplacementLink(ctx context.Context, invoiceId str
 // RequestPurchaseRequestFileUpload - [Buyer] A presigned URL to upload the answer to a request form's 'file' question (PDF, image, Word, Excel, CSV or text, up to 25 MB). PUT the file there, then save the answer with the returned fileId. Any workspace member, before or after the request exists.
 func (c *Client) RequestPurchaseRequestFileUpload(ctx context.Context, body RequestPurchaseRequestFileUploadJSONRequestBody) (*RequestPurchaseRequestFileUploadResult, error) {
 	resp, err := c.api.RequestPurchaseRequestFileUploadWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// RequestRemittanceUpload - [Buyer] A presigned URL to upload a proof of payment (a bank's transfer receipt) for an approved or paid invoice: { contentType: application/pdf|image/png|image/jpeg }. PUT the file to uploadUrl with that Content-Type within 5 minutes, up to maxBytes (10 MB), then send its fileId with SendRemittance or RecordPayment's remittance. An upload nothing attaches is deleted after a couple of days. Human session only.
+func (c *Client) RequestRemittanceUpload(ctx context.Context, invoiceId string, body RequestRemittanceUploadJSONRequestBody) (*RequestRemittanceUploadResult, error) {
+	resp, err := c.api.RequestRemittanceUploadWithResponse(ctx, invoiceId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1495,9 +1795,21 @@ func (c *Client) RotateWebhookSecret(ctx context.Context, webhookId string) (*Ro
 	return resp.JSON200, nil
 }
 
-// RunInvoiceMatch - [Buyer] Match an invoice: against the provider's usage for a cloud provider's order; otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
+// RunInvoiceMatch - [Buyer] Match an invoice: against the provider's usage for a cloud provider's order (Pleaxy runs that match itself as the invoice arrives; call this when it couldn't, e.g. no figure was in yet); otherwise against its PO and contract (2-way) and, on a 3-way order, what was received. On an invoice held as a discrepancy against its PO or contract (discrepancyReason: controls), checks it again against the PO and contract as they stand now: still over, its controlFindings are brought up to date; within them, it goes back to the match it would have been created with. Only against an approved PO.
 func (c *Client) RunInvoiceMatch(ctx context.Context, invoiceId string) (*InvoiceBuyerView, error) {
 	resp, err := c.api.RunInvoiceMatchWithResponse(ctx, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
+}
+
+// SendRemittance - [Buyer] Send the supplier a remittance for a paid invoice: { note?, file?: { fileId, fileName } }, at least one. The note (up to 1,000 characters) goes in the supplier's notification, which its Slack or Teams channel also gets when routed there; the file is a proof of payment uploaded with RequestRemittanceUpload. Up to 20 per invoice. 409 REMITTANCE_NEEDS_PAYMENT before a payment is recorded. Human session only.
+func (c *Client) SendRemittance(ctx context.Context, invoiceId string, body SendRemittanceJSONRequestBody) (*InvoiceBuyerView, error) {
+	resp, err := c.api.SendRemittanceWithResponse(ctx, invoiceId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1570,6 +1882,18 @@ func (c *Client) SetAiSeatCount(ctx context.Context, body SetAiSeatCountJSONRequ
 // SetAiSpendLimit - [Buyer] Sets an approved order line's amount as its invoicer's spending ceiling for the month (AWS Budgets, an OpenAI project limit, an Anthropic workspace limit, a Google Cloud budget or spend cap, an Azure budget), reads it back and records the write. Refused below the month to date, with the figures. Raising the line raises it; closing the order removes it. An agent's call is a request the person confirms. 'edit' on purchase orders.
 func (c *Client) SetAiSpendLimit(ctx context.Context, poId string, lineNo float64, body SetAiSpendLimitJSONRequestBody) (*AiSpendLimit, error) {
 	resp, err := c.api.SetAiSpendLimitWithResponse(ctx, poId, lineNo, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// SetCreditSettlement - [Buyer] Choose who settles accepted credits. 409 CREDITS_APPLIED_TO_UNPAID when moving to accounting_system while credits sit on unpaid invoices.
+func (c *Client) SetCreditSettlement(ctx context.Context, body SetCreditSettlementJSONRequestBody) (*SetCreditSettlementResult, error) {
+	resp, err := c.api.SetCreditSettlementWithResponse(ctx, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1841,6 +2165,18 @@ func (c *Client) ValidateFeedInvoice(ctx context.Context, connectionId string, b
 		return nil, err
 	}
 	return resp.JSON200, nil
+}
+
+// VoidCreditNote - [Supplier] Void a credit note the buyer hasn't decided on yet. Its number stays used.
+func (c *Client) VoidCreditNote(ctx context.Context, creditNoteId string) (*SupplierCreditNoteView, error) {
+	resp, err := c.api.VoidCreditNoteWithResponse(ctx, creditNoteId)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON201, nil
 }
 
 // WithdrawPaymentExport - [Buyer] Withdraw an invoice's export: { confirmNotPaid: true }. It goes back to Approved but can't be exported or recorded again until the next business day, and the next export marks it previously_exported_at. Pleaxy can't see or cancel anything in your own payment tool. Human session only.

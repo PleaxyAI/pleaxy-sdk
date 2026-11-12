@@ -76,6 +76,11 @@ pub struct FeedValidationResultInvoice {
     pub due_date_source: Option<DueDateSource>,
     #[serde(rename = "lastRemindedAt", skip_serializing_if = "Option::is_none")]
     pub last_reminded_at: Option<String>,
+    #[serde(
+        rename = "lastApproverRemindedAt",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub last_approver_reminded_at: Option<String>,
     #[serde(rename = "rejection", skip_serializing_if = "Option::is_none")]
     pub rejection: Option<models::InvoiceRejection>,
     #[serde(rename = "replacesInvoiceId", skip_serializing_if = "Option::is_none")]
@@ -199,6 +204,7 @@ impl FeedValidationResultInvoice {
             payment_problem: None,
             due_date_source: None,
             last_reminded_at: None,
+            last_approver_reminded_at: None,
             rejection: None,
             replaces_invoice_id: None,
             replaces_invoice_ids: None,

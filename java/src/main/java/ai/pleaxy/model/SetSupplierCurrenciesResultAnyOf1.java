@@ -64,6 +64,9 @@ import ai.pleaxy.client.ApiClient;
   SetSupplierCurrenciesResultAnyOf1.JSON_PROPERTY_INVOICE_FEED_ENABLED,
   SetSupplierCurrenciesResultAnyOf1.JSON_PROPERTY_INVOICE_FEED_UPDATED_AT,
   SetSupplierCurrenciesResultAnyOf1.JSON_PROPERTY_INVOICE_FEED_UPDATED_BY,
+  SetSupplierCurrenciesResultAnyOf1.JSON_PROPERTY_COMMENTS_MUTED,
+  SetSupplierCurrenciesResultAnyOf1.JSON_PROPERTY_COMMENTS_MUTED_AT,
+  SetSupplierCurrenciesResultAnyOf1.JSON_PROPERTY_COMMENTS_MUTED_BY,
   SetSupplierCurrenciesResultAnyOf1.JSON_PROPERTY_FEED_LAST_ATTEMPT_AT,
   SetSupplierCurrenciesResultAnyOf1.JSON_PROPERTY_FEED_LAST_ACCEPTED_AT,
   SetSupplierCurrenciesResultAnyOf1.JSON_PROPERTY_FEED_ACCEPTED_COUNT,
@@ -370,6 +373,18 @@ public class SetSupplierCurrenciesResultAnyOf1 {
   public static final String JSON_PROPERTY_INVOICE_FEED_UPDATED_BY = "invoiceFeedUpdatedBy";
   @javax.annotation.Nullable
   private String invoiceFeedUpdatedBy;
+
+  public static final String JSON_PROPERTY_COMMENTS_MUTED = "commentsMuted";
+  @javax.annotation.Nullable
+  private Boolean commentsMuted;
+
+  public static final String JSON_PROPERTY_COMMENTS_MUTED_AT = "commentsMutedAt";
+  @javax.annotation.Nullable
+  private String commentsMutedAt;
+
+  public static final String JSON_PROPERTY_COMMENTS_MUTED_BY = "commentsMutedBy";
+  @javax.annotation.Nullable
+  private String commentsMutedBy;
 
   public static final String JSON_PROPERTY_FEED_LAST_ATTEMPT_AT = "feedLastAttemptAt";
   @javax.annotation.Nullable
@@ -1118,6 +1133,78 @@ public class SetSupplierCurrenciesResultAnyOf1 {
   }
 
 
+  public SetSupplierCurrenciesResultAnyOf1 commentsMuted(@javax.annotation.Nullable Boolean commentsMuted) {
+    this.commentsMuted = commentsMuted;
+    return this;
+  }
+
+  /**
+   * Get commentsMuted
+   * @return commentsMuted
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMENTS_MUTED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getCommentsMuted() {
+    return commentsMuted;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMENTS_MUTED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCommentsMuted(@javax.annotation.Nullable Boolean commentsMuted) {
+    this.commentsMuted = commentsMuted;
+  }
+
+
+  public SetSupplierCurrenciesResultAnyOf1 commentsMutedAt(@javax.annotation.Nullable String commentsMutedAt) {
+    this.commentsMutedAt = commentsMutedAt;
+    return this;
+  }
+
+  /**
+   * Get commentsMutedAt
+   * @return commentsMutedAt
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMENTS_MUTED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getCommentsMutedAt() {
+    return commentsMutedAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMENTS_MUTED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCommentsMutedAt(@javax.annotation.Nullable String commentsMutedAt) {
+    this.commentsMutedAt = commentsMutedAt;
+  }
+
+
+  public SetSupplierCurrenciesResultAnyOf1 commentsMutedBy(@javax.annotation.Nullable String commentsMutedBy) {
+    this.commentsMutedBy = commentsMutedBy;
+    return this;
+  }
+
+  /**
+   * Get commentsMutedBy
+   * @return commentsMutedBy
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMENTS_MUTED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getCommentsMutedBy() {
+    return commentsMutedBy;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMENTS_MUTED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCommentsMutedBy(@javax.annotation.Nullable String commentsMutedBy) {
+    this.commentsMutedBy = commentsMutedBy;
+  }
+
+
   public SetSupplierCurrenciesResultAnyOf1 feedLastAttemptAt(@javax.annotation.Nullable String feedLastAttemptAt) {
     this.feedLastAttemptAt = feedLastAttemptAt;
     return this;
@@ -1447,6 +1534,9 @@ public class SetSupplierCurrenciesResultAnyOf1 {
         Objects.equals(this.invoiceFeedEnabled, setSupplierCurrenciesResultAnyOf1.invoiceFeedEnabled) &&
         Objects.equals(this.invoiceFeedUpdatedAt, setSupplierCurrenciesResultAnyOf1.invoiceFeedUpdatedAt) &&
         Objects.equals(this.invoiceFeedUpdatedBy, setSupplierCurrenciesResultAnyOf1.invoiceFeedUpdatedBy) &&
+        Objects.equals(this.commentsMuted, setSupplierCurrenciesResultAnyOf1.commentsMuted) &&
+        Objects.equals(this.commentsMutedAt, setSupplierCurrenciesResultAnyOf1.commentsMutedAt) &&
+        Objects.equals(this.commentsMutedBy, setSupplierCurrenciesResultAnyOf1.commentsMutedBy) &&
         Objects.equals(this.feedLastAttemptAt, setSupplierCurrenciesResultAnyOf1.feedLastAttemptAt) &&
         Objects.equals(this.feedLastAcceptedAt, setSupplierCurrenciesResultAnyOf1.feedLastAcceptedAt) &&
         Objects.equals(this.feedAcceptedCount, setSupplierCurrenciesResultAnyOf1.feedAcceptedCount) &&
@@ -1463,7 +1553,7 @@ public class SetSupplierCurrenciesResultAnyOf1 {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, buyerOrgId, buyerName, supplierOrgId, supplierName, invitedAsName, supplierContactEmail, status, origin, questionnaireRequested, questionnaireTemplateId, questionnaireTemplateVersion, createdAt, invitedAt, respondedAt, reviewedAt, reviewedBy, rejectionReason, cloudProvider, aiProvider, billingCurrency, paymentCurrency, offPlatformInvoicesRecorded, supplierRegion, acceptedRegionName, acceptedRegionMatchesRequest, invoiceFeedEnabled, invoiceFeedUpdatedAt, invoiceFeedUpdatedBy, feedLastAttemptAt, feedLastAcceptedAt, feedAcceptedCount, feedLastRefusedAt, feedLastRefusedCode, feedLastValidAt, feedValidCount, lateFeeTerms, lateFeeTermsUpdatedAt, lateFeeTermsAttestedAt, lateFeeTermsAttestationVersion, questionnaireRedacted);
+    return Objects.hash(id, buyerOrgId, buyerName, supplierOrgId, supplierName, invitedAsName, supplierContactEmail, status, origin, questionnaireRequested, questionnaireTemplateId, questionnaireTemplateVersion, createdAt, invitedAt, respondedAt, reviewedAt, reviewedBy, rejectionReason, cloudProvider, aiProvider, billingCurrency, paymentCurrency, offPlatformInvoicesRecorded, supplierRegion, acceptedRegionName, acceptedRegionMatchesRequest, invoiceFeedEnabled, invoiceFeedUpdatedAt, invoiceFeedUpdatedBy, commentsMuted, commentsMutedAt, commentsMutedBy, feedLastAttemptAt, feedLastAcceptedAt, feedAcceptedCount, feedLastRefusedAt, feedLastRefusedCode, feedLastValidAt, feedValidCount, lateFeeTerms, lateFeeTermsUpdatedAt, lateFeeTermsAttestedAt, lateFeeTermsAttestationVersion, questionnaireRedacted);
   }
 
   @Override
@@ -1499,6 +1589,9 @@ public class SetSupplierCurrenciesResultAnyOf1 {
     sb.append("    invoiceFeedEnabled: ").append(toIndentedString(invoiceFeedEnabled)).append("\n");
     sb.append("    invoiceFeedUpdatedAt: ").append(toIndentedString(invoiceFeedUpdatedAt)).append("\n");
     sb.append("    invoiceFeedUpdatedBy: ").append(toIndentedString(invoiceFeedUpdatedBy)).append("\n");
+    sb.append("    commentsMuted: ").append(toIndentedString(commentsMuted)).append("\n");
+    sb.append("    commentsMutedAt: ").append(toIndentedString(commentsMutedAt)).append("\n");
+    sb.append("    commentsMutedBy: ").append(toIndentedString(commentsMutedBy)).append("\n");
     sb.append("    feedLastAttemptAt: ").append(toIndentedString(feedLastAttemptAt)).append("\n");
     sb.append("    feedLastAcceptedAt: ").append(toIndentedString(feedLastAcceptedAt)).append("\n");
     sb.append("    feedAcceptedCount: ").append(toIndentedString(feedAcceptedCount)).append("\n");
@@ -1701,6 +1794,21 @@ public class SetSupplierCurrenciesResultAnyOf1 {
     // add `invoiceFeedUpdatedBy` to the URL query string
     if (getInvoiceFeedUpdatedBy() != null) {
       joiner.add(String.format("%sinvoiceFeedUpdatedBy%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInvoiceFeedUpdatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `commentsMuted` to the URL query string
+    if (getCommentsMuted() != null) {
+      joiner.add(String.format("%scommentsMuted%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCommentsMuted()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `commentsMutedAt` to the URL query string
+    if (getCommentsMutedAt() != null) {
+      joiner.add(String.format("%scommentsMutedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCommentsMutedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `commentsMutedBy` to the URL query string
+    if (getCommentsMutedBy() != null) {
+      joiner.add(String.format("%scommentsMutedBy%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCommentsMutedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `feedLastAttemptAt` to the URL query string

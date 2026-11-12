@@ -149,6 +149,7 @@ class InvoiceBuyerView:
         previous_exported_at (Union[Unset, str]):
         due_date_source (Union[Unset, InvoiceBuyerViewDueDateSource]):
         last_reminded_at (Union[Unset, str]):
+        last_approver_reminded_at (Union[Unset, str]):
         rejection (Union[Unset, InvoiceRejection]):
         replaces_invoice_id (Union[Unset, str]):
         replaces_invoice_ids (Union[Unset, List[str]]):
@@ -188,6 +189,7 @@ class InvoiceBuyerView:
         has_original_pdf (Union[Unset, bool]):
         base_currency_amount (Union[Unset, InvoiceBaseCurrencyAmount]):
         viewer_is_supplier_member (Union[Unset, bool]):
+        next_approver_reminder_at (Union[Unset, str]):
         replacement (Union[Unset, InvoiceReplacementCheck]):
         uncredited_originals (Union[Unset, List['UncreditedOriginal']]):
     """
@@ -244,6 +246,7 @@ class InvoiceBuyerView:
     previous_exported_at: Union[Unset, str] = UNSET
     due_date_source: Union[Unset, InvoiceBuyerViewDueDateSource] = UNSET
     last_reminded_at: Union[Unset, str] = UNSET
+    last_approver_reminded_at: Union[Unset, str] = UNSET
     rejection: Union[Unset, "InvoiceRejection"] = UNSET
     replaces_invoice_id: Union[Unset, str] = UNSET
     replaces_invoice_ids: Union[Unset, List[str]] = UNSET
@@ -283,6 +286,7 @@ class InvoiceBuyerView:
     has_original_pdf: Union[Unset, bool] = UNSET
     base_currency_amount: Union[Unset, "InvoiceBaseCurrencyAmount"] = UNSET
     viewer_is_supplier_member: Union[Unset, bool] = UNSET
+    next_approver_reminder_at: Union[Unset, str] = UNSET
     replacement: Union[Unset, "InvoiceReplacementCheck"] = UNSET
     uncredited_originals: Union[Unset, List["UncreditedOriginal"]] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -442,6 +446,8 @@ class InvoiceBuyerView:
 
         last_reminded_at = self.last_reminded_at
 
+        last_approver_reminded_at = self.last_approver_reminded_at
+
         rejection: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.rejection, Unset):
             rejection = self.rejection.to_dict()
@@ -591,6 +597,8 @@ class InvoiceBuyerView:
 
         viewer_is_supplier_member = self.viewer_is_supplier_member
 
+        next_approver_reminder_at = self.next_approver_reminder_at
+
         replacement: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.replacement, Unset):
             replacement = self.replacement.to_dict()
@@ -711,6 +719,8 @@ class InvoiceBuyerView:
             field_dict["dueDateSource"] = due_date_source
         if last_reminded_at is not UNSET:
             field_dict["lastRemindedAt"] = last_reminded_at
+        if last_approver_reminded_at is not UNSET:
+            field_dict["lastApproverRemindedAt"] = last_approver_reminded_at
         if rejection is not UNSET:
             field_dict["rejection"] = rejection
         if replaces_invoice_id is not UNSET:
@@ -789,6 +799,8 @@ class InvoiceBuyerView:
             field_dict["baseCurrencyAmount"] = base_currency_amount
         if viewer_is_supplier_member is not UNSET:
             field_dict["viewerIsSupplierMember"] = viewer_is_supplier_member
+        if next_approver_reminder_at is not UNSET:
+            field_dict["nextApproverReminderAt"] = next_approver_reminder_at
         if replacement is not UNSET:
             field_dict["replacement"] = replacement
         if uncredited_originals is not UNSET:
@@ -1053,6 +1065,8 @@ class InvoiceBuyerView:
 
         last_reminded_at = d.pop("lastRemindedAt", UNSET)
 
+        last_approver_reminded_at = d.pop("lastApproverRemindedAt", UNSET)
+
         _rejection = d.pop("rejection", UNSET)
         rejection: Union[Unset, InvoiceRejection]
         if isinstance(_rejection, Unset):
@@ -1247,6 +1261,8 @@ class InvoiceBuyerView:
 
         viewer_is_supplier_member = d.pop("viewerIsSupplierMember", UNSET)
 
+        next_approver_reminder_at = d.pop("nextApproverReminderAt", UNSET)
+
         _replacement = d.pop("replacement", UNSET)
         replacement: Union[Unset, InvoiceReplacementCheck]
         if isinstance(_replacement, Unset):
@@ -1314,6 +1330,7 @@ class InvoiceBuyerView:
             previous_exported_at=previous_exported_at,
             due_date_source=due_date_source,
             last_reminded_at=last_reminded_at,
+            last_approver_reminded_at=last_approver_reminded_at,
             rejection=rejection,
             replaces_invoice_id=replaces_invoice_id,
             replaces_invoice_ids=replaces_invoice_ids,
@@ -1353,6 +1370,7 @@ class InvoiceBuyerView:
             has_original_pdf=has_original_pdf,
             base_currency_amount=base_currency_amount,
             viewer_is_supplier_member=viewer_is_supplier_member,
+            next_approver_reminder_at=next_approver_reminder_at,
             replacement=replacement,
             uncredited_originals=uncredited_originals,
         )

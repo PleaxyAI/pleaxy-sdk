@@ -11,6 +11,10 @@ from ..models.get_org_profile_result_role import (
     GetOrgProfileResultRole,
     check_get_org_profile_result_role,
 )
+from ..models.get_org_profile_result_setup_goal import (
+    GetOrgProfileResultSetupGoal,
+    check_get_org_profile_result_setup_goal,
+)
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -54,6 +58,7 @@ class GetOrgProfileResult:
         verified (Union[Unset, bool]):
         listed_in_directory (Union[Unset, bool]):
         directory_id (Union[Unset, str]):
+        setup_goal (Union[Unset, GetOrgProfileResultSetupGoal]):
     """
 
     id: str
@@ -83,6 +88,7 @@ class GetOrgProfileResult:
     verified: Union[Unset, bool] = UNSET
     listed_in_directory: Union[Unset, bool] = UNSET
     directory_id: Union[Unset, str] = UNSET
+    setup_goal: Union[Unset, GetOrgProfileResultSetupGoal] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -158,6 +164,10 @@ class GetOrgProfileResult:
 
         directory_id = self.directory_id
 
+        setup_goal: Union[Unset, str] = UNSET
+        if not isinstance(self.setup_goal, Unset):
+            setup_goal = self.setup_goal
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -217,6 +227,8 @@ class GetOrgProfileResult:
             field_dict["listedInDirectory"] = listed_in_directory
         if directory_id is not UNSET:
             field_dict["directoryId"] = directory_id
+        if setup_goal is not UNSET:
+            field_dict["setupGoal"] = setup_goal
 
         return field_dict
 
@@ -314,6 +326,13 @@ class GetOrgProfileResult:
 
         directory_id = d.pop("directoryId", UNSET)
 
+        _setup_goal = d.pop("setupGoal", UNSET)
+        setup_goal: Union[Unset, GetOrgProfileResultSetupGoal]
+        if isinstance(_setup_goal, Unset):
+            setup_goal = UNSET
+        else:
+            setup_goal = check_get_org_profile_result_setup_goal(_setup_goal)
+
         get_org_profile_result = cls(
             id=id,
             images=images,
@@ -342,6 +361,7 @@ class GetOrgProfileResult:
             verified=verified,
             listed_in_directory=listed_in_directory,
             directory_id=directory_id,
+            setup_goal=setup_goal,
         )
 
         get_org_profile_result.additional_properties = d

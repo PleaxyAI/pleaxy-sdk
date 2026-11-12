@@ -66,6 +66,9 @@ class AddCloudProviderAsSupplierResult:
         invoice_feed_enabled (Union[Unset, bool]):
         invoice_feed_updated_at (Union[Unset, str]):
         invoice_feed_updated_by (Union[Unset, str]):
+        comments_muted (Union[Unset, bool]):
+        comments_muted_at (Union[Unset, str]):
+        comments_muted_by (Union[Unset, str]):
         feed_last_attempt_at (Union[Unset, str]):
         feed_last_accepted_at (Union[Unset, str]):
         feed_accepted_count (Union[Unset, float]):
@@ -110,6 +113,9 @@ class AddCloudProviderAsSupplierResult:
     invoice_feed_enabled: Union[Unset, bool] = UNSET
     invoice_feed_updated_at: Union[Unset, str] = UNSET
     invoice_feed_updated_by: Union[Unset, str] = UNSET
+    comments_muted: Union[Unset, bool] = UNSET
+    comments_muted_at: Union[Unset, str] = UNSET
+    comments_muted_by: Union[Unset, str] = UNSET
     feed_last_attempt_at: Union[Unset, str] = UNSET
     feed_last_accepted_at: Union[Unset, str] = UNSET
     feed_accepted_count: Union[Unset, float] = UNSET
@@ -206,6 +212,12 @@ class AddCloudProviderAsSupplierResult:
 
         invoice_feed_updated_by = self.invoice_feed_updated_by
 
+        comments_muted = self.comments_muted
+
+        comments_muted_at = self.comments_muted_at
+
+        comments_muted_by = self.comments_muted_by
+
         feed_last_attempt_at = self.feed_last_attempt_at
 
         feed_last_accepted_at = self.feed_last_accepted_at
@@ -297,6 +309,12 @@ class AddCloudProviderAsSupplierResult:
             field_dict["invoiceFeedUpdatedAt"] = invoice_feed_updated_at
         if invoice_feed_updated_by is not UNSET:
             field_dict["invoiceFeedUpdatedBy"] = invoice_feed_updated_by
+        if comments_muted is not UNSET:
+            field_dict["commentsMuted"] = comments_muted
+        if comments_muted_at is not UNSET:
+            field_dict["commentsMutedAt"] = comments_muted_at
+        if comments_muted_by is not UNSET:
+            field_dict["commentsMutedBy"] = comments_muted_by
         if feed_last_attempt_at is not UNSET:
             field_dict["feedLastAttemptAt"] = feed_last_attempt_at
         if feed_last_accepted_at is not UNSET:
@@ -433,6 +451,12 @@ class AddCloudProviderAsSupplierResult:
 
         invoice_feed_updated_by = d.pop("invoiceFeedUpdatedBy", UNSET)
 
+        comments_muted = d.pop("commentsMuted", UNSET)
+
+        comments_muted_at = d.pop("commentsMutedAt", UNSET)
+
+        comments_muted_by = d.pop("commentsMutedBy", UNSET)
+
         feed_last_attempt_at = d.pop("feedLastAttemptAt", UNSET)
 
         feed_last_accepted_at = d.pop("feedLastAcceptedAt", UNSET)
@@ -494,6 +518,9 @@ class AddCloudProviderAsSupplierResult:
             invoice_feed_enabled=invoice_feed_enabled,
             invoice_feed_updated_at=invoice_feed_updated_at,
             invoice_feed_updated_by=invoice_feed_updated_by,
+            comments_muted=comments_muted,
+            comments_muted_at=comments_muted_at,
+            comments_muted_by=comments_muted_by,
             feed_last_attempt_at=feed_last_attempt_at,
             feed_last_accepted_at=feed_last_accepted_at,
             feed_accepted_count=feed_accepted_count,

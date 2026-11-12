@@ -29,6 +29,8 @@ module Pleaxy
 
     attr_accessor :autonomy
 
+    attr_accessor :routed_automatically
+
     attr_accessor :spend_limit_gate
 
     attr_accessor :excluded_employee_keys
@@ -73,6 +75,7 @@ module Pleaxy
         :'status' => :'status',
         :'history' => :'history',
         :'autonomy' => :'autonomy',
+        :'routed_automatically' => :'routedAutomatically',
         :'spend_limit_gate' => :'spendLimitGate',
         :'excluded_employee_keys' => :'excludedEmployeeKeys',
         :'self_approved' => :'selfApproved',
@@ -97,6 +100,7 @@ module Pleaxy
         :'status' => :'String',
         :'history' => :'Array<ApprovalHistoryEntry>',
         :'autonomy' => :'Boolean',
+        :'routed_automatically' => :'Boolean',
         :'spend_limit_gate' => :'SpendLimitGate',
         :'excluded_employee_keys' => :'Array<String>',
         :'self_approved' => :'Boolean',
@@ -157,6 +161,10 @@ module Pleaxy
 
       if attributes.key?(:'autonomy')
         self.autonomy = attributes[:'autonomy']
+      end
+
+      if attributes.key?(:'routed_automatically')
+        self.routed_automatically = attributes[:'routed_automatically']
       end
 
       if attributes.key?(:'spend_limit_gate')
@@ -225,6 +233,7 @@ module Pleaxy
           status == o.status &&
           history == o.history &&
           autonomy == o.autonomy &&
+          routed_automatically == o.routed_automatically &&
           spend_limit_gate == o.spend_limit_gate &&
           excluded_employee_keys == o.excluded_employee_keys &&
           self_approved == o.self_approved &&
@@ -242,7 +251,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [requester, requester_employee_key, groups, group_index, status, history, autonomy, spend_limit_gate, excluded_employee_keys, self_approved, fx, from_request, routing].hash
+      [requester, requester_employee_key, groups, group_index, status, history, autonomy, routed_automatically, spend_limit_gate, excluded_employee_keys, self_approved, fx, from_request, routing].hash
     end
 
     # Builds the object from hash

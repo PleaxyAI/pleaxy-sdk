@@ -137,6 +137,7 @@ from .ai_provider import AiProvider
 from .ai_provider_credit_price import AiProviderCreditPrice
 from .ai_provider_credit_price_kind import AiProviderCreditPriceKind
 from .ai_provider_databricks import AiProviderDatabricks
+from .ai_provider_github import AiProviderGithub
 from .ai_provider_last_sync_error_code import AiProviderLastSyncErrorCode
 from .ai_provider_last_sync_status import AiProviderLastSyncStatus
 from .ai_provider_provider import AiProviderProvider
@@ -211,6 +212,7 @@ from .api_key_summary_role import ApiKeySummaryRole
 from .api_key_summary_scopes_item import ApiKeySummaryScopesItem
 from .api_key_summary_supplier_role import ApiKeySummarySupplierRole
 from .apply_confirmation_changes_result import ApplyConfirmationChangesResult
+from .apply_credits_input import ApplyCreditsInput
 from .approval_chain import ApprovalChain
 from .approval_chain_from_request import ApprovalChainFromRequest
 from .approval_chain_settings import ApprovalChainSettings
@@ -266,6 +268,9 @@ from .approval_step_condition_input_operator import ApprovalStepConditionInputOp
 from .approval_step_condition_operator import ApprovalStepConditionOperator
 from .approve_purchase_request_input import ApprovePurchaseRequestInput
 from .approved_by_others_record import ApprovedByOthersRecord
+from .assistant_read_cite import AssistantReadCite
+from .assistant_read_cite_field import AssistantReadCiteField
+from .assistant_read_sentence import AssistantReadSentence
 from .automation_rule import AutomationRule
 from .automation_rule_condition import AutomationRuleCondition
 from .automation_rule_condition_input import AutomationRuleConditionInput
@@ -329,7 +334,50 @@ from .budget_period_kind import BudgetPeriodKind
 from .budget_status import BudgetStatus
 from .budget_status_period import BudgetStatusPeriod
 from .budget_status_period_kind import BudgetStatusPeriodKind
+from .buyer_credit_note_view import BuyerCreditNoteView
+from .buyer_credit_note_view_cloud_provider import BuyerCreditNoteViewCloudProvider
+from .buyer_credit_note_view_entered_by import BuyerCreditNoteViewEnteredBy
+from .buyer_credit_note_view_exports_item import BuyerCreditNoteViewExportsItem
+from .buyer_credit_note_view_po_effect_type_0 import BuyerCreditNoteViewPoEffectType0
+from .buyer_credit_note_view_po_effect_type_0_kind import (
+    BuyerCreditNoteViewPoEffectType0Kind,
+)
+from .buyer_credit_note_view_po_effect_type_1 import BuyerCreditNoteViewPoEffectType1
+from .buyer_credit_note_view_po_effect_type_1_kind import (
+    BuyerCreditNoteViewPoEffectType1Kind,
+)
+from .buyer_credit_note_view_po_effect_type_1_why import (
+    BuyerCreditNoteViewPoEffectType1Why,
+)
+from .buyer_credit_note_view_reason import BuyerCreditNoteViewReason
+from .buyer_credit_note_view_rejection import BuyerCreditNoteViewRejection
+from .buyer_credit_note_view_source import BuyerCreditNoteViewSource
+from .buyer_credit_note_view_status import BuyerCreditNoteViewStatus
+from .buyer_credit_note_view_submitted_format import BuyerCreditNoteViewSubmittedFormat
+from .buyer_sourcing_event_summary import BuyerSourcingEventSummary
+from .buyer_sourcing_event_summary_award import BuyerSourcingEventSummaryAward
+from .buyer_sourcing_event_summary_award_order import (
+    BuyerSourcingEventSummaryAwardOrder,
+)
+from .buyer_sourcing_event_summary_awards_item import (
+    BuyerSourcingEventSummaryAwardsItem,
+)
+from .buyer_sourcing_event_summary_awards_item_order import (
+    BuyerSourcingEventSummaryAwardsItemOrder,
+)
+from .buyer_sourcing_event_summary_status import BuyerSourcingEventSummaryStatus
+from .buyer_sourcing_event_view import BuyerSourcingEventView
+from .buyer_sourcing_event_view_scoring import BuyerSourcingEventViewScoring
+from .buyer_sourcing_event_view_status import BuyerSourcingEventViewStatus
+from .buyer_sourcing_invitee_view import BuyerSourcingInviteeView
+from .buyer_sourcing_invitee_view_state import BuyerSourcingInviteeViewState
+from .buyer_sourcing_question_view import BuyerSourcingQuestionView
+from .buyer_sourcing_response_view import BuyerSourcingResponseView
+from .buyer_sourcing_response_view_answered_via import (
+    BuyerSourcingResponseViewAnsweredVia,
+)
 from .cancel_purchase_order_input import CancelPurchaseOrderInput
+from .change_finished_cost_center_input import ChangeFinishedCostCenterInput
 from .check_ai_spend_input import CheckAiSpendInput
 from .cloud_ai_sync_state import CloudAiSyncState
 from .cloud_ai_sync_state_code import CloudAiSyncStateCode
@@ -377,6 +425,16 @@ from .cloud_connection_provider import CloudConnectionProvider
 from .cloud_connection_status import CloudConnectionStatus
 from .cloud_setup_view import CloudSetupView
 from .cloud_setup_view_state import CloudSetupViewState
+from .comment_meeting_attendee import CommentMeetingAttendee
+from .comment_meeting_attendee_side import CommentMeetingAttendeeSide
+from .comment_meeting_input import CommentMeetingInput
+from .comment_meeting_input_duration_minutes import CommentMeetingInputDurationMinutes
+from .comment_meeting_view import CommentMeetingView
+from .comment_meeting_view_attendee_side import CommentMeetingViewAttendeeSide
+from .comment_meeting_view_closed_by_side import CommentMeetingViewClosedBySide
+from .comment_meeting_view_proposed_by import CommentMeetingViewProposedBy
+from .comment_meeting_view_status import CommentMeetingViewStatus
+from .comment_mention import CommentMention
 from .convert_purchase_request_input import ConvertPurchaseRequestInput
 from .convert_purchase_request_input_matching import ConvertPurchaseRequestInputMatching
 from .convert_purchase_request_input_provider import ConvertPurchaseRequestInputProvider
@@ -399,6 +457,10 @@ from .create_cloud_connection_input_oci_home_region import (
     CreateCloudConnectionInputOciHomeRegion,
 )
 from .create_cloud_connection_input_provider import CreateCloudConnectionInputProvider
+from .create_comment_input import CreateCommentInput
+from .create_comment_input_visibility import CreateCommentInputVisibility
+from .create_credit_note_input import CreateCreditNoteInput
+from .create_credit_note_input_reason import CreateCreditNoteInputReason
 from .create_feed_invoice_input import CreateFeedInvoiceInput
 from .create_feed_invoice_input_document_type import CreateFeedInvoiceInputDocumentType
 from .create_feed_invoice_input_invoice_kind import CreateFeedInvoiceInputInvoiceKind
@@ -651,15 +713,21 @@ from .create_purchase_order_input_provider import CreatePurchaseOrderInputProvid
 from .create_purchase_request_input import CreatePurchaseRequestInput
 from .create_ship_notice_input import CreateShipNoticeInput
 from .create_ship_notice_input_status import CreateShipNoticeInputStatus
+from .create_sourcing_event_input import CreateSourcingEventInput
 from .create_webhook_input import CreateWebhookInput
 from .create_webhook_result import CreateWebhookResult
 from .create_webhook_result_events_item import CreateWebhookResultEventsItem
 from .create_webhook_result_last_error_code import CreateWebhookResultLastErrorCode
+from .credit_application_input import CreditApplicationInput
 from .credit_note_application import CreditNoteApplication
 from .credit_note_history_entry import CreditNoteHistoryEntry
 from .credit_note_history_entry_action import CreditNoteHistoryEntryAction
 from .credit_price_input import CreditPriceInput
 from .credit_price_input_kind import CreditPriceInputKind
+from .credit_settlement_input import CreditSettlementInput
+from .credit_settlement_input_credit_settlement import (
+    CreditSettlementInputCreditSettlement,
+)
 from .currency_amount_input import CurrencyAmountInput
 from .currency_exchange_details_input import CurrencyExchangeDetailsInput
 from .databricks_connection_input import DatabricksConnectionInput
@@ -667,6 +735,10 @@ from .decline_confirmation_changes_input import DeclineConfirmationChangesInput
 from .delete_ai_provider_result import DeleteAiProviderResult
 from .delete_focus_source_result import DeleteFocusSourceResult
 from .discover_azure_scopes_input import DiscoverAzureScopesInput
+from .document_comment_view import DocumentCommentView
+from .document_comment_view_author_side import DocumentCommentViewAuthorSide
+from .document_comment_view_document_kind import DocumentCommentViewDocumentKind
+from .document_comment_view_visibility import DocumentCommentViewVisibility
 from .draft_ai_orders_input import DraftAiOrdersInput
 from .draft_ai_orders_input_scope import DraftAiOrdersInputScope
 from .employee_summary import EmployeeSummary
@@ -814,6 +886,10 @@ from .get_budget_status_result_unassigned_by_currency_item import (
     GetBudgetStatusResultUnassignedByCurrencyItem,
 )
 from .get_buyer_workspace_result import GetBuyerWorkspaceResult
+from .get_credit_settlement_result import GetCreditSettlementResult
+from .get_credit_settlement_result_credit_settlement import (
+    GetCreditSettlementResultCreditSettlement,
+)
 from .get_focus_source_period_result import GetFocusSourcePeriodResult
 from .get_focus_source_period_result_issuers import GetFocusSourcePeriodResultIssuers
 from .get_focus_source_period_result_issuers_additional_property import (
@@ -824,6 +900,7 @@ from .get_focus_source_period_result_totals_additional_property import (
     GetFocusSourcePeriodResultTotalsAdditionalProperty,
 )
 from .get_focus_source_period_result_version import GetFocusSourcePeriodResultVersion
+from .get_invoice_activity_result import GetInvoiceActivityResult
 from .get_invoice_bank_account_result import GetInvoiceBankAccountResult
 from .get_invoice_bank_account_result_hold import GetInvoiceBankAccountResultHold
 from .get_invoice_document_format import GetInvoiceDocumentFormat
@@ -1053,11 +1130,14 @@ from .get_invoice_status_document_format import GetInvoiceStatusDocumentFormat
 from .get_org_profile_result import GetOrgProfileResult
 from .get_org_profile_result_locale import GetOrgProfileResultLocale
 from .get_org_profile_result_role import GetOrgProfileResultRole
+from .get_org_profile_result_setup_goal import GetOrgProfileResultSetupGoal
 from .get_purchase_order_document_format import GetPurchaseOrderDocumentFormat
 from .get_purchase_request_file_result import GetPurchaseRequestFileResult
 from .get_reference_rate_result import GetReferenceRateResult
+from .get_remittance_file_result import GetRemittanceFileResult
 from .get_supplier_screening_result import GetSupplierScreeningResult
 from .get_supplier_workspace_result import GetSupplierWorkspaceResult
+from .git_hub_connection_input import GitHubConnectionInput
 from .image_ref import ImageRef
 from .inbound_email import InboundEmail
 from .inbound_email_attachments_item import InboundEmailAttachmentsItem
@@ -1090,6 +1170,10 @@ from .invoice_access_removal_action import InvoiceAccessRemovalAction
 from .invoice_access_removal_sso_mapping_saved import (
     InvoiceAccessRemovalSsoMappingSaved,
 )
+from .invoice_activity_entry import InvoiceActivityEntry
+from .invoice_activity_entry_actor_side import InvoiceActivityEntryActorSide
+from .invoice_activity_entry_data import InvoiceActivityEntryData
+from .invoice_activity_entry_kind import InvoiceActivityEntryKind
 from .invoice_adjustment import InvoiceAdjustment
 from .invoice_adjustment_input import InvoiceAdjustmentInput
 from .invoice_adjustment_input_type import InvoiceAdjustmentInputType
@@ -1283,8 +1367,27 @@ from .list_ai_spend_limits_result import ListAiSpendLimitsResult
 from .list_ai_spend_limits_result_aws_setup_item import (
     ListAiSpendLimitsResultAwsSetupItem,
 )
+from .list_available_credits_result import ListAvailableCreditsResult
+from .list_available_credits_result_credit_settlement import (
+    ListAvailableCreditsResultCreditSettlement,
+)
+from .list_available_credits_result_credits_item import (
+    ListAvailableCreditsResultCreditsItem,
+)
+from .list_available_credits_result_credits_item_reason import (
+    ListAvailableCreditsResultCreditsItemReason,
+)
+from .list_available_credits_result_locked import ListAvailableCreditsResultLocked
+from .list_available_credits_result_pending_item import (
+    ListAvailableCreditsResultPendingItem,
+)
+from .list_available_credits_result_pending_item_reason import (
+    ListAvailableCreditsResultPendingItemReason,
+)
+from .list_credit_notes_result import ListCreditNotesResult
 from .list_employees_role import ListEmployeesRole
 from .list_focus_sources_result import ListFocusSourcesResult
+from .list_invoice_comments_result import ListInvoiceCommentsResult
 from .list_invoice_counterparties_result import ListInvoiceCounterpartiesResult
 from .list_invoices_item_buyer_credit_note import ListInvoicesItemBuyerCreditNote
 from .list_invoices_item_buyer_credit_note_cloud_provider import (
@@ -1509,7 +1612,9 @@ from .list_invoices_item_supplier_invoice_withdrawn_payment_type_1_status import
 )
 from .list_notifications_audience import ListNotificationsAudience
 from .list_notifications_page_audience import ListNotificationsPageAudience
+from .list_purchase_order_comments_result import ListPurchaseOrderCommentsResult
 from .list_purchase_requests_status import ListPurchaseRequestsStatus
+from .list_sourcing_events_status import ListSourcingEventsStatus
 from .list_webhook_deliveries_result import ListWebhookDeliveriesResult
 from .list_webhooks_result import ListWebhooksResult
 from .list_webhooks_result_event_types_item import ListWebhooksResultEventTypesItem
@@ -1543,6 +1648,7 @@ from .order_confirmation_substitute_line_type import OrderConfirmationSubstitute
 from .org_profile import OrgProfile
 from .org_profile_locale import OrgProfileLocale
 from .org_profile_role import OrgProfileRole
+from .org_profile_setup_goal import OrgProfileSetupGoal
 from .payer_account_ref import PayerAccountRef
 from .payer_account_ref_input import PayerAccountRefInput
 from .payment_export_input import PaymentExportInput
@@ -1724,6 +1830,7 @@ from .record_payments_result_results_item_outcome import (
 from .reference_rate import ReferenceRate
 from .reference_rate_attribution import ReferenceRateAttribution
 from .region_tier_price import RegionTierPrice
+from .reject_credit_note_input import RejectCreditNoteInput
 from .reject_invoice_input import RejectInvoiceInput
 from .reject_invoice_input_reason_code import RejectInvoiceInputReasonCode
 from .reject_purchase_request_input import RejectPurchaseRequestInput
@@ -1812,6 +1919,11 @@ from .request_file_upload_input_content_type import RequestFileUploadInputConten
 from .request_purchase_request_file_upload_result import (
     RequestPurchaseRequestFileUploadResult,
 )
+from .request_remittance_upload_input import RequestRemittanceUploadInput
+from .request_remittance_upload_input_content_type import (
+    RequestRemittanceUploadInputContentType,
+)
+from .request_remittance_upload_result import RequestRemittanceUploadResult
 from .request_type import RequestType
 from .request_type_defaults import RequestTypeDefaults
 from .request_type_defaults_line_type import RequestTypeDefaultsLineType
@@ -1851,6 +1963,10 @@ from .set_ai_seat_count_input_invoicer import SetAiSeatCountInputInvoicer
 from .set_ai_seat_count_input_source import SetAiSeatCountInputSource
 from .set_ai_spend_limit_input import SetAiSpendLimitInput
 from .set_connection_currencies_input import SetConnectionCurrenciesInput
+from .set_credit_settlement_result import SetCreditSettlementResult
+from .set_credit_settlement_result_credit_settlement import (
+    SetCreditSettlementResultCreditSettlement,
+)
 from .set_exchange_rate_warning_result import SetExchangeRateWarningResult
 from .set_invoice_feed_input import SetInvoiceFeedInput
 from .set_invoice_feed_result_type_0 import SetInvoiceFeedResultType0
@@ -1912,6 +2028,80 @@ from .ship_notice_source import ShipNoticeSource
 from .ship_notice_status import ShipNoticeStatus
 from .snowflake_connection_input import SnowflakeConnectionInput
 from .sole_payer_waiver_record import SolePayerWaiverRecord
+from .sourcing_activity import SourcingActivity
+from .sourcing_activity_action import SourcingActivityAction
+from .sourcing_activity_actor import SourcingActivityActor
+from .sourcing_activity_detail import SourcingActivityDetail
+from .sourcing_answer_counts import SourcingAnswerCounts
+from .sourcing_assistant_read import SourcingAssistantRead
+from .sourcing_attachment import SourcingAttachment
+from .sourcing_attachment_source import SourcingAttachmentSource
+from .sourcing_award import SourcingAward
+from .sourcing_award_line import SourcingAwardLine
+from .sourcing_award_order import SourcingAwardOrder
+from .sourcing_award_outcome import SourcingAwardOutcome
+from .sourcing_comparison import SourcingComparison
+from .sourcing_comparison_answer import SourcingComparisonAnswer
+from .sourcing_comparison_declined_item import SourcingComparisonDeclinedItem
+from .sourcing_comparison_evaluation import SourcingComparisonEvaluation
+from .sourcing_comparison_field import SourcingComparisonField
+from .sourcing_comparison_field_option_points import SourcingComparisonFieldOptionPoints
+from .sourcing_comparison_field_scoring import SourcingComparisonFieldScoring
+from .sourcing_comparison_field_type import SourcingComparisonFieldType
+from .sourcing_comparison_line import SourcingComparisonLine
+from .sourcing_comparison_lowest_total_type_0 import SourcingComparisonLowestTotalType0
+from .sourcing_comparison_no_answer_item import SourcingComparisonNoAnswerItem
+from .sourcing_comparison_offer import SourcingComparisonOffer
+from .sourcing_comparison_questionnaire import SourcingComparisonQuestionnaire
+from .sourcing_comparison_responder import SourcingComparisonResponder
+from .sourcing_comparison_responder_answered_via import (
+    SourcingComparisonResponderAnsweredVia,
+)
+from .sourcing_comparison_responder_evaluation import (
+    SourcingComparisonResponderEvaluation,
+)
+from .sourcing_comparison_responder_evaluation_by_criterion import (
+    SourcingComparisonResponderEvaluationByCriterion,
+)
+from .sourcing_comparison_responder_onboarding import (
+    SourcingComparisonResponderOnboarding,
+)
+from .sourcing_comparison_responder_risk_level import (
+    SourcingComparisonResponderRiskLevel,
+)
+from .sourcing_comparison_status import SourcingComparisonStatus
+from .sourcing_criterion import SourcingCriterion
+from .sourcing_criterion_kind import SourcingCriterionKind
+from .sourcing_evaluation_aggregate import SourcingEvaluationAggregate
+from .sourcing_evaluation_criterion import SourcingEvaluationCriterion
+from .sourcing_field_scoring import SourcingFieldScoring
+from .sourcing_field_scoring_option_points import SourcingFieldScoringOptionPoints
+from .sourcing_line import SourcingLine
+from .sourcing_line_input import SourcingLineInput
+from .sourcing_manual_points import SourcingManualPoints
+from .sourcing_manual_points_additional_property import (
+    SourcingManualPointsAdditionalProperty,
+)
+from .sourcing_question_answer import SourcingQuestionAnswer
+from .sourcing_questionnaire import SourcingQuestionnaire
+from .sourcing_response_line import SourcingResponseLine
+from .sourcing_round import SourcingRound
+from .sourcing_round_feedback import SourcingRoundFeedback
+from .sourcing_round_feedback_by_supplier import SourcingRoundFeedbackBySupplier
+from .sourcing_round_feedback_by_supplier_additional_property_type_0 import (
+    SourcingRoundFeedbackBySupplierAdditionalPropertyType0,
+)
+from .sourcing_round_feedback_by_supplier_additional_property_type_0_kind import (
+    SourcingRoundFeedbackBySupplierAdditionalPropertyType0Kind,
+)
+from .sourcing_round_feedback_by_supplier_additional_property_type_1 import (
+    SourcingRoundFeedbackBySupplierAdditionalPropertyType1,
+)
+from .sourcing_round_feedback_by_supplier_additional_property_type_1_kind import (
+    SourcingRoundFeedbackBySupplierAdditionalPropertyType1Kind,
+)
+from .sourcing_weighted_score import SourcingWeightedScore
+from .sourcing_weighted_score_by_criterion import SourcingWeightedScoreByCriterion
 from .spend_figures import SpendFigures
 from .spend_limit_breach import SpendLimitBreach
 from .spend_limit_breach_subject import SpendLimitBreachSubject
@@ -2174,6 +2364,7 @@ __all__ = (
     "AiProviderCreditPrice",
     "AiProviderCreditPriceKind",
     "AiProviderDatabricks",
+    "AiProviderGithub",
     "AiProviderLastSyncErrorCode",
     "AiProviderLastSyncStatus",
     "AiProviderProvider",
@@ -2242,6 +2433,7 @@ __all__ = (
     "ApiKeySummaryScopesItem",
     "ApiKeySummarySupplierRole",
     "ApplyConfirmationChangesResult",
+    "ApplyCreditsInput",
     "ApprovalChain",
     "ApprovalChainFromRequest",
     "ApprovalChainSettings",
@@ -2295,6 +2487,9 @@ __all__ = (
     "ApprovalStepConditionOperator",
     "ApprovedByOthersRecord",
     "ApprovePurchaseRequestInput",
+    "AssistantReadCite",
+    "AssistantReadCiteField",
+    "AssistantReadSentence",
     "AutomationRule",
     "AutomationRuleCondition",
     "AutomationRuleConditionInput",
@@ -2352,7 +2547,36 @@ __all__ = (
     "BudgetStatus",
     "BudgetStatusPeriod",
     "BudgetStatusPeriodKind",
+    "BuyerCreditNoteView",
+    "BuyerCreditNoteViewCloudProvider",
+    "BuyerCreditNoteViewEnteredBy",
+    "BuyerCreditNoteViewExportsItem",
+    "BuyerCreditNoteViewPoEffectType0",
+    "BuyerCreditNoteViewPoEffectType0Kind",
+    "BuyerCreditNoteViewPoEffectType1",
+    "BuyerCreditNoteViewPoEffectType1Kind",
+    "BuyerCreditNoteViewPoEffectType1Why",
+    "BuyerCreditNoteViewReason",
+    "BuyerCreditNoteViewRejection",
+    "BuyerCreditNoteViewSource",
+    "BuyerCreditNoteViewStatus",
+    "BuyerCreditNoteViewSubmittedFormat",
+    "BuyerSourcingEventSummary",
+    "BuyerSourcingEventSummaryAward",
+    "BuyerSourcingEventSummaryAwardOrder",
+    "BuyerSourcingEventSummaryAwardsItem",
+    "BuyerSourcingEventSummaryAwardsItemOrder",
+    "BuyerSourcingEventSummaryStatus",
+    "BuyerSourcingEventView",
+    "BuyerSourcingEventViewScoring",
+    "BuyerSourcingEventViewStatus",
+    "BuyerSourcingInviteeView",
+    "BuyerSourcingInviteeViewState",
+    "BuyerSourcingQuestionView",
+    "BuyerSourcingResponseView",
+    "BuyerSourcingResponseViewAnsweredVia",
     "CancelPurchaseOrderInput",
+    "ChangeFinishedCostCenterInput",
     "CheckAiSpendInput",
     "CloudAiSyncState",
     "CloudAiSyncStateCode",
@@ -2384,6 +2608,16 @@ __all__ = (
     "CloudConnectionStatus",
     "CloudSetupView",
     "CloudSetupViewState",
+    "CommentMeetingAttendee",
+    "CommentMeetingAttendeeSide",
+    "CommentMeetingInput",
+    "CommentMeetingInputDurationMinutes",
+    "CommentMeetingView",
+    "CommentMeetingViewAttendeeSide",
+    "CommentMeetingViewClosedBySide",
+    "CommentMeetingViewProposedBy",
+    "CommentMeetingViewStatus",
+    "CommentMention",
     "ConvertPurchaseRequestInput",
     "ConvertPurchaseRequestInputMatching",
     "ConvertPurchaseRequestInputProvider",
@@ -2402,6 +2636,10 @@ __all__ = (
     "CreateCloudConnectionInputDataSourcesItem",
     "CreateCloudConnectionInputOciHomeRegion",
     "CreateCloudConnectionInputProvider",
+    "CreateCommentInput",
+    "CreateCommentInputVisibility",
+    "CreateCreditNoteInput",
+    "CreateCreditNoteInputReason",
     "CreateFeedInvoiceInput",
     "CreateFeedInvoiceInputDocumentType",
     "CreateFeedInvoiceInputInvoiceKind",
@@ -2502,15 +2740,19 @@ __all__ = (
     "CreatePurchaseRequestInput",
     "CreateShipNoticeInput",
     "CreateShipNoticeInputStatus",
+    "CreateSourcingEventInput",
     "CreateWebhookInput",
     "CreateWebhookResult",
     "CreateWebhookResultEventsItem",
     "CreateWebhookResultLastErrorCode",
+    "CreditApplicationInput",
     "CreditNoteApplication",
     "CreditNoteHistoryEntry",
     "CreditNoteHistoryEntryAction",
     "CreditPriceInput",
     "CreditPriceInputKind",
+    "CreditSettlementInput",
+    "CreditSettlementInputCreditSettlement",
     "CurrencyAmountInput",
     "CurrencyExchangeDetailsInput",
     "DatabricksConnectionInput",
@@ -2518,6 +2760,10 @@ __all__ = (
     "DeleteAiProviderResult",
     "DeleteFocusSourceResult",
     "DiscoverAzureScopesInput",
+    "DocumentCommentView",
+    "DocumentCommentViewAuthorSide",
+    "DocumentCommentViewDocumentKind",
+    "DocumentCommentViewVisibility",
     "DraftAiOrdersInput",
     "DraftAiOrdersInputScope",
     "EmployeeSummary",
@@ -2609,12 +2855,15 @@ __all__ = (
     "GetBudgetStatusResult",
     "GetBudgetStatusResultUnassignedByCurrencyItem",
     "GetBuyerWorkspaceResult",
+    "GetCreditSettlementResult",
+    "GetCreditSettlementResultCreditSettlement",
     "GetFocusSourcePeriodResult",
     "GetFocusSourcePeriodResultIssuers",
     "GetFocusSourcePeriodResultIssuersAdditionalProperty",
     "GetFocusSourcePeriodResultTotals",
     "GetFocusSourcePeriodResultTotalsAdditionalProperty",
     "GetFocusSourcePeriodResultVersion",
+    "GetInvoiceActivityResult",
     "GetInvoiceBankAccountResult",
     "GetInvoiceBankAccountResultHold",
     "GetInvoiceDocumentFormat",
@@ -2700,11 +2949,14 @@ __all__ = (
     "GetOrgProfileResult",
     "GetOrgProfileResultLocale",
     "GetOrgProfileResultRole",
+    "GetOrgProfileResultSetupGoal",
     "GetPurchaseOrderDocumentFormat",
     "GetPurchaseRequestFileResult",
     "GetReferenceRateResult",
+    "GetRemittanceFileResult",
     "GetSupplierScreeningResult",
     "GetSupplierWorkspaceResult",
+    "GitHubConnectionInput",
     "ImageRef",
     "InboundEmail",
     "InboundEmailAttachmentsItem",
@@ -2729,6 +2981,10 @@ __all__ = (
     "InvoiceAccessRemoval",
     "InvoiceAccessRemovalAction",
     "InvoiceAccessRemovalSsoMappingSaved",
+    "InvoiceActivityEntry",
+    "InvoiceActivityEntryActorSide",
+    "InvoiceActivityEntryData",
+    "InvoiceActivityEntryKind",
     "InvoiceAdjustment",
     "InvoiceAdjustmentInput",
     "InvoiceAdjustmentInputType",
@@ -2868,8 +3124,17 @@ __all__ = (
     "ListAiInvoicersItemTier",
     "ListAiSpendLimitsResult",
     "ListAiSpendLimitsResultAwsSetupItem",
+    "ListAvailableCreditsResult",
+    "ListAvailableCreditsResultCreditSettlement",
+    "ListAvailableCreditsResultCreditsItem",
+    "ListAvailableCreditsResultCreditsItemReason",
+    "ListAvailableCreditsResultLocked",
+    "ListAvailableCreditsResultPendingItem",
+    "ListAvailableCreditsResultPendingItemReason",
+    "ListCreditNotesResult",
     "ListEmployeesRole",
     "ListFocusSourcesResult",
+    "ListInvoiceCommentsResult",
     "ListInvoiceCounterpartiesResult",
     "ListInvoicesItemBuyerCreditNote",
     "ListInvoicesItemBuyerCreditNoteCloudProvider",
@@ -2950,7 +3215,9 @@ __all__ = (
     "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1Status",
     "ListNotificationsAudience",
     "ListNotificationsPageAudience",
+    "ListPurchaseOrderCommentsResult",
     "ListPurchaseRequestsStatus",
+    "ListSourcingEventsStatus",
     "ListWebhookDeliveriesResult",
     "ListWebhooksResult",
     "ListWebhooksResultEventTypesItem",
@@ -2984,6 +3251,7 @@ __all__ = (
     "OrgProfile",
     "OrgProfileLocale",
     "OrgProfileRole",
+    "OrgProfileSetupGoal",
     "PayerAccountRef",
     "PayerAccountRefInput",
     "PaymentExportInput",
@@ -3113,6 +3381,7 @@ __all__ = (
     "ReferenceRate",
     "ReferenceRateAttribution",
     "RegionTierPrice",
+    "RejectCreditNoteInput",
     "RejectInvoiceInput",
     "RejectInvoiceInputReasonCode",
     "RejectPurchaseRequestInput",
@@ -3159,6 +3428,9 @@ __all__ = (
     "RequestFileUploadInput",
     "RequestFileUploadInputContentType",
     "RequestPurchaseRequestFileUploadResult",
+    "RequestRemittanceUploadInput",
+    "RequestRemittanceUploadInputContentType",
+    "RequestRemittanceUploadResult",
     "RequestType",
     "RequestTypeDefaults",
     "RequestTypeDefaultsLineType",
@@ -3192,6 +3464,8 @@ __all__ = (
     "SetAiSeatCountInputSource",
     "SetAiSpendLimitInput",
     "SetConnectionCurrenciesInput",
+    "SetCreditSettlementResult",
+    "SetCreditSettlementResultCreditSettlement",
     "SetExchangeRateWarningResult",
     "SetInvoiceFeedInput",
     "SetInvoiceFeedResultType0",
@@ -3225,6 +3499,60 @@ __all__ = (
     "ShipNoticeStatus",
     "SnowflakeConnectionInput",
     "SolePayerWaiverRecord",
+    "SourcingActivity",
+    "SourcingActivityAction",
+    "SourcingActivityActor",
+    "SourcingActivityDetail",
+    "SourcingAnswerCounts",
+    "SourcingAssistantRead",
+    "SourcingAttachment",
+    "SourcingAttachmentSource",
+    "SourcingAward",
+    "SourcingAwardLine",
+    "SourcingAwardOrder",
+    "SourcingAwardOutcome",
+    "SourcingComparison",
+    "SourcingComparisonAnswer",
+    "SourcingComparisonDeclinedItem",
+    "SourcingComparisonEvaluation",
+    "SourcingComparisonField",
+    "SourcingComparisonFieldOptionPoints",
+    "SourcingComparisonFieldScoring",
+    "SourcingComparisonFieldType",
+    "SourcingComparisonLine",
+    "SourcingComparisonLowestTotalType0",
+    "SourcingComparisonNoAnswerItem",
+    "SourcingComparisonOffer",
+    "SourcingComparisonQuestionnaire",
+    "SourcingComparisonResponder",
+    "SourcingComparisonResponderAnsweredVia",
+    "SourcingComparisonResponderEvaluation",
+    "SourcingComparisonResponderEvaluationByCriterion",
+    "SourcingComparisonResponderOnboarding",
+    "SourcingComparisonResponderRiskLevel",
+    "SourcingComparisonStatus",
+    "SourcingCriterion",
+    "SourcingCriterionKind",
+    "SourcingEvaluationAggregate",
+    "SourcingEvaluationCriterion",
+    "SourcingFieldScoring",
+    "SourcingFieldScoringOptionPoints",
+    "SourcingLine",
+    "SourcingLineInput",
+    "SourcingManualPoints",
+    "SourcingManualPointsAdditionalProperty",
+    "SourcingQuestionAnswer",
+    "SourcingQuestionnaire",
+    "SourcingResponseLine",
+    "SourcingRound",
+    "SourcingRoundFeedback",
+    "SourcingRoundFeedbackBySupplier",
+    "SourcingRoundFeedbackBySupplierAdditionalPropertyType0",
+    "SourcingRoundFeedbackBySupplierAdditionalPropertyType0Kind",
+    "SourcingRoundFeedbackBySupplierAdditionalPropertyType1",
+    "SourcingRoundFeedbackBySupplierAdditionalPropertyType1Kind",
+    "SourcingWeightedScore",
+    "SourcingWeightedScoreByCriterion",
     "SpendFigures",
     "SpendLimitBreach",
     "SpendLimitBreachSubject",

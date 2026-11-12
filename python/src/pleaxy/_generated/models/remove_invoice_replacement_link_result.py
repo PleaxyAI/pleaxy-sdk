@@ -153,6 +153,7 @@ class RemoveInvoiceReplacementLinkResult:
         previous_exported_at (Union[Unset, str]):
         due_date_source (Union[Unset, RemoveInvoiceReplacementLinkResultDueDateSource]):
         last_reminded_at (Union[Unset, str]):
+        last_approver_reminded_at (Union[Unset, str]):
         rejection (Union[Unset, InvoiceRejection]):
         replaces_invoice_id (Union[Unset, str]):
         replaces_invoice_ids (Union[Unset, List[str]]):
@@ -192,6 +193,7 @@ class RemoveInvoiceReplacementLinkResult:
         has_original_pdf (Union[Unset, bool]):
         base_currency_amount (Union[Unset, InvoiceBaseCurrencyAmount]):
         viewer_is_supplier_member (Union[Unset, bool]):
+        next_approver_reminder_at (Union[Unset, str]):
     """
 
     id: str
@@ -258,6 +260,7 @@ class RemoveInvoiceReplacementLinkResult:
         UNSET
     )
     last_reminded_at: Union[Unset, str] = UNSET
+    last_approver_reminded_at: Union[Unset, str] = UNSET
     rejection: Union[Unset, "InvoiceRejection"] = UNSET
     replaces_invoice_id: Union[Unset, str] = UNSET
     replaces_invoice_ids: Union[Unset, List[str]] = UNSET
@@ -299,6 +302,7 @@ class RemoveInvoiceReplacementLinkResult:
     has_original_pdf: Union[Unset, bool] = UNSET
     base_currency_amount: Union[Unset, "InvoiceBaseCurrencyAmount"] = UNSET
     viewer_is_supplier_member: Union[Unset, bool] = UNSET
+    next_approver_reminder_at: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -467,6 +471,8 @@ class RemoveInvoiceReplacementLinkResult:
 
         last_reminded_at = self.last_reminded_at
 
+        last_approver_reminded_at = self.last_approver_reminded_at
+
         rejection: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.rejection, Unset):
             rejection = self.rejection.to_dict()
@@ -616,6 +622,8 @@ class RemoveInvoiceReplacementLinkResult:
 
         viewer_is_supplier_member = self.viewer_is_supplier_member
 
+        next_approver_reminder_at = self.next_approver_reminder_at
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -729,6 +737,8 @@ class RemoveInvoiceReplacementLinkResult:
             field_dict["dueDateSource"] = due_date_source
         if last_reminded_at is not UNSET:
             field_dict["lastRemindedAt"] = last_reminded_at
+        if last_approver_reminded_at is not UNSET:
+            field_dict["lastApproverRemindedAt"] = last_approver_reminded_at
         if rejection is not UNSET:
             field_dict["rejection"] = rejection
         if replaces_invoice_id is not UNSET:
@@ -807,6 +817,8 @@ class RemoveInvoiceReplacementLinkResult:
             field_dict["baseCurrencyAmount"] = base_currency_amount
         if viewer_is_supplier_member is not UNSET:
             field_dict["viewerIsSupplierMember"] = viewer_is_supplier_member
+        if next_approver_reminder_at is not UNSET:
+            field_dict["nextApproverReminderAt"] = next_approver_reminder_at
 
         return field_dict
 
@@ -1113,6 +1125,8 @@ class RemoveInvoiceReplacementLinkResult:
 
         last_reminded_at = d.pop("lastRemindedAt", UNSET)
 
+        last_approver_reminded_at = d.pop("lastApproverRemindedAt", UNSET)
+
         _rejection = d.pop("rejection", UNSET)
         rejection: Union[Unset, InvoiceRejection]
         if isinstance(_rejection, Unset):
@@ -1317,6 +1331,8 @@ class RemoveInvoiceReplacementLinkResult:
 
         viewer_is_supplier_member = d.pop("viewerIsSupplierMember", UNSET)
 
+        next_approver_reminder_at = d.pop("nextApproverReminderAt", UNSET)
+
         remove_invoice_replacement_link_result = cls(
             id=id,
             replacement=replacement,
@@ -1370,6 +1386,7 @@ class RemoveInvoiceReplacementLinkResult:
             previous_exported_at=previous_exported_at,
             due_date_source=due_date_source,
             last_reminded_at=last_reminded_at,
+            last_approver_reminded_at=last_approver_reminded_at,
             rejection=rejection,
             replaces_invoice_id=replaces_invoice_id,
             replaces_invoice_ids=replaces_invoice_ids,
@@ -1409,6 +1426,7 @@ class RemoveInvoiceReplacementLinkResult:
             has_original_pdf=has_original_pdf,
             base_currency_amount=base_currency_amount,
             viewer_is_supplier_member=viewer_is_supplier_member,
+            next_approver_reminder_at=next_approver_reminder_at,
         )
 
         remove_invoice_replacement_link_result.additional_properties = d

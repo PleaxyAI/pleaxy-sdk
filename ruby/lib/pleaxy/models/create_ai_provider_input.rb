@@ -23,6 +23,8 @@ module Pleaxy
 
     attr_accessor :databricks
 
+    attr_accessor :github
+
     attr_accessor :credit_price
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -32,6 +34,7 @@ module Pleaxy
         :'key' => :'key',
         :'snowflake' => :'snowflake',
         :'databricks' => :'databricks',
+        :'github' => :'github',
         :'credit_price' => :'creditPrice'
       }
     end
@@ -48,6 +51,7 @@ module Pleaxy
         :'key' => :'String',
         :'snowflake' => :'SnowflakeConnectionInput',
         :'databricks' => :'DatabricksConnectionInput',
+        :'github' => :'GitHubConnectionInput',
         :'credit_price' => :'CreditPriceInput'
       }
     end
@@ -89,6 +93,10 @@ module Pleaxy
 
       if attributes.key?(:'databricks')
         self.databricks = attributes[:'databricks']
+      end
+
+      if attributes.key?(:'github')
+        self.github = attributes[:'github']
       end
 
       if attributes.key?(:'credit_price')
@@ -163,6 +171,7 @@ module Pleaxy
           key == o.key &&
           snowflake == o.snowflake &&
           databricks == o.databricks &&
+          github == o.github &&
           credit_price == o.credit_price
     end
 
@@ -175,7 +184,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [provider, key, snowflake, databricks, credit_price].hash
+      [provider, key, snowflake, databricks, github, credit_price].hash
     end
 
     # Builds the object from hash

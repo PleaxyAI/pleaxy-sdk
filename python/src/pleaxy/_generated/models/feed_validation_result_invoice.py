@@ -117,6 +117,7 @@ class FeedValidationResultInvoice:
         payment_problem (Union[Unset, SupplierPaymentProblemView]):
         due_date_source (Union[Unset, FeedValidationResultInvoiceDueDateSource]):
         last_reminded_at (Union[Unset, str]):
+        last_approver_reminded_at (Union[Unset, str]):
         rejection (Union[Unset, InvoiceRejection]):
         replaces_invoice_id (Union[Unset, str]):
         replaces_invoice_ids (Union[Unset, List[str]]):
@@ -189,6 +190,7 @@ class FeedValidationResultInvoice:
     payment_problem: Union[Unset, "SupplierPaymentProblemView"] = UNSET
     due_date_source: Union[Unset, FeedValidationResultInvoiceDueDateSource] = UNSET
     last_reminded_at: Union[Unset, str] = UNSET
+    last_approver_reminded_at: Union[Unset, str] = UNSET
     rejection: Union[Unset, "InvoiceRejection"] = UNSET
     replaces_invoice_id: Union[Unset, str] = UNSET
     replaces_invoice_ids: Union[Unset, List[str]] = UNSET
@@ -333,6 +335,8 @@ class FeedValidationResultInvoice:
             due_date_source = self.due_date_source
 
         last_reminded_at = self.last_reminded_at
+
+        last_approver_reminded_at = self.last_approver_reminded_at
 
         rejection: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.rejection, Unset):
@@ -535,6 +539,8 @@ class FeedValidationResultInvoice:
             field_dict["dueDateSource"] = due_date_source
         if last_reminded_at is not UNSET:
             field_dict["lastRemindedAt"] = last_reminded_at
+        if last_approver_reminded_at is not UNSET:
+            field_dict["lastApproverRemindedAt"] = last_approver_reminded_at
         if rejection is not UNSET:
             field_dict["rejection"] = rejection
         if replaces_invoice_id is not UNSET:
@@ -793,6 +799,8 @@ class FeedValidationResultInvoice:
 
         last_reminded_at = d.pop("lastRemindedAt", UNSET)
 
+        last_approver_reminded_at = d.pop("lastApproverRemindedAt", UNSET)
+
         _rejection = d.pop("rejection", UNSET)
         rejection: Union[Unset, InvoiceRejection]
         if isinstance(_rejection, Unset):
@@ -1026,6 +1034,7 @@ class FeedValidationResultInvoice:
             payment_problem=payment_problem,
             due_date_source=due_date_source,
             last_reminded_at=last_reminded_at,
+            last_approver_reminded_at=last_approver_reminded_at,
             rejection=rejection,
             replaces_invoice_id=replaces_invoice_id,
             replaces_invoice_ids=replaces_invoice_ids,

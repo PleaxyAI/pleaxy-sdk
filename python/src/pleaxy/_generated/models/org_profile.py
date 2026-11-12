@@ -5,6 +5,10 @@ from attrs import field as _attrs_field
 
 from ..models.org_profile_locale import OrgProfileLocale, check_org_profile_locale
 from ..models.org_profile_role import OrgProfileRole, check_org_profile_role
+from ..models.org_profile_setup_goal import (
+    OrgProfileSetupGoal,
+    check_org_profile_setup_goal,
+)
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -46,6 +50,7 @@ class OrgProfile:
         verified (Union[Unset, bool]):
         listed_in_directory (Union[Unset, bool]):
         directory_id (Union[Unset, str]):
+        setup_goal (Union[Unset, OrgProfileSetupGoal]):
     """
 
     id: str
@@ -74,6 +79,7 @@ class OrgProfile:
     verified: Union[Unset, bool] = UNSET
     listed_in_directory: Union[Unset, bool] = UNSET
     directory_id: Union[Unset, str] = UNSET
+    setup_goal: Union[Unset, OrgProfileSetupGoal] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -145,6 +151,10 @@ class OrgProfile:
 
         directory_id = self.directory_id
 
+        setup_goal: Union[Unset, str] = UNSET
+        if not isinstance(self.setup_goal, Unset):
+            setup_goal = self.setup_goal
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -202,6 +212,8 @@ class OrgProfile:
             field_dict["listedInDirectory"] = listed_in_directory
         if directory_id is not UNSET:
             field_dict["directoryId"] = directory_id
+        if setup_goal is not UNSET:
+            field_dict["setupGoal"] = setup_goal
 
         return field_dict
 
@@ -291,6 +303,13 @@ class OrgProfile:
 
         directory_id = d.pop("directoryId", UNSET)
 
+        _setup_goal = d.pop("setupGoal", UNSET)
+        setup_goal: Union[Unset, OrgProfileSetupGoal]
+        if isinstance(_setup_goal, Unset):
+            setup_goal = UNSET
+        else:
+            setup_goal = check_org_profile_setup_goal(_setup_goal)
+
         org_profile = cls(
             id=id,
             role=role,
@@ -318,6 +337,7 @@ class OrgProfile:
             verified=verified,
             listed_in_directory=listed_in_directory,
             directory_id=directory_id,
+            setup_goal=setup_goal,
         )
 
         org_profile.additional_properties = d

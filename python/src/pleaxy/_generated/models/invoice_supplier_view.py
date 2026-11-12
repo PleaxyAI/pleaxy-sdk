@@ -118,6 +118,7 @@ class InvoiceSupplierView:
         paid_at (Union[Unset, str]):
         due_date_source (Union[Unset, InvoiceSupplierViewDueDateSource]):
         last_reminded_at (Union[Unset, str]):
+        last_approver_reminded_at (Union[Unset, str]):
         rejection (Union[Unset, InvoiceRejection]):
         replaces_invoice_id (Union[Unset, str]):
         replaces_invoice_ids (Union[Unset, List[str]]):
@@ -189,6 +190,7 @@ class InvoiceSupplierView:
     paid_at: Union[Unset, str] = UNSET
     due_date_source: Union[Unset, InvoiceSupplierViewDueDateSource] = UNSET
     last_reminded_at: Union[Unset, str] = UNSET
+    last_approver_reminded_at: Union[Unset, str] = UNSET
     rejection: Union[Unset, "InvoiceRejection"] = UNSET
     replaces_invoice_id: Union[Unset, str] = UNSET
     replaces_invoice_ids: Union[Unset, List[str]] = UNSET
@@ -318,6 +320,8 @@ class InvoiceSupplierView:
             due_date_source = self.due_date_source
 
         last_reminded_at = self.last_reminded_at
+
+        last_approver_reminded_at = self.last_approver_reminded_at
 
         rejection: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.rejection, Unset):
@@ -547,6 +551,8 @@ class InvoiceSupplierView:
             field_dict["dueDateSource"] = due_date_source
         if last_reminded_at is not UNSET:
             field_dict["lastRemindedAt"] = last_reminded_at
+        if last_approver_reminded_at is not UNSET:
+            field_dict["lastApproverRemindedAt"] = last_approver_reminded_at
         if rejection is not UNSET:
             field_dict["rejection"] = rejection
         if replaces_invoice_id is not UNSET:
@@ -761,6 +767,8 @@ class InvoiceSupplierView:
             )
 
         last_reminded_at = d.pop("lastRemindedAt", UNSET)
+
+        last_approver_reminded_at = d.pop("lastApproverRemindedAt", UNSET)
 
         _rejection = d.pop("rejection", UNSET)
         rejection: Union[Unset, InvoiceRejection]
@@ -1046,6 +1054,7 @@ class InvoiceSupplierView:
             paid_at=paid_at,
             due_date_source=due_date_source,
             last_reminded_at=last_reminded_at,
+            last_approver_reminded_at=last_approver_reminded_at,
             rejection=rejection,
             replaces_invoice_id=replaces_invoice_id,
             replaces_invoice_ids=replaces_invoice_ids,
