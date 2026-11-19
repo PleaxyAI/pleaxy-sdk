@@ -23,6 +23,8 @@ pub struct ListInvoicesItemSupplierInvoice {
     pub supplier_org_id: Option<String>,
     #[serde(rename = "createdAt", skip_serializing_if = "Option::is_none")]
     pub created_at: Option<String>,
+    #[serde(rename = "cloudProvider", skip_serializing_if = "Option::is_none")]
+    pub cloud_provider: Option<CloudProvider>,
     #[serde(rename = "lateFeeTerms", skip_serializing_if = "Option::is_none")]
     pub late_fee_terms: Option<models::LateFeeTerms>,
     #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
@@ -68,6 +70,8 @@ pub struct ListInvoicesItemSupplierInvoice {
     pub paid_at: Option<String>,
     #[serde(rename = "dueDateSource", skip_serializing_if = "Option::is_none")]
     pub due_date_source: Option<DueDateSource>,
+    #[serde(rename = "earlyPayment", skip_serializing_if = "Option::is_none")]
+    pub early_payment: Option<models::InvoiceEarlyPayment>,
     #[serde(rename = "lastRemindedAt", skip_serializing_if = "Option::is_none")]
     pub last_reminded_at: Option<String>,
     #[serde(
@@ -152,6 +156,8 @@ pub struct ListInvoicesItemSupplierInvoice {
     pub source_document: Option<models::InvoiceSourceDocument>,
     #[serde(rename = "hasOriginalPdf", skip_serializing_if = "Option::is_none")]
     pub has_original_pdf: Option<bool>,
+    #[serde(rename = "heldBack", skip_serializing_if = "Option::is_none")]
+    pub held_back: Option<models::SupplierHeldBackView>,
     #[serde(rename = "settlement", skip_serializing_if = "Option::is_none")]
     pub settlement: Option<models::SupplierSettlementView>,
     #[serde(rename = "paymentProblem", skip_serializing_if = "Option::is_none")]
@@ -185,6 +191,7 @@ impl ListInvoicesItemSupplierInvoice {
             buyer_org_id: None,
             supplier_org_id: None,
             created_at: None,
+            cloud_provider: None,
             late_fee_terms: None,
             amount: None,
             supplier_connection_id: None,
@@ -206,6 +213,7 @@ impl ListInvoicesItemSupplierInvoice {
             due_date: None,
             paid_at: None,
             due_date_source: None,
+            early_payment: None,
             last_reminded_at: None,
             last_approver_reminded_at: None,
             rejection: None,
@@ -239,6 +247,7 @@ impl ListInvoicesItemSupplierInvoice {
             bank_lane: None,
             source_document: None,
             has_original_pdf: None,
+            held_back: None,
             settlement: None,
             payment_problem: None,
             bank_details_confirmation: None,
@@ -250,6 +259,24 @@ impl ListInvoicesItemSupplierInvoice {
             buyer_workspace_id: None,
             next_reminder_at: None,
         }
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum CloudProvider {
+    #[serde(rename = "aws")]
+    Aws,
+    #[serde(rename = "gcp")]
+    Gcp,
+    #[serde(rename = "azure")]
+    Azure,
+    #[serde(rename = "oci")]
+    Oci,
+}
+
+impl Default for CloudProvider {
+    fn default() -> CloudProvider {
+        Self::Aws
     }
 }
 ///
@@ -309,6 +336,8 @@ pub enum Source {
     Direct,
     #[serde(rename = "feed")]
     Feed,
+    #[serde(rename = "cloud_sync")]
+    CloudSync,
 }
 
 impl Default for Source {

@@ -43,6 +43,16 @@ pub struct InvoicePaymentRecord {
     pub paid_amount: Option<models::InvoicePaymentRecordPaidAmount>,
     #[serde(rename = "withholdings", skip_serializing_if = "Option::is_none")]
     pub withholdings: Option<Vec<models::InvoiceBreakdownEntry>>,
+    #[serde(
+        rename = "earlyPaymentDiscount",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub early_payment_discount: Option<models::InvoicePaymentRecordEarlyPaymentDiscount>,
+    #[serde(
+        rename = "scheduledPaymentDate",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub scheduled_payment_date: Option<String>,
 }
 
 impl InvoicePaymentRecord {
@@ -63,6 +73,8 @@ impl InvoicePaymentRecord {
             advice_version: None,
             paid_amount: None,
             withholdings: None,
+            early_payment_discount: None,
+            scheduled_payment_date: None,
         }
     }
 }

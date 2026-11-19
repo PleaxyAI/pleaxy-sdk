@@ -23,6 +23,7 @@ import ai.pleaxy.model.CreditPriceInput;
 import ai.pleaxy.model.DatabricksConnectionInput;
 import ai.pleaxy.model.GitHubConnectionInput;
 import ai.pleaxy.model.SnowflakeConnectionInput;
+import ai.pleaxy.model.ZoomConnectionInput;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -42,6 +43,7 @@ import ai.pleaxy.client.ApiClient;
   CreateAiProviderInput.JSON_PROPERTY_SNOWFLAKE,
   CreateAiProviderInput.JSON_PROPERTY_DATABRICKS,
   CreateAiProviderInput.JSON_PROPERTY_GITHUB,
+  CreateAiProviderInput.JSON_PROPERTY_ZOOM,
   CreateAiProviderInput.JSON_PROPERTY_CREDIT_PRICE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -65,6 +67,10 @@ public class CreateAiProviderInput {
   public static final String JSON_PROPERTY_GITHUB = "github";
   @javax.annotation.Nullable
   private GitHubConnectionInput github;
+
+  public static final String JSON_PROPERTY_ZOOM = "zoom";
+  @javax.annotation.Nullable
+  private ZoomConnectionInput zoom;
 
   public static final String JSON_PROPERTY_CREDIT_PRICE = "creditPrice";
   @javax.annotation.Nullable
@@ -193,6 +199,30 @@ public class CreateAiProviderInput {
   }
 
 
+  public CreateAiProviderInput zoom(@javax.annotation.Nullable ZoomConnectionInput zoom) {
+    this.zoom = zoom;
+    return this;
+  }
+
+  /**
+   * Get zoom
+   * @return zoom
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ZOOM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public ZoomConnectionInput getZoom() {
+    return zoom;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ZOOM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setZoom(@javax.annotation.Nullable ZoomConnectionInput zoom) {
+    this.zoom = zoom;
+  }
+
+
   public CreateAiProviderInput creditPrice(@javax.annotation.Nullable CreditPriceInput creditPrice) {
     this.creditPrice = creditPrice;
     return this;
@@ -234,12 +264,13 @@ public class CreateAiProviderInput {
         Objects.equals(this.snowflake, createAiProviderInput.snowflake) &&
         Objects.equals(this.databricks, createAiProviderInput.databricks) &&
         Objects.equals(this.github, createAiProviderInput.github) &&
+        Objects.equals(this.zoom, createAiProviderInput.zoom) &&
         Objects.equals(this.creditPrice, createAiProviderInput.creditPrice);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(provider, key, snowflake, databricks, github, creditPrice);
+    return Objects.hash(provider, key, snowflake, databricks, github, zoom, creditPrice);
   }
 
   @Override
@@ -251,6 +282,7 @@ public class CreateAiProviderInput {
     sb.append("    snowflake: ").append(toIndentedString(snowflake)).append("\n");
     sb.append("    databricks: ").append(toIndentedString(databricks)).append("\n");
     sb.append("    github: ").append(toIndentedString(github)).append("\n");
+    sb.append("    zoom: ").append(toIndentedString(zoom)).append("\n");
     sb.append("    creditPrice: ").append(toIndentedString(creditPrice)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -322,6 +354,11 @@ public class CreateAiProviderInput {
     // add `github` to the URL query string
     if (getGithub() != null) {
       joiner.add(getGithub().toUrlQueryString(prefix + "github" + suffix));
+    }
+
+    // add `zoom` to the URL query string
+    if (getZoom() != null) {
+      joiner.add(getZoom().toUrlQueryString(prefix + "zoom" + suffix));
     }
 
     // add `creditPrice` to the URL query string

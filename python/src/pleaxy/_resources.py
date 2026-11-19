@@ -99,14 +99,14 @@ class AiProvidersResource:
         self._transport = transport
 
     def add_ai_provider_supplier(self, provider: str) -> AddAiProviderSupplierResult:
-        """[Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create' on suppliers."""
+        """[Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe, cursor, github, microsoft, slack, zoom) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create' on suppliers."""
         return self._transport.call(
             "pleaxy._generated.api.ai_providers.add_ai_provider_supplier",
             provider=provider,
         )
 
     def create_ai_provider(self, *, body: CreateAiProviderInput) -> AiProvider:
-        """[Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers."""
+        """[Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seat tools read only the month's active users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`, the client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers."""
         return self._transport.call(
             "pleaxy._generated.api.ai_providers.create_ai_provider", body=body
         )
@@ -668,7 +668,7 @@ class DocumentSyncResource:
     def get_invoice_remittance(
         self, invoice_id: str, *, buyer: Union[Unset, str] = UNSET
     ) -> RemittanceView:
-        """[Both] The payment signal for an invoice, for the supplier's cash application: status unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion, what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as GetInvoice."""
+        """[Both] The payment signal for an invoice, for the supplier's cash application: status unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion, an early-payment discount the buyer took (earlyPaymentDiscount), what was withheld, netPaid after both, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as GetInvoice."""
         return self._transport.call(
             "pleaxy._generated.api.document_sync.get_invoice_remittance",
             invoice_id=invoice_id,
@@ -1042,7 +1042,7 @@ class InvoicesResource:
         )
 
     def export_invoices_for_payment(self, *, body: PaymentExportInput) -> bytes:
-        """[Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row's Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only."""
+        """[Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row's Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Send paymentDate (YYYY-MM-DD, today or later: the day your run pays) to take early-payment discounts: an invoice whose deadline is on or after that date is exported at its amount due less the discount when takeEarlyPaymentDiscounts is true (default: the workspace's setting), and the file adds payment_date, early_payment_discount, early_payment_deadline and remittance_info (a line for the payment's reference); a run dated after the deadline pays the full amount. 400 PAYMENT_RUN_DATE_INVALID for a date in the past or over a year ahead. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated, X-Pleaxy-Export-Discounted (how many take a discount). 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only."""
         return self._transport.call(
             "pleaxy._generated.api.invoices.export_invoices_for_payment",
             binary=True,
@@ -1105,7 +1105,7 @@ class InvoicesResource:
         )
 
     def get_stripe_payment(self, invoice_id: str) -> StripePaymentStatus:
-        """[Buyer] Whether this invoice can be paid through Pleaxy with Stripe: { available, reason?, state?, paymentMethodType?, quote? }. `quote` is { amount, fee, total, currency } in dollars: the buyer covers Stripe's bank-transfer fee (0.8%, capped at $5) so the supplier receives the full invoice amount. `reason` explains why not (not_configured, not_approved, payment_locked, supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). `state` is the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded."""
+        """[Buyer] Whether this invoice can be paid through Pleaxy with Stripe: { available, reason?, state?, paymentMethodType?, quote? }. `quote` is { amount, fee, total, currency } in dollars: the buyer covers Stripe's bank-transfer fee (0.8%, capped at $5) so the supplier receives the full invoice amount. `reason` explains why not (not_configured, not_approved, payment_locked, supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). `state` is the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded. `earlyPayment` is { percent, amount, deadline, quote } while a payment started today still earns the invoice's early-payment discount (quote: what the buyer pays taking it), or { ..., taken: true } on a payment that took it."""
         return self._transport.call(
             "pleaxy._generated.api.invoices.get_stripe_payment", invoice_id=invoice_id
         )
@@ -1233,13 +1233,18 @@ class InvoicesResource:
         )
 
     def start_stripe_payment(
-        self, invoice_id: str, *, confirm_replaced: Union[Unset, str] = UNSET
+        self,
+        invoice_id: str,
+        *,
+        confirm_replaced: Union[Unset, str] = UNSET,
+        early_payment_discount: Union[Unset, str] = UNSET,
     ) -> StartStripePaymentResult:
-        """[Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don't cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only."""
+        """[Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Send ?earlyPaymentDiscount=true to take the invoice's early-payment discount: allowed when today (the workspace's date the payment is initiated, not the day the bank transfer settles) is on or before its deadline, else 400 EARLY_PAYMENT_DEADLINE_PASSED or NO_EARLY_PAYMENT_DISCOUNT; the charge is then the amount due less the discount, plus Stripe's fee on that. Resumes an open Checkout (one opened with the other discount choice is expired and replaced); a replaced invoice its credit notes don't cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only."""
         return self._transport.call(
             "pleaxy._generated.api.invoices.start_stripe_payment",
             invoice_id=invoice_id,
             confirm_replaced=confirm_replaced,
+            early_payment_discount=early_payment_discount,
         )
 
     def submit_feed_invoice(

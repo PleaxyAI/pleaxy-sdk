@@ -22,6 +22,7 @@ import java.util.HashMap;
 import ai.pleaxy.model.InvoiceBreakdownEntry;
 import ai.pleaxy.model.InvoicePaymentRecordPaidAmount;
 import ai.pleaxy.model.RemittanceViewAmountDue;
+import ai.pleaxy.model.RemittanceViewPaymentEarlyPaymentDiscount;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -44,6 +45,7 @@ import ai.pleaxy.client.ApiClient;
   RemittanceViewPayment.JSON_PROPERTY_RECORDED_AT,
   RemittanceViewPayment.JSON_PROPERTY_ADVICE_VERSION,
   RemittanceViewPayment.JSON_PROPERTY_WITHHELD,
+  RemittanceViewPayment.JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT,
   RemittanceViewPayment.JSON_PROPERTY_NET_PAID,
   RemittanceViewPayment.JSON_PROPERTY_PAID_IN_OTHER_CURRENCY
 })
@@ -119,6 +121,10 @@ public class RemittanceViewPayment {
   public static final String JSON_PROPERTY_WITHHELD = "withheld";
   @javax.annotation.Nullable
   private List<InvoiceBreakdownEntry> withheld = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT = "earlyPaymentDiscount";
+  @javax.annotation.Nullable
+  private RemittanceViewPaymentEarlyPaymentDiscount earlyPaymentDiscount;
 
   public static final String JSON_PROPERTY_NET_PAID = "netPaid";
   @javax.annotation.Nullable
@@ -283,6 +289,30 @@ public class RemittanceViewPayment {
   }
 
 
+  public RemittanceViewPayment earlyPaymentDiscount(@javax.annotation.Nullable RemittanceViewPaymentEarlyPaymentDiscount earlyPaymentDiscount) {
+    this.earlyPaymentDiscount = earlyPaymentDiscount;
+    return this;
+  }
+
+  /**
+   * Get earlyPaymentDiscount
+   * @return earlyPaymentDiscount
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public RemittanceViewPaymentEarlyPaymentDiscount getEarlyPaymentDiscount() {
+    return earlyPaymentDiscount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEarlyPaymentDiscount(@javax.annotation.Nullable RemittanceViewPaymentEarlyPaymentDiscount earlyPaymentDiscount) {
+    this.earlyPaymentDiscount = earlyPaymentDiscount;
+  }
+
+
   public RemittanceViewPayment netPaid(@javax.annotation.Nullable RemittanceViewAmountDue netPaid) {
     this.netPaid = netPaid;
     return this;
@@ -349,13 +379,14 @@ public class RemittanceViewPayment {
         Objects.equals(this.recordedAt, remittanceViewPayment.recordedAt) &&
         Objects.equals(this.adviceVersion, remittanceViewPayment.adviceVersion) &&
         Objects.equals(this.withheld, remittanceViewPayment.withheld) &&
+        Objects.equals(this.earlyPaymentDiscount, remittanceViewPayment.earlyPaymentDiscount) &&
         Objects.equals(this.netPaid, remittanceViewPayment.netPaid) &&
         Objects.equals(this.paidInOtherCurrency, remittanceViewPayment.paidInOtherCurrency);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(method, paymentDate, reference, recordedAt, adviceVersion, withheld, netPaid, paidInOtherCurrency);
+    return Objects.hash(method, paymentDate, reference, recordedAt, adviceVersion, withheld, earlyPaymentDiscount, netPaid, paidInOtherCurrency);
   }
 
   @Override
@@ -368,6 +399,7 @@ public class RemittanceViewPayment {
     sb.append("    recordedAt: ").append(toIndentedString(recordedAt)).append("\n");
     sb.append("    adviceVersion: ").append(toIndentedString(adviceVersion)).append("\n");
     sb.append("    withheld: ").append(toIndentedString(withheld)).append("\n");
+    sb.append("    earlyPaymentDiscount: ").append(toIndentedString(earlyPaymentDiscount)).append("\n");
     sb.append("    netPaid: ").append(toIndentedString(netPaid)).append("\n");
     sb.append("    paidInOtherCurrency: ").append(toIndentedString(paidInOtherCurrency)).append("\n");
     sb.append("}");
@@ -450,6 +482,11 @@ public class RemittanceViewPayment {
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
+    }
+
+    // add `earlyPaymentDiscount` to the URL query string
+    if (getEarlyPaymentDiscount() != null) {
+      joiner.add(getEarlyPaymentDiscount().toUrlQueryString(prefix + "earlyPaymentDiscount" + suffix));
     }
 
     // add `netPaid` to the URL query string

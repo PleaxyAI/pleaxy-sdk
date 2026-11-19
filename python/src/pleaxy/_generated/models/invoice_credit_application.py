@@ -20,6 +20,7 @@ class InvoiceCreditApplication:
         applied_by (Union[Unset, str]):
         applied_by_name (Union[Unset, str]):
         auto (Union[Unset, bool]):
+        answers_hold (Union[Unset, bool]):
     """
 
     id: str
@@ -30,6 +31,7 @@ class InvoiceCreditApplication:
     applied_by: Union[Unset, str] = UNSET
     applied_by_name: Union[Unset, str] = UNSET
     auto: Union[Unset, bool] = UNSET
+    answers_hold: Union[Unset, bool] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -48,6 +50,8 @@ class InvoiceCreditApplication:
         applied_by_name = self.applied_by_name
 
         auto = self.auto
+
+        answers_hold = self.answers_hold
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -70,6 +74,8 @@ class InvoiceCreditApplication:
             field_dict["appliedByName"] = applied_by_name
         if auto is not UNSET:
             field_dict["auto"] = auto
+        if answers_hold is not UNSET:
+            field_dict["answersHold"] = answers_hold
 
         return field_dict
 
@@ -92,6 +98,8 @@ class InvoiceCreditApplication:
 
         auto = d.pop("auto", UNSET)
 
+        answers_hold = d.pop("answersHold", UNSET)
+
         invoice_credit_application = cls(
             id=id,
             credit_note_id=credit_note_id,
@@ -101,6 +109,7 @@ class InvoiceCreditApplication:
             applied_by=applied_by,
             applied_by_name=applied_by_name,
             auto=auto,
+            answers_hold=answers_hold,
         )
 
         invoice_credit_application.additional_properties = d

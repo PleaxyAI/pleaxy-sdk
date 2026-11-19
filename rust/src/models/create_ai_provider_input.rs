@@ -23,6 +23,8 @@ pub struct CreateAiProviderInput {
     pub databricks: Option<models::DatabricksConnectionInput>,
     #[serde(rename = "github", skip_serializing_if = "Option::is_none")]
     pub github: Option<models::GitHubConnectionInput>,
+    #[serde(rename = "zoom", skip_serializing_if = "Option::is_none")]
+    pub zoom: Option<models::ZoomConnectionInput>,
     #[serde(rename = "creditPrice", skip_serializing_if = "Option::is_none")]
     pub credit_price: Option<models::CreditPriceInput>,
 }
@@ -35,6 +37,7 @@ impl CreateAiProviderInput {
             snowflake: None,
             databricks: None,
             github: None,
+            zoom: None,
             credit_price: None,
         }
     }

@@ -18,8 +18,10 @@ AiPoLineSuggestionsInvoicer = Literal[
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 AI_PO_LINE_SUGGESTIONS_INVOICER_VALUES: Set[AiPoLineSuggestionsInvoicer] = {
@@ -40,8 +42,10 @@ AI_PO_LINE_SUGGESTIONS_INVOICER_VALUES: Set[AiPoLineSuggestionsInvoicer] = {
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

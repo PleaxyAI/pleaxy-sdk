@@ -3,6 +3,7 @@ from typing import Literal, Set, cast
 InvoiceBuyerViewUsageSource = Literal[
     "aws_invoice",
     "billing_export",
+    "cost_explorer_month",
     "ea_balance",
     "focus_export",
     "mca_invoice",
@@ -13,6 +14,7 @@ InvoiceBuyerViewUsageSource = Literal[
 INVOICE_BUYER_VIEW_USAGE_SOURCE_VALUES: Set[InvoiceBuyerViewUsageSource] = {
     "aws_invoice",
     "billing_export",
+    "cost_explorer_month",
     "ea_balance",
     "focus_export",
     "mca_invoice",

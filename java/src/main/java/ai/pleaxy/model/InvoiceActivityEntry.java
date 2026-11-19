@@ -82,6 +82,10 @@ public class InvoiceActivityEntry {
     
     REMINDER(String.valueOf("reminder")),
     
+    HELD_BACK(String.valueOf("held_back")),
+    
+    HOLD_ENDED(String.valueOf("hold_ended")),
+    
     COMMENT(String.valueOf("comment"));
 
     private String value;

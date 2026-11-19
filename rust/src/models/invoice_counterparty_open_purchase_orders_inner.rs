@@ -29,6 +29,8 @@ pub struct InvoiceCounterpartyOpenPurchaseOrdersInner {
     pub lines: Option<Vec<models::InvoiceCounterpartyOpenPurchaseOrdersInnerLinesInner>>,
     #[serde(rename = "defaultDueInDays", skip_serializing_if = "Option::is_none")]
     pub default_due_in_days: Option<f64>,
+    #[serde(rename = "defaultDueRule", skip_serializing_if = "Option::is_none")]
+    pub default_due_rule: Option<models::InvoiceCounterpartyOpenPurchaseOrdersInnerDefaultDueRule>,
     #[serde(rename = "billToCompanyName", skip_serializing_if = "Option::is_none")]
     pub bill_to_company_name: Option<String>,
     #[serde(rename = "paidDeposits", skip_serializing_if = "Option::is_none")]
@@ -46,6 +48,7 @@ impl InvoiceCounterpartyOpenPurchaseOrdersInner {
             invoiced_amount: None,
             lines: None,
             default_due_in_days: None,
+            default_due_rule: None,
             bill_to_company_name: None,
             paid_deposits: None,
         }

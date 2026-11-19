@@ -18,8 +18,10 @@ AiSpendResponseNotReadableItemInvoicer = Literal[
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 AI_SPEND_RESPONSE_NOT_READABLE_ITEM_INVOICER_VALUES: Set[
@@ -42,8 +44,10 @@ AI_SPEND_RESPONSE_NOT_READABLE_ITEM_INVOICER_VALUES: Set[
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

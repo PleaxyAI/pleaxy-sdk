@@ -29,6 +29,10 @@ pub struct PaymentHistoryEntry {
     pub credit_note_id: Option<String>,
     #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
     pub amount: Option<f64>,
+    #[serde(rename = "paymentDate", skip_serializing_if = "Option::is_none")]
+    pub payment_date: Option<String>,
+    #[serde(rename = "reference", skip_serializing_if = "Option::is_none")]
+    pub reference: Option<String>,
     #[serde(rename = "solePayer", skip_serializing_if = "Option::is_none")]
     pub sole_payer: Option<models::SolePayerWaiverRecord>,
     #[serde(rename = "approvedByOthers", skip_serializing_if = "Option::is_none")]
@@ -48,6 +52,8 @@ impl PaymentHistoryEntry {
             remittance_id: None,
             credit_note_id: None,
             amount: None,
+            payment_date: None,
+            reference: None,
             sole_payer: None,
             approved_by_others: None,
             record: None,
@@ -87,6 +93,8 @@ pub enum Action {
     ProblemReported,
     #[serde(rename = "problem_answered")]
     ProblemAnswered,
+    #[serde(rename = "held_back_paid")]
+    HeldBackPaid,
 }
 
 impl Default for Action {

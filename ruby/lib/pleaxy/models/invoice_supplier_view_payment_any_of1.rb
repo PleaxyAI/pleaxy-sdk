@@ -23,6 +23,8 @@ module Pleaxy
 
     attr_accessor :succeeded_at
 
+    attr_accessor :early_payment_discount
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -51,7 +53,8 @@ module Pleaxy
         :'status' => :'status',
         :'state' => :'state',
         :'payment_method_type' => :'paymentMethodType',
-        :'succeeded_at' => :'succeededAt'
+        :'succeeded_at' => :'succeededAt',
+        :'early_payment_discount' => :'earlyPaymentDiscount'
       }
     end
 
@@ -66,7 +69,8 @@ module Pleaxy
         :'status' => :'String',
         :'state' => :'String',
         :'payment_method_type' => :'String',
-        :'succeeded_at' => :'String'
+        :'succeeded_at' => :'String',
+        :'early_payment_discount' => :'InvoicePaymentRecordEarlyPaymentDiscount'
       }
     end
 
@@ -105,6 +109,10 @@ module Pleaxy
 
       if attributes.key?(:'succeeded_at')
         self.succeeded_at = attributes[:'succeeded_at']
+      end
+
+      if attributes.key?(:'early_payment_discount')
+        self.early_payment_discount = attributes[:'early_payment_discount']
       end
     end
 
@@ -167,7 +175,8 @@ module Pleaxy
           status == o.status &&
           state == o.state &&
           payment_method_type == o.payment_method_type &&
-          succeeded_at == o.succeeded_at
+          succeeded_at == o.succeeded_at &&
+          early_payment_discount == o.early_payment_discount
     end
 
     # @see the `==` method
@@ -179,7 +188,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [status, state, payment_method_type, succeeded_at].hash
+      [status, state, payment_method_type, succeeded_at, early_payment_discount].hash
     end
 
     # Builds the object from hash

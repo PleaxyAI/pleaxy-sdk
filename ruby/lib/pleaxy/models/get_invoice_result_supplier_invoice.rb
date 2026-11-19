@@ -29,6 +29,8 @@ module Pleaxy
 
     attr_accessor :created_at
 
+    attr_accessor :cloud_provider
+
     attr_accessor :late_fee_terms
 
     attr_accessor :amount
@@ -70,6 +72,8 @@ module Pleaxy
     attr_accessor :paid_at
 
     attr_accessor :due_date_source
+
+    attr_accessor :early_payment
 
     attr_accessor :last_reminded_at
 
@@ -137,6 +141,8 @@ module Pleaxy
 
     attr_accessor :has_original_pdf
 
+    attr_accessor :held_back
+
     attr_accessor :settlement
 
     attr_accessor :payment_problem
@@ -189,6 +195,7 @@ module Pleaxy
         :'buyer_org_id' => :'buyerOrgId',
         :'supplier_org_id' => :'supplierOrgId',
         :'created_at' => :'createdAt',
+        :'cloud_provider' => :'cloudProvider',
         :'late_fee_terms' => :'lateFeeTerms',
         :'amount' => :'amount',
         :'supplier_connection_id' => :'supplierConnectionId',
@@ -210,6 +217,7 @@ module Pleaxy
         :'due_date' => :'dueDate',
         :'paid_at' => :'paidAt',
         :'due_date_source' => :'dueDateSource',
+        :'early_payment' => :'earlyPayment',
         :'last_reminded_at' => :'lastRemindedAt',
         :'last_approver_reminded_at' => :'lastApproverRemindedAt',
         :'rejection' => :'rejection',
@@ -243,6 +251,7 @@ module Pleaxy
         :'bank_lane' => :'bankLane',
         :'source_document' => :'sourceDocument',
         :'has_original_pdf' => :'hasOriginalPdf',
+        :'held_back' => :'heldBack',
         :'settlement' => :'settlement',
         :'payment_problem' => :'paymentProblem',
         :'bank_details_confirmation' => :'bankDetailsConfirmation',
@@ -271,6 +280,7 @@ module Pleaxy
         :'buyer_org_id' => :'String',
         :'supplier_org_id' => :'String',
         :'created_at' => :'String',
+        :'cloud_provider' => :'String',
         :'late_fee_terms' => :'LateFeeTerms',
         :'amount' => :'Float',
         :'supplier_connection_id' => :'String',
@@ -292,6 +302,7 @@ module Pleaxy
         :'due_date' => :'String',
         :'paid_at' => :'String',
         :'due_date_source' => :'String',
+        :'early_payment' => :'InvoiceEarlyPayment',
         :'last_reminded_at' => :'String',
         :'last_approver_reminded_at' => :'String',
         :'rejection' => :'InvoiceRejection',
@@ -325,6 +336,7 @@ module Pleaxy
         :'bank_lane' => :'String',
         :'source_document' => :'InvoiceSourceDocument',
         :'has_original_pdf' => :'Boolean',
+        :'held_back' => :'SupplierHeldBackView',
         :'settlement' => :'SupplierSettlementView',
         :'payment_problem' => :'SupplierPaymentProblemView',
         :'bank_details_confirmation' => :'SupplierBankDetailsConfirmationView',
@@ -389,6 +401,10 @@ module Pleaxy
 
       if attributes.key?(:'created_at')
         self.created_at = attributes[:'created_at']
+      end
+
+      if attributes.key?(:'cloud_provider')
+        self.cloud_provider = attributes[:'cloud_provider']
       end
 
       if attributes.key?(:'late_fee_terms')
@@ -475,6 +491,10 @@ module Pleaxy
 
       if attributes.key?(:'due_date_source')
         self.due_date_source = attributes[:'due_date_source']
+      end
+
+      if attributes.key?(:'early_payment')
+        self.early_payment = attributes[:'early_payment']
       end
 
       if attributes.key?(:'last_reminded_at')
@@ -629,6 +649,10 @@ module Pleaxy
         self.has_original_pdf = attributes[:'has_original_pdf']
       end
 
+      if attributes.key?(:'held_back')
+        self.held_back = attributes[:'held_back']
+      end
+
       if attributes.key?(:'settlement')
         self.settlement = attributes[:'settlement']
       end
@@ -689,13 +713,15 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @id.nil?
+      cloud_provider_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci"])
+      return false unless cloud_provider_validator.valid?(@cloud_provider)
       match_status_validator = EnumAttributeValidator.new('String', ["pending", "matched", "discrepancy", "unverified"])
       return false unless match_status_validator.valid?(@match_status)
       payment_route_validator = EnumAttributeValidator.new('String', ["pleaxy", "erp"])
       return false unless payment_route_validator.valid?(@payment_route)
       due_date_source_validator = EnumAttributeValidator.new('String', ["default", "stated"])
       return false unless due_date_source_validator.valid?(@due_date_source)
-      source_validator = EnumAttributeValidator.new('String', ["manual", "po-flip", "direct", "feed"])
+      source_validator = EnumAttributeValidator.new('String', ["manual", "po-flip", "direct", "feed", "cloud_sync"])
       return false unless source_validator.valid?(@source)
       entered_by_validator = EnumAttributeValidator.new('String', ["buyer", "supplier"])
       return false unless entered_by_validator.valid?(@entered_by)
@@ -706,6 +732,16 @@ module Pleaxy
       invoice_kind_validator = EnumAttributeValidator.new('String', ["prepayment"])
       return false unless invoice_kind_validator.valid?(@invoice_kind)
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] cloud_provider Object to be assigned
+    def cloud_provider=(cloud_provider)
+      validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci"])
+      unless validator.valid?(cloud_provider)
+        fail ArgumentError, "invalid value for \"cloud_provider\", must be one of #{validator.allowable_values}."
+      end
+      @cloud_provider = cloud_provider
     end
 
     # Custom attribute writer method checking allowed values (enum).
@@ -741,7 +777,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] source Object to be assigned
     def source=(source)
-      validator = EnumAttributeValidator.new('String', ["manual", "po-flip", "direct", "feed"])
+      validator = EnumAttributeValidator.new('String', ["manual", "po-flip", "direct", "feed", "cloud_sync"])
       unless validator.valid?(source)
         fail ArgumentError, "invalid value for \"source\", must be one of #{validator.allowable_values}."
       end
@@ -800,6 +836,7 @@ module Pleaxy
           buyer_org_id == o.buyer_org_id &&
           supplier_org_id == o.supplier_org_id &&
           created_at == o.created_at &&
+          cloud_provider == o.cloud_provider &&
           late_fee_terms == o.late_fee_terms &&
           amount == o.amount &&
           supplier_connection_id == o.supplier_connection_id &&
@@ -821,6 +858,7 @@ module Pleaxy
           due_date == o.due_date &&
           paid_at == o.paid_at &&
           due_date_source == o.due_date_source &&
+          early_payment == o.early_payment &&
           last_reminded_at == o.last_reminded_at &&
           last_approver_reminded_at == o.last_approver_reminded_at &&
           rejection == o.rejection &&
@@ -854,6 +892,7 @@ module Pleaxy
           bank_lane == o.bank_lane &&
           source_document == o.source_document &&
           has_original_pdf == o.has_original_pdf &&
+          held_back == o.held_back &&
           settlement == o.settlement &&
           payment_problem == o.payment_problem &&
           bank_details_confirmation == o.bank_details_confirmation &&
@@ -875,7 +914,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [replacement, uncredited_originals, supplier, id, buyer_org_id, supplier_org_id, created_at, late_fee_terms, amount, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, no_po_comparison, payment_route, paid, due_in_days, due_date, paid_at, due_date_source, last_reminded_at, last_approver_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, submitted_format, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, bank_lane, source_document, has_original_pdf, settlement, payment_problem, bank_details_confirmation, base_currency_amount, approval, payment, withdrawn_payment, remittances, buyer_workspace_id, next_reminder_at].hash
+      [replacement, uncredited_originals, supplier, id, buyer_org_id, supplier_org_id, created_at, cloud_provider, late_fee_terms, amount, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, no_po_comparison, payment_route, paid, due_in_days, due_date, paid_at, due_date_source, early_payment, last_reminded_at, last_approver_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, submitted_format, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, bank_lane, source_document, has_original_pdf, held_back, settlement, payment_problem, bank_details_confirmation, base_currency_amount, approval, payment, withdrawn_payment, remittances, buyer_workspace_id, next_reminder_at].hash
     end
 
     # Builds the object from hash

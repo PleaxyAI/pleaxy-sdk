@@ -27,6 +27,8 @@ module Pleaxy
 
     attr_accessor :withheld
 
+    attr_accessor :early_payment_discount
+
     attr_accessor :net_paid
 
     attr_accessor :paid_in_other_currency
@@ -62,6 +64,7 @@ module Pleaxy
         :'recorded_at' => :'recordedAt',
         :'advice_version' => :'adviceVersion',
         :'withheld' => :'withheld',
+        :'early_payment_discount' => :'earlyPaymentDiscount',
         :'net_paid' => :'netPaid',
         :'paid_in_other_currency' => :'paidInOtherCurrency'
       }
@@ -81,6 +84,7 @@ module Pleaxy
         :'recorded_at' => :'String',
         :'advice_version' => :'Float',
         :'withheld' => :'Array<InvoiceBreakdownEntry>',
+        :'early_payment_discount' => :'RemittanceViewPaymentEarlyPaymentDiscount',
         :'net_paid' => :'RemittanceViewAmountDue',
         :'paid_in_other_currency' => :'InvoicePaymentRecordPaidAmount'
       }
@@ -133,6 +137,10 @@ module Pleaxy
         end
       end
 
+      if attributes.key?(:'early_payment_discount')
+        self.early_payment_discount = attributes[:'early_payment_discount']
+      end
+
       if attributes.key?(:'net_paid')
         self.net_paid = attributes[:'net_paid']
       end
@@ -180,6 +188,7 @@ module Pleaxy
           recorded_at == o.recorded_at &&
           advice_version == o.advice_version &&
           withheld == o.withheld &&
+          early_payment_discount == o.early_payment_discount &&
           net_paid == o.net_paid &&
           paid_in_other_currency == o.paid_in_other_currency
     end
@@ -193,7 +202,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [method, payment_date, reference, recorded_at, advice_version, withheld, net_paid, paid_in_other_currency].hash
+      [method, payment_date, reference, recorded_at, advice_version, withheld, early_payment_discount, net_paid, paid_in_other_currency].hash
     end
 
     # Builds the object from hash

@@ -19,11 +19,17 @@ module Pleaxy
 
     attr_accessor :confirm_replaced
 
+    attr_accessor :payment_date
+
+    attr_accessor :take_early_payment_discounts
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'invoice_ids' => :'invoiceIds',
-        :'confirm_replaced' => :'confirmReplaced'
+        :'confirm_replaced' => :'confirmReplaced',
+        :'payment_date' => :'paymentDate',
+        :'take_early_payment_discounts' => :'takeEarlyPaymentDiscounts'
       }
     end
 
@@ -36,7 +42,9 @@ module Pleaxy
     def self.openapi_types
       {
         :'invoice_ids' => :'Array<String>',
-        :'confirm_replaced' => :'Boolean'
+        :'confirm_replaced' => :'Boolean',
+        :'payment_date' => :'String',
+        :'take_early_payment_discounts' => :'Boolean'
       }
     end
 
@@ -70,6 +78,14 @@ module Pleaxy
       if attributes.key?(:'confirm_replaced')
         self.confirm_replaced = attributes[:'confirm_replaced']
       end
+
+      if attributes.key?(:'payment_date')
+        self.payment_date = attributes[:'payment_date']
+      end
+
+      if attributes.key?(:'take_early_payment_discounts')
+        self.take_early_payment_discounts = attributes[:'take_early_payment_discounts']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -77,6 +93,11 @@ module Pleaxy
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
+      pattern = Regexp.new(/^\d{4}-\d{2}-\d{2}$/)
+      if !@payment_date.nil? && @payment_date !~ pattern
+        invalid_properties.push("invalid value for \"payment_date\", must conform to the pattern #{pattern}.")
+      end
+
       invalid_properties
     end
 
@@ -84,7 +105,23 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
+      return false if !@payment_date.nil? && @payment_date !~ Regexp.new(/^\d{4}-\d{2}-\d{2}$/)
       true
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] payment_date Value to be assigned
+    def payment_date=(payment_date)
+      if payment_date.nil?
+        fail ArgumentError, 'payment_date cannot be nil'
+      end
+
+      pattern = Regexp.new(/^\d{4}-\d{2}-\d{2}$/)
+      if payment_date !~ pattern
+        fail ArgumentError, "invalid value for \"payment_date\", must conform to the pattern #{pattern}."
+      end
+
+      @payment_date = payment_date
     end
 
     # Checks equality by comparing each attribute.
@@ -93,7 +130,9 @@ module Pleaxy
       return true if self.equal?(o)
       self.class == o.class &&
           invoice_ids == o.invoice_ids &&
-          confirm_replaced == o.confirm_replaced
+          confirm_replaced == o.confirm_replaced &&
+          payment_date == o.payment_date &&
+          take_early_payment_discounts == o.take_early_payment_discounts
     end
 
     # @see the `==` method
@@ -105,7 +144,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [invoice_ids, confirm_replaced].hash
+      [invoice_ids, confirm_replaced, payment_date, take_early_payment_discounts].hash
     end
 
     # Builds the object from hash

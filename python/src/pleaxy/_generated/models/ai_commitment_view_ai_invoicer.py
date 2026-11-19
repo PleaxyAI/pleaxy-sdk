@@ -18,8 +18,10 @@ AiCommitmentViewAiInvoicer = Literal[
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 AI_COMMITMENT_VIEW_AI_INVOICER_VALUES: Set[AiCommitmentViewAiInvoicer] = {
@@ -40,8 +42,10 @@ AI_COMMITMENT_VIEW_AI_INVOICER_VALUES: Set[AiCommitmentViewAiInvoicer] = {
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

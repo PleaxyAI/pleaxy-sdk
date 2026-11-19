@@ -58,7 +58,7 @@ public class DiscoverAzureScopesInput {
   private String azureBillingAccountId;
 
   public static final String JSON_PROPERTY_AZURE_BILLING_PROFILE_ID = "azureBillingProfileId";
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private String azureBillingProfileId;
 
   public DiscoverAzureScopesInput() { 
@@ -142,7 +142,7 @@ public class DiscoverAzureScopesInput {
   }
 
   /**
-   * The Microsoft Customer Agreement billing account ID (&lt;guid&gt;:&lt;guid&gt;_YYYY-MM-DD). Read directly: an app with only Billing profile reader can&#39;t list billing accounts.
+   * The billing account ID: a Microsoft Customer Agreement account (&lt;guid&gt;:&lt;guid&gt;_YYYY-MM-DD), or an Enterprise Agreement enrollment number (digits). Read directly: an app with only Billing profile reader can&#39;t list billing accounts.
    * @return azureBillingAccountId
    */
   @javax.annotation.Nonnull
@@ -160,26 +160,26 @@ public class DiscoverAzureScopesInput {
   }
 
 
-  public DiscoverAzureScopesInput azureBillingProfileId(@javax.annotation.Nonnull String azureBillingProfileId) {
+  public DiscoverAzureScopesInput azureBillingProfileId(@javax.annotation.Nullable String azureBillingProfileId) {
     this.azureBillingProfileId = azureBillingProfileId;
     return this;
   }
 
   /**
-   * The billing profile ID the app has Billing profile reader on.
+   * Microsoft Customer Agreement only: the billing profile ID the app has Billing profile reader on. Left out (or empty) for an Enterprise Agreement enrollment.
    * @return azureBillingProfileId
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_AZURE_BILLING_PROFILE_ID)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getAzureBillingProfileId() {
     return azureBillingProfileId;
   }
 
 
   @JsonProperty(JSON_PROPERTY_AZURE_BILLING_PROFILE_ID)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setAzureBillingProfileId(@javax.annotation.Nonnull String azureBillingProfileId) {
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAzureBillingProfileId(@javax.annotation.Nullable String azureBillingProfileId) {
     this.azureBillingProfileId = azureBillingProfileId;
   }
 

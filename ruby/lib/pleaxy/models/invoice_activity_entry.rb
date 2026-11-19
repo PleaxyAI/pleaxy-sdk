@@ -161,7 +161,7 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @id.nil?
-      kind_validator = EnumAttributeValidator.new('String', ["approved", "rejected", "approval", "received", "payment", "replacement", "corrects", "control_findings", "match", "sent_for_approval", "reminder", "comment"])
+      kind_validator = EnumAttributeValidator.new('String', ["approved", "rejected", "approval", "received", "payment", "replacement", "corrects", "control_findings", "match", "sent_for_approval", "reminder", "held_back", "hold_ended", "comment"])
       return false unless kind_validator.valid?(@kind)
       actor_side_validator = EnumAttributeValidator.new('String', ["buyer", "supplier", "system"])
       return false unless actor_side_validator.valid?(@actor_side)
@@ -171,7 +171,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] kind Object to be assigned
     def kind=(kind)
-      validator = EnumAttributeValidator.new('String', ["approved", "rejected", "approval", "received", "payment", "replacement", "corrects", "control_findings", "match", "sent_for_approval", "reminder", "comment"])
+      validator = EnumAttributeValidator.new('String', ["approved", "rejected", "approval", "received", "payment", "replacement", "corrects", "control_findings", "match", "sent_for_approval", "reminder", "held_back", "hold_ended", "comment"])
       unless validator.valid?(kind)
         fail ArgumentError, "invalid value for \"kind\", must be one of #{validator.allowable_values}."
       end

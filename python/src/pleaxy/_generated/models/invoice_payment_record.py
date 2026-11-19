@@ -15,6 +15,9 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
+    from ..models.invoice_payment_record_early_payment_discount import (
+        InvoicePaymentRecordEarlyPaymentDiscount,
+    )
     from ..models.invoice_payment_record_paid_amount import (
         InvoicePaymentRecordPaidAmount,
     )
@@ -43,6 +46,8 @@ class InvoicePaymentRecord:
         advice_version (Union[Unset, float]):
         paid_amount (Union[Unset, InvoicePaymentRecordPaidAmount]):
         withholdings (Union[Unset, List['InvoiceBreakdownEntry']]):
+        early_payment_discount (Union[Unset, InvoicePaymentRecordEarlyPaymentDiscount]):
+        scheduled_payment_date (Union[Unset, str]):
     """
 
     status: Union[Unset, InvoicePaymentRecordStatus] = UNSET
@@ -60,6 +65,10 @@ class InvoicePaymentRecord:
     advice_version: Union[Unset, float] = UNSET
     paid_amount: Union[Unset, "InvoicePaymentRecordPaidAmount"] = UNSET
     withholdings: Union[Unset, List["InvoiceBreakdownEntry"]] = UNSET
+    early_payment_discount: Union[Unset, "InvoicePaymentRecordEarlyPaymentDiscount"] = (
+        UNSET
+    )
+    scheduled_payment_date: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -106,6 +115,12 @@ class InvoicePaymentRecord:
                 withholdings_item = withholdings_item_data.to_dict()
                 withholdings.append(withholdings_item)
 
+        early_payment_discount: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.early_payment_discount, Unset):
+            early_payment_discount = self.early_payment_discount.to_dict()
+
+        scheduled_payment_date = self.scheduled_payment_date
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -139,12 +154,19 @@ class InvoicePaymentRecord:
             field_dict["paidAmount"] = paid_amount
         if withholdings is not UNSET:
             field_dict["withholdings"] = withholdings
+        if early_payment_discount is not UNSET:
+            field_dict["earlyPaymentDiscount"] = early_payment_discount
+        if scheduled_payment_date is not UNSET:
+            field_dict["scheduledPaymentDate"] = scheduled_payment_date
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
+        from ..models.invoice_payment_record_early_payment_discount import (
+            InvoicePaymentRecordEarlyPaymentDiscount,
+        )
         from ..models.invoice_payment_record_paid_amount import (
             InvoicePaymentRecordPaidAmount,
         )
@@ -206,6 +228,17 @@ class InvoicePaymentRecord:
 
             withholdings.append(withholdings_item)
 
+        _early_payment_discount = d.pop("earlyPaymentDiscount", UNSET)
+        early_payment_discount: Union[Unset, InvoicePaymentRecordEarlyPaymentDiscount]
+        if isinstance(_early_payment_discount, Unset):
+            early_payment_discount = UNSET
+        else:
+            early_payment_discount = InvoicePaymentRecordEarlyPaymentDiscount.from_dict(
+                _early_payment_discount
+            )
+
+        scheduled_payment_date = d.pop("scheduledPaymentDate", UNSET)
+
         invoice_payment_record = cls(
             status=status,
             stripe=stripe,
@@ -222,6 +255,8 @@ class InvoicePaymentRecord:
             advice_version=advice_version,
             paid_amount=paid_amount,
             withholdings=withholdings,
+            early_payment_discount=early_payment_discount,
+            scheduled_payment_date=scheduled_payment_date,
         )
 
         invoice_payment_record.additional_properties = d

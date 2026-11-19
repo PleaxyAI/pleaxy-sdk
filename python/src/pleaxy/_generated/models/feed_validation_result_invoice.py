@@ -12,6 +12,10 @@ from typing import (
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.feed_validation_result_invoice_cloud_provider import (
+    FeedValidationResultInvoiceCloudProvider,
+    check_feed_validation_result_invoice_cloud_provider,
+)
 from ..models.feed_validation_result_invoice_document_type import (
     FeedValidationResultInvoiceDocumentType,
     check_feed_validation_result_invoice_document_type,
@@ -65,6 +69,7 @@ if TYPE_CHECKING:
     from ..models.invoice_currency_amount import InvoiceCurrencyAmount
     from ..models.invoice_deduction import InvoiceDeduction
     from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
+    from ..models.invoice_early_payment import InvoiceEarlyPayment
     from ..models.invoice_line_item import InvoiceLineItem
     from ..models.invoice_rejection import InvoiceRejection
     from ..models.invoice_source_document import InvoiceSourceDocument
@@ -75,6 +80,7 @@ if TYPE_CHECKING:
     from ..models.supplier_bank_details_confirmation_view import (
         SupplierBankDetailsConfirmationView,
     )
+    from ..models.supplier_held_back_view import SupplierHeldBackView
     from ..models.supplier_payment_problem_view import SupplierPaymentProblemView
     from ..models.supplier_remittance_view import SupplierRemittanceView
     from ..models.supplier_settlement_view import SupplierSettlementView
@@ -90,6 +96,7 @@ class FeedValidationResultInvoice:
         supplier (Union[Unset, str]):
         buyer_org_id (Union[Unset, str]):
         supplier_org_id (Union[Unset, str]):
+        cloud_provider (Union[Unset, FeedValidationResultInvoiceCloudProvider]):
         late_fee_terms (Union[Unset, LateFeeTerms]):
         amount (Union[Unset, float]):
         settlement (Union[Unset, SupplierSettlementView]):
@@ -116,6 +123,7 @@ class FeedValidationResultInvoice:
         remittances (Union[Unset, List['SupplierRemittanceView']]):
         payment_problem (Union[Unset, SupplierPaymentProblemView]):
         due_date_source (Union[Unset, FeedValidationResultInvoiceDueDateSource]):
+        early_payment (Union[Unset, InvoiceEarlyPayment]):
         last_reminded_at (Union[Unset, str]):
         last_approver_reminded_at (Union[Unset, str]):
         rejection (Union[Unset, InvoiceRejection]):
@@ -140,6 +148,7 @@ class FeedValidationResultInvoice:
         invoice_kind (Union[Unset, FeedValidationResultInvoiceInvoiceKind]):
         deductions (Union[Unset, List['InvoiceDeduction']]):
         credit_applications (Union[Unset, List['InvoiceCreditApplication']]):
+        held_back (Union[Unset, SupplierHeldBackView]):
         credit_note_ids (Union[Unset, List[str]]):
         credit_version (Union[Unset, float]):
         payment_currency_amount (Union[Unset, InvoiceCurrencyAmount]):
@@ -159,6 +168,7 @@ class FeedValidationResultInvoice:
     supplier: Union[Unset, str] = UNSET
     buyer_org_id: Union[Unset, str] = UNSET
     supplier_org_id: Union[Unset, str] = UNSET
+    cloud_provider: Union[Unset, FeedValidationResultInvoiceCloudProvider] = UNSET
     late_fee_terms: Union[Unset, "LateFeeTerms"] = UNSET
     amount: Union[Unset, float] = UNSET
     settlement: Union[Unset, "SupplierSettlementView"] = UNSET
@@ -189,6 +199,7 @@ class FeedValidationResultInvoice:
     remittances: Union[Unset, List["SupplierRemittanceView"]] = UNSET
     payment_problem: Union[Unset, "SupplierPaymentProblemView"] = UNSET
     due_date_source: Union[Unset, FeedValidationResultInvoiceDueDateSource] = UNSET
+    early_payment: Union[Unset, "InvoiceEarlyPayment"] = UNSET
     last_reminded_at: Union[Unset, str] = UNSET
     last_approver_reminded_at: Union[Unset, str] = UNSET
     rejection: Union[Unset, "InvoiceRejection"] = UNSET
@@ -213,6 +224,7 @@ class FeedValidationResultInvoice:
     invoice_kind: Union[Unset, FeedValidationResultInvoiceInvoiceKind] = UNSET
     deductions: Union[Unset, List["InvoiceDeduction"]] = UNSET
     credit_applications: Union[Unset, List["InvoiceCreditApplication"]] = UNSET
+    held_back: Union[Unset, "SupplierHeldBackView"] = UNSET
     credit_note_ids: Union[Unset, List[str]] = UNSET
     credit_version: Union[Unset, float] = UNSET
     payment_currency_amount: Union[Unset, "InvoiceCurrencyAmount"] = UNSET
@@ -247,6 +259,10 @@ class FeedValidationResultInvoice:
         buyer_org_id = self.buyer_org_id
 
         supplier_org_id = self.supplier_org_id
+
+        cloud_provider: Union[Unset, str] = UNSET
+        if not isinstance(self.cloud_provider, Unset):
+            cloud_provider = self.cloud_provider
 
         late_fee_terms: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.late_fee_terms, Unset):
@@ -333,6 +349,10 @@ class FeedValidationResultInvoice:
         due_date_source: Union[Unset, str] = UNSET
         if not isinstance(self.due_date_source, Unset):
             due_date_source = self.due_date_source
+
+        early_payment: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.early_payment, Unset):
+            early_payment = self.early_payment.to_dict()
 
         last_reminded_at = self.last_reminded_at
 
@@ -428,6 +448,10 @@ class FeedValidationResultInvoice:
                 credit_applications_item = credit_applications_item_data.to_dict()
                 credit_applications.append(credit_applications_item)
 
+        held_back: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.held_back, Unset):
+            held_back = self.held_back.to_dict()
+
         credit_note_ids: Union[Unset, List[str]] = UNSET
         if not isinstance(self.credit_note_ids, Unset):
             credit_note_ids = self.credit_note_ids
@@ -485,6 +509,8 @@ class FeedValidationResultInvoice:
             field_dict["buyerOrgId"] = buyer_org_id
         if supplier_org_id is not UNSET:
             field_dict["supplierOrgId"] = supplier_org_id
+        if cloud_provider is not UNSET:
+            field_dict["cloudProvider"] = cloud_provider
         if late_fee_terms is not UNSET:
             field_dict["lateFeeTerms"] = late_fee_terms
         if amount is not UNSET:
@@ -537,6 +563,8 @@ class FeedValidationResultInvoice:
             field_dict["paymentProblem"] = payment_problem
         if due_date_source is not UNSET:
             field_dict["dueDateSource"] = due_date_source
+        if early_payment is not UNSET:
+            field_dict["earlyPayment"] = early_payment
         if last_reminded_at is not UNSET:
             field_dict["lastRemindedAt"] = last_reminded_at
         if last_approver_reminded_at is not UNSET:
@@ -585,6 +613,8 @@ class FeedValidationResultInvoice:
             field_dict["deductions"] = deductions
         if credit_applications is not UNSET:
             field_dict["creditApplications"] = credit_applications
+        if held_back is not UNSET:
+            field_dict["heldBack"] = held_back
         if credit_note_ids is not UNSET:
             field_dict["creditNoteIds"] = credit_note_ids
         if credit_version is not UNSET:
@@ -638,6 +668,7 @@ class FeedValidationResultInvoice:
         from ..models.invoice_currency_amount import InvoiceCurrencyAmount
         from ..models.invoice_deduction import InvoiceDeduction
         from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
+        from ..models.invoice_early_payment import InvoiceEarlyPayment
         from ..models.invoice_line_item import InvoiceLineItem
         from ..models.invoice_rejection import InvoiceRejection
         from ..models.invoice_source_document import InvoiceSourceDocument
@@ -648,6 +679,7 @@ class FeedValidationResultInvoice:
         from ..models.supplier_bank_details_confirmation_view import (
             SupplierBankDetailsConfirmationView,
         )
+        from ..models.supplier_held_back_view import SupplierHeldBackView
         from ..models.supplier_payment_problem_view import SupplierPaymentProblemView
         from ..models.supplier_remittance_view import SupplierRemittanceView
         from ..models.supplier_settlement_view import SupplierSettlementView
@@ -658,6 +690,15 @@ class FeedValidationResultInvoice:
         buyer_org_id = d.pop("buyerOrgId", UNSET)
 
         supplier_org_id = d.pop("supplierOrgId", UNSET)
+
+        _cloud_provider = d.pop("cloudProvider", UNSET)
+        cloud_provider: Union[Unset, FeedValidationResultInvoiceCloudProvider]
+        if isinstance(_cloud_provider, Unset):
+            cloud_provider = UNSET
+        else:
+            cloud_provider = check_feed_validation_result_invoice_cloud_provider(
+                _cloud_provider
+            )
 
         _late_fee_terms = d.pop("lateFeeTerms", UNSET)
         late_fee_terms: Union[Unset, LateFeeTerms]
@@ -797,6 +838,13 @@ class FeedValidationResultInvoice:
                 _due_date_source
             )
 
+        _early_payment = d.pop("earlyPayment", UNSET)
+        early_payment: Union[Unset, InvoiceEarlyPayment]
+        if isinstance(_early_payment, Unset):
+            early_payment = UNSET
+        else:
+            early_payment = InvoiceEarlyPayment.from_dict(_early_payment)
+
         last_reminded_at = d.pop("lastRemindedAt", UNSET)
 
         last_approver_reminded_at = d.pop("lastApproverRemindedAt", UNSET)
@@ -912,6 +960,13 @@ class FeedValidationResultInvoice:
 
             credit_applications.append(credit_applications_item)
 
+        _held_back = d.pop("heldBack", UNSET)
+        held_back: Union[Unset, SupplierHeldBackView]
+        if isinstance(_held_back, Unset):
+            held_back = UNSET
+        else:
+            held_back = SupplierHeldBackView.from_dict(_held_back)
+
         credit_note_ids = cast(List[str], d.pop("creditNoteIds", UNSET))
 
         credit_version = d.pop("creditVersion", UNSET)
@@ -1007,6 +1062,7 @@ class FeedValidationResultInvoice:
             supplier=supplier,
             buyer_org_id=buyer_org_id,
             supplier_org_id=supplier_org_id,
+            cloud_provider=cloud_provider,
             late_fee_terms=late_fee_terms,
             amount=amount,
             settlement=settlement,
@@ -1033,6 +1089,7 @@ class FeedValidationResultInvoice:
             remittances=remittances,
             payment_problem=payment_problem,
             due_date_source=due_date_source,
+            early_payment=early_payment,
             last_reminded_at=last_reminded_at,
             last_approver_reminded_at=last_approver_reminded_at,
             rejection=rejection,
@@ -1057,6 +1114,7 @@ class FeedValidationResultInvoice:
             invoice_kind=invoice_kind,
             deductions=deductions,
             credit_applications=credit_applications,
+            held_back=held_back,
             credit_note_ids=credit_note_ids,
             credit_version=credit_version,
             payment_currency_amount=payment_currency_amount,

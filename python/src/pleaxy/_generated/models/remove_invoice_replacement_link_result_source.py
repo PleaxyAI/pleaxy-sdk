@@ -1,12 +1,13 @@
 from typing import Literal, Set, cast
 
 RemoveInvoiceReplacementLinkResultSource = Literal[
-    "direct", "feed", "manual", "po-flip"
+    "cloud_sync", "direct", "feed", "manual", "po-flip"
 ]
 
 REMOVE_INVOICE_REPLACEMENT_LINK_RESULT_SOURCE_VALUES: Set[
     RemoveInvoiceReplacementLinkResultSource
 ] = {
+    "cloud_sync",
     "direct",
     "feed",
     "manual",

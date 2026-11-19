@@ -29,6 +29,7 @@ class RecordPaymentInput:
         rate (Union[Unset, float]):
         rate_date (Union[Unset, str]):
         withholdings (Union[Unset, List['BreakdownEntryInput']]):
+        early_payment_discount (Union[Unset, bool]):
         remittance (Union[Unset, SendRemittanceInput]):
         confirm_replaced (Union[Unset, bool]):
     """
@@ -41,6 +42,7 @@ class RecordPaymentInput:
     rate: Union[Unset, float] = UNSET
     rate_date: Union[Unset, str] = UNSET
     withholdings: Union[Unset, List["BreakdownEntryInput"]] = UNSET
+    early_payment_discount: Union[Unset, bool] = UNSET
     remittance: Union[Unset, "SendRemittanceInput"] = UNSET
     confirm_replaced: Union[Unset, bool] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -67,6 +69,8 @@ class RecordPaymentInput:
                 withholdings_item = withholdings_item_data.to_dict()
                 withholdings.append(withholdings_item)
 
+        early_payment_discount = self.early_payment_discount
+
         remittance: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.remittance, Unset):
             remittance = self.remittance.to_dict()
@@ -92,6 +96,8 @@ class RecordPaymentInput:
             field_dict["rateDate"] = rate_date
         if withholdings is not UNSET:
             field_dict["withholdings"] = withholdings
+        if early_payment_discount is not UNSET:
+            field_dict["earlyPaymentDiscount"] = early_payment_discount
         if remittance is not UNSET:
             field_dict["remittance"] = remittance
         if confirm_replaced is not UNSET:
@@ -126,6 +132,8 @@ class RecordPaymentInput:
 
             withholdings.append(withholdings_item)
 
+        early_payment_discount = d.pop("earlyPaymentDiscount", UNSET)
+
         _remittance = d.pop("remittance", UNSET)
         remittance: Union[Unset, SendRemittanceInput]
         if isinstance(_remittance, Unset):
@@ -144,6 +152,7 @@ class RecordPaymentInput:
             rate=rate,
             rate_date=rate_date,
             withholdings=withholdings,
+            early_payment_discount=early_payment_discount,
             remittance=remittance,
             confirm_replaced=confirm_replaced,
         )

@@ -18,8 +18,10 @@ AiSpendGroupInvoicer = Literal[
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 AI_SPEND_GROUP_INVOICER_VALUES: Set[AiSpendGroupInvoicer] = {
@@ -40,8 +42,10 @@ AI_SPEND_GROUP_INVOICER_VALUES: Set[AiSpendGroupInvoicer] = {
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

@@ -18,8 +18,10 @@ AiUncoveredSpendInvoicer = Literal[
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 AI_UNCOVERED_SPEND_INVOICER_VALUES: Set[AiUncoveredSpendInvoicer] = {
@@ -40,8 +42,10 @@ AI_UNCOVERED_SPEND_INVOICER_VALUES: Set[AiUncoveredSpendInvoicer] = {
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

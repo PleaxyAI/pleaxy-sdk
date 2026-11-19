@@ -55,10 +55,10 @@ module Pleaxy
     # Azure only, when its connector is on - the connectionId returned by POST .../cloud-connections/azure/init. The audience is looked up server-side, never taken from the client.
     attr_accessor :azure_connection_id
 
-    # Azure only - the billing account of the billing profile picked from POST .../azure/discover (<guid>:<guid>_YYYY-MM-DD).
+    # Azure only - the billing account of the scope picked from POST .../azure/discover: an MCA account (<guid>:<guid>_YYYY-MM-DD) or an Enterprise Agreement enrollment number.
     attr_accessor :azure_billing_account_id
 
-    # Azure only - the billing profile picked from POST .../azure/discover.
+    # Azure only - the billing profile picked from POST .../azure/discover. Left out for an Enterprise Agreement enrollment.
     attr_accessor :azure_billing_profile_id
 
     # Not accepted here: verify uses only the tenant ID that POST .../azure/discover proved. Declared so that a request carrying it is refused (400) rather than silently stripped.

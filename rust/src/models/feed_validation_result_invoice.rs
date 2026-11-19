@@ -19,6 +19,8 @@ pub struct FeedValidationResultInvoice {
     pub buyer_org_id: Option<String>,
     #[serde(rename = "supplierOrgId", skip_serializing_if = "Option::is_none")]
     pub supplier_org_id: Option<String>,
+    #[serde(rename = "cloudProvider", skip_serializing_if = "Option::is_none")]
+    pub cloud_provider: Option<CloudProvider>,
     #[serde(rename = "lateFeeTerms", skip_serializing_if = "Option::is_none")]
     pub late_fee_terms: Option<models::LateFeeTerms>,
     #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
@@ -74,6 +76,8 @@ pub struct FeedValidationResultInvoice {
     pub payment_problem: Option<models::SupplierPaymentProblemView>,
     #[serde(rename = "dueDateSource", skip_serializing_if = "Option::is_none")]
     pub due_date_source: Option<DueDateSource>,
+    #[serde(rename = "earlyPayment", skip_serializing_if = "Option::is_none")]
+    pub early_payment: Option<models::InvoiceEarlyPayment>,
     #[serde(rename = "lastRemindedAt", skip_serializing_if = "Option::is_none")]
     pub last_reminded_at: Option<String>,
     #[serde(
@@ -134,6 +138,8 @@ pub struct FeedValidationResultInvoice {
     pub deductions: Option<Vec<models::InvoiceDeduction>>,
     #[serde(rename = "creditApplications", skip_serializing_if = "Option::is_none")]
     pub credit_applications: Option<Vec<models::InvoiceCreditApplication>>,
+    #[serde(rename = "heldBack", skip_serializing_if = "Option::is_none")]
+    pub held_back: Option<models::SupplierHeldBackView>,
     #[serde(rename = "creditNoteIds", skip_serializing_if = "Option::is_none")]
     pub credit_note_ids: Option<Vec<String>>,
     #[serde(rename = "creditVersion", skip_serializing_if = "Option::is_none")]
@@ -177,6 +183,7 @@ impl FeedValidationResultInvoice {
             supplier: None,
             buyer_org_id: None,
             supplier_org_id: None,
+            cloud_provider: None,
             late_fee_terms: None,
             amount: None,
             settlement: None,
@@ -203,6 +210,7 @@ impl FeedValidationResultInvoice {
             remittances: None,
             payment_problem: None,
             due_date_source: None,
+            early_payment: None,
             last_reminded_at: None,
             last_approver_reminded_at: None,
             rejection: None,
@@ -227,6 +235,7 @@ impl FeedValidationResultInvoice {
             invoice_kind: None,
             deductions: None,
             credit_applications: None,
+            held_back: None,
             credit_note_ids: None,
             credit_version: None,
             payment_currency_amount: None,
@@ -241,6 +250,24 @@ impl FeedValidationResultInvoice {
             buyer_workspace_id: None,
             next_reminder_at: None,
         }
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum CloudProvider {
+    #[serde(rename = "aws")]
+    Aws,
+    #[serde(rename = "gcp")]
+    Gcp,
+    #[serde(rename = "azure")]
+    Azure,
+    #[serde(rename = "oci")]
+    Oci,
+}
+
+impl Default for CloudProvider {
+    fn default() -> CloudProvider {
+        Self::Aws
     }
 }
 ///

@@ -943,7 +943,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row's Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only. */
+        /** [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row's Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Send paymentDate (YYYY-MM-DD, today or later: the day your run pays) to take early-payment discounts: an invoice whose deadline is on or after that date is exported at its amount due less the discount when takeEarlyPaymentDiscounts is true (default: the workspace's setting), and the file adds payment_date, early_payment_discount, early_payment_deadline and remittance_info (a line for the payment's reference); a run dated after the deadline pays the full amount. 400 PAYMENT_RUN_DATE_INVALID for a date in the past or over a year ahead. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated, X-Pleaxy-Export-Discounted (how many take a discount). 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only. */
         post: operations["ExportInvoicesForPayment"];
         delete?: never;
         options?: never;
@@ -1026,7 +1026,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** [Both] The payment signal for an invoice, for the supplier's cash application: status unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion, what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as GetInvoice. */
+        /** [Both] The payment signal for an invoice, for the supplier's cash application: status unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion, an early-payment discount the buyer took (earlyPaymentDiscount), what was withheld, netPaid after both, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as GetInvoice. */
         get: operations["GetInvoiceRemittance"];
         put?: never;
         /** [Buyer] Send the supplier a remittance for a paid invoice: { note?, file?: { fileId, fileName } }, at least one. The note (up to 1,000 characters) goes in the supplier's notification, which its Slack or Teams channel also gets when routed there; the file is a proof of payment uploaded with RequestRemittanceUpload. Up to 20 per invoice. 409 REMITTANCE_NEEDS_PAYMENT before a payment is recorded. Human session only. */
@@ -1149,7 +1149,7 @@ export interface paths {
         /** [Buyer] The workspace's direct AI provider connections (OpenAI, Anthropic, Mistral, Snowflake): status, last sync, and the key's last four characters - never the key. 'view' on suppliers or on invoices. */
         get: operations["ListAiProviders"];
         put?: never;
-        /** [Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers. */
+        /** [Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seat tools read only the month's active users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`, the client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers. */
         post: operations["CreateAiProvider"];
         delete?: never;
         options?: never;
@@ -1200,7 +1200,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** [Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create' on suppliers. */
+        /** [Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe, cursor, github, microsoft, slack, zoom) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create' on suppliers. */
         post: operations["AddAiProviderSupplier"];
         delete?: never;
         options?: never;
@@ -2593,10 +2593,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** [Buyer] Whether this invoice can be paid through Pleaxy with Stripe: { available, reason?, state?, paymentMethodType?, quote? }. `quote` is { amount, fee, total, currency } in dollars: the buyer covers Stripe's bank-transfer fee (0.8%, capped at $5) so the supplier receives the full invoice amount. `reason` explains why not (not_configured, not_approved, payment_locked, supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). `state` is the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded. */
+        /** [Buyer] Whether this invoice can be paid through Pleaxy with Stripe: { available, reason?, state?, paymentMethodType?, quote? }. `quote` is { amount, fee, total, currency } in dollars: the buyer covers Stripe's bank-transfer fee (0.8%, capped at $5) so the supplier receives the full invoice amount. `reason` explains why not (not_configured, not_approved, payment_locked, supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). `state` is the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded. `earlyPayment` is { percent, amount, deadline, quote } while a payment started today still earns the invoice's early-payment discount (quote: what the buyer pays taking it), or { ..., taken: true } on a payment that took it. */
         get: operations["GetStripePayment"];
         put?: never;
-        /** [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don't cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only. */
+        /** [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Send ?earlyPaymentDiscount=true to take the invoice's early-payment discount: allowed when today (the workspace's date the payment is initiated, not the day the bank transfer settles) is on or before its deadline, else 400 EARLY_PAYMENT_DEADLINE_PASSED or NO_EARLY_PAYMENT_DISCOUNT; the charge is then the amount due less the discount, plus Stripe's fee on that. Resumes an open Checkout (one opened with the other discount choice is expired and replaced); a replaced invoice its credit notes don't cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only. */
         post: operations["StartStripePayment"];
         delete?: never;
         options?: never;
@@ -2655,9 +2655,9 @@ export interface components {
             ociHomeRegion?: "af-casablanca-1" | "af-johannesburg-1" | "ap-batam-1" | "ap-chuncheon-1" | "ap-delhi-1" | "ap-hyderabad-1" | "ap-kulai-2" | "ap-melbourne-1" | "ap-mumbai-1" | "ap-osaka-1" | "ap-seoul-1" | "ap-singapore-1" | "ap-singapore-2" | "ap-sydney-1" | "ap-tokyo-1" | "ca-montreal-1" | "ca-toronto-1" | "eu-amsterdam-1" | "eu-frankfurt-1" | "eu-madrid-1" | "eu-madrid-3" | "eu-marseille-1" | "eu-milan-1" | "eu-paris-1" | "eu-stockholm-1" | "eu-turin-1" | "eu-zurich-1" | "il-jerusalem-1" | "me-abudhabi-1" | "me-dubai-1" | "me-jeddah-1" | "me-riyadh-1" | "mx-monterrey-1" | "mx-queretaro-1" | "sa-bogota-1" | "sa-santiago-1" | "sa-saopaulo-1" | "sa-valparaiso-1" | "sa-vinhedo-1" | "uk-cardiff-1" | "uk-london-1" | "us-ashburn-1" | "us-chicago-1" | "us-phoenix-1" | "us-saltlake-2" | "us-sanjose-1";
             /** @description Azure only, when its connector is on - the connectionId returned by POST .../cloud-connections/azure/init. The audience is looked up server-side, never taken from the client. */
             azureConnectionId?: string;
-            /** @description Azure only - the billing account of the billing profile picked from POST .../azure/discover (<guid>:<guid>_YYYY-MM-DD). */
+            /** @description Azure only - the billing account of the scope picked from POST .../azure/discover: an MCA account (<guid>:<guid>_YYYY-MM-DD) or an Enterprise Agreement enrollment number. */
             azureBillingAccountId?: string;
-            /** @description Azure only - the billing profile picked from POST .../azure/discover. */
+            /** @description Azure only - the billing profile picked from POST .../azure/discover. Left out for an Enterprise Agreement enrollment. */
             azureBillingProfileId?: string;
             /** @description Not accepted here: verify uses only the tenant ID that POST .../azure/discover proved. Declared so that a request carrying it is refused (400) rather than silently stripped. */
             azureTenantId?: string;
@@ -2674,10 +2674,10 @@ export interface components {
             azureTenantId: string;
             /** @description The app registration's Application (client) ID (GUID). */
             azureClientId: string;
-            /** @description The Microsoft Customer Agreement billing account ID (<guid>:<guid>_YYYY-MM-DD). Read directly: an app with only Billing profile reader can't list billing accounts. */
+            /** @description The billing account ID: a Microsoft Customer Agreement account (<guid>:<guid>_YYYY-MM-DD), or an Enterprise Agreement enrollment number (digits). Read directly: an app with only Billing profile reader can't list billing accounts. */
             azureBillingAccountId: string;
-            /** @description The billing profile ID the app has Billing profile reader on. */
-            azureBillingProfileId: string;
+            /** @description Microsoft Customer Agreement only: the billing profile ID the app has Billing profile reader on. Left out (or empty) for an Enterprise Agreement enrollment. */
+            azureBillingProfileId?: string;
         };
         InvoiceAutonomySettingsInput: {
             enabled?: boolean;
@@ -2832,7 +2832,7 @@ export interface components {
              * @description Who bills the line: a cloud or an AI provider.
              * @enum {string}
              */
-            invoicer: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            invoicer: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             /**
              * @description The model's maker.
              * @enum {string}
@@ -3012,7 +3012,7 @@ export interface components {
              * @description Who bills the line: a cloud or an AI provider.
              * @enum {string}
              */
-            invoicer: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            invoicer: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             /**
              * @description The model's maker.
              * @enum {string}
@@ -3327,6 +3327,7 @@ export interface components {
             rate?: number;
             rateDate?: string;
             withholdings?: components["schemas"]["BreakdownEntryInput"][];
+            earlyPaymentDiscount?: boolean;
             remittance?: components["schemas"]["SendRemittanceInput"];
             confirmReplaced?: boolean;
         };
@@ -3344,6 +3345,7 @@ export interface components {
             rate?: number;
             rateDate?: string;
             withholdings?: components["schemas"]["BreakdownEntryInput"][];
+            earlyPaymentDiscount?: boolean;
             confirmReplaced?: boolean;
         };
         RecordPaymentsBatchInput: {
@@ -3352,6 +3354,8 @@ export interface components {
         PaymentExportInput: {
             invoiceIds?: string[];
             confirmReplaced?: boolean;
+            paymentDate?: string;
+            takeEarlyPaymentDiscounts?: boolean;
         };
         RequestRemittanceUploadInput: {
             /** @enum {string} */
@@ -3378,12 +3382,17 @@ export interface components {
         GitHubConnectionInput: {
             org: string;
         };
+        ZoomConnectionInput: {
+            accountId: string;
+            clientId: string;
+        };
         CreateAiProviderInput: {
             provider: string;
             key?: string;
             snowflake?: components["schemas"]["SnowflakeConnectionInput"];
             databricks?: components["schemas"]["DatabricksConnectionInput"];
             github?: components["schemas"]["GitHubConnectionInput"];
+            zoom?: components["schemas"]["ZoomConnectionInput"];
             creditPrice?: components["schemas"]["CreditPriceInput"];
         };
         UpdateBudgetControlInput: {
@@ -3762,7 +3771,7 @@ export interface components {
              * @description Who bills the seats.
              * @enum {string}
              */
-            invoicer: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            invoicer: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "openrouter" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             /** @description The seat product, as the order line names it (its ai.model), e.g. chatgpt-enterprise. */
             product: string;
             /** @description The month, YYYY-MM. */
@@ -4021,7 +4030,7 @@ export interface components {
                 asOf?: string;
                 currency?: string;
                 /** @enum {string} */
-                source?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
+                source?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export" | "cost_explorer_month";
                 /** Format: double */
                 amountPayable?: number;
                 adjustments?: {
@@ -4031,6 +4040,7 @@ export interface components {
                     amount?: number;
                     currency?: string;
                 }[];
+                lines?: components["schemas"]["CloudUsageLine"][];
             };
             previousFinalizedInvoice?: {
                 periodLabel?: string;
@@ -4038,7 +4048,7 @@ export interface components {
                 totalAmount?: number;
                 currency?: string;
                 /** @enum {string} */
-                source?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
+                source?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export" | "cost_explorer_month";
             };
             currentPeriodEstimate?: {
                 /** Format: double */
@@ -4049,7 +4059,20 @@ export interface components {
                 /** @enum {string} */
                 confidence?: "estimate_in_progress";
                 currency?: string;
+                services?: components["schemas"]["CloudServiceCost"][];
             };
+        };
+        CloudUsageLine: {
+            service?: string;
+            sku?: string;
+            project?: string;
+            /** Format: double */
+            amount?: number;
+        };
+        CloudServiceCost: {
+            name?: string;
+            /** Format: double */
+            amount?: number;
         };
         AwsCloudConnectionInit: {
             connectionId?: string;
@@ -4254,7 +4277,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "ai_forecast_over_budget" | "ai_drafts_ready" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "rfq_invited" | "rfq_due_soon" | "rfq_deadline_moved" | "rfq_canceled" | "rfq_awarded" | "rfq_not_selected" | "rfq_question_answered" | "rfq_answer_received" | "rfq_deadline_passed" | "rfq_declined" | "rfq_question_asked" | "rfq_not_shortlisted" | "rfq_evaluate" | "rfq_evaluation_complete" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
+            type?: "ai_forecast_over_budget" | "ai_drafts_ready" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "rfq_invited" | "rfq_due_soon" | "rfq_deadline_moved" | "rfq_canceled" | "rfq_awarded" | "rfq_not_selected" | "rfq_question_answered" | "rfq_answer_received" | "rfq_deadline_passed" | "rfq_declined" | "rfq_question_asked" | "rfq_not_shortlisted" | "rfq_evaluate" | "rfq_evaluation_complete" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "credit_request_received" | "credit_request_answered" | "credit_request_attention" | "recovery_weekly_digest" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "contract_renewal_notice_due" | "contract_termination_notice_due" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -4592,7 +4615,7 @@ export interface components {
         };
         AiLineScope: {
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             /** @enum {string} */
             vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "microsoft" | "google" | "meta" | "amazon" | "deepseek" | "nvidia";
             model?: string;
@@ -4991,6 +5014,8 @@ export interface components {
             buyerOrgId?: string;
             supplierOrgId?: string;
             createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
@@ -5019,13 +5044,14 @@ export interface components {
             usageSimulatedAfterDisconnect?: boolean;
             usageCurrency?: string;
             /** @enum {string} */
-            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export" | "cost_explorer_month";
+            usageLines?: components["schemas"]["InvoiceUsageLine"][];
             /** Format: double */
             tolerancePct?: number;
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice" | "no_usage_figure";
             /** @enum {string} */
             matchBasis?: "purchase_order" | "no_po_history";
             noPoComparison?: components["schemas"]["NoPoComparison"];
@@ -5073,6 +5099,7 @@ export interface components {
             previousExportedAt?: string;
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
+            earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -5083,7 +5110,8 @@ export interface components {
             duplicatesChecked?: boolean;
             hasLookupRows?: boolean;
             /** @enum {string} */
-            source?: "manual" | "po-flip" | "direct" | "feed";
+            source?: "manual" | "po-flip" | "direct" | "feed" | "cloud_sync";
+            cloudConnectionId?: string;
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
@@ -5107,6 +5135,7 @@ export interface components {
             invoiceKind?: "prepayment";
             deductions?: components["schemas"]["InvoiceDeduction"][];
             creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            heldBack?: components["schemas"]["InvoiceHeldBack"];
             creditNoteIds?: string[];
             /** Format: double */
             creditVersion?: number;
@@ -5148,7 +5177,7 @@ export interface components {
             charge?: number;
             ai?: {
                 /** @enum {string} */
-                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
                 /** @enum {string} */
                 vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "microsoft" | "google" | "meta" | "amazon" | "deepseek" | "nvidia";
                 model?: string;
@@ -5164,6 +5193,13 @@ export interface components {
             taxId?: string;
             taxIdLabel?: string;
         };
+        InvoiceUsageLine: {
+            description?: string;
+            /** Format: double */
+            amount?: number;
+            /** Format: double */
+            usageAmount?: number;
+        };
         NoPoComparison: {
             /** Format: double */
             average?: number;
@@ -5176,7 +5212,7 @@ export interface components {
         };
         InvoiceControlFinding: {
             /** @enum {string} */
-            code?: "usage_grew" | "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled" | "ai_rate_above_contract" | "ai_rate_above_list" | "ai_price_cut_not_applied" | "ai_cache_discount_missing" | "ai_batch_discount_missing" | "ai_tokens_mismatch" | "ai_capacity_underused" | "ai_double_billed" | "ai_commitment_exceeded" | "ai_seats_above_active";
+            code?: "usage_grew" | "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "contract_rate_not_checked" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled" | "contract_milestone_unknown" | "contract_milestone_already_billed" | "contract_milestone_exceeded" | "contract_milestone_unconfirmed" | "ai_rate_above_contract" | "ai_rate_above_list" | "ai_price_cut_not_applied" | "ai_cache_discount_missing" | "ai_batch_discount_missing" | "ai_tokens_mismatch" | "ai_capacity_underused" | "ai_double_billed" | "ai_commitment_exceeded" | "ai_seats_above_active";
             message?: string;
             messageId?: string;
             params?: components["schemas"]["ServerMessageParams"];
@@ -5218,6 +5254,14 @@ export interface components {
                 rateDate?: string;
             };
             withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
+            earlyPaymentDiscount?: {
+                /** Format: double */
+                percent?: number;
+                /** Format: double */
+                amount?: number;
+                deadline?: string;
+            };
+            scheduledPaymentDate?: string;
         };
         InvoiceStripePayment: {
             accountId?: string;
@@ -5236,6 +5280,14 @@ export interface components {
             startedBy?: string;
             startedByName?: string;
             succeededAt?: string;
+            earlyPaymentDiscount?: {
+                /** Format: double */
+                percent?: number;
+                /** Format: double */
+                amount?: number;
+                deadline?: string;
+            };
+            initiatedDate?: string;
         };
         InvoiceBreakdownEntry: {
             description?: string;
@@ -5261,7 +5313,7 @@ export interface components {
         };
         PaymentHistoryEntry: {
             /** @enum {string} */
-            action?: "exported" | "recorded" | "export_withdrawn" | "record_withdrawn" | "stripe_started" | "stripe_released" | "stripe_failed" | "stripe_succeeded" | "remittance_sent" | "credit_applied" | "credit_removed" | "settled" | "settlement_undone" | "problem_reported" | "problem_answered";
+            action?: "exported" | "recorded" | "export_withdrawn" | "record_withdrawn" | "stripe_started" | "stripe_released" | "stripe_failed" | "stripe_succeeded" | "remittance_sent" | "credit_applied" | "credit_removed" | "settled" | "settlement_undone" | "problem_reported" | "problem_answered" | "held_back_paid";
             at?: string;
             by?: string;
             byName?: string;
@@ -5270,6 +5322,8 @@ export interface components {
             creditNoteId?: string;
             /** Format: double */
             amount?: number;
+            paymentDate?: string;
+            reference?: string;
             solePayer?: components["schemas"]["SolePayerWaiverRecord"];
             approvedByOthers?: components["schemas"]["ApprovedByOthersRecord"];
             record?: {
@@ -5288,6 +5342,13 @@ export interface components {
                     /** Format: double */
                     rate?: number;
                     rateDate?: string;
+                };
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
                 };
             };
         };
@@ -5338,6 +5399,12 @@ export interface components {
             };
             resolvedAt?: string;
         };
+        InvoiceEarlyPayment: {
+            /** Format: double */
+            percent?: number;
+            deadline?: string;
+            contractId?: string;
+        };
         InvoiceRejection: {
             /** @enum {string} */
             reasonCode?: "other" | "amount_incorrect" | "not_ordered_or_not_received" | "duplicate" | "missing_or_wrong_po" | "wrong_billing_entity";
@@ -5377,6 +5444,27 @@ export interface components {
             appliedBy?: string;
             appliedByName?: string;
             auto?: boolean;
+            answersHold?: boolean;
+        };
+        InvoiceHeldBack: {
+            /** Format: double */
+            amount?: number;
+            /** Format: double */
+            net?: number;
+            /** Format: double */
+            tax?: number;
+            claimId?: string;
+            decisionId?: string;
+            at?: string;
+            /** @enum {string} */
+            state?: "paid" | "carried" | "open" | "answered" | "released";
+            carriedBy?: string;
+            underProtest?: boolean;
+            paidLater?: {
+                paymentDate?: string;
+                reference?: string;
+            };
+            closedAt?: string;
         };
         InvoiceCurrencyAmount: {
             currencyCode?: string;
@@ -5509,6 +5597,8 @@ export interface components {
             buyerOrgId?: string;
             supplierOrgId?: string;
             createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
@@ -5539,6 +5629,7 @@ export interface components {
             paidAt?: string;
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
+            earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -5549,7 +5640,7 @@ export interface components {
             duplicatesChecked?: boolean;
             hasLookupRows?: boolean;
             /** @enum {string} */
-            source?: "manual" | "po-flip" | "direct" | "feed";
+            source?: "manual" | "po-flip" | "direct" | "feed" | "cloud_sync";
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
@@ -5579,6 +5670,7 @@ export interface components {
             bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
+            heldBack?: components["schemas"]["SupplierHeldBackView"];
             settlement?: components["schemas"]["SupplierSettlementView"];
             paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
             bankDetailsConfirmation?: components["schemas"]["SupplierBankDetailsConfirmationView"];
@@ -5601,6 +5693,13 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -5611,6 +5710,13 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
             };
             withdrawnPayment?: {
                 withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
@@ -5629,6 +5735,13 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -5639,10 +5752,32 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
             };
             remittances?: components["schemas"]["SupplierRemittanceView"][];
             buyerWorkspaceId?: string;
             nextReminderAt?: string;
+        };
+        SupplierHeldBackView: {
+            at?: string;
+            /** Format: double */
+            amount?: number;
+            /** @enum {string} */
+            state?: "paid" | "carried" | "open" | "answered" | "released";
+            carriedBy?: string;
+            paidLater?: {
+                paymentDate?: string;
+                reference?: string;
+            };
+            closedAt?: string;
+            /** Format: double */
+            held?: number;
         };
         SupplierSettlementView: {
             at?: string;
@@ -5830,6 +5965,8 @@ export interface components {
                 supplier?: string;
                 buyerOrgId?: string;
                 supplierOrgId?: string;
+                /** @enum {string} */
+                cloudProvider?: "aws" | "gcp" | "azure" | "oci";
                 lateFeeTerms?: components["schemas"]["LateFeeTerms"];
                 /** Format: double */
                 amount?: number;
@@ -5877,6 +6014,13 @@ export interface components {
                         rate?: number;
                         rateDate?: string;
                     };
+                    earlyPaymentDiscount?: {
+                        /** Format: double */
+                        percent?: number;
+                        /** Format: double */
+                        amount?: number;
+                        deadline?: string;
+                    };
                     /** @enum {string} */
                     status?: "recorded";
                 } | {
@@ -5887,11 +6031,19 @@ export interface components {
                     /** @enum {string} */
                     paymentMethodType?: "card" | "us_bank_account";
                     succeededAt?: string;
+                    earlyPaymentDiscount?: {
+                        /** Format: double */
+                        percent?: number;
+                        /** Format: double */
+                        amount?: number;
+                        deadline?: string;
+                    };
                 };
                 remittances?: components["schemas"]["SupplierRemittanceView"][];
                 paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
                 /** @enum {string} */
                 dueDateSource?: "default" | "stated";
+                earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
                 lastRemindedAt?: string;
                 lastApproverRemindedAt?: string;
                 rejection?: components["schemas"]["InvoiceRejection"];
@@ -5921,6 +6073,7 @@ export interface components {
                 invoiceKind?: "prepayment";
                 deductions?: components["schemas"]["InvoiceDeduction"][];
                 creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+                heldBack?: components["schemas"]["SupplierHeldBackView"];
                 creditNoteIds?: string[];
                 /** Format: double */
                 creditVersion?: number;
@@ -5949,6 +6102,13 @@ export interface components {
                         rate?: number;
                         rateDate?: string;
                     };
+                    earlyPaymentDiscount?: {
+                        /** Format: double */
+                        percent?: number;
+                        /** Format: double */
+                        amount?: number;
+                        deadline?: string;
+                    };
                     /** @enum {string} */
                     status?: "recorded";
                 } | {
@@ -5959,6 +6119,13 @@ export interface components {
                     /** @enum {string} */
                     paymentMethodType?: "card" | "us_bank_account";
                     succeededAt?: string;
+                    earlyPaymentDiscount?: {
+                        /** Format: double */
+                        percent?: number;
+                        /** Format: double */
+                        amount?: number;
+                        deadline?: string;
+                    };
                 };
                 buyerWorkspaceId?: string;
                 nextReminderAt?: string;
@@ -5970,7 +6137,7 @@ export interface components {
                 /** Format: double */
                 poLineNo?: number;
                 /** @enum {string} */
-                code?: "usage_grew" | "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled" | "ai_rate_above_contract" | "ai_rate_above_list" | "ai_price_cut_not_applied" | "ai_cache_discount_missing" | "ai_batch_discount_missing" | "ai_tokens_mismatch" | "ai_capacity_underused" | "ai_double_billed" | "ai_commitment_exceeded" | "ai_seats_above_active";
+                code?: "usage_grew" | "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "contract_rate_not_checked" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled" | "contract_milestone_unknown" | "contract_milestone_already_billed" | "contract_milestone_exceeded" | "contract_milestone_unconfirmed" | "ai_rate_above_contract" | "ai_rate_above_list" | "ai_price_cut_not_applied" | "ai_cache_discount_missing" | "ai_batch_discount_missing" | "ai_tokens_mismatch" | "ai_capacity_underused" | "ai_double_billed" | "ai_commitment_exceeded" | "ai_seats_above_active";
                 message?: string;
                 /** Format: double */
                 invoiceLine?: number;
@@ -6024,6 +6191,17 @@ export interface components {
                 }[];
                 /** Format: double */
                 defaultDueInDays?: number;
+                defaultDueRule?: {
+                    /** @enum {string} */
+                    from?: "end_of_month";
+                    /** Format: double */
+                    days?: number;
+                } | {
+                    /** @enum {string} */
+                    from?: "next_month_day";
+                    /** Format: double */
+                    day?: number;
+                };
                 billToCompanyName?: string;
                 paidDeposits?: components["schemas"]["OpenPurchaseOrderDeposit"][];
             }[];
@@ -6148,6 +6326,12 @@ export interface components {
                 /** Format: double */
                 adviceVersion?: number;
                 withheld?: components["schemas"]["InvoiceBreakdownEntry"][];
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                };
                 netPaid?: {
                     /** Format: double */
                     amount?: number;
@@ -6282,7 +6466,7 @@ export interface components {
         AiProvider: {
             id: string;
             /** @enum {string} */
-            provider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            provider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             accountLabel?: string;
             keyHint?: string;
             /** @enum {string} */
@@ -6304,6 +6488,10 @@ export interface components {
             };
             github?: {
                 org?: string;
+            };
+            zoom?: {
+                accountId?: string;
+                clientId?: string;
             };
             creditPrice?: {
                 /** Format: double */
@@ -6693,7 +6881,7 @@ export interface components {
             notReadable?: {
                 invoicerId?: string;
                 /** @enum {string} */
-                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
                 label?: string;
                 /** @enum {string} */
                 reason?: "needs_current_cost" | "not_synced_yet";
@@ -6714,7 +6902,7 @@ export interface components {
             key?: string;
             label?: string;
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             invoicerId?: string;
             currency?: string;
             /** Format: double */
@@ -6772,7 +6960,7 @@ export interface components {
         AiUsageLine: {
             invoicerId?: string;
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             /** @enum {string} */
             vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "microsoft" | "google" | "meta" | "amazon" | "deepseek" | "nvidia";
             model?: string;
@@ -6843,7 +7031,7 @@ export interface components {
         };
         AiRateCardEntry: {
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             /** @enum {string} */
             vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "microsoft" | "google" | "meta" | "amazon" | "deepseek" | "nvidia";
             model?: string;
@@ -6862,7 +7050,7 @@ export interface components {
         AiPoLineSuggestions: {
             invoicerId?: string;
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             period?: string;
             provider?: string;
             supplierConnectionId?: string;
@@ -6871,7 +7059,7 @@ export interface components {
         AiPoLineSuggestion: {
             ai?: {
                 /** @enum {string} */
-                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
                 /** @enum {string} */
                 vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "microsoft" | "google" | "meta" | "amazon" | "deepseek" | "nvidia";
                 model?: string;
@@ -6905,7 +7093,7 @@ export interface components {
         AiUncoveredSpend: {
             invoicerId?: string;
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             label?: string;
             currency?: string;
             /** Format: double */
@@ -6927,7 +7115,7 @@ export interface components {
             kind?: "batch" | "cache" | "reserve";
             invoicerId?: string;
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             label?: string;
             /** @enum {string} */
             vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "microsoft" | "google" | "meta" | "amazon" | "deepseek" | "nvidia";
@@ -6992,7 +7180,7 @@ export interface components {
             description?: string;
             ai?: {
                 /** @enum {string} */
-                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
                 /** @enum {string} */
                 vendor?: "unknown" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "snowflake" | "databricks" | "microsoft" | "google" | "meta" | "amazon" | "deepseek" | "nvidia";
                 model?: string;
@@ -7113,7 +7301,7 @@ export interface components {
         };
         AiSeatCount: {
             /** @enum {string} */
-            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             product?: string;
             period?: string;
             /** Format: double */
@@ -7923,7 +8111,7 @@ export interface components {
             id: string;
             at?: string;
             /** @enum {string} */
-            kind?: "approved" | "rejected" | "approval" | "received" | "payment" | "replacement" | "corrects" | "control_findings" | "match" | "sent_for_approval" | "reminder" | "comment";
+            kind?: "approved" | "rejected" | "approval" | "received" | "payment" | "replacement" | "corrects" | "control_findings" | "match" | "sent_for_approval" | "reminder" | "held_back" | "hold_ended" | "comment";
             actorName?: string;
             actorKey?: string;
             /** @enum {string} */
@@ -8174,6 +8362,24 @@ export interface components {
                 /** @enum {string} */
                 currency?: "USD";
             };
+            earlyPayment?: {
+                /** Format: double */
+                percent?: number;
+                /** Format: double */
+                amount?: number;
+                deadline?: string;
+                quote?: {
+                    /** Format: double */
+                    amount?: number;
+                    /** Format: double */
+                    fee?: number;
+                    /** Format: double */
+                    total?: number;
+                    /** @enum {string} */
+                    currency?: "USD";
+                };
+                taken?: boolean;
+            };
         };
         ApiError: {
             /** @description The HTTP status, repeated. */
@@ -8229,7 +8435,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8283,7 +8489,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8334,7 +8540,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8391,7 +8597,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8444,7 +8650,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8572,6 +8778,8 @@ export interface components {
             buyerOrgId?: string;
             supplierOrgId?: string;
             createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
@@ -8600,13 +8808,14 @@ export interface components {
             usageSimulatedAfterDisconnect?: boolean;
             usageCurrency?: string;
             /** @enum {string} */
-            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export" | "cost_explorer_month";
+            usageLines?: components["schemas"]["InvoiceUsageLine"][];
             /** Format: double */
             tolerancePct?: number;
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice" | "no_usage_figure";
             /** @enum {string} */
             matchBasis?: "purchase_order" | "no_po_history";
             noPoComparison?: components["schemas"]["NoPoComparison"];
@@ -8654,6 +8863,7 @@ export interface components {
             previousExportedAt?: string;
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
+            earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -8664,7 +8874,8 @@ export interface components {
             duplicatesChecked?: boolean;
             hasLookupRows?: boolean;
             /** @enum {string} */
-            source?: "manual" | "po-flip" | "direct" | "feed";
+            source?: "manual" | "po-flip" | "direct" | "feed" | "cloud_sync";
+            cloudConnectionId?: string;
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
@@ -8688,6 +8899,7 @@ export interface components {
             invoiceKind?: "prepayment";
             deductions?: components["schemas"]["InvoiceDeduction"][];
             creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            heldBack?: components["schemas"]["InvoiceHeldBack"];
             creditNoteIds?: string[];
             /** Format: double */
             creditVersion?: number;
@@ -8712,6 +8924,8 @@ export interface components {
             buyerOrgId?: string;
             supplierOrgId?: string;
             createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
@@ -8742,6 +8956,7 @@ export interface components {
             paidAt?: string;
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
+            earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -8752,7 +8967,7 @@ export interface components {
             duplicatesChecked?: boolean;
             hasLookupRows?: boolean;
             /** @enum {string} */
-            source?: "manual" | "po-flip" | "direct" | "feed";
+            source?: "manual" | "po-flip" | "direct" | "feed" | "cloud_sync";
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
@@ -8782,6 +8997,7 @@ export interface components {
             bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
+            heldBack?: components["schemas"]["SupplierHeldBackView"];
             settlement?: components["schemas"]["SupplierSettlementView"];
             paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
             bankDetailsConfirmation?: components["schemas"]["SupplierBankDetailsConfirmationView"];
@@ -8804,6 +9020,13 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -8814,6 +9037,13 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
             };
             withdrawnPayment?: {
                 withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
@@ -8832,6 +9062,13 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -8842,6 +9079,13 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
             };
             remittances?: components["schemas"]["SupplierRemittanceView"][];
             buyerWorkspaceId?: string;
@@ -9180,6 +9424,8 @@ export interface components {
             buyerOrgId?: string;
             supplierOrgId?: string;
             createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
@@ -9208,13 +9454,14 @@ export interface components {
             usageSimulatedAfterDisconnect?: boolean;
             usageCurrency?: string;
             /** @enum {string} */
-            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export" | "cost_explorer_month";
+            usageLines?: components["schemas"]["InvoiceUsageLine"][];
             /** Format: double */
             tolerancePct?: number;
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice" | "no_usage_figure";
             /** @enum {string} */
             matchBasis?: "purchase_order" | "no_po_history";
             noPoComparison?: components["schemas"]["NoPoComparison"];
@@ -9262,6 +9509,7 @@ export interface components {
             previousExportedAt?: string;
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
+            earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -9272,7 +9520,8 @@ export interface components {
             duplicatesChecked?: boolean;
             hasLookupRows?: boolean;
             /** @enum {string} */
-            source?: "manual" | "po-flip" | "direct" | "feed";
+            source?: "manual" | "po-flip" | "direct" | "feed" | "cloud_sync";
+            cloudConnectionId?: string;
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
@@ -9296,6 +9545,7 @@ export interface components {
             invoiceKind?: "prepayment";
             deductions?: components["schemas"]["InvoiceDeduction"][];
             creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            heldBack?: components["schemas"]["InvoiceHeldBack"];
             creditNoteIds?: string[];
             /** Format: double */
             creditVersion?: number;
@@ -9320,6 +9570,8 @@ export interface components {
             buyerOrgId?: string;
             supplierOrgId?: string;
             createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
@@ -9350,6 +9602,7 @@ export interface components {
             paidAt?: string;
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
+            earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -9360,7 +9613,7 @@ export interface components {
             duplicatesChecked?: boolean;
             hasLookupRows?: boolean;
             /** @enum {string} */
-            source?: "manual" | "po-flip" | "direct" | "feed";
+            source?: "manual" | "po-flip" | "direct" | "feed" | "cloud_sync";
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
@@ -9390,6 +9643,7 @@ export interface components {
             bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
+            heldBack?: components["schemas"]["SupplierHeldBackView"];
             settlement?: components["schemas"]["SupplierSettlementView"];
             paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
             bankDetailsConfirmation?: components["schemas"]["SupplierBankDetailsConfirmationView"];
@@ -9412,6 +9666,13 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -9422,6 +9683,13 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
             };
             withdrawnPayment?: {
                 withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
@@ -9440,6 +9708,13 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -9450,6 +9725,13 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
             };
             remittances?: components["schemas"]["SupplierRemittanceView"][];
             buyerWorkspaceId?: string;
@@ -9630,6 +9912,8 @@ export interface components {
             buyerOrgId?: string;
             supplierOrgId?: string;
             createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
@@ -9658,13 +9942,14 @@ export interface components {
             usageSimulatedAfterDisconnect?: boolean;
             usageCurrency?: string;
             /** @enum {string} */
-            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export" | "cost_explorer_month";
+            usageLines?: components["schemas"]["InvoiceUsageLine"][];
             /** Format: double */
             tolerancePct?: number;
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice" | "no_usage_figure";
             /** @enum {string} */
             matchBasis?: "purchase_order" | "no_po_history";
             noPoComparison?: components["schemas"]["NoPoComparison"];
@@ -9712,6 +9997,7 @@ export interface components {
             previousExportedAt?: string;
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
+            earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -9722,7 +10008,8 @@ export interface components {
             duplicatesChecked?: boolean;
             hasLookupRows?: boolean;
             /** @enum {string} */
-            source?: "manual" | "po-flip" | "direct" | "feed";
+            source?: "manual" | "po-flip" | "direct" | "feed" | "cloud_sync";
+            cloudConnectionId?: string;
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
@@ -9746,6 +10033,7 @@ export interface components {
             invoiceKind?: "prepayment";
             deductions?: components["schemas"]["InvoiceDeduction"][];
             creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            heldBack?: components["schemas"]["InvoiceHeldBack"];
             creditNoteIds?: string[];
             /** Format: double */
             creditVersion?: number;
@@ -9770,6 +10058,8 @@ export interface components {
             buyerOrgId?: string;
             supplierOrgId?: string;
             createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
@@ -9800,6 +10090,7 @@ export interface components {
             paidAt?: string;
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
+            earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -9810,7 +10101,7 @@ export interface components {
             duplicatesChecked?: boolean;
             hasLookupRows?: boolean;
             /** @enum {string} */
-            source?: "manual" | "po-flip" | "direct" | "feed";
+            source?: "manual" | "po-flip" | "direct" | "feed" | "cloud_sync";
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
@@ -9840,6 +10131,7 @@ export interface components {
             bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
+            heldBack?: components["schemas"]["SupplierHeldBackView"];
             settlement?: components["schemas"]["SupplierSettlementView"];
             paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
             bankDetailsConfirmation?: components["schemas"]["SupplierBankDetailsConfirmationView"];
@@ -9862,6 +10154,13 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -9872,6 +10171,13 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
             };
             withdrawnPayment?: {
                 withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
@@ -9890,6 +10196,13 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -9900,6 +10213,13 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
+                earlyPaymentDiscount?: {
+                    /** Format: double */
+                    percent?: number;
+                    /** Format: double */
+                    amount?: number;
+                    deadline?: string;
+                };
             };
             remittances?: components["schemas"]["SupplierRemittanceView"][];
             buyerWorkspaceId?: string;
@@ -9913,6 +10233,8 @@ export interface components {
             buyerOrgId?: string;
             supplierOrgId?: string;
             createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
@@ -9941,13 +10263,14 @@ export interface components {
             usageSimulatedAfterDisconnect?: boolean;
             usageCurrency?: string;
             /** @enum {string} */
-            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export" | "cost_explorer_month";
+            usageLines?: components["schemas"]["InvoiceUsageLine"][];
             /** Format: double */
             tolerancePct?: number;
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice" | "no_usage_figure";
             /** @enum {string} */
             matchBasis?: "purchase_order" | "no_po_history";
             noPoComparison?: components["schemas"]["NoPoComparison"];
@@ -9995,6 +10318,7 @@ export interface components {
             previousExportedAt?: string;
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
+            earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -10005,7 +10329,8 @@ export interface components {
             duplicatesChecked?: boolean;
             hasLookupRows?: boolean;
             /** @enum {string} */
-            source?: "manual" | "po-flip" | "direct" | "feed";
+            source?: "manual" | "po-flip" | "direct" | "feed" | "cloud_sync";
+            cloudConnectionId?: string;
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
@@ -10029,6 +10354,7 @@ export interface components {
             invoiceKind?: "prepayment";
             deductions?: components["schemas"]["InvoiceDeduction"][];
             creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            heldBack?: components["schemas"]["InvoiceHeldBack"];
             creditNoteIds?: string[];
             /** Format: double */
             creditVersion?: number;
@@ -10053,6 +10379,8 @@ export interface components {
             buyerOrgId?: string;
             supplierOrgId?: string;
             createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
@@ -10081,13 +10409,14 @@ export interface components {
             usageSimulatedAfterDisconnect?: boolean;
             usageCurrency?: string;
             /** @enum {string} */
-            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export" | "cost_explorer_month";
+            usageLines?: components["schemas"]["InvoiceUsageLine"][];
             /** Format: double */
             tolerancePct?: number;
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice" | "no_usage_figure";
             /** @enum {string} */
             matchBasis?: "purchase_order" | "no_po_history";
             noPoComparison?: components["schemas"]["NoPoComparison"];
@@ -10135,6 +10464,7 @@ export interface components {
             previousExportedAt?: string;
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
+            earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -10145,7 +10475,8 @@ export interface components {
             duplicatesChecked?: boolean;
             hasLookupRows?: boolean;
             /** @enum {string} */
-            source?: "manual" | "po-flip" | "direct" | "feed";
+            source?: "manual" | "po-flip" | "direct" | "feed" | "cloud_sync";
+            cloudConnectionId?: string;
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
@@ -10169,6 +10500,7 @@ export interface components {
             invoiceKind?: "prepayment";
             deductions?: components["schemas"]["InvoiceDeduction"][];
             creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            heldBack?: components["schemas"]["InvoiceHeldBack"];
             creditNoteIds?: string[];
             /** Format: double */
             creditVersion?: number;
@@ -10198,6 +10530,8 @@ export interface components {
             buyerOrgId?: string;
             supplierOrgId?: string;
             createdAt?: string;
+            /** @enum {string} */
+            cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             /** Format: double */
             amount?: number;
@@ -10226,13 +10560,14 @@ export interface components {
             usageSimulatedAfterDisconnect?: boolean;
             usageCurrency?: string;
             /** @enum {string} */
-            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export";
+            usageSource?: "aws_invoice" | "billing_export" | "mca_invoice" | "ea_balance" | "usage_api_closed_month" | "osp_invoice" | "focus_export" | "cost_explorer_month";
+            usageLines?: components["schemas"]["InvoiceUsageLine"][];
             /** Format: double */
             tolerancePct?: number;
             /** @enum {string} */
             matchStatus?: "pending" | "matched" | "discrepancy" | "unverified";
             /** @enum {string} */
-            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice";
+            unverifiedReason?: "no_purchase_order" | "no_billing_connection" | "debit_note" | "payer_account_unclear" | "no_po_first_invoice" | "no_usage_figure";
             /** @enum {string} */
             matchBasis?: "purchase_order" | "no_po_history";
             noPoComparison?: components["schemas"]["NoPoComparison"];
@@ -10280,6 +10615,7 @@ export interface components {
             previousExportedAt?: string;
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
+            earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -10290,7 +10626,8 @@ export interface components {
             duplicatesChecked?: boolean;
             hasLookupRows?: boolean;
             /** @enum {string} */
-            source?: "manual" | "po-flip" | "direct" | "feed";
+            source?: "manual" | "po-flip" | "direct" | "feed" | "cloud_sync";
+            cloudConnectionId?: string;
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
@@ -10314,6 +10651,7 @@ export interface components {
             invoiceKind?: "prepayment";
             deductions?: components["schemas"]["InvoiceDeduction"][];
             creditApplications?: components["schemas"]["InvoiceCreditApplication"][];
+            heldBack?: components["schemas"]["InvoiceHeldBack"];
             creditNoteIds?: string[];
             /** Format: double */
             creditVersion?: number;
@@ -10397,7 +10735,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -10426,7 +10764,7 @@ export interface components {
         };
         ListAiInvoicersItem: {
             /** @enum {string} */
-            id: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft";
+            id: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
             name?: string;
             legalEntities?: {
                 /** @enum {string} */
@@ -16412,6 +16750,7 @@ export interface operations {
         parameters: {
             query?: {
                 confirmReplaced?: string;
+                earlyPaymentDiscount?: string;
             };
             header?: never;
             path: {

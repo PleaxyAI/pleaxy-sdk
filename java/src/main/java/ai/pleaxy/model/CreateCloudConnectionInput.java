@@ -680,7 +680,7 @@ public class CreateCloudConnectionInput {
   }
 
   /**
-   * Azure only - the billing account of the billing profile picked from POST .../azure/discover (&lt;guid&gt;:&lt;guid&gt;_YYYY-MM-DD).
+   * Azure only - the billing account of the scope picked from POST .../azure/discover: an MCA account (&lt;guid&gt;:&lt;guid&gt;_YYYY-MM-DD) or an Enterprise Agreement enrollment number.
    * @return azureBillingAccountId
    */
   @javax.annotation.Nullable
@@ -704,7 +704,7 @@ public class CreateCloudConnectionInput {
   }
 
   /**
-   * Azure only - the billing profile picked from POST .../azure/discover.
+   * Azure only - the billing profile picked from POST .../azure/discover. Left out for an Enterprise Agreement enrollment.
    * @return azureBillingProfileId
    */
   @javax.annotation.Nullable

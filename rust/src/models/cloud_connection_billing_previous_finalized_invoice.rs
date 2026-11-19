@@ -50,6 +50,8 @@ pub enum Source {
     OspInvoice,
     #[serde(rename = "focus_export")]
     FocusExport,
+    #[serde(rename = "cost_explorer_month")]
+    CostExplorerMonth,
 }
 
 impl Default for Source {

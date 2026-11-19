@@ -80,6 +80,8 @@ pub enum Code {
     ContractNotActive,
     #[serde(rename = "contract_check_failed")]
     ContractCheckFailed,
+    #[serde(rename = "contract_rate_not_checked")]
+    ContractRateNotChecked,
     #[serde(rename = "receipt_missing")]
     ReceiptMissing,
     #[serde(rename = "receipt_qty_exceeded")]
@@ -94,6 +96,14 @@ pub enum Code {
     FixedDiscountMissing,
     #[serde(rename = "commitment_shortfall_overbilled")]
     CommitmentShortfallOverbilled,
+    #[serde(rename = "contract_milestone_unknown")]
+    ContractMilestoneUnknown,
+    #[serde(rename = "contract_milestone_already_billed")]
+    ContractMilestoneAlreadyBilled,
+    #[serde(rename = "contract_milestone_exceeded")]
+    ContractMilestoneExceeded,
+    #[serde(rename = "contract_milestone_unconfirmed")]
+    ContractMilestoneUnconfirmed,
     #[serde(rename = "ai_rate_above_contract")]
     AiRateAboveContract,
     #[serde(rename = "ai_rate_above_list")]

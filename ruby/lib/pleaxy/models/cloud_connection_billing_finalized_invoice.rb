@@ -29,6 +29,8 @@ module Pleaxy
 
     attr_accessor :adjustments
 
+    attr_accessor :lines
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -60,7 +62,8 @@ module Pleaxy
         :'currency' => :'currency',
         :'source' => :'source',
         :'amount_payable' => :'amountPayable',
-        :'adjustments' => :'adjustments'
+        :'adjustments' => :'adjustments',
+        :'lines' => :'lines'
       }
     end
 
@@ -78,7 +81,8 @@ module Pleaxy
         :'currency' => :'String',
         :'source' => :'String',
         :'amount_payable' => :'Float',
-        :'adjustments' => :'Array<CloudConnectionBillingFinalizedInvoiceAdjustmentsInner>'
+        :'adjustments' => :'Array<CloudConnectionBillingFinalizedInvoiceAdjustmentsInner>',
+        :'lines' => :'Array<CloudUsageLine>'
       }
     end
 
@@ -132,6 +136,12 @@ module Pleaxy
           self.adjustments = value
         end
       end
+
+      if attributes.key?(:'lines')
+        if (value = attributes[:'lines']).is_a?(Array)
+          self.lines = value
+        end
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -146,7 +156,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      source_validator = EnumAttributeValidator.new('String', ["aws_invoice", "billing_export", "mca_invoice", "ea_balance", "usage_api_closed_month", "osp_invoice", "focus_export"])
+      source_validator = EnumAttributeValidator.new('String', ["aws_invoice", "billing_export", "mca_invoice", "ea_balance", "usage_api_closed_month", "osp_invoice", "focus_export", "cost_explorer_month"])
       return false unless source_validator.valid?(@source)
       true
     end
@@ -154,7 +164,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] source Object to be assigned
     def source=(source)
-      validator = EnumAttributeValidator.new('String', ["aws_invoice", "billing_export", "mca_invoice", "ea_balance", "usage_api_closed_month", "osp_invoice", "focus_export"])
+      validator = EnumAttributeValidator.new('String', ["aws_invoice", "billing_export", "mca_invoice", "ea_balance", "usage_api_closed_month", "osp_invoice", "focus_export", "cost_explorer_month"])
       unless validator.valid?(source)
         fail ArgumentError, "invalid value for \"source\", must be one of #{validator.allowable_values}."
       end
@@ -172,7 +182,8 @@ module Pleaxy
           currency == o.currency &&
           source == o.source &&
           amount_payable == o.amount_payable &&
-          adjustments == o.adjustments
+          adjustments == o.adjustments &&
+          lines == o.lines
     end
 
     # @see the `==` method
@@ -184,7 +195,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [period_label, total_amount, as_of, currency, source, amount_payable, adjustments].hash
+      [period_label, total_amount, as_of, currency, source, amount_payable, adjustments, lines].hash
     end
 
     # Builds the object from hash

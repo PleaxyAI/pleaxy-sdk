@@ -27,6 +27,11 @@ pub struct InvoiceSupplierViewPayment {
     pub advice_version: Option<f64>,
     #[serde(rename = "paidAmount", skip_serializing_if = "Option::is_none")]
     pub paid_amount: Option<models::InvoicePaymentRecordPaidAmount>,
+    #[serde(
+        rename = "earlyPaymentDiscount",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub early_payment_discount: Option<models::InvoicePaymentRecordEarlyPaymentDiscount>,
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<Status>,
     #[serde(rename = "state", skip_serializing_if = "Option::is_none")]
@@ -47,6 +52,7 @@ impl InvoiceSupplierViewPayment {
             recorded_at: None,
             advice_version: None,
             paid_amount: None,
+            early_payment_discount: None,
             status: None,
             state: None,
             payment_method_type: None,

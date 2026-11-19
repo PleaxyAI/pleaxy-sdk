@@ -91,6 +91,10 @@ pub enum Invoicer {
     Github,
     #[serde(rename = "microsoft")]
     Microsoft,
+    #[serde(rename = "slack")]
+    Slack,
+    #[serde(rename = "zoom")]
+    Zoom,
 }
 
 impl Default for Invoicer {

@@ -19,7 +19,7 @@ module Pleaxy
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # [Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create' on suppliers.
+    # [Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe, cursor, github, microsoft, slack, zoom) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create' on suppliers.
     # @param provider [String] 
     # @param [Hash] opts the optional parameters
     # @return [AddAiProviderSupplierResult]
@@ -28,7 +28,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. &#39;create&#39; on suppliers.
+    # [Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe, cursor, github, microsoft, slack, zoom) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. &#39;create&#39; on suppliers.
     # @param provider [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(AddAiProviderSupplierResult, Integer, Hash)>] AddAiProviderSupplierResult data, response status code and response headers
@@ -80,7 +80,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers.
+    # [Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seat tools read only the month's active users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`, the client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers.
     # @param create_ai_provider_input [CreateAiProviderInput] 
     # @param [Hash] opts the optional parameters
     # @return [AiProvider]
@@ -89,7 +89,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seats the provider&#39;s pre-created supplier row. Counts toward the plan&#39;s provider limit. &#39;create&#39; on suppliers.
+    # [Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seat tools read only the month&#39;s active users for the seat check: Cursor (an Admin API key), Slack (a workspace admin&#39;s xoxp- user token with the admin scope) and Zoom (a Server-to-Server OAuth app: &#x60;zoom.accountId&#x60; and &#x60;zoom.clientId&#x60;, the client secret as key). Seats the provider&#39;s pre-created supplier row. Counts toward the plan&#39;s provider limit. &#39;create&#39; on suppliers.
     # @param create_ai_provider_input [CreateAiProviderInput] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(AiProvider, Integer, Hash)>] AiProvider data, response status code and response headers

@@ -20,6 +20,7 @@ if TYPE_CHECKING:
     from ..models.ai_provider_databricks import AiProviderDatabricks
     from ..models.ai_provider_github import AiProviderGithub
     from ..models.ai_provider_snowflake import AiProviderSnowflake
+    from ..models.ai_provider_zoom import AiProviderZoom
 
 
 T = TypeVar("T", bound="AiProvider")
@@ -39,6 +40,7 @@ class AiProvider:
         snowflake (Union[Unset, AiProviderSnowflake]):
         databricks (Union[Unset, AiProviderDatabricks]):
         github (Union[Unset, AiProviderGithub]):
+        zoom (Union[Unset, AiProviderZoom]):
         credit_price (Union[Unset, AiProviderCreditPrice]):
         supplier_connection_id (Union[Unset, str]):
         last_synced_at (Union[Unset, str]):
@@ -58,6 +60,7 @@ class AiProvider:
     snowflake: Union[Unset, "AiProviderSnowflake"] = UNSET
     databricks: Union[Unset, "AiProviderDatabricks"] = UNSET
     github: Union[Unset, "AiProviderGithub"] = UNSET
+    zoom: Union[Unset, "AiProviderZoom"] = UNSET
     credit_price: Union[Unset, "AiProviderCreditPrice"] = UNSET
     supplier_connection_id: Union[Unset, str] = UNSET
     last_synced_at: Union[Unset, str] = UNSET
@@ -97,6 +100,10 @@ class AiProvider:
         github: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.github, Unset):
             github = self.github.to_dict()
+
+        zoom: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.zoom, Unset):
+            zoom = self.zoom.to_dict()
 
         credit_price: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.credit_price, Unset):
@@ -143,6 +150,8 @@ class AiProvider:
             field_dict["databricks"] = databricks
         if github is not UNSET:
             field_dict["github"] = github
+        if zoom is not UNSET:
+            field_dict["zoom"] = zoom
         if credit_price is not UNSET:
             field_dict["creditPrice"] = credit_price
         if supplier_connection_id is not UNSET:
@@ -166,6 +175,7 @@ class AiProvider:
         from ..models.ai_provider_databricks import AiProviderDatabricks
         from ..models.ai_provider_github import AiProviderGithub
         from ..models.ai_provider_snowflake import AiProviderSnowflake
+        from ..models.ai_provider_zoom import AiProviderZoom
 
         d = src_dict.copy()
         id = d.pop("id")
@@ -213,6 +223,13 @@ class AiProvider:
         else:
             github = AiProviderGithub.from_dict(_github)
 
+        _zoom = d.pop("zoom", UNSET)
+        zoom: Union[Unset, AiProviderZoom]
+        if isinstance(_zoom, Unset):
+            zoom = UNSET
+        else:
+            zoom = AiProviderZoom.from_dict(_zoom)
+
         _credit_price = d.pop("creditPrice", UNSET)
         credit_price: Union[Unset, AiProviderCreditPrice]
         if isinstance(_credit_price, Unset):
@@ -255,6 +272,7 @@ class AiProvider:
             snowflake=snowflake,
             databricks=databricks,
             github=github,
+            zoom=zoom,
             credit_price=credit_price,
             supplier_connection_id=supplier_connection_id,
             last_synced_at=last_synced_at,

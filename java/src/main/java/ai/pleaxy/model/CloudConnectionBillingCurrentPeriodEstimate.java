@@ -19,12 +19,15 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.CloudServiceCost;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -37,7 +40,8 @@ import ai.pleaxy.client.ApiClient;
   CloudConnectionBillingCurrentPeriodEstimate.JSON_PROPERTY_FORECAST_AMOUNT,
   CloudConnectionBillingCurrentPeriodEstimate.JSON_PROPERTY_AS_OF,
   CloudConnectionBillingCurrentPeriodEstimate.JSON_PROPERTY_CONFIDENCE,
-  CloudConnectionBillingCurrentPeriodEstimate.JSON_PROPERTY_CURRENCY
+  CloudConnectionBillingCurrentPeriodEstimate.JSON_PROPERTY_CURRENCY,
+  CloudConnectionBillingCurrentPeriodEstimate.JSON_PROPERTY_SERVICES
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class CloudConnectionBillingCurrentPeriodEstimate {
@@ -93,6 +97,10 @@ public class CloudConnectionBillingCurrentPeriodEstimate {
   public static final String JSON_PROPERTY_CURRENCY = "currency";
   @javax.annotation.Nullable
   private String currency;
+
+  public static final String JSON_PROPERTY_SERVICES = "services";
+  @javax.annotation.Nullable
+  private List<CloudServiceCost> services = new ArrayList<>();
 
   public CloudConnectionBillingCurrentPeriodEstimate() { 
   }
@@ -217,6 +225,38 @@ public class CloudConnectionBillingCurrentPeriodEstimate {
   }
 
 
+  public CloudConnectionBillingCurrentPeriodEstimate services(@javax.annotation.Nullable List<CloudServiceCost> services) {
+    this.services = services;
+    return this;
+  }
+
+  public CloudConnectionBillingCurrentPeriodEstimate addServicesItem(CloudServiceCost servicesItem) {
+    if (this.services == null) {
+      this.services = new ArrayList<>();
+    }
+    this.services.add(servicesItem);
+    return this;
+  }
+
+  /**
+   * Get services
+   * @return services
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SERVICES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<CloudServiceCost> getServices() {
+    return services;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SERVICES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setServices(@javax.annotation.Nullable List<CloudServiceCost> services) {
+    this.services = services;
+  }
+
+
   /**
    * Return true if this CloudConnectionBilling_currentPeriodEstimate object is equal to o.
    */
@@ -233,12 +273,13 @@ public class CloudConnectionBillingCurrentPeriodEstimate {
         Objects.equals(this.forecastAmount, cloudConnectionBillingCurrentPeriodEstimate.forecastAmount) &&
         Objects.equals(this.asOf, cloudConnectionBillingCurrentPeriodEstimate.asOf) &&
         Objects.equals(this.confidence, cloudConnectionBillingCurrentPeriodEstimate.confidence) &&
-        Objects.equals(this.currency, cloudConnectionBillingCurrentPeriodEstimate.currency);
+        Objects.equals(this.currency, cloudConnectionBillingCurrentPeriodEstimate.currency) &&
+        Objects.equals(this.services, cloudConnectionBillingCurrentPeriodEstimate.services);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(totalAmount, forecastAmount, asOf, confidence, currency);
+    return Objects.hash(totalAmount, forecastAmount, asOf, confidence, currency, services);
   }
 
   @Override
@@ -250,6 +291,7 @@ public class CloudConnectionBillingCurrentPeriodEstimate {
     sb.append("    asOf: ").append(toIndentedString(asOf)).append("\n");
     sb.append("    confidence: ").append(toIndentedString(confidence)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
+    sb.append("    services: ").append(toIndentedString(services)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -320,6 +362,16 @@ public class CloudConnectionBillingCurrentPeriodEstimate {
     // add `currency` to the URL query string
     if (getCurrency() != null) {
       joiner.add(String.format("%scurrency%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCurrency()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `services` to the URL query string
+    if (getServices() != null) {
+      for (int i = 0; i < getServices().size(); i++) {
+        if (getServices().get(i) != null) {
+          joiner.add(getServices().get(i).toUrlQueryString(String.format("%sservices%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
     }
 
     return joiner.toString();

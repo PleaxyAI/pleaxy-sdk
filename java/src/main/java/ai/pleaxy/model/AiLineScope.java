@@ -81,7 +81,11 @@ public class AiLineScope {
     
     GITHUB(String.valueOf("github")),
     
-    MICROSOFT(String.valueOf("microsoft"));
+    MICROSOFT(String.valueOf("microsoft")),
+    
+    SLACK(String.valueOf("slack")),
+    
+    ZOOM(String.valueOf("zoom"));
 
     private String value;
 

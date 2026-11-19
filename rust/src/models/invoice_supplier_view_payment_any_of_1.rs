@@ -21,6 +21,11 @@ pub struct InvoiceSupplierViewPaymentAnyOf1 {
     pub payment_method_type: Option<PaymentMethodType>,
     #[serde(rename = "succeededAt", skip_serializing_if = "Option::is_none")]
     pub succeeded_at: Option<String>,
+    #[serde(
+        rename = "earlyPaymentDiscount",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub early_payment_discount: Option<models::InvoicePaymentRecordEarlyPaymentDiscount>,
 }
 
 impl InvoiceSupplierViewPaymentAnyOf1 {
@@ -30,6 +35,7 @@ impl InvoiceSupplierViewPaymentAnyOf1 {
             state: None,
             payment_method_type: None,
             succeeded_at: None,
+            early_payment_discount: None,
         }
     }
 }

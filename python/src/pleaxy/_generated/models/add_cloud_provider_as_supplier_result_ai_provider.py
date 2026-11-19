@@ -14,8 +14,10 @@ AddCloudProviderAsSupplierResultAiProvider = Literal[
     "nebius",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 ADD_CLOUD_PROVIDER_AS_SUPPLIER_RESULT_AI_PROVIDER_VALUES: Set[
@@ -34,8 +36,10 @@ ADD_CLOUD_PROVIDER_AS_SUPPLIER_RESULT_AI_PROVIDER_VALUES: Set[
     "nebius",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

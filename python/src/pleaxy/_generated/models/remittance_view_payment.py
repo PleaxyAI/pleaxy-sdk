@@ -11,6 +11,9 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
+    from ..models.remittance_view_payment_early_payment_discount import (
+        RemittanceViewPaymentEarlyPaymentDiscount,
+    )
     from ..models.remittance_view_payment_net_paid import RemittanceViewPaymentNetPaid
     from ..models.remittance_view_payment_paid_in_other_currency import (
         RemittanceViewPaymentPaidInOtherCurrency,
@@ -30,6 +33,7 @@ class RemittanceViewPayment:
         recorded_at (Union[Unset, str]):
         advice_version (Union[Unset, float]):
         withheld (Union[Unset, List['InvoiceBreakdownEntry']]):
+        early_payment_discount (Union[Unset, RemittanceViewPaymentEarlyPaymentDiscount]):
         net_paid (Union[Unset, RemittanceViewPaymentNetPaid]):
         paid_in_other_currency (Union[Unset, RemittanceViewPaymentPaidInOtherCurrency]):
     """
@@ -40,6 +44,9 @@ class RemittanceViewPayment:
     recorded_at: Union[Unset, str] = UNSET
     advice_version: Union[Unset, float] = UNSET
     withheld: Union[Unset, List["InvoiceBreakdownEntry"]] = UNSET
+    early_payment_discount: Union[
+        Unset, "RemittanceViewPaymentEarlyPaymentDiscount"
+    ] = UNSET
     net_paid: Union[Unset, "RemittanceViewPaymentNetPaid"] = UNSET
     paid_in_other_currency: Union[Unset, "RemittanceViewPaymentPaidInOtherCurrency"] = (
         UNSET
@@ -66,6 +73,10 @@ class RemittanceViewPayment:
                 withheld_item = withheld_item_data.to_dict()
                 withheld.append(withheld_item)
 
+        early_payment_discount: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.early_payment_discount, Unset):
+            early_payment_discount = self.early_payment_discount.to_dict()
+
         net_paid: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.net_paid, Unset):
             net_paid = self.net_paid.to_dict()
@@ -89,6 +100,8 @@ class RemittanceViewPayment:
             field_dict["adviceVersion"] = advice_version
         if withheld is not UNSET:
             field_dict["withheld"] = withheld
+        if early_payment_discount is not UNSET:
+            field_dict["earlyPaymentDiscount"] = early_payment_discount
         if net_paid is not UNSET:
             field_dict["netPaid"] = net_paid
         if paid_in_other_currency is not UNSET:
@@ -99,6 +112,9 @@ class RemittanceViewPayment:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
+        from ..models.remittance_view_payment_early_payment_discount import (
+            RemittanceViewPaymentEarlyPaymentDiscount,
+        )
         from ..models.remittance_view_payment_net_paid import (
             RemittanceViewPaymentNetPaid,
         )
@@ -129,6 +145,17 @@ class RemittanceViewPayment:
 
             withheld.append(withheld_item)
 
+        _early_payment_discount = d.pop("earlyPaymentDiscount", UNSET)
+        early_payment_discount: Union[Unset, RemittanceViewPaymentEarlyPaymentDiscount]
+        if isinstance(_early_payment_discount, Unset):
+            early_payment_discount = UNSET
+        else:
+            early_payment_discount = (
+                RemittanceViewPaymentEarlyPaymentDiscount.from_dict(
+                    _early_payment_discount
+                )
+            )
+
         _net_paid = d.pop("netPaid", UNSET)
         net_paid: Union[Unset, RemittanceViewPaymentNetPaid]
         if isinstance(_net_paid, Unset):
@@ -152,6 +179,7 @@ class RemittanceViewPayment:
             recorded_at=recorded_at,
             advice_version=advice_version,
             withheld=withheld,
+            early_payment_discount=early_payment_discount,
             net_paid=net_paid,
             paid_in_other_currency=paid_in_other_currency,
         )

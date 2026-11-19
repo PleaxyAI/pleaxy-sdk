@@ -14,8 +14,10 @@ AddAiProviderSupplierResultAiProvider = Literal[
     "nebius",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 ADD_AI_PROVIDER_SUPPLIER_RESULT_AI_PROVIDER_VALUES: Set[
@@ -34,8 +36,10 @@ ADD_AI_PROVIDER_SUPPLIER_RESULT_AI_PROVIDER_VALUES: Set[
     "nebius",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

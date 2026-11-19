@@ -15,6 +15,9 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
+    from ..models.list_invoices_item_supplier_invoice_withdrawn_payment_type_0_early_payment_discount import (
+        ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount,
+    )
     from ..models.list_invoices_item_supplier_invoice_withdrawn_payment_type_0_paid_amount import (
         ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0PaidAmount,
     )
@@ -34,6 +37,7 @@ class ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0:
         recorded_at (Union[Unset, str]):
         advice_version (Union[Unset, float]):
         paid_amount (Union[Unset, ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0PaidAmount]):
+        early_payment_discount (Union[Unset, ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount]):
         status (Union[Unset, ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0Status]):
     """
 
@@ -47,6 +51,10 @@ class ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0:
     advice_version: Union[Unset, float] = UNSET
     paid_amount: Union[
         Unset, "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0PaidAmount"
+    ] = UNSET
+    early_payment_discount: Union[
+        Unset,
+        "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount",
     ] = UNSET
     status: Union[Unset, ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0Status] = (
         UNSET
@@ -77,6 +85,10 @@ class ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0:
         if not isinstance(self.paid_amount, Unset):
             paid_amount = self.paid_amount.to_dict()
 
+        early_payment_discount: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.early_payment_discount, Unset):
+            early_payment_discount = self.early_payment_discount.to_dict()
+
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
             status = self.status
@@ -98,6 +110,8 @@ class ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0:
             field_dict["adviceVersion"] = advice_version
         if paid_amount is not UNSET:
             field_dict["paidAmount"] = paid_amount
+        if early_payment_discount is not UNSET:
+            field_dict["earlyPaymentDiscount"] = early_payment_discount
         if status is not UNSET:
             field_dict["status"] = status
 
@@ -106,6 +120,9 @@ class ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
+        from ..models.list_invoices_item_supplier_invoice_withdrawn_payment_type_0_early_payment_discount import (
+            ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount,
+        )
         from ..models.list_invoices_item_supplier_invoice_withdrawn_payment_type_0_paid_amount import (
             ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0PaidAmount,
         )
@@ -146,6 +163,18 @@ class ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0:
                 _paid_amount
             )
 
+        _early_payment_discount = d.pop("earlyPaymentDiscount", UNSET)
+        early_payment_discount: Union[
+            Unset,
+            ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount,
+        ]
+        if isinstance(_early_payment_discount, Unset):
+            early_payment_discount = UNSET
+        else:
+            early_payment_discount = ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount.from_dict(
+                _early_payment_discount
+            )
+
         _status = d.pop("status", UNSET)
         status: Union[Unset, ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0Status]
         if isinstance(_status, Unset):
@@ -163,6 +192,7 @@ class ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0:
             recorded_at=recorded_at,
             advice_version=advice_version,
             paid_amount=paid_amount,
+            early_payment_discount=early_payment_discount,
             status=status,
         )
 

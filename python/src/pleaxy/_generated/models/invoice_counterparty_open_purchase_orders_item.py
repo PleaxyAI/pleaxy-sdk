@@ -1,4 +1,12 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Dict,
+    List,
+    Type,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -6,6 +14,12 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.invoice_counterparty_open_purchase_orders_item_default_due_rule_type_0 import (
+        InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType0,
+    )
+    from ..models.invoice_counterparty_open_purchase_orders_item_default_due_rule_type_1 import (
+        InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType1,
+    )
     from ..models.invoice_counterparty_open_purchase_orders_item_lines_item import (
         InvoiceCounterpartyOpenPurchaseOrdersItemLinesItem,
     )
@@ -27,6 +41,8 @@ class InvoiceCounterpartyOpenPurchaseOrdersItem:
         invoiced_amount (Union[Unset, float]):
         lines (Union[Unset, List['InvoiceCounterpartyOpenPurchaseOrdersItemLinesItem']]):
         default_due_in_days (Union[Unset, float]):
+        default_due_rule (Union['InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType0',
+            'InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType1', Unset]):
         bill_to_company_name (Union[Unset, str]):
         paid_deposits (Union[Unset, List['OpenPurchaseOrderDeposit']]):
     """
@@ -41,11 +57,20 @@ class InvoiceCounterpartyOpenPurchaseOrdersItem:
         UNSET
     )
     default_due_in_days: Union[Unset, float] = UNSET
+    default_due_rule: Union[
+        "InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType0",
+        "InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType1",
+        Unset,
+    ] = UNSET
     bill_to_company_name: Union[Unset, str] = UNSET
     paid_deposits: Union[Unset, List["OpenPurchaseOrderDeposit"]] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
+        from ..models.invoice_counterparty_open_purchase_orders_item_default_due_rule_type_0 import (
+            InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType0,
+        )
+
         id = self.id
 
         amount = self.amount
@@ -66,6 +91,17 @@ class InvoiceCounterpartyOpenPurchaseOrdersItem:
                 lines.append(lines_item)
 
         default_due_in_days = self.default_due_in_days
+
+        default_due_rule: Union[Dict[str, Any], Unset]
+        if isinstance(self.default_due_rule, Unset):
+            default_due_rule = UNSET
+        elif isinstance(
+            self.default_due_rule,
+            InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType0,
+        ):
+            default_due_rule = self.default_due_rule.to_dict()
+        else:
+            default_due_rule = self.default_due_rule.to_dict()
 
         bill_to_company_name = self.bill_to_company_name
 
@@ -97,6 +133,8 @@ class InvoiceCounterpartyOpenPurchaseOrdersItem:
             field_dict["lines"] = lines
         if default_due_in_days is not UNSET:
             field_dict["defaultDueInDays"] = default_due_in_days
+        if default_due_rule is not UNSET:
+            field_dict["defaultDueRule"] = default_due_rule
         if bill_to_company_name is not UNSET:
             field_dict["billToCompanyName"] = bill_to_company_name
         if paid_deposits is not UNSET:
@@ -106,6 +144,12 @@ class InvoiceCounterpartyOpenPurchaseOrdersItem:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.invoice_counterparty_open_purchase_orders_item_default_due_rule_type_0 import (
+            InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType0,
+        )
+        from ..models.invoice_counterparty_open_purchase_orders_item_default_due_rule_type_1 import (
+            InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType1,
+        )
         from ..models.invoice_counterparty_open_purchase_orders_item_lines_item import (
             InvoiceCounterpartyOpenPurchaseOrdersItemLinesItem,
         )
@@ -135,6 +179,37 @@ class InvoiceCounterpartyOpenPurchaseOrdersItem:
 
         default_due_in_days = d.pop("defaultDueInDays", UNSET)
 
+        def _parse_default_due_rule(
+            data: object,
+        ) -> Union[
+            "InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType0",
+            "InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType1",
+            Unset,
+        ]:
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                default_due_rule_type_0 = InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType0.from_dict(
+                    data
+                )
+
+                return default_due_rule_type_0
+            except:  # noqa: E722
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            default_due_rule_type_1 = (
+                InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType1.from_dict(
+                    data
+                )
+            )
+
+            return default_due_rule_type_1
+
+        default_due_rule = _parse_default_due_rule(d.pop("defaultDueRule", UNSET))
+
         bill_to_company_name = d.pop("billToCompanyName", UNSET)
 
         paid_deposits = []
@@ -155,6 +230,7 @@ class InvoiceCounterpartyOpenPurchaseOrdersItem:
             invoiced_amount=invoiced_amount,
             lines=lines,
             default_due_in_days=default_due_in_days,
+            default_due_rule=default_due_rule,
             bill_to_company_name=bill_to_company_name,
             paid_deposits=paid_deposits,
         )

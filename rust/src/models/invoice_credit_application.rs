@@ -32,6 +32,8 @@ pub struct InvoiceCreditApplication {
     pub applied_by_name: Option<String>,
     #[serde(rename = "auto", skip_serializing_if = "Option::is_none")]
     pub auto: Option<bool>,
+    #[serde(rename = "answersHold", skip_serializing_if = "Option::is_none")]
+    pub answers_hold: Option<bool>,
 }
 
 impl InvoiceCreditApplication {
@@ -45,6 +47,7 @@ impl InvoiceCreditApplication {
             applied_by: None,
             applied_by_name: None,
             auto: None,
+            answers_hold: None,
         }
     }
 }

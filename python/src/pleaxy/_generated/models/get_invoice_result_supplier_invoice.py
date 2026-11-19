@@ -12,6 +12,10 @@ from typing import (
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.get_invoice_result_supplier_invoice_cloud_provider import (
+    GetInvoiceResultSupplierInvoiceCloudProvider,
+    check_get_invoice_result_supplier_invoice_cloud_provider,
+)
 from ..models.get_invoice_result_supplier_invoice_document_type import (
     GetInvoiceResultSupplierInvoiceDocumentType,
     check_get_invoice_result_supplier_invoice_document_type,
@@ -69,6 +73,7 @@ if TYPE_CHECKING:
     from ..models.invoice_currency_amount import InvoiceCurrencyAmount
     from ..models.invoice_deduction import InvoiceDeduction
     from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
+    from ..models.invoice_early_payment import InvoiceEarlyPayment
     from ..models.invoice_line_item import InvoiceLineItem
     from ..models.invoice_rejection import InvoiceRejection
     from ..models.invoice_replacement_check import InvoiceReplacementCheck
@@ -80,6 +85,7 @@ if TYPE_CHECKING:
     from ..models.supplier_bank_details_confirmation_view import (
         SupplierBankDetailsConfirmationView,
     )
+    from ..models.supplier_held_back_view import SupplierHeldBackView
     from ..models.supplier_payment_problem_view import SupplierPaymentProblemView
     from ..models.supplier_remittance_view import SupplierRemittanceView
     from ..models.supplier_settlement_view import SupplierSettlementView
@@ -100,6 +106,7 @@ class GetInvoiceResultSupplierInvoice:
         buyer_org_id (Union[Unset, str]):
         supplier_org_id (Union[Unset, str]):
         created_at (Union[Unset, str]):
+        cloud_provider (Union[Unset, GetInvoiceResultSupplierInvoiceCloudProvider]):
         late_fee_terms (Union[Unset, LateFeeTerms]):
         amount (Union[Unset, float]):
         supplier_connection_id (Union[Unset, str]):
@@ -121,6 +128,7 @@ class GetInvoiceResultSupplierInvoice:
         due_date (Union[Unset, str]):
         paid_at (Union[Unset, str]):
         due_date_source (Union[Unset, GetInvoiceResultSupplierInvoiceDueDateSource]):
+        early_payment (Union[Unset, InvoiceEarlyPayment]):
         last_reminded_at (Union[Unset, str]):
         last_approver_reminded_at (Union[Unset, str]):
         rejection (Union[Unset, InvoiceRejection]):
@@ -154,6 +162,7 @@ class GetInvoiceResultSupplierInvoice:
         bank_lane (Union[Unset, str]):
         source_document (Union[Unset, InvoiceSourceDocument]):
         has_original_pdf (Union[Unset, bool]):
+        held_back (Union[Unset, SupplierHeldBackView]):
         settlement (Union[Unset, SupplierSettlementView]):
         payment_problem (Union[Unset, SupplierPaymentProblemView]):
         bank_details_confirmation (Union[Unset, SupplierBankDetailsConfirmationView]):
@@ -175,6 +184,7 @@ class GetInvoiceResultSupplierInvoice:
     buyer_org_id: Union[Unset, str] = UNSET
     supplier_org_id: Union[Unset, str] = UNSET
     created_at: Union[Unset, str] = UNSET
+    cloud_provider: Union[Unset, GetInvoiceResultSupplierInvoiceCloudProvider] = UNSET
     late_fee_terms: Union[Unset, "LateFeeTerms"] = UNSET
     amount: Union[Unset, float] = UNSET
     supplier_connection_id: Union[Unset, str] = UNSET
@@ -196,6 +206,7 @@ class GetInvoiceResultSupplierInvoice:
     due_date: Union[Unset, str] = UNSET
     paid_at: Union[Unset, str] = UNSET
     due_date_source: Union[Unset, GetInvoiceResultSupplierInvoiceDueDateSource] = UNSET
+    early_payment: Union[Unset, "InvoiceEarlyPayment"] = UNSET
     last_reminded_at: Union[Unset, str] = UNSET
     last_approver_reminded_at: Union[Unset, str] = UNSET
     rejection: Union[Unset, "InvoiceRejection"] = UNSET
@@ -231,6 +242,7 @@ class GetInvoiceResultSupplierInvoice:
     bank_lane: Union[Unset, str] = UNSET
     source_document: Union[Unset, "InvoiceSourceDocument"] = UNSET
     has_original_pdf: Union[Unset, bool] = UNSET
+    held_back: Union[Unset, "SupplierHeldBackView"] = UNSET
     settlement: Union[Unset, "SupplierSettlementView"] = UNSET
     payment_problem: Union[Unset, "SupplierPaymentProblemView"] = UNSET
     bank_details_confirmation: Union[Unset, "SupplierBankDetailsConfirmationView"] = (
@@ -281,6 +293,10 @@ class GetInvoiceResultSupplierInvoice:
         supplier_org_id = self.supplier_org_id
 
         created_at = self.created_at
+
+        cloud_provider: Union[Unset, str] = UNSET
+        if not isinstance(self.cloud_provider, Unset):
+            cloud_provider = self.cloud_provider
 
         late_fee_terms: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.late_fee_terms, Unset):
@@ -340,6 +356,10 @@ class GetInvoiceResultSupplierInvoice:
         due_date_source: Union[Unset, str] = UNSET
         if not isinstance(self.due_date_source, Unset):
             due_date_source = self.due_date_source
+
+        early_payment: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.early_payment, Unset):
+            early_payment = self.early_payment.to_dict()
 
         last_reminded_at = self.last_reminded_at
 
@@ -465,6 +485,10 @@ class GetInvoiceResultSupplierInvoice:
 
         has_original_pdf = self.has_original_pdf
 
+        held_back: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.held_back, Unset):
+            held_back = self.held_back.to_dict()
+
         settlement: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.settlement, Unset):
             settlement = self.settlement.to_dict()
@@ -533,6 +557,8 @@ class GetInvoiceResultSupplierInvoice:
             field_dict["supplierOrgId"] = supplier_org_id
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
+        if cloud_provider is not UNSET:
+            field_dict["cloudProvider"] = cloud_provider
         if late_fee_terms is not UNSET:
             field_dict["lateFeeTerms"] = late_fee_terms
         if amount is not UNSET:
@@ -575,6 +601,8 @@ class GetInvoiceResultSupplierInvoice:
             field_dict["paidAt"] = paid_at
         if due_date_source is not UNSET:
             field_dict["dueDateSource"] = due_date_source
+        if early_payment is not UNSET:
+            field_dict["earlyPayment"] = early_payment
         if last_reminded_at is not UNSET:
             field_dict["lastRemindedAt"] = last_reminded_at
         if last_approver_reminded_at is not UNSET:
@@ -641,6 +669,8 @@ class GetInvoiceResultSupplierInvoice:
             field_dict["sourceDocument"] = source_document
         if has_original_pdf is not UNSET:
             field_dict["hasOriginalPdf"] = has_original_pdf
+        if held_back is not UNSET:
+            field_dict["heldBack"] = held_back
         if settlement is not UNSET:
             field_dict["settlement"] = settlement
         if payment_problem is not UNSET:
@@ -688,6 +718,7 @@ class GetInvoiceResultSupplierInvoice:
         from ..models.invoice_currency_amount import InvoiceCurrencyAmount
         from ..models.invoice_deduction import InvoiceDeduction
         from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
+        from ..models.invoice_early_payment import InvoiceEarlyPayment
         from ..models.invoice_line_item import InvoiceLineItem
         from ..models.invoice_rejection import InvoiceRejection
         from ..models.invoice_replacement_check import InvoiceReplacementCheck
@@ -699,6 +730,7 @@ class GetInvoiceResultSupplierInvoice:
         from ..models.supplier_bank_details_confirmation_view import (
             SupplierBankDetailsConfirmationView,
         )
+        from ..models.supplier_held_back_view import SupplierHeldBackView
         from ..models.supplier_payment_problem_view import SupplierPaymentProblemView
         from ..models.supplier_remittance_view import SupplierRemittanceView
         from ..models.supplier_settlement_view import SupplierSettlementView
@@ -730,6 +762,15 @@ class GetInvoiceResultSupplierInvoice:
         supplier_org_id = d.pop("supplierOrgId", UNSET)
 
         created_at = d.pop("createdAt", UNSET)
+
+        _cloud_provider = d.pop("cloudProvider", UNSET)
+        cloud_provider: Union[Unset, GetInvoiceResultSupplierInvoiceCloudProvider]
+        if isinstance(_cloud_provider, Unset):
+            cloud_provider = UNSET
+        else:
+            cloud_provider = check_get_invoice_result_supplier_invoice_cloud_provider(
+                _cloud_provider
+            )
 
         _late_fee_terms = d.pop("lateFeeTerms", UNSET)
         late_fee_terms: Union[Unset, LateFeeTerms]
@@ -815,6 +856,13 @@ class GetInvoiceResultSupplierInvoice:
             due_date_source = check_get_invoice_result_supplier_invoice_due_date_source(
                 _due_date_source
             )
+
+        _early_payment = d.pop("earlyPayment", UNSET)
+        early_payment: Union[Unset, InvoiceEarlyPayment]
+        if isinstance(_early_payment, Unset):
+            early_payment = UNSET
+        else:
+            early_payment = InvoiceEarlyPayment.from_dict(_early_payment)
 
         last_reminded_at = d.pop("lastRemindedAt", UNSET)
 
@@ -982,6 +1030,13 @@ class GetInvoiceResultSupplierInvoice:
 
         has_original_pdf = d.pop("hasOriginalPdf", UNSET)
 
+        _held_back = d.pop("heldBack", UNSET)
+        held_back: Union[Unset, SupplierHeldBackView]
+        if isinstance(_held_back, Unset):
+            held_back = UNSET
+        else:
+            held_back = SupplierHeldBackView.from_dict(_held_back)
+
         _settlement = d.pop("settlement", UNSET)
         settlement: Union[Unset, SupplierSettlementView]
         if isinstance(_settlement, Unset):
@@ -1096,6 +1151,7 @@ class GetInvoiceResultSupplierInvoice:
             buyer_org_id=buyer_org_id,
             supplier_org_id=supplier_org_id,
             created_at=created_at,
+            cloud_provider=cloud_provider,
             late_fee_terms=late_fee_terms,
             amount=amount,
             supplier_connection_id=supplier_connection_id,
@@ -1117,6 +1173,7 @@ class GetInvoiceResultSupplierInvoice:
             due_date=due_date,
             paid_at=paid_at,
             due_date_source=due_date_source,
+            early_payment=early_payment,
             last_reminded_at=last_reminded_at,
             last_approver_reminded_at=last_approver_reminded_at,
             rejection=rejection,
@@ -1150,6 +1207,7 @@ class GetInvoiceResultSupplierInvoice:
             bank_lane=bank_lane,
             source_document=source_document,
             has_original_pdf=has_original_pdf,
+            held_back=held_back,
             settlement=settlement,
             payment_problem=payment_problem,
             bank_details_confirmation=bank_details_confirmation,

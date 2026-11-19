@@ -149,6 +149,8 @@ pub struct GetInvoiceResult {
     pub usage_currency: Option<String>,
     #[serde(rename = "usageSource", skip_serializing_if = "Option::is_none")]
     pub usage_source: Option<UsageSource>,
+    #[serde(rename = "usageLines", skip_serializing_if = "Option::is_none")]
+    pub usage_lines: Option<Vec<models::InvoiceUsageLine>>,
     #[serde(rename = "tolerancePct", skip_serializing_if = "Option::is_none")]
     pub tolerance_pct: Option<f64>,
     #[serde(rename = "matchStatus", skip_serializing_if = "Option::is_none")]
@@ -207,6 +209,8 @@ pub struct GetInvoiceResult {
     pub previous_exported_at: Option<String>,
     #[serde(rename = "dueDateSource", skip_serializing_if = "Option::is_none")]
     pub due_date_source: Option<DueDateSource>,
+    #[serde(rename = "earlyPayment", skip_serializing_if = "Option::is_none")]
+    pub early_payment: Option<models::InvoiceEarlyPayment>,
     #[serde(rename = "lastRemindedAt", skip_serializing_if = "Option::is_none")]
     pub last_reminded_at: Option<String>,
     #[serde(
@@ -229,6 +233,8 @@ pub struct GetInvoiceResult {
     pub duplicates_checked: Option<bool>,
     #[serde(rename = "hasLookupRows", skip_serializing_if = "Option::is_none")]
     pub has_lookup_rows: Option<bool>,
+    #[serde(rename = "cloudConnectionId", skip_serializing_if = "Option::is_none")]
+    pub cloud_connection_id: Option<String>,
     #[serde(rename = "invoiceDate", skip_serializing_if = "Option::is_none")]
     pub invoice_date: Option<String>,
     #[serde(rename = "sodExcludedKeys", skip_serializing_if = "Option::is_none")]
@@ -252,6 +258,8 @@ pub struct GetInvoiceResult {
     pub deductions: Option<Vec<models::InvoiceDeduction>>,
     #[serde(rename = "creditApplications", skip_serializing_if = "Option::is_none")]
     pub credit_applications: Option<Vec<models::InvoiceCreditApplication>>,
+    #[serde(rename = "heldBack", skip_serializing_if = "Option::is_none")]
+    pub held_back: Option<models::SupplierHeldBackView>,
     #[serde(rename = "creditNoteIds", skip_serializing_if = "Option::is_none")]
     pub credit_note_ids: Option<Vec<String>>,
     #[serde(rename = "creditVersion", skip_serializing_if = "Option::is_none")]
@@ -361,6 +369,7 @@ impl GetInvoiceResult {
             usage_simulated_after_disconnect: None,
             usage_currency: None,
             usage_source: None,
+            usage_lines: None,
             tolerance_pct: None,
             match_status: None,
             unverified_reason: None,
@@ -384,6 +393,7 @@ impl GetInvoiceResult {
             export_available_from: None,
             previous_exported_at: None,
             due_date_source: None,
+            early_payment: None,
             last_reminded_at: None,
             last_approver_reminded_at: None,
             replaces_invoice_id: None,
@@ -392,6 +402,7 @@ impl GetInvoiceResult {
             possible_duplicates: None,
             duplicates_checked: None,
             has_lookup_rows: None,
+            cloud_connection_id: None,
             invoice_date: None,
             sod_excluded_keys: None,
             feed_payload_hash: None,
@@ -402,6 +413,7 @@ impl GetInvoiceResult {
             invoice_kind: None,
             deductions: None,
             credit_applications: None,
+            held_back: None,
             credit_note_ids: None,
             credit_version: None,
             payment_currency_amount: None,
@@ -467,6 +479,8 @@ pub enum Source {
     Direct,
     #[serde(rename = "feed")]
     Feed,
+    #[serde(rename = "cloud_sync")]
+    CloudSync,
 }
 
 impl Default for Source {
@@ -555,6 +569,8 @@ pub enum UsageSource {
     OspInvoice,
     #[serde(rename = "focus_export")]
     FocusExport,
+    #[serde(rename = "cost_explorer_month")]
+    CostExplorerMonth,
 }
 
 impl Default for UsageSource {
@@ -593,6 +609,8 @@ pub enum UnverifiedReason {
     PayerAccountUnclear,
     #[serde(rename = "no_po_first_invoice")]
     NoPoFirstInvoice,
+    #[serde(rename = "no_usage_figure")]
+    NoUsageFigure,
 }
 
 impl Default for UnverifiedReason {

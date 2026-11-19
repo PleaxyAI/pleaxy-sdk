@@ -64,8 +64,14 @@ def sync_detailed(
     every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a
     full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit
     and rebill). Each exported invoice is locked until its payment is recorded or the export is
-    withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422
-    NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
+    withdrawn. Send paymentDate (YYYY-MM-DD, today or later: the day your run pays) to take early-
+    payment discounts: an invoice whose deadline is on or after that date is exported at its amount due
+    less the discount when takeEarlyPaymentDiscounts is true (default: the workspace's setting), and the
+    file adds payment_date, early_payment_discount, early_payment_deadline and remittance_info (a line
+    for the payment's reference); a run dated after the deadline pays the full amount. 400
+    PAYMENT_RUN_DATE_INVALID for a date in the past or over a year ahead. Headers: X-Pleaxy-Export-Id,
+    X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated, X-Pleaxy-Export-Discounted (how many take a
+    discount). 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
 
     Args:
         body (PaymentExportInput):
@@ -99,8 +105,14 @@ def sync(
     every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a
     full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit
     and rebill). Each exported invoice is locked until its payment is recorded or the export is
-    withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422
-    NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
+    withdrawn. Send paymentDate (YYYY-MM-DD, today or later: the day your run pays) to take early-
+    payment discounts: an invoice whose deadline is on or after that date is exported at its amount due
+    less the discount when takeEarlyPaymentDiscounts is true (default: the workspace's setting), and the
+    file adds payment_date, early_payment_discount, early_payment_deadline and remittance_info (a line
+    for the payment's reference); a run dated after the deadline pays the full amount. 400
+    PAYMENT_RUN_DATE_INVALID for a date in the past or over a year ahead. Headers: X-Pleaxy-Export-Id,
+    X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated, X-Pleaxy-Export-Discounted (how many take a
+    discount). 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
 
     Args:
         body (PaymentExportInput):
@@ -129,8 +141,14 @@ async def asyncio_detailed(
     every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a
     full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit
     and rebill). Each exported invoice is locked until its payment is recorded or the export is
-    withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422
-    NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
+    withdrawn. Send paymentDate (YYYY-MM-DD, today or later: the day your run pays) to take early-
+    payment discounts: an invoice whose deadline is on or after that date is exported at its amount due
+    less the discount when takeEarlyPaymentDiscounts is true (default: the workspace's setting), and the
+    file adds payment_date, early_payment_discount, early_payment_deadline and remittance_info (a line
+    for the payment's reference); a run dated after the deadline pays the full amount. 400
+    PAYMENT_RUN_DATE_INVALID for a date in the past or over a year ahead. Headers: X-Pleaxy-Export-Id,
+    X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated, X-Pleaxy-Export-Discounted (how many take a
+    discount). 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
 
     Args:
         body (PaymentExportInput):
@@ -162,8 +180,14 @@ async def asyncio(
     every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a
     full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit
     and rebill). Each exported invoice is locked until its payment is recorded or the export is
-    withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422
-    NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
+    withdrawn. Send paymentDate (YYYY-MM-DD, today or later: the day your run pays) to take early-
+    payment discounts: an invoice whose deadline is on or after that date is exported at its amount due
+    less the discount when takeEarlyPaymentDiscounts is true (default: the workspace's setting), and the
+    file adds payment_date, early_payment_discount, early_payment_deadline and remittance_info (a line
+    for the payment's reference); a run dated after the deadline pays the full amount. 400
+    PAYMENT_RUN_DATE_INVALID for a date in the past or over a year ahead. Headers: X-Pleaxy-Export-Id,
+    X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated, X-Pleaxy-Export-Discounted (how many take a
+    discount). 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
 
     Args:
         body (PaymentExportInput):

@@ -193,6 +193,14 @@ pub enum Type {
     InvoiceOnHold,
     #[serde(rename = "invoice_hold_released")]
     InvoiceHoldReleased,
+    #[serde(rename = "credit_request_received")]
+    CreditRequestReceived,
+    #[serde(rename = "credit_request_answered")]
+    CreditRequestAnswered,
+    #[serde(rename = "credit_request_attention")]
+    CreditRequestAttention,
+    #[serde(rename = "recovery_weekly_digest")]
+    RecoveryWeeklyDigest,
     #[serde(rename = "invoice_payment_reminder")]
     InvoicePaymentReminder,
     #[serde(rename = "invoice_entered_by_buyer")]
@@ -277,6 +285,10 @@ pub enum Type {
     ContractRecheckRequested,
     #[serde(rename = "contract_sent_to_joined_supplier")]
     ContractSentToJoinedSupplier,
+    #[serde(rename = "contract_renewal_notice_due")]
+    ContractRenewalNoticeDue,
+    #[serde(rename = "contract_termination_notice_due")]
+    ContractTerminationNoticeDue,
     #[serde(rename = "copilot_allowance_80")]
     CopilotAllowance80,
     #[serde(rename = "copilot_allowance_100")]

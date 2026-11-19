@@ -3,6 +3,7 @@ from typing import Literal, Set, cast
 AddInvoiceReplacementLinksResultUsageSource = Literal[
     "aws_invoice",
     "billing_export",
+    "cost_explorer_month",
     "ea_balance",
     "focus_export",
     "mca_invoice",
@@ -15,6 +16,7 @@ ADD_INVOICE_REPLACEMENT_LINKS_RESULT_USAGE_SOURCE_VALUES: Set[
 ] = {
     "aws_invoice",
     "billing_export",
+    "cost_explorer_month",
     "ea_balance",
     "focus_export",
     "mca_invoice",

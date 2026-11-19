@@ -62,8 +62,11 @@ def sync_detailed(
     """[Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral
     take a read-only admin key, checked with one read before anything is saved and then stored KMS-
     encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to
-    assign to the service user (sync then finishes connecting). Seats the provider's pre-created
-    supplier row. Counts toward the plan's provider limit. 'create' on suppliers.
+    assign to the service user (sync then finishes connecting). Seat tools read only the month's active
+    users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token
+    with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`,
+    the client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's
+    provider limit. 'create' on suppliers.
 
     Args:
         body (CreateAiProviderInput):
@@ -95,8 +98,11 @@ def sync(
     """[Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral
     take a read-only admin key, checked with one read before anything is saved and then stored KMS-
     encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to
-    assign to the service user (sync then finishes connecting). Seats the provider's pre-created
-    supplier row. Counts toward the plan's provider limit. 'create' on suppliers.
+    assign to the service user (sync then finishes connecting). Seat tools read only the month's active
+    users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token
+    with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`,
+    the client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's
+    provider limit. 'create' on suppliers.
 
     Args:
         body (CreateAiProviderInput):
@@ -123,8 +129,11 @@ async def asyncio_detailed(
     """[Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral
     take a read-only admin key, checked with one read before anything is saved and then stored KMS-
     encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to
-    assign to the service user (sync then finishes connecting). Seats the provider's pre-created
-    supplier row. Counts toward the plan's provider limit. 'create' on suppliers.
+    assign to the service user (sync then finishes connecting). Seat tools read only the month's active
+    users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token
+    with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`,
+    the client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's
+    provider limit. 'create' on suppliers.
 
     Args:
         body (CreateAiProviderInput):
@@ -154,8 +163,11 @@ async def asyncio(
     """[Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral
     take a read-only admin key, checked with one read before anything is saved and then stored KMS-
     encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to
-    assign to the service user (sync then finishes connecting). Seats the provider's pre-created
-    supplier row. Counts toward the plan's provider limit. 'create' on suppliers.
+    assign to the service user (sync then finishes connecting). Seat tools read only the month's active
+    users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token
+    with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`,
+    the client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's
+    provider limit. 'create' on suppliers.
 
     Args:
         body (CreateAiProviderInput):

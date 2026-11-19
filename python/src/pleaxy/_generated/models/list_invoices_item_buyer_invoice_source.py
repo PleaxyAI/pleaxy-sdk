@@ -1,10 +1,13 @@
 from typing import Literal, Set, cast
 
-ListInvoicesItemBuyerInvoiceSource = Literal["direct", "feed", "manual", "po-flip"]
+ListInvoicesItemBuyerInvoiceSource = Literal[
+    "cloud_sync", "direct", "feed", "manual", "po-flip"
+]
 
 LIST_INVOICES_ITEM_BUYER_INVOICE_SOURCE_VALUES: Set[
     ListInvoicesItemBuyerInvoiceSource
 ] = {
+    "cloud_sync",
     "direct",
     "feed",
     "manual",

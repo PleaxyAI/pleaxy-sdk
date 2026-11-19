@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.StripePaymentStatusEarlyPayment;
 import ai.pleaxy.model.StripePaymentStatusQuote;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -38,7 +39,8 @@ import ai.pleaxy.client.ApiClient;
   StripePaymentStatus.JSON_PROPERTY_REASON,
   StripePaymentStatus.JSON_PROPERTY_STATE,
   StripePaymentStatus.JSON_PROPERTY_PAYMENT_METHOD_TYPE,
-  StripePaymentStatus.JSON_PROPERTY_QUOTE
+  StripePaymentStatus.JSON_PROPERTY_QUOTE,
+  StripePaymentStatus.JSON_PROPERTY_EARLY_PAYMENT
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class StripePaymentStatus {
@@ -183,6 +185,10 @@ public class StripePaymentStatus {
   @javax.annotation.Nullable
   private StripePaymentStatusQuote quote;
 
+  public static final String JSON_PROPERTY_EARLY_PAYMENT = "earlyPayment";
+  @javax.annotation.Nullable
+  private StripePaymentStatusEarlyPayment earlyPayment;
+
   public StripePaymentStatus() { 
   }
 
@@ -306,6 +312,30 @@ public class StripePaymentStatus {
   }
 
 
+  public StripePaymentStatus earlyPayment(@javax.annotation.Nullable StripePaymentStatusEarlyPayment earlyPayment) {
+    this.earlyPayment = earlyPayment;
+    return this;
+  }
+
+  /**
+   * Get earlyPayment
+   * @return earlyPayment
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public StripePaymentStatusEarlyPayment getEarlyPayment() {
+    return earlyPayment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEarlyPayment(@javax.annotation.Nullable StripePaymentStatusEarlyPayment earlyPayment) {
+    this.earlyPayment = earlyPayment;
+  }
+
+
   /**
    * Return true if this StripePaymentStatus object is equal to o.
    */
@@ -322,12 +352,13 @@ public class StripePaymentStatus {
         Objects.equals(this.reason, stripePaymentStatus.reason) &&
         Objects.equals(this.state, stripePaymentStatus.state) &&
         Objects.equals(this.paymentMethodType, stripePaymentStatus.paymentMethodType) &&
-        Objects.equals(this.quote, stripePaymentStatus.quote);
+        Objects.equals(this.quote, stripePaymentStatus.quote) &&
+        Objects.equals(this.earlyPayment, stripePaymentStatus.earlyPayment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(available, reason, state, paymentMethodType, quote);
+    return Objects.hash(available, reason, state, paymentMethodType, quote, earlyPayment);
   }
 
   @Override
@@ -339,6 +370,7 @@ public class StripePaymentStatus {
     sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("    paymentMethodType: ").append(toIndentedString(paymentMethodType)).append("\n");
     sb.append("    quote: ").append(toIndentedString(quote)).append("\n");
+    sb.append("    earlyPayment: ").append(toIndentedString(earlyPayment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -409,6 +441,11 @@ public class StripePaymentStatus {
     // add `quote` to the URL query string
     if (getQuote() != null) {
       joiner.add(getQuote().toUrlQueryString(prefix + "quote" + suffix));
+    }
+
+    // add `earlyPayment` to the URL query string
+    if (getEarlyPayment() != null) {
+      joiner.add(getEarlyPayment().toUrlQueryString(prefix + "earlyPayment" + suffix));
     }
 
     return joiner.toString();

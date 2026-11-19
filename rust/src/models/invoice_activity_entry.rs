@@ -70,6 +70,10 @@ pub enum Kind {
     SentForApproval,
     #[serde(rename = "reminder")]
     Reminder,
+    #[serde(rename = "held_back")]
+    HeldBack,
+    #[serde(rename = "hold_ended")]
+    HoldEnded,
     #[serde(rename = "comment")]
     Comment,
 }

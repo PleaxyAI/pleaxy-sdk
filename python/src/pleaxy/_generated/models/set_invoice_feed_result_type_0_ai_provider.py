@@ -14,8 +14,10 @@ SetInvoiceFeedResultType0AiProvider = Literal[
     "nebius",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 SET_INVOICE_FEED_RESULT_TYPE_0_AI_PROVIDER_VALUES: Set[
@@ -34,8 +36,10 @@ SET_INVOICE_FEED_RESULT_TYPE_0_AI_PROVIDER_VALUES: Set[
     "nebius",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

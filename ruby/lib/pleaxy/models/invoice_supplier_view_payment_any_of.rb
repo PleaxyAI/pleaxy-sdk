@@ -29,6 +29,8 @@ module Pleaxy
 
     attr_accessor :paid_amount
 
+    attr_accessor :early_payment_discount
+
     attr_accessor :status
 
     class EnumAttributeValidator
@@ -63,6 +65,7 @@ module Pleaxy
         :'recorded_at' => :'recordedAt',
         :'advice_version' => :'adviceVersion',
         :'paid_amount' => :'paidAmount',
+        :'early_payment_discount' => :'earlyPaymentDiscount',
         :'status' => :'status'
       }
     end
@@ -82,6 +85,7 @@ module Pleaxy
         :'recorded_at' => :'String',
         :'advice_version' => :'Float',
         :'paid_amount' => :'InvoicePaymentRecordPaidAmount',
+        :'early_payment_discount' => :'InvoicePaymentRecordEarlyPaymentDiscount',
         :'status' => :'String'
       }
     end
@@ -135,6 +139,10 @@ module Pleaxy
 
       if attributes.key?(:'paid_amount')
         self.paid_amount = attributes[:'paid_amount']
+      end
+
+      if attributes.key?(:'early_payment_discount')
+        self.early_payment_discount = attributes[:'early_payment_discount']
       end
 
       if attributes.key?(:'status')
@@ -193,6 +201,7 @@ module Pleaxy
           recorded_at == o.recorded_at &&
           advice_version == o.advice_version &&
           paid_amount == o.paid_amount &&
+          early_payment_discount == o.early_payment_discount &&
           status == o.status
     end
 
@@ -205,7 +214,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [withholdings, method, payment_date, reference, recorded_at, advice_version, paid_amount, status].hash
+      [withholdings, method, payment_date, reference, recorded_at, advice_version, paid_amount, early_payment_discount, status].hash
     end
 
     # Builds the object from hash

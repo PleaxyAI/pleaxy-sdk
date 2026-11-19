@@ -31,6 +31,8 @@ module Pleaxy
 
     attr_accessor :default_due_in_days
 
+    attr_accessor :default_due_rule
+
     attr_accessor :bill_to_company_name
 
     attr_accessor :paid_deposits
@@ -46,6 +48,7 @@ module Pleaxy
         :'invoiced_amount' => :'invoicedAmount',
         :'lines' => :'lines',
         :'default_due_in_days' => :'defaultDueInDays',
+        :'default_due_rule' => :'defaultDueRule',
         :'bill_to_company_name' => :'billToCompanyName',
         :'paid_deposits' => :'paidDeposits'
       }
@@ -67,6 +70,7 @@ module Pleaxy
         :'invoiced_amount' => :'Float',
         :'lines' => :'Array<InvoiceCounterpartyOpenPurchaseOrdersInnerLinesInner>',
         :'default_due_in_days' => :'Float',
+        :'default_due_rule' => :'InvoiceCounterpartyOpenPurchaseOrdersInnerDefaultDueRule',
         :'bill_to_company_name' => :'String',
         :'paid_deposits' => :'Array<OpenPurchaseOrderDeposit>'
       }
@@ -129,6 +133,10 @@ module Pleaxy
         self.default_due_in_days = attributes[:'default_due_in_days']
       end
 
+      if attributes.key?(:'default_due_rule')
+        self.default_due_rule = attributes[:'default_due_rule']
+      end
+
       if attributes.key?(:'bill_to_company_name')
         self.bill_to_company_name = attributes[:'bill_to_company_name']
       end
@@ -173,6 +181,7 @@ module Pleaxy
           invoiced_amount == o.invoiced_amount &&
           lines == o.lines &&
           default_due_in_days == o.default_due_in_days &&
+          default_due_rule == o.default_due_rule &&
           bill_to_company_name == o.bill_to_company_name &&
           paid_deposits == o.paid_deposits
     end
@@ -186,7 +195,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, amount, created_at, label, currency, invoiced_amount, lines, default_due_in_days, bill_to_company_name, paid_deposits].hash
+      [id, amount, created_at, label, currency, invoiced_amount, lines, default_due_in_days, default_due_rule, bill_to_company_name, paid_deposits].hash
     end
 
     # Builds the object from hash

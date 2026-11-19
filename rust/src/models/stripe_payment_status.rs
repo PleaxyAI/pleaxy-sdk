@@ -23,6 +23,8 @@ pub struct StripePaymentStatus {
     pub payment_method_type: Option<PaymentMethodType>,
     #[serde(rename = "quote", skip_serializing_if = "Option::is_none")]
     pub quote: Option<models::StripePaymentStatusQuote>,
+    #[serde(rename = "earlyPayment", skip_serializing_if = "Option::is_none")]
+    pub early_payment: Option<models::StripePaymentStatusEarlyPayment>,
 }
 
 impl StripePaymentStatus {
@@ -33,6 +35,7 @@ impl StripePaymentStatus {
             state: None,
             payment_method_type: None,
             quote: None,
+            early_payment: None,
         }
     }
 }

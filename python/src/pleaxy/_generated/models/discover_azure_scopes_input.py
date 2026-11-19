@@ -1,7 +1,9 @@
-from typing import Any, Dict, List, Type, TypeVar
+from typing import Any, Dict, List, Type, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
+
+from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="DiscoverAzureScopesInput")
 
@@ -14,16 +16,18 @@ class DiscoverAzureScopesInput:
             looked up server-side, never taken from the client.
         azure_tenant_id (str): The Microsoft Entra tenant the app was registered in (GUID).
         azure_client_id (str): The app registration's Application (client) ID (GUID).
-        azure_billing_account_id (str): The Microsoft Customer Agreement billing account ID (<guid>:<guid>_YYYY-MM-DD).
-            Read directly: an app with only Billing profile reader can't list billing accounts.
-        azure_billing_profile_id (str): The billing profile ID the app has Billing profile reader on.
+        azure_billing_account_id (str): The billing account ID: a Microsoft Customer Agreement account
+            (<guid>:<guid>_YYYY-MM-DD), or an Enterprise Agreement enrollment number (digits). Read directly: an app with
+            only Billing profile reader can't list billing accounts.
+        azure_billing_profile_id (Union[Unset, str]): Microsoft Customer Agreement only: the billing profile ID the app
+            has Billing profile reader on. Left out (or empty) for an Enterprise Agreement enrollment.
     """
 
     azure_connection_id: str
     azure_tenant_id: str
     azure_client_id: str
     azure_billing_account_id: str
-    azure_billing_profile_id: str
+    azure_billing_profile_id: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -45,9 +49,10 @@ class DiscoverAzureScopesInput:
                 "azureTenantId": azure_tenant_id,
                 "azureClientId": azure_client_id,
                 "azureBillingAccountId": azure_billing_account_id,
-                "azureBillingProfileId": azure_billing_profile_id,
             }
         )
+        if azure_billing_profile_id is not UNSET:
+            field_dict["azureBillingProfileId"] = azure_billing_profile_id
 
         return field_dict
 
@@ -62,7 +67,7 @@ class DiscoverAzureScopesInput:
 
         azure_billing_account_id = d.pop("azureBillingAccountId")
 
-        azure_billing_profile_id = d.pop("azureBillingProfileId")
+        azure_billing_profile_id = d.pop("azureBillingProfileId", UNSET)
 
         discover_azure_scopes_input = cls(
             azure_connection_id=azure_connection_id,

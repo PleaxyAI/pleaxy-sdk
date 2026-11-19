@@ -46,6 +46,7 @@ import ai.pleaxy.client.ApiClient;
   RecordPaymentItemInput.JSON_PROPERTY_RATE,
   RecordPaymentItemInput.JSON_PROPERTY_RATE_DATE,
   RecordPaymentItemInput.JSON_PROPERTY_WITHHOLDINGS,
+  RecordPaymentItemInput.JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT,
   RecordPaymentItemInput.JSON_PROPERTY_CONFIRM_REPLACED
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -130,6 +131,10 @@ public class RecordPaymentItemInput {
   public static final String JSON_PROPERTY_WITHHOLDINGS = "withholdings";
   @javax.annotation.Nullable
   private List<BreakdownEntryInput> withholdings = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT = "earlyPaymentDiscount";
+  @javax.annotation.Nullable
+  private Boolean earlyPaymentDiscount;
 
   public static final String JSON_PROPERTY_CONFIRM_REPLACED = "confirmReplaced";
   @javax.annotation.Nullable
@@ -388,6 +393,30 @@ public class RecordPaymentItemInput {
   }
 
 
+  public RecordPaymentItemInput earlyPaymentDiscount(@javax.annotation.Nullable Boolean earlyPaymentDiscount) {
+    this.earlyPaymentDiscount = earlyPaymentDiscount;
+    return this;
+  }
+
+  /**
+   * Get earlyPaymentDiscount
+   * @return earlyPaymentDiscount
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getEarlyPaymentDiscount() {
+    return earlyPaymentDiscount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEarlyPaymentDiscount(@javax.annotation.Nullable Boolean earlyPaymentDiscount) {
+    this.earlyPaymentDiscount = earlyPaymentDiscount;
+  }
+
+
   public RecordPaymentItemInput confirmReplaced(@javax.annotation.Nullable Boolean confirmReplaced) {
     this.confirmReplaced = confirmReplaced;
     return this;
@@ -434,12 +463,13 @@ public class RecordPaymentItemInput {
         Objects.equals(this.rate, recordPaymentItemInput.rate) &&
         Objects.equals(this.rateDate, recordPaymentItemInput.rateDate) &&
         Objects.equals(this.withholdings, recordPaymentItemInput.withholdings) &&
+        Objects.equals(this.earlyPaymentDiscount, recordPaymentItemInput.earlyPaymentDiscount) &&
         Objects.equals(this.confirmReplaced, recordPaymentItemInput.confirmReplaced);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(invoiceId, note, method, paymentDate, reference, amount, currency, rate, rateDate, withholdings, confirmReplaced);
+    return Objects.hash(invoiceId, note, method, paymentDate, reference, amount, currency, rate, rateDate, withholdings, earlyPaymentDiscount, confirmReplaced);
   }
 
   @Override
@@ -456,6 +486,7 @@ public class RecordPaymentItemInput {
     sb.append("    rate: ").append(toIndentedString(rate)).append("\n");
     sb.append("    rateDate: ").append(toIndentedString(rateDate)).append("\n");
     sb.append("    withholdings: ").append(toIndentedString(withholdings)).append("\n");
+    sb.append("    earlyPaymentDiscount: ").append(toIndentedString(earlyPaymentDiscount)).append("\n");
     sb.append("    confirmReplaced: ").append(toIndentedString(confirmReplaced)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -557,6 +588,11 @@ public class RecordPaymentItemInput {
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
+    }
+
+    // add `earlyPaymentDiscount` to the URL query string
+    if (getEarlyPaymentDiscount() != null) {
+      joiner.add(String.format("%searlyPaymentDiscount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEarlyPaymentDiscount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `confirmReplaced` to the URL query string

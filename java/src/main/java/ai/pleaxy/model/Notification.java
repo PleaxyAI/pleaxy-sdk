@@ -211,6 +211,14 @@ public class Notification {
     
     INVOICE_HOLD_RELEASED(String.valueOf("invoice_hold_released")),
     
+    CREDIT_REQUEST_RECEIVED(String.valueOf("credit_request_received")),
+    
+    CREDIT_REQUEST_ANSWERED(String.valueOf("credit_request_answered")),
+    
+    CREDIT_REQUEST_ATTENTION(String.valueOf("credit_request_attention")),
+    
+    RECOVERY_WEEKLY_DIGEST(String.valueOf("recovery_weekly_digest")),
+    
     INVOICE_PAYMENT_REMINDER(String.valueOf("invoice_payment_reminder")),
     
     INVOICE_ENTERED_BY_BUYER(String.valueOf("invoice_entered_by_buyer")),
@@ -294,6 +302,10 @@ public class Notification {
     CONTRACT_RECHECK_REQUESTED(String.valueOf("contract_recheck_requested")),
     
     CONTRACT_SENT_TO_JOINED_SUPPLIER(String.valueOf("contract_sent_to_joined_supplier")),
+    
+    CONTRACT_RENEWAL_NOTICE_DUE(String.valueOf("contract_renewal_notice_due")),
+    
+    CONTRACT_TERMINATION_NOTICE_DUE(String.valueOf("contract_termination_notice_due")),
     
     COPILOT_ALLOWANCE_80(String.valueOf("copilot_allowance_80")),
     

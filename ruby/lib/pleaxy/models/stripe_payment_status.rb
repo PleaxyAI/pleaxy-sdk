@@ -25,6 +25,8 @@ module Pleaxy
 
     attr_accessor :quote
 
+    attr_accessor :early_payment
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -54,7 +56,8 @@ module Pleaxy
         :'reason' => :'reason',
         :'state' => :'state',
         :'payment_method_type' => :'paymentMethodType',
-        :'quote' => :'quote'
+        :'quote' => :'quote',
+        :'early_payment' => :'earlyPayment'
       }
     end
 
@@ -70,7 +73,8 @@ module Pleaxy
         :'reason' => :'String',
         :'state' => :'String',
         :'payment_method_type' => :'String',
-        :'quote' => :'StripePaymentStatusQuote'
+        :'quote' => :'StripePaymentStatusQuote',
+        :'early_payment' => :'StripePaymentStatusEarlyPayment'
       }
     end
 
@@ -113,6 +117,10 @@ module Pleaxy
 
       if attributes.key?(:'quote')
         self.quote = attributes[:'quote']
+      end
+
+      if attributes.key?(:'early_payment')
+        self.early_payment = attributes[:'early_payment']
       end
     end
 
@@ -176,7 +184,8 @@ module Pleaxy
           reason == o.reason &&
           state == o.state &&
           payment_method_type == o.payment_method_type &&
-          quote == o.quote
+          quote == o.quote &&
+          early_payment == o.early_payment
     end
 
     # @see the `==` method
@@ -188,7 +197,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [available, reason, state, payment_method_type, quote].hash
+      [available, reason, state, payment_method_type, quote, early_payment].hash
     end
 
     # Builds the object from hash

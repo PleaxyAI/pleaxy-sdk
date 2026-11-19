@@ -65,10 +65,10 @@ def sync_detailed(
     unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller
     only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card,
     other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion,
-    what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent
-    (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL:
-    GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as
-    GetInvoice.
+    an early-payment discount the buyer took (earlyPaymentDiscount), what was withheld, netPaid after
+    both, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment:
+    download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never
+    who at the buyer recorded it. Takes the same ?buyer= as GetInvoice.
 
     Args:
         invoice_id (str):
@@ -104,10 +104,10 @@ def sync(
     unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller
     only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card,
     other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion,
-    what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent
-    (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL:
-    GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as
-    GetInvoice.
+    an early-payment discount the buyer took (earlyPaymentDiscount), what was withheld, netPaid after
+    both, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment:
+    download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never
+    who at the buyer recorded it. Takes the same ?buyer= as GetInvoice.
 
     Args:
         invoice_id (str):
@@ -138,10 +138,10 @@ async def asyncio_detailed(
     unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller
     only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card,
     other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion,
-    what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent
-    (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL:
-    GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as
-    GetInvoice.
+    an early-payment discount the buyer took (earlyPaymentDiscount), what was withheld, netPaid after
+    both, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment:
+    download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never
+    who at the buyer recorded it. Takes the same ?buyer= as GetInvoice.
 
     Args:
         invoice_id (str):
@@ -175,10 +175,10 @@ async def asyncio(
     unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller
     only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card,
     other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion,
-    what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent
-    (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL:
-    GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as
-    GetInvoice.
+    an early-payment discount the buyer took (earlyPaymentDiscount), what was withheld, netPaid after
+    both, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment:
+    download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never
+    who at the buyer recorded it. Takes the same ?buyer= as GetInvoice.
 
     Args:
         invoice_id (str):

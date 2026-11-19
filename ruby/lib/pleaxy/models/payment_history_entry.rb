@@ -31,6 +31,10 @@ module Pleaxy
 
     attr_accessor :amount
 
+    attr_accessor :payment_date
+
+    attr_accessor :reference
+
     attr_accessor :sole_payer
 
     attr_accessor :approved_by_others
@@ -70,6 +74,8 @@ module Pleaxy
         :'remittance_id' => :'remittanceId',
         :'credit_note_id' => :'creditNoteId',
         :'amount' => :'amount',
+        :'payment_date' => :'paymentDate',
+        :'reference' => :'reference',
         :'sole_payer' => :'solePayer',
         :'approved_by_others' => :'approvedByOthers',
         :'record' => :'record'
@@ -92,6 +98,8 @@ module Pleaxy
         :'remittance_id' => :'String',
         :'credit_note_id' => :'String',
         :'amount' => :'Float',
+        :'payment_date' => :'String',
+        :'reference' => :'String',
         :'sole_payer' => :'SolePayerWaiverRecord',
         :'approved_by_others' => :'ApprovedByOthersRecord',
         :'record' => :'PaymentHistoryEntryRecord'
@@ -151,6 +159,14 @@ module Pleaxy
         self.amount = attributes[:'amount']
       end
 
+      if attributes.key?(:'payment_date')
+        self.payment_date = attributes[:'payment_date']
+      end
+
+      if attributes.key?(:'reference')
+        self.reference = attributes[:'reference']
+      end
+
       if attributes.key?(:'sole_payer')
         self.sole_payer = attributes[:'sole_payer']
       end
@@ -176,7 +192,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      action_validator = EnumAttributeValidator.new('String', ["exported", "recorded", "export_withdrawn", "record_withdrawn", "stripe_started", "stripe_released", "stripe_failed", "stripe_succeeded", "remittance_sent", "credit_applied", "credit_removed", "settled", "settlement_undone", "problem_reported", "problem_answered"])
+      action_validator = EnumAttributeValidator.new('String', ["exported", "recorded", "export_withdrawn", "record_withdrawn", "stripe_started", "stripe_released", "stripe_failed", "stripe_succeeded", "remittance_sent", "credit_applied", "credit_removed", "settled", "settlement_undone", "problem_reported", "problem_answered", "held_back_paid"])
       return false unless action_validator.valid?(@action)
       true
     end
@@ -184,7 +200,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] action Object to be assigned
     def action=(action)
-      validator = EnumAttributeValidator.new('String', ["exported", "recorded", "export_withdrawn", "record_withdrawn", "stripe_started", "stripe_released", "stripe_failed", "stripe_succeeded", "remittance_sent", "credit_applied", "credit_removed", "settled", "settlement_undone", "problem_reported", "problem_answered"])
+      validator = EnumAttributeValidator.new('String', ["exported", "recorded", "export_withdrawn", "record_withdrawn", "stripe_started", "stripe_released", "stripe_failed", "stripe_succeeded", "remittance_sent", "credit_applied", "credit_removed", "settled", "settlement_undone", "problem_reported", "problem_answered", "held_back_paid"])
       unless validator.valid?(action)
         fail ArgumentError, "invalid value for \"action\", must be one of #{validator.allowable_values}."
       end
@@ -204,6 +220,8 @@ module Pleaxy
           remittance_id == o.remittance_id &&
           credit_note_id == o.credit_note_id &&
           amount == o.amount &&
+          payment_date == o.payment_date &&
+          reference == o.reference &&
           sole_payer == o.sole_payer &&
           approved_by_others == o.approved_by_others &&
           record == o.record
@@ -218,7 +236,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [action, at, by, by_name, by_supplier, remittance_id, credit_note_id, amount, sole_payer, approved_by_others, record].hash
+      [action, at, by, by_name, by_supplier, remittance_id, credit_note_id, amount, payment_date, reference, sole_payer, approved_by_others, record].hash
     end
 
     # Builds the object from hash

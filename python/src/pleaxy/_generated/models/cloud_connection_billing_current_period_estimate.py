@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -8,6 +8,10 @@ from ..models.cloud_connection_billing_current_period_estimate_confidence import
     check_cloud_connection_billing_current_period_estimate_confidence,
 )
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.cloud_service_cost import CloudServiceCost
+
 
 T = TypeVar("T", bound="CloudConnectionBillingCurrentPeriodEstimate")
 
@@ -21,6 +25,7 @@ class CloudConnectionBillingCurrentPeriodEstimate:
         as_of (Union[Unset, str]):
         confidence (Union[Unset, CloudConnectionBillingCurrentPeriodEstimateConfidence]):
         currency (Union[Unset, str]):
+        services (Union[Unset, List['CloudServiceCost']]):
     """
 
     total_amount: Union[Unset, float] = UNSET
@@ -30,6 +35,7 @@ class CloudConnectionBillingCurrentPeriodEstimate:
         UNSET
     )
     currency: Union[Unset, str] = UNSET
+    services: Union[Unset, List["CloudServiceCost"]] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -45,6 +51,13 @@ class CloudConnectionBillingCurrentPeriodEstimate:
 
         currency = self.currency
 
+        services: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.services, Unset):
+            services = []
+            for services_item_data in self.services:
+                services_item = services_item_data.to_dict()
+                services.append(services_item)
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -58,11 +71,15 @@ class CloudConnectionBillingCurrentPeriodEstimate:
             field_dict["confidence"] = confidence
         if currency is not UNSET:
             field_dict["currency"] = currency
+        if services is not UNSET:
+            field_dict["services"] = services
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.cloud_service_cost import CloudServiceCost
+
         d = src_dict.copy()
         total_amount = d.pop("totalAmount", UNSET)
 
@@ -83,12 +100,20 @@ class CloudConnectionBillingCurrentPeriodEstimate:
 
         currency = d.pop("currency", UNSET)
 
+        services = []
+        _services = d.pop("services", UNSET)
+        for services_item_data in _services or []:
+            services_item = CloudServiceCost.from_dict(services_item_data)
+
+            services.append(services_item)
+
         cloud_connection_billing_current_period_estimate = cls(
             total_amount=total_amount,
             forecast_amount=forecast_amount,
             as_of=as_of,
             confidence=confidence,
             currency=currency,
+            services=services,
         )
 
         cloud_connection_billing_current_period_estimate.additional_properties = d

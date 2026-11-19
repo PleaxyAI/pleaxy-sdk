@@ -3,6 +3,10 @@ from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.list_invoices_item_buyer_invoice_cloud_provider import (
+    ListInvoicesItemBuyerInvoiceCloudProvider,
+    check_list_invoices_item_buyer_invoice_cloud_provider,
+)
 from ..models.list_invoices_item_buyer_invoice_discrepancy_reason import (
     ListInvoicesItemBuyerInvoiceDiscrepancyReason,
     check_list_invoices_item_buyer_invoice_discrepancy_reason,
@@ -68,6 +72,8 @@ if TYPE_CHECKING:
     from ..models.invoice_currency_amount import InvoiceCurrencyAmount
     from ..models.invoice_deduction import InvoiceDeduction
     from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
+    from ..models.invoice_early_payment import InvoiceEarlyPayment
+    from ..models.invoice_held_back import InvoiceHeldBack
     from ..models.invoice_line_item import InvoiceLineItem
     from ..models.invoice_payment_problem import InvoicePaymentProblem
     from ..models.invoice_payment_record import InvoicePaymentRecord
@@ -77,6 +83,7 @@ if TYPE_CHECKING:
     from ..models.invoice_replacement_check import InvoiceReplacementCheck
     from ..models.invoice_settlement import InvoiceSettlement
     from ..models.invoice_source_document import InvoiceSourceDocument
+    from ..models.invoice_usage_line import InvoiceUsageLine
     from ..models.late_fee_terms import LateFeeTerms
     from ..models.list_invoices_item_buyer_invoice_party_details import (
         ListInvoicesItemBuyerInvoicePartyDetails,
@@ -106,6 +113,7 @@ class ListInvoicesItemBuyerInvoice:
         buyer_org_id (Union[Unset, str]):
         supplier_org_id (Union[Unset, str]):
         created_at (Union[Unset, str]):
+        cloud_provider (Union[Unset, ListInvoicesItemBuyerInvoiceCloudProvider]):
         late_fee_terms (Union[Unset, LateFeeTerms]):
         amount (Union[Unset, float]):
         settlement (Union[Unset, InvoiceSettlement]):
@@ -127,6 +135,7 @@ class ListInvoicesItemBuyerInvoice:
         usage_simulated_after_disconnect (Union[Unset, bool]):
         usage_currency (Union[Unset, str]):
         usage_source (Union[Unset, ListInvoicesItemBuyerInvoiceUsageSource]):
+        usage_lines (Union[Unset, List['InvoiceUsageLine']]):
         tolerance_pct (Union[Unset, float]):
         match_status (Union[Unset, ListInvoicesItemBuyerInvoiceMatchStatus]):
         unverified_reason (Union[Unset, ListInvoicesItemBuyerInvoiceUnverifiedReason]):
@@ -150,6 +159,7 @@ class ListInvoicesItemBuyerInvoice:
         export_available_from (Union[Unset, str]):
         previous_exported_at (Union[Unset, str]):
         due_date_source (Union[Unset, ListInvoicesItemBuyerInvoiceDueDateSource]):
+        early_payment (Union[Unset, InvoiceEarlyPayment]):
         last_reminded_at (Union[Unset, str]):
         last_approver_reminded_at (Union[Unset, str]):
         rejection (Union[Unset, InvoiceRejection]):
@@ -160,6 +170,7 @@ class ListInvoicesItemBuyerInvoice:
         duplicates_checked (Union[Unset, bool]):
         has_lookup_rows (Union[Unset, bool]):
         source (Union[Unset, ListInvoicesItemBuyerInvoiceSource]):
+        cloud_connection_id (Union[Unset, str]):
         entered_by (Union[Unset, ListInvoicesItemBuyerInvoiceEnteredBy]):
         invoice_date (Union[Unset, str]):
         sod_excluded_keys (Union[Unset, List[str]]):
@@ -178,6 +189,7 @@ class ListInvoicesItemBuyerInvoice:
         invoice_kind (Union[Unset, ListInvoicesItemBuyerInvoiceInvoiceKind]):
         deductions (Union[Unset, List['InvoiceDeduction']]):
         credit_applications (Union[Unset, List['InvoiceCreditApplication']]):
+        held_back (Union[Unset, InvoiceHeldBack]):
         credit_note_ids (Union[Unset, List[str]]):
         credit_version (Union[Unset, float]):
         payment_currency_amount (Union[Unset, InvoiceCurrencyAmount]):
@@ -201,6 +213,7 @@ class ListInvoicesItemBuyerInvoice:
     buyer_org_id: Union[Unset, str] = UNSET
     supplier_org_id: Union[Unset, str] = UNSET
     created_at: Union[Unset, str] = UNSET
+    cloud_provider: Union[Unset, ListInvoicesItemBuyerInvoiceCloudProvider] = UNSET
     late_fee_terms: Union[Unset, "LateFeeTerms"] = UNSET
     amount: Union[Unset, float] = UNSET
     settlement: Union[Unset, "InvoiceSettlement"] = UNSET
@@ -222,6 +235,7 @@ class ListInvoicesItemBuyerInvoice:
     usage_simulated_after_disconnect: Union[Unset, bool] = UNSET
     usage_currency: Union[Unset, str] = UNSET
     usage_source: Union[Unset, ListInvoicesItemBuyerInvoiceUsageSource] = UNSET
+    usage_lines: Union[Unset, List["InvoiceUsageLine"]] = UNSET
     tolerance_pct: Union[Unset, float] = UNSET
     match_status: Union[Unset, ListInvoicesItemBuyerInvoiceMatchStatus] = UNSET
     unverified_reason: Union[Unset, ListInvoicesItemBuyerInvoiceUnverifiedReason] = (
@@ -253,6 +267,7 @@ class ListInvoicesItemBuyerInvoice:
     export_available_from: Union[Unset, str] = UNSET
     previous_exported_at: Union[Unset, str] = UNSET
     due_date_source: Union[Unset, ListInvoicesItemBuyerInvoiceDueDateSource] = UNSET
+    early_payment: Union[Unset, "InvoiceEarlyPayment"] = UNSET
     last_reminded_at: Union[Unset, str] = UNSET
     last_approver_reminded_at: Union[Unset, str] = UNSET
     rejection: Union[Unset, "InvoiceRejection"] = UNSET
@@ -263,6 +278,7 @@ class ListInvoicesItemBuyerInvoice:
     duplicates_checked: Union[Unset, bool] = UNSET
     has_lookup_rows: Union[Unset, bool] = UNSET
     source: Union[Unset, ListInvoicesItemBuyerInvoiceSource] = UNSET
+    cloud_connection_id: Union[Unset, str] = UNSET
     entered_by: Union[Unset, ListInvoicesItemBuyerInvoiceEnteredBy] = UNSET
     invoice_date: Union[Unset, str] = UNSET
     sod_excluded_keys: Union[Unset, List[str]] = UNSET
@@ -281,6 +297,7 @@ class ListInvoicesItemBuyerInvoice:
     invoice_kind: Union[Unset, ListInvoicesItemBuyerInvoiceInvoiceKind] = UNSET
     deductions: Union[Unset, List["InvoiceDeduction"]] = UNSET
     credit_applications: Union[Unset, List["InvoiceCreditApplication"]] = UNSET
+    held_back: Union[Unset, "InvoiceHeldBack"] = UNSET
     credit_note_ids: Union[Unset, List[str]] = UNSET
     credit_version: Union[Unset, float] = UNSET
     payment_currency_amount: Union[Unset, "InvoiceCurrencyAmount"] = UNSET
@@ -309,6 +326,10 @@ class ListInvoicesItemBuyerInvoice:
         supplier_org_id = self.supplier_org_id
 
         created_at = self.created_at
+
+        cloud_provider: Union[Unset, str] = UNSET
+        if not isinstance(self.cloud_provider, Unset):
+            cloud_provider = self.cloud_provider
 
         late_fee_terms: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.late_fee_terms, Unset):
@@ -366,6 +387,13 @@ class ListInvoicesItemBuyerInvoice:
         usage_source: Union[Unset, str] = UNSET
         if not isinstance(self.usage_source, Unset):
             usage_source = self.usage_source
+
+        usage_lines: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.usage_lines, Unset):
+            usage_lines = []
+            for usage_lines_item_data in self.usage_lines:
+                usage_lines_item = usage_lines_item_data.to_dict()
+                usage_lines.append(usage_lines_item)
 
         tolerance_pct = self.tolerance_pct
 
@@ -452,6 +480,10 @@ class ListInvoicesItemBuyerInvoice:
         if not isinstance(self.due_date_source, Unset):
             due_date_source = self.due_date_source
 
+        early_payment: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.early_payment, Unset):
+            early_payment = self.early_payment.to_dict()
+
         last_reminded_at = self.last_reminded_at
 
         last_approver_reminded_at = self.last_approver_reminded_at
@@ -484,6 +516,8 @@ class ListInvoicesItemBuyerInvoice:
         source: Union[Unset, str] = UNSET
         if not isinstance(self.source, Unset):
             source = self.source
+
+        cloud_connection_id = self.cloud_connection_id
 
         entered_by: Union[Unset, str] = UNSET
         if not isinstance(self.entered_by, Unset):
@@ -557,6 +591,10 @@ class ListInvoicesItemBuyerInvoice:
             for credit_applications_item_data in self.credit_applications:
                 credit_applications_item = credit_applications_item_data.to_dict()
                 credit_applications.append(credit_applications_item)
+
+        held_back: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.held_back, Unset):
+            held_back = self.held_back.to_dict()
 
         credit_note_ids: Union[Unset, List[str]] = UNSET
         if not isinstance(self.credit_note_ids, Unset):
@@ -633,6 +671,8 @@ class ListInvoicesItemBuyerInvoice:
             field_dict["supplierOrgId"] = supplier_org_id
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
+        if cloud_provider is not UNSET:
+            field_dict["cloudProvider"] = cloud_provider
         if late_fee_terms is not UNSET:
             field_dict["lateFeeTerms"] = late_fee_terms
         if amount is not UNSET:
@@ -677,6 +717,8 @@ class ListInvoicesItemBuyerInvoice:
             field_dict["usageCurrency"] = usage_currency
         if usage_source is not UNSET:
             field_dict["usageSource"] = usage_source
+        if usage_lines is not UNSET:
+            field_dict["usageLines"] = usage_lines
         if tolerance_pct is not UNSET:
             field_dict["tolerancePct"] = tolerance_pct
         if match_status is not UNSET:
@@ -725,6 +767,8 @@ class ListInvoicesItemBuyerInvoice:
             field_dict["previousExportedAt"] = previous_exported_at
         if due_date_source is not UNSET:
             field_dict["dueDateSource"] = due_date_source
+        if early_payment is not UNSET:
+            field_dict["earlyPayment"] = early_payment
         if last_reminded_at is not UNSET:
             field_dict["lastRemindedAt"] = last_reminded_at
         if last_approver_reminded_at is not UNSET:
@@ -745,6 +789,8 @@ class ListInvoicesItemBuyerInvoice:
             field_dict["hasLookupRows"] = has_lookup_rows
         if source is not UNSET:
             field_dict["source"] = source
+        if cloud_connection_id is not UNSET:
+            field_dict["cloudConnectionId"] = cloud_connection_id
         if entered_by is not UNSET:
             field_dict["enteredBy"] = entered_by
         if invoice_date is not UNSET:
@@ -781,6 +827,8 @@ class ListInvoicesItemBuyerInvoice:
             field_dict["deductions"] = deductions
         if credit_applications is not UNSET:
             field_dict["creditApplications"] = credit_applications
+        if held_back is not UNSET:
+            field_dict["heldBack"] = held_back
         if credit_note_ids is not UNSET:
             field_dict["creditNoteIds"] = credit_note_ids
         if credit_version is not UNSET:
@@ -828,6 +876,8 @@ class ListInvoicesItemBuyerInvoice:
         from ..models.invoice_currency_amount import InvoiceCurrencyAmount
         from ..models.invoice_deduction import InvoiceDeduction
         from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
+        from ..models.invoice_early_payment import InvoiceEarlyPayment
+        from ..models.invoice_held_back import InvoiceHeldBack
         from ..models.invoice_line_item import InvoiceLineItem
         from ..models.invoice_payment_problem import InvoicePaymentProblem
         from ..models.invoice_payment_record import InvoicePaymentRecord
@@ -837,6 +887,7 @@ class ListInvoicesItemBuyerInvoice:
         from ..models.invoice_replacement_check import InvoiceReplacementCheck
         from ..models.invoice_settlement import InvoiceSettlement
         from ..models.invoice_source_document import InvoiceSourceDocument
+        from ..models.invoice_usage_line import InvoiceUsageLine
         from ..models.late_fee_terms import LateFeeTerms
         from ..models.list_invoices_item_buyer_invoice_party_details import (
             ListInvoicesItemBuyerInvoicePartyDetails,
@@ -863,6 +914,15 @@ class ListInvoicesItemBuyerInvoice:
         supplier_org_id = d.pop("supplierOrgId", UNSET)
 
         created_at = d.pop("createdAt", UNSET)
+
+        _cloud_provider = d.pop("cloudProvider", UNSET)
+        cloud_provider: Union[Unset, ListInvoicesItemBuyerInvoiceCloudProvider]
+        if isinstance(_cloud_provider, Unset):
+            cloud_provider = UNSET
+        else:
+            cloud_provider = check_list_invoices_item_buyer_invoice_cloud_provider(
+                _cloud_provider
+            )
 
         _late_fee_terms = d.pop("lateFeeTerms", UNSET)
         late_fee_terms: Union[Unset, LateFeeTerms]
@@ -939,6 +999,13 @@ class ListInvoicesItemBuyerInvoice:
             usage_source = check_list_invoices_item_buyer_invoice_usage_source(
                 _usage_source
             )
+
+        usage_lines = []
+        _usage_lines = d.pop("usageLines", UNSET)
+        for usage_lines_item_data in _usage_lines or []:
+            usage_lines_item = InvoiceUsageLine.from_dict(usage_lines_item_data)
+
+            usage_lines.append(usage_lines_item)
 
         tolerance_pct = d.pop("tolerancePct", UNSET)
 
@@ -1093,6 +1160,13 @@ class ListInvoicesItemBuyerInvoice:
                 _due_date_source
             )
 
+        _early_payment = d.pop("earlyPayment", UNSET)
+        early_payment: Union[Unset, InvoiceEarlyPayment]
+        if isinstance(_early_payment, Unset):
+            early_payment = UNSET
+        else:
+            early_payment = InvoiceEarlyPayment.from_dict(_early_payment)
+
         last_reminded_at = d.pop("lastRemindedAt", UNSET)
 
         last_approver_reminded_at = d.pop("lastApproverRemindedAt", UNSET)
@@ -1129,6 +1203,8 @@ class ListInvoicesItemBuyerInvoice:
             source = UNSET
         else:
             source = check_list_invoices_item_buyer_invoice_source(_source)
+
+        cloud_connection_id = d.pop("cloudConnectionId", UNSET)
 
         _entered_by = d.pop("enteredBy", UNSET)
         entered_by: Union[Unset, ListInvoicesItemBuyerInvoiceEnteredBy]
@@ -1220,6 +1296,13 @@ class ListInvoicesItemBuyerInvoice:
             )
 
             credit_applications.append(credit_applications_item)
+
+        _held_back = d.pop("heldBack", UNSET)
+        held_back: Union[Unset, InvoiceHeldBack]
+        if isinstance(_held_back, Unset):
+            held_back = UNSET
+        else:
+            held_back = InvoiceHeldBack.from_dict(_held_back)
 
         credit_note_ids = cast(List[str], d.pop("creditNoteIds", UNSET))
 
@@ -1319,6 +1402,7 @@ class ListInvoicesItemBuyerInvoice:
             buyer_org_id=buyer_org_id,
             supplier_org_id=supplier_org_id,
             created_at=created_at,
+            cloud_provider=cloud_provider,
             late_fee_terms=late_fee_terms,
             amount=amount,
             settlement=settlement,
@@ -1340,6 +1424,7 @@ class ListInvoicesItemBuyerInvoice:
             usage_simulated_after_disconnect=usage_simulated_after_disconnect,
             usage_currency=usage_currency,
             usage_source=usage_source,
+            usage_lines=usage_lines,
             tolerance_pct=tolerance_pct,
             match_status=match_status,
             unverified_reason=unverified_reason,
@@ -1363,6 +1448,7 @@ class ListInvoicesItemBuyerInvoice:
             export_available_from=export_available_from,
             previous_exported_at=previous_exported_at,
             due_date_source=due_date_source,
+            early_payment=early_payment,
             last_reminded_at=last_reminded_at,
             last_approver_reminded_at=last_approver_reminded_at,
             rejection=rejection,
@@ -1373,6 +1459,7 @@ class ListInvoicesItemBuyerInvoice:
             duplicates_checked=duplicates_checked,
             has_lookup_rows=has_lookup_rows,
             source=source,
+            cloud_connection_id=cloud_connection_id,
             entered_by=entered_by,
             invoice_date=invoice_date,
             sod_excluded_keys=sod_excluded_keys,
@@ -1391,6 +1478,7 @@ class ListInvoicesItemBuyerInvoice:
             invoice_kind=invoice_kind,
             deductions=deductions,
             credit_applications=credit_applications,
+            held_back=held_back,
             credit_note_ids=credit_note_ids,
             credit_version=credit_version,
             payment_currency_amount=payment_currency_amount,

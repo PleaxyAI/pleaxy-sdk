@@ -35,6 +35,8 @@ module Pleaxy
 
     attr_accessor :github
 
+    attr_accessor :zoom
+
     attr_accessor :credit_price
 
     attr_accessor :supplier_connection_id
@@ -84,6 +86,7 @@ module Pleaxy
         :'snowflake' => :'snowflake',
         :'databricks' => :'databricks',
         :'github' => :'github',
+        :'zoom' => :'zoom',
         :'credit_price' => :'creditPrice',
         :'supplier_connection_id' => :'supplierConnectionId',
         :'last_synced_at' => :'lastSyncedAt',
@@ -112,6 +115,7 @@ module Pleaxy
         :'snowflake' => :'AiProviderSnowflake',
         :'databricks' => :'AiProviderDatabricks',
         :'github' => :'AiProviderGithub',
+        :'zoom' => :'AiProviderZoom',
         :'credit_price' => :'AiProviderCreditPrice',
         :'supplier_connection_id' => :'String',
         :'last_synced_at' => :'String',
@@ -185,6 +189,10 @@ module Pleaxy
         self.github = attributes[:'github']
       end
 
+      if attributes.key?(:'zoom')
+        self.zoom = attributes[:'zoom']
+      end
+
       if attributes.key?(:'credit_price')
         self.credit_price = attributes[:'credit_price']
       end
@@ -231,7 +239,7 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @id.nil?
-      provider_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft"])
+      provider_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom"])
       return false unless provider_validator.valid?(@provider)
       status_validator = EnumAttributeValidator.new('String', ["connected", "pending"])
       return false unless status_validator.valid?(@status)
@@ -245,7 +253,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] provider Object to be assigned
     def provider=(provider)
-      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft"])
+      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom"])
       unless validator.valid?(provider)
         fail ArgumentError, "invalid value for \"provider\", must be one of #{validator.allowable_values}."
       end
@@ -297,6 +305,7 @@ module Pleaxy
           snowflake == o.snowflake &&
           databricks == o.databricks &&
           github == o.github &&
+          zoom == o.zoom &&
           credit_price == o.credit_price &&
           supplier_connection_id == o.supplier_connection_id &&
           last_synced_at == o.last_synced_at &&
@@ -315,7 +324,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, provider, account_label, key_hint, status, connected_at, connected_by, snowflake, databricks, github, credit_price, supplier_connection_id, last_synced_at, last_sync_status, last_sync_error, last_sync_error_code, currency].hash
+      [id, provider, account_label, key_hint, status, connected_at, connected_by, snowflake, databricks, github, zoom, credit_price, supplier_connection_id, last_synced_at, last_sync_status, last_sync_error, last_sync_error_code, currency].hash
     end
 
     # Builds the object from hash

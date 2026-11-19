@@ -1427,6 +1427,7 @@ pub async fn start_stripe_payment(
     configuration: &configuration::Configuration,
     invoice_id: &str,
     confirm_replaced: Option<&str>,
+    early_payment_discount: Option<&str>,
 ) -> Result<models::StartStripePaymentResult, Error<StartStripePaymentError>> {
     let local_var_configuration = configuration;
 
@@ -1443,6 +1444,10 @@ pub async fn start_stripe_payment(
     if let Some(ref local_var_str) = confirm_replaced {
         local_var_req_builder =
             local_var_req_builder.query(&[("confirmReplaced", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = early_payment_discount {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("earlyPaymentDiscount", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder =

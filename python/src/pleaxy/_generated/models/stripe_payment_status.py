@@ -18,6 +18,9 @@ from ..models.stripe_payment_status_state import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.stripe_payment_status_early_payment import (
+        StripePaymentStatusEarlyPayment,
+    )
     from ..models.stripe_payment_status_quote import StripePaymentStatusQuote
 
 
@@ -33,6 +36,7 @@ class StripePaymentStatus:
         state (Union[Unset, StripePaymentStatusState]):
         payment_method_type (Union[Unset, StripePaymentStatusPaymentMethodType]):
         quote (Union[Unset, StripePaymentStatusQuote]):
+        early_payment (Union[Unset, StripePaymentStatusEarlyPayment]):
     """
 
     available: Union[Unset, bool] = UNSET
@@ -40,6 +44,7 @@ class StripePaymentStatus:
     state: Union[Unset, StripePaymentStatusState] = UNSET
     payment_method_type: Union[Unset, StripePaymentStatusPaymentMethodType] = UNSET
     quote: Union[Unset, "StripePaymentStatusQuote"] = UNSET
+    early_payment: Union[Unset, "StripePaymentStatusEarlyPayment"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -61,6 +66,10 @@ class StripePaymentStatus:
         if not isinstance(self.quote, Unset):
             quote = self.quote.to_dict()
 
+        early_payment: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.early_payment, Unset):
+            early_payment = self.early_payment.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -74,11 +83,16 @@ class StripePaymentStatus:
             field_dict["paymentMethodType"] = payment_method_type
         if quote is not UNSET:
             field_dict["quote"] = quote
+        if early_payment is not UNSET:
+            field_dict["earlyPayment"] = early_payment
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.stripe_payment_status_early_payment import (
+            StripePaymentStatusEarlyPayment,
+        )
         from ..models.stripe_payment_status_quote import StripePaymentStatusQuote
 
         d = src_dict.copy()
@@ -114,12 +128,20 @@ class StripePaymentStatus:
         else:
             quote = StripePaymentStatusQuote.from_dict(_quote)
 
+        _early_payment = d.pop("earlyPayment", UNSET)
+        early_payment: Union[Unset, StripePaymentStatusEarlyPayment]
+        if isinstance(_early_payment, Unset):
+            early_payment = UNSET
+        else:
+            early_payment = StripePaymentStatusEarlyPayment.from_dict(_early_payment)
+
         stripe_payment_status = cls(
             available=available,
             reason=reason,
             state=state,
             payment_method_type=payment_method_type,
             quote=quote,
+            early_payment=early_payment,
         )
 
         stripe_payment_status.additional_properties = d

@@ -18,8 +18,10 @@ AiSavingRecommendationInvoicer = Literal[
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 AI_SAVING_RECOMMENDATION_INVOICER_VALUES: Set[AiSavingRecommendationInvoicer] = {
@@ -40,8 +42,10 @@ AI_SAVING_RECOMMENDATION_INVOICER_VALUES: Set[AiSavingRecommendationInvoicer] = 
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

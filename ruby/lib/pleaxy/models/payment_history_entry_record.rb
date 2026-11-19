@@ -29,6 +29,8 @@ module Pleaxy
 
     attr_accessor :paid_amount
 
+    attr_accessor :early_payment_discount
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -60,7 +62,8 @@ module Pleaxy
         :'reference' => :'reference',
         :'recorded_at' => :'recordedAt',
         :'advice_version' => :'adviceVersion',
-        :'paid_amount' => :'paidAmount'
+        :'paid_amount' => :'paidAmount',
+        :'early_payment_discount' => :'earlyPaymentDiscount'
       }
     end
 
@@ -78,7 +81,8 @@ module Pleaxy
         :'reference' => :'String',
         :'recorded_at' => :'String',
         :'advice_version' => :'Float',
-        :'paid_amount' => :'InvoicePaymentRecordPaidAmount'
+        :'paid_amount' => :'InvoicePaymentRecordPaidAmount',
+        :'early_payment_discount' => :'InvoicePaymentRecordEarlyPaymentDiscount'
       }
     end
 
@@ -132,6 +136,10 @@ module Pleaxy
       if attributes.key?(:'paid_amount')
         self.paid_amount = attributes[:'paid_amount']
       end
+
+      if attributes.key?(:'early_payment_discount')
+        self.early_payment_discount = attributes[:'early_payment_discount']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -172,7 +180,8 @@ module Pleaxy
           reference == o.reference &&
           recorded_at == o.recorded_at &&
           advice_version == o.advice_version &&
-          paid_amount == o.paid_amount
+          paid_amount == o.paid_amount &&
+          early_payment_discount == o.early_payment_discount
     end
 
     # @see the `==` method
@@ -184,7 +193,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [withholdings, method, payment_date, reference, recorded_at, advice_version, paid_amount].hash
+      [withholdings, method, payment_date, reference, recorded_at, advice_version, paid_amount, early_payment_discount].hash
     end
 
     # Builds the object from hash

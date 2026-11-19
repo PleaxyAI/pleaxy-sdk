@@ -18,8 +18,10 @@ AiLineScopeInputInvoicer = Literal[
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 AI_LINE_SCOPE_INPUT_INVOICER_VALUES: Set[AiLineScopeInputInvoicer] = {
@@ -40,8 +42,10 @@ AI_LINE_SCOPE_INPUT_INVOICER_VALUES: Set[AiLineScopeInputInvoicer] = {
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

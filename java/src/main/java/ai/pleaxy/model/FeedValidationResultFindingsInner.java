@@ -79,6 +79,8 @@ public class FeedValidationResultFindingsInner {
     
     CONTRACT_CHECK_FAILED(String.valueOf("contract_check_failed")),
     
+    CONTRACT_RATE_NOT_CHECKED(String.valueOf("contract_rate_not_checked")),
+    
     RECEIPT_MISSING(String.valueOf("receipt_missing")),
     
     RECEIPT_QTY_EXCEEDED(String.valueOf("receipt_qty_exceeded")),
@@ -92,6 +94,14 @@ public class FeedValidationResultFindingsInner {
     FIXED_DISCOUNT_MISSING(String.valueOf("fixed_discount_missing")),
     
     COMMITMENT_SHORTFALL_OVERBILLED(String.valueOf("commitment_shortfall_overbilled")),
+    
+    CONTRACT_MILESTONE_UNKNOWN(String.valueOf("contract_milestone_unknown")),
+    
+    CONTRACT_MILESTONE_ALREADY_BILLED(String.valueOf("contract_milestone_already_billed")),
+    
+    CONTRACT_MILESTONE_EXCEEDED(String.valueOf("contract_milestone_exceeded")),
+    
+    CONTRACT_MILESTONE_UNCONFIRMED(String.valueOf("contract_milestone_unconfirmed")),
     
     AI_RATE_ABOVE_CONTRACT(String.valueOf("ai_rate_above_contract")),
     

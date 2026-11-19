@@ -602,7 +602,9 @@
                         "crusoe",
                         "cursor",
                         "github",
-                        "microsoft"
+                        "microsoft",
+                        "slack",
+                        "zoom"
                       ]
                     },
                     "billingCurrency": {
@@ -1459,7 +1461,9 @@
                             "crusoe",
                             "cursor",
                             "github",
-                            "microsoft"
+                            "microsoft",
+                            "slack",
+                            "zoom"
                           ]
                         },
                         "billingCurrency": {
@@ -1638,7 +1642,9 @@
                             "crusoe",
                             "cursor",
                             "github",
-                            "microsoft"
+                            "microsoft",
+                            "slack",
+                            "zoom"
                           ]
                         },
                         "billingCurrency": {
@@ -1902,7 +1908,9 @@
                             "crusoe",
                             "cursor",
                             "github",
-                            "microsoft"
+                            "microsoft",
+                            "slack",
+                            "zoom"
                           ]
                         },
                         "billingCurrency": {
@@ -2093,7 +2101,9 @@
                             "crusoe",
                             "cursor",
                             "github",
-                            "microsoft"
+                            "microsoft",
+                            "slack",
+                            "zoom"
                           ]
                         },
                         "billingCurrency": {
@@ -4235,6 +4245,15 @@
                           "createdAt": {
                             "type": "string"
                           },
+                          "cloudProvider": {
+                            "type": "string",
+                            "enum": [
+                              "aws",
+                              "gcp",
+                              "azure",
+                              "oci"
+                            ]
+                          },
                           "lateFeeTerms": {
                             "$ref": "#/components/schemas/LateFeeTerms"
                           },
@@ -4315,8 +4334,15 @@
                               "ea_balance",
                               "usage_api_closed_month",
                               "osp_invoice",
-                              "focus_export"
+                              "focus_export",
+                              "cost_explorer_month"
                             ]
+                          },
+                          "usageLines": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/InvoiceUsageLine"
+                            }
                           },
                           "tolerancePct": {
                             "type": "number"
@@ -4337,7 +4363,8 @@
                               "no_billing_connection",
                               "debit_note",
                               "payer_account_unclear",
-                              "no_po_first_invoice"
+                              "no_po_first_invoice",
+                              "no_usage_figure"
                             ]
                           },
                           "matchBasis": {
@@ -4496,6 +4523,9 @@
                               "stated"
                             ]
                           },
+                          "earlyPayment": {
+                            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+                          },
                           "lastRemindedAt": {
                             "type": "string"
                           },
@@ -4538,8 +4568,12 @@
                               "manual",
                               "po-flip",
                               "direct",
-                              "feed"
+                              "feed",
+                              "cloud_sync"
                             ]
+                          },
+                          "cloudConnectionId": {
+                            "type": "string"
                           },
                           "enteredBy": {
                             "type": "string",
@@ -4630,6 +4664,9 @@
                             "items": {
                               "$ref": "#/components/schemas/InvoiceCreditApplication"
                             }
+                          },
+                          "heldBack": {
+                            "$ref": "#/components/schemas/InvoiceHeldBack"
                           },
                           "creditNoteIds": {
                             "type": "array",
@@ -4723,6 +4760,15 @@
                           "createdAt": {
                             "type": "string"
                           },
+                          "cloudProvider": {
+                            "type": "string",
+                            "enum": [
+                              "aws",
+                              "gcp",
+                              "azure",
+                              "oci"
+                            ]
+                          },
                           "lateFeeTerms": {
                             "$ref": "#/components/schemas/LateFeeTerms"
                           },
@@ -4811,6 +4857,9 @@
                               "stated"
                             ]
                           },
+                          "earlyPayment": {
+                            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+                          },
                           "lastRemindedAt": {
                             "type": "string"
                           },
@@ -4853,7 +4902,8 @@
                               "manual",
                               "po-flip",
                               "direct",
-                              "feed"
+                              "feed",
+                              "cloud_sync"
                             ]
                           },
                           "enteredBy": {
@@ -4961,6 +5011,9 @@
                           "hasOriginalPdf": {
                             "type": "boolean"
                           },
+                          "heldBack": {
+                            "$ref": "#/components/schemas/SupplierHeldBackView"
+                          },
                           "settlement": {
                             "$ref": "#/components/schemas/SupplierSettlementView"
                           },
@@ -5034,6 +5087,25 @@
                                       "rateDate"
                                     ]
                                   },
+                                  "earlyPaymentDiscount": {
+                                    "type": "object",
+                                    "properties": {
+                                      "percent": {
+                                        "type": "number"
+                                      },
+                                      "amount": {
+                                        "type": "number"
+                                      },
+                                      "deadline": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "percent",
+                                      "amount",
+                                      "deadline"
+                                    ]
+                                  },
                                   "status": {
                                     "type": "string",
                                     "enum": [
@@ -5070,6 +5142,25 @@
                                   },
                                   "succeededAt": {
                                     "type": "string"
+                                  },
+                                  "earlyPaymentDiscount": {
+                                    "type": "object",
+                                    "properties": {
+                                      "percent": {
+                                        "type": "number"
+                                      },
+                                      "amount": {
+                                        "type": "number"
+                                      },
+                                      "deadline": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "percent",
+                                      "amount",
+                                      "deadline"
+                                    ]
                                   }
                                 },
                                 "required": [
@@ -5137,6 +5228,25 @@
                                       "rateDate"
                                     ]
                                   },
+                                  "earlyPaymentDiscount": {
+                                    "type": "object",
+                                    "properties": {
+                                      "percent": {
+                                        "type": "number"
+                                      },
+                                      "amount": {
+                                        "type": "number"
+                                      },
+                                      "deadline": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "percent",
+                                      "amount",
+                                      "deadline"
+                                    ]
+                                  },
                                   "status": {
                                     "type": "string",
                                     "enum": [
@@ -5173,6 +5283,25 @@
                                   },
                                   "succeededAt": {
                                     "type": "string"
+                                  },
+                                  "earlyPaymentDiscount": {
+                                    "type": "object",
+                                    "properties": {
+                                      "percent": {
+                                        "type": "number"
+                                      },
+                                      "amount": {
+                                        "type": "number"
+                                      },
+                                      "deadline": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "percent",
+                                      "amount",
+                                      "deadline"
+                                    ]
                                   }
                                 },
                                 "required": [
@@ -6459,6 +6588,15 @@
                         "createdAt": {
                           "type": "string"
                         },
+                        "cloudProvider": {
+                          "type": "string",
+                          "enum": [
+                            "aws",
+                            "gcp",
+                            "azure",
+                            "oci"
+                          ]
+                        },
                         "lateFeeTerms": {
                           "$ref": "#/components/schemas/LateFeeTerms"
                         },
@@ -6539,8 +6677,15 @@
                             "ea_balance",
                             "usage_api_closed_month",
                             "osp_invoice",
-                            "focus_export"
+                            "focus_export",
+                            "cost_explorer_month"
                           ]
+                        },
+                        "usageLines": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/InvoiceUsageLine"
+                          }
                         },
                         "tolerancePct": {
                           "type": "number"
@@ -6561,7 +6706,8 @@
                             "no_billing_connection",
                             "debit_note",
                             "payer_account_unclear",
-                            "no_po_first_invoice"
+                            "no_po_first_invoice",
+                            "no_usage_figure"
                           ]
                         },
                         "matchBasis": {
@@ -6720,6 +6866,9 @@
                             "stated"
                           ]
                         },
+                        "earlyPayment": {
+                          "$ref": "#/components/schemas/InvoiceEarlyPayment"
+                        },
                         "lastRemindedAt": {
                           "type": "string"
                         },
@@ -6762,8 +6911,12 @@
                             "manual",
                             "po-flip",
                             "direct",
-                            "feed"
+                            "feed",
+                            "cloud_sync"
                           ]
+                        },
+                        "cloudConnectionId": {
+                          "type": "string"
                         },
                         "enteredBy": {
                           "type": "string",
@@ -6855,6 +7008,9 @@
                           "items": {
                             "$ref": "#/components/schemas/InvoiceCreditApplication"
                           }
+                        },
+                        "heldBack": {
+                          "$ref": "#/components/schemas/InvoiceHeldBack"
                         },
                         "creditNoteIds": {
                           "type": "array",
@@ -6948,6 +7104,15 @@
                         "createdAt": {
                           "type": "string"
                         },
+                        "cloudProvider": {
+                          "type": "string",
+                          "enum": [
+                            "aws",
+                            "gcp",
+                            "azure",
+                            "oci"
+                          ]
+                        },
                         "lateFeeTerms": {
                           "$ref": "#/components/schemas/LateFeeTerms"
                         },
@@ -7036,6 +7201,9 @@
                             "stated"
                           ]
                         },
+                        "earlyPayment": {
+                          "$ref": "#/components/schemas/InvoiceEarlyPayment"
+                        },
                         "lastRemindedAt": {
                           "type": "string"
                         },
@@ -7078,7 +7246,8 @@
                             "manual",
                             "po-flip",
                             "direct",
-                            "feed"
+                            "feed",
+                            "cloud_sync"
                           ]
                         },
                         "enteredBy": {
@@ -7187,6 +7356,9 @@
                         "hasOriginalPdf": {
                           "type": "boolean"
                         },
+                        "heldBack": {
+                          "$ref": "#/components/schemas/SupplierHeldBackView"
+                        },
                         "settlement": {
                           "$ref": "#/components/schemas/SupplierSettlementView"
                         },
@@ -7260,6 +7432,25 @@
                                     "rateDate"
                                   ]
                                 },
+                                "earlyPaymentDiscount": {
+                                  "type": "object",
+                                  "properties": {
+                                    "percent": {
+                                      "type": "number"
+                                    },
+                                    "amount": {
+                                      "type": "number"
+                                    },
+                                    "deadline": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "percent",
+                                    "amount",
+                                    "deadline"
+                                  ]
+                                },
                                 "status": {
                                   "type": "string",
                                   "enum": [
@@ -7296,6 +7487,25 @@
                                 },
                                 "succeededAt": {
                                   "type": "string"
+                                },
+                                "earlyPaymentDiscount": {
+                                  "type": "object",
+                                  "properties": {
+                                    "percent": {
+                                      "type": "number"
+                                    },
+                                    "amount": {
+                                      "type": "number"
+                                    },
+                                    "deadline": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "percent",
+                                    "amount",
+                                    "deadline"
+                                  ]
                                 }
                               },
                               "required": [
@@ -7363,6 +7573,25 @@
                                     "rateDate"
                                   ]
                                 },
+                                "earlyPaymentDiscount": {
+                                  "type": "object",
+                                  "properties": {
+                                    "percent": {
+                                      "type": "number"
+                                    },
+                                    "amount": {
+                                      "type": "number"
+                                    },
+                                    "deadline": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "percent",
+                                    "amount",
+                                    "deadline"
+                                  ]
+                                },
                                 "status": {
                                   "type": "string",
                                   "enum": [
@@ -7399,6 +7628,25 @@
                                 },
                                 "succeededAt": {
                                   "type": "string"
+                                },
+                                "earlyPaymentDiscount": {
+                                  "type": "object",
+                                  "properties": {
+                                    "percent": {
+                                      "type": "number"
+                                    },
+                                    "amount": {
+                                      "type": "number"
+                                    },
+                                    "deadline": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "percent",
+                                    "amount",
+                                    "deadline"
+                                  ]
                                 }
                               },
                               "required": [
@@ -8169,6 +8417,15 @@
                         "createdAt": {
                           "type": "string"
                         },
+                        "cloudProvider": {
+                          "type": "string",
+                          "enum": [
+                            "aws",
+                            "gcp",
+                            "azure",
+                            "oci"
+                          ]
+                        },
                         "lateFeeTerms": {
                           "$ref": "#/components/schemas/LateFeeTerms"
                         },
@@ -8249,8 +8506,15 @@
                             "ea_balance",
                             "usage_api_closed_month",
                             "osp_invoice",
-                            "focus_export"
+                            "focus_export",
+                            "cost_explorer_month"
                           ]
+                        },
+                        "usageLines": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/InvoiceUsageLine"
+                          }
                         },
                         "tolerancePct": {
                           "type": "number"
@@ -8271,7 +8535,8 @@
                             "no_billing_connection",
                             "debit_note",
                             "payer_account_unclear",
-                            "no_po_first_invoice"
+                            "no_po_first_invoice",
+                            "no_usage_figure"
                           ]
                         },
                         "matchBasis": {
@@ -8430,6 +8695,9 @@
                             "stated"
                           ]
                         },
+                        "earlyPayment": {
+                          "$ref": "#/components/schemas/InvoiceEarlyPayment"
+                        },
                         "lastRemindedAt": {
                           "type": "string"
                         },
@@ -8472,8 +8740,12 @@
                             "manual",
                             "po-flip",
                             "direct",
-                            "feed"
+                            "feed",
+                            "cloud_sync"
                           ]
+                        },
+                        "cloudConnectionId": {
+                          "type": "string"
                         },
                         "enteredBy": {
                           "type": "string",
@@ -8565,6 +8837,9 @@
                           "items": {
                             "$ref": "#/components/schemas/InvoiceCreditApplication"
                           }
+                        },
+                        "heldBack": {
+                          "$ref": "#/components/schemas/InvoiceHeldBack"
                         },
                         "creditNoteIds": {
                           "type": "array",
@@ -8658,6 +8933,15 @@
                         "createdAt": {
                           "type": "string"
                         },
+                        "cloudProvider": {
+                          "type": "string",
+                          "enum": [
+                            "aws",
+                            "gcp",
+                            "azure",
+                            "oci"
+                          ]
+                        },
                         "lateFeeTerms": {
                           "$ref": "#/components/schemas/LateFeeTerms"
                         },
@@ -8746,6 +9030,9 @@
                             "stated"
                           ]
                         },
+                        "earlyPayment": {
+                          "$ref": "#/components/schemas/InvoiceEarlyPayment"
+                        },
                         "lastRemindedAt": {
                           "type": "string"
                         },
@@ -8788,7 +9075,8 @@
                             "manual",
                             "po-flip",
                             "direct",
-                            "feed"
+                            "feed",
+                            "cloud_sync"
                           ]
                         },
                         "enteredBy": {
@@ -8897,6 +9185,9 @@
                         "hasOriginalPdf": {
                           "type": "boolean"
                         },
+                        "heldBack": {
+                          "$ref": "#/components/schemas/SupplierHeldBackView"
+                        },
                         "settlement": {
                           "$ref": "#/components/schemas/SupplierSettlementView"
                         },
@@ -8970,6 +9261,25 @@
                                     "rateDate"
                                   ]
                                 },
+                                "earlyPaymentDiscount": {
+                                  "type": "object",
+                                  "properties": {
+                                    "percent": {
+                                      "type": "number"
+                                    },
+                                    "amount": {
+                                      "type": "number"
+                                    },
+                                    "deadline": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "percent",
+                                    "amount",
+                                    "deadline"
+                                  ]
+                                },
                                 "status": {
                                   "type": "string",
                                   "enum": [
@@ -9006,6 +9316,25 @@
                                 },
                                 "succeededAt": {
                                   "type": "string"
+                                },
+                                "earlyPaymentDiscount": {
+                                  "type": "object",
+                                  "properties": {
+                                    "percent": {
+                                      "type": "number"
+                                    },
+                                    "amount": {
+                                      "type": "number"
+                                    },
+                                    "deadline": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "percent",
+                                    "amount",
+                                    "deadline"
+                                  ]
                                 }
                               },
                               "required": [
@@ -9073,6 +9402,25 @@
                                     "rateDate"
                                   ]
                                 },
+                                "earlyPaymentDiscount": {
+                                  "type": "object",
+                                  "properties": {
+                                    "percent": {
+                                      "type": "number"
+                                    },
+                                    "amount": {
+                                      "type": "number"
+                                    },
+                                    "deadline": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "percent",
+                                    "amount",
+                                    "deadline"
+                                  ]
+                                },
                                 "status": {
                                   "type": "string",
                                   "enum": [
@@ -9109,6 +9457,25 @@
                                 },
                                 "succeededAt": {
                                   "type": "string"
+                                },
+                                "earlyPaymentDiscount": {
+                                  "type": "object",
+                                  "properties": {
+                                    "percent": {
+                                      "type": "number"
+                                    },
+                                    "amount": {
+                                      "type": "number"
+                                    },
+                                    "deadline": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "percent",
+                                    "amount",
+                                    "deadline"
+                                  ]
                                 }
                               },
                               "required": [
@@ -9231,6 +9598,15 @@
                     "createdAt": {
                       "type": "string"
                     },
+                    "cloudProvider": {
+                      "type": "string",
+                      "enum": [
+                        "aws",
+                        "gcp",
+                        "azure",
+                        "oci"
+                      ]
+                    },
                     "lateFeeTerms": {
                       "$ref": "#/components/schemas/LateFeeTerms"
                     },
@@ -9311,8 +9687,15 @@
                         "ea_balance",
                         "usage_api_closed_month",
                         "osp_invoice",
-                        "focus_export"
+                        "focus_export",
+                        "cost_explorer_month"
                       ]
+                    },
+                    "usageLines": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/InvoiceUsageLine"
+                      }
                     },
                     "tolerancePct": {
                       "type": "number"
@@ -9333,7 +9716,8 @@
                         "no_billing_connection",
                         "debit_note",
                         "payer_account_unclear",
-                        "no_po_first_invoice"
+                        "no_po_first_invoice",
+                        "no_usage_figure"
                       ]
                     },
                     "matchBasis": {
@@ -9492,6 +9876,9 @@
                         "stated"
                       ]
                     },
+                    "earlyPayment": {
+                      "$ref": "#/components/schemas/InvoiceEarlyPayment"
+                    },
                     "lastRemindedAt": {
                       "type": "string"
                     },
@@ -9534,8 +9921,12 @@
                         "manual",
                         "po-flip",
                         "direct",
-                        "feed"
+                        "feed",
+                        "cloud_sync"
                       ]
+                    },
+                    "cloudConnectionId": {
+                      "type": "string"
                     },
                     "enteredBy": {
                       "type": "string",
@@ -9627,6 +10018,9 @@
                       "items": {
                         "$ref": "#/components/schemas/InvoiceCreditApplication"
                       }
+                    },
+                    "heldBack": {
+                      "$ref": "#/components/schemas/InvoiceHeldBack"
                     },
                     "creditNoteIds": {
                       "type": "array",
@@ -9774,6 +10168,15 @@
                     "createdAt": {
                       "type": "string"
                     },
+                    "cloudProvider": {
+                      "type": "string",
+                      "enum": [
+                        "aws",
+                        "gcp",
+                        "azure",
+                        "oci"
+                      ]
+                    },
                     "lateFeeTerms": {
                       "$ref": "#/components/schemas/LateFeeTerms"
                     },
@@ -9854,8 +10257,15 @@
                         "ea_balance",
                         "usage_api_closed_month",
                         "osp_invoice",
-                        "focus_export"
+                        "focus_export",
+                        "cost_explorer_month"
                       ]
+                    },
+                    "usageLines": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/InvoiceUsageLine"
+                      }
                     },
                     "tolerancePct": {
                       "type": "number"
@@ -9876,7 +10286,8 @@
                         "no_billing_connection",
                         "debit_note",
                         "payer_account_unclear",
-                        "no_po_first_invoice"
+                        "no_po_first_invoice",
+                        "no_usage_figure"
                       ]
                     },
                     "matchBasis": {
@@ -10035,6 +10446,9 @@
                         "stated"
                       ]
                     },
+                    "earlyPayment": {
+                      "$ref": "#/components/schemas/InvoiceEarlyPayment"
+                    },
                     "lastRemindedAt": {
                       "type": "string"
                     },
@@ -10077,8 +10491,12 @@
                         "manual",
                         "po-flip",
                         "direct",
-                        "feed"
+                        "feed",
+                        "cloud_sync"
                       ]
+                    },
+                    "cloudConnectionId": {
+                      "type": "string"
                     },
                     "enteredBy": {
                       "type": "string",
@@ -10170,6 +10588,9 @@
                       "items": {
                         "$ref": "#/components/schemas/InvoiceCreditApplication"
                       }
+                    },
+                    "heldBack": {
+                      "$ref": "#/components/schemas/InvoiceHeldBack"
                     },
                     "creditNoteIds": {
                       "type": "array",
@@ -10650,6 +11071,15 @@
                     "createdAt": {
                       "type": "string"
                     },
+                    "cloudProvider": {
+                      "type": "string",
+                      "enum": [
+                        "aws",
+                        "gcp",
+                        "azure",
+                        "oci"
+                      ]
+                    },
                     "lateFeeTerms": {
                       "$ref": "#/components/schemas/LateFeeTerms"
                     },
@@ -10730,8 +11160,15 @@
                         "ea_balance",
                         "usage_api_closed_month",
                         "osp_invoice",
-                        "focus_export"
+                        "focus_export",
+                        "cost_explorer_month"
                       ]
+                    },
+                    "usageLines": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/InvoiceUsageLine"
+                      }
                     },
                     "tolerancePct": {
                       "type": "number"
@@ -10752,7 +11189,8 @@
                         "no_billing_connection",
                         "debit_note",
                         "payer_account_unclear",
-                        "no_po_first_invoice"
+                        "no_po_first_invoice",
+                        "no_usage_figure"
                       ]
                     },
                     "matchBasis": {
@@ -10911,6 +11349,9 @@
                         "stated"
                       ]
                     },
+                    "earlyPayment": {
+                      "$ref": "#/components/schemas/InvoiceEarlyPayment"
+                    },
                     "lastRemindedAt": {
                       "type": "string"
                     },
@@ -10953,8 +11394,12 @@
                         "manual",
                         "po-flip",
                         "direct",
-                        "feed"
+                        "feed",
+                        "cloud_sync"
                       ]
+                    },
+                    "cloudConnectionId": {
+                      "type": "string"
                     },
                     "enteredBy": {
                       "type": "string",
@@ -11045,6 +11490,9 @@
                       "items": {
                         "$ref": "#/components/schemas/InvoiceCreditApplication"
                       }
+                    },
+                    "heldBack": {
+                      "$ref": "#/components/schemas/InvoiceHeldBack"
                     },
                     "creditNoteIds": {
                       "type": "array",
@@ -11296,7 +11744,7 @@
     "/v1/workspaces/{regionId}/invoices/payment-export": {
       "post": {
         "operationId": "ExportInvoicesForPayment",
-        "summary": "[Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row's Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.",
+        "summary": "[Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row's Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don't cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Send paymentDate (YYYY-MM-DD, today or later: the day your run pays) to take early-payment discounts: an invoice whose deadline is on or after that date is exported at its amount due less the discount when takeEarlyPaymentDiscounts is true (default: the workspace's setting), and the file adds payment_date, early_payment_discount, early_payment_deadline and remittance_info (a line for the payment's reference); a run dated after the deadline pays the full amount. 400 PAYMENT_RUN_DATE_INVALID for a date in the past or over a year ahead. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated, X-Pleaxy-Export-Discounted (how many take a discount). 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.",
         "parameters": [
           {
             "name": "regionId",
@@ -11580,7 +12028,7 @@
     "/v1/workspaces/{regionId}/invoices/{invoiceId}/remittance": {
       "get": {
         "operationId": "GetInvoiceRemittance",
-        "summary": "[Both] The payment signal for an invoice, for the supplier's cash application: status unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion, what was withheld, netPaid, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as GetInvoice.",
+        "summary": "[Both] The payment signal for an invoice, for the supplier's cash application: status unpaid|recorded|processing|paid_through_pleaxy|withdrawn, or failed with failedAt (a buyer caller only: its latest payment through Pleaxy failed), and once paid the method (ach, wire, check, card, other; credit or nothing_due when Pleaxy closed it; stripe), paymentDate, reference, adviceVersion, an early-payment discount the buyer took (earlyPaymentDiscount), what was withheld, netPaid after both, a payment in another currency, and the remittances the buyer sent (notes, proofs of payment: download one with GetRemittanceFile). The same as cXML or UBL: GetInvoiceRemittanceDocument. Never who at the buyer recorded it. Takes the same ?buyer= as GetInvoice.",
         "parameters": [
           {
             "name": "regionId",
@@ -12074,7 +12522,7 @@
       },
       "post": {
         "operationId": "CreateAiProvider",
-        "summary": "[Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers.",
+        "summary": "[Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seat tools read only the month's active users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`, the client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers.",
         "parameters": [
           {
             "name": "regionId",
@@ -12235,7 +12683,7 @@
     "/v1/workspaces/{regionId}/ai-providers/{provider}/supplier": {
       "post": {
         "operationId": "AddAiProviderSupplier",
-        "summary": "[Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create' on suppliers.",
+        "summary": "[Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake, databricks, coreweave, lambda, nebius, crusoe, cursor, github, microsoft, slack, zoom) to the suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent; connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create' on suppliers.",
         "parameters": [
           {
             "name": "regionId",
@@ -12365,7 +12813,9 @@
                         "crusoe",
                         "cursor",
                         "github",
-                        "microsoft"
+                        "microsoft",
+                        "slack",
+                        "zoom"
                       ]
                     },
                     "billingCurrency": {
@@ -12510,7 +12960,9 @@
                           "crusoe",
                           "cursor",
                           "github",
-                          "microsoft"
+                          "microsoft",
+                          "slack",
+                          "zoom"
                         ]
                       },
                       "name": {
@@ -18665,7 +19117,7 @@
     "/v1/workspaces/{regionId}/invoices/{invoiceId}/stripe-payment": {
       "get": {
         "operationId": "GetStripePayment",
-        "summary": "[Buyer] Whether this invoice can be paid through Pleaxy with Stripe: { available, reason?, state?, paymentMethodType?, quote? }. `quote` is { amount, fee, total, currency } in dollars: the buyer covers Stripe's bank-transfer fee (0.8%, capped at $5) so the supplier receives the full invoice amount. `reason` explains why not (not_configured, not_approved, payment_locked, supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). `state` is the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded.",
+        "summary": "[Buyer] Whether this invoice can be paid through Pleaxy with Stripe: { available, reason?, state?, paymentMethodType?, quote? }. `quote` is { amount, fee, total, currency } in dollars: the buyer covers Stripe's bank-transfer fee (0.8%, capped at $5) so the supplier receives the full invoice amount. `reason` explains why not (not_configured, not_approved, payment_locked, supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). `state` is the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded. `earlyPayment` is { percent, amount, deadline, quote } while a payment started today still earns the invoice's early-payment discount (quote: what the buyer pays taking it), or { ..., taken: true } on a payment that took it.",
         "parameters": [
           {
             "name": "regionId",
@@ -18712,7 +19164,7 @@
       },
       "post": {
         "operationId": "StartStripePayment",
-        "summary": "[Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don't cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only.",
+        "summary": "[Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier's own Stripe account. The buyer pays the invoice plus Stripe's fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Send ?earlyPaymentDiscount=true to take the invoice's early-payment discount: allowed when today (the workspace's date the payment is initiated, not the day the bank transfer settles) is on or before its deadline, else 400 EARLY_PAYMENT_DEADLINE_PASSED or NO_EARLY_PAYMENT_DISCOUNT; the charge is then the amount due less the discount, plus Stripe's fee on that. Resumes an open Checkout (one opened with the other discount choice is expired and replaced); a replaced invoice its credit notes don't cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced=true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can't be paid this way. Human session only.",
         "parameters": [
           {
             "name": "regionId",
@@ -18732,6 +19184,14 @@
           },
           {
             "name": "confirmReplaced",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "earlyPaymentDiscount",
             "required": false,
             "in": "query",
             "schema": {
@@ -18967,11 +19427,11 @@
           },
           "azureBillingAccountId": {
             "type": "string",
-            "description": "Azure only - the billing account of the billing profile picked from POST .../azure/discover (<guid>:<guid>_YYYY-MM-DD)."
+            "description": "Azure only - the billing account of the scope picked from POST .../azure/discover: an MCA account (<guid>:<guid>_YYYY-MM-DD) or an Enterprise Agreement enrollment number."
           },
           "azureBillingProfileId": {
             "type": "string",
-            "description": "Azure only - the billing profile picked from POST .../azure/discover."
+            "description": "Azure only - the billing profile picked from POST .../azure/discover. Left out for an Enterprise Agreement enrollment."
           },
           "azureTenantId": {
             "type": "string",
@@ -19018,19 +19478,18 @@
           },
           "azureBillingAccountId": {
             "type": "string",
-            "description": "The Microsoft Customer Agreement billing account ID (<guid>:<guid>_YYYY-MM-DD). Read directly: an app with only Billing profile reader can't list billing accounts."
+            "description": "The billing account ID: a Microsoft Customer Agreement account (<guid>:<guid>_YYYY-MM-DD), or an Enterprise Agreement enrollment number (digits). Read directly: an app with only Billing profile reader can't list billing accounts."
           },
           "azureBillingProfileId": {
             "type": "string",
-            "description": "The billing profile ID the app has Billing profile reader on."
+            "description": "Microsoft Customer Agreement only: the billing profile ID the app has Billing profile reader on. Left out (or empty) for an Enterprise Agreement enrollment."
           }
         },
         "required": [
           "azureConnectionId",
           "azureTenantId",
           "azureClientId",
-          "azureBillingAccountId",
-          "azureBillingProfileId"
+          "azureBillingAccountId"
         ]
       },
       "InvoiceAutonomySettingsDto": {
@@ -19547,7 +20006,9 @@
               "crusoe",
               "cursor",
               "github",
-              "microsoft"
+              "microsoft",
+              "slack",
+              "zoom"
             ],
             "description": "Who bills the line: a cloud or an AI provider."
           },
@@ -20034,7 +20495,9 @@
               "crusoe",
               "cursor",
               "github",
-              "microsoft"
+              "microsoft",
+              "slack",
+              "zoom"
             ],
             "description": "Who bills the line: a cloud or an AI provider."
           },
@@ -20873,6 +21336,9 @@
               "$ref": "#/components/schemas/BreakdownEntryDto"
             }
           },
+          "earlyPaymentDiscount": {
+            "type": "boolean"
+          },
           "remittance": {
             "$ref": "#/components/schemas/SendRemittanceDto"
           },
@@ -20936,6 +21402,9 @@
               "$ref": "#/components/schemas/BreakdownEntryDto"
             }
           },
+          "earlyPaymentDiscount": {
+            "type": "boolean"
+          },
           "confirmReplaced": {
             "type": "boolean"
           }
@@ -20972,6 +21441,13 @@
             }
           },
           "confirmReplaced": {
+            "type": "boolean"
+          },
+          "paymentDate": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "takeEarlyPaymentDiscounts": {
             "type": "boolean"
           }
         }
@@ -21077,6 +21553,23 @@
           "org"
         ]
       },
+      "ZoomConnectionDto": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{8,64}$"
+          },
+          "clientId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{8,64}$"
+          }
+        },
+        "required": [
+          "accountId",
+          "clientId"
+        ]
+      },
       "CreateAiProviderDto": {
         "type": "object",
         "properties": {
@@ -21096,6 +21589,9 @@
           },
           "github": {
             "$ref": "#/components/schemas/GitHubConnectionDto"
+          },
+          "zoom": {
+            "$ref": "#/components/schemas/ZoomConnectionDto"
           },
           "creditPrice": {
             "$ref": "#/components/schemas/CreditPriceDto"
@@ -22120,7 +22616,9 @@
               "crusoe",
               "cursor",
               "github",
-              "microsoft"
+              "microsoft",
+              "slack",
+              "zoom"
             ],
             "description": "Who bills the seats."
           },
@@ -22985,7 +23483,8 @@
                   "ea_balance",
                   "usage_api_closed_month",
                   "osp_invoice",
-                  "focus_export"
+                  "focus_export",
+                  "cost_explorer_month"
                 ]
               },
               "amountPayable": {
@@ -23016,6 +23515,12 @@
                     "currency"
                   ]
                 }
+              },
+              "lines": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CloudUsageLine"
+                }
               }
             },
             "required": [
@@ -23045,7 +23550,8 @@
                   "ea_balance",
                   "usage_api_closed_month",
                   "osp_invoice",
-                  "focus_export"
+                  "focus_export",
+                  "cost_explorer_month"
                 ]
               }
             },
@@ -23074,6 +23580,12 @@
               },
               "currency": {
                 "type": "string"
+              },
+              "services": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CloudServiceCost"
+                }
               }
             },
             "required": [
@@ -23083,6 +23595,42 @@
             ]
           }
         }
+      },
+      "CloudUsageLine": {
+        "type": "object",
+        "properties": {
+          "service": {
+            "type": "string"
+          },
+          "sku": {
+            "type": "string"
+          },
+          "project": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "service",
+          "amount"
+        ]
+      },
+      "CloudServiceCost": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "amount"
+        ]
       },
       "AwsCloudConnectionInit": {
         "type": "object",
@@ -23897,6 +24445,10 @@
               "invoice_rejected",
               "invoice_on_hold",
               "invoice_hold_released",
+              "credit_request_received",
+              "credit_request_answered",
+              "credit_request_attention",
+              "recovery_weekly_digest",
               "invoice_payment_reminder",
               "invoice_entered_by_buyer",
               "invoice_bank_details_to_confirm",
@@ -23939,6 +24491,8 @@
               "contract_terms_disputed",
               "contract_recheck_requested",
               "contract_sent_to_joined_supplier",
+              "contract_renewal_notice_due",
+              "contract_termination_notice_due",
               "copilot_allowance_80",
               "copilot_allowance_100",
               "copilot_degraded",
@@ -25142,7 +25696,9 @@
               "crusoe",
               "cursor",
               "github",
-              "microsoft"
+              "microsoft",
+              "slack",
+              "zoom"
             ]
           },
           "vendor": {
@@ -26560,6 +27116,15 @@
           "createdAt": {
             "type": "string"
           },
+          "cloudProvider": {
+            "type": "string",
+            "enum": [
+              "aws",
+              "gcp",
+              "azure",
+              "oci"
+            ]
+          },
           "lateFeeTerms": {
             "$ref": "#/components/schemas/LateFeeTerms"
           },
@@ -26640,8 +27205,15 @@
               "ea_balance",
               "usage_api_closed_month",
               "osp_invoice",
-              "focus_export"
+              "focus_export",
+              "cost_explorer_month"
             ]
+          },
+          "usageLines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoiceUsageLine"
+            }
           },
           "tolerancePct": {
             "type": "number"
@@ -26662,7 +27234,8 @@
               "no_billing_connection",
               "debit_note",
               "payer_account_unclear",
-              "no_po_first_invoice"
+              "no_po_first_invoice",
+              "no_usage_figure"
             ]
           },
           "matchBasis": {
@@ -26821,6 +27394,9 @@
               "stated"
             ]
           },
+          "earlyPayment": {
+            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -26863,8 +27439,12 @@
               "manual",
               "po-flip",
               "direct",
-              "feed"
+              "feed",
+              "cloud_sync"
             ]
+          },
+          "cloudConnectionId": {
+            "type": "string"
           },
           "enteredBy": {
             "type": "string",
@@ -26955,6 +27535,9 @@
             "items": {
               "$ref": "#/components/schemas/InvoiceCreditApplication"
             }
+          },
+          "heldBack": {
+            "$ref": "#/components/schemas/InvoiceHeldBack"
           },
           "creditNoteIds": {
             "type": "array",
@@ -27108,7 +27691,9 @@
                   "crusoe",
                   "cursor",
                   "github",
-                  "microsoft"
+                  "microsoft",
+                  "slack",
+                  "zoom"
                 ]
               },
               "vendor": {
@@ -27198,6 +27783,25 @@
           "addressLines"
         ]
       },
+      "InvoiceUsageLine": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "usageAmount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "description",
+          "amount",
+          "usageAmount"
+        ]
+      },
       "NoPoComparison": {
         "type": "object",
         "properties": {
@@ -27245,6 +27849,7 @@
               "contract_cap_exceeded",
               "contract_not_active",
               "contract_check_failed",
+              "contract_rate_not_checked",
               "receipt_missing",
               "receipt_qty_exceeded",
               "receipt_amount_exceeded",
@@ -27252,6 +27857,10 @@
               "contract_discount_missing",
               "fixed_discount_missing",
               "commitment_shortfall_overbilled",
+              "contract_milestone_unknown",
+              "contract_milestone_already_billed",
+              "contract_milestone_exceeded",
+              "contract_milestone_unconfirmed",
               "ai_rate_above_contract",
               "ai_rate_above_list",
               "ai_price_cut_not_applied",
@@ -27381,6 +27990,28 @@
             "items": {
               "$ref": "#/components/schemas/InvoiceBreakdownEntry"
             }
+          },
+          "earlyPaymentDiscount": {
+            "type": "object",
+            "properties": {
+              "percent": {
+                "type": "number"
+              },
+              "amount": {
+                "type": "number"
+              },
+              "deadline": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "percent",
+              "amount",
+              "deadline"
+            ]
+          },
+          "scheduledPaymentDate": {
+            "type": "string"
           }
         },
         "required": [
@@ -27433,6 +28064,28 @@
             "type": "string"
           },
           "succeededAt": {
+            "type": "string"
+          },
+          "earlyPaymentDiscount": {
+            "type": "object",
+            "properties": {
+              "percent": {
+                "type": "number"
+              },
+              "amount": {
+                "type": "number"
+              },
+              "deadline": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "percent",
+              "amount",
+              "deadline"
+            ]
+          },
+          "initiatedDate": {
             "type": "string"
           }
         },
@@ -27538,7 +28191,8 @@
               "settled",
               "settlement_undone",
               "problem_reported",
-              "problem_answered"
+              "problem_answered",
+              "held_back_paid"
             ]
           },
           "at": {
@@ -27561,6 +28215,12 @@
           },
           "amount": {
             "type": "number"
+          },
+          "paymentDate": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
           },
           "solePayer": {
             "$ref": "#/components/schemas/SolePayerWaiverRecord"
@@ -27622,6 +28282,25 @@
                   "currency",
                   "rate",
                   "rateDate"
+                ]
+              },
+              "earlyPaymentDiscount": {
+                "type": "object",
+                "properties": {
+                  "percent": {
+                    "type": "number"
+                  },
+                  "amount": {
+                    "type": "number"
+                  },
+                  "deadline": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "percent",
+                  "amount",
+                  "deadline"
                 ]
               }
             }
@@ -27800,6 +28479,25 @@
           "byName"
         ]
       },
+      "InvoiceEarlyPayment": {
+        "type": "object",
+        "properties": {
+          "percent": {
+            "type": "number"
+          },
+          "deadline": {
+            "type": "string"
+          },
+          "contractId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "percent",
+          "deadline",
+          "contractId"
+        ]
+      },
       "InvoiceRejection": {
         "type": "object",
         "properties": {
@@ -27929,6 +28627,9 @@
           },
           "auto": {
             "type": "boolean"
+          },
+          "answersHold": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -27936,6 +28637,71 @@
           "creditNoteId",
           "amount",
           "appliedAt"
+        ]
+      },
+      "InvoiceHeldBack": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number"
+          },
+          "net": {
+            "type": "number"
+          },
+          "tax": {
+            "type": "number"
+          },
+          "claimId": {
+            "type": "string"
+          },
+          "decisionId": {
+            "type": "string"
+          },
+          "at": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "paid",
+              "carried",
+              "open",
+              "answered",
+              "released"
+            ]
+          },
+          "carriedBy": {
+            "type": "string"
+          },
+          "underProtest": {
+            "type": "boolean"
+          },
+          "paidLater": {
+            "type": "object",
+            "properties": {
+              "paymentDate": {
+                "type": "string"
+              },
+              "reference": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "paymentDate"
+            ]
+          },
+          "closedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "amount",
+          "net",
+          "tax",
+          "claimId",
+          "decisionId",
+          "at",
+          "state"
         ]
       },
       "InvoiceCurrencyAmount": {
@@ -28376,6 +29142,15 @@
           "createdAt": {
             "type": "string"
           },
+          "cloudProvider": {
+            "type": "string",
+            "enum": [
+              "aws",
+              "gcp",
+              "azure",
+              "oci"
+            ]
+          },
           "lateFeeTerms": {
             "$ref": "#/components/schemas/LateFeeTerms"
           },
@@ -28464,6 +29239,9 @@
               "stated"
             ]
           },
+          "earlyPayment": {
+            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -28506,7 +29284,8 @@
               "manual",
               "po-flip",
               "direct",
-              "feed"
+              "feed",
+              "cloud_sync"
             ]
           },
           "enteredBy": {
@@ -28614,6 +29393,9 @@
           "hasOriginalPdf": {
             "type": "boolean"
           },
+          "heldBack": {
+            "$ref": "#/components/schemas/SupplierHeldBackView"
+          },
           "settlement": {
             "$ref": "#/components/schemas/SupplierSettlementView"
           },
@@ -28687,6 +29469,25 @@
                       "rateDate"
                     ]
                   },
+                  "earlyPaymentDiscount": {
+                    "type": "object",
+                    "properties": {
+                      "percent": {
+                        "type": "number"
+                      },
+                      "amount": {
+                        "type": "number"
+                      },
+                      "deadline": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "percent",
+                      "amount",
+                      "deadline"
+                    ]
+                  },
                   "status": {
                     "type": "string",
                     "enum": [
@@ -28723,6 +29524,25 @@
                   },
                   "succeededAt": {
                     "type": "string"
+                  },
+                  "earlyPaymentDiscount": {
+                    "type": "object",
+                    "properties": {
+                      "percent": {
+                        "type": "number"
+                      },
+                      "amount": {
+                        "type": "number"
+                      },
+                      "deadline": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "percent",
+                      "amount",
+                      "deadline"
+                    ]
                   }
                 },
                 "required": [
@@ -28790,6 +29610,25 @@
                       "rateDate"
                     ]
                   },
+                  "earlyPaymentDiscount": {
+                    "type": "object",
+                    "properties": {
+                      "percent": {
+                        "type": "number"
+                      },
+                      "amount": {
+                        "type": "number"
+                      },
+                      "deadline": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "percent",
+                      "amount",
+                      "deadline"
+                    ]
+                  },
                   "status": {
                     "type": "string",
                     "enum": [
@@ -28826,6 +29665,25 @@
                   },
                   "succeededAt": {
                     "type": "string"
+                  },
+                  "earlyPaymentDiscount": {
+                    "type": "object",
+                    "properties": {
+                      "percent": {
+                        "type": "number"
+                      },
+                      "amount": {
+                        "type": "number"
+                      },
+                      "deadline": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "percent",
+                      "amount",
+                      "deadline"
+                    ]
                   }
                 },
                 "required": [
@@ -28860,6 +29718,56 @@
           "source",
           "hasOriginalPdf",
           "baseCurrencyAmount"
+        ]
+      },
+      "SupplierHeldBackView": {
+        "type": "object",
+        "properties": {
+          "at": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "paid",
+              "carried",
+              "open",
+              "answered",
+              "released"
+            ]
+          },
+          "carriedBy": {
+            "type": "string"
+          },
+          "paidLater": {
+            "type": "object",
+            "properties": {
+              "paymentDate": {
+                "type": "string"
+              },
+              "reference": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "paymentDate"
+            ]
+          },
+          "closedAt": {
+            "type": "string"
+          },
+          "held": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "at",
+          "amount",
+          "state",
+          "held"
         ]
       },
       "SupplierSettlementView": {
@@ -29537,6 +30445,15 @@
               "supplierOrgId": {
                 "type": "string"
               },
+              "cloudProvider": {
+                "type": "string",
+                "enum": [
+                  "aws",
+                  "gcp",
+                  "azure",
+                  "oci"
+                ]
+              },
               "lateFeeTerms": {
                 "$ref": "#/components/schemas/LateFeeTerms"
               },
@@ -29682,6 +30599,25 @@
                           "rateDate"
                         ]
                       },
+                      "earlyPaymentDiscount": {
+                        "type": "object",
+                        "properties": {
+                          "percent": {
+                            "type": "number"
+                          },
+                          "amount": {
+                            "type": "number"
+                          },
+                          "deadline": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "percent",
+                          "amount",
+                          "deadline"
+                        ]
+                      },
                       "status": {
                         "type": "string",
                         "enum": [
@@ -29718,6 +30654,25 @@
                       },
                       "succeededAt": {
                         "type": "string"
+                      },
+                      "earlyPaymentDiscount": {
+                        "type": "object",
+                        "properties": {
+                          "percent": {
+                            "type": "number"
+                          },
+                          "amount": {
+                            "type": "number"
+                          },
+                          "deadline": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "percent",
+                          "amount",
+                          "deadline"
+                        ]
                       }
                     },
                     "required": [
@@ -29742,6 +30697,9 @@
                   "default",
                   "stated"
                 ]
+              },
+              "earlyPayment": {
+                "$ref": "#/components/schemas/InvoiceEarlyPayment"
               },
               "lastRemindedAt": {
                 "type": "string"
@@ -29857,6 +30815,9 @@
                   "$ref": "#/components/schemas/InvoiceCreditApplication"
                 }
               },
+              "heldBack": {
+                "$ref": "#/components/schemas/SupplierHeldBackView"
+              },
               "creditNoteIds": {
                 "type": "array",
                 "items": {
@@ -29948,6 +30909,25 @@
                           "rateDate"
                         ]
                       },
+                      "earlyPaymentDiscount": {
+                        "type": "object",
+                        "properties": {
+                          "percent": {
+                            "type": "number"
+                          },
+                          "amount": {
+                            "type": "number"
+                          },
+                          "deadline": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "percent",
+                          "amount",
+                          "deadline"
+                        ]
+                      },
                       "status": {
                         "type": "string",
                         "enum": [
@@ -29984,6 +30964,25 @@
                       },
                       "succeededAt": {
                         "type": "string"
+                      },
+                      "earlyPaymentDiscount": {
+                        "type": "object",
+                        "properties": {
+                          "percent": {
+                            "type": "number"
+                          },
+                          "amount": {
+                            "type": "number"
+                          },
+                          "deadline": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "percent",
+                          "amount",
+                          "deadline"
+                        ]
                       }
                     },
                     "required": [
@@ -30047,6 +31046,7 @@
                     "contract_cap_exceeded",
                     "contract_not_active",
                     "contract_check_failed",
+                    "contract_rate_not_checked",
                     "receipt_missing",
                     "receipt_qty_exceeded",
                     "receipt_amount_exceeded",
@@ -30054,6 +31054,10 @@
                     "contract_discount_missing",
                     "fixed_discount_missing",
                     "commitment_shortfall_overbilled",
+                    "contract_milestone_unknown",
+                    "contract_milestone_already_billed",
+                    "contract_milestone_exceeded",
+                    "contract_milestone_unconfirmed",
                     "ai_rate_above_contract",
                     "ai_rate_above_list",
                     "ai_price_cut_not_applied",
@@ -30249,6 +31253,46 @@
                 },
                 "defaultDueInDays": {
                   "type": "number"
+                },
+                "defaultDueRule": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "from": {
+                          "type": "string",
+                          "enum": [
+                            "end_of_month"
+                          ]
+                        },
+                        "days": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "from",
+                        "days"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "from": {
+                          "type": "string",
+                          "enum": [
+                            "next_month_day"
+                          ]
+                        },
+                        "day": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "from",
+                        "day"
+                      ]
+                    }
+                  ]
                 },
                 "billToCompanyName": {
                   "type": "string"
@@ -30722,6 +31766,21 @@
                 "items": {
                   "$ref": "#/components/schemas/InvoiceBreakdownEntry"
                 }
+              },
+              "earlyPaymentDiscount": {
+                "type": "object",
+                "properties": {
+                  "percent": {
+                    "type": "number"
+                  },
+                  "amount": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "percent",
+                  "amount"
+                ]
               },
               "netPaid": {
                 "type": "object",
@@ -31264,7 +32323,9 @@
               "crusoe",
               "cursor",
               "github",
-              "microsoft"
+              "microsoft",
+              "slack",
+              "zoom"
             ]
           },
           "accountLabel": {
@@ -31342,6 +32403,21 @@
             },
             "required": [
               "org"
+            ]
+          },
+          "zoom": {
+            "type": "object",
+            "properties": {
+              "accountId": {
+                "type": "string"
+              },
+              "clientId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "accountId",
+              "clientId"
             ]
           },
           "creditPrice": {
@@ -32815,7 +33891,9 @@
                     "crusoe",
                     "cursor",
                     "github",
-                    "microsoft"
+                    "microsoft",
+                    "slack",
+                    "zoom"
                   ]
                 },
                 "label": {
@@ -32897,7 +33975,9 @@
               "crusoe",
               "cursor",
               "github",
-              "microsoft"
+              "microsoft",
+              "slack",
+              "zoom"
             ]
           },
           "invoicerId": {
@@ -33079,7 +34159,9 @@
               "crusoe",
               "cursor",
               "github",
-              "microsoft"
+              "microsoft",
+              "slack",
+              "zoom"
             ]
           },
           "vendor": {
@@ -33347,7 +34429,9 @@
               "crusoe",
               "cursor",
               "github",
-              "microsoft"
+              "microsoft",
+              "slack",
+              "zoom"
             ]
           },
           "vendor": {
@@ -33466,7 +34550,9 @@
               "crusoe",
               "cursor",
               "github",
-              "microsoft"
+              "microsoft",
+              "slack",
+              "zoom"
             ]
           },
           "period": {
@@ -33519,7 +34605,9 @@
                   "crusoe",
                   "cursor",
                   "github",
-                  "microsoft"
+                  "microsoft",
+                  "slack",
+                  "zoom"
                 ]
               },
               "vendor": {
@@ -33695,7 +34783,9 @@
               "crusoe",
               "cursor",
               "github",
-              "microsoft"
+              "microsoft",
+              "slack",
+              "zoom"
             ]
           },
           "label": {
@@ -33789,7 +34879,9 @@
               "crusoe",
               "cursor",
               "github",
-              "microsoft"
+              "microsoft",
+              "slack",
+              "zoom"
             ]
           },
           "label": {
@@ -34015,7 +35107,9 @@
                   "crusoe",
                   "cursor",
                   "github",
-                  "microsoft"
+                  "microsoft",
+                  "slack",
+                  "zoom"
                 ]
               },
               "vendor": {
@@ -34460,7 +35554,9 @@
               "crusoe",
               "cursor",
               "github",
-              "microsoft"
+              "microsoft",
+              "slack",
+              "zoom"
             ]
           },
           "product": {
@@ -37358,6 +38454,8 @@
               "match",
               "sent_for_approval",
               "reminder",
+              "held_back",
+              "hold_ended",
               "comment"
             ]
           },
@@ -38360,6 +39458,54 @@
               "fee",
               "total",
               "currency"
+            ]
+          },
+          "earlyPayment": {
+            "type": "object",
+            "properties": {
+              "percent": {
+                "type": "number"
+              },
+              "amount": {
+                "type": "number"
+              },
+              "deadline": {
+                "type": "string"
+              },
+              "quote": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "number"
+                  },
+                  "fee": {
+                    "type": "number"
+                  },
+                  "total": {
+                    "type": "number"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "enum": [
+                      "USD"
+                    ]
+                  }
+                },
+                "required": [
+                  "amount",
+                  "fee",
+                  "total",
+                  "currency"
+                ]
+              },
+              "taken": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "percent",
+              "amount",
+              "deadline"
             ]
           }
         },

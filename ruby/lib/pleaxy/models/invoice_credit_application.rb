@@ -31,6 +31,8 @@ module Pleaxy
 
     attr_accessor :auto
 
+    attr_accessor :answers_hold
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -41,7 +43,8 @@ module Pleaxy
         :'applied_at' => :'appliedAt',
         :'applied_by' => :'appliedBy',
         :'applied_by_name' => :'appliedByName',
-        :'auto' => :'auto'
+        :'auto' => :'auto',
+        :'answers_hold' => :'answersHold'
       }
     end
 
@@ -60,7 +63,8 @@ module Pleaxy
         :'applied_at' => :'String',
         :'applied_by' => :'String',
         :'applied_by_name' => :'String',
-        :'auto' => :'Boolean'
+        :'auto' => :'Boolean',
+        :'answers_hold' => :'Boolean'
       }
     end
 
@@ -118,6 +122,10 @@ module Pleaxy
       if attributes.key?(:'auto')
         self.auto = attributes[:'auto']
       end
+
+      if attributes.key?(:'answers_hold')
+        self.answers_hold = attributes[:'answers_hold']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -152,7 +160,8 @@ module Pleaxy
           applied_at == o.applied_at &&
           applied_by == o.applied_by &&
           applied_by_name == o.applied_by_name &&
-          auto == o.auto
+          auto == o.auto &&
+          answers_hold == o.answers_hold
     end
 
     # @see the `==` method
@@ -164,7 +173,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, credit_note_id, external_credit_note_number, amount, applied_at, applied_by, applied_by_name, auto].hash
+      [id, credit_note_id, external_credit_note_number, amount, applied_at, applied_by, applied_by_name, auto, answers_hold].hash
     end
 
     # Builds the object from hash

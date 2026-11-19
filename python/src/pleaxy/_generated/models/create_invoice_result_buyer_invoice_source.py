@@ -1,10 +1,13 @@
 from typing import Literal, Set, cast
 
-CreateInvoiceResultBuyerInvoiceSource = Literal["direct", "feed", "manual", "po-flip"]
+CreateInvoiceResultBuyerInvoiceSource = Literal[
+    "cloud_sync", "direct", "feed", "manual", "po-flip"
+]
 
 CREATE_INVOICE_RESULT_BUYER_INVOICE_SOURCE_VALUES: Set[
     CreateInvoiceResultBuyerInvoiceSource
 ] = {
+    "cloud_sync",
     "direct",
     "feed",
     "manual",

@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.InvoiceBreakdownEntry;
+import ai.pleaxy.model.InvoicePaymentRecordEarlyPaymentDiscount;
 import ai.pleaxy.model.InvoicePaymentRecordPaidAmount;
 import ai.pleaxy.model.InvoiceStripePayment;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -52,7 +53,9 @@ import ai.pleaxy.client.ApiClient;
   InvoicePaymentRecord.JSON_PROPERTY_RECORDED_BY_NAME,
   InvoicePaymentRecord.JSON_PROPERTY_ADVICE_VERSION,
   InvoicePaymentRecord.JSON_PROPERTY_PAID_AMOUNT,
-  InvoicePaymentRecord.JSON_PROPERTY_WITHHOLDINGS
+  InvoicePaymentRecord.JSON_PROPERTY_WITHHOLDINGS,
+  InvoicePaymentRecord.JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT,
+  InvoicePaymentRecord.JSON_PROPERTY_SCHEDULED_PAYMENT_DATE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class InvoicePaymentRecord {
@@ -197,6 +200,14 @@ public class InvoicePaymentRecord {
   public static final String JSON_PROPERTY_WITHHOLDINGS = "withholdings";
   @javax.annotation.Nullable
   private List<InvoiceBreakdownEntry> withholdings = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT = "earlyPaymentDiscount";
+  @javax.annotation.Nullable
+  private InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount;
+
+  public static final String JSON_PROPERTY_SCHEDULED_PAYMENT_DATE = "scheduledPaymentDate";
+  @javax.annotation.Nullable
+  private String scheduledPaymentDate;
 
   public InvoicePaymentRecord() { 
   }
@@ -569,6 +580,54 @@ public class InvoicePaymentRecord {
   }
 
 
+  public InvoicePaymentRecord earlyPaymentDiscount(@javax.annotation.Nullable InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount) {
+    this.earlyPaymentDiscount = earlyPaymentDiscount;
+    return this;
+  }
+
+  /**
+   * Get earlyPaymentDiscount
+   * @return earlyPaymentDiscount
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoicePaymentRecordEarlyPaymentDiscount getEarlyPaymentDiscount() {
+    return earlyPaymentDiscount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEarlyPaymentDiscount(@javax.annotation.Nullable InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount) {
+    this.earlyPaymentDiscount = earlyPaymentDiscount;
+  }
+
+
+  public InvoicePaymentRecord scheduledPaymentDate(@javax.annotation.Nullable String scheduledPaymentDate) {
+    this.scheduledPaymentDate = scheduledPaymentDate;
+    return this;
+  }
+
+  /**
+   * Get scheduledPaymentDate
+   * @return scheduledPaymentDate
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SCHEDULED_PAYMENT_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getScheduledPaymentDate() {
+    return scheduledPaymentDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SCHEDULED_PAYMENT_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setScheduledPaymentDate(@javax.annotation.Nullable String scheduledPaymentDate) {
+    this.scheduledPaymentDate = scheduledPaymentDate;
+  }
+
+
   /**
    * Return true if this InvoicePaymentRecord object is equal to o.
    */
@@ -595,12 +654,14 @@ public class InvoicePaymentRecord {
         Objects.equals(this.recordedByName, invoicePaymentRecord.recordedByName) &&
         Objects.equals(this.adviceVersion, invoicePaymentRecord.adviceVersion) &&
         Objects.equals(this.paidAmount, invoicePaymentRecord.paidAmount) &&
-        Objects.equals(this.withholdings, invoicePaymentRecord.withholdings);
+        Objects.equals(this.withholdings, invoicePaymentRecord.withholdings) &&
+        Objects.equals(this.earlyPaymentDiscount, invoicePaymentRecord.earlyPaymentDiscount) &&
+        Objects.equals(this.scheduledPaymentDate, invoicePaymentRecord.scheduledPaymentDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(status, stripe, exportId, exportedAt, exportedBy, exportedByName, method, paymentDate, reference, recordedAt, recordedBy, recordedByName, adviceVersion, paidAmount, withholdings);
+    return Objects.hash(status, stripe, exportId, exportedAt, exportedBy, exportedByName, method, paymentDate, reference, recordedAt, recordedBy, recordedByName, adviceVersion, paidAmount, withholdings, earlyPaymentDiscount, scheduledPaymentDate);
   }
 
   @Override
@@ -622,6 +683,8 @@ public class InvoicePaymentRecord {
     sb.append("    adviceVersion: ").append(toIndentedString(adviceVersion)).append("\n");
     sb.append("    paidAmount: ").append(toIndentedString(paidAmount)).append("\n");
     sb.append("    withholdings: ").append(toIndentedString(withholdings)).append("\n");
+    sb.append("    earlyPaymentDiscount: ").append(toIndentedString(earlyPaymentDiscount)).append("\n");
+    sb.append("    scheduledPaymentDate: ").append(toIndentedString(scheduledPaymentDate)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -747,6 +810,16 @@ public class InvoicePaymentRecord {
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
+    }
+
+    // add `earlyPaymentDiscount` to the URL query string
+    if (getEarlyPaymentDiscount() != null) {
+      joiner.add(getEarlyPaymentDiscount().toUrlQueryString(prefix + "earlyPaymentDiscount" + suffix));
+    }
+
+    // add `scheduledPaymentDate` to the URL query string
+    if (getScheduledPaymentDate() != null) {
+      joiner.add(String.format("%sscheduledPaymentDate%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getScheduledPaymentDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

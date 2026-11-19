@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -17,6 +17,12 @@ from ..models.list_invoices_item_supplier_invoice_payment_type_1_status import (
 )
 from ..types import UNSET, Unset
 
+if TYPE_CHECKING:
+    from ..models.list_invoices_item_supplier_invoice_payment_type_1_early_payment_discount import (
+        ListInvoicesItemSupplierInvoicePaymentType1EarlyPaymentDiscount,
+    )
+
+
 T = TypeVar("T", bound="ListInvoicesItemSupplierInvoicePaymentType1")
 
 
@@ -28,6 +34,7 @@ class ListInvoicesItemSupplierInvoicePaymentType1:
         state (Union[Unset, ListInvoicesItemSupplierInvoicePaymentType1State]):
         payment_method_type (Union[Unset, ListInvoicesItemSupplierInvoicePaymentType1PaymentMethodType]):
         succeeded_at (Union[Unset, str]):
+        early_payment_discount (Union[Unset, ListInvoicesItemSupplierInvoicePaymentType1EarlyPaymentDiscount]):
     """
 
     status: Union[Unset, ListInvoicesItemSupplierInvoicePaymentType1Status] = UNSET
@@ -36,6 +43,9 @@ class ListInvoicesItemSupplierInvoicePaymentType1:
         Unset, ListInvoicesItemSupplierInvoicePaymentType1PaymentMethodType
     ] = UNSET
     succeeded_at: Union[Unset, str] = UNSET
+    early_payment_discount: Union[
+        Unset, "ListInvoicesItemSupplierInvoicePaymentType1EarlyPaymentDiscount"
+    ] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -53,6 +63,10 @@ class ListInvoicesItemSupplierInvoicePaymentType1:
 
         succeeded_at = self.succeeded_at
 
+        early_payment_discount: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.early_payment_discount, Unset):
+            early_payment_discount = self.early_payment_discount.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -64,11 +78,17 @@ class ListInvoicesItemSupplierInvoicePaymentType1:
             field_dict["paymentMethodType"] = payment_method_type
         if succeeded_at is not UNSET:
             field_dict["succeededAt"] = succeeded_at
+        if early_payment_discount is not UNSET:
+            field_dict["earlyPaymentDiscount"] = early_payment_discount
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.list_invoices_item_supplier_invoice_payment_type_1_early_payment_discount import (
+            ListInvoicesItemSupplierInvoicePaymentType1EarlyPaymentDiscount,
+        )
+
         d = src_dict.copy()
         _status = d.pop("status", UNSET)
         status: Union[Unset, ListInvoicesItemSupplierInvoicePaymentType1Status]
@@ -101,11 +121,23 @@ class ListInvoicesItemSupplierInvoicePaymentType1:
 
         succeeded_at = d.pop("succeededAt", UNSET)
 
+        _early_payment_discount = d.pop("earlyPaymentDiscount", UNSET)
+        early_payment_discount: Union[
+            Unset, ListInvoicesItemSupplierInvoicePaymentType1EarlyPaymentDiscount
+        ]
+        if isinstance(_early_payment_discount, Unset):
+            early_payment_discount = UNSET
+        else:
+            early_payment_discount = ListInvoicesItemSupplierInvoicePaymentType1EarlyPaymentDiscount.from_dict(
+                _early_payment_discount
+            )
+
         list_invoices_item_supplier_invoice_payment_type_1 = cls(
             status=status,
             state=state,
             payment_method_type=payment_method_type,
             succeeded_at=succeeded_at,
+            early_payment_discount=early_payment_discount,
         )
 
         list_invoices_item_supplier_invoice_payment_type_1.additional_properties = d

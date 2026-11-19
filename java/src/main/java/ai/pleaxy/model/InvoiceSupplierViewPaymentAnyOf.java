@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.InvoiceBreakdownEntry;
+import ai.pleaxy.model.InvoicePaymentRecordEarlyPaymentDiscount;
 import ai.pleaxy.model.InvoicePaymentRecordPaidAmount;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -44,6 +45,7 @@ import ai.pleaxy.client.ApiClient;
   InvoiceSupplierViewPaymentAnyOf.JSON_PROPERTY_RECORDED_AT,
   InvoiceSupplierViewPaymentAnyOf.JSON_PROPERTY_ADVICE_VERSION,
   InvoiceSupplierViewPaymentAnyOf.JSON_PROPERTY_PAID_AMOUNT,
+  InvoiceSupplierViewPaymentAnyOf.JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT,
   InvoiceSupplierViewPaymentAnyOf.JSON_PROPERTY_STATUS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -120,6 +122,10 @@ public class InvoiceSupplierViewPaymentAnyOf {
   public static final String JSON_PROPERTY_PAID_AMOUNT = "paidAmount";
   @javax.annotation.Nullable
   private InvoicePaymentRecordPaidAmount paidAmount;
+
+  public static final String JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT = "earlyPaymentDiscount";
+  @javax.annotation.Nullable
+  private InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount;
 
   /**
    * Gets or Sets status
@@ -337,6 +343,30 @@ public class InvoiceSupplierViewPaymentAnyOf {
   }
 
 
+  public InvoiceSupplierViewPaymentAnyOf earlyPaymentDiscount(@javax.annotation.Nullable InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount) {
+    this.earlyPaymentDiscount = earlyPaymentDiscount;
+    return this;
+  }
+
+  /**
+   * Get earlyPaymentDiscount
+   * @return earlyPaymentDiscount
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoicePaymentRecordEarlyPaymentDiscount getEarlyPaymentDiscount() {
+    return earlyPaymentDiscount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEarlyPaymentDiscount(@javax.annotation.Nullable InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount) {
+    this.earlyPaymentDiscount = earlyPaymentDiscount;
+  }
+
+
   public InvoiceSupplierViewPaymentAnyOf status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
@@ -380,12 +410,13 @@ public class InvoiceSupplierViewPaymentAnyOf {
         Objects.equals(this.recordedAt, invoiceSupplierViewPaymentAnyOf.recordedAt) &&
         Objects.equals(this.adviceVersion, invoiceSupplierViewPaymentAnyOf.adviceVersion) &&
         Objects.equals(this.paidAmount, invoiceSupplierViewPaymentAnyOf.paidAmount) &&
+        Objects.equals(this.earlyPaymentDiscount, invoiceSupplierViewPaymentAnyOf.earlyPaymentDiscount) &&
         Objects.equals(this.status, invoiceSupplierViewPaymentAnyOf.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(withholdings, method, paymentDate, reference, recordedAt, adviceVersion, paidAmount, status);
+    return Objects.hash(withholdings, method, paymentDate, reference, recordedAt, adviceVersion, paidAmount, earlyPaymentDiscount, status);
   }
 
   @Override
@@ -399,6 +430,7 @@ public class InvoiceSupplierViewPaymentAnyOf {
     sb.append("    recordedAt: ").append(toIndentedString(recordedAt)).append("\n");
     sb.append("    adviceVersion: ").append(toIndentedString(adviceVersion)).append("\n");
     sb.append("    paidAmount: ").append(toIndentedString(paidAmount)).append("\n");
+    sb.append("    earlyPaymentDiscount: ").append(toIndentedString(earlyPaymentDiscount)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -485,6 +517,11 @@ public class InvoiceSupplierViewPaymentAnyOf {
     // add `paidAmount` to the URL query string
     if (getPaidAmount() != null) {
       joiner.add(getPaidAmount().toUrlQueryString(prefix + "paidAmount" + suffix));
+    }
+
+    // add `earlyPaymentDiscount` to the URL query string
+    if (getEarlyPaymentDiscount() != null) {
+      joiner.add(getEarlyPaymentDiscount().toUrlQueryString(prefix + "earlyPaymentDiscount" + suffix));
     }
 
     // add `status` to the URL query string

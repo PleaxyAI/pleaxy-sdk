@@ -190,7 +190,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      invoicer_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci", "openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft"])
+      invoicer_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci", "openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom"])
       return false unless invoicer_validator.valid?(@invoicer)
       reason_validator = EnumAttributeValidator.new('String', ["no_po", "over_po"])
       return false unless reason_validator.valid?(@reason)
@@ -200,7 +200,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] invoicer Object to be assigned
     def invoicer=(invoicer)
-      validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci", "openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft"])
+      validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci", "openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom"])
       unless validator.valid?(invoicer)
         fail ArgumentError, "invalid value for \"invoicer\", must be one of #{validator.allowable_values}."
       end

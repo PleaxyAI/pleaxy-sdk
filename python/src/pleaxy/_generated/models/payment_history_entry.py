@@ -30,6 +30,8 @@ class PaymentHistoryEntry:
         remittance_id (Union[Unset, str]):
         credit_note_id (Union[Unset, str]):
         amount (Union[Unset, float]):
+        payment_date (Union[Unset, str]):
+        reference (Union[Unset, str]):
         sole_payer (Union[Unset, SolePayerWaiverRecord]):
         approved_by_others (Union[Unset, ApprovedByOthersRecord]):
         record (Union[Unset, PaymentHistoryEntryRecord]):
@@ -43,6 +45,8 @@ class PaymentHistoryEntry:
     remittance_id: Union[Unset, str] = UNSET
     credit_note_id: Union[Unset, str] = UNSET
     amount: Union[Unset, float] = UNSET
+    payment_date: Union[Unset, str] = UNSET
+    reference: Union[Unset, str] = UNSET
     sole_payer: Union[Unset, "SolePayerWaiverRecord"] = UNSET
     approved_by_others: Union[Unset, "ApprovedByOthersRecord"] = UNSET
     record: Union[Unset, "PaymentHistoryEntryRecord"] = UNSET
@@ -66,6 +70,10 @@ class PaymentHistoryEntry:
         credit_note_id = self.credit_note_id
 
         amount = self.amount
+
+        payment_date = self.payment_date
+
+        reference = self.reference
 
         sole_payer: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.sole_payer, Unset):
@@ -98,6 +106,10 @@ class PaymentHistoryEntry:
             field_dict["creditNoteId"] = credit_note_id
         if amount is not UNSET:
             field_dict["amount"] = amount
+        if payment_date is not UNSET:
+            field_dict["paymentDate"] = payment_date
+        if reference is not UNSET:
+            field_dict["reference"] = reference
         if sole_payer is not UNSET:
             field_dict["solePayer"] = sole_payer
         if approved_by_others is not UNSET:
@@ -135,6 +147,10 @@ class PaymentHistoryEntry:
 
         amount = d.pop("amount", UNSET)
 
+        payment_date = d.pop("paymentDate", UNSET)
+
+        reference = d.pop("reference", UNSET)
+
         _sole_payer = d.pop("solePayer", UNSET)
         sole_payer: Union[Unset, SolePayerWaiverRecord]
         if isinstance(_sole_payer, Unset):
@@ -165,6 +181,8 @@ class PaymentHistoryEntry:
             remittance_id=remittance_id,
             credit_note_id=credit_note_id,
             amount=amount,
+            payment_date=payment_date,
+            reference=reference,
             sole_payer=sole_payer,
             approved_by_others=approved_by_others,
             record=record,

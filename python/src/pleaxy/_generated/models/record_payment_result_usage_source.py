@@ -3,6 +3,7 @@ from typing import Literal, Set, cast
 RecordPaymentResultUsageSource = Literal[
     "aws_invoice",
     "billing_export",
+    "cost_explorer_month",
     "ea_balance",
     "focus_export",
     "mca_invoice",
@@ -13,6 +14,7 @@ RecordPaymentResultUsageSource = Literal[
 RECORD_PAYMENT_RESULT_USAGE_SOURCE_VALUES: Set[RecordPaymentResultUsageSource] = {
     "aws_invoice",
     "billing_export",
+    "cost_explorer_month",
     "ea_balance",
     "focus_export",
     "mca_invoice",

@@ -24,10 +24,10 @@ module Pleaxy
     # The app registration's Application (client) ID (GUID).
     attr_accessor :azure_client_id
 
-    # The Microsoft Customer Agreement billing account ID (<guid>:<guid>_YYYY-MM-DD). Read directly: an app with only Billing profile reader can't list billing accounts.
+    # The billing account ID: a Microsoft Customer Agreement account (<guid>:<guid>_YYYY-MM-DD), or an Enterprise Agreement enrollment number (digits). Read directly: an app with only Billing profile reader can't list billing accounts.
     attr_accessor :azure_billing_account_id
 
-    # The billing profile ID the app has Billing profile reader on.
+    # Microsoft Customer Agreement only: the billing profile ID the app has Billing profile reader on. Left out (or empty) for an Enterprise Agreement enrollment.
     attr_accessor :azure_billing_profile_id
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -104,8 +104,6 @@ module Pleaxy
 
       if attributes.key?(:'azure_billing_profile_id')
         self.azure_billing_profile_id = attributes[:'azure_billing_profile_id']
-      else
-        self.azure_billing_profile_id = nil
       end
     end
 
@@ -130,10 +128,6 @@ module Pleaxy
         invalid_properties.push('invalid value for "azure_billing_account_id", azure_billing_account_id cannot be nil.')
       end
 
-      if @azure_billing_profile_id.nil?
-        invalid_properties.push('invalid value for "azure_billing_profile_id", azure_billing_profile_id cannot be nil.')
-      end
-
       invalid_properties
     end
 
@@ -145,7 +139,6 @@ module Pleaxy
       return false if @azure_tenant_id.nil?
       return false if @azure_client_id.nil?
       return false if @azure_billing_account_id.nil?
-      return false if @azure_billing_profile_id.nil?
       true
     end
 

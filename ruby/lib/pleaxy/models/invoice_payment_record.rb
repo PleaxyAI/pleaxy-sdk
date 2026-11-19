@@ -45,6 +45,10 @@ module Pleaxy
 
     attr_accessor :withholdings
 
+    attr_accessor :early_payment_discount
+
+    attr_accessor :scheduled_payment_date
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -84,7 +88,9 @@ module Pleaxy
         :'recorded_by_name' => :'recordedByName',
         :'advice_version' => :'adviceVersion',
         :'paid_amount' => :'paidAmount',
-        :'withholdings' => :'withholdings'
+        :'withholdings' => :'withholdings',
+        :'early_payment_discount' => :'earlyPaymentDiscount',
+        :'scheduled_payment_date' => :'scheduledPaymentDate'
       }
     end
 
@@ -110,7 +116,9 @@ module Pleaxy
         :'recorded_by_name' => :'String',
         :'advice_version' => :'Float',
         :'paid_amount' => :'InvoicePaymentRecordPaidAmount',
-        :'withholdings' => :'Array<InvoiceBreakdownEntry>'
+        :'withholdings' => :'Array<InvoiceBreakdownEntry>',
+        :'early_payment_discount' => :'InvoicePaymentRecordEarlyPaymentDiscount',
+        :'scheduled_payment_date' => :'String'
       }
     end
 
@@ -196,6 +204,14 @@ module Pleaxy
           self.withholdings = value
         end
       end
+
+      if attributes.key?(:'early_payment_discount')
+        self.early_payment_discount = attributes[:'early_payment_discount']
+      end
+
+      if attributes.key?(:'scheduled_payment_date')
+        self.scheduled_payment_date = attributes[:'scheduled_payment_date']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -256,7 +272,9 @@ module Pleaxy
           recorded_by_name == o.recorded_by_name &&
           advice_version == o.advice_version &&
           paid_amount == o.paid_amount &&
-          withholdings == o.withholdings
+          withholdings == o.withholdings &&
+          early_payment_discount == o.early_payment_discount &&
+          scheduled_payment_date == o.scheduled_payment_date
     end
 
     # @see the `==` method
@@ -268,7 +286,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [status, stripe, export_id, exported_at, exported_by, exported_by_name, method, payment_date, reference, recorded_at, recorded_by, recorded_by_name, advice_version, paid_amount, withholdings].hash
+      [status, stripe, export_id, exported_at, exported_by, exported_by_name, method, payment_date, reference, recorded_at, recorded_by, recorded_by_name, advice_version, paid_amount, withholdings, early_payment_discount, scheduled_payment_date].hash
     end
 
     # Builds the object from hash

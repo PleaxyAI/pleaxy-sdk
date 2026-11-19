@@ -3,6 +3,7 @@ from typing import Literal, Set, cast
 CloudConnectionBillingFinalizedInvoiceSource = Literal[
     "aws_invoice",
     "billing_export",
+    "cost_explorer_month",
     "ea_balance",
     "focus_export",
     "mca_invoice",
@@ -15,6 +16,7 @@ CLOUD_CONNECTION_BILLING_FINALIZED_INVOICE_SOURCE_VALUES: Set[
 ] = {
     "aws_invoice",
     "billing_export",
+    "cost_explorer_month",
     "ea_balance",
     "focus_export",
     "mca_invoice",

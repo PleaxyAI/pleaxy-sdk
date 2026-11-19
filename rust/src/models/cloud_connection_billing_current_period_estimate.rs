@@ -23,6 +23,8 @@ pub struct CloudConnectionBillingCurrentPeriodEstimate {
     pub confidence: Option<Confidence>,
     #[serde(rename = "currency", skip_serializing_if = "Option::is_none")]
     pub currency: Option<String>,
+    #[serde(rename = "services", skip_serializing_if = "Option::is_none")]
+    pub services: Option<Vec<models::CloudServiceCost>>,
 }
 
 impl CloudConnectionBillingCurrentPeriodEstimate {
@@ -33,6 +35,7 @@ impl CloudConnectionBillingCurrentPeriodEstimate {
             as_of: None,
             confidence: None,
             currency: None,
+            services: None,
         }
     }
 }

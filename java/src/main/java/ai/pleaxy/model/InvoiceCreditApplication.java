@@ -40,7 +40,8 @@ import ai.pleaxy.client.ApiClient;
   InvoiceCreditApplication.JSON_PROPERTY_APPLIED_AT,
   InvoiceCreditApplication.JSON_PROPERTY_APPLIED_BY,
   InvoiceCreditApplication.JSON_PROPERTY_APPLIED_BY_NAME,
-  InvoiceCreditApplication.JSON_PROPERTY_AUTO
+  InvoiceCreditApplication.JSON_PROPERTY_AUTO,
+  InvoiceCreditApplication.JSON_PROPERTY_ANSWERS_HOLD
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class InvoiceCreditApplication {
@@ -75,6 +76,10 @@ public class InvoiceCreditApplication {
   public static final String JSON_PROPERTY_AUTO = "auto";
   @javax.annotation.Nullable
   private Boolean auto;
+
+  public static final String JSON_PROPERTY_ANSWERS_HOLD = "answersHold";
+  @javax.annotation.Nullable
+  private Boolean answersHold;
 
   public InvoiceCreditApplication() { 
   }
@@ -271,6 +276,30 @@ public class InvoiceCreditApplication {
   }
 
 
+  public InvoiceCreditApplication answersHold(@javax.annotation.Nullable Boolean answersHold) {
+    this.answersHold = answersHold;
+    return this;
+  }
+
+  /**
+   * Get answersHold
+   * @return answersHold
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ANSWERS_HOLD)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getAnswersHold() {
+    return answersHold;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ANSWERS_HOLD)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAnswersHold(@javax.annotation.Nullable Boolean answersHold) {
+    this.answersHold = answersHold;
+  }
+
+
   /**
    * Return true if this InvoiceCreditApplication object is equal to o.
    */
@@ -290,12 +319,13 @@ public class InvoiceCreditApplication {
         Objects.equals(this.appliedAt, invoiceCreditApplication.appliedAt) &&
         Objects.equals(this.appliedBy, invoiceCreditApplication.appliedBy) &&
         Objects.equals(this.appliedByName, invoiceCreditApplication.appliedByName) &&
-        Objects.equals(this.auto, invoiceCreditApplication.auto);
+        Objects.equals(this.auto, invoiceCreditApplication.auto) &&
+        Objects.equals(this.answersHold, invoiceCreditApplication.answersHold);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, creditNoteId, externalCreditNoteNumber, amount, appliedAt, appliedBy, appliedByName, auto);
+    return Objects.hash(id, creditNoteId, externalCreditNoteNumber, amount, appliedAt, appliedBy, appliedByName, auto, answersHold);
   }
 
   @Override
@@ -310,6 +340,7 @@ public class InvoiceCreditApplication {
     sb.append("    appliedBy: ").append(toIndentedString(appliedBy)).append("\n");
     sb.append("    appliedByName: ").append(toIndentedString(appliedByName)).append("\n");
     sb.append("    auto: ").append(toIndentedString(auto)).append("\n");
+    sb.append("    answersHold: ").append(toIndentedString(answersHold)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -395,6 +426,11 @@ public class InvoiceCreditApplication {
     // add `auto` to the URL query string
     if (getAuto() != null) {
       joiner.add(String.format("%sauto%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAuto()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `answersHold` to the URL query string
+    if (getAnswersHold() != null) {
+      joiner.add(String.format("%sanswersHold%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAnswersHold()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

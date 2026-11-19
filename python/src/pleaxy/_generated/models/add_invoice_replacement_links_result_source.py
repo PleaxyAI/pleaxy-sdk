@@ -1,10 +1,13 @@
 from typing import Literal, Set, cast
 
-AddInvoiceReplacementLinksResultSource = Literal["direct", "feed", "manual", "po-flip"]
+AddInvoiceReplacementLinksResultSource = Literal[
+    "cloud_sync", "direct", "feed", "manual", "po-flip"
+]
 
 ADD_INVOICE_REPLACEMENT_LINKS_RESULT_SOURCE_VALUES: Set[
     AddInvoiceReplacementLinksResultSource
 ] = {
+    "cloud_sync",
     "direct",
     "feed",
     "manual",

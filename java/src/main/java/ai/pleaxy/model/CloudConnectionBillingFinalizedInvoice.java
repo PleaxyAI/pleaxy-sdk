@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.CloudConnectionBillingFinalizedInvoiceAdjustmentsInner;
+import ai.pleaxy.model.CloudUsageLine;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -42,7 +43,8 @@ import ai.pleaxy.client.ApiClient;
   CloudConnectionBillingFinalizedInvoice.JSON_PROPERTY_CURRENCY,
   CloudConnectionBillingFinalizedInvoice.JSON_PROPERTY_SOURCE,
   CloudConnectionBillingFinalizedInvoice.JSON_PROPERTY_AMOUNT_PAYABLE,
-  CloudConnectionBillingFinalizedInvoice.JSON_PROPERTY_ADJUSTMENTS
+  CloudConnectionBillingFinalizedInvoice.JSON_PROPERTY_ADJUSTMENTS,
+  CloudConnectionBillingFinalizedInvoice.JSON_PROPERTY_LINES
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class CloudConnectionBillingFinalizedInvoice {
@@ -78,7 +80,9 @@ public class CloudConnectionBillingFinalizedInvoice {
     
     OSP_INVOICE(String.valueOf("osp_invoice")),
     
-    FOCUS_EXPORT(String.valueOf("focus_export"));
+    FOCUS_EXPORT(String.valueOf("focus_export")),
+    
+    COST_EXPLORER_MONTH(String.valueOf("cost_explorer_month"));
 
     private String value;
 
@@ -118,6 +122,10 @@ public class CloudConnectionBillingFinalizedInvoice {
   public static final String JSON_PROPERTY_ADJUSTMENTS = "adjustments";
   @javax.annotation.Nullable
   private List<CloudConnectionBillingFinalizedInvoiceAdjustmentsInner> adjustments = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_LINES = "lines";
+  @javax.annotation.Nullable
+  private List<CloudUsageLine> lines = new ArrayList<>();
 
   public CloudConnectionBillingFinalizedInvoice() { 
   }
@@ -298,6 +306,38 @@ public class CloudConnectionBillingFinalizedInvoice {
   }
 
 
+  public CloudConnectionBillingFinalizedInvoice lines(@javax.annotation.Nullable List<CloudUsageLine> lines) {
+    this.lines = lines;
+    return this;
+  }
+
+  public CloudConnectionBillingFinalizedInvoice addLinesItem(CloudUsageLine linesItem) {
+    if (this.lines == null) {
+      this.lines = new ArrayList<>();
+    }
+    this.lines.add(linesItem);
+    return this;
+  }
+
+  /**
+   * Get lines
+   * @return lines
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_LINES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<CloudUsageLine> getLines() {
+    return lines;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_LINES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setLines(@javax.annotation.Nullable List<CloudUsageLine> lines) {
+    this.lines = lines;
+  }
+
+
   /**
    * Return true if this CloudConnectionBilling_finalizedInvoice object is equal to o.
    */
@@ -316,12 +356,13 @@ public class CloudConnectionBillingFinalizedInvoice {
         Objects.equals(this.currency, cloudConnectionBillingFinalizedInvoice.currency) &&
         Objects.equals(this.source, cloudConnectionBillingFinalizedInvoice.source) &&
         Objects.equals(this.amountPayable, cloudConnectionBillingFinalizedInvoice.amountPayable) &&
-        Objects.equals(this.adjustments, cloudConnectionBillingFinalizedInvoice.adjustments);
+        Objects.equals(this.adjustments, cloudConnectionBillingFinalizedInvoice.adjustments) &&
+        Objects.equals(this.lines, cloudConnectionBillingFinalizedInvoice.lines);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(periodLabel, totalAmount, asOf, currency, source, amountPayable, adjustments);
+    return Objects.hash(periodLabel, totalAmount, asOf, currency, source, amountPayable, adjustments, lines);
   }
 
   @Override
@@ -335,6 +376,7 @@ public class CloudConnectionBillingFinalizedInvoice {
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    amountPayable: ").append(toIndentedString(amountPayable)).append("\n");
     sb.append("    adjustments: ").append(toIndentedString(adjustments)).append("\n");
+    sb.append("    lines: ").append(toIndentedString(lines)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -417,6 +459,16 @@ public class CloudConnectionBillingFinalizedInvoice {
       for (int i = 0; i < getAdjustments().size(); i++) {
         if (getAdjustments().get(i) != null) {
           joiner.add(getAdjustments().get(i).toUrlQueryString(String.format("%sadjustments%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `lines` to the URL query string
+    if (getLines() != null) {
+      for (int i = 0; i < getLines().size(); i++) {
+        if (getLines().get(i) != null) {
+          joiner.add(getLines().get(i).toUrlQueryString(String.format("%slines%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }

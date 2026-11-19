@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from ..models.cloud_connection_billing_finalized_invoice_adjustments_item import (
         CloudConnectionBillingFinalizedInvoiceAdjustmentsItem,
     )
+    from ..models.cloud_usage_line import CloudUsageLine
 
 
 T = TypeVar("T", bound="CloudConnectionBillingFinalizedInvoice")
@@ -29,6 +30,7 @@ class CloudConnectionBillingFinalizedInvoice:
         source (Union[Unset, CloudConnectionBillingFinalizedInvoiceSource]):
         amount_payable (Union[Unset, float]):
         adjustments (Union[Unset, List['CloudConnectionBillingFinalizedInvoiceAdjustmentsItem']]):
+        lines (Union[Unset, List['CloudUsageLine']]):
     """
 
     period_label: Union[Unset, str] = UNSET
@@ -40,6 +42,7 @@ class CloudConnectionBillingFinalizedInvoice:
     adjustments: Union[
         Unset, List["CloudConnectionBillingFinalizedInvoiceAdjustmentsItem"]
     ] = UNSET
+    lines: Union[Unset, List["CloudUsageLine"]] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -64,6 +67,13 @@ class CloudConnectionBillingFinalizedInvoice:
                 adjustments_item = adjustments_item_data.to_dict()
                 adjustments.append(adjustments_item)
 
+        lines: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.lines, Unset):
+            lines = []
+            for lines_item_data in self.lines:
+                lines_item = lines_item_data.to_dict()
+                lines.append(lines_item)
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -81,6 +91,8 @@ class CloudConnectionBillingFinalizedInvoice:
             field_dict["amountPayable"] = amount_payable
         if adjustments is not UNSET:
             field_dict["adjustments"] = adjustments
+        if lines is not UNSET:
+            field_dict["lines"] = lines
 
         return field_dict
 
@@ -89,6 +101,7 @@ class CloudConnectionBillingFinalizedInvoice:
         from ..models.cloud_connection_billing_finalized_invoice_adjustments_item import (
             CloudConnectionBillingFinalizedInvoiceAdjustmentsItem,
         )
+        from ..models.cloud_usage_line import CloudUsageLine
 
         d = src_dict.copy()
         period_label = d.pop("periodLabel", UNSET)
@@ -119,6 +132,13 @@ class CloudConnectionBillingFinalizedInvoice:
 
             adjustments.append(adjustments_item)
 
+        lines = []
+        _lines = d.pop("lines", UNSET)
+        for lines_item_data in _lines or []:
+            lines_item = CloudUsageLine.from_dict(lines_item_data)
+
+            lines.append(lines_item)
+
         cloud_connection_billing_finalized_invoice = cls(
             period_label=period_label,
             total_amount=total_amount,
@@ -127,6 +147,7 @@ class CloudConnectionBillingFinalizedInvoice:
             source=source,
             amount_payable=amount_payable,
             adjustments=adjustments,
+            lines=lines,
         )
 
         cloud_connection_billing_finalized_invoice.additional_properties = d

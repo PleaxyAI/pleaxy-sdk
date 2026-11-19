@@ -25,6 +25,8 @@ module Pleaxy
 
     attr_accessor :currency
 
+    attr_accessor :services
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -54,7 +56,8 @@ module Pleaxy
         :'forecast_amount' => :'forecastAmount',
         :'as_of' => :'asOf',
         :'confidence' => :'confidence',
-        :'currency' => :'currency'
+        :'currency' => :'currency',
+        :'services' => :'services'
       }
     end
 
@@ -70,7 +73,8 @@ module Pleaxy
         :'forecast_amount' => :'Float',
         :'as_of' => :'String',
         :'confidence' => :'String',
-        :'currency' => :'String'
+        :'currency' => :'String',
+        :'services' => :'Array<CloudServiceCost>'
       }
     end
 
@@ -114,6 +118,12 @@ module Pleaxy
       if attributes.key?(:'currency')
         self.currency = attributes[:'currency']
       end
+
+      if attributes.key?(:'services')
+        if (value = attributes[:'services']).is_a?(Array)
+          self.services = value
+        end
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -152,7 +162,8 @@ module Pleaxy
           forecast_amount == o.forecast_amount &&
           as_of == o.as_of &&
           confidence == o.confidence &&
-          currency == o.currency
+          currency == o.currency &&
+          services == o.services
     end
 
     # @see the `==` method
@@ -164,7 +175,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [total_amount, forecast_amount, as_of, confidence, currency].hash
+      [total_amount, forecast_amount, as_of, confidence, currency, services].hash
     end
 
     # Builds the object from hash

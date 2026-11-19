@@ -27,6 +27,8 @@ pub struct CloudConnectionBillingFinalizedInvoice {
     pub amount_payable: Option<f64>,
     #[serde(rename = "adjustments", skip_serializing_if = "Option::is_none")]
     pub adjustments: Option<Vec<models::CloudConnectionBillingFinalizedInvoiceAdjustmentsInner>>,
+    #[serde(rename = "lines", skip_serializing_if = "Option::is_none")]
+    pub lines: Option<Vec<models::CloudUsageLine>>,
 }
 
 impl CloudConnectionBillingFinalizedInvoice {
@@ -39,6 +41,7 @@ impl CloudConnectionBillingFinalizedInvoice {
             source: None,
             amount_payable: None,
             adjustments: None,
+            lines: None,
         }
     }
 }
@@ -59,6 +62,8 @@ pub enum Source {
     OspInvoice,
     #[serde(rename = "focus_export")]
     FocusExport,
+    #[serde(rename = "cost_explorer_month")]
+    CostExplorerMonth,
 }
 
 impl Default for Source {

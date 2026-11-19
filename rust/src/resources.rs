@@ -1841,6 +1841,7 @@ impl<'a> Invoices<'a> {
         &self,
         invoice_id: &str,
         confirm_replaced: Option<&str>,
+        early_payment_discount: Option<&str>,
     ) -> Result<
         crate::models::StartStripePaymentResult,
         crate::apis::Error<crate::apis::invoices_api::StartStripePaymentError>,
@@ -1849,6 +1850,7 @@ impl<'a> Invoices<'a> {
             &self.0.config,
             invoice_id,
             confirm_replaced,
+            early_payment_discount,
         )
         .await
     }

@@ -38,8 +38,10 @@ const (
 	AddAiProviderSupplierResultAiProviderNebius     AddAiProviderSupplierResultAiProvider = "nebius"
 	AddAiProviderSupplierResultAiProviderOpenai     AddAiProviderSupplierResultAiProvider = "openai"
 	AddAiProviderSupplierResultAiProviderOpenrouter AddAiProviderSupplierResultAiProvider = "openrouter"
+	AddAiProviderSupplierResultAiProviderSlack      AddAiProviderSupplierResultAiProvider = "slack"
 	AddAiProviderSupplierResultAiProviderSnowflake  AddAiProviderSupplierResultAiProvider = "snowflake"
 	AddAiProviderSupplierResultAiProviderXai        AddAiProviderSupplierResultAiProvider = "xai"
+	AddAiProviderSupplierResultAiProviderZoom       AddAiProviderSupplierResultAiProvider = "zoom"
 )
 
 // Defines values for AddAiProviderSupplierResultCloudProvider.
@@ -80,8 +82,10 @@ const (
 	AddCloudProviderAsSupplierResultAiProviderNebius     AddCloudProviderAsSupplierResultAiProvider = "nebius"
 	AddCloudProviderAsSupplierResultAiProviderOpenai     AddCloudProviderAsSupplierResultAiProvider = "openai"
 	AddCloudProviderAsSupplierResultAiProviderOpenrouter AddCloudProviderAsSupplierResultAiProvider = "openrouter"
+	AddCloudProviderAsSupplierResultAiProviderSlack      AddCloudProviderAsSupplierResultAiProvider = "slack"
 	AddCloudProviderAsSupplierResultAiProviderSnowflake  AddCloudProviderAsSupplierResultAiProvider = "snowflake"
 	AddCloudProviderAsSupplierResultAiProviderXai        AddCloudProviderAsSupplierResultAiProvider = "xai"
+	AddCloudProviderAsSupplierResultAiProviderZoom       AddCloudProviderAsSupplierResultAiProvider = "zoom"
 )
 
 // Defines values for AddCloudProviderAsSupplierResultCloudProvider.
@@ -105,6 +109,14 @@ const (
 	AddCloudProviderAsSupplierResultStatusPendingInvite AddCloudProviderAsSupplierResultStatus = "pending_invite"
 	AddCloudProviderAsSupplierResultStatusRejected      AddCloudProviderAsSupplierResultStatus = "rejected"
 	AddCloudProviderAsSupplierResultStatusSubmitted     AddCloudProviderAsSupplierResultStatus = "submitted"
+)
+
+// Defines values for AddInvoiceReplacementLinksResultCloudProvider.
+const (
+	AddInvoiceReplacementLinksResultCloudProviderAws   AddInvoiceReplacementLinksResultCloudProvider = "aws"
+	AddInvoiceReplacementLinksResultCloudProviderAzure AddInvoiceReplacementLinksResultCloudProvider = "azure"
+	AddInvoiceReplacementLinksResultCloudProviderGcp   AddInvoiceReplacementLinksResultCloudProvider = "gcp"
+	AddInvoiceReplacementLinksResultCloudProviderOci   AddInvoiceReplacementLinksResultCloudProvider = "oci"
 )
 
 // Defines values for AddInvoiceReplacementLinksResultDiscrepancyReason.
@@ -172,10 +184,11 @@ const (
 
 // Defines values for AddInvoiceReplacementLinksResultSource.
 const (
-	AddInvoiceReplacementLinksResultSourceDirect AddInvoiceReplacementLinksResultSource = "direct"
-	AddInvoiceReplacementLinksResultSourceFeed   AddInvoiceReplacementLinksResultSource = "feed"
-	AddInvoiceReplacementLinksResultSourceManual AddInvoiceReplacementLinksResultSource = "manual"
-	AddInvoiceReplacementLinksResultSourcePoFlip AddInvoiceReplacementLinksResultSource = "po-flip"
+	AddInvoiceReplacementLinksResultSourceCloudSync AddInvoiceReplacementLinksResultSource = "cloud_sync"
+	AddInvoiceReplacementLinksResultSourceDirect    AddInvoiceReplacementLinksResultSource = "direct"
+	AddInvoiceReplacementLinksResultSourceFeed      AddInvoiceReplacementLinksResultSource = "feed"
+	AddInvoiceReplacementLinksResultSourceManual    AddInvoiceReplacementLinksResultSource = "manual"
+	AddInvoiceReplacementLinksResultSourcePoFlip    AddInvoiceReplacementLinksResultSource = "po-flip"
 )
 
 // Defines values for AddInvoiceReplacementLinksResultSubmittedFormat.
@@ -191,6 +204,7 @@ const (
 	AddInvoiceReplacementLinksResultUnverifiedReasonNoBillingConnection AddInvoiceReplacementLinksResultUnverifiedReason = "no_billing_connection"
 	AddInvoiceReplacementLinksResultUnverifiedReasonNoPoFirstInvoice    AddInvoiceReplacementLinksResultUnverifiedReason = "no_po_first_invoice"
 	AddInvoiceReplacementLinksResultUnverifiedReasonNoPurchaseOrder     AddInvoiceReplacementLinksResultUnverifiedReason = "no_purchase_order"
+	AddInvoiceReplacementLinksResultUnverifiedReasonNoUsageFigure       AddInvoiceReplacementLinksResultUnverifiedReason = "no_usage_figure"
 	AddInvoiceReplacementLinksResultUnverifiedReasonPayerAccountUnclear AddInvoiceReplacementLinksResultUnverifiedReason = "payer_account_unclear"
 )
 
@@ -198,6 +212,7 @@ const (
 const (
 	AddInvoiceReplacementLinksResultUsageSourceAwsInvoice          AddInvoiceReplacementLinksResultUsageSource = "aws_invoice"
 	AddInvoiceReplacementLinksResultUsageSourceBillingExport       AddInvoiceReplacementLinksResultUsageSource = "billing_export"
+	AddInvoiceReplacementLinksResultUsageSourceCostExplorerMonth   AddInvoiceReplacementLinksResultUsageSource = "cost_explorer_month"
 	AddInvoiceReplacementLinksResultUsageSourceEaBalance           AddInvoiceReplacementLinksResultUsageSource = "ea_balance"
 	AddInvoiceReplacementLinksResultUsageSourceFocusExport         AddInvoiceReplacementLinksResultUsageSource = "focus_export"
 	AddInvoiceReplacementLinksResultUsageSourceMcaInvoice          AddInvoiceReplacementLinksResultUsageSource = "mca_invoice"
@@ -237,8 +252,10 @@ const (
 	AiCommitmentViewAiInvoicerOci        AiCommitmentViewAiInvoicer = "oci"
 	AiCommitmentViewAiInvoicerOpenai     AiCommitmentViewAiInvoicer = "openai"
 	AiCommitmentViewAiInvoicerOpenrouter AiCommitmentViewAiInvoicer = "openrouter"
+	AiCommitmentViewAiInvoicerSlack      AiCommitmentViewAiInvoicer = "slack"
 	AiCommitmentViewAiInvoicerSnowflake  AiCommitmentViewAiInvoicer = "snowflake"
 	AiCommitmentViewAiInvoicerXai        AiCommitmentViewAiInvoicer = "xai"
+	AiCommitmentViewAiInvoicerZoom       AiCommitmentViewAiInvoicer = "zoom"
 )
 
 // Defines values for AiCommitmentViewAiVendor.
@@ -309,8 +326,10 @@ const (
 	AiLineScopeInvoicerOci        AiLineScopeInvoicer = "oci"
 	AiLineScopeInvoicerOpenai     AiLineScopeInvoicer = "openai"
 	AiLineScopeInvoicerOpenrouter AiLineScopeInvoicer = "openrouter"
+	AiLineScopeInvoicerSlack      AiLineScopeInvoicer = "slack"
 	AiLineScopeInvoicerSnowflake  AiLineScopeInvoicer = "snowflake"
 	AiLineScopeInvoicerXai        AiLineScopeInvoicer = "xai"
+	AiLineScopeInvoicerZoom       AiLineScopeInvoicer = "zoom"
 )
 
 // Defines values for AiLineScopeMeter.
@@ -371,8 +390,10 @@ const (
 	AiLineScopeInputInvoicerOci        AiLineScopeInputInvoicer = "oci"
 	AiLineScopeInputInvoicerOpenai     AiLineScopeInputInvoicer = "openai"
 	AiLineScopeInputInvoicerOpenrouter AiLineScopeInputInvoicer = "openrouter"
+	AiLineScopeInputInvoicerSlack      AiLineScopeInputInvoicer = "slack"
 	AiLineScopeInputInvoicerSnowflake  AiLineScopeInputInvoicer = "snowflake"
 	AiLineScopeInputInvoicerXai        AiLineScopeInputInvoicer = "xai"
+	AiLineScopeInputInvoicerZoom       AiLineScopeInputInvoicer = "zoom"
 )
 
 // Defines values for AiLineScopeInputMeter.
@@ -433,8 +454,10 @@ const (
 	AiPoLineSuggestionAiInvoicerOci        AiPoLineSuggestionAiInvoicer = "oci"
 	AiPoLineSuggestionAiInvoicerOpenai     AiPoLineSuggestionAiInvoicer = "openai"
 	AiPoLineSuggestionAiInvoicerOpenrouter AiPoLineSuggestionAiInvoicer = "openrouter"
+	AiPoLineSuggestionAiInvoicerSlack      AiPoLineSuggestionAiInvoicer = "slack"
 	AiPoLineSuggestionAiInvoicerSnowflake  AiPoLineSuggestionAiInvoicer = "snowflake"
 	AiPoLineSuggestionAiInvoicerXai        AiPoLineSuggestionAiInvoicer = "xai"
+	AiPoLineSuggestionAiInvoicerZoom       AiPoLineSuggestionAiInvoicer = "zoom"
 )
 
 // Defines values for AiPoLineSuggestionAiMeter.
@@ -515,8 +538,10 @@ const (
 	AiPoLineSuggestionsInvoicerOci        AiPoLineSuggestionsInvoicer = "oci"
 	AiPoLineSuggestionsInvoicerOpenai     AiPoLineSuggestionsInvoicer = "openai"
 	AiPoLineSuggestionsInvoicerOpenrouter AiPoLineSuggestionsInvoicer = "openrouter"
+	AiPoLineSuggestionsInvoicerSlack      AiPoLineSuggestionsInvoicer = "slack"
 	AiPoLineSuggestionsInvoicerSnowflake  AiPoLineSuggestionsInvoicer = "snowflake"
 	AiPoLineSuggestionsInvoicerXai        AiPoLineSuggestionsInvoicer = "xai"
+	AiPoLineSuggestionsInvoicerZoom       AiPoLineSuggestionsInvoicer = "zoom"
 )
 
 // Defines values for AiProviderCreditPriceKind.
@@ -557,8 +582,10 @@ const (
 	AiProviderProviderNebius     AiProviderProvider = "nebius"
 	AiProviderProviderOpenai     AiProviderProvider = "openai"
 	AiProviderProviderOpenrouter AiProviderProvider = "openrouter"
+	AiProviderProviderSlack      AiProviderProvider = "slack"
 	AiProviderProviderSnowflake  AiProviderProvider = "snowflake"
 	AiProviderProviderXai        AiProviderProvider = "xai"
+	AiProviderProviderZoom       AiProviderProvider = "zoom"
 )
 
 // Defines values for AiProviderStatus.
@@ -586,8 +613,10 @@ const (
 	AiRateCardEntryInvoicerOci        AiRateCardEntryInvoicer = "oci"
 	AiRateCardEntryInvoicerOpenai     AiRateCardEntryInvoicer = "openai"
 	AiRateCardEntryInvoicerOpenrouter AiRateCardEntryInvoicer = "openrouter"
+	AiRateCardEntryInvoicerSlack      AiRateCardEntryInvoicer = "slack"
 	AiRateCardEntryInvoicerSnowflake  AiRateCardEntryInvoicer = "snowflake"
 	AiRateCardEntryInvoicerXai        AiRateCardEntryInvoicer = "xai"
+	AiRateCardEntryInvoicerZoom       AiRateCardEntryInvoicer = "zoom"
 )
 
 // Defines values for AiRateCardEntryMeter.
@@ -661,8 +690,10 @@ const (
 	AiSavingRecommendationInvoicerOci        AiSavingRecommendationInvoicer = "oci"
 	AiSavingRecommendationInvoicerOpenai     AiSavingRecommendationInvoicer = "openai"
 	AiSavingRecommendationInvoicerOpenrouter AiSavingRecommendationInvoicer = "openrouter"
+	AiSavingRecommendationInvoicerSlack      AiSavingRecommendationInvoicer = "slack"
 	AiSavingRecommendationInvoicerSnowflake  AiSavingRecommendationInvoicer = "snowflake"
 	AiSavingRecommendationInvoicerXai        AiSavingRecommendationInvoicer = "xai"
+	AiSavingRecommendationInvoicerZoom       AiSavingRecommendationInvoicer = "zoom"
 )
 
 // Defines values for AiSavingRecommendationKind.
@@ -709,8 +740,10 @@ const (
 	AiSeatCountInvoicerOci        AiSeatCountInvoicer = "oci"
 	AiSeatCountInvoicerOpenai     AiSeatCountInvoicer = "openai"
 	AiSeatCountInvoicerOpenrouter AiSeatCountInvoicer = "openrouter"
+	AiSeatCountInvoicerSlack      AiSeatCountInvoicer = "slack"
 	AiSeatCountInvoicerSnowflake  AiSeatCountInvoicer = "snowflake"
 	AiSeatCountInvoicerXai        AiSeatCountInvoicer = "xai"
+	AiSeatCountInvoicerZoom       AiSeatCountInvoicer = "zoom"
 )
 
 // Defines values for AiSeatCountSource.
@@ -750,8 +783,10 @@ const (
 	AiSpendGroupInvoicerOci        AiSpendGroupInvoicer = "oci"
 	AiSpendGroupInvoicerOpenai     AiSpendGroupInvoicer = "openai"
 	AiSpendGroupInvoicerOpenrouter AiSpendGroupInvoicer = "openrouter"
+	AiSpendGroupInvoicerSlack      AiSpendGroupInvoicer = "slack"
 	AiSpendGroupInvoicerSnowflake  AiSpendGroupInvoicer = "snowflake"
 	AiSpendGroupInvoicerXai        AiSpendGroupInvoicer = "xai"
+	AiSpendGroupInvoicerZoom       AiSpendGroupInvoicer = "zoom"
 )
 
 // Defines values for AiSpendLimitEnforcement.
@@ -803,8 +838,10 @@ const (
 	AiSpendResponseNotReadableInvoicerOci        AiSpendResponseNotReadableInvoicer = "oci"
 	AiSpendResponseNotReadableInvoicerOpenai     AiSpendResponseNotReadableInvoicer = "openai"
 	AiSpendResponseNotReadableInvoicerOpenrouter AiSpendResponseNotReadableInvoicer = "openrouter"
+	AiSpendResponseNotReadableInvoicerSlack      AiSpendResponseNotReadableInvoicer = "slack"
 	AiSpendResponseNotReadableInvoicerSnowflake  AiSpendResponseNotReadableInvoicer = "snowflake"
 	AiSpendResponseNotReadableInvoicerXai        AiSpendResponseNotReadableInvoicer = "xai"
+	AiSpendResponseNotReadableInvoicerZoom       AiSpendResponseNotReadableInvoicer = "zoom"
 )
 
 // Defines values for AiSpendResponseNotReadableReason.
@@ -832,8 +869,10 @@ const (
 	AiUncoveredSpendInvoicerOci        AiUncoveredSpendInvoicer = "oci"
 	AiUncoveredSpendInvoicerOpenai     AiUncoveredSpendInvoicer = "openai"
 	AiUncoveredSpendInvoicerOpenrouter AiUncoveredSpendInvoicer = "openrouter"
+	AiUncoveredSpendInvoicerSlack      AiUncoveredSpendInvoicer = "slack"
 	AiUncoveredSpendInvoicerSnowflake  AiUncoveredSpendInvoicer = "snowflake"
 	AiUncoveredSpendInvoicerXai        AiUncoveredSpendInvoicer = "xai"
+	AiUncoveredSpendInvoicerZoom       AiUncoveredSpendInvoicer = "zoom"
 )
 
 // Defines values for AiUncoveredSpendReason.
@@ -867,8 +906,10 @@ const (
 	AiUsageLineInvoicerOci        AiUsageLineInvoicer = "oci"
 	AiUsageLineInvoicerOpenai     AiUsageLineInvoicer = "openai"
 	AiUsageLineInvoicerOpenrouter AiUsageLineInvoicer = "openrouter"
+	AiUsageLineInvoicerSlack      AiUsageLineInvoicer = "slack"
 	AiUsageLineInvoicerSnowflake  AiUsageLineInvoicer = "snowflake"
 	AiUsageLineInvoicerXai        AiUsageLineInvoicer = "xai"
+	AiUsageLineInvoicerZoom       AiUsageLineInvoicer = "zoom"
 )
 
 // Defines values for AiUsageLineMeter.
@@ -1030,8 +1071,8 @@ const (
 
 // Defines values for ApprovalReassignmentDetailOnRebuild.
 const (
-	Carried    ApprovalReassignmentDetailOnRebuild = "carried"
-	NotCarried ApprovalReassignmentDetailOnRebuild = "not-carried"
+	ApprovalReassignmentDetailOnRebuildCarried    ApprovalReassignmentDetailOnRebuild = "carried"
+	ApprovalReassignmentDetailOnRebuildNotCarried ApprovalReassignmentDetailOnRebuild = "not-carried"
 )
 
 // Defines values for ApprovalRoutingBudgetMode.
@@ -1544,6 +1585,7 @@ const (
 const (
 	CloudConnectionBillingFinalizedInvoiceSourceAwsInvoice          CloudConnectionBillingFinalizedInvoiceSource = "aws_invoice"
 	CloudConnectionBillingFinalizedInvoiceSourceBillingExport       CloudConnectionBillingFinalizedInvoiceSource = "billing_export"
+	CloudConnectionBillingFinalizedInvoiceSourceCostExplorerMonth   CloudConnectionBillingFinalizedInvoiceSource = "cost_explorer_month"
 	CloudConnectionBillingFinalizedInvoiceSourceEaBalance           CloudConnectionBillingFinalizedInvoiceSource = "ea_balance"
 	CloudConnectionBillingFinalizedInvoiceSourceFocusExport         CloudConnectionBillingFinalizedInvoiceSource = "focus_export"
 	CloudConnectionBillingFinalizedInvoiceSourceMcaInvoice          CloudConnectionBillingFinalizedInvoiceSource = "mca_invoice"
@@ -1555,6 +1597,7 @@ const (
 const (
 	CloudConnectionBillingPreviousFinalizedInvoiceSourceAwsInvoice          CloudConnectionBillingPreviousFinalizedInvoiceSource = "aws_invoice"
 	CloudConnectionBillingPreviousFinalizedInvoiceSourceBillingExport       CloudConnectionBillingPreviousFinalizedInvoiceSource = "billing_export"
+	CloudConnectionBillingPreviousFinalizedInvoiceSourceCostExplorerMonth   CloudConnectionBillingPreviousFinalizedInvoiceSource = "cost_explorer_month"
 	CloudConnectionBillingPreviousFinalizedInvoiceSourceEaBalance           CloudConnectionBillingPreviousFinalizedInvoiceSource = "ea_balance"
 	CloudConnectionBillingPreviousFinalizedInvoiceSourceFocusExport         CloudConnectionBillingPreviousFinalizedInvoiceSource = "focus_export"
 	CloudConnectionBillingPreviousFinalizedInvoiceSourceMcaInvoice          CloudConnectionBillingPreviousFinalizedInvoiceSource = "mca_invoice"
@@ -1878,6 +1921,14 @@ const (
 	CreateInvoiceResultBuyerCreditNoteSubmittedFormatUbl  CreateInvoiceResultBuyerCreditNoteSubmittedFormat = "ubl"
 )
 
+// Defines values for CreateInvoiceResultBuyerInvoiceCloudProvider.
+const (
+	CreateInvoiceResultBuyerInvoiceCloudProviderAws   CreateInvoiceResultBuyerInvoiceCloudProvider = "aws"
+	CreateInvoiceResultBuyerInvoiceCloudProviderAzure CreateInvoiceResultBuyerInvoiceCloudProvider = "azure"
+	CreateInvoiceResultBuyerInvoiceCloudProviderGcp   CreateInvoiceResultBuyerInvoiceCloudProvider = "gcp"
+	CreateInvoiceResultBuyerInvoiceCloudProviderOci   CreateInvoiceResultBuyerInvoiceCloudProvider = "oci"
+)
+
 // Defines values for CreateInvoiceResultBuyerInvoiceDiscrepancyReason.
 const (
 	CreateInvoiceResultBuyerInvoiceDiscrepancyReasonAmount       CreateInvoiceResultBuyerInvoiceDiscrepancyReason = "amount"
@@ -1943,10 +1994,11 @@ const (
 
 // Defines values for CreateInvoiceResultBuyerInvoiceSource.
 const (
-	CreateInvoiceResultBuyerInvoiceSourceDirect CreateInvoiceResultBuyerInvoiceSource = "direct"
-	CreateInvoiceResultBuyerInvoiceSourceFeed   CreateInvoiceResultBuyerInvoiceSource = "feed"
-	CreateInvoiceResultBuyerInvoiceSourceManual CreateInvoiceResultBuyerInvoiceSource = "manual"
-	CreateInvoiceResultBuyerInvoiceSourcePoFlip CreateInvoiceResultBuyerInvoiceSource = "po-flip"
+	CreateInvoiceResultBuyerInvoiceSourceCloudSync CreateInvoiceResultBuyerInvoiceSource = "cloud_sync"
+	CreateInvoiceResultBuyerInvoiceSourceDirect    CreateInvoiceResultBuyerInvoiceSource = "direct"
+	CreateInvoiceResultBuyerInvoiceSourceFeed      CreateInvoiceResultBuyerInvoiceSource = "feed"
+	CreateInvoiceResultBuyerInvoiceSourceManual    CreateInvoiceResultBuyerInvoiceSource = "manual"
+	CreateInvoiceResultBuyerInvoiceSourcePoFlip    CreateInvoiceResultBuyerInvoiceSource = "po-flip"
 )
 
 // Defines values for CreateInvoiceResultBuyerInvoiceSubmittedFormat.
@@ -1962,6 +2014,7 @@ const (
 	CreateInvoiceResultBuyerInvoiceUnverifiedReasonNoBillingConnection CreateInvoiceResultBuyerInvoiceUnverifiedReason = "no_billing_connection"
 	CreateInvoiceResultBuyerInvoiceUnverifiedReasonNoPoFirstInvoice    CreateInvoiceResultBuyerInvoiceUnverifiedReason = "no_po_first_invoice"
 	CreateInvoiceResultBuyerInvoiceUnverifiedReasonNoPurchaseOrder     CreateInvoiceResultBuyerInvoiceUnverifiedReason = "no_purchase_order"
+	CreateInvoiceResultBuyerInvoiceUnverifiedReasonNoUsageFigure       CreateInvoiceResultBuyerInvoiceUnverifiedReason = "no_usage_figure"
 	CreateInvoiceResultBuyerInvoiceUnverifiedReasonPayerAccountUnclear CreateInvoiceResultBuyerInvoiceUnverifiedReason = "payer_account_unclear"
 )
 
@@ -1969,6 +2022,7 @@ const (
 const (
 	CreateInvoiceResultBuyerInvoiceUsageSourceAwsInvoice          CreateInvoiceResultBuyerInvoiceUsageSource = "aws_invoice"
 	CreateInvoiceResultBuyerInvoiceUsageSourceBillingExport       CreateInvoiceResultBuyerInvoiceUsageSource = "billing_export"
+	CreateInvoiceResultBuyerInvoiceUsageSourceCostExplorerMonth   CreateInvoiceResultBuyerInvoiceUsageSource = "cost_explorer_month"
 	CreateInvoiceResultBuyerInvoiceUsageSourceEaBalance           CreateInvoiceResultBuyerInvoiceUsageSource = "ea_balance"
 	CreateInvoiceResultBuyerInvoiceUsageSourceFocusExport         CreateInvoiceResultBuyerInvoiceUsageSource = "focus_export"
 	CreateInvoiceResultBuyerInvoiceUsageSourceMcaInvoice          CreateInvoiceResultBuyerInvoiceUsageSource = "mca_invoice"
@@ -2054,6 +2108,14 @@ const (
 	CreateInvoiceResultSupplierCreditNoteSubmittedFormatUbl  CreateInvoiceResultSupplierCreditNoteSubmittedFormat = "ubl"
 )
 
+// Defines values for CreateInvoiceResultSupplierInvoiceCloudProvider.
+const (
+	CreateInvoiceResultSupplierInvoiceCloudProviderAws   CreateInvoiceResultSupplierInvoiceCloudProvider = "aws"
+	CreateInvoiceResultSupplierInvoiceCloudProviderAzure CreateInvoiceResultSupplierInvoiceCloudProvider = "azure"
+	CreateInvoiceResultSupplierInvoiceCloudProviderGcp   CreateInvoiceResultSupplierInvoiceCloudProvider = "gcp"
+	CreateInvoiceResultSupplierInvoiceCloudProviderOci   CreateInvoiceResultSupplierInvoiceCloudProvider = "oci"
+)
+
 // Defines values for CreateInvoiceResultSupplierInvoiceDocumentType.
 const (
 	CreateInvoiceResultSupplierInvoiceDocumentTypeDebitNote CreateInvoiceResultSupplierInvoiceDocumentType = "debit_note"
@@ -2126,10 +2188,11 @@ const (
 
 // Defines values for CreateInvoiceResultSupplierInvoiceSource.
 const (
-	CreateInvoiceResultSupplierInvoiceSourceDirect CreateInvoiceResultSupplierInvoiceSource = "direct"
-	CreateInvoiceResultSupplierInvoiceSourceFeed   CreateInvoiceResultSupplierInvoiceSource = "feed"
-	CreateInvoiceResultSupplierInvoiceSourceManual CreateInvoiceResultSupplierInvoiceSource = "manual"
-	CreateInvoiceResultSupplierInvoiceSourcePoFlip CreateInvoiceResultSupplierInvoiceSource = "po-flip"
+	CreateInvoiceResultSupplierInvoiceSourceCloudSync CreateInvoiceResultSupplierInvoiceSource = "cloud_sync"
+	CreateInvoiceResultSupplierInvoiceSourceDirect    CreateInvoiceResultSupplierInvoiceSource = "direct"
+	CreateInvoiceResultSupplierInvoiceSourceFeed      CreateInvoiceResultSupplierInvoiceSource = "feed"
+	CreateInvoiceResultSupplierInvoiceSourceManual    CreateInvoiceResultSupplierInvoiceSource = "manual"
+	CreateInvoiceResultSupplierInvoiceSourcePoFlip    CreateInvoiceResultSupplierInvoiceSource = "po-flip"
 )
 
 // Defines values for CreateInvoiceResultSupplierInvoiceSubmittedFormat.
@@ -2320,36 +2383,49 @@ const (
 
 // Defines values for FeedValidationResultFindingsCode.
 const (
-	FeedValidationResultFindingsCodeAiBatchDiscountMissing        FeedValidationResultFindingsCode = "ai_batch_discount_missing"
-	FeedValidationResultFindingsCodeAiCacheDiscountMissing        FeedValidationResultFindingsCode = "ai_cache_discount_missing"
-	FeedValidationResultFindingsCodeAiCapacityUnderused           FeedValidationResultFindingsCode = "ai_capacity_underused"
-	FeedValidationResultFindingsCodeAiCommitmentExceeded          FeedValidationResultFindingsCode = "ai_commitment_exceeded"
-	FeedValidationResultFindingsCodeAiDoubleBilled                FeedValidationResultFindingsCode = "ai_double_billed"
-	FeedValidationResultFindingsCodeAiPriceCutNotApplied          FeedValidationResultFindingsCode = "ai_price_cut_not_applied"
-	FeedValidationResultFindingsCodeAiRateAboveContract           FeedValidationResultFindingsCode = "ai_rate_above_contract"
-	FeedValidationResultFindingsCodeAiRateAboveList               FeedValidationResultFindingsCode = "ai_rate_above_list"
-	FeedValidationResultFindingsCodeAiSeatsAboveActive            FeedValidationResultFindingsCode = "ai_seats_above_active"
-	FeedValidationResultFindingsCodeAiTokensMismatch              FeedValidationResultFindingsCode = "ai_tokens_mismatch"
-	FeedValidationResultFindingsCodeCommitmentShortfallOverbilled FeedValidationResultFindingsCode = "commitment_shortfall_overbilled"
-	FeedValidationResultFindingsCodeContractCapExceeded           FeedValidationResultFindingsCode = "contract_cap_exceeded"
-	FeedValidationResultFindingsCodeContractCheckFailed           FeedValidationResultFindingsCode = "contract_check_failed"
-	FeedValidationResultFindingsCodeContractDiscountMissing       FeedValidationResultFindingsCode = "contract_discount_missing"
-	FeedValidationResultFindingsCodeContractMaxUnitPriceExceeded  FeedValidationResultFindingsCode = "contract_max_unit_price_exceeded"
-	FeedValidationResultFindingsCodeContractNotActive             FeedValidationResultFindingsCode = "contract_not_active"
-	FeedValidationResultFindingsCodeContractOutsideTerm           FeedValidationResultFindingsCode = "contract_outside_term"
-	FeedValidationResultFindingsCodeContractRateExceeded          FeedValidationResultFindingsCode = "contract_rate_exceeded"
-	FeedValidationResultFindingsCodeFixedDiscountMissing          FeedValidationResultFindingsCode = "fixed_discount_missing"
-	FeedValidationResultFindingsCodePoBalanceExceeded             FeedValidationResultFindingsCode = "po_balance_exceeded"
-	FeedValidationResultFindingsCodePoLineAmountExceeded          FeedValidationResultFindingsCode = "po_line_amount_exceeded"
-	FeedValidationResultFindingsCodePoLineMissing                 FeedValidationResultFindingsCode = "po_line_missing"
-	FeedValidationResultFindingsCodePoLinePriceExceeded           FeedValidationResultFindingsCode = "po_line_price_exceeded"
-	FeedValidationResultFindingsCodePoLineQtyExceeded             FeedValidationResultFindingsCode = "po_line_qty_exceeded"
-	FeedValidationResultFindingsCodePoLineUnassigned              FeedValidationResultFindingsCode = "po_line_unassigned"
-	FeedValidationResultFindingsCodeReceiptAmountExceeded         FeedValidationResultFindingsCode = "receipt_amount_exceeded"
-	FeedValidationResultFindingsCodeReceiptMissing                FeedValidationResultFindingsCode = "receipt_missing"
-	FeedValidationResultFindingsCodeReceiptQtyExceeded            FeedValidationResultFindingsCode = "receipt_qty_exceeded"
-	FeedValidationResultFindingsCodeTierPriceExceeded             FeedValidationResultFindingsCode = "tier_price_exceeded"
-	FeedValidationResultFindingsCodeUsageGrew                     FeedValidationResultFindingsCode = "usage_grew"
+	FeedValidationResultFindingsCodeAiBatchDiscountMissing         FeedValidationResultFindingsCode = "ai_batch_discount_missing"
+	FeedValidationResultFindingsCodeAiCacheDiscountMissing         FeedValidationResultFindingsCode = "ai_cache_discount_missing"
+	FeedValidationResultFindingsCodeAiCapacityUnderused            FeedValidationResultFindingsCode = "ai_capacity_underused"
+	FeedValidationResultFindingsCodeAiCommitmentExceeded           FeedValidationResultFindingsCode = "ai_commitment_exceeded"
+	FeedValidationResultFindingsCodeAiDoubleBilled                 FeedValidationResultFindingsCode = "ai_double_billed"
+	FeedValidationResultFindingsCodeAiPriceCutNotApplied           FeedValidationResultFindingsCode = "ai_price_cut_not_applied"
+	FeedValidationResultFindingsCodeAiRateAboveContract            FeedValidationResultFindingsCode = "ai_rate_above_contract"
+	FeedValidationResultFindingsCodeAiRateAboveList                FeedValidationResultFindingsCode = "ai_rate_above_list"
+	FeedValidationResultFindingsCodeAiSeatsAboveActive             FeedValidationResultFindingsCode = "ai_seats_above_active"
+	FeedValidationResultFindingsCodeAiTokensMismatch               FeedValidationResultFindingsCode = "ai_tokens_mismatch"
+	FeedValidationResultFindingsCodeCommitmentShortfallOverbilled  FeedValidationResultFindingsCode = "commitment_shortfall_overbilled"
+	FeedValidationResultFindingsCodeContractCapExceeded            FeedValidationResultFindingsCode = "contract_cap_exceeded"
+	FeedValidationResultFindingsCodeContractCheckFailed            FeedValidationResultFindingsCode = "contract_check_failed"
+	FeedValidationResultFindingsCodeContractDiscountMissing        FeedValidationResultFindingsCode = "contract_discount_missing"
+	FeedValidationResultFindingsCodeContractMaxUnitPriceExceeded   FeedValidationResultFindingsCode = "contract_max_unit_price_exceeded"
+	FeedValidationResultFindingsCodeContractMilestoneAlreadyBilled FeedValidationResultFindingsCode = "contract_milestone_already_billed"
+	FeedValidationResultFindingsCodeContractMilestoneExceeded      FeedValidationResultFindingsCode = "contract_milestone_exceeded"
+	FeedValidationResultFindingsCodeContractMilestoneUnconfirmed   FeedValidationResultFindingsCode = "contract_milestone_unconfirmed"
+	FeedValidationResultFindingsCodeContractMilestoneUnknown       FeedValidationResultFindingsCode = "contract_milestone_unknown"
+	FeedValidationResultFindingsCodeContractNotActive              FeedValidationResultFindingsCode = "contract_not_active"
+	FeedValidationResultFindingsCodeContractOutsideTerm            FeedValidationResultFindingsCode = "contract_outside_term"
+	FeedValidationResultFindingsCodeContractRateExceeded           FeedValidationResultFindingsCode = "contract_rate_exceeded"
+	FeedValidationResultFindingsCodeContractRateNotChecked         FeedValidationResultFindingsCode = "contract_rate_not_checked"
+	FeedValidationResultFindingsCodeFixedDiscountMissing           FeedValidationResultFindingsCode = "fixed_discount_missing"
+	FeedValidationResultFindingsCodePoBalanceExceeded              FeedValidationResultFindingsCode = "po_balance_exceeded"
+	FeedValidationResultFindingsCodePoLineAmountExceeded           FeedValidationResultFindingsCode = "po_line_amount_exceeded"
+	FeedValidationResultFindingsCodePoLineMissing                  FeedValidationResultFindingsCode = "po_line_missing"
+	FeedValidationResultFindingsCodePoLinePriceExceeded            FeedValidationResultFindingsCode = "po_line_price_exceeded"
+	FeedValidationResultFindingsCodePoLineQtyExceeded              FeedValidationResultFindingsCode = "po_line_qty_exceeded"
+	FeedValidationResultFindingsCodePoLineUnassigned               FeedValidationResultFindingsCode = "po_line_unassigned"
+	FeedValidationResultFindingsCodeReceiptAmountExceeded          FeedValidationResultFindingsCode = "receipt_amount_exceeded"
+	FeedValidationResultFindingsCodeReceiptMissing                 FeedValidationResultFindingsCode = "receipt_missing"
+	FeedValidationResultFindingsCodeReceiptQtyExceeded             FeedValidationResultFindingsCode = "receipt_qty_exceeded"
+	FeedValidationResultFindingsCodeTierPriceExceeded              FeedValidationResultFindingsCode = "tier_price_exceeded"
+	FeedValidationResultFindingsCodeUsageGrew                      FeedValidationResultFindingsCode = "usage_grew"
+)
+
+// Defines values for FeedValidationResultInvoiceCloudProvider.
+const (
+	FeedValidationResultInvoiceCloudProviderAws   FeedValidationResultInvoiceCloudProvider = "aws"
+	FeedValidationResultInvoiceCloudProviderAzure FeedValidationResultInvoiceCloudProvider = "azure"
+	FeedValidationResultInvoiceCloudProviderGcp   FeedValidationResultInvoiceCloudProvider = "gcp"
+	FeedValidationResultInvoiceCloudProviderOci   FeedValidationResultInvoiceCloudProvider = "oci"
 )
 
 // Defines values for FeedValidationResultInvoiceDocumentType.
@@ -2694,6 +2770,14 @@ const (
 	GetInvoiceResultBuyerCreditNoteSubmittedFormatUbl  GetInvoiceResultBuyerCreditNoteSubmittedFormat = "ubl"
 )
 
+// Defines values for GetInvoiceResultBuyerInvoiceCloudProvider.
+const (
+	GetInvoiceResultBuyerInvoiceCloudProviderAws   GetInvoiceResultBuyerInvoiceCloudProvider = "aws"
+	GetInvoiceResultBuyerInvoiceCloudProviderAzure GetInvoiceResultBuyerInvoiceCloudProvider = "azure"
+	GetInvoiceResultBuyerInvoiceCloudProviderGcp   GetInvoiceResultBuyerInvoiceCloudProvider = "gcp"
+	GetInvoiceResultBuyerInvoiceCloudProviderOci   GetInvoiceResultBuyerInvoiceCloudProvider = "oci"
+)
+
 // Defines values for GetInvoiceResultBuyerInvoiceDiscrepancyReason.
 const (
 	GetInvoiceResultBuyerInvoiceDiscrepancyReasonAmount       GetInvoiceResultBuyerInvoiceDiscrepancyReason = "amount"
@@ -2759,10 +2843,11 @@ const (
 
 // Defines values for GetInvoiceResultBuyerInvoiceSource.
 const (
-	GetInvoiceResultBuyerInvoiceSourceDirect GetInvoiceResultBuyerInvoiceSource = "direct"
-	GetInvoiceResultBuyerInvoiceSourceFeed   GetInvoiceResultBuyerInvoiceSource = "feed"
-	GetInvoiceResultBuyerInvoiceSourceManual GetInvoiceResultBuyerInvoiceSource = "manual"
-	GetInvoiceResultBuyerInvoiceSourcePoFlip GetInvoiceResultBuyerInvoiceSource = "po-flip"
+	GetInvoiceResultBuyerInvoiceSourceCloudSync GetInvoiceResultBuyerInvoiceSource = "cloud_sync"
+	GetInvoiceResultBuyerInvoiceSourceDirect    GetInvoiceResultBuyerInvoiceSource = "direct"
+	GetInvoiceResultBuyerInvoiceSourceFeed      GetInvoiceResultBuyerInvoiceSource = "feed"
+	GetInvoiceResultBuyerInvoiceSourceManual    GetInvoiceResultBuyerInvoiceSource = "manual"
+	GetInvoiceResultBuyerInvoiceSourcePoFlip    GetInvoiceResultBuyerInvoiceSource = "po-flip"
 )
 
 // Defines values for GetInvoiceResultBuyerInvoiceSubmittedFormat.
@@ -2778,6 +2863,7 @@ const (
 	GetInvoiceResultBuyerInvoiceUnverifiedReasonNoBillingConnection GetInvoiceResultBuyerInvoiceUnverifiedReason = "no_billing_connection"
 	GetInvoiceResultBuyerInvoiceUnverifiedReasonNoPoFirstInvoice    GetInvoiceResultBuyerInvoiceUnverifiedReason = "no_po_first_invoice"
 	GetInvoiceResultBuyerInvoiceUnverifiedReasonNoPurchaseOrder     GetInvoiceResultBuyerInvoiceUnverifiedReason = "no_purchase_order"
+	GetInvoiceResultBuyerInvoiceUnverifiedReasonNoUsageFigure       GetInvoiceResultBuyerInvoiceUnverifiedReason = "no_usage_figure"
 	GetInvoiceResultBuyerInvoiceUnverifiedReasonPayerAccountUnclear GetInvoiceResultBuyerInvoiceUnverifiedReason = "payer_account_unclear"
 )
 
@@ -2785,6 +2871,7 @@ const (
 const (
 	GetInvoiceResultBuyerInvoiceUsageSourceAwsInvoice          GetInvoiceResultBuyerInvoiceUsageSource = "aws_invoice"
 	GetInvoiceResultBuyerInvoiceUsageSourceBillingExport       GetInvoiceResultBuyerInvoiceUsageSource = "billing_export"
+	GetInvoiceResultBuyerInvoiceUsageSourceCostExplorerMonth   GetInvoiceResultBuyerInvoiceUsageSource = "cost_explorer_month"
 	GetInvoiceResultBuyerInvoiceUsageSourceEaBalance           GetInvoiceResultBuyerInvoiceUsageSource = "ea_balance"
 	GetInvoiceResultBuyerInvoiceUsageSourceFocusExport         GetInvoiceResultBuyerInvoiceUsageSource = "focus_export"
 	GetInvoiceResultBuyerInvoiceUsageSourceMcaInvoice          GetInvoiceResultBuyerInvoiceUsageSource = "mca_invoice"
@@ -2870,6 +2957,14 @@ const (
 	GetInvoiceResultSupplierCreditNoteSubmittedFormatUbl  GetInvoiceResultSupplierCreditNoteSubmittedFormat = "ubl"
 )
 
+// Defines values for GetInvoiceResultSupplierInvoiceCloudProvider.
+const (
+	GetInvoiceResultSupplierInvoiceCloudProviderAws   GetInvoiceResultSupplierInvoiceCloudProvider = "aws"
+	GetInvoiceResultSupplierInvoiceCloudProviderAzure GetInvoiceResultSupplierInvoiceCloudProvider = "azure"
+	GetInvoiceResultSupplierInvoiceCloudProviderGcp   GetInvoiceResultSupplierInvoiceCloudProvider = "gcp"
+	GetInvoiceResultSupplierInvoiceCloudProviderOci   GetInvoiceResultSupplierInvoiceCloudProvider = "oci"
+)
+
 // Defines values for GetInvoiceResultSupplierInvoiceDocumentType.
 const (
 	GetInvoiceResultSupplierInvoiceDocumentTypeDebitNote GetInvoiceResultSupplierInvoiceDocumentType = "debit_note"
@@ -2942,10 +3037,11 @@ const (
 
 // Defines values for GetInvoiceResultSupplierInvoiceSource.
 const (
-	GetInvoiceResultSupplierInvoiceSourceDirect GetInvoiceResultSupplierInvoiceSource = "direct"
-	GetInvoiceResultSupplierInvoiceSourceFeed   GetInvoiceResultSupplierInvoiceSource = "feed"
-	GetInvoiceResultSupplierInvoiceSourceManual GetInvoiceResultSupplierInvoiceSource = "manual"
-	GetInvoiceResultSupplierInvoiceSourcePoFlip GetInvoiceResultSupplierInvoiceSource = "po-flip"
+	GetInvoiceResultSupplierInvoiceSourceCloudSync GetInvoiceResultSupplierInvoiceSource = "cloud_sync"
+	GetInvoiceResultSupplierInvoiceSourceDirect    GetInvoiceResultSupplierInvoiceSource = "direct"
+	GetInvoiceResultSupplierInvoiceSourceFeed      GetInvoiceResultSupplierInvoiceSource = "feed"
+	GetInvoiceResultSupplierInvoiceSourceManual    GetInvoiceResultSupplierInvoiceSource = "manual"
+	GetInvoiceResultSupplierInvoiceSourcePoFlip    GetInvoiceResultSupplierInvoiceSource = "po-flip"
 )
 
 // Defines values for GetInvoiceResultSupplierInvoiceSubmittedFormat.
@@ -3105,6 +3201,8 @@ const (
 	InvoiceActivityEntryKindComment         InvoiceActivityEntryKind = "comment"
 	InvoiceActivityEntryKindControlFindings InvoiceActivityEntryKind = "control_findings"
 	InvoiceActivityEntryKindCorrects        InvoiceActivityEntryKind = "corrects"
+	InvoiceActivityEntryKindHeldBack        InvoiceActivityEntryKind = "held_back"
+	InvoiceActivityEntryKindHoldEnded       InvoiceActivityEntryKind = "hold_ended"
 	InvoiceActivityEntryKindMatch           InvoiceActivityEntryKind = "match"
 	InvoiceActivityEntryKindPayment         InvoiceActivityEntryKind = "payment"
 	InvoiceActivityEntryKindReceived        InvoiceActivityEntryKind = "received"
@@ -3145,8 +3243,10 @@ const (
 	InvoiceAiLineInputInvoicerOci        InvoiceAiLineInputInvoicer = "oci"
 	InvoiceAiLineInputInvoicerOpenai     InvoiceAiLineInputInvoicer = "openai"
 	InvoiceAiLineInputInvoicerOpenrouter InvoiceAiLineInputInvoicer = "openrouter"
+	InvoiceAiLineInputInvoicerSlack      InvoiceAiLineInputInvoicer = "slack"
 	InvoiceAiLineInputInvoicerSnowflake  InvoiceAiLineInputInvoicer = "snowflake"
 	InvoiceAiLineInputInvoicerXai        InvoiceAiLineInputInvoicer = "xai"
+	InvoiceAiLineInputInvoicerZoom       InvoiceAiLineInputInvoicer = "zoom"
 )
 
 // Defines values for InvoiceAiLineInputMeter.
@@ -3186,6 +3286,14 @@ const (
 	InvoiceAiLineInputVendorSnowflake  InvoiceAiLineInputVendor = "snowflake"
 	InvoiceAiLineInputVendorUnknown    InvoiceAiLineInputVendor = "unknown"
 	InvoiceAiLineInputVendorXai        InvoiceAiLineInputVendor = "xai"
+)
+
+// Defines values for InvoiceBuyerViewCloudProvider.
+const (
+	InvoiceBuyerViewCloudProviderAws   InvoiceBuyerViewCloudProvider = "aws"
+	InvoiceBuyerViewCloudProviderAzure InvoiceBuyerViewCloudProvider = "azure"
+	InvoiceBuyerViewCloudProviderGcp   InvoiceBuyerViewCloudProvider = "gcp"
+	InvoiceBuyerViewCloudProviderOci   InvoiceBuyerViewCloudProvider = "oci"
 )
 
 // Defines values for InvoiceBuyerViewDiscrepancyReason.
@@ -3252,10 +3360,11 @@ const (
 
 // Defines values for InvoiceBuyerViewSource.
 const (
-	InvoiceBuyerViewSourceDirect InvoiceBuyerViewSource = "direct"
-	InvoiceBuyerViewSourceFeed   InvoiceBuyerViewSource = "feed"
-	InvoiceBuyerViewSourceManual InvoiceBuyerViewSource = "manual"
-	InvoiceBuyerViewSourcePoFlip InvoiceBuyerViewSource = "po-flip"
+	InvoiceBuyerViewSourceCloudSync InvoiceBuyerViewSource = "cloud_sync"
+	InvoiceBuyerViewSourceDirect    InvoiceBuyerViewSource = "direct"
+	InvoiceBuyerViewSourceFeed      InvoiceBuyerViewSource = "feed"
+	InvoiceBuyerViewSourceManual    InvoiceBuyerViewSource = "manual"
+	InvoiceBuyerViewSourcePoFlip    InvoiceBuyerViewSource = "po-flip"
 )
 
 // Defines values for InvoiceBuyerViewSubmittedFormat.
@@ -3271,6 +3380,7 @@ const (
 	InvoiceBuyerViewUnverifiedReasonNoBillingConnection InvoiceBuyerViewUnverifiedReason = "no_billing_connection"
 	InvoiceBuyerViewUnverifiedReasonNoPoFirstInvoice    InvoiceBuyerViewUnverifiedReason = "no_po_first_invoice"
 	InvoiceBuyerViewUnverifiedReasonNoPurchaseOrder     InvoiceBuyerViewUnverifiedReason = "no_purchase_order"
+	InvoiceBuyerViewUnverifiedReasonNoUsageFigure       InvoiceBuyerViewUnverifiedReason = "no_usage_figure"
 	InvoiceBuyerViewUnverifiedReasonPayerAccountUnclear InvoiceBuyerViewUnverifiedReason = "payer_account_unclear"
 )
 
@@ -3278,6 +3388,7 @@ const (
 const (
 	InvoiceBuyerViewUsageSourceAwsInvoice          InvoiceBuyerViewUsageSource = "aws_invoice"
 	InvoiceBuyerViewUsageSourceBillingExport       InvoiceBuyerViewUsageSource = "billing_export"
+	InvoiceBuyerViewUsageSourceCostExplorerMonth   InvoiceBuyerViewUsageSource = "cost_explorer_month"
 	InvoiceBuyerViewUsageSourceEaBalance           InvoiceBuyerViewUsageSource = "ea_balance"
 	InvoiceBuyerViewUsageSourceFocusExport         InvoiceBuyerViewUsageSource = "focus_export"
 	InvoiceBuyerViewUsageSourceMcaInvoice          InvoiceBuyerViewUsageSource = "mca_invoice"
@@ -3287,36 +3398,41 @@ const (
 
 // Defines values for InvoiceControlFindingCode.
 const (
-	InvoiceControlFindingCodeAiBatchDiscountMissing        InvoiceControlFindingCode = "ai_batch_discount_missing"
-	InvoiceControlFindingCodeAiCacheDiscountMissing        InvoiceControlFindingCode = "ai_cache_discount_missing"
-	InvoiceControlFindingCodeAiCapacityUnderused           InvoiceControlFindingCode = "ai_capacity_underused"
-	InvoiceControlFindingCodeAiCommitmentExceeded          InvoiceControlFindingCode = "ai_commitment_exceeded"
-	InvoiceControlFindingCodeAiDoubleBilled                InvoiceControlFindingCode = "ai_double_billed"
-	InvoiceControlFindingCodeAiPriceCutNotApplied          InvoiceControlFindingCode = "ai_price_cut_not_applied"
-	InvoiceControlFindingCodeAiRateAboveContract           InvoiceControlFindingCode = "ai_rate_above_contract"
-	InvoiceControlFindingCodeAiRateAboveList               InvoiceControlFindingCode = "ai_rate_above_list"
-	InvoiceControlFindingCodeAiSeatsAboveActive            InvoiceControlFindingCode = "ai_seats_above_active"
-	InvoiceControlFindingCodeAiTokensMismatch              InvoiceControlFindingCode = "ai_tokens_mismatch"
-	InvoiceControlFindingCodeCommitmentShortfallOverbilled InvoiceControlFindingCode = "commitment_shortfall_overbilled"
-	InvoiceControlFindingCodeContractCapExceeded           InvoiceControlFindingCode = "contract_cap_exceeded"
-	InvoiceControlFindingCodeContractCheckFailed           InvoiceControlFindingCode = "contract_check_failed"
-	InvoiceControlFindingCodeContractDiscountMissing       InvoiceControlFindingCode = "contract_discount_missing"
-	InvoiceControlFindingCodeContractMaxUnitPriceExceeded  InvoiceControlFindingCode = "contract_max_unit_price_exceeded"
-	InvoiceControlFindingCodeContractNotActive             InvoiceControlFindingCode = "contract_not_active"
-	InvoiceControlFindingCodeContractOutsideTerm           InvoiceControlFindingCode = "contract_outside_term"
-	InvoiceControlFindingCodeContractRateExceeded          InvoiceControlFindingCode = "contract_rate_exceeded"
-	InvoiceControlFindingCodeFixedDiscountMissing          InvoiceControlFindingCode = "fixed_discount_missing"
-	InvoiceControlFindingCodePoBalanceExceeded             InvoiceControlFindingCode = "po_balance_exceeded"
-	InvoiceControlFindingCodePoLineAmountExceeded          InvoiceControlFindingCode = "po_line_amount_exceeded"
-	InvoiceControlFindingCodePoLineMissing                 InvoiceControlFindingCode = "po_line_missing"
-	InvoiceControlFindingCodePoLinePriceExceeded           InvoiceControlFindingCode = "po_line_price_exceeded"
-	InvoiceControlFindingCodePoLineQtyExceeded             InvoiceControlFindingCode = "po_line_qty_exceeded"
-	InvoiceControlFindingCodePoLineUnassigned              InvoiceControlFindingCode = "po_line_unassigned"
-	InvoiceControlFindingCodeReceiptAmountExceeded         InvoiceControlFindingCode = "receipt_amount_exceeded"
-	InvoiceControlFindingCodeReceiptMissing                InvoiceControlFindingCode = "receipt_missing"
-	InvoiceControlFindingCodeReceiptQtyExceeded            InvoiceControlFindingCode = "receipt_qty_exceeded"
-	InvoiceControlFindingCodeTierPriceExceeded             InvoiceControlFindingCode = "tier_price_exceeded"
-	InvoiceControlFindingCodeUsageGrew                     InvoiceControlFindingCode = "usage_grew"
+	InvoiceControlFindingCodeAiBatchDiscountMissing         InvoiceControlFindingCode = "ai_batch_discount_missing"
+	InvoiceControlFindingCodeAiCacheDiscountMissing         InvoiceControlFindingCode = "ai_cache_discount_missing"
+	InvoiceControlFindingCodeAiCapacityUnderused            InvoiceControlFindingCode = "ai_capacity_underused"
+	InvoiceControlFindingCodeAiCommitmentExceeded           InvoiceControlFindingCode = "ai_commitment_exceeded"
+	InvoiceControlFindingCodeAiDoubleBilled                 InvoiceControlFindingCode = "ai_double_billed"
+	InvoiceControlFindingCodeAiPriceCutNotApplied           InvoiceControlFindingCode = "ai_price_cut_not_applied"
+	InvoiceControlFindingCodeAiRateAboveContract            InvoiceControlFindingCode = "ai_rate_above_contract"
+	InvoiceControlFindingCodeAiRateAboveList                InvoiceControlFindingCode = "ai_rate_above_list"
+	InvoiceControlFindingCodeAiSeatsAboveActive             InvoiceControlFindingCode = "ai_seats_above_active"
+	InvoiceControlFindingCodeAiTokensMismatch               InvoiceControlFindingCode = "ai_tokens_mismatch"
+	InvoiceControlFindingCodeCommitmentShortfallOverbilled  InvoiceControlFindingCode = "commitment_shortfall_overbilled"
+	InvoiceControlFindingCodeContractCapExceeded            InvoiceControlFindingCode = "contract_cap_exceeded"
+	InvoiceControlFindingCodeContractCheckFailed            InvoiceControlFindingCode = "contract_check_failed"
+	InvoiceControlFindingCodeContractDiscountMissing        InvoiceControlFindingCode = "contract_discount_missing"
+	InvoiceControlFindingCodeContractMaxUnitPriceExceeded   InvoiceControlFindingCode = "contract_max_unit_price_exceeded"
+	InvoiceControlFindingCodeContractMilestoneAlreadyBilled InvoiceControlFindingCode = "contract_milestone_already_billed"
+	InvoiceControlFindingCodeContractMilestoneExceeded      InvoiceControlFindingCode = "contract_milestone_exceeded"
+	InvoiceControlFindingCodeContractMilestoneUnconfirmed   InvoiceControlFindingCode = "contract_milestone_unconfirmed"
+	InvoiceControlFindingCodeContractMilestoneUnknown       InvoiceControlFindingCode = "contract_milestone_unknown"
+	InvoiceControlFindingCodeContractNotActive              InvoiceControlFindingCode = "contract_not_active"
+	InvoiceControlFindingCodeContractOutsideTerm            InvoiceControlFindingCode = "contract_outside_term"
+	InvoiceControlFindingCodeContractRateExceeded           InvoiceControlFindingCode = "contract_rate_exceeded"
+	InvoiceControlFindingCodeContractRateNotChecked         InvoiceControlFindingCode = "contract_rate_not_checked"
+	InvoiceControlFindingCodeFixedDiscountMissing           InvoiceControlFindingCode = "fixed_discount_missing"
+	InvoiceControlFindingCodePoBalanceExceeded              InvoiceControlFindingCode = "po_balance_exceeded"
+	InvoiceControlFindingCodePoLineAmountExceeded           InvoiceControlFindingCode = "po_line_amount_exceeded"
+	InvoiceControlFindingCodePoLineMissing                  InvoiceControlFindingCode = "po_line_missing"
+	InvoiceControlFindingCodePoLinePriceExceeded            InvoiceControlFindingCode = "po_line_price_exceeded"
+	InvoiceControlFindingCodePoLineQtyExceeded              InvoiceControlFindingCode = "po_line_qty_exceeded"
+	InvoiceControlFindingCodePoLineUnassigned               InvoiceControlFindingCode = "po_line_unassigned"
+	InvoiceControlFindingCodeReceiptAmountExceeded          InvoiceControlFindingCode = "receipt_amount_exceeded"
+	InvoiceControlFindingCodeReceiptMissing                 InvoiceControlFindingCode = "receipt_missing"
+	InvoiceControlFindingCodeReceiptQtyExceeded             InvoiceControlFindingCode = "receipt_qty_exceeded"
+	InvoiceControlFindingCodeTierPriceExceeded              InvoiceControlFindingCode = "tier_price_exceeded"
+	InvoiceControlFindingCodeUsageGrew                      InvoiceControlFindingCode = "usage_grew"
 )
 
 // Defines values for InvoiceCounterpartyCloudProvider.
@@ -3337,6 +3453,16 @@ const (
 	InvoiceCounterpartyFeedReadinessUntested     InvoiceCounterpartyFeedReadiness = "untested"
 )
 
+// Defines values for InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0From.
+const (
+	EndOfMonth InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0From = "end_of_month"
+)
+
+// Defines values for InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1From.
+const (
+	NextMonthDay InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1From = "next_month_day"
+)
+
 // Defines values for InvoiceDeductionKind.
 const (
 	InvoiceDeductionKindCredit     InvoiceDeductionKind = "credit"
@@ -3347,6 +3473,15 @@ const (
 const (
 	InvoiceDeductionInputKindCredit     InvoiceDeductionInputKind = "credit"
 	InvoiceDeductionInputKindPrepayment InvoiceDeductionInputKind = "prepayment"
+)
+
+// Defines values for InvoiceHeldBackState.
+const (
+	InvoiceHeldBackStateAnswered InvoiceHeldBackState = "answered"
+	InvoiceHeldBackStateCarried  InvoiceHeldBackState = "carried"
+	InvoiceHeldBackStateOpen     InvoiceHeldBackState = "open"
+	InvoiceHeldBackStatePaid     InvoiceHeldBackState = "paid"
+	InvoiceHeldBackStateReleased InvoiceHeldBackState = "released"
 )
 
 // Defines values for InvoiceLineItemAiInvoicer.
@@ -3368,8 +3503,10 @@ const (
 	InvoiceLineItemAiInvoicerOci        InvoiceLineItemAiInvoicer = "oci"
 	InvoiceLineItemAiInvoicerOpenai     InvoiceLineItemAiInvoicer = "openai"
 	InvoiceLineItemAiInvoicerOpenrouter InvoiceLineItemAiInvoicer = "openrouter"
+	InvoiceLineItemAiInvoicerSlack      InvoiceLineItemAiInvoicer = "slack"
 	InvoiceLineItemAiInvoicerSnowflake  InvoiceLineItemAiInvoicer = "snowflake"
 	InvoiceLineItemAiInvoicerXai        InvoiceLineItemAiInvoicer = "xai"
+	InvoiceLineItemAiInvoicerZoom       InvoiceLineItemAiInvoicer = "zoom"
 )
 
 // Defines values for InvoiceLineItemAiMeter.
@@ -3547,6 +3684,14 @@ const (
 	InvoiceStripePaymentStateSucceeded    InvoiceStripePaymentState = "succeeded"
 )
 
+// Defines values for InvoiceSupplierViewCloudProvider.
+const (
+	InvoiceSupplierViewCloudProviderAws   InvoiceSupplierViewCloudProvider = "aws"
+	InvoiceSupplierViewCloudProviderAzure InvoiceSupplierViewCloudProvider = "azure"
+	InvoiceSupplierViewCloudProviderGcp   InvoiceSupplierViewCloudProvider = "gcp"
+	InvoiceSupplierViewCloudProviderOci   InvoiceSupplierViewCloudProvider = "oci"
+)
+
 // Defines values for InvoiceSupplierViewDocumentType.
 const (
 	InvoiceSupplierViewDocumentTypeDebitNote InvoiceSupplierViewDocumentType = "debit_note"
@@ -3618,10 +3763,11 @@ const (
 
 // Defines values for InvoiceSupplierViewSource.
 const (
-	InvoiceSupplierViewSourceDirect InvoiceSupplierViewSource = "direct"
-	InvoiceSupplierViewSourceFeed   InvoiceSupplierViewSource = "feed"
-	InvoiceSupplierViewSourceManual InvoiceSupplierViewSource = "manual"
-	InvoiceSupplierViewSourcePoFlip InvoiceSupplierViewSource = "po-flip"
+	InvoiceSupplierViewSourceCloudSync InvoiceSupplierViewSource = "cloud_sync"
+	InvoiceSupplierViewSourceDirect    InvoiceSupplierViewSource = "direct"
+	InvoiceSupplierViewSourceFeed      InvoiceSupplierViewSource = "feed"
+	InvoiceSupplierViewSourceManual    InvoiceSupplierViewSource = "manual"
+	InvoiceSupplierViewSourcePoFlip    InvoiceSupplierViewSource = "po-flip"
 )
 
 // Defines values for InvoiceSupplierViewSubmittedFormat.
@@ -3757,8 +3903,10 @@ const (
 	ListAiInvoicersItemIdNebius     ListAiInvoicersItemId = "nebius"
 	ListAiInvoicersItemIdOpenai     ListAiInvoicersItemId = "openai"
 	ListAiInvoicersItemIdOpenrouter ListAiInvoicersItemId = "openrouter"
+	ListAiInvoicersItemIdSlack      ListAiInvoicersItemId = "slack"
 	ListAiInvoicersItemIdSnowflake  ListAiInvoicersItemId = "snowflake"
 	ListAiInvoicersItemIdXai        ListAiInvoicersItemId = "xai"
+	ListAiInvoicersItemIdZoom       ListAiInvoicersItemId = "zoom"
 )
 
 // Defines values for ListAiInvoicersItemLegalEntitiesRegion.
@@ -3885,6 +4033,14 @@ const (
 	ListInvoicesItemBuyerCreditNoteSubmittedFormatUbl  ListInvoicesItemBuyerCreditNoteSubmittedFormat = "ubl"
 )
 
+// Defines values for ListInvoicesItemBuyerInvoiceCloudProvider.
+const (
+	ListInvoicesItemBuyerInvoiceCloudProviderAws   ListInvoicesItemBuyerInvoiceCloudProvider = "aws"
+	ListInvoicesItemBuyerInvoiceCloudProviderAzure ListInvoicesItemBuyerInvoiceCloudProvider = "azure"
+	ListInvoicesItemBuyerInvoiceCloudProviderGcp   ListInvoicesItemBuyerInvoiceCloudProvider = "gcp"
+	ListInvoicesItemBuyerInvoiceCloudProviderOci   ListInvoicesItemBuyerInvoiceCloudProvider = "oci"
+)
+
 // Defines values for ListInvoicesItemBuyerInvoiceDiscrepancyReason.
 const (
 	ListInvoicesItemBuyerInvoiceDiscrepancyReasonAmount       ListInvoicesItemBuyerInvoiceDiscrepancyReason = "amount"
@@ -3949,10 +4105,11 @@ const (
 
 // Defines values for ListInvoicesItemBuyerInvoiceSource.
 const (
-	ListInvoicesItemBuyerInvoiceSourceDirect ListInvoicesItemBuyerInvoiceSource = "direct"
-	ListInvoicesItemBuyerInvoiceSourceFeed   ListInvoicesItemBuyerInvoiceSource = "feed"
-	ListInvoicesItemBuyerInvoiceSourceManual ListInvoicesItemBuyerInvoiceSource = "manual"
-	ListInvoicesItemBuyerInvoiceSourcePoFlip ListInvoicesItemBuyerInvoiceSource = "po-flip"
+	ListInvoicesItemBuyerInvoiceSourceCloudSync ListInvoicesItemBuyerInvoiceSource = "cloud_sync"
+	ListInvoicesItemBuyerInvoiceSourceDirect    ListInvoicesItemBuyerInvoiceSource = "direct"
+	ListInvoicesItemBuyerInvoiceSourceFeed      ListInvoicesItemBuyerInvoiceSource = "feed"
+	ListInvoicesItemBuyerInvoiceSourceManual    ListInvoicesItemBuyerInvoiceSource = "manual"
+	ListInvoicesItemBuyerInvoiceSourcePoFlip    ListInvoicesItemBuyerInvoiceSource = "po-flip"
 )
 
 // Defines values for ListInvoicesItemBuyerInvoiceSubmittedFormat.
@@ -3968,6 +4125,7 @@ const (
 	ListInvoicesItemBuyerInvoiceUnverifiedReasonNoBillingConnection ListInvoicesItemBuyerInvoiceUnverifiedReason = "no_billing_connection"
 	ListInvoicesItemBuyerInvoiceUnverifiedReasonNoPoFirstInvoice    ListInvoicesItemBuyerInvoiceUnverifiedReason = "no_po_first_invoice"
 	ListInvoicesItemBuyerInvoiceUnverifiedReasonNoPurchaseOrder     ListInvoicesItemBuyerInvoiceUnverifiedReason = "no_purchase_order"
+	ListInvoicesItemBuyerInvoiceUnverifiedReasonNoUsageFigure       ListInvoicesItemBuyerInvoiceUnverifiedReason = "no_usage_figure"
 	ListInvoicesItemBuyerInvoiceUnverifiedReasonPayerAccountUnclear ListInvoicesItemBuyerInvoiceUnverifiedReason = "payer_account_unclear"
 )
 
@@ -3975,6 +4133,7 @@ const (
 const (
 	ListInvoicesItemBuyerInvoiceUsageSourceAwsInvoice          ListInvoicesItemBuyerInvoiceUsageSource = "aws_invoice"
 	ListInvoicesItemBuyerInvoiceUsageSourceBillingExport       ListInvoicesItemBuyerInvoiceUsageSource = "billing_export"
+	ListInvoicesItemBuyerInvoiceUsageSourceCostExplorerMonth   ListInvoicesItemBuyerInvoiceUsageSource = "cost_explorer_month"
 	ListInvoicesItemBuyerInvoiceUsageSourceEaBalance           ListInvoicesItemBuyerInvoiceUsageSource = "ea_balance"
 	ListInvoicesItemBuyerInvoiceUsageSourceFocusExport         ListInvoicesItemBuyerInvoiceUsageSource = "focus_export"
 	ListInvoicesItemBuyerInvoiceUsageSourceMcaInvoice          ListInvoicesItemBuyerInvoiceUsageSource = "mca_invoice"
@@ -4062,6 +4221,14 @@ const (
 	ListInvoicesItemSupplierCreditNoteSubmittedFormatUbl  ListInvoicesItemSupplierCreditNoteSubmittedFormat = "ubl"
 )
 
+// Defines values for ListInvoicesItemSupplierInvoiceCloudProvider.
+const (
+	ListInvoicesItemSupplierInvoiceCloudProviderAws   ListInvoicesItemSupplierInvoiceCloudProvider = "aws"
+	ListInvoicesItemSupplierInvoiceCloudProviderAzure ListInvoicesItemSupplierInvoiceCloudProvider = "azure"
+	ListInvoicesItemSupplierInvoiceCloudProviderGcp   ListInvoicesItemSupplierInvoiceCloudProvider = "gcp"
+	ListInvoicesItemSupplierInvoiceCloudProviderOci   ListInvoicesItemSupplierInvoiceCloudProvider = "oci"
+)
+
 // Defines values for ListInvoicesItemSupplierInvoiceDocumentType.
 const (
 	ListInvoicesItemSupplierInvoiceDocumentTypeDebitNote ListInvoicesItemSupplierInvoiceDocumentType = "debit_note"
@@ -4133,10 +4300,11 @@ const (
 
 // Defines values for ListInvoicesItemSupplierInvoiceSource.
 const (
-	ListInvoicesItemSupplierInvoiceSourceDirect ListInvoicesItemSupplierInvoiceSource = "direct"
-	ListInvoicesItemSupplierInvoiceSourceFeed   ListInvoicesItemSupplierInvoiceSource = "feed"
-	ListInvoicesItemSupplierInvoiceSourceManual ListInvoicesItemSupplierInvoiceSource = "manual"
-	ListInvoicesItemSupplierInvoiceSourcePoFlip ListInvoicesItemSupplierInvoiceSource = "po-flip"
+	ListInvoicesItemSupplierInvoiceSourceCloudSync ListInvoicesItemSupplierInvoiceSource = "cloud_sync"
+	ListInvoicesItemSupplierInvoiceSourceDirect    ListInvoicesItemSupplierInvoiceSource = "direct"
+	ListInvoicesItemSupplierInvoiceSourceFeed      ListInvoicesItemSupplierInvoiceSource = "feed"
+	ListInvoicesItemSupplierInvoiceSourceManual    ListInvoicesItemSupplierInvoiceSource = "manual"
+	ListInvoicesItemSupplierInvoiceSourcePoFlip    ListInvoicesItemSupplierInvoiceSource = "po-flip"
 )
 
 // Defines values for ListInvoicesItemSupplierInvoiceSubmittedFormat.
@@ -4255,7 +4423,9 @@ const (
 	NotificationTypeCompanyReportReady               NotificationType = "company_report_ready"
 	NotificationTypeContractComment                  NotificationType = "contract_comment"
 	NotificationTypeContractRecheckRequested         NotificationType = "contract_recheck_requested"
+	NotificationTypeContractRenewalNoticeDue         NotificationType = "contract_renewal_notice_due"
 	NotificationTypeContractSentToJoinedSupplier     NotificationType = "contract_sent_to_joined_supplier"
+	NotificationTypeContractTerminationNoticeDue     NotificationType = "contract_termination_notice_due"
 	NotificationTypeContractTermsAcknowledged        NotificationType = "contract_terms_acknowledged"
 	NotificationTypeContractTermsDisputed            NotificationType = "contract_terms_disputed"
 	NotificationTypeContractTermsToAcknowledge       NotificationType = "contract_terms_to_acknowledge"
@@ -4269,6 +4439,9 @@ const (
 	NotificationTypeCreditNoteApplied                NotificationType = "credit_note_applied"
 	NotificationTypeCreditNoteReceived               NotificationType = "credit_note_received"
 	NotificationTypeCreditNoteRejected               NotificationType = "credit_note_rejected"
+	NotificationTypeCreditRequestAnswered            NotificationType = "credit_request_answered"
+	NotificationTypeCreditRequestAttention           NotificationType = "credit_request_attention"
+	NotificationTypeCreditRequestReceived            NotificationType = "credit_request_received"
 	NotificationTypeInvoiceApprovalRequested         NotificationType = "invoice_approval_requested"
 	NotificationTypeInvoiceApproved                  NotificationType = "invoice_approved"
 	NotificationTypeInvoiceBankAccountToApprove      NotificationType = "invoice_bank_account_to_approve"
@@ -4314,6 +4487,7 @@ const (
 	NotificationTypePoSupplierEmail                  NotificationType = "po_supplier_email"
 	NotificationTypePoSupplierException              NotificationType = "po_supplier_exception"
 	NotificationTypeReceiptReturnRecorded            NotificationType = "receipt_return_recorded"
+	NotificationTypeRecoveryWeeklyDigest             NotificationType = "recovery_weekly_digest"
 	NotificationTypeReportReady                      NotificationType = "report_ready"
 	NotificationTypeRequestApprovalRequested         NotificationType = "request_approval_requested"
 	NotificationTypeRequestApproved                  NotificationType = "request_approved"
@@ -4432,21 +4606,22 @@ const (
 
 // Defines values for PaymentHistoryEntryAction.
 const (
-	PaymentHistoryEntryActionCreditApplied    PaymentHistoryEntryAction = "credit_applied"
-	PaymentHistoryEntryActionCreditRemoved    PaymentHistoryEntryAction = "credit_removed"
-	PaymentHistoryEntryActionExportWithdrawn  PaymentHistoryEntryAction = "export_withdrawn"
-	PaymentHistoryEntryActionExported         PaymentHistoryEntryAction = "exported"
-	PaymentHistoryEntryActionProblemAnswered  PaymentHistoryEntryAction = "problem_answered"
-	PaymentHistoryEntryActionProblemReported  PaymentHistoryEntryAction = "problem_reported"
-	PaymentHistoryEntryActionRecordWithdrawn  PaymentHistoryEntryAction = "record_withdrawn"
-	PaymentHistoryEntryActionRecorded         PaymentHistoryEntryAction = "recorded"
-	PaymentHistoryEntryActionRemittanceSent   PaymentHistoryEntryAction = "remittance_sent"
-	PaymentHistoryEntryActionSettled          PaymentHistoryEntryAction = "settled"
-	PaymentHistoryEntryActionSettlementUndone PaymentHistoryEntryAction = "settlement_undone"
-	PaymentHistoryEntryActionStripeFailed     PaymentHistoryEntryAction = "stripe_failed"
-	PaymentHistoryEntryActionStripeReleased   PaymentHistoryEntryAction = "stripe_released"
-	PaymentHistoryEntryActionStripeStarted    PaymentHistoryEntryAction = "stripe_started"
-	PaymentHistoryEntryActionStripeSucceeded  PaymentHistoryEntryAction = "stripe_succeeded"
+	CreditApplied    PaymentHistoryEntryAction = "credit_applied"
+	CreditRemoved    PaymentHistoryEntryAction = "credit_removed"
+	ExportWithdrawn  PaymentHistoryEntryAction = "export_withdrawn"
+	Exported         PaymentHistoryEntryAction = "exported"
+	HeldBackPaid     PaymentHistoryEntryAction = "held_back_paid"
+	ProblemAnswered  PaymentHistoryEntryAction = "problem_answered"
+	ProblemReported  PaymentHistoryEntryAction = "problem_reported"
+	RecordWithdrawn  PaymentHistoryEntryAction = "record_withdrawn"
+	Recorded         PaymentHistoryEntryAction = "recorded"
+	RemittanceSent   PaymentHistoryEntryAction = "remittance_sent"
+	Settled          PaymentHistoryEntryAction = "settled"
+	SettlementUndone PaymentHistoryEntryAction = "settlement_undone"
+	StripeFailed     PaymentHistoryEntryAction = "stripe_failed"
+	StripeReleased   PaymentHistoryEntryAction = "stripe_released"
+	StripeStarted    PaymentHistoryEntryAction = "stripe_started"
+	StripeSucceeded  PaymentHistoryEntryAction = "stripe_succeeded"
 )
 
 // Defines values for PaymentHistoryEntryRecordMethod.
@@ -4778,6 +4953,14 @@ const (
 	RecordPaymentItemInputMethodWire  RecordPaymentItemInputMethod = "wire"
 )
 
+// Defines values for RecordPaymentResultCloudProvider.
+const (
+	RecordPaymentResultCloudProviderAws   RecordPaymentResultCloudProvider = "aws"
+	RecordPaymentResultCloudProviderAzure RecordPaymentResultCloudProvider = "azure"
+	RecordPaymentResultCloudProviderGcp   RecordPaymentResultCloudProvider = "gcp"
+	RecordPaymentResultCloudProviderOci   RecordPaymentResultCloudProvider = "oci"
+)
+
 // Defines values for RecordPaymentResultDiscrepancyReason.
 const (
 	RecordPaymentResultDiscrepancyReasonAmount       RecordPaymentResultDiscrepancyReason = "amount"
@@ -4842,10 +5025,11 @@ const (
 
 // Defines values for RecordPaymentResultSource.
 const (
-	RecordPaymentResultSourceDirect RecordPaymentResultSource = "direct"
-	RecordPaymentResultSourceFeed   RecordPaymentResultSource = "feed"
-	RecordPaymentResultSourceManual RecordPaymentResultSource = "manual"
-	RecordPaymentResultSourcePoFlip RecordPaymentResultSource = "po-flip"
+	RecordPaymentResultSourceCloudSync RecordPaymentResultSource = "cloud_sync"
+	RecordPaymentResultSourceDirect    RecordPaymentResultSource = "direct"
+	RecordPaymentResultSourceFeed      RecordPaymentResultSource = "feed"
+	RecordPaymentResultSourceManual    RecordPaymentResultSource = "manual"
+	RecordPaymentResultSourcePoFlip    RecordPaymentResultSource = "po-flip"
 )
 
 // Defines values for RecordPaymentResultSubmittedFormat.
@@ -4861,6 +5045,7 @@ const (
 	RecordPaymentResultUnverifiedReasonNoBillingConnection RecordPaymentResultUnverifiedReason = "no_billing_connection"
 	RecordPaymentResultUnverifiedReasonNoPoFirstInvoice    RecordPaymentResultUnverifiedReason = "no_po_first_invoice"
 	RecordPaymentResultUnverifiedReasonNoPurchaseOrder     RecordPaymentResultUnverifiedReason = "no_purchase_order"
+	RecordPaymentResultUnverifiedReasonNoUsageFigure       RecordPaymentResultUnverifiedReason = "no_usage_figure"
 	RecordPaymentResultUnverifiedReasonPayerAccountUnclear RecordPaymentResultUnverifiedReason = "payer_account_unclear"
 )
 
@@ -4868,6 +5053,7 @@ const (
 const (
 	RecordPaymentResultUsageSourceAwsInvoice          RecordPaymentResultUsageSource = "aws_invoice"
 	RecordPaymentResultUsageSourceBillingExport       RecordPaymentResultUsageSource = "billing_export"
+	RecordPaymentResultUsageSourceCostExplorerMonth   RecordPaymentResultUsageSource = "cost_explorer_month"
 	RecordPaymentResultUsageSourceEaBalance           RecordPaymentResultUsageSource = "ea_balance"
 	RecordPaymentResultUsageSourceFocusExport         RecordPaymentResultUsageSource = "focus_export"
 	RecordPaymentResultUsageSourceMcaInvoice          RecordPaymentResultUsageSource = "mca_invoice"
@@ -4958,6 +5144,14 @@ const (
 	RemittanceViewStatusWithdrawn         RemittanceViewStatus = "withdrawn"
 )
 
+// Defines values for RemoveInvoiceReplacementLinkResultCloudProvider.
+const (
+	RemoveInvoiceReplacementLinkResultCloudProviderAws   RemoveInvoiceReplacementLinkResultCloudProvider = "aws"
+	RemoveInvoiceReplacementLinkResultCloudProviderAzure RemoveInvoiceReplacementLinkResultCloudProvider = "azure"
+	RemoveInvoiceReplacementLinkResultCloudProviderGcp   RemoveInvoiceReplacementLinkResultCloudProvider = "gcp"
+	RemoveInvoiceReplacementLinkResultCloudProviderOci   RemoveInvoiceReplacementLinkResultCloudProvider = "oci"
+)
+
 // Defines values for RemoveInvoiceReplacementLinkResultDiscrepancyReason.
 const (
 	RemoveInvoiceReplacementLinkResultDiscrepancyReasonAmount       RemoveInvoiceReplacementLinkResultDiscrepancyReason = "amount"
@@ -5023,10 +5217,11 @@ const (
 
 // Defines values for RemoveInvoiceReplacementLinkResultSource.
 const (
-	RemoveInvoiceReplacementLinkResultSourceDirect RemoveInvoiceReplacementLinkResultSource = "direct"
-	RemoveInvoiceReplacementLinkResultSourceFeed   RemoveInvoiceReplacementLinkResultSource = "feed"
-	RemoveInvoiceReplacementLinkResultSourceManual RemoveInvoiceReplacementLinkResultSource = "manual"
-	RemoveInvoiceReplacementLinkResultSourcePoFlip RemoveInvoiceReplacementLinkResultSource = "po-flip"
+	RemoveInvoiceReplacementLinkResultSourceCloudSync RemoveInvoiceReplacementLinkResultSource = "cloud_sync"
+	RemoveInvoiceReplacementLinkResultSourceDirect    RemoveInvoiceReplacementLinkResultSource = "direct"
+	RemoveInvoiceReplacementLinkResultSourceFeed      RemoveInvoiceReplacementLinkResultSource = "feed"
+	RemoveInvoiceReplacementLinkResultSourceManual    RemoveInvoiceReplacementLinkResultSource = "manual"
+	RemoveInvoiceReplacementLinkResultSourcePoFlip    RemoveInvoiceReplacementLinkResultSource = "po-flip"
 )
 
 // Defines values for RemoveInvoiceReplacementLinkResultSubmittedFormat.
@@ -5042,6 +5237,7 @@ const (
 	NoBillingConnection RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_billing_connection"
 	NoPoFirstInvoice    RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_po_first_invoice"
 	NoPurchaseOrder     RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_purchase_order"
+	NoUsageFigure       RemoveInvoiceReplacementLinkResultUnverifiedReason = "no_usage_figure"
 	PayerAccountUnclear RemoveInvoiceReplacementLinkResultUnverifiedReason = "payer_account_unclear"
 )
 
@@ -5049,6 +5245,7 @@ const (
 const (
 	RemoveInvoiceReplacementLinkResultUsageSourceAwsInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "aws_invoice"
 	RemoveInvoiceReplacementLinkResultUsageSourceBillingExport       RemoveInvoiceReplacementLinkResultUsageSource = "billing_export"
+	RemoveInvoiceReplacementLinkResultUsageSourceCostExplorerMonth   RemoveInvoiceReplacementLinkResultUsageSource = "cost_explorer_month"
 	RemoveInvoiceReplacementLinkResultUsageSourceEaBalance           RemoveInvoiceReplacementLinkResultUsageSource = "ea_balance"
 	RemoveInvoiceReplacementLinkResultUsageSourceFocusExport         RemoveInvoiceReplacementLinkResultUsageSource = "focus_export"
 	RemoveInvoiceReplacementLinkResultUsageSourceMcaInvoice          RemoveInvoiceReplacementLinkResultUsageSource = "mca_invoice"
@@ -5185,8 +5382,10 @@ const (
 	SetAiSeatCountInputInvoicerOci        SetAiSeatCountInputInvoicer = "oci"
 	SetAiSeatCountInputInvoicerOpenai     SetAiSeatCountInputInvoicer = "openai"
 	SetAiSeatCountInputInvoicerOpenrouter SetAiSeatCountInputInvoicer = "openrouter"
+	SetAiSeatCountInputInvoicerSlack      SetAiSeatCountInputInvoicer = "slack"
 	SetAiSeatCountInputInvoicerSnowflake  SetAiSeatCountInputInvoicer = "snowflake"
 	SetAiSeatCountInputInvoicerXai        SetAiSeatCountInputInvoicer = "xai"
+	SetAiSeatCountInputInvoicerZoom       SetAiSeatCountInputInvoicer = "zoom"
 )
 
 // Defines values for SetAiSeatCountInputSource.
@@ -5220,8 +5419,10 @@ const (
 	SetInvoiceFeedResult0AiProviderNebius     SetInvoiceFeedResult0AiProvider = "nebius"
 	SetInvoiceFeedResult0AiProviderOpenai     SetInvoiceFeedResult0AiProvider = "openai"
 	SetInvoiceFeedResult0AiProviderOpenrouter SetInvoiceFeedResult0AiProvider = "openrouter"
+	SetInvoiceFeedResult0AiProviderSlack      SetInvoiceFeedResult0AiProvider = "slack"
 	SetInvoiceFeedResult0AiProviderSnowflake  SetInvoiceFeedResult0AiProvider = "snowflake"
 	SetInvoiceFeedResult0AiProviderXai        SetInvoiceFeedResult0AiProvider = "xai"
+	SetInvoiceFeedResult0AiProviderZoom       SetInvoiceFeedResult0AiProvider = "zoom"
 )
 
 // Defines values for SetInvoiceFeedResult0CloudProvider.
@@ -5272,8 +5473,10 @@ const (
 	SetInvoiceFeedResult1AiProviderNebius     SetInvoiceFeedResult1AiProvider = "nebius"
 	SetInvoiceFeedResult1AiProviderOpenai     SetInvoiceFeedResult1AiProvider = "openai"
 	SetInvoiceFeedResult1AiProviderOpenrouter SetInvoiceFeedResult1AiProvider = "openrouter"
+	SetInvoiceFeedResult1AiProviderSlack      SetInvoiceFeedResult1AiProvider = "slack"
 	SetInvoiceFeedResult1AiProviderSnowflake  SetInvoiceFeedResult1AiProvider = "snowflake"
 	SetInvoiceFeedResult1AiProviderXai        SetInvoiceFeedResult1AiProvider = "xai"
+	SetInvoiceFeedResult1AiProviderZoom       SetInvoiceFeedResult1AiProvider = "zoom"
 )
 
 // Defines values for SetInvoiceFeedResult1CloudProvider.
@@ -5324,8 +5527,10 @@ const (
 	SetSupplierCurrenciesResult0AiProviderNebius     SetSupplierCurrenciesResult0AiProvider = "nebius"
 	SetSupplierCurrenciesResult0AiProviderOpenai     SetSupplierCurrenciesResult0AiProvider = "openai"
 	SetSupplierCurrenciesResult0AiProviderOpenrouter SetSupplierCurrenciesResult0AiProvider = "openrouter"
+	SetSupplierCurrenciesResult0AiProviderSlack      SetSupplierCurrenciesResult0AiProvider = "slack"
 	SetSupplierCurrenciesResult0AiProviderSnowflake  SetSupplierCurrenciesResult0AiProvider = "snowflake"
 	SetSupplierCurrenciesResult0AiProviderXai        SetSupplierCurrenciesResult0AiProvider = "xai"
+	SetSupplierCurrenciesResult0AiProviderZoom       SetSupplierCurrenciesResult0AiProvider = "zoom"
 )
 
 // Defines values for SetSupplierCurrenciesResult0CloudProvider.
@@ -5366,8 +5571,10 @@ const (
 	SetSupplierCurrenciesResult1AiProviderNebius     SetSupplierCurrenciesResult1AiProvider = "nebius"
 	SetSupplierCurrenciesResult1AiProviderOpenai     SetSupplierCurrenciesResult1AiProvider = "openai"
 	SetSupplierCurrenciesResult1AiProviderOpenrouter SetSupplierCurrenciesResult1AiProvider = "openrouter"
+	SetSupplierCurrenciesResult1AiProviderSlack      SetSupplierCurrenciesResult1AiProvider = "slack"
 	SetSupplierCurrenciesResult1AiProviderSnowflake  SetSupplierCurrenciesResult1AiProvider = "snowflake"
 	SetSupplierCurrenciesResult1AiProviderXai        SetSupplierCurrenciesResult1AiProvider = "xai"
+	SetSupplierCurrenciesResult1AiProviderZoom       SetSupplierCurrenciesResult1AiProvider = "zoom"
 )
 
 // Defines values for SetSupplierCurrenciesResult1CloudProvider.
@@ -5574,6 +5781,11 @@ const (
 	StoreOrderConfirmationTypeRejected StoreOrderConfirmationType = "rejected"
 )
 
+// Defines values for StripePaymentStatusEarlyPaymentQuoteCurrency.
+const (
+	StripePaymentStatusEarlyPaymentQuoteCurrencyUSD StripePaymentStatusEarlyPaymentQuoteCurrency = "USD"
+)
+
 // Defines values for StripePaymentStatusPaymentMethodType.
 const (
 	Card          StripePaymentStatusPaymentMethodType = "card"
@@ -5582,7 +5794,7 @@ const (
 
 // Defines values for StripePaymentStatusQuoteCurrency.
 const (
-	USD StripePaymentStatusQuoteCurrency = "USD"
+	StripePaymentStatusQuoteCurrencyUSD StripePaymentStatusQuoteCurrency = "USD"
 )
 
 // Defines values for StripePaymentStatusReason.
@@ -5703,10 +5915,10 @@ const (
 
 // Defines values for SupplierCreditNoteViewCloudProvider.
 const (
-	Aws   SupplierCreditNoteViewCloudProvider = "aws"
-	Azure SupplierCreditNoteViewCloudProvider = "azure"
-	Gcp   SupplierCreditNoteViewCloudProvider = "gcp"
-	Oci   SupplierCreditNoteViewCloudProvider = "oci"
+	SupplierCreditNoteViewCloudProviderAws   SupplierCreditNoteViewCloudProvider = "aws"
+	SupplierCreditNoteViewCloudProviderAzure SupplierCreditNoteViewCloudProvider = "azure"
+	SupplierCreditNoteViewCloudProviderGcp   SupplierCreditNoteViewCloudProvider = "gcp"
+	SupplierCreditNoteViewCloudProviderOci   SupplierCreditNoteViewCloudProvider = "oci"
 )
 
 // Defines values for SupplierCreditNoteViewEnteredBy.
@@ -5772,6 +5984,15 @@ const (
 	SupplierCreditNoteViewSubmittedFormatCxml SupplierCreditNoteViewSubmittedFormat = "cxml"
 	SupplierCreditNoteViewSubmittedFormatJson SupplierCreditNoteViewSubmittedFormat = "json"
 	SupplierCreditNoteViewSubmittedFormatUbl  SupplierCreditNoteViewSubmittedFormat = "ubl"
+)
+
+// Defines values for SupplierHeldBackViewState.
+const (
+	SupplierHeldBackViewStateAnswered SupplierHeldBackViewState = "answered"
+	SupplierHeldBackViewStateCarried  SupplierHeldBackViewState = "carried"
+	SupplierHeldBackViewStateOpen     SupplierHeldBackViewState = "open"
+	SupplierHeldBackViewStatePaid     SupplierHeldBackViewState = "paid"
+	SupplierHeldBackViewStateReleased SupplierHeldBackViewState = "released"
 )
 
 // Defines values for SupplierPaymentProblemViewKind.
@@ -6124,11 +6345,11 @@ const (
 
 // Defines values for ListSourcingEventsParamsStatus.
 const (
-	Awarded  ListSourcingEventsParamsStatus = "awarded"
-	Canceled ListSourcingEventsParamsStatus = "canceled"
-	Closed   ListSourcingEventsParamsStatus = "closed"
-	Draft    ListSourcingEventsParamsStatus = "draft"
-	Open     ListSourcingEventsParamsStatus = "open"
+	ListSourcingEventsParamsStatusAwarded  ListSourcingEventsParamsStatus = "awarded"
+	ListSourcingEventsParamsStatusCanceled ListSourcingEventsParamsStatus = "canceled"
+	ListSourcingEventsParamsStatusClosed   ListSourcingEventsParamsStatus = "closed"
+	ListSourcingEventsParamsStatusDraft    ListSourcingEventsParamsStatus = "draft"
+	ListSourcingEventsParamsStatusOpen     ListSourcingEventsParamsStatus = "open"
 )
 
 // AddAiProviderSupplierResult defines model for AddAiProviderSupplierResult.
@@ -6268,6 +6489,8 @@ type AddInvoiceReplacementLinksResult struct {
 	BuyerOrgId                  *string                                            `json:"buyerOrgId,omitempty"`
 	BuyerOrgName                *string                                            `json:"buyerOrgName,omitempty"`
 	BuyerRegionName             *string                                            `json:"buyerRegionName,omitempty"`
+	CloudConnectionId           *string                                            `json:"cloudConnectionId,omitempty"`
+	CloudProvider               *AddInvoiceReplacementLinksResultCloudProvider     `json:"cloudProvider,omitempty"`
 	ContractId                  *string                                            `json:"contractId,omitempty"`
 	ControlFindings             *[]InvoiceControlFinding                           `json:"controlFindings,omitempty"`
 	CreatedAt                   *string                                            `json:"createdAt,omitempty"`
@@ -6283,12 +6506,14 @@ type AddInvoiceReplacementLinksResult struct {
 	DueDateSource               *AddInvoiceReplacementLinksResultDueDateSource     `json:"dueDateSource,omitempty"`
 	DueInDays                   *float64                                           `json:"dueInDays,omitempty"`
 	DuplicatesChecked           *bool                                              `json:"duplicatesChecked,omitempty"`
+	EarlyPayment                *InvoiceEarlyPayment                               `json:"earlyPayment,omitempty"`
 	EnteredBy                   *AddInvoiceReplacementLinksResultEnteredBy         `json:"enteredBy,omitempty"`
 	ExportAvailableFrom         *string                                            `json:"exportAvailableFrom,omitempty"`
 	ExternalInvoiceNumber       *string                                            `json:"externalInvoiceNumber,omitempty"`
 	FeedPayloadHash             *string                                            `json:"feedPayloadHash,omitempty"`
 	HasLookupRows               *bool                                              `json:"hasLookupRows,omitempty"`
 	HasOriginalPdf              *bool                                              `json:"hasOriginalPdf,omitempty"`
+	HeldBack                    *InvoiceHeldBack                                   `json:"heldBack,omitempty"`
 	Id                          string                                             `json:"id"`
 	InvoiceDate                 *string                                            `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *AddInvoiceReplacementLinksResultInvoiceKind       `json:"invoiceKind,omitempty"`
@@ -6361,11 +6586,15 @@ type AddInvoiceReplacementLinksResult struct {
 	UsageAmount                   *float64                                          `json:"usageAmount,omitempty"`
 	UsageAmountSimulated          *bool                                             `json:"usageAmountSimulated,omitempty"`
 	UsageCurrency                 *string                                           `json:"usageCurrency,omitempty"`
+	UsageLines                    *[]InvoiceUsageLine                               `json:"usageLines,omitempty"`
 	UsageSimulatedAfterDisconnect *bool                                             `json:"usageSimulatedAfterDisconnect,omitempty"`
 	UsageSource                   *AddInvoiceReplacementLinksResultUsageSource      `json:"usageSource,omitempty"`
 	ViewerIsSupplierMember        *bool                                             `json:"viewerIsSupplierMember,omitempty"`
 	Withholdings                  *[]InvoiceBreakdownEntry                          `json:"withholdings,omitempty"`
 }
+
+// AddInvoiceReplacementLinksResultCloudProvider defines model for AddInvoiceReplacementLinksResult.CloudProvider.
+type AddInvoiceReplacementLinksResultCloudProvider string
 
 // AddInvoiceReplacementLinksResultDiscrepancyReason defines model for AddInvoiceReplacementLinksResult.DiscrepancyReason.
 type AddInvoiceReplacementLinksResultDiscrepancyReason string
@@ -6724,6 +6953,10 @@ type AiProvider struct {
 	} `json:"snowflake,omitempty"`
 	Status               *AiProviderStatus `json:"status,omitempty"`
 	SupplierConnectionId *string           `json:"supplierConnectionId,omitempty"`
+	Zoom                 *struct {
+		AccountId *string `json:"accountId,omitempty"`
+		ClientId  *string `json:"clientId,omitempty"`
+	} `json:"zoom,omitempty"`
 }
 
 // AiProviderCreditPriceKind defines model for AiProvider.CreditPrice.Kind.
@@ -8205,6 +8438,7 @@ type CloudConnectionBilling struct {
 		Confidence     *CloudConnectionBillingCurrentPeriodEstimateConfidence `json:"confidence,omitempty"`
 		Currency       *string                                                `json:"currency,omitempty"`
 		ForecastAmount *float64                                               `json:"forecastAmount,omitempty"`
+		Services       *[]CloudServiceCost                                    `json:"services,omitempty"`
 		TotalAmount    *float64                                               `json:"totalAmount,omitempty"`
 	} `json:"currentPeriodEstimate,omitempty"`
 	FinalizedInvoice *struct {
@@ -8216,6 +8450,7 @@ type CloudConnectionBilling struct {
 		AmountPayable *float64                                      `json:"amountPayable,omitempty"`
 		AsOf          *string                                       `json:"asOf,omitempty"`
 		Currency      *string                                       `json:"currency,omitempty"`
+		Lines         *[]CloudUsageLine                             `json:"lines,omitempty"`
 		PeriodLabel   *string                                       `json:"periodLabel,omitempty"`
 		Source        *CloudConnectionBillingFinalizedInvoiceSource `json:"source,omitempty"`
 		TotalAmount   *float64                                      `json:"totalAmount,omitempty"`
@@ -8256,6 +8491,12 @@ type CloudConnectionPage struct {
 	NextCursor *string            `json:"nextCursor,omitempty"`
 }
 
+// CloudServiceCost defines model for CloudServiceCost.
+type CloudServiceCost struct {
+	Amount *float64 `json:"amount,omitempty"`
+	Name   *string  `json:"name,omitempty"`
+}
+
 // CloudSetupView defines model for CloudSetupView.
 type CloudSetupView struct {
 	ExpiresAt *string              `json:"expiresAt,omitempty"`
@@ -8264,6 +8505,14 @@ type CloudSetupView struct {
 
 // CloudSetupViewState defines model for CloudSetupView.State.
 type CloudSetupViewState string
+
+// CloudUsageLine defines model for CloudUsageLine.
+type CloudUsageLine struct {
+	Amount  *float64 `json:"amount,omitempty"`
+	Project *string  `json:"project,omitempty"`
+	Service *string  `json:"service,omitempty"`
+	Sku     *string  `json:"sku,omitempty"`
+}
 
 // CommentMeetingAttendee defines model for CommentMeetingAttendee.
 type CommentMeetingAttendee struct {
@@ -8425,6 +8674,7 @@ type CreateAiProviderInput struct {
 	Key         *string                    `json:"key,omitempty"`
 	Provider    string                     `json:"provider"`
 	Snowflake   *SnowflakeConnectionInput  `json:"snowflake,omitempty"`
+	Zoom        *ZoomConnectionInput       `json:"zoom,omitempty"`
 }
 
 // CreateApiKeyInput defines model for CreateApiKeyInput.
@@ -8485,10 +8735,10 @@ type CreateCloudConnectionInput struct {
 	// AwsConnectionId AWS only, required - the connectionId returned by POST .../cloud-connections/aws/init, linking this verify call back to the externalId generated server-side for that pending connection. Never the externalId itself - that's looked up server-side, never trusted from the client.
 	AwsConnectionId *string `json:"awsConnectionId,omitempty"`
 
-	// AzureBillingAccountId Azure only - the billing account of the billing profile picked from POST .../azure/discover (<guid>:<guid>_YYYY-MM-DD).
+	// AzureBillingAccountId Azure only - the billing account of the scope picked from POST .../azure/discover: an MCA account (<guid>:<guid>_YYYY-MM-DD) or an Enterprise Agreement enrollment number.
 	AzureBillingAccountId *string `json:"azureBillingAccountId,omitempty"`
 
-	// AzureBillingProfileId Azure only - the billing profile picked from POST .../azure/discover.
+	// AzureBillingProfileId Azure only - the billing profile picked from POST .../azure/discover. Left out for an Enterprise Agreement enrollment.
 	AzureBillingProfileId *string `json:"azureBillingProfileId,omitempty"`
 
 	// AzureClientId Not accepted here, like azureTenantId: verify uses only the app (client) ID discover proved.
@@ -8862,6 +9112,8 @@ type CreateInvoiceResultBuyerInvoice struct {
 	BuyerOrgId                  *string                                           `json:"buyerOrgId,omitempty"`
 	BuyerOrgName                *string                                           `json:"buyerOrgName,omitempty"`
 	BuyerRegionName             *string                                           `json:"buyerRegionName,omitempty"`
+	CloudConnectionId           *string                                           `json:"cloudConnectionId,omitempty"`
+	CloudProvider               *CreateInvoiceResultBuyerInvoiceCloudProvider     `json:"cloudProvider,omitempty"`
 	ContractId                  *string                                           `json:"contractId,omitempty"`
 	ControlFindings             *[]InvoiceControlFinding                          `json:"controlFindings,omitempty"`
 	CreatedAt                   *string                                           `json:"createdAt,omitempty"`
@@ -8877,12 +9129,14 @@ type CreateInvoiceResultBuyerInvoice struct {
 	DueDateSource               *CreateInvoiceResultBuyerInvoiceDueDateSource     `json:"dueDateSource,omitempty"`
 	DueInDays                   *float64                                          `json:"dueInDays,omitempty"`
 	DuplicatesChecked           *bool                                             `json:"duplicatesChecked,omitempty"`
+	EarlyPayment                *InvoiceEarlyPayment                              `json:"earlyPayment,omitempty"`
 	EnteredBy                   *CreateInvoiceResultBuyerInvoiceEnteredBy         `json:"enteredBy,omitempty"`
 	ExportAvailableFrom         *string                                           `json:"exportAvailableFrom,omitempty"`
 	ExternalInvoiceNumber       *string                                           `json:"externalInvoiceNumber,omitempty"`
 	FeedPayloadHash             *string                                           `json:"feedPayloadHash,omitempty"`
 	HasLookupRows               *bool                                             `json:"hasLookupRows,omitempty"`
 	HasOriginalPdf              *bool                                             `json:"hasOriginalPdf,omitempty"`
+	HeldBack                    *InvoiceHeldBack                                  `json:"heldBack,omitempty"`
 	Id                          string                                            `json:"id"`
 	InvoiceDate                 *string                                           `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *CreateInvoiceResultBuyerInvoiceInvoiceKind       `json:"invoiceKind,omitempty"`
@@ -8955,11 +9209,15 @@ type CreateInvoiceResultBuyerInvoice struct {
 	UsageAmount                   *float64                                         `json:"usageAmount,omitempty"`
 	UsageAmountSimulated          *bool                                            `json:"usageAmountSimulated,omitempty"`
 	UsageCurrency                 *string                                          `json:"usageCurrency,omitempty"`
+	UsageLines                    *[]InvoiceUsageLine                              `json:"usageLines,omitempty"`
 	UsageSimulatedAfterDisconnect *bool                                            `json:"usageSimulatedAfterDisconnect,omitempty"`
 	UsageSource                   *CreateInvoiceResultBuyerInvoiceUsageSource      `json:"usageSource,omitempty"`
 	ViewerIsSupplierMember        *bool                                            `json:"viewerIsSupplierMember,omitempty"`
 	Withholdings                  *[]InvoiceBreakdownEntry                         `json:"withholdings,omitempty"`
 }
+
+// CreateInvoiceResultBuyerInvoiceCloudProvider defines model for CreateInvoiceResultBuyerInvoice.CloudProvider.
+type CreateInvoiceResultBuyerInvoiceCloudProvider string
 
 // CreateInvoiceResultBuyerInvoiceDiscrepancyReason defines model for CreateInvoiceResultBuyerInvoice.DiscrepancyReason.
 type CreateInvoiceResultBuyerInvoiceDiscrepancyReason string
@@ -9127,6 +9385,7 @@ type CreateInvoiceResultSupplierInvoice struct {
 	BuyerOrgName                *string                                          `json:"buyerOrgName,omitempty"`
 	BuyerRegionName             *string                                          `json:"buyerRegionName,omitempty"`
 	BuyerWorkspaceId            *string                                          `json:"buyerWorkspaceId,omitempty"`
+	CloudProvider               *CreateInvoiceResultSupplierInvoiceCloudProvider `json:"cloudProvider,omitempty"`
 	ContractId                  *string                                          `json:"contractId,omitempty"`
 	CreatedAt                   *string                                          `json:"createdAt,omitempty"`
 	CreditApplications          *[]InvoiceCreditApplication                      `json:"creditApplications,omitempty"`
@@ -9140,10 +9399,12 @@ type CreateInvoiceResultSupplierInvoice struct {
 	DueDateSource               *CreateInvoiceResultSupplierInvoiceDueDateSource `json:"dueDateSource,omitempty"`
 	DueInDays                   *float64                                         `json:"dueInDays,omitempty"`
 	DuplicatesChecked           *bool                                            `json:"duplicatesChecked,omitempty"`
+	EarlyPayment                *InvoiceEarlyPayment                             `json:"earlyPayment,omitempty"`
 	EnteredBy                   *CreateInvoiceResultSupplierInvoiceEnteredBy     `json:"enteredBy,omitempty"`
 	ExternalInvoiceNumber       *string                                          `json:"externalInvoiceNumber,omitempty"`
 	HasLookupRows               *bool                                            `json:"hasLookupRows,omitempty"`
 	HasOriginalPdf              *bool                                            `json:"hasOriginalPdf,omitempty"`
+	HeldBack                    *SupplierHeldBackView                            `json:"heldBack,omitempty"`
 	Id                          string                                           `json:"id"`
 	InvoiceDate                 *string                                          `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *CreateInvoiceResultSupplierInvoiceInvoiceKind   `json:"invoiceKind,omitempty"`
@@ -9188,6 +9449,9 @@ type CreateInvoiceResultSupplierInvoice struct {
 	Withholdings           *[]InvoiceBreakdownEntry                             `json:"withholdings,omitempty"`
 }
 
+// CreateInvoiceResultSupplierInvoiceCloudProvider defines model for CreateInvoiceResultSupplierInvoice.CloudProvider.
+type CreateInvoiceResultSupplierInvoiceCloudProvider string
+
 // CreateInvoiceResultSupplierInvoiceDocumentType defines model for CreateInvoiceResultSupplierInvoice.DocumentType.
 type CreateInvoiceResultSupplierInvoiceDocumentType string
 
@@ -9205,9 +9469,14 @@ type CreateInvoiceResultSupplierInvoiceMatchStatus string
 
 // CreateInvoiceResultSupplierInvoicePayment0 defines model for .
 type CreateInvoiceResultSupplierInvoicePayment0 struct {
-	AdviceVersion *float64                                          `json:"adviceVersion,omitempty"`
-	Method        *CreateInvoiceResultSupplierInvoicePayment0Method `json:"method,omitempty"`
-	PaidAmount    *struct {
+	AdviceVersion        *float64 `json:"adviceVersion,omitempty"`
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
+	Method     *CreateInvoiceResultSupplierInvoicePayment0Method `json:"method,omitempty"`
+	PaidAmount *struct {
 		Amount   *float64 `json:"amount,omitempty"`
 		Currency *string  `json:"currency,omitempty"`
 		Rate     *float64 `json:"rate,omitempty"`
@@ -9228,6 +9497,11 @@ type CreateInvoiceResultSupplierInvoicePayment0Status string
 
 // CreateInvoiceResultSupplierInvoicePayment1 defines model for .
 type CreateInvoiceResultSupplierInvoicePayment1 struct {
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
 	PaymentMethodType *CreateInvoiceResultSupplierInvoicePayment1PaymentMethodType `json:"paymentMethodType,omitempty"`
 	State             *CreateInvoiceResultSupplierInvoicePayment1State             `json:"state,omitempty"`
 	Status            *CreateInvoiceResultSupplierInvoicePayment1Status            `json:"status,omitempty"`
@@ -9259,9 +9533,14 @@ type CreateInvoiceResultSupplierInvoiceSubmittedFormat string
 
 // CreateInvoiceResultSupplierInvoiceWithdrawnPayment0 defines model for .
 type CreateInvoiceResultSupplierInvoiceWithdrawnPayment0 struct {
-	AdviceVersion *float64                                                   `json:"adviceVersion,omitempty"`
-	Method        *CreateInvoiceResultSupplierInvoiceWithdrawnPayment0Method `json:"method,omitempty"`
-	PaidAmount    *struct {
+	AdviceVersion        *float64 `json:"adviceVersion,omitempty"`
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
+	Method     *CreateInvoiceResultSupplierInvoiceWithdrawnPayment0Method `json:"method,omitempty"`
+	PaidAmount *struct {
 		Amount   *float64 `json:"amount,omitempty"`
 		Currency *string  `json:"currency,omitempty"`
 		Rate     *float64 `json:"rate,omitempty"`
@@ -9282,6 +9561,11 @@ type CreateInvoiceResultSupplierInvoiceWithdrawnPayment0Status string
 
 // CreateInvoiceResultSupplierInvoiceWithdrawnPayment1 defines model for .
 type CreateInvoiceResultSupplierInvoiceWithdrawnPayment1 struct {
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
 	PaymentMethodType *CreateInvoiceResultSupplierInvoiceWithdrawnPayment1PaymentMethodType `json:"paymentMethodType,omitempty"`
 	State             *CreateInvoiceResultSupplierInvoiceWithdrawnPayment1State             `json:"state,omitempty"`
 	Status            *CreateInvoiceResultSupplierInvoiceWithdrawnPayment1Status            `json:"status,omitempty"`
@@ -9719,11 +10003,11 @@ type DeleteFocusSourceResult struct {
 
 // DiscoverAzureScopesInput defines model for DiscoverAzureScopesInput.
 type DiscoverAzureScopesInput struct {
-	// AzureBillingAccountId The Microsoft Customer Agreement billing account ID (<guid>:<guid>_YYYY-MM-DD). Read directly: an app with only Billing profile reader can't list billing accounts.
+	// AzureBillingAccountId The billing account ID: a Microsoft Customer Agreement account (<guid>:<guid>_YYYY-MM-DD), or an Enterprise Agreement enrollment number (digits). Read directly: an app with only Billing profile reader can't list billing accounts.
 	AzureBillingAccountId string `json:"azureBillingAccountId"`
 
-	// AzureBillingProfileId The billing profile ID the app has Billing profile reader on.
-	AzureBillingProfileId string `json:"azureBillingProfileId"`
+	// AzureBillingProfileId Microsoft Customer Agreement only: the billing profile ID the app has Billing profile reader on. Left out (or empty) for an Enterprise Agreement enrollment.
+	AzureBillingProfileId *string `json:"azureBillingProfileId,omitempty"`
 
 	// AzureClientId The app registration's Application (client) ID (GUID).
 	AzureClientId string `json:"azureClientId"`
@@ -9897,6 +10181,7 @@ type FeedValidationResult struct {
 		BuyerOrgName                *string                                   `json:"buyerOrgName,omitempty"`
 		BuyerRegionName             *string                                   `json:"buyerRegionName,omitempty"`
 		BuyerWorkspaceId            *string                                   `json:"buyerWorkspaceId,omitempty"`
+		CloudProvider               *FeedValidationResultInvoiceCloudProvider `json:"cloudProvider,omitempty"`
 		ContractId                  *string                                   `json:"contractId,omitempty"`
 		CreditApplications          *[]InvoiceCreditApplication               `json:"creditApplications,omitempty"`
 		CreditNoteIds               *[]string                                 `json:"creditNoteIds,omitempty"`
@@ -9909,10 +10194,12 @@ type FeedValidationResult struct {
 		DueDateSource               *FeedValidationResultInvoiceDueDateSource `json:"dueDateSource,omitempty"`
 		DueInDays                   *float64                                  `json:"dueInDays,omitempty"`
 		DuplicatesChecked           *bool                                     `json:"duplicatesChecked,omitempty"`
+		EarlyPayment                *InvoiceEarlyPayment                      `json:"earlyPayment,omitempty"`
 		EnteredBy                   *FeedValidationResultInvoiceEnteredBy     `json:"enteredBy,omitempty"`
 		ExternalInvoiceNumber       *string                                   `json:"externalInvoiceNumber,omitempty"`
 		HasLookupRows               *bool                                     `json:"hasLookupRows,omitempty"`
 		HasOriginalPdf              *bool                                     `json:"hasOriginalPdf,omitempty"`
+		HeldBack                    *SupplierHeldBackView                     `json:"heldBack,omitempty"`
 		InvoiceDate                 *string                                   `json:"invoiceDate,omitempty"`
 		InvoiceKind                 *FeedValidationResultInvoiceInvoiceKind   `json:"invoiceKind,omitempty"`
 		LastApproverRemindedAt      *string                                   `json:"lastApproverRemindedAt,omitempty"`
@@ -9967,6 +10254,9 @@ type FeedValidationResult struct {
 // FeedValidationResultFindingsCode defines model for FeedValidationResult.Findings.Code.
 type FeedValidationResultFindingsCode string
 
+// FeedValidationResultInvoiceCloudProvider defines model for FeedValidationResult.Invoice.CloudProvider.
+type FeedValidationResultInvoiceCloudProvider string
+
 // FeedValidationResultInvoiceDocumentType defines model for FeedValidationResult.Invoice.DocumentType.
 type FeedValidationResultInvoiceDocumentType string
 
@@ -9984,9 +10274,14 @@ type FeedValidationResultInvoiceMatchStatus string
 
 // FeedValidationResultInvoicePayment0 defines model for .
 type FeedValidationResultInvoicePayment0 struct {
-	AdviceVersion *float64                                   `json:"adviceVersion,omitempty"`
-	Method        *FeedValidationResultInvoicePayment0Method `json:"method,omitempty"`
-	PaidAmount    *struct {
+	AdviceVersion        *float64 `json:"adviceVersion,omitempty"`
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
+	Method     *FeedValidationResultInvoicePayment0Method `json:"method,omitempty"`
+	PaidAmount *struct {
 		Amount   *float64 `json:"amount,omitempty"`
 		Currency *string  `json:"currency,omitempty"`
 		Rate     *float64 `json:"rate,omitempty"`
@@ -10007,6 +10302,11 @@ type FeedValidationResultInvoicePayment0Status string
 
 // FeedValidationResultInvoicePayment1 defines model for .
 type FeedValidationResultInvoicePayment1 struct {
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
 	PaymentMethodType *FeedValidationResultInvoicePayment1PaymentMethodType `json:"paymentMethodType,omitempty"`
 	State             *FeedValidationResultInvoicePayment1State             `json:"state,omitempty"`
 	Status            *FeedValidationResultInvoicePayment1Status            `json:"status,omitempty"`
@@ -10035,9 +10335,14 @@ type FeedValidationResultInvoiceSubmittedFormat string
 
 // FeedValidationResultInvoiceWithdrawnPayment0 defines model for .
 type FeedValidationResultInvoiceWithdrawnPayment0 struct {
-	AdviceVersion *float64                                            `json:"adviceVersion,omitempty"`
-	Method        *FeedValidationResultInvoiceWithdrawnPayment0Method `json:"method,omitempty"`
-	PaidAmount    *struct {
+	AdviceVersion        *float64 `json:"adviceVersion,omitempty"`
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
+	Method     *FeedValidationResultInvoiceWithdrawnPayment0Method `json:"method,omitempty"`
+	PaidAmount *struct {
 		Amount   *float64 `json:"amount,omitempty"`
 		Currency *string  `json:"currency,omitempty"`
 		Rate     *float64 `json:"rate,omitempty"`
@@ -10058,6 +10363,11 @@ type FeedValidationResultInvoiceWithdrawnPayment0Status string
 
 // FeedValidationResultInvoiceWithdrawnPayment1 defines model for .
 type FeedValidationResultInvoiceWithdrawnPayment1 struct {
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
 	PaymentMethodType *FeedValidationResultInvoiceWithdrawnPayment1PaymentMethodType `json:"paymentMethodType,omitempty"`
 	State             *FeedValidationResultInvoiceWithdrawnPayment1State             `json:"state,omitempty"`
 	Status            *FeedValidationResultInvoiceWithdrawnPayment1Status            `json:"status,omitempty"`
@@ -10541,6 +10851,8 @@ type GetInvoiceResultBuyerInvoice struct {
 	BuyerOrgId                  *string                                        `json:"buyerOrgId,omitempty"`
 	BuyerOrgName                *string                                        `json:"buyerOrgName,omitempty"`
 	BuyerRegionName             *string                                        `json:"buyerRegionName,omitempty"`
+	CloudConnectionId           *string                                        `json:"cloudConnectionId,omitempty"`
+	CloudProvider               *GetInvoiceResultBuyerInvoiceCloudProvider     `json:"cloudProvider,omitempty"`
 	ContractId                  *string                                        `json:"contractId,omitempty"`
 	ControlFindings             *[]InvoiceControlFinding                       `json:"controlFindings,omitempty"`
 	CreatedAt                   *string                                        `json:"createdAt,omitempty"`
@@ -10556,12 +10868,14 @@ type GetInvoiceResultBuyerInvoice struct {
 	DueDateSource               *GetInvoiceResultBuyerInvoiceDueDateSource     `json:"dueDateSource,omitempty"`
 	DueInDays                   *float64                                       `json:"dueInDays,omitempty"`
 	DuplicatesChecked           *bool                                          `json:"duplicatesChecked,omitempty"`
+	EarlyPayment                *InvoiceEarlyPayment                           `json:"earlyPayment,omitempty"`
 	EnteredBy                   *GetInvoiceResultBuyerInvoiceEnteredBy         `json:"enteredBy,omitempty"`
 	ExportAvailableFrom         *string                                        `json:"exportAvailableFrom,omitempty"`
 	ExternalInvoiceNumber       *string                                        `json:"externalInvoiceNumber,omitempty"`
 	FeedPayloadHash             *string                                        `json:"feedPayloadHash,omitempty"`
 	HasLookupRows               *bool                                          `json:"hasLookupRows,omitempty"`
 	HasOriginalPdf              *bool                                          `json:"hasOriginalPdf,omitempty"`
+	HeldBack                    *InvoiceHeldBack                               `json:"heldBack,omitempty"`
 	Id                          string                                         `json:"id"`
 	InvoiceDate                 *string                                        `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *GetInvoiceResultBuyerInvoiceInvoiceKind       `json:"invoiceKind,omitempty"`
@@ -10634,11 +10948,15 @@ type GetInvoiceResultBuyerInvoice struct {
 	UsageAmount                   *float64                                      `json:"usageAmount,omitempty"`
 	UsageAmountSimulated          *bool                                         `json:"usageAmountSimulated,omitempty"`
 	UsageCurrency                 *string                                       `json:"usageCurrency,omitempty"`
+	UsageLines                    *[]InvoiceUsageLine                           `json:"usageLines,omitempty"`
 	UsageSimulatedAfterDisconnect *bool                                         `json:"usageSimulatedAfterDisconnect,omitempty"`
 	UsageSource                   *GetInvoiceResultBuyerInvoiceUsageSource      `json:"usageSource,omitempty"`
 	ViewerIsSupplierMember        *bool                                         `json:"viewerIsSupplierMember,omitempty"`
 	Withholdings                  *[]InvoiceBreakdownEntry                      `json:"withholdings,omitempty"`
 }
+
+// GetInvoiceResultBuyerInvoiceCloudProvider defines model for GetInvoiceResultBuyerInvoice.CloudProvider.
+type GetInvoiceResultBuyerInvoiceCloudProvider string
 
 // GetInvoiceResultBuyerInvoiceDiscrepancyReason defines model for GetInvoiceResultBuyerInvoice.DiscrepancyReason.
 type GetInvoiceResultBuyerInvoiceDiscrepancyReason string
@@ -10806,6 +11124,7 @@ type GetInvoiceResultSupplierInvoice struct {
 	BuyerOrgName                *string                                       `json:"buyerOrgName,omitempty"`
 	BuyerRegionName             *string                                       `json:"buyerRegionName,omitempty"`
 	BuyerWorkspaceId            *string                                       `json:"buyerWorkspaceId,omitempty"`
+	CloudProvider               *GetInvoiceResultSupplierInvoiceCloudProvider `json:"cloudProvider,omitempty"`
 	ContractId                  *string                                       `json:"contractId,omitempty"`
 	CreatedAt                   *string                                       `json:"createdAt,omitempty"`
 	CreditApplications          *[]InvoiceCreditApplication                   `json:"creditApplications,omitempty"`
@@ -10819,10 +11138,12 @@ type GetInvoiceResultSupplierInvoice struct {
 	DueDateSource               *GetInvoiceResultSupplierInvoiceDueDateSource `json:"dueDateSource,omitempty"`
 	DueInDays                   *float64                                      `json:"dueInDays,omitempty"`
 	DuplicatesChecked           *bool                                         `json:"duplicatesChecked,omitempty"`
+	EarlyPayment                *InvoiceEarlyPayment                          `json:"earlyPayment,omitempty"`
 	EnteredBy                   *GetInvoiceResultSupplierInvoiceEnteredBy     `json:"enteredBy,omitempty"`
 	ExternalInvoiceNumber       *string                                       `json:"externalInvoiceNumber,omitempty"`
 	HasLookupRows               *bool                                         `json:"hasLookupRows,omitempty"`
 	HasOriginalPdf              *bool                                         `json:"hasOriginalPdf,omitempty"`
+	HeldBack                    *SupplierHeldBackView                         `json:"heldBack,omitempty"`
 	Id                          string                                        `json:"id"`
 	InvoiceDate                 *string                                       `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *GetInvoiceResultSupplierInvoiceInvoiceKind   `json:"invoiceKind,omitempty"`
@@ -10869,6 +11190,9 @@ type GetInvoiceResultSupplierInvoice struct {
 	Withholdings           *[]InvoiceBreakdownEntry                          `json:"withholdings,omitempty"`
 }
 
+// GetInvoiceResultSupplierInvoiceCloudProvider defines model for GetInvoiceResultSupplierInvoice.CloudProvider.
+type GetInvoiceResultSupplierInvoiceCloudProvider string
+
 // GetInvoiceResultSupplierInvoiceDocumentType defines model for GetInvoiceResultSupplierInvoice.DocumentType.
 type GetInvoiceResultSupplierInvoiceDocumentType string
 
@@ -10886,9 +11210,14 @@ type GetInvoiceResultSupplierInvoiceMatchStatus string
 
 // GetInvoiceResultSupplierInvoicePayment0 defines model for .
 type GetInvoiceResultSupplierInvoicePayment0 struct {
-	AdviceVersion *float64                                       `json:"adviceVersion,omitempty"`
-	Method        *GetInvoiceResultSupplierInvoicePayment0Method `json:"method,omitempty"`
-	PaidAmount    *struct {
+	AdviceVersion        *float64 `json:"adviceVersion,omitempty"`
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
+	Method     *GetInvoiceResultSupplierInvoicePayment0Method `json:"method,omitempty"`
+	PaidAmount *struct {
 		Amount   *float64 `json:"amount,omitempty"`
 		Currency *string  `json:"currency,omitempty"`
 		Rate     *float64 `json:"rate,omitempty"`
@@ -10909,6 +11238,11 @@ type GetInvoiceResultSupplierInvoicePayment0Status string
 
 // GetInvoiceResultSupplierInvoicePayment1 defines model for .
 type GetInvoiceResultSupplierInvoicePayment1 struct {
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
 	PaymentMethodType *GetInvoiceResultSupplierInvoicePayment1PaymentMethodType `json:"paymentMethodType,omitempty"`
 	State             *GetInvoiceResultSupplierInvoicePayment1State             `json:"state,omitempty"`
 	Status            *GetInvoiceResultSupplierInvoicePayment1Status            `json:"status,omitempty"`
@@ -10940,9 +11274,14 @@ type GetInvoiceResultSupplierInvoiceSubmittedFormat string
 
 // GetInvoiceResultSupplierInvoiceWithdrawnPayment0 defines model for .
 type GetInvoiceResultSupplierInvoiceWithdrawnPayment0 struct {
-	AdviceVersion *float64                                                `json:"adviceVersion,omitempty"`
-	Method        *GetInvoiceResultSupplierInvoiceWithdrawnPayment0Method `json:"method,omitempty"`
-	PaidAmount    *struct {
+	AdviceVersion        *float64 `json:"adviceVersion,omitempty"`
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
+	Method     *GetInvoiceResultSupplierInvoiceWithdrawnPayment0Method `json:"method,omitempty"`
+	PaidAmount *struct {
 		Amount   *float64 `json:"amount,omitempty"`
 		Currency *string  `json:"currency,omitempty"`
 		Rate     *float64 `json:"rate,omitempty"`
@@ -10963,6 +11302,11 @@ type GetInvoiceResultSupplierInvoiceWithdrawnPayment0Status string
 
 // GetInvoiceResultSupplierInvoiceWithdrawnPayment1 defines model for .
 type GetInvoiceResultSupplierInvoiceWithdrawnPayment1 struct {
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
 	PaymentMethodType *GetInvoiceResultSupplierInvoiceWithdrawnPayment1PaymentMethodType `json:"paymentMethodType,omitempty"`
 	State             *GetInvoiceResultSupplierInvoiceWithdrawnPayment1State             `json:"state,omitempty"`
 	Status            *GetInvoiceResultSupplierInvoiceWithdrawnPayment1Status            `json:"status,omitempty"`
@@ -11362,6 +11706,8 @@ type InvoiceBuyerView struct {
 	BuyerOrgId                  *string                            `json:"buyerOrgId,omitempty"`
 	BuyerOrgName                *string                            `json:"buyerOrgName,omitempty"`
 	BuyerRegionName             *string                            `json:"buyerRegionName,omitempty"`
+	CloudConnectionId           *string                            `json:"cloudConnectionId,omitempty"`
+	CloudProvider               *InvoiceBuyerViewCloudProvider     `json:"cloudProvider,omitempty"`
 	ContractId                  *string                            `json:"contractId,omitempty"`
 	ControlFindings             *[]InvoiceControlFinding           `json:"controlFindings,omitempty"`
 	CreatedAt                   *string                            `json:"createdAt,omitempty"`
@@ -11377,12 +11723,14 @@ type InvoiceBuyerView struct {
 	DueDateSource               *InvoiceBuyerViewDueDateSource     `json:"dueDateSource,omitempty"`
 	DueInDays                   *float64                           `json:"dueInDays,omitempty"`
 	DuplicatesChecked           *bool                              `json:"duplicatesChecked,omitempty"`
+	EarlyPayment                *InvoiceEarlyPayment               `json:"earlyPayment,omitempty"`
 	EnteredBy                   *InvoiceBuyerViewEnteredBy         `json:"enteredBy,omitempty"`
 	ExportAvailableFrom         *string                            `json:"exportAvailableFrom,omitempty"`
 	ExternalInvoiceNumber       *string                            `json:"externalInvoiceNumber,omitempty"`
 	FeedPayloadHash             *string                            `json:"feedPayloadHash,omitempty"`
 	HasLookupRows               *bool                              `json:"hasLookupRows,omitempty"`
 	HasOriginalPdf              *bool                              `json:"hasOriginalPdf,omitempty"`
+	HeldBack                    *InvoiceHeldBack                   `json:"heldBack,omitempty"`
 	Id                          string                             `json:"id"`
 	InvoiceDate                 *string                            `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *InvoiceBuyerViewInvoiceKind       `json:"invoiceKind,omitempty"`
@@ -11455,11 +11803,15 @@ type InvoiceBuyerView struct {
 	UsageAmount                   *float64                          `json:"usageAmount,omitempty"`
 	UsageAmountSimulated          *bool                             `json:"usageAmountSimulated,omitempty"`
 	UsageCurrency                 *string                           `json:"usageCurrency,omitempty"`
+	UsageLines                    *[]InvoiceUsageLine               `json:"usageLines,omitempty"`
 	UsageSimulatedAfterDisconnect *bool                             `json:"usageSimulatedAfterDisconnect,omitempty"`
 	UsageSource                   *InvoiceBuyerViewUsageSource      `json:"usageSource,omitempty"`
 	ViewerIsSupplierMember        *bool                             `json:"viewerIsSupplierMember,omitempty"`
 	Withholdings                  *[]InvoiceBreakdownEntry          `json:"withholdings,omitempty"`
 }
+
+// InvoiceBuyerViewCloudProvider defines model for InvoiceBuyerView.CloudProvider.
+type InvoiceBuyerViewCloudProvider string
 
 // InvoiceBuyerViewDiscrepancyReason defines model for InvoiceBuyerView.DiscrepancyReason.
 type InvoiceBuyerViewDiscrepancyReason string
@@ -11538,14 +11890,15 @@ type InvoiceCounterparty struct {
 	Name                 *string                           `json:"name,omitempty"`
 	OffPlatform          *bool                             `json:"offPlatform,omitempty"`
 	OpenPurchaseOrders   *[]struct {
-		Amount            *float64 `json:"amount,omitempty"`
-		BillToCompanyName *string  `json:"billToCompanyName,omitempty"`
-		CreatedAt         *string  `json:"createdAt,omitempty"`
-		Currency          *string  `json:"currency,omitempty"`
-		DefaultDueInDays  *float64 `json:"defaultDueInDays,omitempty"`
-		Id                string   `json:"id"`
-		InvoicedAmount    *float64 `json:"invoicedAmount,omitempty"`
-		Label             *string  `json:"label,omitempty"`
+		Amount            *float64                                               `json:"amount,omitempty"`
+		BillToCompanyName *string                                                `json:"billToCompanyName,omitempty"`
+		CreatedAt         *string                                                `json:"createdAt,omitempty"`
+		Currency          *string                                                `json:"currency,omitempty"`
+		DefaultDueInDays  *float64                                               `json:"defaultDueInDays,omitempty"`
+		DefaultDueRule    *InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule `json:"defaultDueRule,omitempty"`
+		Id                string                                                 `json:"id"`
+		InvoicedAmount    *float64                                               `json:"invoicedAmount,omitempty"`
+		Label             *string                                                `json:"label,omitempty"`
 		Lines             *[]struct {
 			Amount   *float64 `json:"amount,omitempty"`
 			Consumed *float64 `json:"consumed,omitempty"`
@@ -11564,9 +11917,33 @@ type InvoiceCounterpartyCloudProvider string
 // InvoiceCounterpartyFeedReadiness defines model for InvoiceCounterparty.FeedReadiness.
 type InvoiceCounterpartyFeedReadiness string
 
+// InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0 defines model for .
+type InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0 struct {
+	Days *float64                                                  `json:"days,omitempty"`
+	From *InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0From `json:"from,omitempty"`
+}
+
+// InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0From defines model for InvoiceCounterparty.OpenPurchaseOrders.DefaultDueRule.0.From.
+type InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0From string
+
+// InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1 defines model for .
+type InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1 struct {
+	Day  *float64                                                  `json:"day,omitempty"`
+	From *InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1From `json:"from,omitempty"`
+}
+
+// InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1From defines model for InvoiceCounterparty.OpenPurchaseOrders.DefaultDueRule.1.From.
+type InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1From string
+
+// InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule defines model for InvoiceCounterparty.OpenPurchaseOrders.DefaultDueRule.
+type InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule struct {
+	union json.RawMessage
+}
+
 // InvoiceCreditApplication defines model for InvoiceCreditApplication.
 type InvoiceCreditApplication struct {
 	Amount                   *float64 `json:"amount,omitempty"`
+	AnswersHold              *bool    `json:"answersHold,omitempty"`
 	AppliedAt                *string  `json:"appliedAt,omitempty"`
 	AppliedBy                *string  `json:"appliedBy,omitempty"`
 	AppliedByName            *string  `json:"appliedByName,omitempty"`
@@ -11644,6 +12021,34 @@ type InvoiceDuplicateRef struct {
 	Id                    string  `json:"id"`
 }
 
+// InvoiceEarlyPayment defines model for InvoiceEarlyPayment.
+type InvoiceEarlyPayment struct {
+	ContractId *string  `json:"contractId,omitempty"`
+	Deadline   *string  `json:"deadline,omitempty"`
+	Percent    *float64 `json:"percent,omitempty"`
+}
+
+// InvoiceHeldBack defines model for InvoiceHeldBack.
+type InvoiceHeldBack struct {
+	Amount     *float64 `json:"amount,omitempty"`
+	At         *string  `json:"at,omitempty"`
+	CarriedBy  *string  `json:"carriedBy,omitempty"`
+	ClaimId    *string  `json:"claimId,omitempty"`
+	ClosedAt   *string  `json:"closedAt,omitempty"`
+	DecisionId *string  `json:"decisionId,omitempty"`
+	Net        *float64 `json:"net,omitempty"`
+	PaidLater  *struct {
+		PaymentDate *string `json:"paymentDate,omitempty"`
+		Reference   *string `json:"reference,omitempty"`
+	} `json:"paidLater,omitempty"`
+	State        *InvoiceHeldBackState `json:"state,omitempty"`
+	Tax          *float64              `json:"tax,omitempty"`
+	UnderProtest *bool                 `json:"underProtest,omitempty"`
+}
+
+// InvoiceHeldBackState defines model for InvoiceHeldBack.State.
+type InvoiceHeldBackState string
+
 // InvoiceLineItem defines model for InvoiceLineItem.
 type InvoiceLineItem struct {
 	Ai *struct {
@@ -11701,7 +12106,12 @@ type InvoicePaymentProblemKind string
 
 // InvoicePaymentRecord defines model for InvoicePaymentRecord.
 type InvoicePaymentRecord struct {
-	AdviceVersion  *float64                    `json:"adviceVersion,omitempty"`
+	AdviceVersion        *float64 `json:"adviceVersion,omitempty"`
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
 	ExportId       *string                     `json:"exportId,omitempty"`
 	ExportedAt     *string                     `json:"exportedAt,omitempty"`
 	ExportedBy     *string                     `json:"exportedBy,omitempty"`
@@ -11713,14 +12123,15 @@ type InvoicePaymentRecord struct {
 		Rate     *float64 `json:"rate,omitempty"`
 		RateDate *string  `json:"rateDate,omitempty"`
 	} `json:"paidAmount,omitempty"`
-	PaymentDate    *string                     `json:"paymentDate,omitempty"`
-	RecordedAt     *string                     `json:"recordedAt,omitempty"`
-	RecordedBy     *string                     `json:"recordedBy,omitempty"`
-	RecordedByName *string                     `json:"recordedByName,omitempty"`
-	Reference      *string                     `json:"reference,omitempty"`
-	Status         *InvoicePaymentRecordStatus `json:"status,omitempty"`
-	Stripe         *InvoiceStripePayment       `json:"stripe,omitempty"`
-	Withholdings   *[]InvoiceBreakdownEntry    `json:"withholdings,omitempty"`
+	PaymentDate          *string                     `json:"paymentDate,omitempty"`
+	RecordedAt           *string                     `json:"recordedAt,omitempty"`
+	RecordedBy           *string                     `json:"recordedBy,omitempty"`
+	RecordedByName       *string                     `json:"recordedByName,omitempty"`
+	Reference            *string                     `json:"reference,omitempty"`
+	ScheduledPaymentDate *string                     `json:"scheduledPaymentDate,omitempty"`
+	Status               *InvoicePaymentRecordStatus `json:"status,omitempty"`
+	Stripe               *InvoiceStripePayment       `json:"stripe,omitempty"`
+	Withholdings         *[]InvoiceBreakdownEntry    `json:"withholdings,omitempty"`
 }
 
 // InvoicePaymentRecordMethod defines model for InvoicePaymentRecord.Method.
@@ -11856,10 +12267,16 @@ type InvoiceStatusViewStatus string
 
 // InvoiceStripePayment defines model for InvoiceStripePayment.
 type InvoiceStripePayment struct {
-	AccountId         *string                                `json:"accountId,omitempty"`
-	CheckoutExpiresAt *string                                `json:"checkoutExpiresAt,omitempty"`
-	CheckoutSessionId *string                                `json:"checkoutSessionId,omitempty"`
+	AccountId            *string `json:"accountId,omitempty"`
+	CheckoutExpiresAt    *string `json:"checkoutExpiresAt,omitempty"`
+	CheckoutSessionId    *string `json:"checkoutSessionId,omitempty"`
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
 	FeeCents          *float64                               `json:"feeCents,omitempty"`
+	InitiatedDate     *string                                `json:"initiatedDate,omitempty"`
 	PaymentIntentId   *string                                `json:"paymentIntentId,omitempty"`
 	PaymentMethodType *InvoiceStripePaymentPaymentMethodType `json:"paymentMethodType,omitempty"`
 	StartedAt         *string                                `json:"startedAt,omitempty"`
@@ -11891,6 +12308,7 @@ type InvoiceSupplierView struct {
 	BuyerOrgName                *string                              `json:"buyerOrgName,omitempty"`
 	BuyerRegionName             *string                              `json:"buyerRegionName,omitempty"`
 	BuyerWorkspaceId            *string                              `json:"buyerWorkspaceId,omitempty"`
+	CloudProvider               *InvoiceSupplierViewCloudProvider    `json:"cloudProvider,omitempty"`
 	ContractId                  *string                              `json:"contractId,omitempty"`
 	CreatedAt                   *string                              `json:"createdAt,omitempty"`
 	CreditApplications          *[]InvoiceCreditApplication          `json:"creditApplications,omitempty"`
@@ -11904,10 +12322,12 @@ type InvoiceSupplierView struct {
 	DueDateSource               *InvoiceSupplierViewDueDateSource    `json:"dueDateSource,omitempty"`
 	DueInDays                   *float64                             `json:"dueInDays,omitempty"`
 	DuplicatesChecked           *bool                                `json:"duplicatesChecked,omitempty"`
+	EarlyPayment                *InvoiceEarlyPayment                 `json:"earlyPayment,omitempty"`
 	EnteredBy                   *InvoiceSupplierViewEnteredBy        `json:"enteredBy,omitempty"`
 	ExternalInvoiceNumber       *string                              `json:"externalInvoiceNumber,omitempty"`
 	HasLookupRows               *bool                                `json:"hasLookupRows,omitempty"`
 	HasOriginalPdf              *bool                                `json:"hasOriginalPdf,omitempty"`
+	HeldBack                    *SupplierHeldBackView                `json:"heldBack,omitempty"`
 	Id                          string                               `json:"id"`
 	InvoiceDate                 *string                              `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *InvoiceSupplierViewInvoiceKind      `json:"invoiceKind,omitempty"`
@@ -11952,6 +12372,9 @@ type InvoiceSupplierView struct {
 	Withholdings           *[]InvoiceBreakdownEntry              `json:"withholdings,omitempty"`
 }
 
+// InvoiceSupplierViewCloudProvider defines model for InvoiceSupplierView.CloudProvider.
+type InvoiceSupplierViewCloudProvider string
+
 // InvoiceSupplierViewDocumentType defines model for InvoiceSupplierView.DocumentType.
 type InvoiceSupplierViewDocumentType string
 
@@ -11969,9 +12392,14 @@ type InvoiceSupplierViewMatchStatus string
 
 // InvoiceSupplierViewPayment0 defines model for .
 type InvoiceSupplierViewPayment0 struct {
-	AdviceVersion *float64                           `json:"adviceVersion,omitempty"`
-	Method        *InvoiceSupplierViewPayment0Method `json:"method,omitempty"`
-	PaidAmount    *struct {
+	AdviceVersion        *float64 `json:"adviceVersion,omitempty"`
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
+	Method     *InvoiceSupplierViewPayment0Method `json:"method,omitempty"`
+	PaidAmount *struct {
 		Amount   *float64 `json:"amount,omitempty"`
 		Currency *string  `json:"currency,omitempty"`
 		Rate     *float64 `json:"rate,omitempty"`
@@ -11992,6 +12420,11 @@ type InvoiceSupplierViewPayment0Status string
 
 // InvoiceSupplierViewPayment1 defines model for .
 type InvoiceSupplierViewPayment1 struct {
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
 	PaymentMethodType *InvoiceSupplierViewPayment1PaymentMethodType `json:"paymentMethodType,omitempty"`
 	State             *InvoiceSupplierViewPayment1State             `json:"state,omitempty"`
 	Status            *InvoiceSupplierViewPayment1Status            `json:"status,omitempty"`
@@ -12023,9 +12456,14 @@ type InvoiceSupplierViewSubmittedFormat string
 
 // InvoiceSupplierViewWithdrawnPayment0 defines model for .
 type InvoiceSupplierViewWithdrawnPayment0 struct {
-	AdviceVersion *float64                                    `json:"adviceVersion,omitempty"`
-	Method        *InvoiceSupplierViewWithdrawnPayment0Method `json:"method,omitempty"`
-	PaidAmount    *struct {
+	AdviceVersion        *float64 `json:"adviceVersion,omitempty"`
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
+	Method     *InvoiceSupplierViewWithdrawnPayment0Method `json:"method,omitempty"`
+	PaidAmount *struct {
 		Amount   *float64 `json:"amount,omitempty"`
 		Currency *string  `json:"currency,omitempty"`
 		Rate     *float64 `json:"rate,omitempty"`
@@ -12046,6 +12484,11 @@ type InvoiceSupplierViewWithdrawnPayment0Status string
 
 // InvoiceSupplierViewWithdrawnPayment1 defines model for .
 type InvoiceSupplierViewWithdrawnPayment1 struct {
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
 	PaymentMethodType *InvoiceSupplierViewWithdrawnPayment1PaymentMethodType `json:"paymentMethodType,omitempty"`
 	State             *InvoiceSupplierViewWithdrawnPayment1State             `json:"state,omitempty"`
 	Status            *InvoiceSupplierViewWithdrawnPayment1Status            `json:"status,omitempty"`
@@ -12064,6 +12507,13 @@ type InvoiceSupplierViewWithdrawnPayment1Status string
 // InvoiceSupplierView_WithdrawnPayment defines model for InvoiceSupplierView.WithdrawnPayment.
 type InvoiceSupplierView_WithdrawnPayment struct {
 	union json.RawMessage
+}
+
+// InvoiceUsageLine defines model for InvoiceUsageLine.
+type InvoiceUsageLine struct {
+	Amount      *float64 `json:"amount,omitempty"`
+	Description *string  `json:"description,omitempty"`
+	UsageAmount *float64 `json:"usageAmount,omitempty"`
 }
 
 // LateFeeTerms defines model for LateFeeTerms.
@@ -12426,6 +12876,8 @@ type ListInvoicesItemBuyerInvoice struct {
 	BuyerOrgId                  *string                                        `json:"buyerOrgId,omitempty"`
 	BuyerOrgName                *string                                        `json:"buyerOrgName,omitempty"`
 	BuyerRegionName             *string                                        `json:"buyerRegionName,omitempty"`
+	CloudConnectionId           *string                                        `json:"cloudConnectionId,omitempty"`
+	CloudProvider               *ListInvoicesItemBuyerInvoiceCloudProvider     `json:"cloudProvider,omitempty"`
 	ContractId                  *string                                        `json:"contractId,omitempty"`
 	ControlFindings             *[]InvoiceControlFinding                       `json:"controlFindings,omitempty"`
 	CreatedAt                   *string                                        `json:"createdAt,omitempty"`
@@ -12441,12 +12893,14 @@ type ListInvoicesItemBuyerInvoice struct {
 	DueDateSource               *ListInvoicesItemBuyerInvoiceDueDateSource     `json:"dueDateSource,omitempty"`
 	DueInDays                   *float64                                       `json:"dueInDays,omitempty"`
 	DuplicatesChecked           *bool                                          `json:"duplicatesChecked,omitempty"`
+	EarlyPayment                *InvoiceEarlyPayment                           `json:"earlyPayment,omitempty"`
 	EnteredBy                   *ListInvoicesItemBuyerInvoiceEnteredBy         `json:"enteredBy,omitempty"`
 	ExportAvailableFrom         *string                                        `json:"exportAvailableFrom,omitempty"`
 	ExternalInvoiceNumber       *string                                        `json:"externalInvoiceNumber,omitempty"`
 	FeedPayloadHash             *string                                        `json:"feedPayloadHash,omitempty"`
 	HasLookupRows               *bool                                          `json:"hasLookupRows,omitempty"`
 	HasOriginalPdf              *bool                                          `json:"hasOriginalPdf,omitempty"`
+	HeldBack                    *InvoiceHeldBack                               `json:"heldBack,omitempty"`
 	Id                          string                                         `json:"id"`
 	InvoiceDate                 *string                                        `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *ListInvoicesItemBuyerInvoiceInvoiceKind       `json:"invoiceKind,omitempty"`
@@ -12519,11 +12973,15 @@ type ListInvoicesItemBuyerInvoice struct {
 	UsageAmount                   *float64                                      `json:"usageAmount,omitempty"`
 	UsageAmountSimulated          *bool                                         `json:"usageAmountSimulated,omitempty"`
 	UsageCurrency                 *string                                       `json:"usageCurrency,omitempty"`
+	UsageLines                    *[]InvoiceUsageLine                           `json:"usageLines,omitempty"`
 	UsageSimulatedAfterDisconnect *bool                                         `json:"usageSimulatedAfterDisconnect,omitempty"`
 	UsageSource                   *ListInvoicesItemBuyerInvoiceUsageSource      `json:"usageSource,omitempty"`
 	ViewerIsSupplierMember        *bool                                         `json:"viewerIsSupplierMember,omitempty"`
 	Withholdings                  *[]InvoiceBreakdownEntry                      `json:"withholdings,omitempty"`
 }
+
+// ListInvoicesItemBuyerInvoiceCloudProvider defines model for ListInvoicesItemBuyerInvoice.CloudProvider.
+type ListInvoicesItemBuyerInvoiceCloudProvider string
 
 // ListInvoicesItemBuyerInvoiceDiscrepancyReason defines model for ListInvoicesItemBuyerInvoice.DiscrepancyReason.
 type ListInvoicesItemBuyerInvoiceDiscrepancyReason string
@@ -12691,6 +13149,7 @@ type ListInvoicesItemSupplierInvoice struct {
 	BuyerOrgName                *string                                       `json:"buyerOrgName,omitempty"`
 	BuyerRegionName             *string                                       `json:"buyerRegionName,omitempty"`
 	BuyerWorkspaceId            *string                                       `json:"buyerWorkspaceId,omitempty"`
+	CloudProvider               *ListInvoicesItemSupplierInvoiceCloudProvider `json:"cloudProvider,omitempty"`
 	ContractId                  *string                                       `json:"contractId,omitempty"`
 	CreatedAt                   *string                                       `json:"createdAt,omitempty"`
 	CreditApplications          *[]InvoiceCreditApplication                   `json:"creditApplications,omitempty"`
@@ -12704,10 +13163,12 @@ type ListInvoicesItemSupplierInvoice struct {
 	DueDateSource               *ListInvoicesItemSupplierInvoiceDueDateSource `json:"dueDateSource,omitempty"`
 	DueInDays                   *float64                                      `json:"dueInDays,omitempty"`
 	DuplicatesChecked           *bool                                         `json:"duplicatesChecked,omitempty"`
+	EarlyPayment                *InvoiceEarlyPayment                          `json:"earlyPayment,omitempty"`
 	EnteredBy                   *ListInvoicesItemSupplierInvoiceEnteredBy     `json:"enteredBy,omitempty"`
 	ExternalInvoiceNumber       *string                                       `json:"externalInvoiceNumber,omitempty"`
 	HasLookupRows               *bool                                         `json:"hasLookupRows,omitempty"`
 	HasOriginalPdf              *bool                                         `json:"hasOriginalPdf,omitempty"`
+	HeldBack                    *SupplierHeldBackView                         `json:"heldBack,omitempty"`
 	Id                          string                                        `json:"id"`
 	InvoiceDate                 *string                                       `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *ListInvoicesItemSupplierInvoiceInvoiceKind   `json:"invoiceKind,omitempty"`
@@ -12752,6 +13213,9 @@ type ListInvoicesItemSupplierInvoice struct {
 	Withholdings           *[]InvoiceBreakdownEntry                          `json:"withholdings,omitempty"`
 }
 
+// ListInvoicesItemSupplierInvoiceCloudProvider defines model for ListInvoicesItemSupplierInvoice.CloudProvider.
+type ListInvoicesItemSupplierInvoiceCloudProvider string
+
 // ListInvoicesItemSupplierInvoiceDocumentType defines model for ListInvoicesItemSupplierInvoice.DocumentType.
 type ListInvoicesItemSupplierInvoiceDocumentType string
 
@@ -12769,9 +13233,14 @@ type ListInvoicesItemSupplierInvoiceMatchStatus string
 
 // ListInvoicesItemSupplierInvoicePayment0 defines model for .
 type ListInvoicesItemSupplierInvoicePayment0 struct {
-	AdviceVersion *float64                                       `json:"adviceVersion,omitempty"`
-	Method        *ListInvoicesItemSupplierInvoicePayment0Method `json:"method,omitempty"`
-	PaidAmount    *struct {
+	AdviceVersion        *float64 `json:"adviceVersion,omitempty"`
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
+	Method     *ListInvoicesItemSupplierInvoicePayment0Method `json:"method,omitempty"`
+	PaidAmount *struct {
 		Amount   *float64 `json:"amount,omitempty"`
 		Currency *string  `json:"currency,omitempty"`
 		Rate     *float64 `json:"rate,omitempty"`
@@ -12792,6 +13261,11 @@ type ListInvoicesItemSupplierInvoicePayment0Status string
 
 // ListInvoicesItemSupplierInvoicePayment1 defines model for .
 type ListInvoicesItemSupplierInvoicePayment1 struct {
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
 	PaymentMethodType *ListInvoicesItemSupplierInvoicePayment1PaymentMethodType `json:"paymentMethodType,omitempty"`
 	State             *ListInvoicesItemSupplierInvoicePayment1State             `json:"state,omitempty"`
 	Status            *ListInvoicesItemSupplierInvoicePayment1Status            `json:"status,omitempty"`
@@ -12823,9 +13297,14 @@ type ListInvoicesItemSupplierInvoiceSubmittedFormat string
 
 // ListInvoicesItemSupplierInvoiceWithdrawnPayment0 defines model for .
 type ListInvoicesItemSupplierInvoiceWithdrawnPayment0 struct {
-	AdviceVersion *float64                                                `json:"adviceVersion,omitempty"`
-	Method        *ListInvoicesItemSupplierInvoiceWithdrawnPayment0Method `json:"method,omitempty"`
-	PaidAmount    *struct {
+	AdviceVersion        *float64 `json:"adviceVersion,omitempty"`
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
+	Method     *ListInvoicesItemSupplierInvoiceWithdrawnPayment0Method `json:"method,omitempty"`
+	PaidAmount *struct {
 		Amount   *float64 `json:"amount,omitempty"`
 		Currency *string  `json:"currency,omitempty"`
 		Rate     *float64 `json:"rate,omitempty"`
@@ -12846,6 +13325,11 @@ type ListInvoicesItemSupplierInvoiceWithdrawnPayment0Status string
 
 // ListInvoicesItemSupplierInvoiceWithdrawnPayment1 defines model for .
 type ListInvoicesItemSupplierInvoiceWithdrawnPayment1 struct {
+	EarlyPaymentDiscount *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+	} `json:"earlyPaymentDiscount,omitempty"`
 	PaymentMethodType *ListInvoicesItemSupplierInvoiceWithdrawnPayment1PaymentMethodType `json:"paymentMethodType,omitempty"`
 	State             *ListInvoicesItemSupplierInvoiceWithdrawnPayment1State             `json:"state,omitempty"`
 	Status            *ListInvoicesItemSupplierInvoiceWithdrawnPayment1Status            `json:"status,omitempty"`
@@ -13121,8 +13605,10 @@ type PayerAccountRefInput struct {
 
 // PaymentExportInput defines model for PaymentExportInput.
 type PaymentExportInput struct {
-	ConfirmReplaced *bool     `json:"confirmReplaced,omitempty"`
-	InvoiceIds      *[]string `json:"invoiceIds,omitempty"`
+	ConfirmReplaced           *bool     `json:"confirmReplaced,omitempty"`
+	InvoiceIds                *[]string `json:"invoiceIds,omitempty"`
+	PaymentDate               *string   `json:"paymentDate,omitempty"`
+	TakeEarlyPaymentDiscounts *bool     `json:"takeEarlyPaymentDiscounts,omitempty"`
 }
 
 // PaymentHistoryEntry defines model for PaymentHistoryEntry.
@@ -13135,10 +13621,16 @@ type PaymentHistoryEntry struct {
 	ByName           *string                    `json:"byName,omitempty"`
 	BySupplier       *bool                      `json:"bySupplier,omitempty"`
 	CreditNoteId     *string                    `json:"creditNoteId,omitempty"`
+	PaymentDate      *string                    `json:"paymentDate,omitempty"`
 	Record           *struct {
-		AdviceVersion *float64                         `json:"adviceVersion,omitempty"`
-		Method        *PaymentHistoryEntryRecordMethod `json:"method,omitempty"`
-		PaidAmount    *struct {
+		AdviceVersion        *float64 `json:"adviceVersion,omitempty"`
+		EarlyPaymentDiscount *struct {
+			Amount   *float64 `json:"amount,omitempty"`
+			Deadline *string  `json:"deadline,omitempty"`
+			Percent  *float64 `json:"percent,omitempty"`
+		} `json:"earlyPaymentDiscount,omitempty"`
+		Method     *PaymentHistoryEntryRecordMethod `json:"method,omitempty"`
+		PaidAmount *struct {
 			Amount   *float64 `json:"amount,omitempty"`
 			Currency *string  `json:"currency,omitempty"`
 			Rate     *float64 `json:"rate,omitempty"`
@@ -13149,6 +13641,7 @@ type PaymentHistoryEntry struct {
 		Reference    *string                  `json:"reference,omitempty"`
 		Withholdings *[]InvoiceBreakdownEntry `json:"withholdings,omitempty"`
 	} `json:"record,omitempty"`
+	Reference    *string                `json:"reference,omitempty"`
 	RemittanceId *string                `json:"remittanceId,omitempty"`
 	SolePayer    *SolePayerWaiverRecord `json:"solePayer,omitempty"`
 }
@@ -13852,16 +14345,17 @@ type ReceiptReturnWant string
 
 // RecordPaymentInput defines model for RecordPaymentInput.
 type RecordPaymentInput struct {
-	Amount          *float64                 `json:"amount,omitempty"`
-	ConfirmReplaced *bool                    `json:"confirmReplaced,omitempty"`
-	Currency        *string                  `json:"currency,omitempty"`
-	Method          RecordPaymentInputMethod `json:"method"`
-	PaymentDate     string                   `json:"paymentDate"`
-	Rate            *float64                 `json:"rate,omitempty"`
-	RateDate        *string                  `json:"rateDate,omitempty"`
-	Reference       string                   `json:"reference"`
-	Remittance      *SendRemittanceInput     `json:"remittance,omitempty"`
-	Withholdings    *[]BreakdownEntryInput   `json:"withholdings,omitempty"`
+	Amount               *float64                 `json:"amount,omitempty"`
+	ConfirmReplaced      *bool                    `json:"confirmReplaced,omitempty"`
+	Currency             *string                  `json:"currency,omitempty"`
+	EarlyPaymentDiscount *bool                    `json:"earlyPaymentDiscount,omitempty"`
+	Method               RecordPaymentInputMethod `json:"method"`
+	PaymentDate          string                   `json:"paymentDate"`
+	Rate                 *float64                 `json:"rate,omitempty"`
+	RateDate             *string                  `json:"rateDate,omitempty"`
+	Reference            string                   `json:"reference"`
+	Remittance           *SendRemittanceInput     `json:"remittance,omitempty"`
+	Withholdings         *[]BreakdownEntryInput   `json:"withholdings,omitempty"`
 }
 
 // RecordPaymentInputMethod defines model for RecordPaymentInput.Method.
@@ -13869,17 +14363,18 @@ type RecordPaymentInputMethod string
 
 // RecordPaymentItemInput defines model for RecordPaymentItemInput.
 type RecordPaymentItemInput struct {
-	Amount          *float64                     `json:"amount,omitempty"`
-	ConfirmReplaced *bool                        `json:"confirmReplaced,omitempty"`
-	Currency        *string                      `json:"currency,omitempty"`
-	InvoiceId       string                       `json:"invoiceId"`
-	Method          RecordPaymentItemInputMethod `json:"method"`
-	Note            *string                      `json:"note,omitempty"`
-	PaymentDate     string                       `json:"paymentDate"`
-	Rate            *float64                     `json:"rate,omitempty"`
-	RateDate        *string                      `json:"rateDate,omitempty"`
-	Reference       string                       `json:"reference"`
-	Withholdings    *[]BreakdownEntryInput       `json:"withholdings,omitempty"`
+	Amount               *float64                     `json:"amount,omitempty"`
+	ConfirmReplaced      *bool                        `json:"confirmReplaced,omitempty"`
+	Currency             *string                      `json:"currency,omitempty"`
+	EarlyPaymentDiscount *bool                        `json:"earlyPaymentDiscount,omitempty"`
+	InvoiceId            string                       `json:"invoiceId"`
+	Method               RecordPaymentItemInputMethod `json:"method"`
+	Note                 *string                      `json:"note,omitempty"`
+	PaymentDate          string                       `json:"paymentDate"`
+	Rate                 *float64                     `json:"rate,omitempty"`
+	RateDate             *string                      `json:"rateDate,omitempty"`
+	Reference            string                       `json:"reference"`
+	Withholdings         *[]BreakdownEntryInput       `json:"withholdings,omitempty"`
 }
 
 // RecordPaymentItemInputMethod defines model for RecordPaymentItemInput.Method.
@@ -13901,6 +14396,8 @@ type RecordPaymentResult struct {
 	BuyerOrgId                  *string                               `json:"buyerOrgId,omitempty"`
 	BuyerOrgName                *string                               `json:"buyerOrgName,omitempty"`
 	BuyerRegionName             *string                               `json:"buyerRegionName,omitempty"`
+	CloudConnectionId           *string                               `json:"cloudConnectionId,omitempty"`
+	CloudProvider               *RecordPaymentResultCloudProvider     `json:"cloudProvider,omitempty"`
 	ContractId                  *string                               `json:"contractId,omitempty"`
 	ControlFindings             *[]InvoiceControlFinding              `json:"controlFindings,omitempty"`
 	CreatedAt                   *string                               `json:"createdAt,omitempty"`
@@ -13916,12 +14413,14 @@ type RecordPaymentResult struct {
 	DueDateSource               *RecordPaymentResultDueDateSource     `json:"dueDateSource,omitempty"`
 	DueInDays                   *float64                              `json:"dueInDays,omitempty"`
 	DuplicatesChecked           *bool                                 `json:"duplicatesChecked,omitempty"`
+	EarlyPayment                *InvoiceEarlyPayment                  `json:"earlyPayment,omitempty"`
 	EnteredBy                   *RecordPaymentResultEnteredBy         `json:"enteredBy,omitempty"`
 	ExportAvailableFrom         *string                               `json:"exportAvailableFrom,omitempty"`
 	ExternalInvoiceNumber       *string                               `json:"externalInvoiceNumber,omitempty"`
 	FeedPayloadHash             *string                               `json:"feedPayloadHash,omitempty"`
 	HasLookupRows               *bool                                 `json:"hasLookupRows,omitempty"`
 	HasOriginalPdf              *bool                                 `json:"hasOriginalPdf,omitempty"`
+	HeldBack                    *InvoiceHeldBack                      `json:"heldBack,omitempty"`
 	Id                          string                                `json:"id"`
 	InvoiceDate                 *string                               `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *RecordPaymentResultInvoiceKind       `json:"invoiceKind,omitempty"`
@@ -13994,11 +14493,15 @@ type RecordPaymentResult struct {
 	UsageAmount                   *float64                             `json:"usageAmount,omitempty"`
 	UsageAmountSimulated          *bool                                `json:"usageAmountSimulated,omitempty"`
 	UsageCurrency                 *string                              `json:"usageCurrency,omitempty"`
+	UsageLines                    *[]InvoiceUsageLine                  `json:"usageLines,omitempty"`
 	UsageSimulatedAfterDisconnect *bool                                `json:"usageSimulatedAfterDisconnect,omitempty"`
 	UsageSource                   *RecordPaymentResultUsageSource      `json:"usageSource,omitempty"`
 	ViewerIsSupplierMember        *bool                                `json:"viewerIsSupplierMember,omitempty"`
 	Withholdings                  *[]InvoiceBreakdownEntry             `json:"withholdings,omitempty"`
 }
+
+// RecordPaymentResultCloudProvider defines model for RecordPaymentResult.CloudProvider.
+type RecordPaymentResultCloudProvider string
 
 // RecordPaymentResultDiscrepancyReason defines model for RecordPaymentResult.DiscrepancyReason.
 type RecordPaymentResultDiscrepancyReason string
@@ -14200,9 +14703,13 @@ type RemittanceView struct {
 	Paid             *bool   `json:"paid,omitempty"`
 	PaidAt           *string `json:"paidAt,omitempty"`
 	Payment          *struct {
-		AdviceVersion *float64                     `json:"adviceVersion,omitempty"`
-		Method        *RemittanceViewPaymentMethod `json:"method,omitempty"`
-		NetPaid       *struct {
+		AdviceVersion        *float64 `json:"adviceVersion,omitempty"`
+		EarlyPaymentDiscount *struct {
+			Amount  *float64 `json:"amount,omitempty"`
+			Percent *float64 `json:"percent,omitempty"`
+		} `json:"earlyPaymentDiscount,omitempty"`
+		Method  *RemittanceViewPaymentMethod `json:"method,omitempty"`
+		NetPaid *struct {
 			Amount   *float64 `json:"amount,omitempty"`
 			Currency *string  `json:"currency,omitempty"`
 		} `json:"netPaid,omitempty"`
@@ -14265,6 +14772,8 @@ type RemoveInvoiceReplacementLinkResult struct {
 	BuyerOrgId                  *string                                              `json:"buyerOrgId,omitempty"`
 	BuyerOrgName                *string                                              `json:"buyerOrgName,omitempty"`
 	BuyerRegionName             *string                                              `json:"buyerRegionName,omitempty"`
+	CloudConnectionId           *string                                              `json:"cloudConnectionId,omitempty"`
+	CloudProvider               *RemoveInvoiceReplacementLinkResultCloudProvider     `json:"cloudProvider,omitempty"`
 	ContractId                  *string                                              `json:"contractId,omitempty"`
 	ControlFindings             *[]InvoiceControlFinding                             `json:"controlFindings,omitempty"`
 	CreatedAt                   *string                                              `json:"createdAt,omitempty"`
@@ -14280,12 +14789,14 @@ type RemoveInvoiceReplacementLinkResult struct {
 	DueDateSource               *RemoveInvoiceReplacementLinkResultDueDateSource     `json:"dueDateSource,omitempty"`
 	DueInDays                   *float64                                             `json:"dueInDays,omitempty"`
 	DuplicatesChecked           *bool                                                `json:"duplicatesChecked,omitempty"`
+	EarlyPayment                *InvoiceEarlyPayment                                 `json:"earlyPayment,omitempty"`
 	EnteredBy                   *RemoveInvoiceReplacementLinkResultEnteredBy         `json:"enteredBy,omitempty"`
 	ExportAvailableFrom         *string                                              `json:"exportAvailableFrom,omitempty"`
 	ExternalInvoiceNumber       *string                                              `json:"externalInvoiceNumber,omitempty"`
 	FeedPayloadHash             *string                                              `json:"feedPayloadHash,omitempty"`
 	HasLookupRows               *bool                                                `json:"hasLookupRows,omitempty"`
 	HasOriginalPdf              *bool                                                `json:"hasOriginalPdf,omitempty"`
+	HeldBack                    *InvoiceHeldBack                                     `json:"heldBack,omitempty"`
 	Id                          string                                               `json:"id"`
 	InvoiceDate                 *string                                              `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *RemoveInvoiceReplacementLinkResultInvoiceKind       `json:"invoiceKind,omitempty"`
@@ -14358,11 +14869,15 @@ type RemoveInvoiceReplacementLinkResult struct {
 	UsageAmount                   *float64                                            `json:"usageAmount,omitempty"`
 	UsageAmountSimulated          *bool                                               `json:"usageAmountSimulated,omitempty"`
 	UsageCurrency                 *string                                             `json:"usageCurrency,omitempty"`
+	UsageLines                    *[]InvoiceUsageLine                                 `json:"usageLines,omitempty"`
 	UsageSimulatedAfterDisconnect *bool                                               `json:"usageSimulatedAfterDisconnect,omitempty"`
 	UsageSource                   *RemoveInvoiceReplacementLinkResultUsageSource      `json:"usageSource,omitempty"`
 	ViewerIsSupplierMember        *bool                                               `json:"viewerIsSupplierMember,omitempty"`
 	Withholdings                  *[]InvoiceBreakdownEntry                            `json:"withholdings,omitempty"`
 }
+
+// RemoveInvoiceReplacementLinkResultCloudProvider defines model for RemoveInvoiceReplacementLinkResult.CloudProvider.
+type RemoveInvoiceReplacementLinkResultCloudProvider string
 
 // RemoveInvoiceReplacementLinkResultDiscrepancyReason defines model for RemoveInvoiceReplacementLinkResult.DiscrepancyReason.
 type RemoveInvoiceReplacementLinkResultDiscrepancyReason string
@@ -15523,7 +16038,19 @@ type StoreOrderConfirmationType string
 
 // StripePaymentStatus defines model for StripePaymentStatus.
 type StripePaymentStatus struct {
-	Available         *bool                                 `json:"available,omitempty"`
+	Available    *bool `json:"available,omitempty"`
+	EarlyPayment *struct {
+		Amount   *float64 `json:"amount,omitempty"`
+		Deadline *string  `json:"deadline,omitempty"`
+		Percent  *float64 `json:"percent,omitempty"`
+		Quote    *struct {
+			Amount   *float64                                      `json:"amount,omitempty"`
+			Currency *StripePaymentStatusEarlyPaymentQuoteCurrency `json:"currency,omitempty"`
+			Fee      *float64                                      `json:"fee,omitempty"`
+			Total    *float64                                      `json:"total,omitempty"`
+		} `json:"quote,omitempty"`
+		Taken *bool `json:"taken,omitempty"`
+	} `json:"earlyPayment,omitempty"`
 	PaymentMethodType *StripePaymentStatusPaymentMethodType `json:"paymentMethodType,omitempty"`
 	Quote             *struct {
 		Amount   *float64                          `json:"amount,omitempty"`
@@ -15534,6 +16061,9 @@ type StripePaymentStatus struct {
 	Reason *StripePaymentStatusReason `json:"reason,omitempty"`
 	State  *StripePaymentStatusState  `json:"state,omitempty"`
 }
+
+// StripePaymentStatusEarlyPaymentQuoteCurrency defines model for StripePaymentStatus.EarlyPayment.Quote.Currency.
+type StripePaymentStatusEarlyPaymentQuoteCurrency string
 
 // StripePaymentStatusPaymentMethodType defines model for StripePaymentStatus.PaymentMethodType.
 type StripePaymentStatusPaymentMethodType string
@@ -15780,6 +16310,23 @@ type SupplierCreditNoteViewStatus string
 
 // SupplierCreditNoteViewSubmittedFormat defines model for SupplierCreditNoteView.SubmittedFormat.
 type SupplierCreditNoteViewSubmittedFormat string
+
+// SupplierHeldBackView defines model for SupplierHeldBackView.
+type SupplierHeldBackView struct {
+	Amount    *float64 `json:"amount,omitempty"`
+	At        *string  `json:"at,omitempty"`
+	CarriedBy *string  `json:"carriedBy,omitempty"`
+	ClosedAt  *string  `json:"closedAt,omitempty"`
+	Held      *float64 `json:"held,omitempty"`
+	PaidLater *struct {
+		PaymentDate *string `json:"paymentDate,omitempty"`
+		Reference   *string `json:"reference,omitempty"`
+	} `json:"paidLater,omitempty"`
+	State *SupplierHeldBackViewState `json:"state,omitempty"`
+}
+
+// SupplierHeldBackViewState defines model for SupplierHeldBackView.State.
+type SupplierHeldBackViewState string
 
 // SupplierPaymentProblemView defines model for SupplierPaymentProblemView.
 type SupplierPaymentProblemView struct {
@@ -16215,6 +16762,12 @@ type WebhookEndpointViewEvents string
 // WebhookEndpointViewLastErrorCode defines model for WebhookEndpointView.LastErrorCode.
 type WebhookEndpointViewLastErrorCode string
 
+// ZoomConnectionInput defines model for ZoomConnectionInput.
+type ZoomConnectionInput struct {
+	AccountId string `json:"accountId"`
+	ClientId  string `json:"clientId"`
+}
+
 // ListAiRateCardsParams defines parameters for ListAiRateCards.
 type ListAiRateCardsParams struct {
 	Invoicer *string `form:"invoicer,omitempty" json:"invoicer,omitempty"`
@@ -16403,7 +16956,8 @@ type GetInvoiceStatusDocumentParamsFormat string
 
 // StartStripePaymentParams defines parameters for StartStripePayment.
 type StartStripePaymentParams struct {
-	ConfirmReplaced *string `form:"confirmReplaced,omitempty" json:"confirmReplaced,omitempty"`
+	ConfirmReplaced      *string `form:"confirmReplaced,omitempty" json:"confirmReplaced,omitempty"`
+	EarlyPaymentDiscount *string `form:"earlyPaymentDiscount,omitempty" json:"earlyPaymentDiscount,omitempty"`
 }
 
 // ListNotificationsParams defines parameters for ListNotifications.
@@ -18883,6 +19437,68 @@ func (t InvoiceActivityEntry_Data_AdditionalProperties) MarshalJSON() ([]byte, e
 }
 
 func (t *InvoiceActivityEntry_Data_AdditionalProperties) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsInvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0 returns the union data inside the InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule as a InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0
+func (t InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule) AsInvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0() (InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0, error) {
+	var body InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0 overwrites any union data inside the InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule as the provided InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0
+func (t *InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule) FromInvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0(v InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0 performs a merge with any union data inside the InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule, using the provided InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0
+func (t *InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule) MergeInvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0(v InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsInvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1 returns the union data inside the InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule as a InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1
+func (t InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule) AsInvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1() (InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1, error) {
+	var body InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1 overwrites any union data inside the InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule as the provided InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1
+func (t *InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule) FromInvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1(v InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1 performs a merge with any union data inside the InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule, using the provided InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1
+func (t *InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule) MergeInvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1(v InvoiceCounterpartyOpenPurchaseOrdersDefaultDueRule1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *InvoiceCounterparty_OpenPurchaseOrders_DefaultDueRule) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -28850,6 +29466,22 @@ func NewStartStripePaymentRequest(server string, invoiceId string, params *Start
 		if params.ConfirmReplaced != nil {
 
 			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "confirmReplaced", runtime.ParamLocationQuery, *params.ConfirmReplaced); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.EarlyPaymentDiscount != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "earlyPaymentDiscount", runtime.ParamLocationQuery, *params.EarlyPaymentDiscount); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err

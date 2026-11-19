@@ -23,6 +23,9 @@ from .add_cloud_provider_as_supplier_result_status import (
     AddCloudProviderAsSupplierResultStatus,
 )
 from .add_invoice_replacement_links_result import AddInvoiceReplacementLinksResult
+from .add_invoice_replacement_links_result_cloud_provider import (
+    AddInvoiceReplacementLinksResultCloudProvider,
+)
 from .add_invoice_replacement_links_result_discrepancy_reason import (
     AddInvoiceReplacementLinksResultDiscrepancyReason,
 )
@@ -143,6 +146,7 @@ from .ai_provider_last_sync_status import AiProviderLastSyncStatus
 from .ai_provider_provider import AiProviderProvider
 from .ai_provider_snowflake import AiProviderSnowflake
 from .ai_provider_status import AiProviderStatus
+from .ai_provider_zoom import AiProviderZoom
 from .ai_purchase_order_line_remaining import AiPurchaseOrderLineRemaining
 from .ai_rate_card_entry import AiRateCardEntry
 from .ai_rate_card_entry_invoicer import AiRateCardEntryInvoicer
@@ -423,8 +427,10 @@ from .cloud_connection_oci import CloudConnectionOci
 from .cloud_connection_page import CloudConnectionPage
 from .cloud_connection_provider import CloudConnectionProvider
 from .cloud_connection_status import CloudConnectionStatus
+from .cloud_service_cost import CloudServiceCost
 from .cloud_setup_view import CloudSetupView
 from .cloud_setup_view_state import CloudSetupViewState
+from .cloud_usage_line import CloudUsageLine
 from .comment_meeting_attendee import CommentMeetingAttendee
 from .comment_meeting_attendee_side import CommentMeetingAttendeeSide
 from .comment_meeting_input import CommentMeetingInput
@@ -516,6 +522,9 @@ from .create_invoice_result_buyer_credit_note_submitted_format import (
     CreateInvoiceResultBuyerCreditNoteSubmittedFormat,
 )
 from .create_invoice_result_buyer_invoice import CreateInvoiceResultBuyerInvoice
+from .create_invoice_result_buyer_invoice_cloud_provider import (
+    CreateInvoiceResultBuyerInvoiceCloudProvider,
+)
 from .create_invoice_result_buyer_invoice_discrepancy_reason import (
     CreateInvoiceResultBuyerInvoiceDiscrepancyReason,
 )
@@ -622,6 +631,9 @@ from .create_invoice_result_supplier_credit_note_submitted_format import (
     CreateInvoiceResultSupplierCreditNoteSubmittedFormat,
 )
 from .create_invoice_result_supplier_invoice import CreateInvoiceResultSupplierInvoice
+from .create_invoice_result_supplier_invoice_cloud_provider import (
+    CreateInvoiceResultSupplierInvoiceCloudProvider,
+)
 from .create_invoice_result_supplier_invoice_document_type import (
     CreateInvoiceResultSupplierInvoiceDocumentType,
 )
@@ -646,6 +658,9 @@ from .create_invoice_result_supplier_invoice_payment_route import (
 from .create_invoice_result_supplier_invoice_payment_type_0 import (
     CreateInvoiceResultSupplierInvoicePaymentType0,
 )
+from .create_invoice_result_supplier_invoice_payment_type_0_early_payment_discount import (
+    CreateInvoiceResultSupplierInvoicePaymentType0EarlyPaymentDiscount,
+)
 from .create_invoice_result_supplier_invoice_payment_type_0_method import (
     CreateInvoiceResultSupplierInvoicePaymentType0Method,
 )
@@ -657,6 +672,9 @@ from .create_invoice_result_supplier_invoice_payment_type_0_status import (
 )
 from .create_invoice_result_supplier_invoice_payment_type_1 import (
     CreateInvoiceResultSupplierInvoicePaymentType1,
+)
+from .create_invoice_result_supplier_invoice_payment_type_1_early_payment_discount import (
+    CreateInvoiceResultSupplierInvoicePaymentType1EarlyPaymentDiscount,
 )
 from .create_invoice_result_supplier_invoice_payment_type_1_payment_method_type import (
     CreateInvoiceResultSupplierInvoicePaymentType1PaymentMethodType,
@@ -676,6 +694,9 @@ from .create_invoice_result_supplier_invoice_submitted_format import (
 from .create_invoice_result_supplier_invoice_withdrawn_payment_type_0 import (
     CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0,
 )
+from .create_invoice_result_supplier_invoice_withdrawn_payment_type_0_early_payment_discount import (
+    CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount,
+)
 from .create_invoice_result_supplier_invoice_withdrawn_payment_type_0_method import (
     CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0Method,
 )
@@ -687,6 +708,9 @@ from .create_invoice_result_supplier_invoice_withdrawn_payment_type_0_status imp
 )
 from .create_invoice_result_supplier_invoice_withdrawn_payment_type_1 import (
     CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1,
+)
+from .create_invoice_result_supplier_invoice_withdrawn_payment_type_1_early_payment_discount import (
+    CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1EarlyPaymentDiscount,
 )
 from .create_invoice_result_supplier_invoice_withdrawn_payment_type_1_payment_method_type import (
     CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1PaymentMethodType,
@@ -761,6 +785,9 @@ from .feed_validation_result_findings_item_code import (
     FeedValidationResultFindingsItemCode,
 )
 from .feed_validation_result_invoice import FeedValidationResultInvoice
+from .feed_validation_result_invoice_cloud_provider import (
+    FeedValidationResultInvoiceCloudProvider,
+)
 from .feed_validation_result_invoice_document_type import (
     FeedValidationResultInvoiceDocumentType,
 )
@@ -785,6 +812,9 @@ from .feed_validation_result_invoice_payment_route import (
 from .feed_validation_result_invoice_payment_type_0 import (
     FeedValidationResultInvoicePaymentType0,
 )
+from .feed_validation_result_invoice_payment_type_0_early_payment_discount import (
+    FeedValidationResultInvoicePaymentType0EarlyPaymentDiscount,
+)
 from .feed_validation_result_invoice_payment_type_0_method import (
     FeedValidationResultInvoicePaymentType0Method,
 )
@@ -796,6 +826,9 @@ from .feed_validation_result_invoice_payment_type_0_status import (
 )
 from .feed_validation_result_invoice_payment_type_1 import (
     FeedValidationResultInvoicePaymentType1,
+)
+from .feed_validation_result_invoice_payment_type_1_early_payment_discount import (
+    FeedValidationResultInvoicePaymentType1EarlyPaymentDiscount,
 )
 from .feed_validation_result_invoice_payment_type_1_payment_method_type import (
     FeedValidationResultInvoicePaymentType1PaymentMethodType,
@@ -812,6 +845,9 @@ from .feed_validation_result_invoice_submitted_format import (
 from .feed_validation_result_invoice_withdrawn_payment_type_0 import (
     FeedValidationResultInvoiceWithdrawnPaymentType0,
 )
+from .feed_validation_result_invoice_withdrawn_payment_type_0_early_payment_discount import (
+    FeedValidationResultInvoiceWithdrawnPaymentType0EarlyPaymentDiscount,
+)
 from .feed_validation_result_invoice_withdrawn_payment_type_0_method import (
     FeedValidationResultInvoiceWithdrawnPaymentType0Method,
 )
@@ -823,6 +859,9 @@ from .feed_validation_result_invoice_withdrawn_payment_type_0_status import (
 )
 from .feed_validation_result_invoice_withdrawn_payment_type_1 import (
     FeedValidationResultInvoiceWithdrawnPaymentType1,
+)
+from .feed_validation_result_invoice_withdrawn_payment_type_1_early_payment_discount import (
+    FeedValidationResultInvoiceWithdrawnPaymentType1EarlyPaymentDiscount,
 )
 from .feed_validation_result_invoice_withdrawn_payment_type_1_payment_method_type import (
     FeedValidationResultInvoiceWithdrawnPaymentType1PaymentMethodType,
@@ -949,6 +988,9 @@ from .get_invoice_result_buyer_credit_note_submitted_format import (
     GetInvoiceResultBuyerCreditNoteSubmittedFormat,
 )
 from .get_invoice_result_buyer_invoice import GetInvoiceResultBuyerInvoice
+from .get_invoice_result_buyer_invoice_cloud_provider import (
+    GetInvoiceResultBuyerInvoiceCloudProvider,
+)
 from .get_invoice_result_buyer_invoice_discrepancy_reason import (
     GetInvoiceResultBuyerInvoiceDiscrepancyReason,
 )
@@ -1051,6 +1093,9 @@ from .get_invoice_result_supplier_credit_note_submitted_format import (
     GetInvoiceResultSupplierCreditNoteSubmittedFormat,
 )
 from .get_invoice_result_supplier_invoice import GetInvoiceResultSupplierInvoice
+from .get_invoice_result_supplier_invoice_cloud_provider import (
+    GetInvoiceResultSupplierInvoiceCloudProvider,
+)
 from .get_invoice_result_supplier_invoice_document_type import (
     GetInvoiceResultSupplierInvoiceDocumentType,
 )
@@ -1075,6 +1120,9 @@ from .get_invoice_result_supplier_invoice_payment_route import (
 from .get_invoice_result_supplier_invoice_payment_type_0 import (
     GetInvoiceResultSupplierInvoicePaymentType0,
 )
+from .get_invoice_result_supplier_invoice_payment_type_0_early_payment_discount import (
+    GetInvoiceResultSupplierInvoicePaymentType0EarlyPaymentDiscount,
+)
 from .get_invoice_result_supplier_invoice_payment_type_0_method import (
     GetInvoiceResultSupplierInvoicePaymentType0Method,
 )
@@ -1086,6 +1134,9 @@ from .get_invoice_result_supplier_invoice_payment_type_0_status import (
 )
 from .get_invoice_result_supplier_invoice_payment_type_1 import (
     GetInvoiceResultSupplierInvoicePaymentType1,
+)
+from .get_invoice_result_supplier_invoice_payment_type_1_early_payment_discount import (
+    GetInvoiceResultSupplierInvoicePaymentType1EarlyPaymentDiscount,
 )
 from .get_invoice_result_supplier_invoice_payment_type_1_payment_method_type import (
     GetInvoiceResultSupplierInvoicePaymentType1PaymentMethodType,
@@ -1105,6 +1156,9 @@ from .get_invoice_result_supplier_invoice_submitted_format import (
 from .get_invoice_result_supplier_invoice_withdrawn_payment_type_0 import (
     GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0,
 )
+from .get_invoice_result_supplier_invoice_withdrawn_payment_type_0_early_payment_discount import (
+    GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount,
+)
 from .get_invoice_result_supplier_invoice_withdrawn_payment_type_0_method import (
     GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0Method,
 )
@@ -1116,6 +1170,9 @@ from .get_invoice_result_supplier_invoice_withdrawn_payment_type_0_status import
 )
 from .get_invoice_result_supplier_invoice_withdrawn_payment_type_1 import (
     GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1,
+)
+from .get_invoice_result_supplier_invoice_withdrawn_payment_type_1_early_payment_discount import (
+    GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1EarlyPaymentDiscount,
 )
 from .get_invoice_result_supplier_invoice_withdrawn_payment_type_1_payment_method_type import (
     GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1PaymentMethodType,
@@ -1191,6 +1248,7 @@ from .invoice_base_currency_amount_amount_breakdown import (
 from .invoice_breakdown_entry import InvoiceBreakdownEntry
 from .invoice_breakdown_group import InvoiceBreakdownGroup
 from .invoice_buyer_view import InvoiceBuyerView
+from .invoice_buyer_view_cloud_provider import InvoiceBuyerViewCloudProvider
 from .invoice_buyer_view_discrepancy_reason import InvoiceBuyerViewDiscrepancyReason
 from .invoice_buyer_view_document_type import InvoiceBuyerViewDocumentType
 from .invoice_buyer_view_due_date_source import InvoiceBuyerViewDueDateSource
@@ -1225,6 +1283,18 @@ from .invoice_counterparty_feed_readiness import InvoiceCounterpartyFeedReadines
 from .invoice_counterparty_open_purchase_orders_item import (
     InvoiceCounterpartyOpenPurchaseOrdersItem,
 )
+from .invoice_counterparty_open_purchase_orders_item_default_due_rule_type_0 import (
+    InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType0,
+)
+from .invoice_counterparty_open_purchase_orders_item_default_due_rule_type_0_from import (
+    InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType0From,
+)
+from .invoice_counterparty_open_purchase_orders_item_default_due_rule_type_1 import (
+    InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType1,
+)
+from .invoice_counterparty_open_purchase_orders_item_default_due_rule_type_1_from import (
+    InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType1From,
+)
 from .invoice_counterparty_open_purchase_orders_item_lines_item import (
     InvoiceCounterpartyOpenPurchaseOrdersItemLinesItem,
 )
@@ -1239,6 +1309,10 @@ from .invoice_deduction_input import InvoiceDeductionInput
 from .invoice_deduction_input_kind import InvoiceDeductionInputKind
 from .invoice_deduction_kind import InvoiceDeductionKind
 from .invoice_duplicate_ref import InvoiceDuplicateRef
+from .invoice_early_payment import InvoiceEarlyPayment
+from .invoice_held_back import InvoiceHeldBack
+from .invoice_held_back_paid_later import InvoiceHeldBackPaidLater
+from .invoice_held_back_state import InvoiceHeldBackState
 from .invoice_line_item import InvoiceLineItem
 from .invoice_line_item_ai import InvoiceLineItemAi
 from .invoice_line_item_ai_invoicer import InvoiceLineItemAiInvoicer
@@ -1249,6 +1323,9 @@ from .invoice_payment_problem import InvoicePaymentProblem
 from .invoice_payment_problem_answer import InvoicePaymentProblemAnswer
 from .invoice_payment_problem_kind import InvoicePaymentProblemKind
 from .invoice_payment_record import InvoicePaymentRecord
+from .invoice_payment_record_early_payment_discount import (
+    InvoicePaymentRecordEarlyPaymentDiscount,
+)
 from .invoice_payment_record_method import InvoicePaymentRecordMethod
 from .invoice_payment_record_paid_amount import InvoicePaymentRecordPaidAmount
 from .invoice_payment_record_status import InvoicePaymentRecordStatus
@@ -1278,11 +1355,15 @@ from .invoice_status_view_response_code import InvoiceStatusViewResponseCode
 from .invoice_status_view_status import InvoiceStatusViewStatus
 from .invoice_status_view_total import InvoiceStatusViewTotal
 from .invoice_stripe_payment import InvoiceStripePayment
+from .invoice_stripe_payment_early_payment_discount import (
+    InvoiceStripePaymentEarlyPaymentDiscount,
+)
 from .invoice_stripe_payment_payment_method_type import (
     InvoiceStripePaymentPaymentMethodType,
 )
 from .invoice_stripe_payment_state import InvoiceStripePaymentState
 from .invoice_supplier_view import InvoiceSupplierView
+from .invoice_supplier_view_cloud_provider import InvoiceSupplierViewCloudProvider
 from .invoice_supplier_view_document_type import InvoiceSupplierViewDocumentType
 from .invoice_supplier_view_due_date_source import InvoiceSupplierViewDueDateSource
 from .invoice_supplier_view_entered_by import InvoiceSupplierViewEnteredBy
@@ -1291,6 +1372,9 @@ from .invoice_supplier_view_match_status import InvoiceSupplierViewMatchStatus
 from .invoice_supplier_view_party_details import InvoiceSupplierViewPartyDetails
 from .invoice_supplier_view_payment_route import InvoiceSupplierViewPaymentRoute
 from .invoice_supplier_view_payment_type_0 import InvoiceSupplierViewPaymentType0
+from .invoice_supplier_view_payment_type_0_early_payment_discount import (
+    InvoiceSupplierViewPaymentType0EarlyPaymentDiscount,
+)
 from .invoice_supplier_view_payment_type_0_method import (
     InvoiceSupplierViewPaymentType0Method,
 )
@@ -1301,6 +1385,9 @@ from .invoice_supplier_view_payment_type_0_status import (
     InvoiceSupplierViewPaymentType0Status,
 )
 from .invoice_supplier_view_payment_type_1 import InvoiceSupplierViewPaymentType1
+from .invoice_supplier_view_payment_type_1_early_payment_discount import (
+    InvoiceSupplierViewPaymentType1EarlyPaymentDiscount,
+)
 from .invoice_supplier_view_payment_type_1_payment_method_type import (
     InvoiceSupplierViewPaymentType1PaymentMethodType,
 )
@@ -1315,6 +1402,9 @@ from .invoice_supplier_view_submitted_format import InvoiceSupplierViewSubmitted
 from .invoice_supplier_view_withdrawn_payment_type_0 import (
     InvoiceSupplierViewWithdrawnPaymentType0,
 )
+from .invoice_supplier_view_withdrawn_payment_type_0_early_payment_discount import (
+    InvoiceSupplierViewWithdrawnPaymentType0EarlyPaymentDiscount,
+)
 from .invoice_supplier_view_withdrawn_payment_type_0_method import (
     InvoiceSupplierViewWithdrawnPaymentType0Method,
 )
@@ -1327,6 +1417,9 @@ from .invoice_supplier_view_withdrawn_payment_type_0_status import (
 from .invoice_supplier_view_withdrawn_payment_type_1 import (
     InvoiceSupplierViewWithdrawnPaymentType1,
 )
+from .invoice_supplier_view_withdrawn_payment_type_1_early_payment_discount import (
+    InvoiceSupplierViewWithdrawnPaymentType1EarlyPaymentDiscount,
+)
 from .invoice_supplier_view_withdrawn_payment_type_1_payment_method_type import (
     InvoiceSupplierViewWithdrawnPaymentType1PaymentMethodType,
 )
@@ -1336,6 +1429,7 @@ from .invoice_supplier_view_withdrawn_payment_type_1_state import (
 from .invoice_supplier_view_withdrawn_payment_type_1_status import (
     InvoiceSupplierViewWithdrawnPaymentType1Status,
 )
+from .invoice_usage_line import InvoiceUsageLine
 from .late_fee_terms import LateFeeTerms
 from .late_fee_terms_basis import LateFeeTermsBasis
 from .late_fee_terms_interest import LateFeeTermsInterest
@@ -1433,6 +1527,9 @@ from .list_invoices_item_buyer_credit_note_submitted_format import (
     ListInvoicesItemBuyerCreditNoteSubmittedFormat,
 )
 from .list_invoices_item_buyer_invoice import ListInvoicesItemBuyerInvoice
+from .list_invoices_item_buyer_invoice_cloud_provider import (
+    ListInvoicesItemBuyerInvoiceCloudProvider,
+)
 from .list_invoices_item_buyer_invoice_discrepancy_reason import (
     ListInvoicesItemBuyerInvoiceDiscrepancyReason,
 )
@@ -1535,6 +1632,9 @@ from .list_invoices_item_supplier_credit_note_submitted_format import (
     ListInvoicesItemSupplierCreditNoteSubmittedFormat,
 )
 from .list_invoices_item_supplier_invoice import ListInvoicesItemSupplierInvoice
+from .list_invoices_item_supplier_invoice_cloud_provider import (
+    ListInvoicesItemSupplierInvoiceCloudProvider,
+)
 from .list_invoices_item_supplier_invoice_document_type import (
     ListInvoicesItemSupplierInvoiceDocumentType,
 )
@@ -1559,6 +1659,9 @@ from .list_invoices_item_supplier_invoice_payment_route import (
 from .list_invoices_item_supplier_invoice_payment_type_0 import (
     ListInvoicesItemSupplierInvoicePaymentType0,
 )
+from .list_invoices_item_supplier_invoice_payment_type_0_early_payment_discount import (
+    ListInvoicesItemSupplierInvoicePaymentType0EarlyPaymentDiscount,
+)
 from .list_invoices_item_supplier_invoice_payment_type_0_method import (
     ListInvoicesItemSupplierInvoicePaymentType0Method,
 )
@@ -1570,6 +1673,9 @@ from .list_invoices_item_supplier_invoice_payment_type_0_status import (
 )
 from .list_invoices_item_supplier_invoice_payment_type_1 import (
     ListInvoicesItemSupplierInvoicePaymentType1,
+)
+from .list_invoices_item_supplier_invoice_payment_type_1_early_payment_discount import (
+    ListInvoicesItemSupplierInvoicePaymentType1EarlyPaymentDiscount,
 )
 from .list_invoices_item_supplier_invoice_payment_type_1_payment_method_type import (
     ListInvoicesItemSupplierInvoicePaymentType1PaymentMethodType,
@@ -1589,6 +1695,9 @@ from .list_invoices_item_supplier_invoice_submitted_format import (
 from .list_invoices_item_supplier_invoice_withdrawn_payment_type_0 import (
     ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0,
 )
+from .list_invoices_item_supplier_invoice_withdrawn_payment_type_0_early_payment_discount import (
+    ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount,
+)
 from .list_invoices_item_supplier_invoice_withdrawn_payment_type_0_method import (
     ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0Method,
 )
@@ -1600,6 +1709,9 @@ from .list_invoices_item_supplier_invoice_withdrawn_payment_type_0_status import
 )
 from .list_invoices_item_supplier_invoice_withdrawn_payment_type_1 import (
     ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1,
+)
+from .list_invoices_item_supplier_invoice_withdrawn_payment_type_1_early_payment_discount import (
+    ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1EarlyPaymentDiscount,
 )
 from .list_invoices_item_supplier_invoice_withdrawn_payment_type_1_payment_method_type import (
     ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1PaymentMethodType,
@@ -1655,6 +1767,9 @@ from .payment_export_input import PaymentExportInput
 from .payment_history_entry import PaymentHistoryEntry
 from .payment_history_entry_action import PaymentHistoryEntryAction
 from .payment_history_entry_record import PaymentHistoryEntryRecord
+from .payment_history_entry_record_early_payment_discount import (
+    PaymentHistoryEntryRecordEarlyPaymentDiscount,
+)
 from .payment_history_entry_record_method import PaymentHistoryEntryRecordMethod
 from .payment_history_entry_record_paid_amount import (
     PaymentHistoryEntryRecordPaidAmount,
@@ -1793,6 +1908,7 @@ from .record_payment_input_method import RecordPaymentInputMethod
 from .record_payment_item_input import RecordPaymentItemInput
 from .record_payment_item_input_method import RecordPaymentItemInputMethod
 from .record_payment_result import RecordPaymentResult
+from .record_payment_result_cloud_provider import RecordPaymentResultCloudProvider
 from .record_payment_result_discrepancy_reason import (
     RecordPaymentResultDiscrepancyReason,
 )
@@ -1846,6 +1962,9 @@ from .remittance_instructions_method import RemittanceInstructionsMethod
 from .remittance_view import RemittanceView
 from .remittance_view_amount_due import RemittanceViewAmountDue
 from .remittance_view_payment import RemittanceViewPayment
+from .remittance_view_payment_early_payment_discount import (
+    RemittanceViewPaymentEarlyPaymentDiscount,
+)
 from .remittance_view_payment_method import RemittanceViewPaymentMethod
 from .remittance_view_payment_net_paid import RemittanceViewPaymentNetPaid
 from .remittance_view_payment_paid_in_other_currency import (
@@ -1859,6 +1978,9 @@ from .remittance_view_remittances_item_file_content_type import (
 from .remittance_view_status import RemittanceViewStatus
 from .remove_ai_limit_credential_result import RemoveAiLimitCredentialResult
 from .remove_invoice_replacement_link_result import RemoveInvoiceReplacementLinkResult
+from .remove_invoice_replacement_link_result_cloud_provider import (
+    RemoveInvoiceReplacementLinkResultCloudProvider,
+)
 from .remove_invoice_replacement_link_result_discrepancy_reason import (
     RemoveInvoiceReplacementLinkResultDiscrepancyReason,
 )
@@ -2120,6 +2242,13 @@ from .store_order_refusal import StoreOrderRefusal
 from .store_order_status import StoreOrderStatus
 from .store_order_store_answer import StoreOrderStoreAnswer
 from .stripe_payment_status import StripePaymentStatus
+from .stripe_payment_status_early_payment import StripePaymentStatusEarlyPayment
+from .stripe_payment_status_early_payment_quote import (
+    StripePaymentStatusEarlyPaymentQuote,
+)
+from .stripe_payment_status_early_payment_quote_currency import (
+    StripePaymentStatusEarlyPaymentQuoteCurrency,
+)
 from .stripe_payment_status_payment_method_type import (
     StripePaymentStatusPaymentMethodType,
 )
@@ -2204,6 +2333,9 @@ from .supplier_credit_note_view_status import SupplierCreditNoteViewStatus
 from .supplier_credit_note_view_submitted_format import (
     SupplierCreditNoteViewSubmittedFormat,
 )
+from .supplier_held_back_view import SupplierHeldBackView
+from .supplier_held_back_view_paid_later import SupplierHeldBackViewPaidLater
+from .supplier_held_back_view_state import SupplierHeldBackViewState
 from .supplier_payment_problem_view import SupplierPaymentProblemView
 from .supplier_payment_problem_view_answer import SupplierPaymentProblemViewAnswer
 from .supplier_payment_problem_view_kind import SupplierPaymentProblemViewKind
@@ -2283,6 +2415,7 @@ from .webhook_delivery_type import WebhookDeliveryType
 from .webhook_endpoint_view import WebhookEndpointView
 from .webhook_endpoint_view_events_item import WebhookEndpointViewEventsItem
 from .webhook_endpoint_view_last_error_code import WebhookEndpointViewLastErrorCode
+from .zoom_connection_input import ZoomConnectionInput
 
 __all__ = (
     "AddAiProviderSupplierResult",
@@ -2296,6 +2429,7 @@ __all__ = (
     "AddCloudProviderAsSupplierResultOrigin",
     "AddCloudProviderAsSupplierResultStatus",
     "AddInvoiceReplacementLinksResult",
+    "AddInvoiceReplacementLinksResultCloudProvider",
     "AddInvoiceReplacementLinksResultDiscrepancyReason",
     "AddInvoiceReplacementLinksResultDocumentType",
     "AddInvoiceReplacementLinksResultDueDateSource",
@@ -2370,6 +2504,7 @@ __all__ = (
     "AiProviderProvider",
     "AiProviderSnowflake",
     "AiProviderStatus",
+    "AiProviderZoom",
     "AiPurchaseOrderLineRemaining",
     "AiRateCardEntry",
     "AiRateCardEntryInvoicer",
@@ -2606,8 +2741,10 @@ __all__ = (
     "CloudConnectionPage",
     "CloudConnectionProvider",
     "CloudConnectionStatus",
+    "CloudServiceCost",
     "CloudSetupView",
     "CloudSetupViewState",
+    "CloudUsageLine",
     "CommentMeetingAttendee",
     "CommentMeetingAttendeeSide",
     "CommentMeetingInput",
@@ -2667,6 +2804,7 @@ __all__ = (
     "CreateInvoiceResultBuyerCreditNoteStatus",
     "CreateInvoiceResultBuyerCreditNoteSubmittedFormat",
     "CreateInvoiceResultBuyerInvoice",
+    "CreateInvoiceResultBuyerInvoiceCloudProvider",
     "CreateInvoiceResultBuyerInvoiceDiscrepancyReason",
     "CreateInvoiceResultBuyerInvoiceDocumentType",
     "CreateInvoiceResultBuyerInvoiceDueDateSource",
@@ -2703,6 +2841,7 @@ __all__ = (
     "CreateInvoiceResultSupplierCreditNoteStatus",
     "CreateInvoiceResultSupplierCreditNoteSubmittedFormat",
     "CreateInvoiceResultSupplierInvoice",
+    "CreateInvoiceResultSupplierInvoiceCloudProvider",
     "CreateInvoiceResultSupplierInvoiceDocumentType",
     "CreateInvoiceResultSupplierInvoiceDueDateSource",
     "CreateInvoiceResultSupplierInvoiceEnteredBy",
@@ -2711,20 +2850,24 @@ __all__ = (
     "CreateInvoiceResultSupplierInvoicePartyDetails",
     "CreateInvoiceResultSupplierInvoicePaymentRoute",
     "CreateInvoiceResultSupplierInvoicePaymentType0",
+    "CreateInvoiceResultSupplierInvoicePaymentType0EarlyPaymentDiscount",
     "CreateInvoiceResultSupplierInvoicePaymentType0Method",
     "CreateInvoiceResultSupplierInvoicePaymentType0PaidAmount",
     "CreateInvoiceResultSupplierInvoicePaymentType0Status",
     "CreateInvoiceResultSupplierInvoicePaymentType1",
+    "CreateInvoiceResultSupplierInvoicePaymentType1EarlyPaymentDiscount",
     "CreateInvoiceResultSupplierInvoicePaymentType1PaymentMethodType",
     "CreateInvoiceResultSupplierInvoicePaymentType1State",
     "CreateInvoiceResultSupplierInvoicePaymentType1Status",
     "CreateInvoiceResultSupplierInvoiceSource",
     "CreateInvoiceResultSupplierInvoiceSubmittedFormat",
     "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0",
+    "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount",
     "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0Method",
     "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0PaidAmount",
     "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType0Status",
     "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1",
+    "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1EarlyPaymentDiscount",
     "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1PaymentMethodType",
     "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1State",
     "CreateInvoiceResultSupplierInvoiceWithdrawnPaymentType1Status",
@@ -2782,6 +2925,7 @@ __all__ = (
     "FeedValidationResultFindingsItem",
     "FeedValidationResultFindingsItemCode",
     "FeedValidationResultInvoice",
+    "FeedValidationResultInvoiceCloudProvider",
     "FeedValidationResultInvoiceDocumentType",
     "FeedValidationResultInvoiceDueDateSource",
     "FeedValidationResultInvoiceEnteredBy",
@@ -2790,19 +2934,23 @@ __all__ = (
     "FeedValidationResultInvoicePartyDetails",
     "FeedValidationResultInvoicePaymentRoute",
     "FeedValidationResultInvoicePaymentType0",
+    "FeedValidationResultInvoicePaymentType0EarlyPaymentDiscount",
     "FeedValidationResultInvoicePaymentType0Method",
     "FeedValidationResultInvoicePaymentType0PaidAmount",
     "FeedValidationResultInvoicePaymentType0Status",
     "FeedValidationResultInvoicePaymentType1",
+    "FeedValidationResultInvoicePaymentType1EarlyPaymentDiscount",
     "FeedValidationResultInvoicePaymentType1PaymentMethodType",
     "FeedValidationResultInvoicePaymentType1State",
     "FeedValidationResultInvoicePaymentType1Status",
     "FeedValidationResultInvoiceSubmittedFormat",
     "FeedValidationResultInvoiceWithdrawnPaymentType0",
+    "FeedValidationResultInvoiceWithdrawnPaymentType0EarlyPaymentDiscount",
     "FeedValidationResultInvoiceWithdrawnPaymentType0Method",
     "FeedValidationResultInvoiceWithdrawnPaymentType0PaidAmount",
     "FeedValidationResultInvoiceWithdrawnPaymentType0Status",
     "FeedValidationResultInvoiceWithdrawnPaymentType1",
+    "FeedValidationResultInvoiceWithdrawnPaymentType1EarlyPaymentDiscount",
     "FeedValidationResultInvoiceWithdrawnPaymentType1PaymentMethodType",
     "FeedValidationResultInvoiceWithdrawnPaymentType1State",
     "FeedValidationResultInvoiceWithdrawnPaymentType1Status",
@@ -2884,6 +3032,7 @@ __all__ = (
     "GetInvoiceResultBuyerCreditNoteStatus",
     "GetInvoiceResultBuyerCreditNoteSubmittedFormat",
     "GetInvoiceResultBuyerInvoice",
+    "GetInvoiceResultBuyerInvoiceCloudProvider",
     "GetInvoiceResultBuyerInvoiceDiscrepancyReason",
     "GetInvoiceResultBuyerInvoiceDocumentType",
     "GetInvoiceResultBuyerInvoiceDueDateSource",
@@ -2920,6 +3069,7 @@ __all__ = (
     "GetInvoiceResultSupplierCreditNoteStatus",
     "GetInvoiceResultSupplierCreditNoteSubmittedFormat",
     "GetInvoiceResultSupplierInvoice",
+    "GetInvoiceResultSupplierInvoiceCloudProvider",
     "GetInvoiceResultSupplierInvoiceDocumentType",
     "GetInvoiceResultSupplierInvoiceDueDateSource",
     "GetInvoiceResultSupplierInvoiceEnteredBy",
@@ -2928,20 +3078,24 @@ __all__ = (
     "GetInvoiceResultSupplierInvoicePartyDetails",
     "GetInvoiceResultSupplierInvoicePaymentRoute",
     "GetInvoiceResultSupplierInvoicePaymentType0",
+    "GetInvoiceResultSupplierInvoicePaymentType0EarlyPaymentDiscount",
     "GetInvoiceResultSupplierInvoicePaymentType0Method",
     "GetInvoiceResultSupplierInvoicePaymentType0PaidAmount",
     "GetInvoiceResultSupplierInvoicePaymentType0Status",
     "GetInvoiceResultSupplierInvoicePaymentType1",
+    "GetInvoiceResultSupplierInvoicePaymentType1EarlyPaymentDiscount",
     "GetInvoiceResultSupplierInvoicePaymentType1PaymentMethodType",
     "GetInvoiceResultSupplierInvoicePaymentType1State",
     "GetInvoiceResultSupplierInvoicePaymentType1Status",
     "GetInvoiceResultSupplierInvoiceSource",
     "GetInvoiceResultSupplierInvoiceSubmittedFormat",
     "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0",
+    "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount",
     "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0Method",
     "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0PaidAmount",
     "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType0Status",
     "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1",
+    "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1EarlyPaymentDiscount",
     "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1PaymentMethodType",
     "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1State",
     "GetInvoiceResultSupplierInvoiceWithdrawnPaymentType1Status",
@@ -3000,6 +3154,7 @@ __all__ = (
     "InvoiceBreakdownEntry",
     "InvoiceBreakdownGroup",
     "InvoiceBuyerView",
+    "InvoiceBuyerViewCloudProvider",
     "InvoiceBuyerViewDiscrepancyReason",
     "InvoiceBuyerViewDocumentType",
     "InvoiceBuyerViewDueDateSource",
@@ -3024,6 +3179,10 @@ __all__ = (
     "InvoiceCounterpartyCloudProvider",
     "InvoiceCounterpartyFeedReadiness",
     "InvoiceCounterpartyOpenPurchaseOrdersItem",
+    "InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType0",
+    "InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType0From",
+    "InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType1",
+    "InvoiceCounterpartyOpenPurchaseOrdersItemDefaultDueRuleType1From",
     "InvoiceCounterpartyOpenPurchaseOrdersItemLinesItem",
     "InvoiceCreditApplication",
     "InvoiceCurrencyAmount",
@@ -3034,6 +3193,10 @@ __all__ = (
     "InvoiceDeductionInputKind",
     "InvoiceDeductionKind",
     "InvoiceDuplicateRef",
+    "InvoiceEarlyPayment",
+    "InvoiceHeldBack",
+    "InvoiceHeldBackPaidLater",
+    "InvoiceHeldBackState",
     "InvoiceLineItem",
     "InvoiceLineItemAi",
     "InvoiceLineItemAiInvoicer",
@@ -3044,6 +3207,7 @@ __all__ = (
     "InvoicePaymentProblemAnswer",
     "InvoicePaymentProblemKind",
     "InvoicePaymentRecord",
+    "InvoicePaymentRecordEarlyPaymentDiscount",
     "InvoicePaymentRecordMethod",
     "InvoicePaymentRecordPaidAmount",
     "InvoicePaymentRecordStatus",
@@ -3071,9 +3235,11 @@ __all__ = (
     "InvoiceStatusViewStatus",
     "InvoiceStatusViewTotal",
     "InvoiceStripePayment",
+    "InvoiceStripePaymentEarlyPaymentDiscount",
     "InvoiceStripePaymentPaymentMethodType",
     "InvoiceStripePaymentState",
     "InvoiceSupplierView",
+    "InvoiceSupplierViewCloudProvider",
     "InvoiceSupplierViewDocumentType",
     "InvoiceSupplierViewDueDateSource",
     "InvoiceSupplierViewEnteredBy",
@@ -3082,23 +3248,28 @@ __all__ = (
     "InvoiceSupplierViewPartyDetails",
     "InvoiceSupplierViewPaymentRoute",
     "InvoiceSupplierViewPaymentType0",
+    "InvoiceSupplierViewPaymentType0EarlyPaymentDiscount",
     "InvoiceSupplierViewPaymentType0Method",
     "InvoiceSupplierViewPaymentType0PaidAmount",
     "InvoiceSupplierViewPaymentType0Status",
     "InvoiceSupplierViewPaymentType1",
+    "InvoiceSupplierViewPaymentType1EarlyPaymentDiscount",
     "InvoiceSupplierViewPaymentType1PaymentMethodType",
     "InvoiceSupplierViewPaymentType1State",
     "InvoiceSupplierViewPaymentType1Status",
     "InvoiceSupplierViewSource",
     "InvoiceSupplierViewSubmittedFormat",
     "InvoiceSupplierViewWithdrawnPaymentType0",
+    "InvoiceSupplierViewWithdrawnPaymentType0EarlyPaymentDiscount",
     "InvoiceSupplierViewWithdrawnPaymentType0Method",
     "InvoiceSupplierViewWithdrawnPaymentType0PaidAmount",
     "InvoiceSupplierViewWithdrawnPaymentType0Status",
     "InvoiceSupplierViewWithdrawnPaymentType1",
+    "InvoiceSupplierViewWithdrawnPaymentType1EarlyPaymentDiscount",
     "InvoiceSupplierViewWithdrawnPaymentType1PaymentMethodType",
     "InvoiceSupplierViewWithdrawnPaymentType1State",
     "InvoiceSupplierViewWithdrawnPaymentType1Status",
+    "InvoiceUsageLine",
     "LateFeeTerms",
     "LateFeeTermsBasis",
     "LateFeeTermsInterest",
@@ -3152,6 +3323,7 @@ __all__ = (
     "ListInvoicesItemBuyerCreditNoteStatus",
     "ListInvoicesItemBuyerCreditNoteSubmittedFormat",
     "ListInvoicesItemBuyerInvoice",
+    "ListInvoicesItemBuyerInvoiceCloudProvider",
     "ListInvoicesItemBuyerInvoiceDiscrepancyReason",
     "ListInvoicesItemBuyerInvoiceDocumentType",
     "ListInvoicesItemBuyerInvoiceDueDateSource",
@@ -3188,6 +3360,7 @@ __all__ = (
     "ListInvoicesItemSupplierCreditNoteStatus",
     "ListInvoicesItemSupplierCreditNoteSubmittedFormat",
     "ListInvoicesItemSupplierInvoice",
+    "ListInvoicesItemSupplierInvoiceCloudProvider",
     "ListInvoicesItemSupplierInvoiceDocumentType",
     "ListInvoicesItemSupplierInvoiceDueDateSource",
     "ListInvoicesItemSupplierInvoiceEnteredBy",
@@ -3196,20 +3369,24 @@ __all__ = (
     "ListInvoicesItemSupplierInvoicePartyDetails",
     "ListInvoicesItemSupplierInvoicePaymentRoute",
     "ListInvoicesItemSupplierInvoicePaymentType0",
+    "ListInvoicesItemSupplierInvoicePaymentType0EarlyPaymentDiscount",
     "ListInvoicesItemSupplierInvoicePaymentType0Method",
     "ListInvoicesItemSupplierInvoicePaymentType0PaidAmount",
     "ListInvoicesItemSupplierInvoicePaymentType0Status",
     "ListInvoicesItemSupplierInvoicePaymentType1",
+    "ListInvoicesItemSupplierInvoicePaymentType1EarlyPaymentDiscount",
     "ListInvoicesItemSupplierInvoicePaymentType1PaymentMethodType",
     "ListInvoicesItemSupplierInvoicePaymentType1State",
     "ListInvoicesItemSupplierInvoicePaymentType1Status",
     "ListInvoicesItemSupplierInvoiceSource",
     "ListInvoicesItemSupplierInvoiceSubmittedFormat",
     "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0",
+    "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount",
     "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0Method",
     "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0PaidAmount",
     "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0Status",
     "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1",
+    "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1EarlyPaymentDiscount",
     "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1PaymentMethodType",
     "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1State",
     "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType1Status",
@@ -3258,6 +3435,7 @@ __all__ = (
     "PaymentHistoryEntry",
     "PaymentHistoryEntryAction",
     "PaymentHistoryEntryRecord",
+    "PaymentHistoryEntryRecordEarlyPaymentDiscount",
     "PaymentHistoryEntryRecordMethod",
     "PaymentHistoryEntryRecordPaidAmount",
     "PostalAddress",
@@ -3356,6 +3534,7 @@ __all__ = (
     "RecordPaymentItemInput",
     "RecordPaymentItemInputMethod",
     "RecordPaymentResult",
+    "RecordPaymentResultCloudProvider",
     "RecordPaymentResultDiscrepancyReason",
     "RecordPaymentResultDocumentType",
     "RecordPaymentResultDueDateSource",
@@ -3397,6 +3576,7 @@ __all__ = (
     "RemittanceView",
     "RemittanceViewAmountDue",
     "RemittanceViewPayment",
+    "RemittanceViewPaymentEarlyPaymentDiscount",
     "RemittanceViewPaymentMethod",
     "RemittanceViewPaymentNetPaid",
     "RemittanceViewPaymentPaidInOtherCurrency",
@@ -3406,6 +3586,7 @@ __all__ = (
     "RemittanceViewStatus",
     "RemoveAiLimitCredentialResult",
     "RemoveInvoiceReplacementLinkResult",
+    "RemoveInvoiceReplacementLinkResultCloudProvider",
     "RemoveInvoiceReplacementLinkResultDiscrepancyReason",
     "RemoveInvoiceReplacementLinkResultDocumentType",
     "RemoveInvoiceReplacementLinkResultDueDateSource",
@@ -3569,6 +3750,9 @@ __all__ = (
     "StoreOrderStatus",
     "StoreOrderStoreAnswer",
     "StripePaymentStatus",
+    "StripePaymentStatusEarlyPayment",
+    "StripePaymentStatusEarlyPaymentQuote",
+    "StripePaymentStatusEarlyPaymentQuoteCurrency",
     "StripePaymentStatusPaymentMethodType",
     "StripePaymentStatusQuote",
     "StripePaymentStatusQuoteCurrency",
@@ -3615,6 +3799,9 @@ __all__ = (
     "SupplierCreditNoteViewSource",
     "SupplierCreditNoteViewStatus",
     "SupplierCreditNoteViewSubmittedFormat",
+    "SupplierHeldBackView",
+    "SupplierHeldBackViewPaidLater",
+    "SupplierHeldBackViewState",
     "SupplierPaymentProblemView",
     "SupplierPaymentProblemViewAnswer",
     "SupplierPaymentProblemViewKind",
@@ -3676,4 +3863,5 @@ __all__ = (
     "WebhookEndpointView",
     "WebhookEndpointViewEventsItem",
     "WebhookEndpointViewLastErrorCode",
+    "ZoomConnectionInput",
 )

@@ -25,6 +25,8 @@ module Pleaxy
 
     attr_accessor :github
 
+    attr_accessor :zoom
+
     attr_accessor :credit_price
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -35,6 +37,7 @@ module Pleaxy
         :'snowflake' => :'snowflake',
         :'databricks' => :'databricks',
         :'github' => :'github',
+        :'zoom' => :'zoom',
         :'credit_price' => :'creditPrice'
       }
     end
@@ -52,6 +55,7 @@ module Pleaxy
         :'snowflake' => :'SnowflakeConnectionInput',
         :'databricks' => :'DatabricksConnectionInput',
         :'github' => :'GitHubConnectionInput',
+        :'zoom' => :'ZoomConnectionInput',
         :'credit_price' => :'CreditPriceInput'
       }
     end
@@ -97,6 +101,10 @@ module Pleaxy
 
       if attributes.key?(:'github')
         self.github = attributes[:'github']
+      end
+
+      if attributes.key?(:'zoom')
+        self.zoom = attributes[:'zoom']
       end
 
       if attributes.key?(:'credit_price')
@@ -172,6 +180,7 @@ module Pleaxy
           snowflake == o.snowflake &&
           databricks == o.databricks &&
           github == o.github &&
+          zoom == o.zoom &&
           credit_price == o.credit_price
     end
 
@@ -184,7 +193,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [provider, key, snowflake, databricks, github, credit_price].hash
+      [provider, key, snowflake, databricks, github, zoom, credit_price].hash
     end
 
     # Builds the object from hash

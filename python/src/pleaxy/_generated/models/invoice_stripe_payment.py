@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -12,6 +12,12 @@ from ..models.invoice_stripe_payment_state import (
     check_invoice_stripe_payment_state,
 )
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.invoice_stripe_payment_early_payment_discount import (
+        InvoiceStripePaymentEarlyPaymentDiscount,
+    )
+
 
 T = TypeVar("T", bound="InvoiceStripePayment")
 
@@ -32,6 +38,8 @@ class InvoiceStripePayment:
         started_by (Union[Unset, str]):
         started_by_name (Union[Unset, str]):
         succeeded_at (Union[Unset, str]):
+        early_payment_discount (Union[Unset, InvoiceStripePaymentEarlyPaymentDiscount]):
+        initiated_date (Union[Unset, str]):
     """
 
     account_id: Union[Unset, str] = UNSET
@@ -46,6 +54,10 @@ class InvoiceStripePayment:
     started_by: Union[Unset, str] = UNSET
     started_by_name: Union[Unset, str] = UNSET
     succeeded_at: Union[Unset, str] = UNSET
+    early_payment_discount: Union[Unset, "InvoiceStripePaymentEarlyPaymentDiscount"] = (
+        UNSET
+    )
+    initiated_date: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -77,6 +89,12 @@ class InvoiceStripePayment:
 
         succeeded_at = self.succeeded_at
 
+        early_payment_discount: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.early_payment_discount, Unset):
+            early_payment_discount = self.early_payment_discount.to_dict()
+
+        initiated_date = self.initiated_date
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -104,11 +122,19 @@ class InvoiceStripePayment:
             field_dict["startedByName"] = started_by_name
         if succeeded_at is not UNSET:
             field_dict["succeededAt"] = succeeded_at
+        if early_payment_discount is not UNSET:
+            field_dict["earlyPaymentDiscount"] = early_payment_discount
+        if initiated_date is not UNSET:
+            field_dict["initiatedDate"] = initiated_date
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.invoice_stripe_payment_early_payment_discount import (
+            InvoiceStripePaymentEarlyPaymentDiscount,
+        )
+
         d = src_dict.copy()
         account_id = d.pop("accountId", UNSET)
 
@@ -146,6 +172,17 @@ class InvoiceStripePayment:
 
         succeeded_at = d.pop("succeededAt", UNSET)
 
+        _early_payment_discount = d.pop("earlyPaymentDiscount", UNSET)
+        early_payment_discount: Union[Unset, InvoiceStripePaymentEarlyPaymentDiscount]
+        if isinstance(_early_payment_discount, Unset):
+            early_payment_discount = UNSET
+        else:
+            early_payment_discount = InvoiceStripePaymentEarlyPaymentDiscount.from_dict(
+                _early_payment_discount
+            )
+
+        initiated_date = d.pop("initiatedDate", UNSET)
+
         invoice_stripe_payment = cls(
             account_id=account_id,
             checkout_session_id=checkout_session_id,
@@ -159,6 +196,8 @@ class InvoiceStripePayment:
             started_by=started_by,
             started_by_name=started_by_name,
             succeeded_at=succeeded_at,
+            early_payment_discount=early_payment_discount,
+            initiated_date=initiated_date,
         )
 
         invoice_stripe_payment.additional_properties = d

@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.InvoicePaymentRecordEarlyPaymentDiscount;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -44,7 +45,9 @@ import ai.pleaxy.client.ApiClient;
   InvoiceStripePayment.JSON_PROPERTY_STARTED_AT,
   InvoiceStripePayment.JSON_PROPERTY_STARTED_BY,
   InvoiceStripePayment.JSON_PROPERTY_STARTED_BY_NAME,
-  InvoiceStripePayment.JSON_PROPERTY_SUCCEEDED_AT
+  InvoiceStripePayment.JSON_PROPERTY_SUCCEEDED_AT,
+  InvoiceStripePayment.JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT,
+  InvoiceStripePayment.JSON_PROPERTY_INITIATED_DATE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class InvoiceStripePayment {
@@ -167,6 +170,14 @@ public class InvoiceStripePayment {
   public static final String JSON_PROPERTY_SUCCEEDED_AT = "succeededAt";
   @javax.annotation.Nullable
   private String succeededAt;
+
+  public static final String JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT = "earlyPaymentDiscount";
+  @javax.annotation.Nullable
+  private InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount;
+
+  public static final String JSON_PROPERTY_INITIATED_DATE = "initiatedDate";
+  @javax.annotation.Nullable
+  private String initiatedDate;
 
   public InvoiceStripePayment() { 
   }
@@ -459,6 +470,54 @@ public class InvoiceStripePayment {
   }
 
 
+  public InvoiceStripePayment earlyPaymentDiscount(@javax.annotation.Nullable InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount) {
+    this.earlyPaymentDiscount = earlyPaymentDiscount;
+    return this;
+  }
+
+  /**
+   * Get earlyPaymentDiscount
+   * @return earlyPaymentDiscount
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoicePaymentRecordEarlyPaymentDiscount getEarlyPaymentDiscount() {
+    return earlyPaymentDiscount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEarlyPaymentDiscount(@javax.annotation.Nullable InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount) {
+    this.earlyPaymentDiscount = earlyPaymentDiscount;
+  }
+
+
+  public InvoiceStripePayment initiatedDate(@javax.annotation.Nullable String initiatedDate) {
+    this.initiatedDate = initiatedDate;
+    return this;
+  }
+
+  /**
+   * Get initiatedDate
+   * @return initiatedDate
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_INITIATED_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getInitiatedDate() {
+    return initiatedDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_INITIATED_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setInitiatedDate(@javax.annotation.Nullable String initiatedDate) {
+    this.initiatedDate = initiatedDate;
+  }
+
+
   /**
    * Return true if this InvoiceStripePayment object is equal to o.
    */
@@ -482,12 +541,14 @@ public class InvoiceStripePayment {
         Objects.equals(this.startedAt, invoiceStripePayment.startedAt) &&
         Objects.equals(this.startedBy, invoiceStripePayment.startedBy) &&
         Objects.equals(this.startedByName, invoiceStripePayment.startedByName) &&
-        Objects.equals(this.succeededAt, invoiceStripePayment.succeededAt);
+        Objects.equals(this.succeededAt, invoiceStripePayment.succeededAt) &&
+        Objects.equals(this.earlyPaymentDiscount, invoiceStripePayment.earlyPaymentDiscount) &&
+        Objects.equals(this.initiatedDate, invoiceStripePayment.initiatedDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(accountId, checkoutSessionId, checkoutExpiresAt, feeCents, totalCents, state, paymentIntentId, paymentMethodType, startedAt, startedBy, startedByName, succeededAt);
+    return Objects.hash(accountId, checkoutSessionId, checkoutExpiresAt, feeCents, totalCents, state, paymentIntentId, paymentMethodType, startedAt, startedBy, startedByName, succeededAt, earlyPaymentDiscount, initiatedDate);
   }
 
   @Override
@@ -506,6 +567,8 @@ public class InvoiceStripePayment {
     sb.append("    startedBy: ").append(toIndentedString(startedBy)).append("\n");
     sb.append("    startedByName: ").append(toIndentedString(startedByName)).append("\n");
     sb.append("    succeededAt: ").append(toIndentedString(succeededAt)).append("\n");
+    sb.append("    earlyPaymentDiscount: ").append(toIndentedString(earlyPaymentDiscount)).append("\n");
+    sb.append("    initiatedDate: ").append(toIndentedString(initiatedDate)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -611,6 +674,16 @@ public class InvoiceStripePayment {
     // add `succeededAt` to the URL query string
     if (getSucceededAt() != null) {
       joiner.add(String.format("%ssucceededAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSucceededAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `earlyPaymentDiscount` to the URL query string
+    if (getEarlyPaymentDiscount() != null) {
+      joiner.add(getEarlyPaymentDiscount().toUrlQueryString(prefix + "earlyPaymentDiscount" + suffix));
+    }
+
+    // add `initiatedDate` to the URL query string
+    if (getInitiatedDate() != null) {
+      joiner.add(String.format("%sinitiatedDate%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInitiatedDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

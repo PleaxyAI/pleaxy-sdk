@@ -39,6 +39,10 @@ module Pleaxy
 
     attr_accessor :succeeded_at
 
+    attr_accessor :early_payment_discount
+
+    attr_accessor :initiated_date
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -75,7 +79,9 @@ module Pleaxy
         :'started_at' => :'startedAt',
         :'started_by' => :'startedBy',
         :'started_by_name' => :'startedByName',
-        :'succeeded_at' => :'succeededAt'
+        :'succeeded_at' => :'succeededAt',
+        :'early_payment_discount' => :'earlyPaymentDiscount',
+        :'initiated_date' => :'initiatedDate'
       }
     end
 
@@ -98,7 +104,9 @@ module Pleaxy
         :'started_at' => :'String',
         :'started_by' => :'String',
         :'started_by_name' => :'String',
-        :'succeeded_at' => :'String'
+        :'succeeded_at' => :'String',
+        :'early_payment_discount' => :'InvoicePaymentRecordEarlyPaymentDiscount',
+        :'initiated_date' => :'String'
       }
     end
 
@@ -170,6 +178,14 @@ module Pleaxy
       if attributes.key?(:'succeeded_at')
         self.succeeded_at = attributes[:'succeeded_at']
       end
+
+      if attributes.key?(:'early_payment_discount')
+        self.early_payment_discount = attributes[:'early_payment_discount']
+      end
+
+      if attributes.key?(:'initiated_date')
+        self.initiated_date = attributes[:'initiated_date']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -227,7 +243,9 @@ module Pleaxy
           started_at == o.started_at &&
           started_by == o.started_by &&
           started_by_name == o.started_by_name &&
-          succeeded_at == o.succeeded_at
+          succeeded_at == o.succeeded_at &&
+          early_payment_discount == o.early_payment_discount &&
+          initiated_date == o.initiated_date
     end
 
     # @see the `==` method
@@ -239,7 +257,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [account_id, checkout_session_id, checkout_expires_at, fee_cents, total_cents, state, payment_intent_id, payment_method_type, started_at, started_by, started_by_name, succeeded_at].hash
+      [account_id, checkout_session_id, checkout_expires_at, fee_cents, total_cents, state, payment_intent_id, payment_method_type, started_at, started_by, started_by_name, succeeded_at, early_payment_discount, initiated_date].hash
     end
 
     # Builds the object from hash

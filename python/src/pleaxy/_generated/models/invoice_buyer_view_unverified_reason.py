@@ -5,6 +5,7 @@ InvoiceBuyerViewUnverifiedReason = Literal[
     "no_billing_connection",
     "no_po_first_invoice",
     "no_purchase_order",
+    "no_usage_figure",
     "payer_account_unclear",
 ]
 
@@ -13,6 +14,7 @@ INVOICE_BUYER_VIEW_UNVERIFIED_REASON_VALUES: Set[InvoiceBuyerViewUnverifiedReaso
     "no_billing_connection",
     "no_po_first_invoice",
     "no_purchase_order",
+    "no_usage_figure",
     "payer_account_unclear",
 }
 

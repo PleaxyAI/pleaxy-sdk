@@ -51,10 +51,10 @@ class CreateCloudConnectionInput:
             one of the regions POST .../oci/init lists.
         azure_connection_id (Union[Unset, str]): Azure only, when its connector is on - the connectionId returned by
             POST .../cloud-connections/azure/init. The audience is looked up server-side, never taken from the client.
-        azure_billing_account_id (Union[Unset, str]): Azure only - the billing account of the billing profile picked
-            from POST .../azure/discover (<guid>:<guid>_YYYY-MM-DD).
+        azure_billing_account_id (Union[Unset, str]): Azure only - the billing account of the scope picked from POST
+            .../azure/discover: an MCA account (<guid>:<guid>_YYYY-MM-DD) or an Enterprise Agreement enrollment number.
         azure_billing_profile_id (Union[Unset, str]): Azure only - the billing profile picked from POST
-            .../azure/discover.
+            .../azure/discover. Left out for an Enterprise Agreement enrollment.
         azure_tenant_id (Union[Unset, str]): Not accepted here: verify uses only the tenant ID that POST
             .../azure/discover proved. Declared so that a request carrying it is refused (400) rather than silently
             stripped.

@@ -45,6 +45,7 @@ import ai.pleaxy.client.ApiClient;
   RecordPaymentInput.JSON_PROPERTY_RATE,
   RecordPaymentInput.JSON_PROPERTY_RATE_DATE,
   RecordPaymentInput.JSON_PROPERTY_WITHHOLDINGS,
+  RecordPaymentInput.JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT,
   RecordPaymentInput.JSON_PROPERTY_REMITTANCE,
   RecordPaymentInput.JSON_PROPERTY_CONFIRM_REPLACED
 })
@@ -122,6 +123,10 @@ public class RecordPaymentInput {
   public static final String JSON_PROPERTY_WITHHOLDINGS = "withholdings";
   @javax.annotation.Nullable
   private List<BreakdownEntryInput> withholdings = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT = "earlyPaymentDiscount";
+  @javax.annotation.Nullable
+  private Boolean earlyPaymentDiscount;
 
   public static final String JSON_PROPERTY_REMITTANCE = "remittance";
   @javax.annotation.Nullable
@@ -336,6 +341,30 @@ public class RecordPaymentInput {
   }
 
 
+  public RecordPaymentInput earlyPaymentDiscount(@javax.annotation.Nullable Boolean earlyPaymentDiscount) {
+    this.earlyPaymentDiscount = earlyPaymentDiscount;
+    return this;
+  }
+
+  /**
+   * Get earlyPaymentDiscount
+   * @return earlyPaymentDiscount
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getEarlyPaymentDiscount() {
+    return earlyPaymentDiscount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEarlyPaymentDiscount(@javax.annotation.Nullable Boolean earlyPaymentDiscount) {
+    this.earlyPaymentDiscount = earlyPaymentDiscount;
+  }
+
+
   public RecordPaymentInput remittance(@javax.annotation.Nullable SendRemittanceInput remittance) {
     this.remittance = remittance;
     return this;
@@ -404,13 +433,14 @@ public class RecordPaymentInput {
         Objects.equals(this.rate, recordPaymentInput.rate) &&
         Objects.equals(this.rateDate, recordPaymentInput.rateDate) &&
         Objects.equals(this.withholdings, recordPaymentInput.withholdings) &&
+        Objects.equals(this.earlyPaymentDiscount, recordPaymentInput.earlyPaymentDiscount) &&
         Objects.equals(this.remittance, recordPaymentInput.remittance) &&
         Objects.equals(this.confirmReplaced, recordPaymentInput.confirmReplaced);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(method, paymentDate, reference, amount, currency, rate, rateDate, withholdings, remittance, confirmReplaced);
+    return Objects.hash(method, paymentDate, reference, amount, currency, rate, rateDate, withholdings, earlyPaymentDiscount, remittance, confirmReplaced);
   }
 
   @Override
@@ -425,6 +455,7 @@ public class RecordPaymentInput {
     sb.append("    rate: ").append(toIndentedString(rate)).append("\n");
     sb.append("    rateDate: ").append(toIndentedString(rateDate)).append("\n");
     sb.append("    withholdings: ").append(toIndentedString(withholdings)).append("\n");
+    sb.append("    earlyPaymentDiscount: ").append(toIndentedString(earlyPaymentDiscount)).append("\n");
     sb.append("    remittance: ").append(toIndentedString(remittance)).append("\n");
     sb.append("    confirmReplaced: ").append(toIndentedString(confirmReplaced)).append("\n");
     sb.append("}");
@@ -517,6 +548,11 @@ public class RecordPaymentInput {
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
+    }
+
+    // add `earlyPaymentDiscount` to the URL query string
+    if (getEarlyPaymentDiscount() != null) {
+      joiner.add(String.format("%searlyPaymentDiscount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEarlyPaymentDiscount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `remittance` to the URL query string

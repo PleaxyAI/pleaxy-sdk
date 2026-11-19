@@ -68,7 +68,9 @@ public class CloudConnectionBillingPreviousFinalizedInvoice {
     
     OSP_INVOICE(String.valueOf("osp_invoice")),
     
-    FOCUS_EXPORT(String.valueOf("focus_export"));
+    FOCUS_EXPORT(String.valueOf("focus_export")),
+    
+    COST_EXPLORER_MONTH(String.valueOf("cost_explorer_month"));
 
     private String value;
 

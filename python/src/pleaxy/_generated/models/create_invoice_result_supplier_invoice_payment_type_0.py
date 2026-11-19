@@ -14,6 +14,9 @@ from ..models.create_invoice_result_supplier_invoice_payment_type_0_status impor
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.create_invoice_result_supplier_invoice_payment_type_0_early_payment_discount import (
+        CreateInvoiceResultSupplierInvoicePaymentType0EarlyPaymentDiscount,
+    )
     from ..models.create_invoice_result_supplier_invoice_payment_type_0_paid_amount import (
         CreateInvoiceResultSupplierInvoicePaymentType0PaidAmount,
     )
@@ -34,6 +37,7 @@ class CreateInvoiceResultSupplierInvoicePaymentType0:
         recorded_at (Union[Unset, str]):
         advice_version (Union[Unset, float]):
         paid_amount (Union[Unset, CreateInvoiceResultSupplierInvoicePaymentType0PaidAmount]):
+        early_payment_discount (Union[Unset, CreateInvoiceResultSupplierInvoicePaymentType0EarlyPaymentDiscount]):
         status (Union[Unset, CreateInvoiceResultSupplierInvoicePaymentType0Status]):
     """
 
@@ -45,6 +49,9 @@ class CreateInvoiceResultSupplierInvoicePaymentType0:
     advice_version: Union[Unset, float] = UNSET
     paid_amount: Union[
         Unset, "CreateInvoiceResultSupplierInvoicePaymentType0PaidAmount"
+    ] = UNSET
+    early_payment_discount: Union[
+        Unset, "CreateInvoiceResultSupplierInvoicePaymentType0EarlyPaymentDiscount"
     ] = UNSET
     status: Union[Unset, CreateInvoiceResultSupplierInvoicePaymentType0Status] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -73,6 +80,10 @@ class CreateInvoiceResultSupplierInvoicePaymentType0:
         if not isinstance(self.paid_amount, Unset):
             paid_amount = self.paid_amount.to_dict()
 
+        early_payment_discount: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.early_payment_discount, Unset):
+            early_payment_discount = self.early_payment_discount.to_dict()
+
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
             status = self.status
@@ -94,6 +105,8 @@ class CreateInvoiceResultSupplierInvoicePaymentType0:
             field_dict["adviceVersion"] = advice_version
         if paid_amount is not UNSET:
             field_dict["paidAmount"] = paid_amount
+        if early_payment_discount is not UNSET:
+            field_dict["earlyPaymentDiscount"] = early_payment_discount
         if status is not UNSET:
             field_dict["status"] = status
 
@@ -101,6 +114,9 @@ class CreateInvoiceResultSupplierInvoicePaymentType0:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.create_invoice_result_supplier_invoice_payment_type_0_early_payment_discount import (
+            CreateInvoiceResultSupplierInvoicePaymentType0EarlyPaymentDiscount,
+        )
         from ..models.create_invoice_result_supplier_invoice_payment_type_0_paid_amount import (
             CreateInvoiceResultSupplierInvoicePaymentType0PaidAmount,
         )
@@ -144,6 +160,17 @@ class CreateInvoiceResultSupplierInvoicePaymentType0:
                 )
             )
 
+        _early_payment_discount = d.pop("earlyPaymentDiscount", UNSET)
+        early_payment_discount: Union[
+            Unset, CreateInvoiceResultSupplierInvoicePaymentType0EarlyPaymentDiscount
+        ]
+        if isinstance(_early_payment_discount, Unset):
+            early_payment_discount = UNSET
+        else:
+            early_payment_discount = CreateInvoiceResultSupplierInvoicePaymentType0EarlyPaymentDiscount.from_dict(
+                _early_payment_discount
+            )
+
         _status = d.pop("status", UNSET)
         status: Union[Unset, CreateInvoiceResultSupplierInvoicePaymentType0Status]
         if isinstance(_status, Unset):
@@ -161,6 +188,7 @@ class CreateInvoiceResultSupplierInvoicePaymentType0:
             recorded_at=recorded_at,
             advice_version=advice_version,
             paid_amount=paid_amount,
+            early_payment_discount=early_payment_discount,
             status=status,
         )
 

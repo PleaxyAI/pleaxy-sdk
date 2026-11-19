@@ -22,12 +22,15 @@ pub struct DiscoverAzureScopesInput {
     /// The app registration's Application (client) ID (GUID).
     #[serde(rename = "azureClientId")]
     pub azure_client_id: String,
-    /// The Microsoft Customer Agreement billing account ID (<guid>:<guid>_YYYY-MM-DD). Read directly: an app with only Billing profile reader can't list billing accounts.
+    /// The billing account ID: a Microsoft Customer Agreement account (<guid>:<guid>_YYYY-MM-DD), or an Enterprise Agreement enrollment number (digits). Read directly: an app with only Billing profile reader can't list billing accounts.
     #[serde(rename = "azureBillingAccountId")]
     pub azure_billing_account_id: String,
-    /// The billing profile ID the app has Billing profile reader on.
-    #[serde(rename = "azureBillingProfileId")]
-    pub azure_billing_profile_id: String,
+    /// Microsoft Customer Agreement only: the billing profile ID the app has Billing profile reader on. Left out (or empty) for an Enterprise Agreement enrollment.
+    #[serde(
+        rename = "azureBillingProfileId",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub azure_billing_profile_id: Option<String>,
 }
 
 impl DiscoverAzureScopesInput {
@@ -36,14 +39,13 @@ impl DiscoverAzureScopesInput {
         azure_tenant_id: String,
         azure_client_id: String,
         azure_billing_account_id: String,
-        azure_billing_profile_id: String,
     ) -> DiscoverAzureScopesInput {
         DiscoverAzureScopesInput {
             azure_connection_id,
             azure_tenant_id,
             azure_client_id,
             azure_billing_account_id,
-            azure_billing_profile_id,
+            azure_billing_profile_id: None,
         }
     }
 }

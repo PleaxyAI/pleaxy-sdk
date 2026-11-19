@@ -30,6 +30,8 @@ pub struct AddInvoiceReplacementLinksResult {
     pub supplier_org_id: Option<String>,
     #[serde(rename = "createdAt", skip_serializing_if = "Option::is_none")]
     pub created_at: Option<String>,
+    #[serde(rename = "cloudProvider", skip_serializing_if = "Option::is_none")]
+    pub cloud_provider: Option<CloudProvider>,
     #[serde(rename = "lateFeeTerms", skip_serializing_if = "Option::is_none")]
     pub late_fee_terms: Option<models::LateFeeTerms>,
     #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
@@ -81,6 +83,8 @@ pub struct AddInvoiceReplacementLinksResult {
     pub usage_currency: Option<String>,
     #[serde(rename = "usageSource", skip_serializing_if = "Option::is_none")]
     pub usage_source: Option<UsageSource>,
+    #[serde(rename = "usageLines", skip_serializing_if = "Option::is_none")]
+    pub usage_lines: Option<Vec<models::InvoiceUsageLine>>,
     #[serde(rename = "tolerancePct", skip_serializing_if = "Option::is_none")]
     pub tolerance_pct: Option<f64>,
     #[serde(rename = "matchStatus", skip_serializing_if = "Option::is_none")]
@@ -139,6 +143,8 @@ pub struct AddInvoiceReplacementLinksResult {
     pub previous_exported_at: Option<String>,
     #[serde(rename = "dueDateSource", skip_serializing_if = "Option::is_none")]
     pub due_date_source: Option<DueDateSource>,
+    #[serde(rename = "earlyPayment", skip_serializing_if = "Option::is_none")]
+    pub early_payment: Option<models::InvoiceEarlyPayment>,
     #[serde(rename = "lastRemindedAt", skip_serializing_if = "Option::is_none")]
     pub last_reminded_at: Option<String>,
     #[serde(
@@ -165,6 +171,8 @@ pub struct AddInvoiceReplacementLinksResult {
     pub has_lookup_rows: Option<bool>,
     #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
     pub source: Option<Source>,
+    #[serde(rename = "cloudConnectionId", skip_serializing_if = "Option::is_none")]
+    pub cloud_connection_id: Option<String>,
     #[serde(rename = "enteredBy", skip_serializing_if = "Option::is_none")]
     pub entered_by: Option<EnteredBy>,
     #[serde(rename = "invoiceDate", skip_serializing_if = "Option::is_none")]
@@ -207,6 +215,8 @@ pub struct AddInvoiceReplacementLinksResult {
     pub deductions: Option<Vec<models::InvoiceDeduction>>,
     #[serde(rename = "creditApplications", skip_serializing_if = "Option::is_none")]
     pub credit_applications: Option<Vec<models::InvoiceCreditApplication>>,
+    #[serde(rename = "heldBack", skip_serializing_if = "Option::is_none")]
+    pub held_back: Option<models::InvoiceHeldBack>,
     #[serde(rename = "creditNoteIds", skip_serializing_if = "Option::is_none")]
     pub credit_note_ids: Option<Vec<String>>,
     #[serde(rename = "creditVersion", skip_serializing_if = "Option::is_none")]
@@ -262,6 +272,7 @@ impl AddInvoiceReplacementLinksResult {
             buyer_org_id: None,
             supplier_org_id: None,
             created_at: None,
+            cloud_provider: None,
             late_fee_terms: None,
             amount: None,
             settlement: None,
@@ -283,6 +294,7 @@ impl AddInvoiceReplacementLinksResult {
             usage_simulated_after_disconnect: None,
             usage_currency: None,
             usage_source: None,
+            usage_lines: None,
             tolerance_pct: None,
             match_status: None,
             unverified_reason: None,
@@ -306,6 +318,7 @@ impl AddInvoiceReplacementLinksResult {
             export_available_from: None,
             previous_exported_at: None,
             due_date_source: None,
+            early_payment: None,
             last_reminded_at: None,
             last_approver_reminded_at: None,
             rejection: None,
@@ -316,6 +329,7 @@ impl AddInvoiceReplacementLinksResult {
             duplicates_checked: None,
             has_lookup_rows: None,
             source: None,
+            cloud_connection_id: None,
             entered_by: None,
             invoice_date: None,
             sod_excluded_keys: None,
@@ -334,6 +348,7 @@ impl AddInvoiceReplacementLinksResult {
             invoice_kind: None,
             deductions: None,
             credit_applications: None,
+            held_back: None,
             credit_note_ids: None,
             credit_version: None,
             payment_currency_amount: None,
@@ -353,6 +368,24 @@ impl AddInvoiceReplacementLinksResult {
 }
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum CloudProvider {
+    #[serde(rename = "aws")]
+    Aws,
+    #[serde(rename = "gcp")]
+    Gcp,
+    #[serde(rename = "azure")]
+    Azure,
+    #[serde(rename = "oci")]
+    Oci,
+}
+
+impl Default for CloudProvider {
+    fn default() -> CloudProvider {
+        Self::Aws
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum UsageSource {
     #[serde(rename = "aws_invoice")]
     AwsInvoice,
@@ -368,6 +401,8 @@ pub enum UsageSource {
     OspInvoice,
     #[serde(rename = "focus_export")]
     FocusExport,
+    #[serde(rename = "cost_explorer_month")]
+    CostExplorerMonth,
 }
 
 impl Default for UsageSource {
@@ -406,6 +441,8 @@ pub enum UnverifiedReason {
     PayerAccountUnclear,
     #[serde(rename = "no_po_first_invoice")]
     NoPoFirstInvoice,
+    #[serde(rename = "no_usage_figure")]
+    NoUsageFigure,
 }
 
 impl Default for UnverifiedReason {
@@ -500,6 +537,8 @@ pub enum Source {
     Direct,
     #[serde(rename = "feed")]
     Feed,
+    #[serde(rename = "cloud_sync")]
+    CloudSync,
 }
 
 impl Default for Source {

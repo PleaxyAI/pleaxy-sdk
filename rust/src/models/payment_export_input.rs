@@ -17,6 +17,13 @@ pub struct PaymentExportInput {
     pub invoice_ids: Option<Vec<String>>,
     #[serde(rename = "confirmReplaced", skip_serializing_if = "Option::is_none")]
     pub confirm_replaced: Option<bool>,
+    #[serde(rename = "paymentDate", skip_serializing_if = "Option::is_none")]
+    pub payment_date: Option<String>,
+    #[serde(
+        rename = "takeEarlyPaymentDiscounts",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub take_early_payment_discounts: Option<bool>,
 }
 
 impl PaymentExportInput {
@@ -24,6 +31,8 @@ impl PaymentExportInput {
         PaymentExportInput {
             invoice_ids: None,
             confirm_replaced: None,
+            payment_date: None,
+            take_early_payment_discounts: None,
         }
     }
 }

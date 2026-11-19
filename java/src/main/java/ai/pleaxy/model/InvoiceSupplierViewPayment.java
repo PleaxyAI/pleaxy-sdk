@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.InvoiceBreakdownEntry;
+import ai.pleaxy.model.InvoicePaymentRecordEarlyPaymentDiscount;
 import ai.pleaxy.model.InvoicePaymentRecordPaidAmount;
 import ai.pleaxy.model.InvoiceSupplierViewPaymentAnyOf;
 import ai.pleaxy.model.InvoiceSupplierViewPaymentAnyOf1;

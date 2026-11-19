@@ -14,8 +14,10 @@ SetSupplierCurrenciesResultType1AiProvider = Literal[
     "nebius",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 SET_SUPPLIER_CURRENCIES_RESULT_TYPE_1_AI_PROVIDER_VALUES: Set[
@@ -34,8 +36,10 @@ SET_SUPPLIER_CURRENCIES_RESULT_TYPE_1_AI_PROVIDER_VALUES: Set[
     "nebius",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

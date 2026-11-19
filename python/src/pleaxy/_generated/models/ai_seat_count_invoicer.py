@@ -18,8 +18,10 @@ AiSeatCountInvoicer = Literal[
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 AI_SEAT_COUNT_INVOICER_VALUES: Set[AiSeatCountInvoicer] = {
@@ -40,8 +42,10 @@ AI_SEAT_COUNT_INVOICER_VALUES: Set[AiSeatCountInvoicer] = {
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

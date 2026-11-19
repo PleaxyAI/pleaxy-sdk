@@ -25,6 +25,11 @@ pub struct RemittanceViewPayment {
     pub advice_version: Option<f64>,
     #[serde(rename = "withheld", skip_serializing_if = "Option::is_none")]
     pub withheld: Option<Vec<models::InvoiceBreakdownEntry>>,
+    #[serde(
+        rename = "earlyPaymentDiscount",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub early_payment_discount: Option<models::RemittanceViewPaymentEarlyPaymentDiscount>,
     #[serde(rename = "netPaid", skip_serializing_if = "Option::is_none")]
     pub net_paid: Option<models::RemittanceViewAmountDue>,
     #[serde(
@@ -43,6 +48,7 @@ impl RemittanceViewPayment {
             recorded_at: None,
             advice_version: None,
             withheld: None,
+            early_payment_discount: None,
             net_paid: None,
             paid_in_other_currency: None,
         }

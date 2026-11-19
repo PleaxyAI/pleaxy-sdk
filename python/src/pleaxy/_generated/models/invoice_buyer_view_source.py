@@ -1,8 +1,9 @@
 from typing import Literal, Set, cast
 
-InvoiceBuyerViewSource = Literal["direct", "feed", "manual", "po-flip"]
+InvoiceBuyerViewSource = Literal["cloud_sync", "direct", "feed", "manual", "po-flip"]
 
 INVOICE_BUYER_VIEW_SOURCE_VALUES: Set[InvoiceBuyerViewSource] = {
+    "cloud_sync",
     "direct",
     "feed",
     "manual",

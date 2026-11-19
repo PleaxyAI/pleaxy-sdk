@@ -5,6 +5,7 @@ RemoveInvoiceReplacementLinkResultUnverifiedReason = Literal[
     "no_billing_connection",
     "no_po_first_invoice",
     "no_purchase_order",
+    "no_usage_figure",
     "payer_account_unclear",
 ]
 
@@ -15,6 +16,7 @@ REMOVE_INVOICE_REPLACEMENT_LINK_RESULT_UNVERIFIED_REASON_VALUES: Set[
     "no_billing_connection",
     "no_po_first_invoice",
     "no_purchase_order",
+    "no_usage_figure",
     "payer_account_unclear",
 }
 

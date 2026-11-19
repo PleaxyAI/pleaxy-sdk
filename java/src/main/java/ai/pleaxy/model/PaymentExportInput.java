@@ -36,7 +36,9 @@ import ai.pleaxy.client.ApiClient;
  */
 @JsonPropertyOrder({
   PaymentExportInput.JSON_PROPERTY_INVOICE_IDS,
-  PaymentExportInput.JSON_PROPERTY_CONFIRM_REPLACED
+  PaymentExportInput.JSON_PROPERTY_CONFIRM_REPLACED,
+  PaymentExportInput.JSON_PROPERTY_PAYMENT_DATE,
+  PaymentExportInput.JSON_PROPERTY_TAKE_EARLY_PAYMENT_DISCOUNTS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class PaymentExportInput {
@@ -47,6 +49,14 @@ public class PaymentExportInput {
   public static final String JSON_PROPERTY_CONFIRM_REPLACED = "confirmReplaced";
   @javax.annotation.Nullable
   private Boolean confirmReplaced;
+
+  public static final String JSON_PROPERTY_PAYMENT_DATE = "paymentDate";
+  @javax.annotation.Nullable
+  private String paymentDate;
+
+  public static final String JSON_PROPERTY_TAKE_EARLY_PAYMENT_DISCOUNTS = "takeEarlyPaymentDiscounts";
+  @javax.annotation.Nullable
+  private Boolean takeEarlyPaymentDiscounts;
 
   public PaymentExportInput() { 
   }
@@ -107,6 +117,54 @@ public class PaymentExportInput {
   }
 
 
+  public PaymentExportInput paymentDate(@javax.annotation.Nullable String paymentDate) {
+    this.paymentDate = paymentDate;
+    return this;
+  }
+
+  /**
+   * Get paymentDate
+   * @return paymentDate
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PAYMENT_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getPaymentDate() {
+    return paymentDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PAYMENT_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaymentDate(@javax.annotation.Nullable String paymentDate) {
+    this.paymentDate = paymentDate;
+  }
+
+
+  public PaymentExportInput takeEarlyPaymentDiscounts(@javax.annotation.Nullable Boolean takeEarlyPaymentDiscounts) {
+    this.takeEarlyPaymentDiscounts = takeEarlyPaymentDiscounts;
+    return this;
+  }
+
+  /**
+   * Get takeEarlyPaymentDiscounts
+   * @return takeEarlyPaymentDiscounts
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_TAKE_EARLY_PAYMENT_DISCOUNTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getTakeEarlyPaymentDiscounts() {
+    return takeEarlyPaymentDiscounts;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_TAKE_EARLY_PAYMENT_DISCOUNTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setTakeEarlyPaymentDiscounts(@javax.annotation.Nullable Boolean takeEarlyPaymentDiscounts) {
+    this.takeEarlyPaymentDiscounts = takeEarlyPaymentDiscounts;
+  }
+
+
   /**
    * Return true if this PaymentExportInput object is equal to o.
    */
@@ -120,12 +178,14 @@ public class PaymentExportInput {
     }
     PaymentExportInput paymentExportInput = (PaymentExportInput) o;
     return Objects.equals(this.invoiceIds, paymentExportInput.invoiceIds) &&
-        Objects.equals(this.confirmReplaced, paymentExportInput.confirmReplaced);
+        Objects.equals(this.confirmReplaced, paymentExportInput.confirmReplaced) &&
+        Objects.equals(this.paymentDate, paymentExportInput.paymentDate) &&
+        Objects.equals(this.takeEarlyPaymentDiscounts, paymentExportInput.takeEarlyPaymentDiscounts);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(invoiceIds, confirmReplaced);
+    return Objects.hash(invoiceIds, confirmReplaced, paymentDate, takeEarlyPaymentDiscounts);
   }
 
   @Override
@@ -134,6 +194,8 @@ public class PaymentExportInput {
     sb.append("class PaymentExportInput {\n");
     sb.append("    invoiceIds: ").append(toIndentedString(invoiceIds)).append("\n");
     sb.append("    confirmReplaced: ").append(toIndentedString(confirmReplaced)).append("\n");
+    sb.append("    paymentDate: ").append(toIndentedString(paymentDate)).append("\n");
+    sb.append("    takeEarlyPaymentDiscounts: ").append(toIndentedString(takeEarlyPaymentDiscounts)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -193,6 +255,16 @@ public class PaymentExportInput {
     // add `confirmReplaced` to the URL query string
     if (getConfirmReplaced() != null) {
       joiner.add(String.format("%sconfirmReplaced%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getConfirmReplaced()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `paymentDate` to the URL query string
+    if (getPaymentDate() != null) {
+      joiner.add(String.format("%spaymentDate%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPaymentDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `takeEarlyPaymentDiscounts` to the URL query string
+    if (getTakeEarlyPaymentDiscounts() != null) {
+      joiner.add(String.format("%stakeEarlyPaymentDiscounts%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTakeEarlyPaymentDiscounts()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

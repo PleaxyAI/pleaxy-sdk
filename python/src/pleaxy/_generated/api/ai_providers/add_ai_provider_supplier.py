@@ -52,10 +52,10 @@ def sync_detailed(
     client: Union[AuthenticatedClient, Client],
 ) -> Response[AddAiProviderSupplierResult]:
     """[Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake,
-    databricks, coreweave, lambda, nebius, crusoe) to the suppliers list without connecting: its pre-
-    created supplier row, pending invite. Idempotent; connecting later links to the same row. 409
-    SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create'
-    on suppliers.
+    databricks, coreweave, lambda, nebius, crusoe, cursor, github, microsoft, slack, zoom) to the
+    suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent;
+    connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name
+    already has a relationship under way. 'create' on suppliers.
 
     Args:
         provider (str):
@@ -85,10 +85,10 @@ def sync(
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[AddAiProviderSupplierResult]:
     """[Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake,
-    databricks, coreweave, lambda, nebius, crusoe) to the suppliers list without connecting: its pre-
-    created supplier row, pending invite. Idempotent; connecting later links to the same row. 409
-    SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create'
-    on suppliers.
+    databricks, coreweave, lambda, nebius, crusoe, cursor, github, microsoft, slack, zoom) to the
+    suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent;
+    connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name
+    already has a relationship under way. 'create' on suppliers.
 
     Args:
         provider (str):
@@ -113,10 +113,10 @@ async def asyncio_detailed(
     client: Union[AuthenticatedClient, Client],
 ) -> Response[AddAiProviderSupplierResult]:
     """[Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake,
-    databricks, coreweave, lambda, nebius, crusoe) to the suppliers list without connecting: its pre-
-    created supplier row, pending invite. Idempotent; connecting later links to the same row. 409
-    SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create'
-    on suppliers.
+    databricks, coreweave, lambda, nebius, crusoe, cursor, github, microsoft, slack, zoom) to the
+    suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent;
+    connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name
+    already has a relationship under way. 'create' on suppliers.
 
     Args:
         provider (str):
@@ -144,10 +144,10 @@ async def asyncio(
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[AddAiProviderSupplierResult]:
     """[Buyer] Add an AI invoicer (openai, anthropic, mistral, cohere, xai, openrouter, snowflake,
-    databricks, coreweave, lambda, nebius, crusoe) to the suppliers list without connecting: its pre-
-    created supplier row, pending invite. Idempotent; connecting later links to the same row. 409
-    SUPPLIER_ALREADY_LISTED when a supplier of that name already has a relationship under way. 'create'
-    on suppliers.
+    databricks, coreweave, lambda, nebius, crusoe, cursor, github, microsoft, slack, zoom) to the
+    suppliers list without connecting: its pre-created supplier row, pending invite. Idempotent;
+    connecting later links to the same row. 409 SUPPLIER_ALREADY_LISTED when a supplier of that name
+    already has a relationship under way. 'create' on suppliers.
 
     Args:
         provider (str):

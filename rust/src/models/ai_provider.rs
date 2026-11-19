@@ -33,6 +33,8 @@ pub struct AiProvider {
     pub databricks: Option<models::AiProviderDatabricks>,
     #[serde(rename = "github", skip_serializing_if = "Option::is_none")]
     pub github: Option<models::AiProviderGithub>,
+    #[serde(rename = "zoom", skip_serializing_if = "Option::is_none")]
+    pub zoom: Option<models::AiProviderZoom>,
     #[serde(rename = "creditPrice", skip_serializing_if = "Option::is_none")]
     pub credit_price: Option<models::AiProviderCreditPrice>,
     #[serde(
@@ -65,6 +67,7 @@ impl AiProvider {
             snowflake: None,
             databricks: None,
             github: None,
+            zoom: None,
             credit_price: None,
             supplier_connection_id: None,
             last_synced_at: None,
@@ -108,6 +111,10 @@ pub enum Provider {
     Github,
     #[serde(rename = "microsoft")]
     Microsoft,
+    #[serde(rename = "slack")]
+    Slack,
+    #[serde(rename = "zoom")]
+    Zoom,
 }
 
 impl Default for Provider {

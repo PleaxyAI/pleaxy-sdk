@@ -37,6 +37,13 @@ pub struct InvoiceStripePayment {
     pub started_by_name: Option<String>,
     #[serde(rename = "succeededAt", skip_serializing_if = "Option::is_none")]
     pub succeeded_at: Option<String>,
+    #[serde(
+        rename = "earlyPaymentDiscount",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub early_payment_discount: Option<models::InvoicePaymentRecordEarlyPaymentDiscount>,
+    #[serde(rename = "initiatedDate", skip_serializing_if = "Option::is_none")]
+    pub initiated_date: Option<String>,
 }
 
 impl InvoiceStripePayment {
@@ -54,6 +61,8 @@ impl InvoiceStripePayment {
             started_by: None,
             started_by_name: None,
             succeeded_at: None,
+            early_payment_discount: None,
+            initiated_date: None,
         }
     }
 }

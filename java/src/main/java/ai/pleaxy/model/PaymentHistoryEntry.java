@@ -44,6 +44,8 @@ import ai.pleaxy.client.ApiClient;
   PaymentHistoryEntry.JSON_PROPERTY_REMITTANCE_ID,
   PaymentHistoryEntry.JSON_PROPERTY_CREDIT_NOTE_ID,
   PaymentHistoryEntry.JSON_PROPERTY_AMOUNT,
+  PaymentHistoryEntry.JSON_PROPERTY_PAYMENT_DATE,
+  PaymentHistoryEntry.JSON_PROPERTY_REFERENCE,
   PaymentHistoryEntry.JSON_PROPERTY_SOLE_PAYER,
   PaymentHistoryEntry.JSON_PROPERTY_APPROVED_BY_OTHERS,
   PaymentHistoryEntry.JSON_PROPERTY_RECORD
@@ -82,7 +84,9 @@ public class PaymentHistoryEntry {
     
     PROBLEM_REPORTED(String.valueOf("problem_reported")),
     
-    PROBLEM_ANSWERED(String.valueOf("problem_answered"));
+    PROBLEM_ANSWERED(String.valueOf("problem_answered")),
+    
+    HELD_BACK_PAID(String.valueOf("held_back_paid"));
 
     private String value;
 
@@ -142,6 +146,14 @@ public class PaymentHistoryEntry {
   public static final String JSON_PROPERTY_AMOUNT = "amount";
   @javax.annotation.Nullable
   private Double amount;
+
+  public static final String JSON_PROPERTY_PAYMENT_DATE = "paymentDate";
+  @javax.annotation.Nullable
+  private String paymentDate;
+
+  public static final String JSON_PROPERTY_REFERENCE = "reference";
+  @javax.annotation.Nullable
+  private String reference;
 
   public static final String JSON_PROPERTY_SOLE_PAYER = "solePayer";
   @javax.annotation.Nullable
@@ -350,6 +362,54 @@ public class PaymentHistoryEntry {
   }
 
 
+  public PaymentHistoryEntry paymentDate(@javax.annotation.Nullable String paymentDate) {
+    this.paymentDate = paymentDate;
+    return this;
+  }
+
+  /**
+   * Get paymentDate
+   * @return paymentDate
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PAYMENT_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getPaymentDate() {
+    return paymentDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PAYMENT_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaymentDate(@javax.annotation.Nullable String paymentDate) {
+    this.paymentDate = paymentDate;
+  }
+
+
+  public PaymentHistoryEntry reference(@javax.annotation.Nullable String reference) {
+    this.reference = reference;
+    return this;
+  }
+
+  /**
+   * Get reference
+   * @return reference
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REFERENCE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getReference() {
+    return reference;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REFERENCE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setReference(@javax.annotation.Nullable String reference) {
+    this.reference = reference;
+  }
+
+
   public PaymentHistoryEntry solePayer(@javax.annotation.Nullable SolePayerWaiverRecord solePayer) {
     this.solePayer = solePayer;
     return this;
@@ -442,6 +502,8 @@ public class PaymentHistoryEntry {
         Objects.equals(this.remittanceId, paymentHistoryEntry.remittanceId) &&
         Objects.equals(this.creditNoteId, paymentHistoryEntry.creditNoteId) &&
         Objects.equals(this.amount, paymentHistoryEntry.amount) &&
+        Objects.equals(this.paymentDate, paymentHistoryEntry.paymentDate) &&
+        Objects.equals(this.reference, paymentHistoryEntry.reference) &&
         Objects.equals(this.solePayer, paymentHistoryEntry.solePayer) &&
         Objects.equals(this.approvedByOthers, paymentHistoryEntry.approvedByOthers) &&
         Objects.equals(this.record, paymentHistoryEntry.record);
@@ -449,7 +511,7 @@ public class PaymentHistoryEntry {
 
   @Override
   public int hashCode() {
-    return Objects.hash(action, at, by, byName, bySupplier, remittanceId, creditNoteId, amount, solePayer, approvedByOthers, record);
+    return Objects.hash(action, at, by, byName, bySupplier, remittanceId, creditNoteId, amount, paymentDate, reference, solePayer, approvedByOthers, record);
   }
 
   @Override
@@ -464,6 +526,8 @@ public class PaymentHistoryEntry {
     sb.append("    remittanceId: ").append(toIndentedString(remittanceId)).append("\n");
     sb.append("    creditNoteId: ").append(toIndentedString(creditNoteId)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    paymentDate: ").append(toIndentedString(paymentDate)).append("\n");
+    sb.append("    reference: ").append(toIndentedString(reference)).append("\n");
     sb.append("    solePayer: ").append(toIndentedString(solePayer)).append("\n");
     sb.append("    approvedByOthers: ").append(toIndentedString(approvedByOthers)).append("\n");
     sb.append("    record: ").append(toIndentedString(record)).append("\n");
@@ -552,6 +616,16 @@ public class PaymentHistoryEntry {
     // add `amount` to the URL query string
     if (getAmount() != null) {
       joiner.add(String.format("%samount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAmount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `paymentDate` to the URL query string
+    if (getPaymentDate() != null) {
+      joiner.add(String.format("%spaymentDate%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPaymentDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `reference` to the URL query string
+    if (getReference() != null) {
+      joiner.add(String.format("%sreference%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReference()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `solePayer` to the URL query string

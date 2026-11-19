@@ -18,8 +18,10 @@ AiRateCardEntryInvoicer = Literal[
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 AI_RATE_CARD_ENTRY_INVOICER_VALUES: Set[AiRateCardEntryInvoicer] = {
@@ -40,8 +42,10 @@ AI_RATE_CARD_ENTRY_INVOICER_VALUES: Set[AiRateCardEntryInvoicer] = {
     "oci",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

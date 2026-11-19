@@ -14,8 +14,10 @@ AiProviderProvider = Literal[
     "nebius",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 AI_PROVIDER_PROVIDER_VALUES: Set[AiProviderProvider] = {
@@ -32,8 +34,10 @@ AI_PROVIDER_PROVIDER_VALUES: Set[AiProviderProvider] = {
     "nebius",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

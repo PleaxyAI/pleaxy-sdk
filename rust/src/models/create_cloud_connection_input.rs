@@ -56,13 +56,13 @@ pub struct CreateCloudConnectionInput {
     /// Azure only, when its connector is on - the connectionId returned by POST .../cloud-connections/azure/init. The audience is looked up server-side, never taken from the client.
     #[serde(rename = "azureConnectionId", skip_serializing_if = "Option::is_none")]
     pub azure_connection_id: Option<String>,
-    /// Azure only - the billing account of the billing profile picked from POST .../azure/discover (<guid>:<guid>_YYYY-MM-DD).
+    /// Azure only - the billing account of the scope picked from POST .../azure/discover: an MCA account (<guid>:<guid>_YYYY-MM-DD) or an Enterprise Agreement enrollment number.
     #[serde(
         rename = "azureBillingAccountId",
         skip_serializing_if = "Option::is_none"
     )]
     pub azure_billing_account_id: Option<String>,
-    /// Azure only - the billing profile picked from POST .../azure/discover.
+    /// Azure only - the billing profile picked from POST .../azure/discover. Left out for an Enterprise Agreement enrollment.
     #[serde(
         rename = "azureBillingProfileId",
         skip_serializing_if = "Option::is_none"

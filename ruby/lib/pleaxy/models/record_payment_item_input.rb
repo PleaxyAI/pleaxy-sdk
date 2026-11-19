@@ -35,6 +35,8 @@ module Pleaxy
 
     attr_accessor :withholdings
 
+    attr_accessor :early_payment_discount
+
     attr_accessor :confirm_replaced
 
     class EnumAttributeValidator
@@ -72,6 +74,7 @@ module Pleaxy
         :'rate' => :'rate',
         :'rate_date' => :'rateDate',
         :'withholdings' => :'withholdings',
+        :'early_payment_discount' => :'earlyPaymentDiscount',
         :'confirm_replaced' => :'confirmReplaced'
       }
     end
@@ -94,6 +97,7 @@ module Pleaxy
         :'rate' => :'Float',
         :'rate_date' => :'String',
         :'withholdings' => :'Array<BreakdownEntryInput>',
+        :'early_payment_discount' => :'Boolean',
         :'confirm_replaced' => :'Boolean'
       }
     end
@@ -167,6 +171,10 @@ module Pleaxy
         if (value = attributes[:'withholdings']).is_a?(Array)
           self.withholdings = value
         end
+      end
+
+      if attributes.key?(:'early_payment_discount')
+        self.early_payment_discount = attributes[:'early_payment_discount']
       end
 
       if attributes.key?(:'confirm_replaced')
@@ -373,6 +381,7 @@ module Pleaxy
           rate == o.rate &&
           rate_date == o.rate_date &&
           withholdings == o.withholdings &&
+          early_payment_discount == o.early_payment_discount &&
           confirm_replaced == o.confirm_replaced
     end
 
@@ -385,7 +394,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [invoice_id, note, method, payment_date, reference, amount, currency, rate, rate_date, withholdings, confirm_replaced].hash
+      [invoice_id, note, method, payment_date, reference, amount, currency, rate, rate_date, withholdings, early_payment_discount, confirm_replaced].hash
     end
 
     # Builds the object from hash

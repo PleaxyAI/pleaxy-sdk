@@ -14,8 +14,10 @@ ListAiInvoicersItemId = Literal[
     "nebius",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 ]
 
 LIST_AI_INVOICERS_ITEM_ID_VALUES: Set[ListAiInvoicersItemId] = {
@@ -32,8 +34,10 @@ LIST_AI_INVOICERS_ITEM_ID_VALUES: Set[ListAiInvoicersItemId] = {
     "nebius",
     "openai",
     "openrouter",
+    "slack",
     "snowflake",
     "xai",
+    "zoom",
 }
 
 

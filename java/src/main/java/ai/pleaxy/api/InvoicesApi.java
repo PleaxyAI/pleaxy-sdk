@@ -346,7 +346,7 @@ public class InvoicesApi {
   }
 
   /**
-   * [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row&#39;s Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don&#39;t cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
+   * [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row&#39;s Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don&#39;t cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Send paymentDate (YYYY-MM-DD, today or later: the day your run pays) to take early-payment discounts: an invoice whose deadline is on or after that date is exported at its amount due less the discount when takeEarlyPaymentDiscounts is true (default: the workspace&#39;s setting), and the file adds payment_date, early_payment_discount, early_payment_deadline and remittance_info (a line for the payment&#39;s reference); a run dated after the deadline pays the full amount. 400 PAYMENT_RUN_DATE_INVALID for a date in the past or over a year ahead. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated, X-Pleaxy-Export-Discounted (how many take a discount). 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
    * 
    * @param paymentExportInput  (optional)
    * @return File
@@ -358,7 +358,7 @@ public class InvoicesApi {
   }
 
   /**
-   * [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row&#39;s Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don&#39;t cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated. 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
+   * [Buyer] Export approved, unpaid invoices as CSV for your own payment run, due date first, up to 1,000. Send { invoiceIds: [...] } to export only those (a row&#39;s Export for payment); without it, every eligible invoice. A replaced invoice its credit notes don&#39;t cover in full is left out of a full export, and is 409 REPLACED_UNCREDITED when named until you send confirmReplaced: true (credit and rebill). Each exported invoice is locked until its payment is recorded or the export is withdrawn. Send paymentDate (YYYY-MM-DD, today or later: the day your run pays) to take early-payment discounts: an invoice whose deadline is on or after that date is exported at its amount due less the discount when takeEarlyPaymentDiscounts is true (default: the workspace&#39;s setting), and the file adds payment_date, early_payment_discount, early_payment_deadline and remittance_info (a line for the payment&#39;s reference); a run dated after the deadline pays the full amount. 400 PAYMENT_RUN_DATE_INVALID for a date in the past or over a year ahead. Headers: X-Pleaxy-Export-Id, X-Pleaxy-Export-Count, X-Pleaxy-Export-Truncated, X-Pleaxy-Export-Discounted (how many take a discount). 422 NOTHING_TO_EXPORT when none are eligible. No bank details. Human session only.
    * 
    * @param paymentExportInput  (optional)
    * @return ApiResponse&lt;File&gt;
@@ -860,7 +860,7 @@ public class InvoicesApi {
   }
 
   /**
-   * [Buyer] Whether this invoice can be paid through Pleaxy with Stripe: { available, reason?, state?, paymentMethodType?, quote? }. &#x60;quote&#x60; is { amount, fee, total, currency } in dollars: the buyer covers Stripe&#39;s bank-transfer fee (0.8%, capped at $5) so the supplier receives the full invoice amount. &#x60;reason&#x60; explains why not (not_configured, not_approved, payment_locked, supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). &#x60;state&#x60; is the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded.
+   * [Buyer] Whether this invoice can be paid through Pleaxy with Stripe: { available, reason?, state?, paymentMethodType?, quote? }. &#x60;quote&#x60; is { amount, fee, total, currency } in dollars: the buyer covers Stripe&#39;s bank-transfer fee (0.8%, capped at $5) so the supplier receives the full invoice amount. &#x60;reason&#x60; explains why not (not_configured, not_approved, payment_locked, supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). &#x60;state&#x60; is the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded. &#x60;earlyPayment&#x60; is { percent, amount, deadline, quote } while a payment started today still earns the invoice&#39;s early-payment discount (quote: what the buyer pays taking it), or { ..., taken: true } on a payment that took it.
    * 
    * @param invoiceId  (required)
    * @return StripePaymentStatus
@@ -872,7 +872,7 @@ public class InvoicesApi {
   }
 
   /**
-   * [Buyer] Whether this invoice can be paid through Pleaxy with Stripe: { available, reason?, state?, paymentMethodType?, quote? }. &#x60;quote&#x60; is { amount, fee, total, currency } in dollars: the buyer covers Stripe&#39;s bank-transfer fee (0.8%, capped at $5) so the supplier receives the full invoice amount. &#x60;reason&#x60; explains why not (not_configured, not_approved, payment_locked, supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). &#x60;state&#x60; is the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded.
+   * [Buyer] Whether this invoice can be paid through Pleaxy with Stripe: { available, reason?, state?, paymentMethodType?, quote? }. &#x60;quote&#x60; is { amount, fee, total, currency } in dollars: the buyer covers Stripe&#39;s bank-transfer fee (0.8%, capped at $5) so the supplier receives the full invoice amount. &#x60;reason&#x60; explains why not (not_configured, not_approved, payment_locked, supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). &#x60;state&#x60; is the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded. &#x60;earlyPayment&#x60; is { percent, amount, deadline, quote } while a payment started today still earns the invoice&#39;s early-payment discount (quote: what the buyer pays taking it), or { ..., taken: true } on a payment that took it.
    * 
    * @param invoiceId  (required)
    * @return ApiResponse&lt;StripePaymentStatus&gt;
@@ -1926,28 +1926,30 @@ public class InvoicesApi {
   }
 
   /**
-   * [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier&#39;s own Stripe account. The buyer pays the invoice plus Stripe&#39;s fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don&#39;t cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced&#x3D;true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can&#39;t be paid this way. Human session only.
+   * [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier&#39;s own Stripe account. The buyer pays the invoice plus Stripe&#39;s fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Send ?earlyPaymentDiscount&#x3D;true to take the invoice&#39;s early-payment discount: allowed when today (the workspace&#39;s date the payment is initiated, not the day the bank transfer settles) is on or before its deadline, else 400 EARLY_PAYMENT_DEADLINE_PASSED or NO_EARLY_PAYMENT_DISCOUNT; the charge is then the amount due less the discount, plus Stripe&#39;s fee on that. Resumes an open Checkout (one opened with the other discount choice is expired and replaced); a replaced invoice its credit notes don&#39;t cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced&#x3D;true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can&#39;t be paid this way. Human session only.
    * 
    * @param invoiceId  (required)
    * @param confirmReplaced  (optional)
+   * @param earlyPaymentDiscount  (optional)
    * @return StartStripePaymentResult
    * @throws ApiException if fails to make API call
    */
-  public StartStripePaymentResult startStripePayment(String invoiceId, String confirmReplaced) throws ApiException {
-    ApiResponse<StartStripePaymentResult> localVarResponse = startStripePaymentWithHttpInfo(invoiceId, confirmReplaced);
+  public StartStripePaymentResult startStripePayment(String invoiceId, String confirmReplaced, String earlyPaymentDiscount) throws ApiException {
+    ApiResponse<StartStripePaymentResult> localVarResponse = startStripePaymentWithHttpInfo(invoiceId, confirmReplaced, earlyPaymentDiscount);
     return localVarResponse.getData();
   }
 
   /**
-   * [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier&#39;s own Stripe account. The buyer pays the invoice plus Stripe&#39;s fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Resumes an open Checkout; a replaced invoice its credit notes don&#39;t cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced&#x3D;true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can&#39;t be paid this way. Human session only.
+   * [Buyer] Pay this approved invoice in full through Pleaxy with Stripe: { url } of a Stripe Checkout page (US bank transfer only), on the supplier&#39;s own Stripe account. The buyer pays the invoice plus Stripe&#39;s fee, so the supplier receives the full invoice amount; Pleaxy charges nothing and never holds the money. The invoice is locked while Checkout is open (up to an hour) and marked paid when Stripe confirms it. Send ?earlyPaymentDiscount&#x3D;true to take the invoice&#39;s early-payment discount: allowed when today (the workspace&#39;s date the payment is initiated, not the day the bank transfer settles) is on or before its deadline, else 400 EARLY_PAYMENT_DEADLINE_PASSED or NO_EARLY_PAYMENT_DISCOUNT; the charge is then the amount due less the discount, plus Stripe&#39;s fee on that. Resumes an open Checkout (one opened with the other discount choice is expired and replaced); a replaced invoice its credit notes don&#39;t cover is 409 REPLACED_UNCREDITED unless ?confirmReplaced&#x3D;true; answers { state } with no url when a payment is already processing or done. 422 STRIPE_* when this invoice can&#39;t be paid this way. Human session only.
    * 
    * @param invoiceId  (required)
    * @param confirmReplaced  (optional)
+   * @param earlyPaymentDiscount  (optional)
    * @return ApiResponse&lt;StartStripePaymentResult&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<StartStripePaymentResult> startStripePaymentWithHttpInfo(String invoiceId, String confirmReplaced) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = startStripePaymentRequestBuilder(invoiceId, confirmReplaced);
+  public ApiResponse<StartStripePaymentResult> startStripePaymentWithHttpInfo(String invoiceId, String confirmReplaced, String earlyPaymentDiscount) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = startStripePaymentRequestBuilder(invoiceId, confirmReplaced, earlyPaymentDiscount);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -1975,7 +1977,7 @@ public class InvoicesApi {
     }
   }
 
-  private HttpRequest.Builder startStripePaymentRequestBuilder(String invoiceId, String confirmReplaced) throws ApiException {
+  private HttpRequest.Builder startStripePaymentRequestBuilder(String invoiceId, String confirmReplaced, String earlyPaymentDiscount) throws ApiException {
     // verify the required parameter 'invoiceId' is set
     if (invoiceId == null) {
       throw new ApiException(400, "Missing the required parameter 'invoiceId' when calling startStripePayment");
@@ -1991,6 +1993,8 @@ public class InvoicesApi {
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "confirmReplaced";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("confirmReplaced", confirmReplaced));
+    localVarQueryParameterBaseName = "earlyPaymentDiscount";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("earlyPaymentDiscount", earlyPaymentDiscount));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

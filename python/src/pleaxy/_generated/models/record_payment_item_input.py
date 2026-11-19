@@ -30,6 +30,7 @@ class RecordPaymentItemInput:
         rate (Union[Unset, float]):
         rate_date (Union[Unset, str]):
         withholdings (Union[Unset, List['BreakdownEntryInput']]):
+        early_payment_discount (Union[Unset, bool]):
         confirm_replaced (Union[Unset, bool]):
     """
 
@@ -43,6 +44,7 @@ class RecordPaymentItemInput:
     rate: Union[Unset, float] = UNSET
     rate_date: Union[Unset, str] = UNSET
     withholdings: Union[Unset, List["BreakdownEntryInput"]] = UNSET
+    early_payment_discount: Union[Unset, bool] = UNSET
     confirm_replaced: Union[Unset, bool] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -72,6 +74,8 @@ class RecordPaymentItemInput:
                 withholdings_item = withholdings_item_data.to_dict()
                 withholdings.append(withholdings_item)
 
+        early_payment_discount = self.early_payment_discount
+
         confirm_replaced = self.confirm_replaced
 
         field_dict: Dict[str, Any] = {}
@@ -96,6 +100,8 @@ class RecordPaymentItemInput:
             field_dict["rateDate"] = rate_date
         if withholdings is not UNSET:
             field_dict["withholdings"] = withholdings
+        if early_payment_discount is not UNSET:
+            field_dict["earlyPaymentDiscount"] = early_payment_discount
         if confirm_replaced is not UNSET:
             field_dict["confirmReplaced"] = confirm_replaced
 
@@ -131,6 +137,8 @@ class RecordPaymentItemInput:
 
             withholdings.append(withholdings_item)
 
+        early_payment_discount = d.pop("earlyPaymentDiscount", UNSET)
+
         confirm_replaced = d.pop("confirmReplaced", UNSET)
 
         record_payment_item_input = cls(
@@ -144,6 +152,7 @@ class RecordPaymentItemInput:
             rate=rate,
             rate_date=rate_date,
             withholdings=withholdings,
+            early_payment_discount=early_payment_discount,
             confirm_replaced=confirm_replaced,
         )
 

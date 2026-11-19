@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.InvoiceCounterpartyOpenPurchaseOrdersInnerDefaultDueRule;
 import ai.pleaxy.model.InvoiceCounterpartyOpenPurchaseOrdersInnerLinesInner;
 import ai.pleaxy.model.OpenPurchaseOrderDeposit;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -45,6 +46,7 @@ import ai.pleaxy.client.ApiClient;
   InvoiceCounterpartyOpenPurchaseOrdersInner.JSON_PROPERTY_INVOICED_AMOUNT,
   InvoiceCounterpartyOpenPurchaseOrdersInner.JSON_PROPERTY_LINES,
   InvoiceCounterpartyOpenPurchaseOrdersInner.JSON_PROPERTY_DEFAULT_DUE_IN_DAYS,
+  InvoiceCounterpartyOpenPurchaseOrdersInner.JSON_PROPERTY_DEFAULT_DUE_RULE,
   InvoiceCounterpartyOpenPurchaseOrdersInner.JSON_PROPERTY_BILL_TO_COMPANY_NAME,
   InvoiceCounterpartyOpenPurchaseOrdersInner.JSON_PROPERTY_PAID_DEPOSITS
 })
@@ -81,6 +83,10 @@ public class InvoiceCounterpartyOpenPurchaseOrdersInner {
   public static final String JSON_PROPERTY_DEFAULT_DUE_IN_DAYS = "defaultDueInDays";
   @javax.annotation.Nullable
   private Double defaultDueInDays;
+
+  public static final String JSON_PROPERTY_DEFAULT_DUE_RULE = "defaultDueRule";
+  @javax.annotation.Nullable
+  private InvoiceCounterpartyOpenPurchaseOrdersInnerDefaultDueRule defaultDueRule;
 
   public static final String JSON_PROPERTY_BILL_TO_COMPANY_NAME = "billToCompanyName";
   @javax.annotation.Nullable
@@ -293,6 +299,30 @@ public class InvoiceCounterpartyOpenPurchaseOrdersInner {
   }
 
 
+  public InvoiceCounterpartyOpenPurchaseOrdersInner defaultDueRule(@javax.annotation.Nullable InvoiceCounterpartyOpenPurchaseOrdersInnerDefaultDueRule defaultDueRule) {
+    this.defaultDueRule = defaultDueRule;
+    return this;
+  }
+
+  /**
+   * Get defaultDueRule
+   * @return defaultDueRule
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DEFAULT_DUE_RULE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceCounterpartyOpenPurchaseOrdersInnerDefaultDueRule getDefaultDueRule() {
+    return defaultDueRule;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DEFAULT_DUE_RULE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDefaultDueRule(@javax.annotation.Nullable InvoiceCounterpartyOpenPurchaseOrdersInnerDefaultDueRule defaultDueRule) {
+    this.defaultDueRule = defaultDueRule;
+  }
+
+
   public InvoiceCounterpartyOpenPurchaseOrdersInner billToCompanyName(@javax.annotation.Nullable String billToCompanyName) {
     this.billToCompanyName = billToCompanyName;
     return this;
@@ -369,13 +399,14 @@ public class InvoiceCounterpartyOpenPurchaseOrdersInner {
         Objects.equals(this.invoicedAmount, invoiceCounterpartyOpenPurchaseOrdersInner.invoicedAmount) &&
         Objects.equals(this.lines, invoiceCounterpartyOpenPurchaseOrdersInner.lines) &&
         Objects.equals(this.defaultDueInDays, invoiceCounterpartyOpenPurchaseOrdersInner.defaultDueInDays) &&
+        Objects.equals(this.defaultDueRule, invoiceCounterpartyOpenPurchaseOrdersInner.defaultDueRule) &&
         Objects.equals(this.billToCompanyName, invoiceCounterpartyOpenPurchaseOrdersInner.billToCompanyName) &&
         Objects.equals(this.paidDeposits, invoiceCounterpartyOpenPurchaseOrdersInner.paidDeposits);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, amount, createdAt, label, currency, invoicedAmount, lines, defaultDueInDays, billToCompanyName, paidDeposits);
+    return Objects.hash(id, amount, createdAt, label, currency, invoicedAmount, lines, defaultDueInDays, defaultDueRule, billToCompanyName, paidDeposits);
   }
 
   @Override
@@ -390,6 +421,7 @@ public class InvoiceCounterpartyOpenPurchaseOrdersInner {
     sb.append("    invoicedAmount: ").append(toIndentedString(invoicedAmount)).append("\n");
     sb.append("    lines: ").append(toIndentedString(lines)).append("\n");
     sb.append("    defaultDueInDays: ").append(toIndentedString(defaultDueInDays)).append("\n");
+    sb.append("    defaultDueRule: ").append(toIndentedString(defaultDueRule)).append("\n");
     sb.append("    billToCompanyName: ").append(toIndentedString(billToCompanyName)).append("\n");
     sb.append("    paidDeposits: ").append(toIndentedString(paidDeposits)).append("\n");
     sb.append("}");
@@ -482,6 +514,11 @@ public class InvoiceCounterpartyOpenPurchaseOrdersInner {
     // add `defaultDueInDays` to the URL query string
     if (getDefaultDueInDays() != null) {
       joiner.add(String.format("%sdefaultDueInDays%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDefaultDueInDays()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `defaultDueRule` to the URL query string
+    if (getDefaultDueRule() != null) {
+      joiner.add(getDefaultDueRule().toUrlQueryString(prefix + "defaultDueRule" + suffix));
     }
 
     // add `billToCompanyName` to the URL query string

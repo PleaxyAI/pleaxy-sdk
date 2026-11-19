@@ -27,6 +27,7 @@ import ai.pleaxy.model.InvoiceCreditApplication;
 import ai.pleaxy.model.InvoiceCurrencyAmount;
 import ai.pleaxy.model.InvoiceDeduction;
 import ai.pleaxy.model.InvoiceDuplicateRef;
+import ai.pleaxy.model.InvoiceEarlyPayment;
 import ai.pleaxy.model.InvoiceLineItem;
 import ai.pleaxy.model.InvoiceRejection;
 import ai.pleaxy.model.InvoiceSourceDocument;
@@ -36,6 +37,7 @@ import ai.pleaxy.model.NoPoComparison;
 import ai.pleaxy.model.RemittanceInstructions;
 import ai.pleaxy.model.SupplierApprovalView;
 import ai.pleaxy.model.SupplierBankDetailsConfirmationView;
+import ai.pleaxy.model.SupplierHeldBackView;
 import ai.pleaxy.model.SupplierPaymentProblemView;
 import ai.pleaxy.model.SupplierRemittanceView;
 import ai.pleaxy.model.SupplierSettlementView;
@@ -60,6 +62,7 @@ import ai.pleaxy.client.ApiClient;
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_BUYER_ORG_ID,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_SUPPLIER_ORG_ID,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_CREATED_AT,
+  ListInvoicesItemSupplierInvoice.JSON_PROPERTY_CLOUD_PROVIDER,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_LATE_FEE_TERMS,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_AMOUNT,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_SUPPLIER_CONNECTION_ID,
@@ -81,6 +84,7 @@ import ai.pleaxy.client.ApiClient;
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_DUE_DATE,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_PAID_AT,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_DUE_DATE_SOURCE,
+  ListInvoicesItemSupplierInvoice.JSON_PROPERTY_EARLY_PAYMENT,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_LAST_REMINDED_AT,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_LAST_APPROVER_REMINDED_AT,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_REJECTION,
@@ -114,6 +118,7 @@ import ai.pleaxy.client.ApiClient;
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_BANK_LANE,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_SOURCE_DOCUMENT,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_HAS_ORIGINAL_PDF,
+  ListInvoicesItemSupplierInvoice.JSON_PROPERTY_HELD_BACK,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_SETTLEMENT,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_PAYMENT_PROBLEM,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_BANK_DETAILS_CONFIRMATION,
@@ -146,6 +151,49 @@ public class ListInvoicesItemSupplierInvoice {
   public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nullable
   private String createdAt;
+
+  /**
+   * Gets or Sets cloudProvider
+   */
+  public enum CloudProviderEnum {
+    AWS(String.valueOf("aws")),
+    
+    GCP(String.valueOf("gcp")),
+    
+    AZURE(String.valueOf("azure")),
+    
+    OCI(String.valueOf("oci"));
+
+    private String value;
+
+    CloudProviderEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static CloudProviderEnum fromValue(String value) {
+      for (CloudProviderEnum b : CloudProviderEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_CLOUD_PROVIDER = "cloudProvider";
+  @javax.annotation.Nullable
+  private CloudProviderEnum cloudProvider;
 
   public static final String JSON_PROPERTY_LATE_FEE_TERMS = "lateFeeTerms";
   @javax.annotation.Nullable
@@ -340,6 +388,10 @@ public class ListInvoicesItemSupplierInvoice {
   @javax.annotation.Nullable
   private DueDateSourceEnum dueDateSource;
 
+  public static final String JSON_PROPERTY_EARLY_PAYMENT = "earlyPayment";
+  @javax.annotation.Nullable
+  private InvoiceEarlyPayment earlyPayment;
+
   public static final String JSON_PROPERTY_LAST_REMINDED_AT = "lastRemindedAt";
   @javax.annotation.Nullable
   private String lastRemindedAt;
@@ -386,7 +438,9 @@ public class ListInvoicesItemSupplierInvoice {
     
     DIRECT(String.valueOf("direct")),
     
-    FEED(String.valueOf("feed"));
+    FEED(String.valueOf("feed")),
+    
+    CLOUD_SYNC(String.valueOf("cloud_sync"));
 
     private String value;
 
@@ -649,6 +703,10 @@ public class ListInvoicesItemSupplierInvoice {
   @javax.annotation.Nullable
   private Boolean hasOriginalPdf;
 
+  public static final String JSON_PROPERTY_HELD_BACK = "heldBack";
+  @javax.annotation.Nullable
+  private SupplierHeldBackView heldBack;
+
   public static final String JSON_PROPERTY_SETTLEMENT = "settlement";
   @javax.annotation.Nullable
   private SupplierSettlementView settlement;
@@ -809,6 +867,30 @@ public class ListInvoicesItemSupplierInvoice {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCreatedAt(@javax.annotation.Nullable String createdAt) {
     this.createdAt = createdAt;
+  }
+
+
+  public ListInvoicesItemSupplierInvoice cloudProvider(@javax.annotation.Nullable CloudProviderEnum cloudProvider) {
+    this.cloudProvider = cloudProvider;
+    return this;
+  }
+
+  /**
+   * Get cloudProvider
+   * @return cloudProvider
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CLOUD_PROVIDER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public CloudProviderEnum getCloudProvider() {
+    return cloudProvider;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CLOUD_PROVIDER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCloudProvider(@javax.annotation.Nullable CloudProviderEnum cloudProvider) {
+    this.cloudProvider = cloudProvider;
   }
 
 
@@ -1321,6 +1403,30 @@ public class ListInvoicesItemSupplierInvoice {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDueDateSource(@javax.annotation.Nullable DueDateSourceEnum dueDateSource) {
     this.dueDateSource = dueDateSource;
+  }
+
+
+  public ListInvoicesItemSupplierInvoice earlyPayment(@javax.annotation.Nullable InvoiceEarlyPayment earlyPayment) {
+    this.earlyPayment = earlyPayment;
+    return this;
+  }
+
+  /**
+   * Get earlyPayment
+   * @return earlyPayment
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceEarlyPayment getEarlyPayment() {
+    return earlyPayment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEarlyPayment(@javax.annotation.Nullable InvoiceEarlyPayment earlyPayment) {
+    this.earlyPayment = earlyPayment;
   }
 
 
@@ -2196,6 +2302,30 @@ public class ListInvoicesItemSupplierInvoice {
   }
 
 
+  public ListInvoicesItemSupplierInvoice heldBack(@javax.annotation.Nullable SupplierHeldBackView heldBack) {
+    this.heldBack = heldBack;
+    return this;
+  }
+
+  /**
+   * Get heldBack
+   * @return heldBack
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_HELD_BACK)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SupplierHeldBackView getHeldBack() {
+    return heldBack;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_HELD_BACK)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setHeldBack(@javax.annotation.Nullable SupplierHeldBackView heldBack) {
+    this.heldBack = heldBack;
+  }
+
+
   public ListInvoicesItemSupplierInvoice settlement(@javax.annotation.Nullable SupplierSettlementView settlement) {
     this.settlement = settlement;
     return this;
@@ -2461,6 +2591,7 @@ public class ListInvoicesItemSupplierInvoice {
         Objects.equals(this.buyerOrgId, listInvoicesItemSupplierInvoice.buyerOrgId) &&
         Objects.equals(this.supplierOrgId, listInvoicesItemSupplierInvoice.supplierOrgId) &&
         Objects.equals(this.createdAt, listInvoicesItemSupplierInvoice.createdAt) &&
+        Objects.equals(this.cloudProvider, listInvoicesItemSupplierInvoice.cloudProvider) &&
         Objects.equals(this.lateFeeTerms, listInvoicesItemSupplierInvoice.lateFeeTerms) &&
         Objects.equals(this.amount, listInvoicesItemSupplierInvoice.amount) &&
         Objects.equals(this.supplierConnectionId, listInvoicesItemSupplierInvoice.supplierConnectionId) &&
@@ -2482,6 +2613,7 @@ public class ListInvoicesItemSupplierInvoice {
         Objects.equals(this.dueDate, listInvoicesItemSupplierInvoice.dueDate) &&
         Objects.equals(this.paidAt, listInvoicesItemSupplierInvoice.paidAt) &&
         Objects.equals(this.dueDateSource, listInvoicesItemSupplierInvoice.dueDateSource) &&
+        Objects.equals(this.earlyPayment, listInvoicesItemSupplierInvoice.earlyPayment) &&
         Objects.equals(this.lastRemindedAt, listInvoicesItemSupplierInvoice.lastRemindedAt) &&
         Objects.equals(this.lastApproverRemindedAt, listInvoicesItemSupplierInvoice.lastApproverRemindedAt) &&
         Objects.equals(this.rejection, listInvoicesItemSupplierInvoice.rejection) &&
@@ -2515,6 +2647,7 @@ public class ListInvoicesItemSupplierInvoice {
         Objects.equals(this.bankLane, listInvoicesItemSupplierInvoice.bankLane) &&
         Objects.equals(this.sourceDocument, listInvoicesItemSupplierInvoice.sourceDocument) &&
         Objects.equals(this.hasOriginalPdf, listInvoicesItemSupplierInvoice.hasOriginalPdf) &&
+        Objects.equals(this.heldBack, listInvoicesItemSupplierInvoice.heldBack) &&
         Objects.equals(this.settlement, listInvoicesItemSupplierInvoice.settlement) &&
         Objects.equals(this.paymentProblem, listInvoicesItemSupplierInvoice.paymentProblem) &&
         Objects.equals(this.bankDetailsConfirmation, listInvoicesItemSupplierInvoice.bankDetailsConfirmation) &&
@@ -2529,7 +2662,7 @@ public class ListInvoicesItemSupplierInvoice {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, lateFeeTerms, amount, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, noPoComparison, paymentRoute, paid, dueInDays, dueDate, paidAt, dueDateSource, lastRemindedAt, lastApproverRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, bankLane, sourceDocument, hasOriginalPdf, settlement, paymentProblem, bankDetailsConfirmation, baseCurrencyAmount, approval, payment, withdrawnPayment, remittances, buyerWorkspaceId, nextReminderAt);
+    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, cloudProvider, lateFeeTerms, amount, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, noPoComparison, paymentRoute, paid, dueInDays, dueDate, paidAt, dueDateSource, earlyPayment, lastRemindedAt, lastApproverRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, bankLane, sourceDocument, hasOriginalPdf, heldBack, settlement, paymentProblem, bankDetailsConfirmation, baseCurrencyAmount, approval, payment, withdrawnPayment, remittances, buyerWorkspaceId, nextReminderAt);
   }
 
   @Override
@@ -2541,6 +2674,7 @@ public class ListInvoicesItemSupplierInvoice {
     sb.append("    buyerOrgId: ").append(toIndentedString(buyerOrgId)).append("\n");
     sb.append("    supplierOrgId: ").append(toIndentedString(supplierOrgId)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    cloudProvider: ").append(toIndentedString(cloudProvider)).append("\n");
     sb.append("    lateFeeTerms: ").append(toIndentedString(lateFeeTerms)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    supplierConnectionId: ").append(toIndentedString(supplierConnectionId)).append("\n");
@@ -2562,6 +2696,7 @@ public class ListInvoicesItemSupplierInvoice {
     sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
     sb.append("    paidAt: ").append(toIndentedString(paidAt)).append("\n");
     sb.append("    dueDateSource: ").append(toIndentedString(dueDateSource)).append("\n");
+    sb.append("    earlyPayment: ").append(toIndentedString(earlyPayment)).append("\n");
     sb.append("    lastRemindedAt: ").append(toIndentedString(lastRemindedAt)).append("\n");
     sb.append("    lastApproverRemindedAt: ").append(toIndentedString(lastApproverRemindedAt)).append("\n");
     sb.append("    rejection: ").append(toIndentedString(rejection)).append("\n");
@@ -2595,6 +2730,7 @@ public class ListInvoicesItemSupplierInvoice {
     sb.append("    bankLane: ").append(toIndentedString(bankLane)).append("\n");
     sb.append("    sourceDocument: ").append(toIndentedString(sourceDocument)).append("\n");
     sb.append("    hasOriginalPdf: ").append(toIndentedString(hasOriginalPdf)).append("\n");
+    sb.append("    heldBack: ").append(toIndentedString(heldBack)).append("\n");
     sb.append("    settlement: ").append(toIndentedString(settlement)).append("\n");
     sb.append("    paymentProblem: ").append(toIndentedString(paymentProblem)).append("\n");
     sb.append("    bankDetailsConfirmation: ").append(toIndentedString(bankDetailsConfirmation)).append("\n");
@@ -2675,6 +2811,11 @@ public class ListInvoicesItemSupplierInvoice {
     // add `createdAt` to the URL query string
     if (getCreatedAt() != null) {
       joiner.add(String.format("%screatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `cloudProvider` to the URL query string
+    if (getCloudProvider() != null) {
+      joiner.add(String.format("%scloudProvider%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCloudProvider()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `lateFeeTerms` to the URL query string
@@ -2785,6 +2926,11 @@ public class ListInvoicesItemSupplierInvoice {
     // add `dueDateSource` to the URL query string
     if (getDueDateSource() != null) {
       joiner.add(String.format("%sdueDateSource%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDueDateSource()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `earlyPayment` to the URL query string
+    if (getEarlyPayment() != null) {
+      joiner.add(getEarlyPayment().toUrlQueryString(prefix + "earlyPayment" + suffix));
     }
 
     // add `lastRemindedAt` to the URL query string
@@ -2996,6 +3142,11 @@ public class ListInvoicesItemSupplierInvoice {
     // add `hasOriginalPdf` to the URL query string
     if (getHasOriginalPdf() != null) {
       joiner.add(String.format("%shasOriginalPdf%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHasOriginalPdf()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `heldBack` to the URL query string
+    if (getHeldBack() != null) {
+      joiner.add(getHeldBack().toUrlQueryString(prefix + "heldBack" + suffix));
     }
 
     // add `settlement` to the URL query string

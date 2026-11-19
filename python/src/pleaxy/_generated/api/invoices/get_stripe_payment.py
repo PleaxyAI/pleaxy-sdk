@@ -57,6 +57,9 @@ def sync_detailed(
     amount. `reason` explains why not (not_configured, not_approved, payment_locked,
     supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). `state` is
     the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded.
+    `earlyPayment` is { percent, amount, deadline, quote } while a payment started today still earns the
+    invoice's early-payment discount (quote: what the buyer pays taking it), or { ..., taken: true } on
+    a payment that took it.
 
     Args:
         invoice_id (str):
@@ -91,6 +94,9 @@ def sync(
     amount. `reason` explains why not (not_configured, not_approved, payment_locked,
     supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). `state` is
     the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded.
+    `earlyPayment` is { percent, amount, deadline, quote } while a payment started today still earns the
+    invoice's early-payment discount (quote: what the buyer pays taking it), or { ..., taken: true } on
+    a payment that took it.
 
     Args:
         invoice_id (str):
@@ -120,6 +126,9 @@ async def asyncio_detailed(
     amount. `reason` explains why not (not_configured, not_approved, payment_locked,
     supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). `state` is
     the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded.
+    `earlyPayment` is { percent, amount, deadline, quote } while a payment started today still earns the
+    invoice's early-payment discount (quote: what the buyer pays taking it), or { ..., taken: true } on
+    a payment that took it.
 
     Args:
         invoice_id (str):
@@ -152,6 +161,9 @@ async def asyncio(
     amount. `reason` explains why not (not_configured, not_approved, payment_locked,
     supplier_not_on_pleaxy, supplier_not_connected, unsupported_currency, amount_too_small). `state` is
     the current Stripe payment: checkout_open, processing (a bank transfer clearing) or succeeded.
+    `earlyPayment` is { percent, amount, deadline, quote } while a payment started today still earns the
+    invoice's early-payment discount (quote: what the buyer pays taking it), or { ..., taken: true } on
+    a payment that took it.
 
     Args:
         invoice_id (str):

@@ -1,8 +1,9 @@
 from typing import Literal, Set, cast
 
-RecordPaymentResultSource = Literal["direct", "feed", "manual", "po-flip"]
+RecordPaymentResultSource = Literal["cloud_sync", "direct", "feed", "manual", "po-flip"]
 
 RECORD_PAYMENT_RESULT_SOURCE_VALUES: Set[RecordPaymentResultSource] = {
+    "cloud_sync",
     "direct",
     "feed",
     "manual",
