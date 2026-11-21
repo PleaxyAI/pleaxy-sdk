@@ -91,6 +91,10 @@ impl Default for Audience {
 pub enum Type {
     #[serde(rename = "ai_forecast_over_budget")]
     AiForecastOverBudget,
+    #[serde(rename = "usage_anomaly")]
+    UsageAnomaly,
+    #[serde(rename = "usage_contract_projection")]
+    UsageContractProjection,
     #[serde(rename = "ai_drafts_ready")]
     AiDraftsReady,
     #[serde(rename = "report_ready")]
@@ -209,6 +213,8 @@ pub enum Type {
     InvoiceBankDetailsToConfirm,
     #[serde(rename = "invoice_bank_details_confirmed")]
     InvoiceBankDetailsConfirmed,
+    #[serde(rename = "invoice_early_payment_offer")]
+    InvoiceEarlyPaymentOffer,
     #[serde(rename = "invoice_bank_account_to_approve")]
     InvoiceBankAccountToApprove,
     #[serde(rename = "supplier_screening_match")]
@@ -289,6 +295,8 @@ pub enum Type {
     ContractRenewalNoticeDue,
     #[serde(rename = "contract_termination_notice_due")]
     ContractTerminationNoticeDue,
+    #[serde(rename = "contract_seat_review_due")]
+    ContractSeatReviewDue,
     #[serde(rename = "copilot_allowance_80")]
     CopilotAllowance80,
     #[serde(rename = "copilot_allowance_100")]

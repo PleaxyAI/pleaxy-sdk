@@ -322,7 +322,13 @@ public class SetSupplierCurrenciesResultAnyOf {
     
     SLACK(String.valueOf("slack")),
     
-    ZOOM(String.valueOf("zoom"));
+    ZOOM(String.valueOf("zoom")),
+    
+    DATADOG(String.valueOf("datadog")),
+    
+    TWILIO(String.valueOf("twilio")),
+    
+    MONGODB(String.valueOf("mongodb"));
 
     private String value;
 

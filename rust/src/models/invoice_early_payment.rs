@@ -17,8 +17,14 @@ pub struct InvoiceEarlyPayment {
     pub percent: Option<f64>,
     #[serde(rename = "deadline", skip_serializing_if = "Option::is_none")]
     pub deadline: Option<String>,
+    #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
+    pub source: Option<Source>,
     #[serde(rename = "contractId", skip_serializing_if = "Option::is_none")]
     pub contract_id: Option<String>,
+    #[serde(rename = "offeredBy", skip_serializing_if = "Option::is_none")]
+    pub offered_by: Option<models::InvoiceEarlyPaymentOfferedBy>,
+    #[serde(rename = "offeredAt", skip_serializing_if = "Option::is_none")]
+    pub offered_at: Option<String>,
 }
 
 impl InvoiceEarlyPayment {
@@ -26,7 +32,24 @@ impl InvoiceEarlyPayment {
         InvoiceEarlyPayment {
             percent: None,
             deadline: None,
+            source: None,
             contract_id: None,
+            offered_by: None,
+            offered_at: None,
         }
+    }
+}
+///
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Source {
+    #[serde(rename = "contract")]
+    Contract,
+    #[serde(rename = "supplier_offer")]
+    SupplierOffer,
+}
+
+impl Default for Source {
+    fn default() -> Source {
+        Self::Contract
     }
 }

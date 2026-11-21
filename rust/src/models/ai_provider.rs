@@ -35,6 +35,12 @@ pub struct AiProvider {
     pub github: Option<models::AiProviderGithub>,
     #[serde(rename = "zoom", skip_serializing_if = "Option::is_none")]
     pub zoom: Option<models::AiProviderZoom>,
+    #[serde(rename = "datadog", skip_serializing_if = "Option::is_none")]
+    pub datadog: Option<models::AiProviderDatadog>,
+    #[serde(rename = "twilio", skip_serializing_if = "Option::is_none")]
+    pub twilio: Option<models::AiProviderTwilio>,
+    #[serde(rename = "mongodb", skip_serializing_if = "Option::is_none")]
+    pub mongodb: Option<models::AiProviderMongodb>,
     #[serde(rename = "creditPrice", skip_serializing_if = "Option::is_none")]
     pub credit_price: Option<models::AiProviderCreditPrice>,
     #[serde(
@@ -68,6 +74,9 @@ impl AiProvider {
             databricks: None,
             github: None,
             zoom: None,
+            datadog: None,
+            twilio: None,
+            mongodb: None,
             credit_price: None,
             supplier_connection_id: None,
             last_synced_at: None,
@@ -115,6 +124,12 @@ pub enum Provider {
     Slack,
     #[serde(rename = "zoom")]
     Zoom,
+    #[serde(rename = "datadog")]
+    Datadog,
+    #[serde(rename = "twilio")]
+    Twilio,
+    #[serde(rename = "mongodb")]
+    Mongodb,
 }
 
 impl Default for Provider {

@@ -14,9 +14,7 @@ from ..models.feed_validation_result_invoice_payment_type_0_status import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.feed_validation_result_invoice_payment_type_0_early_payment_discount import (
-        FeedValidationResultInvoicePaymentType0EarlyPaymentDiscount,
-    )
+    from ..models.early_payment_discount_taken import EarlyPaymentDiscountTaken
     from ..models.feed_validation_result_invoice_payment_type_0_paid_amount import (
         FeedValidationResultInvoicePaymentType0PaidAmount,
     )
@@ -37,7 +35,7 @@ class FeedValidationResultInvoicePaymentType0:
         recorded_at (Union[Unset, str]):
         advice_version (Union[Unset, float]):
         paid_amount (Union[Unset, FeedValidationResultInvoicePaymentType0PaidAmount]):
-        early_payment_discount (Union[Unset, FeedValidationResultInvoicePaymentType0EarlyPaymentDiscount]):
+        early_payment_discount (Union[Unset, EarlyPaymentDiscountTaken]):
         status (Union[Unset, FeedValidationResultInvoicePaymentType0Status]):
     """
 
@@ -50,9 +48,7 @@ class FeedValidationResultInvoicePaymentType0:
     paid_amount: Union[Unset, "FeedValidationResultInvoicePaymentType0PaidAmount"] = (
         UNSET
     )
-    early_payment_discount: Union[
-        Unset, "FeedValidationResultInvoicePaymentType0EarlyPaymentDiscount"
-    ] = UNSET
+    early_payment_discount: Union[Unset, "EarlyPaymentDiscountTaken"] = UNSET
     status: Union[Unset, FeedValidationResultInvoicePaymentType0Status] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -114,9 +110,7 @@ class FeedValidationResultInvoicePaymentType0:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.feed_validation_result_invoice_payment_type_0_early_payment_discount import (
-            FeedValidationResultInvoicePaymentType0EarlyPaymentDiscount,
-        )
+        from ..models.early_payment_discount_taken import EarlyPaymentDiscountTaken
         from ..models.feed_validation_result_invoice_payment_type_0_paid_amount import (
             FeedValidationResultInvoicePaymentType0PaidAmount,
         )
@@ -155,16 +149,12 @@ class FeedValidationResultInvoicePaymentType0:
             )
 
         _early_payment_discount = d.pop("earlyPaymentDiscount", UNSET)
-        early_payment_discount: Union[
-            Unset, FeedValidationResultInvoicePaymentType0EarlyPaymentDiscount
-        ]
+        early_payment_discount: Union[Unset, EarlyPaymentDiscountTaken]
         if isinstance(_early_payment_discount, Unset):
             early_payment_discount = UNSET
         else:
-            early_payment_discount = (
-                FeedValidationResultInvoicePaymentType0EarlyPaymentDiscount.from_dict(
-                    _early_payment_discount
-                )
+            early_payment_discount = EarlyPaymentDiscountTaken.from_dict(
+                _early_payment_discount
             )
 
         _status = d.pop("status", UNSET)

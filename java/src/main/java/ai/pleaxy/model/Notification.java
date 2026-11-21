@@ -109,6 +109,10 @@ public class Notification {
   public enum TypeEnum {
     AI_FORECAST_OVER_BUDGET(String.valueOf("ai_forecast_over_budget")),
     
+    USAGE_ANOMALY(String.valueOf("usage_anomaly")),
+    
+    USAGE_CONTRACT_PROJECTION(String.valueOf("usage_contract_projection")),
+    
     AI_DRAFTS_READY(String.valueOf("ai_drafts_ready")),
     
     REPORT_READY(String.valueOf("report_ready")),
@@ -227,6 +231,8 @@ public class Notification {
     
     INVOICE_BANK_DETAILS_CONFIRMED(String.valueOf("invoice_bank_details_confirmed")),
     
+    INVOICE_EARLY_PAYMENT_OFFER(String.valueOf("invoice_early_payment_offer")),
+    
     INVOICE_BANK_ACCOUNT_TO_APPROVE(String.valueOf("invoice_bank_account_to_approve")),
     
     SUPPLIER_SCREENING_MATCH(String.valueOf("supplier_screening_match")),
@@ -306,6 +312,8 @@ public class Notification {
     CONTRACT_RENEWAL_NOTICE_DUE(String.valueOf("contract_renewal_notice_due")),
     
     CONTRACT_TERMINATION_NOTICE_DUE(String.valueOf("contract_termination_notice_due")),
+    
+    CONTRACT_SEAT_REVIEW_DUE(String.valueOf("contract_seat_review_due")),
     
     COPILOT_ALLOWANCE_80(String.valueOf("copilot_allowance_80")),
     

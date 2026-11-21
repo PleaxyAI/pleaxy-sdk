@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.InvoiceEarlyPaymentOfferedBy;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,7 +36,10 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   InvoiceEarlyPayment.JSON_PROPERTY_PERCENT,
   InvoiceEarlyPayment.JSON_PROPERTY_DEADLINE,
-  InvoiceEarlyPayment.JSON_PROPERTY_CONTRACT_ID
+  InvoiceEarlyPayment.JSON_PROPERTY_SOURCE,
+  InvoiceEarlyPayment.JSON_PROPERTY_CONTRACT_ID,
+  InvoiceEarlyPayment.JSON_PROPERTY_OFFERED_BY,
+  InvoiceEarlyPayment.JSON_PROPERTY_OFFERED_AT
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class InvoiceEarlyPayment {
@@ -47,9 +51,56 @@ public class InvoiceEarlyPayment {
   @javax.annotation.Nullable
   private String deadline;
 
+  /**
+   * Gets or Sets source
+   */
+  public enum SourceEnum {
+    CONTRACT(String.valueOf("contract")),
+    
+    SUPPLIER_OFFER(String.valueOf("supplier_offer"));
+
+    private String value;
+
+    SourceEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static SourceEnum fromValue(String value) {
+      for (SourceEnum b : SourceEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_SOURCE = "source";
+  @javax.annotation.Nullable
+  private SourceEnum source;
+
   public static final String JSON_PROPERTY_CONTRACT_ID = "contractId";
   @javax.annotation.Nullable
   private String contractId;
+
+  public static final String JSON_PROPERTY_OFFERED_BY = "offeredBy";
+  @javax.annotation.Nullable
+  private InvoiceEarlyPaymentOfferedBy offeredBy;
+
+  public static final String JSON_PROPERTY_OFFERED_AT = "offeredAt";
+  @javax.annotation.Nullable
+  private String offeredAt;
 
   public InvoiceEarlyPayment() { 
   }
@@ -102,6 +153,30 @@ public class InvoiceEarlyPayment {
   }
 
 
+  public InvoiceEarlyPayment source(@javax.annotation.Nullable SourceEnum source) {
+    this.source = source;
+    return this;
+  }
+
+  /**
+   * Get source
+   * @return source
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SOURCE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public SourceEnum getSource() {
+    return source;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SOURCE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSource(@javax.annotation.Nullable SourceEnum source) {
+    this.source = source;
+  }
+
+
   public InvoiceEarlyPayment contractId(@javax.annotation.Nullable String contractId) {
     this.contractId = contractId;
     return this;
@@ -126,6 +201,54 @@ public class InvoiceEarlyPayment {
   }
 
 
+  public InvoiceEarlyPayment offeredBy(@javax.annotation.Nullable InvoiceEarlyPaymentOfferedBy offeredBy) {
+    this.offeredBy = offeredBy;
+    return this;
+  }
+
+  /**
+   * Get offeredBy
+   * @return offeredBy
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_OFFERED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceEarlyPaymentOfferedBy getOfferedBy() {
+    return offeredBy;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_OFFERED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOfferedBy(@javax.annotation.Nullable InvoiceEarlyPaymentOfferedBy offeredBy) {
+    this.offeredBy = offeredBy;
+  }
+
+
+  public InvoiceEarlyPayment offeredAt(@javax.annotation.Nullable String offeredAt) {
+    this.offeredAt = offeredAt;
+    return this;
+  }
+
+  /**
+   * Get offeredAt
+   * @return offeredAt
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_OFFERED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getOfferedAt() {
+    return offeredAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_OFFERED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOfferedAt(@javax.annotation.Nullable String offeredAt) {
+    this.offeredAt = offeredAt;
+  }
+
+
   /**
    * Return true if this InvoiceEarlyPayment object is equal to o.
    */
@@ -140,12 +263,15 @@ public class InvoiceEarlyPayment {
     InvoiceEarlyPayment invoiceEarlyPayment = (InvoiceEarlyPayment) o;
     return Objects.equals(this.percent, invoiceEarlyPayment.percent) &&
         Objects.equals(this.deadline, invoiceEarlyPayment.deadline) &&
-        Objects.equals(this.contractId, invoiceEarlyPayment.contractId);
+        Objects.equals(this.source, invoiceEarlyPayment.source) &&
+        Objects.equals(this.contractId, invoiceEarlyPayment.contractId) &&
+        Objects.equals(this.offeredBy, invoiceEarlyPayment.offeredBy) &&
+        Objects.equals(this.offeredAt, invoiceEarlyPayment.offeredAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(percent, deadline, contractId);
+    return Objects.hash(percent, deadline, source, contractId, offeredBy, offeredAt);
   }
 
   @Override
@@ -154,7 +280,10 @@ public class InvoiceEarlyPayment {
     sb.append("class InvoiceEarlyPayment {\n");
     sb.append("    percent: ").append(toIndentedString(percent)).append("\n");
     sb.append("    deadline: ").append(toIndentedString(deadline)).append("\n");
+    sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
+    sb.append("    offeredBy: ").append(toIndentedString(offeredBy)).append("\n");
+    sb.append("    offeredAt: ").append(toIndentedString(offeredAt)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -212,9 +341,24 @@ public class InvoiceEarlyPayment {
       joiner.add(String.format("%sdeadline%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDeadline()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `source` to the URL query string
+    if (getSource() != null) {
+      joiner.add(String.format("%ssource%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSource()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
     // add `contractId` to the URL query string
     if (getContractId() != null) {
       joiner.add(String.format("%scontractId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getContractId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `offeredBy` to the URL query string
+    if (getOfferedBy() != null) {
+      joiner.add(getOfferedBy().toUrlQueryString(prefix + "offeredBy" + suffix));
+    }
+
+    // add `offeredAt` to the URL query string
+    if (getOfferedAt() != null) {
+      joiner.add(String.format("%sofferedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOfferedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

@@ -19,8 +19,8 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.EarlyPaymentDiscountTaken;
 import ai.pleaxy.model.InvoiceBreakdownEntry;
-import ai.pleaxy.model.InvoicePaymentRecordEarlyPaymentDiscount;
 import ai.pleaxy.model.InvoicePaymentRecordPaidAmount;
 import ai.pleaxy.model.InvoiceStripePayment;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -203,7 +203,7 @@ public class InvoicePaymentRecord {
 
   public static final String JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT = "earlyPaymentDiscount";
   @javax.annotation.Nullable
-  private InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount;
+  private EarlyPaymentDiscountTaken earlyPaymentDiscount;
 
   public static final String JSON_PROPERTY_SCHEDULED_PAYMENT_DATE = "scheduledPaymentDate";
   @javax.annotation.Nullable
@@ -580,7 +580,7 @@ public class InvoicePaymentRecord {
   }
 
 
-  public InvoicePaymentRecord earlyPaymentDiscount(@javax.annotation.Nullable InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount) {
+  public InvoicePaymentRecord earlyPaymentDiscount(@javax.annotation.Nullable EarlyPaymentDiscountTaken earlyPaymentDiscount) {
     this.earlyPaymentDiscount = earlyPaymentDiscount;
     return this;
   }
@@ -592,14 +592,14 @@ public class InvoicePaymentRecord {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public InvoicePaymentRecordEarlyPaymentDiscount getEarlyPaymentDiscount() {
+  public EarlyPaymentDiscountTaken getEarlyPaymentDiscount() {
     return earlyPaymentDiscount;
   }
 
 
   @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEarlyPaymentDiscount(@javax.annotation.Nullable InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount) {
+  public void setEarlyPaymentDiscount(@javax.annotation.Nullable EarlyPaymentDiscountTaken earlyPaymentDiscount) {
     this.earlyPaymentDiscount = earlyPaymentDiscount;
   }
 

@@ -25,6 +25,12 @@ pub struct CreateAiProviderInput {
     pub github: Option<models::GitHubConnectionInput>,
     #[serde(rename = "zoom", skip_serializing_if = "Option::is_none")]
     pub zoom: Option<models::ZoomConnectionInput>,
+    #[serde(rename = "datadog", skip_serializing_if = "Option::is_none")]
+    pub datadog: Option<models::DatadogConnectionInput>,
+    #[serde(rename = "twilio", skip_serializing_if = "Option::is_none")]
+    pub twilio: Option<models::TwilioConnectionInput>,
+    #[serde(rename = "mongodb", skip_serializing_if = "Option::is_none")]
+    pub mongodb: Option<models::MongoDbConnectionInput>,
     #[serde(rename = "creditPrice", skip_serializing_if = "Option::is_none")]
     pub credit_price: Option<models::CreditPriceInput>,
 }
@@ -38,6 +44,9 @@ impl CreateAiProviderInput {
             databricks: None,
             github: None,
             zoom: None,
+            datadog: None,
+            twilio: None,
+            mongodb: None,
             credit_price: None,
         }
     }

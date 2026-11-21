@@ -68,6 +68,10 @@ pub enum SubmittedFormat {
     Ubl,
     #[serde(rename = "cxml")]
     Cxml,
+    #[serde(rename = "cii")]
+    Cii,
+    #[serde(rename = "fatturapa")]
+    Fatturapa,
 }
 
 impl Default for SubmittedFormat {

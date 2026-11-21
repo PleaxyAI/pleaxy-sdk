@@ -1,11 +1,15 @@
 from typing import Literal, Set, cast
 
-CreateInvoiceResultSupplierInvoiceSubmittedFormat = Literal["cxml", "json", "ubl"]
+CreateInvoiceResultSupplierInvoiceSubmittedFormat = Literal[
+    "cii", "cxml", "fatturapa", "json", "ubl"
+]
 
 CREATE_INVOICE_RESULT_SUPPLIER_INVOICE_SUBMITTED_FORMAT_VALUES: Set[
     CreateInvoiceResultSupplierInvoiceSubmittedFormat
 ] = {
+    "cii",
     "cxml",
+    "fatturapa",
     "json",
     "ubl",
 }

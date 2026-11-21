@@ -37,6 +37,12 @@ module Pleaxy
 
     attr_accessor :zoom
 
+    attr_accessor :datadog
+
+    attr_accessor :twilio
+
+    attr_accessor :mongodb
+
     attr_accessor :credit_price
 
     attr_accessor :supplier_connection_id
@@ -87,6 +93,9 @@ module Pleaxy
         :'databricks' => :'databricks',
         :'github' => :'github',
         :'zoom' => :'zoom',
+        :'datadog' => :'datadog',
+        :'twilio' => :'twilio',
+        :'mongodb' => :'mongodb',
         :'credit_price' => :'creditPrice',
         :'supplier_connection_id' => :'supplierConnectionId',
         :'last_synced_at' => :'lastSyncedAt',
@@ -116,6 +125,9 @@ module Pleaxy
         :'databricks' => :'AiProviderDatabricks',
         :'github' => :'AiProviderGithub',
         :'zoom' => :'AiProviderZoom',
+        :'datadog' => :'AiProviderDatadog',
+        :'twilio' => :'AiProviderTwilio',
+        :'mongodb' => :'AiProviderMongodb',
         :'credit_price' => :'AiProviderCreditPrice',
         :'supplier_connection_id' => :'String',
         :'last_synced_at' => :'String',
@@ -193,6 +205,18 @@ module Pleaxy
         self.zoom = attributes[:'zoom']
       end
 
+      if attributes.key?(:'datadog')
+        self.datadog = attributes[:'datadog']
+      end
+
+      if attributes.key?(:'twilio')
+        self.twilio = attributes[:'twilio']
+      end
+
+      if attributes.key?(:'mongodb')
+        self.mongodb = attributes[:'mongodb']
+      end
+
       if attributes.key?(:'credit_price')
         self.credit_price = attributes[:'credit_price']
       end
@@ -239,7 +263,7 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @id.nil?
-      provider_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom"])
+      provider_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom", "datadog", "twilio", "mongodb"])
       return false unless provider_validator.valid?(@provider)
       status_validator = EnumAttributeValidator.new('String', ["connected", "pending"])
       return false unless status_validator.valid?(@status)
@@ -253,7 +277,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] provider Object to be assigned
     def provider=(provider)
-      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom"])
+      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom", "datadog", "twilio", "mongodb"])
       unless validator.valid?(provider)
         fail ArgumentError, "invalid value for \"provider\", must be one of #{validator.allowable_values}."
       end
@@ -306,6 +330,9 @@ module Pleaxy
           databricks == o.databricks &&
           github == o.github &&
           zoom == o.zoom &&
+          datadog == o.datadog &&
+          twilio == o.twilio &&
+          mongodb == o.mongodb &&
           credit_price == o.credit_price &&
           supplier_connection_id == o.supplier_connection_id &&
           last_synced_at == o.last_synced_at &&
@@ -324,7 +351,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, provider, account_label, key_hint, status, connected_at, connected_by, snowflake, databricks, github, zoom, credit_price, supplier_connection_id, last_synced_at, last_sync_status, last_sync_error, last_sync_error_code, currency].hash
+      [id, provider, account_label, key_hint, status, connected_at, connected_by, snowflake, databricks, github, zoom, datadog, twilio, mongodb, credit_price, supplier_connection_id, last_synced_at, last_sync_status, last_sync_error, last_sync_error_code, currency].hash
     end
 
     # Builds the object from hash

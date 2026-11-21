@@ -71,6 +71,8 @@ module Pleaxy
 
     attr_accessor :early_payment
 
+    attr_accessor :contract_early_payment
+
     attr_accessor :last_reminded_at
 
     attr_accessor :last_approver_reminded_at
@@ -96,6 +98,12 @@ module Pleaxy
     attr_accessor :invoice_date
 
     attr_accessor :submitted_format
+
+    attr_accessor :e_invoice
+
+    attr_accessor :e_invoice_details
+
+    attr_accessor :e_invoice_buyer_downloaded_at
 
     attr_accessor :external_invoice_number
 
@@ -136,6 +144,8 @@ module Pleaxy
     attr_accessor :source_document
 
     attr_accessor :has_original_pdf
+
+    attr_accessor :can_offer_early_payment
 
     attr_accessor :held_back
 
@@ -212,6 +222,7 @@ module Pleaxy
         :'paid_at' => :'paidAt',
         :'due_date_source' => :'dueDateSource',
         :'early_payment' => :'earlyPayment',
+        :'contract_early_payment' => :'contractEarlyPayment',
         :'last_reminded_at' => :'lastRemindedAt',
         :'last_approver_reminded_at' => :'lastApproverRemindedAt',
         :'rejection' => :'rejection',
@@ -225,6 +236,9 @@ module Pleaxy
         :'entered_by' => :'enteredBy',
         :'invoice_date' => :'invoiceDate',
         :'submitted_format' => :'submittedFormat',
+        :'e_invoice' => :'eInvoice',
+        :'e_invoice_details' => :'eInvoiceDetails',
+        :'e_invoice_buyer_downloaded_at' => :'eInvoiceBuyerDownloadedAt',
         :'external_invoice_number' => :'externalInvoiceNumber',
         :'adjustments' => :'adjustments',
         :'tax_amount' => :'taxAmount',
@@ -245,6 +259,7 @@ module Pleaxy
         :'bank_lane' => :'bankLane',
         :'source_document' => :'sourceDocument',
         :'has_original_pdf' => :'hasOriginalPdf',
+        :'can_offer_early_payment' => :'canOfferEarlyPayment',
         :'held_back' => :'heldBack',
         :'settlement' => :'settlement',
         :'payment_problem' => :'paymentProblem',
@@ -295,6 +310,7 @@ module Pleaxy
         :'paid_at' => :'String',
         :'due_date_source' => :'String',
         :'early_payment' => :'InvoiceEarlyPayment',
+        :'contract_early_payment' => :'InvoiceEarlyPayment',
         :'last_reminded_at' => :'String',
         :'last_approver_reminded_at' => :'String',
         :'rejection' => :'InvoiceRejection',
@@ -308,6 +324,9 @@ module Pleaxy
         :'entered_by' => :'String',
         :'invoice_date' => :'String',
         :'submitted_format' => :'String',
+        :'e_invoice' => :'EInvoiceSummary',
+        :'e_invoice_details' => :'InvoiceEInvoiceDetails',
+        :'e_invoice_buyer_downloaded_at' => :'String',
         :'external_invoice_number' => :'String',
         :'adjustments' => :'Array<InvoiceAdjustment>',
         :'tax_amount' => :'Float',
@@ -328,6 +347,7 @@ module Pleaxy
         :'bank_lane' => :'String',
         :'source_document' => :'InvoiceSourceDocument',
         :'has_original_pdf' => :'Boolean',
+        :'can_offer_early_payment' => :'Boolean',
         :'held_back' => :'SupplierHeldBackView',
         :'settlement' => :'SupplierSettlementView',
         :'payment_problem' => :'SupplierPaymentProblemView',
@@ -479,6 +499,10 @@ module Pleaxy
         self.early_payment = attributes[:'early_payment']
       end
 
+      if attributes.key?(:'contract_early_payment')
+        self.contract_early_payment = attributes[:'contract_early_payment']
+      end
+
       if attributes.key?(:'last_reminded_at')
         self.last_reminded_at = attributes[:'last_reminded_at']
       end
@@ -535,6 +559,18 @@ module Pleaxy
 
       if attributes.key?(:'submitted_format')
         self.submitted_format = attributes[:'submitted_format']
+      end
+
+      if attributes.key?(:'e_invoice')
+        self.e_invoice = attributes[:'e_invoice']
+      end
+
+      if attributes.key?(:'e_invoice_details')
+        self.e_invoice_details = attributes[:'e_invoice_details']
+      end
+
+      if attributes.key?(:'e_invoice_buyer_downloaded_at')
+        self.e_invoice_buyer_downloaded_at = attributes[:'e_invoice_buyer_downloaded_at']
       end
 
       if attributes.key?(:'external_invoice_number')
@@ -631,6 +667,10 @@ module Pleaxy
         self.has_original_pdf = attributes[:'has_original_pdf']
       end
 
+      if attributes.key?(:'can_offer_early_payment')
+        self.can_offer_early_payment = attributes[:'can_offer_early_payment']
+      end
+
       if attributes.key?(:'held_back')
         self.held_back = attributes[:'held_back']
       end
@@ -707,7 +747,7 @@ module Pleaxy
       return false unless source_validator.valid?(@source)
       entered_by_validator = EnumAttributeValidator.new('String', ["buyer", "supplier"])
       return false unless entered_by_validator.valid?(@entered_by)
-      submitted_format_validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml"])
+      submitted_format_validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml", "cii", "fatturapa"])
       return false unless submitted_format_validator.valid?(@submitted_format)
       document_type_validator = EnumAttributeValidator.new('String', ["debit_note"])
       return false unless document_type_validator.valid?(@document_type)
@@ -779,7 +819,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] submitted_format Object to be assigned
     def submitted_format=(submitted_format)
-      validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml"])
+      validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml", "cii", "fatturapa"])
       unless validator.valid?(submitted_format)
         fail ArgumentError, "invalid value for \"submitted_format\", must be one of #{validator.allowable_values}."
       end
@@ -839,6 +879,7 @@ module Pleaxy
           paid_at == o.paid_at &&
           due_date_source == o.due_date_source &&
           early_payment == o.early_payment &&
+          contract_early_payment == o.contract_early_payment &&
           last_reminded_at == o.last_reminded_at &&
           last_approver_reminded_at == o.last_approver_reminded_at &&
           rejection == o.rejection &&
@@ -852,6 +893,9 @@ module Pleaxy
           entered_by == o.entered_by &&
           invoice_date == o.invoice_date &&
           submitted_format == o.submitted_format &&
+          e_invoice == o.e_invoice &&
+          e_invoice_details == o.e_invoice_details &&
+          e_invoice_buyer_downloaded_at == o.e_invoice_buyer_downloaded_at &&
           external_invoice_number == o.external_invoice_number &&
           adjustments == o.adjustments &&
           tax_amount == o.tax_amount &&
@@ -872,6 +916,7 @@ module Pleaxy
           bank_lane == o.bank_lane &&
           source_document == o.source_document &&
           has_original_pdf == o.has_original_pdf &&
+          can_offer_early_payment == o.can_offer_early_payment &&
           held_back == o.held_back &&
           settlement == o.settlement &&
           payment_problem == o.payment_problem &&
@@ -894,7 +939,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier, id, buyer_org_id, supplier_org_id, created_at, cloud_provider, late_fee_terms, amount, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, no_po_comparison, payment_route, paid, due_in_days, due_date, paid_at, due_date_source, early_payment, last_reminded_at, last_approver_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, submitted_format, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, bank_lane, source_document, has_original_pdf, held_back, settlement, payment_problem, bank_details_confirmation, base_currency_amount, approval, payment, withdrawn_payment, remittances, buyer_workspace_id, next_reminder_at].hash
+      [supplier, id, buyer_org_id, supplier_org_id, created_at, cloud_provider, late_fee_terms, amount, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, no_po_comparison, payment_route, paid, due_in_days, due_date, paid_at, due_date_source, early_payment, contract_early_payment, last_reminded_at, last_approver_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, entered_by, invoice_date, submitted_format, e_invoice, e_invoice_details, e_invoice_buyer_downloaded_at, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, bank_lane, source_document, has_original_pdf, can_offer_early_payment, held_back, settlement, payment_problem, bank_details_confirmation, base_currency_amount, approval, payment, withdrawn_payment, remittances, buyer_workspace_id, next_reminder_at].hash
     end
 
     # Builds the object from hash

@@ -47,6 +47,8 @@ module Pleaxy
 
     attr_accessor :geography_preset_id
 
+    attr_accessor :e_invoicing
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -87,7 +89,8 @@ module Pleaxy
         :'time_zone' => :'timeZone',
         :'listed_in_directory' => :'listedInDirectory',
         :'locale' => :'locale',
-        :'geography_preset_id' => :'geographyPresetId'
+        :'geography_preset_id' => :'geographyPresetId',
+        :'e_invoicing' => :'eInvoicing'
       }
     end
 
@@ -114,7 +117,8 @@ module Pleaxy
         :'time_zone' => :'String',
         :'listed_in_directory' => :'Boolean',
         :'locale' => :'String',
-        :'geography_preset_id' => :'String'
+        :'geography_preset_id' => :'String',
+        :'e_invoicing' => :'EInvoicingSettingsInput'
       }
     end
 
@@ -123,7 +127,8 @@ module Pleaxy
       Set.new([
         :'billing_address_parts',
         :'locale',
-        :'geography_preset_id'
+        :'geography_preset_id',
+        :'e_invoicing'
       ])
     end
 
@@ -210,6 +215,10 @@ module Pleaxy
 
       if attributes.key?(:'geography_preset_id')
         self.geography_preset_id = attributes[:'geography_preset_id']
+      end
+
+      if attributes.key?(:'e_invoicing')
+        self.e_invoicing = attributes[:'e_invoicing']
       end
     end
 
@@ -348,7 +357,8 @@ module Pleaxy
           time_zone == o.time_zone &&
           listed_in_directory == o.listed_in_directory &&
           locale == o.locale &&
-          geography_preset_id == o.geography_preset_id
+          geography_preset_id == o.geography_preset_id &&
+          e_invoicing == o.e_invoicing
     end
 
     # @see the `==` method
@@ -360,7 +370,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [region_name, company_name, billing_email, billing_address, billing_address_parts, tax_id, currency, other_currencies, payment_currencies, primary_contact_name, primary_contact_email, countries, time_zone, listed_in_directory, locale, geography_preset_id].hash
+      [region_name, company_name, billing_email, billing_address, billing_address_parts, tax_id, currency, other_currencies, payment_currencies, primary_contact_name, primary_contact_email, countries, time_zone, listed_in_directory, locale, geography_preset_id, e_invoicing].hash
     end
 
     # Builds the object from hash

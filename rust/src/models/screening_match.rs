@@ -40,7 +40,7 @@ pub struct ScreeningMatch {
     #[serde(rename = "decidedAt", skip_serializing_if = "Option::is_none")]
     pub decided_at: Option<String>,
     #[serde(rename = "decidedBy", skip_serializing_if = "Option::is_none")]
-    pub decided_by: Option<models::BankDetailsConfirmationConfirmedBy>,
+    pub decided_by: Option<models::InvoiceEarlyPaymentOfferedBy>,
     #[serde(rename = "reason", skip_serializing_if = "Option::is_none")]
     pub reason: Option<String>,
     #[serde(rename = "closedReason", skip_serializing_if = "Option::is_none")]

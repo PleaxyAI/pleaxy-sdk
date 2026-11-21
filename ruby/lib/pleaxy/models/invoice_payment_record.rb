@@ -117,7 +117,7 @@ module Pleaxy
         :'advice_version' => :'Float',
         :'paid_amount' => :'InvoicePaymentRecordPaidAmount',
         :'withholdings' => :'Array<InvoiceBreakdownEntry>',
-        :'early_payment_discount' => :'InvoicePaymentRecordEarlyPaymentDiscount',
+        :'early_payment_discount' => :'EarlyPaymentDiscountTaken',
         :'scheduled_payment_date' => :'String'
       }
     end

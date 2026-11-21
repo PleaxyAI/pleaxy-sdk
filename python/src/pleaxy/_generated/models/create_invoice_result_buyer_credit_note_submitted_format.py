@@ -1,11 +1,15 @@
 from typing import Literal, Set, cast
 
-CreateInvoiceResultBuyerCreditNoteSubmittedFormat = Literal["cxml", "json", "ubl"]
+CreateInvoiceResultBuyerCreditNoteSubmittedFormat = Literal[
+    "cii", "cxml", "fatturapa", "json", "ubl"
+]
 
 CREATE_INVOICE_RESULT_BUYER_CREDIT_NOTE_SUBMITTED_FORMAT_VALUES: Set[
     CreateInvoiceResultBuyerCreditNoteSubmittedFormat
 ] = {
+    "cii",
     "cxml",
+    "fatturapa",
     "json",
     "ubl",
 }

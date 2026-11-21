@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.EInvoiceSummary;
 import ai.pleaxy.model.InvoiceAdjustment;
 import ai.pleaxy.model.InvoiceBaseCurrencyAmount;
 import ai.pleaxy.model.InvoiceBreakdownEntry;
@@ -27,6 +28,7 @@ import ai.pleaxy.model.InvoiceCreditApplication;
 import ai.pleaxy.model.InvoiceCurrencyAmount;
 import ai.pleaxy.model.InvoiceDeduction;
 import ai.pleaxy.model.InvoiceDuplicateRef;
+import ai.pleaxy.model.InvoiceEInvoiceDetails;
 import ai.pleaxy.model.InvoiceEarlyPayment;
 import ai.pleaxy.model.InvoiceLineItem;
 import ai.pleaxy.model.InvoiceRejection;
@@ -85,6 +87,7 @@ import ai.pleaxy.client.ApiClient;
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_PAID_AT,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_DUE_DATE_SOURCE,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_EARLY_PAYMENT,
+  CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_CONTRACT_EARLY_PAYMENT,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_LAST_REMINDED_AT,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_LAST_APPROVER_REMINDED_AT,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_REJECTION,
@@ -98,6 +101,9 @@ import ai.pleaxy.client.ApiClient;
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_ENTERED_BY,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_INVOICE_DATE,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_SUBMITTED_FORMAT,
+  CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_E_INVOICE,
+  CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_E_INVOICE_DETAILS,
+  CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_E_INVOICE_BUYER_DOWNLOADED_AT,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_EXTERNAL_INVOICE_NUMBER,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_ADJUSTMENTS,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_TAX_AMOUNT,
@@ -118,6 +124,7 @@ import ai.pleaxy.client.ApiClient;
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_BANK_LANE,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_SOURCE_DOCUMENT,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_HAS_ORIGINAL_PDF,
+  CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_CAN_OFFER_EARLY_PAYMENT,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_HELD_BACK,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_SETTLEMENT,
   CreateInvoiceResultSupplierInvoice.JSON_PROPERTY_PAYMENT_PROBLEM,
@@ -392,6 +399,10 @@ public class CreateInvoiceResultSupplierInvoice {
   @javax.annotation.Nullable
   private InvoiceEarlyPayment earlyPayment;
 
+  public static final String JSON_PROPERTY_CONTRACT_EARLY_PAYMENT = "contractEarlyPayment";
+  @javax.annotation.Nullable
+  private InvoiceEarlyPayment contractEarlyPayment;
+
   public static final String JSON_PROPERTY_LAST_REMINDED_AT = "lastRemindedAt";
   @javax.annotation.Nullable
   private String lastRemindedAt;
@@ -524,7 +535,11 @@ public class CreateInvoiceResultSupplierInvoice {
     
     UBL(String.valueOf("ubl")),
     
-    CXML(String.valueOf("cxml"));
+    CXML(String.valueOf("cxml")),
+    
+    CII(String.valueOf("cii")),
+    
+    FATTURAPA(String.valueOf("fatturapa"));
 
     private String value;
 
@@ -556,6 +571,18 @@ public class CreateInvoiceResultSupplierInvoice {
   public static final String JSON_PROPERTY_SUBMITTED_FORMAT = "submittedFormat";
   @javax.annotation.Nullable
   private SubmittedFormatEnum submittedFormat;
+
+  public static final String JSON_PROPERTY_E_INVOICE = "eInvoice";
+  @javax.annotation.Nullable
+  private EInvoiceSummary eInvoice;
+
+  public static final String JSON_PROPERTY_E_INVOICE_DETAILS = "eInvoiceDetails";
+  @javax.annotation.Nullable
+  private InvoiceEInvoiceDetails eInvoiceDetails;
+
+  public static final String JSON_PROPERTY_E_INVOICE_BUYER_DOWNLOADED_AT = "eInvoiceBuyerDownloadedAt";
+  @javax.annotation.Nullable
+  private String eInvoiceBuyerDownloadedAt;
 
   public static final String JSON_PROPERTY_EXTERNAL_INVOICE_NUMBER = "externalInvoiceNumber";
   @javax.annotation.Nullable
@@ -704,6 +731,10 @@ public class CreateInvoiceResultSupplierInvoice {
   public static final String JSON_PROPERTY_HAS_ORIGINAL_PDF = "hasOriginalPdf";
   @javax.annotation.Nullable
   private Boolean hasOriginalPdf;
+
+  public static final String JSON_PROPERTY_CAN_OFFER_EARLY_PAYMENT = "canOfferEarlyPayment";
+  @javax.annotation.Nullable
+  private Boolean canOfferEarlyPayment;
 
   public static final String JSON_PROPERTY_HELD_BACK = "heldBack";
   @javax.annotation.Nullable
@@ -1432,6 +1463,30 @@ public class CreateInvoiceResultSupplierInvoice {
   }
 
 
+  public CreateInvoiceResultSupplierInvoice contractEarlyPayment(@javax.annotation.Nullable InvoiceEarlyPayment contractEarlyPayment) {
+    this.contractEarlyPayment = contractEarlyPayment;
+    return this;
+  }
+
+  /**
+   * Get contractEarlyPayment
+   * @return contractEarlyPayment
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CONTRACT_EARLY_PAYMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceEarlyPayment getContractEarlyPayment() {
+    return contractEarlyPayment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CONTRACT_EARLY_PAYMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setContractEarlyPayment(@javax.annotation.Nullable InvoiceEarlyPayment contractEarlyPayment) {
+    this.contractEarlyPayment = contractEarlyPayment;
+  }
+
+
   public CreateInvoiceResultSupplierInvoice lastRemindedAt(@javax.annotation.Nullable String lastRemindedAt) {
     this.lastRemindedAt = lastRemindedAt;
     return this;
@@ -1765,6 +1820,78 @@ public class CreateInvoiceResultSupplierInvoice {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSubmittedFormat(@javax.annotation.Nullable SubmittedFormatEnum submittedFormat) {
     this.submittedFormat = submittedFormat;
+  }
+
+
+  public CreateInvoiceResultSupplierInvoice eInvoice(@javax.annotation.Nullable EInvoiceSummary eInvoice) {
+    this.eInvoice = eInvoice;
+    return this;
+  }
+
+  /**
+   * Get eInvoice
+   * @return eInvoice
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_E_INVOICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public EInvoiceSummary geteInvoice() {
+    return eInvoice;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_E_INVOICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void seteInvoice(@javax.annotation.Nullable EInvoiceSummary eInvoice) {
+    this.eInvoice = eInvoice;
+  }
+
+
+  public CreateInvoiceResultSupplierInvoice eInvoiceDetails(@javax.annotation.Nullable InvoiceEInvoiceDetails eInvoiceDetails) {
+    this.eInvoiceDetails = eInvoiceDetails;
+    return this;
+  }
+
+  /**
+   * Get eInvoiceDetails
+   * @return eInvoiceDetails
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_E_INVOICE_DETAILS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceEInvoiceDetails geteInvoiceDetails() {
+    return eInvoiceDetails;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_E_INVOICE_DETAILS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void seteInvoiceDetails(@javax.annotation.Nullable InvoiceEInvoiceDetails eInvoiceDetails) {
+    this.eInvoiceDetails = eInvoiceDetails;
+  }
+
+
+  public CreateInvoiceResultSupplierInvoice eInvoiceBuyerDownloadedAt(@javax.annotation.Nullable String eInvoiceBuyerDownloadedAt) {
+    this.eInvoiceBuyerDownloadedAt = eInvoiceBuyerDownloadedAt;
+    return this;
+  }
+
+  /**
+   * Get eInvoiceBuyerDownloadedAt
+   * @return eInvoiceBuyerDownloadedAt
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_E_INVOICE_BUYER_DOWNLOADED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String geteInvoiceBuyerDownloadedAt() {
+    return eInvoiceBuyerDownloadedAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_E_INVOICE_BUYER_DOWNLOADED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void seteInvoiceBuyerDownloadedAt(@javax.annotation.Nullable String eInvoiceBuyerDownloadedAt) {
+    this.eInvoiceBuyerDownloadedAt = eInvoiceBuyerDownloadedAt;
   }
 
 
@@ -2304,6 +2431,30 @@ public class CreateInvoiceResultSupplierInvoice {
   }
 
 
+  public CreateInvoiceResultSupplierInvoice canOfferEarlyPayment(@javax.annotation.Nullable Boolean canOfferEarlyPayment) {
+    this.canOfferEarlyPayment = canOfferEarlyPayment;
+    return this;
+  }
+
+  /**
+   * Get canOfferEarlyPayment
+   * @return canOfferEarlyPayment
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CAN_OFFER_EARLY_PAYMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getCanOfferEarlyPayment() {
+    return canOfferEarlyPayment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CAN_OFFER_EARLY_PAYMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCanOfferEarlyPayment(@javax.annotation.Nullable Boolean canOfferEarlyPayment) {
+    this.canOfferEarlyPayment = canOfferEarlyPayment;
+  }
+
+
   public CreateInvoiceResultSupplierInvoice heldBack(@javax.annotation.Nullable SupplierHeldBackView heldBack) {
     this.heldBack = heldBack;
     return this;
@@ -2616,6 +2767,7 @@ public class CreateInvoiceResultSupplierInvoice {
         Objects.equals(this.paidAt, createInvoiceResultSupplierInvoice.paidAt) &&
         Objects.equals(this.dueDateSource, createInvoiceResultSupplierInvoice.dueDateSource) &&
         Objects.equals(this.earlyPayment, createInvoiceResultSupplierInvoice.earlyPayment) &&
+        Objects.equals(this.contractEarlyPayment, createInvoiceResultSupplierInvoice.contractEarlyPayment) &&
         Objects.equals(this.lastRemindedAt, createInvoiceResultSupplierInvoice.lastRemindedAt) &&
         Objects.equals(this.lastApproverRemindedAt, createInvoiceResultSupplierInvoice.lastApproverRemindedAt) &&
         Objects.equals(this.rejection, createInvoiceResultSupplierInvoice.rejection) &&
@@ -2629,6 +2781,9 @@ public class CreateInvoiceResultSupplierInvoice {
         Objects.equals(this.enteredBy, createInvoiceResultSupplierInvoice.enteredBy) &&
         Objects.equals(this.invoiceDate, createInvoiceResultSupplierInvoice.invoiceDate) &&
         Objects.equals(this.submittedFormat, createInvoiceResultSupplierInvoice.submittedFormat) &&
+        Objects.equals(this.eInvoice, createInvoiceResultSupplierInvoice.eInvoice) &&
+        Objects.equals(this.eInvoiceDetails, createInvoiceResultSupplierInvoice.eInvoiceDetails) &&
+        Objects.equals(this.eInvoiceBuyerDownloadedAt, createInvoiceResultSupplierInvoice.eInvoiceBuyerDownloadedAt) &&
         Objects.equals(this.externalInvoiceNumber, createInvoiceResultSupplierInvoice.externalInvoiceNumber) &&
         Objects.equals(this.adjustments, createInvoiceResultSupplierInvoice.adjustments) &&
         Objects.equals(this.taxAmount, createInvoiceResultSupplierInvoice.taxAmount) &&
@@ -2649,6 +2804,7 @@ public class CreateInvoiceResultSupplierInvoice {
         Objects.equals(this.bankLane, createInvoiceResultSupplierInvoice.bankLane) &&
         Objects.equals(this.sourceDocument, createInvoiceResultSupplierInvoice.sourceDocument) &&
         Objects.equals(this.hasOriginalPdf, createInvoiceResultSupplierInvoice.hasOriginalPdf) &&
+        Objects.equals(this.canOfferEarlyPayment, createInvoiceResultSupplierInvoice.canOfferEarlyPayment) &&
         Objects.equals(this.heldBack, createInvoiceResultSupplierInvoice.heldBack) &&
         Objects.equals(this.settlement, createInvoiceResultSupplierInvoice.settlement) &&
         Objects.equals(this.paymentProblem, createInvoiceResultSupplierInvoice.paymentProblem) &&
@@ -2664,7 +2820,7 @@ public class CreateInvoiceResultSupplierInvoice {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, cloudProvider, lateFeeTerms, amount, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, noPoComparison, paymentRoute, paid, dueInDays, dueDate, paidAt, dueDateSource, earlyPayment, lastRemindedAt, lastApproverRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, bankLane, sourceDocument, hasOriginalPdf, heldBack, settlement, paymentProblem, bankDetailsConfirmation, baseCurrencyAmount, approval, payment, withdrawnPayment, remittances, buyerWorkspaceId, nextReminderAt);
+    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, cloudProvider, lateFeeTerms, amount, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, noPoComparison, paymentRoute, paid, dueInDays, dueDate, paidAt, dueDateSource, earlyPayment, contractEarlyPayment, lastRemindedAt, lastApproverRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, submittedFormat, eInvoice, eInvoiceDetails, eInvoiceBuyerDownloadedAt, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, bankLane, sourceDocument, hasOriginalPdf, canOfferEarlyPayment, heldBack, settlement, paymentProblem, bankDetailsConfirmation, baseCurrencyAmount, approval, payment, withdrawnPayment, remittances, buyerWorkspaceId, nextReminderAt);
   }
 
   @Override
@@ -2699,6 +2855,7 @@ public class CreateInvoiceResultSupplierInvoice {
     sb.append("    paidAt: ").append(toIndentedString(paidAt)).append("\n");
     sb.append("    dueDateSource: ").append(toIndentedString(dueDateSource)).append("\n");
     sb.append("    earlyPayment: ").append(toIndentedString(earlyPayment)).append("\n");
+    sb.append("    contractEarlyPayment: ").append(toIndentedString(contractEarlyPayment)).append("\n");
     sb.append("    lastRemindedAt: ").append(toIndentedString(lastRemindedAt)).append("\n");
     sb.append("    lastApproverRemindedAt: ").append(toIndentedString(lastApproverRemindedAt)).append("\n");
     sb.append("    rejection: ").append(toIndentedString(rejection)).append("\n");
@@ -2712,6 +2869,9 @@ public class CreateInvoiceResultSupplierInvoice {
     sb.append("    enteredBy: ").append(toIndentedString(enteredBy)).append("\n");
     sb.append("    invoiceDate: ").append(toIndentedString(invoiceDate)).append("\n");
     sb.append("    submittedFormat: ").append(toIndentedString(submittedFormat)).append("\n");
+    sb.append("    eInvoice: ").append(toIndentedString(eInvoice)).append("\n");
+    sb.append("    eInvoiceDetails: ").append(toIndentedString(eInvoiceDetails)).append("\n");
+    sb.append("    eInvoiceBuyerDownloadedAt: ").append(toIndentedString(eInvoiceBuyerDownloadedAt)).append("\n");
     sb.append("    externalInvoiceNumber: ").append(toIndentedString(externalInvoiceNumber)).append("\n");
     sb.append("    adjustments: ").append(toIndentedString(adjustments)).append("\n");
     sb.append("    taxAmount: ").append(toIndentedString(taxAmount)).append("\n");
@@ -2732,6 +2892,7 @@ public class CreateInvoiceResultSupplierInvoice {
     sb.append("    bankLane: ").append(toIndentedString(bankLane)).append("\n");
     sb.append("    sourceDocument: ").append(toIndentedString(sourceDocument)).append("\n");
     sb.append("    hasOriginalPdf: ").append(toIndentedString(hasOriginalPdf)).append("\n");
+    sb.append("    canOfferEarlyPayment: ").append(toIndentedString(canOfferEarlyPayment)).append("\n");
     sb.append("    heldBack: ").append(toIndentedString(heldBack)).append("\n");
     sb.append("    settlement: ").append(toIndentedString(settlement)).append("\n");
     sb.append("    paymentProblem: ").append(toIndentedString(paymentProblem)).append("\n");
@@ -2935,6 +3096,11 @@ public class CreateInvoiceResultSupplierInvoice {
       joiner.add(getEarlyPayment().toUrlQueryString(prefix + "earlyPayment" + suffix));
     }
 
+    // add `contractEarlyPayment` to the URL query string
+    if (getContractEarlyPayment() != null) {
+      joiner.add(getContractEarlyPayment().toUrlQueryString(prefix + "contractEarlyPayment" + suffix));
+    }
+
     // add `lastRemindedAt` to the URL query string
     if (getLastRemindedAt() != null) {
       joiner.add(String.format("%slastRemindedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLastRemindedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -3011,6 +3177,21 @@ public class CreateInvoiceResultSupplierInvoice {
     // add `submittedFormat` to the URL query string
     if (getSubmittedFormat() != null) {
       joiner.add(String.format("%ssubmittedFormat%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSubmittedFormat()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `eInvoice` to the URL query string
+    if (geteInvoice() != null) {
+      joiner.add(geteInvoice().toUrlQueryString(prefix + "eInvoice" + suffix));
+    }
+
+    // add `eInvoiceDetails` to the URL query string
+    if (geteInvoiceDetails() != null) {
+      joiner.add(geteInvoiceDetails().toUrlQueryString(prefix + "eInvoiceDetails" + suffix));
+    }
+
+    // add `eInvoiceBuyerDownloadedAt` to the URL query string
+    if (geteInvoiceBuyerDownloadedAt() != null) {
+      joiner.add(String.format("%seInvoiceBuyerDownloadedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(geteInvoiceBuyerDownloadedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `externalInvoiceNumber` to the URL query string
@@ -3144,6 +3325,11 @@ public class CreateInvoiceResultSupplierInvoice {
     // add `hasOriginalPdf` to the URL query string
     if (getHasOriginalPdf() != null) {
       joiner.add(String.format("%shasOriginalPdf%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHasOriginalPdf()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `canOfferEarlyPayment` to the URL query string
+    if (getCanOfferEarlyPayment() != null) {
+      joiner.add(String.format("%scanOfferEarlyPayment%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCanOfferEarlyPayment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `heldBack` to the URL query string

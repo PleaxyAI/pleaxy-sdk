@@ -1,11 +1,13 @@
 from typing import Literal, Set, cast
 
-FeedValidationResultSubmittedFormat = Literal["cxml", "json", "ubl"]
+FeedValidationResultSubmittedFormat = Literal["cii", "cxml", "fatturapa", "json", "ubl"]
 
 FEED_VALIDATION_RESULT_SUBMITTED_FORMAT_VALUES: Set[
     FeedValidationResultSubmittedFormat
 ] = {
+    "cii",
     "cxml",
+    "fatturapa",
     "json",
     "ubl",
 }

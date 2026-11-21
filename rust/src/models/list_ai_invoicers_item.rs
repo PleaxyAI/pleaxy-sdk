@@ -91,6 +91,12 @@ pub enum Id {
     Slack,
     #[serde(rename = "zoom")]
     Zoom,
+    #[serde(rename = "datadog")]
+    Datadog,
+    #[serde(rename = "twilio")]
+    Twilio,
+    #[serde(rename = "mongodb")]
+    Mongodb,
 }
 
 impl Default for Id {
@@ -133,6 +139,8 @@ impl Default for Credential {
 pub enum Tier {
     #[serde(rename = "seats")]
     Seats,
+    #[serde(rename = "usage")]
+    Usage,
     #[serde(rename = "direct")]
     Direct,
     #[serde(rename = "data_platform")]
@@ -153,6 +161,8 @@ impl Default for Tier {
 pub enum Shape {
     #[serde(rename = "seats")]
     Seats,
+    #[serde(rename = "usage")]
+    Usage,
     #[serde(rename = "capacity")]
     Capacity,
     #[serde(rename = "tokens")]

@@ -10,10 +10,8 @@ from ..models.payment_history_entry_record_method import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.early_payment_discount_taken import EarlyPaymentDiscountTaken
     from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
-    from ..models.payment_history_entry_record_early_payment_discount import (
-        PaymentHistoryEntryRecordEarlyPaymentDiscount,
-    )
     from ..models.payment_history_entry_record_paid_amount import (
         PaymentHistoryEntryRecordPaidAmount,
     )
@@ -33,7 +31,7 @@ class PaymentHistoryEntryRecord:
         recorded_at (Union[Unset, str]):
         advice_version (Union[Unset, float]):
         paid_amount (Union[Unset, PaymentHistoryEntryRecordPaidAmount]):
-        early_payment_discount (Union[Unset, PaymentHistoryEntryRecordEarlyPaymentDiscount]):
+        early_payment_discount (Union[Unset, EarlyPaymentDiscountTaken]):
     """
 
     withholdings: Union[Unset, List["InvoiceBreakdownEntry"]] = UNSET
@@ -43,9 +41,7 @@ class PaymentHistoryEntryRecord:
     recorded_at: Union[Unset, str] = UNSET
     advice_version: Union[Unset, float] = UNSET
     paid_amount: Union[Unset, "PaymentHistoryEntryRecordPaidAmount"] = UNSET
-    early_payment_discount: Union[
-        Unset, "PaymentHistoryEntryRecordEarlyPaymentDiscount"
-    ] = UNSET
+    early_payment_discount: Union[Unset, "EarlyPaymentDiscountTaken"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -100,10 +96,8 @@ class PaymentHistoryEntryRecord:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.early_payment_discount_taken import EarlyPaymentDiscountTaken
         from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
-        from ..models.payment_history_entry_record_early_payment_discount import (
-            PaymentHistoryEntryRecordEarlyPaymentDiscount,
-        )
         from ..models.payment_history_entry_record_paid_amount import (
             PaymentHistoryEntryRecordPaidAmount,
         )
@@ -139,16 +133,12 @@ class PaymentHistoryEntryRecord:
             paid_amount = PaymentHistoryEntryRecordPaidAmount.from_dict(_paid_amount)
 
         _early_payment_discount = d.pop("earlyPaymentDiscount", UNSET)
-        early_payment_discount: Union[
-            Unset, PaymentHistoryEntryRecordEarlyPaymentDiscount
-        ]
+        early_payment_discount: Union[Unset, EarlyPaymentDiscountTaken]
         if isinstance(_early_payment_discount, Unset):
             early_payment_discount = UNSET
         else:
-            early_payment_discount = (
-                PaymentHistoryEntryRecordEarlyPaymentDiscount.from_dict(
-                    _early_payment_discount
-                )
+            early_payment_discount = EarlyPaymentDiscountTaken.from_dict(
+                _early_payment_discount
             )
 
         payment_history_entry_record = cls(

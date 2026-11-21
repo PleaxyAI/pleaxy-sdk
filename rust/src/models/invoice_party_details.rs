@@ -17,6 +17,8 @@ pub struct InvoicePartyDetails {
     pub name: Option<String>,
     #[serde(rename = "addressLines", skip_serializing_if = "Option::is_none")]
     pub address_lines: Option<Vec<String>>,
+    #[serde(rename = "address", skip_serializing_if = "Option::is_none")]
+    pub address: Option<models::PostalAddress>,
     #[serde(rename = "taxId", skip_serializing_if = "Option::is_none")]
     pub tax_id: Option<String>,
     #[serde(rename = "taxIdLabel", skip_serializing_if = "Option::is_none")]
@@ -28,6 +30,7 @@ impl InvoicePartyDetails {
         InvoicePartyDetails {
             name: None,
             address_lines: None,
+            address: None,
             tax_id: None,
             tax_id_label: None,
         }

@@ -41,7 +41,7 @@ pub struct InvoiceStripePayment {
         rename = "earlyPaymentDiscount",
         skip_serializing_if = "Option::is_none"
     )]
-    pub early_payment_discount: Option<models::InvoicePaymentRecordEarlyPaymentDiscount>,
+    pub early_payment_discount: Option<models::EarlyPaymentDiscountTaken>,
     #[serde(rename = "initiatedDate", skip_serializing_if = "Option::is_none")]
     pub initiated_date: Option<String>,
 }

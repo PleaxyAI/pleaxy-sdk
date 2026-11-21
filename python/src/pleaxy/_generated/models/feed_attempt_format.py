@@ -1,9 +1,11 @@
 from typing import Literal, Set, cast
 
-FeedAttemptFormat = Literal["cxml", "json", "ubl"]
+FeedAttemptFormat = Literal["cii", "cxml", "fatturapa", "json", "ubl"]
 
 FEED_ATTEMPT_FORMAT_VALUES: Set[FeedAttemptFormat] = {
+    "cii",
     "cxml",
+    "fatturapa",
     "json",
     "ubl",
 }

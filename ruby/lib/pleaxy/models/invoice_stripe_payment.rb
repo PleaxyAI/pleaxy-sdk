@@ -105,7 +105,7 @@ module Pleaxy
         :'started_by' => :'String',
         :'started_by_name' => :'String',
         :'succeeded_at' => :'String',
-        :'early_payment_discount' => :'InvoicePaymentRecordEarlyPaymentDiscount',
+        :'early_payment_discount' => :'EarlyPaymentDiscountTaken',
         :'initiated_date' => :'String'
       }
     end

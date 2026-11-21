@@ -82,6 +82,8 @@ public class InvoiceActivityEntry {
     
     REMINDER(String.valueOf("reminder")),
     
+    EARLY_PAYMENT_OFFER(String.valueOf("early_payment_offer")),
+    
     HELD_BACK(String.valueOf("held_back")),
     
     HOLD_ENDED(String.valueOf("hold_ended")),

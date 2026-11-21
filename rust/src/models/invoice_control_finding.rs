@@ -124,6 +124,8 @@ pub enum Code {
     AiCommitmentExceeded,
     #[serde(rename = "ai_seats_above_active")]
     AiSeatsAboveActive,
+    #[serde(rename = "usage_billed_mismatch")]
+    UsageBilledMismatch,
 }
 
 impl Default for Code {

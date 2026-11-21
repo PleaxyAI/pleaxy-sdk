@@ -19,6 +19,8 @@ module Pleaxy
 
     attr_accessor :address_lines
 
+    attr_accessor :address
+
     attr_accessor :tax_id
 
     attr_accessor :tax_id_label
@@ -28,6 +30,7 @@ module Pleaxy
       {
         :'name' => :'name',
         :'address_lines' => :'addressLines',
+        :'address' => :'address',
         :'tax_id' => :'taxId',
         :'tax_id_label' => :'taxIdLabel'
       }
@@ -43,6 +46,7 @@ module Pleaxy
       {
         :'name' => :'String',
         :'address_lines' => :'Array<String>',
+        :'address' => :'PostalAddress',
         :'tax_id' => :'String',
         :'tax_id_label' => :'String'
       }
@@ -79,6 +83,10 @@ module Pleaxy
         end
       end
 
+      if attributes.key?(:'address')
+        self.address = attributes[:'address']
+      end
+
       if attributes.key?(:'tax_id')
         self.tax_id = attributes[:'tax_id']
       end
@@ -110,6 +118,7 @@ module Pleaxy
       self.class == o.class &&
           name == o.name &&
           address_lines == o.address_lines &&
+          address == o.address &&
           tax_id == o.tax_id &&
           tax_id_label == o.tax_id_label
     end
@@ -123,7 +132,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, address_lines, tax_id, tax_id_label].hash
+      [name, address_lines, address, tax_id, tax_id_label].hash
     end
 
     # Builds the object from hash

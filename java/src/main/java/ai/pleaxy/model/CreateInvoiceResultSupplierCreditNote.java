@@ -314,7 +314,11 @@ public class CreateInvoiceResultSupplierCreditNote {
     
     UBL(String.valueOf("ubl")),
     
-    CXML(String.valueOf("cxml"));
+    CXML(String.valueOf("cxml")),
+    
+    CII(String.valueOf("cii")),
+    
+    FATTURAPA(String.valueOf("fatturapa"));
 
     private String value;
 

@@ -80,7 +80,7 @@ module Pleaxy
         :'supplier_can_confirm' => :'Boolean',
         :'confirmed_via' => :'String',
         :'confirmed_at' => :'String',
-        :'confirmed_by' => :'BankDetailsConfirmationConfirmedBy',
+        :'confirmed_by' => :'InvoiceEarlyPaymentOfferedBy',
         :'phone' => :'BankDetailsConfirmationPhone',
         :'dispute' => :'BankDetailsConfirmationDispute'
       }

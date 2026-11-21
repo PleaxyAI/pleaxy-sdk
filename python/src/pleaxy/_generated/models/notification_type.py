@@ -11,6 +11,7 @@ NotificationType = Literal[
     "contract_comment",
     "contract_recheck_requested",
     "contract_renewal_notice_due",
+    "contract_seat_review_due",
     "contract_sent_to_joined_supplier",
     "contract_termination_notice_due",
     "contract_terms_acknowledged",
@@ -38,6 +39,7 @@ NotificationType = Literal[
     "invoice_bank_details_to_confirm",
     "invoice_comment",
     "invoice_discrepancy",
+    "invoice_early_payment_offer",
     "invoice_entered_by_buyer",
     "invoice_feed_changed",
     "invoice_held_due_soon",
@@ -109,6 +111,8 @@ NotificationType = Literal[
     "supplier_screening_match",
     "support_case_opened",
     "support_case_updated",
+    "usage_anomaly",
+    "usage_contract_projection",
 ]
 
 NOTIFICATION_TYPE_VALUES: Set[NotificationType] = {
@@ -122,6 +126,7 @@ NOTIFICATION_TYPE_VALUES: Set[NotificationType] = {
     "contract_comment",
     "contract_recheck_requested",
     "contract_renewal_notice_due",
+    "contract_seat_review_due",
     "contract_sent_to_joined_supplier",
     "contract_termination_notice_due",
     "contract_terms_acknowledged",
@@ -149,6 +154,7 @@ NOTIFICATION_TYPE_VALUES: Set[NotificationType] = {
     "invoice_bank_details_to_confirm",
     "invoice_comment",
     "invoice_discrepancy",
+    "invoice_early_payment_offer",
     "invoice_entered_by_buyer",
     "invoice_feed_changed",
     "invoice_held_due_soon",
@@ -220,6 +226,8 @@ NOTIFICATION_TYPE_VALUES: Set[NotificationType] = {
     "supplier_screening_match",
     "support_case_opened",
     "support_case_updated",
+    "usage_anomaly",
+    "usage_contract_projection",
 }
 
 

@@ -19,7 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import ai.pleaxy.model.BankDetailsConfirmationConfirmedBy;
+import ai.pleaxy.model.InvoiceEarlyPaymentOfferedBy;
 import ai.pleaxy.model.ScreenSubject;
 import ai.pleaxy.model.ScreeningMatchEntry;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -189,7 +189,7 @@ public class ScreeningMatch {
 
   public static final String JSON_PROPERTY_DECIDED_BY = "decidedBy";
   @javax.annotation.Nullable
-  private BankDetailsConfirmationConfirmedBy decidedBy;
+  private InvoiceEarlyPaymentOfferedBy decidedBy;
 
   public static final String JSON_PROPERTY_REASON = "reason";
   @javax.annotation.Nullable
@@ -549,7 +549,7 @@ public class ScreeningMatch {
   }
 
 
-  public ScreeningMatch decidedBy(@javax.annotation.Nullable BankDetailsConfirmationConfirmedBy decidedBy) {
+  public ScreeningMatch decidedBy(@javax.annotation.Nullable InvoiceEarlyPaymentOfferedBy decidedBy) {
     this.decidedBy = decidedBy;
     return this;
   }
@@ -561,14 +561,14 @@ public class ScreeningMatch {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DECIDED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public BankDetailsConfirmationConfirmedBy getDecidedBy() {
+  public InvoiceEarlyPaymentOfferedBy getDecidedBy() {
     return decidedBy;
   }
 
 
   @JsonProperty(JSON_PROPERTY_DECIDED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDecidedBy(@javax.annotation.Nullable BankDetailsConfirmationConfirmedBy decidedBy) {
+  public void setDecidedBy(@javax.annotation.Nullable InvoiceEarlyPaymentOfferedBy decidedBy) {
     this.decidedBy = decidedBy;
   }
 

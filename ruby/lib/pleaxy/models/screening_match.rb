@@ -112,7 +112,7 @@ module Pleaxy
         :'state' => :'String',
         :'found_at' => :'String',
         :'decided_at' => :'String',
-        :'decided_by' => :'BankDetailsConfirmationConfirmedBy',
+        :'decided_by' => :'InvoiceEarlyPaymentOfferedBy',
         :'reason' => :'String',
         :'closed_reason' => :'String'
       }

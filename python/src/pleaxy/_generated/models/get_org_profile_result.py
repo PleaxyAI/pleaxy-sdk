@@ -18,6 +18,7 @@ from ..models.get_org_profile_result_setup_goal import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.e_invoicing_profile_settings import EInvoicingProfileSettings
     from ..models.geography import Geography
     from ..models.postal_address import PostalAddress
     from ..models.profile_images import ProfileImages
@@ -59,6 +60,7 @@ class GetOrgProfileResult:
         listed_in_directory (Union[Unset, bool]):
         directory_id (Union[Unset, str]):
         setup_goal (Union[Unset, GetOrgProfileResultSetupGoal]):
+        e_invoicing (Union[Unset, EInvoicingProfileSettings]):
     """
 
     id: str
@@ -89,6 +91,7 @@ class GetOrgProfileResult:
     listed_in_directory: Union[Unset, bool] = UNSET
     directory_id: Union[Unset, str] = UNSET
     setup_goal: Union[Unset, GetOrgProfileResultSetupGoal] = UNSET
+    e_invoicing: Union[Unset, "EInvoicingProfileSettings"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -168,6 +171,10 @@ class GetOrgProfileResult:
         if not isinstance(self.setup_goal, Unset):
             setup_goal = self.setup_goal
 
+        e_invoicing: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.e_invoicing, Unset):
+            e_invoicing = self.e_invoicing.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -229,11 +236,14 @@ class GetOrgProfileResult:
             field_dict["directoryId"] = directory_id
         if setup_goal is not UNSET:
             field_dict["setupGoal"] = setup_goal
+        if e_invoicing is not UNSET:
+            field_dict["eInvoicing"] = e_invoicing
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.e_invoicing_profile_settings import EInvoicingProfileSettings
         from ..models.geography import Geography
         from ..models.postal_address import PostalAddress
         from ..models.profile_images import ProfileImages
@@ -333,6 +343,13 @@ class GetOrgProfileResult:
         else:
             setup_goal = check_get_org_profile_result_setup_goal(_setup_goal)
 
+        _e_invoicing = d.pop("eInvoicing", UNSET)
+        e_invoicing: Union[Unset, EInvoicingProfileSettings]
+        if isinstance(_e_invoicing, Unset):
+            e_invoicing = UNSET
+        else:
+            e_invoicing = EInvoicingProfileSettings.from_dict(_e_invoicing)
+
         get_org_profile_result = cls(
             id=id,
             images=images,
@@ -362,6 +379,7 @@ class GetOrgProfileResult:
             listed_in_directory=listed_in_directory,
             directory_id=directory_id,
             setup_goal=setup_goal,
+            e_invoicing=e_invoicing,
         )
 
         get_org_profile_result.additional_properties = d

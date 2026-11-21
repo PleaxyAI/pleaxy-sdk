@@ -306,6 +306,12 @@ pub enum AiProvider {
     Slack,
     #[serde(rename = "zoom")]
     Zoom,
+    #[serde(rename = "datadog")]
+    Datadog,
+    #[serde(rename = "twilio")]
+    Twilio,
+    #[serde(rename = "mongodb")]
+    Mongodb,
 }
 
 impl Default for AiProvider {

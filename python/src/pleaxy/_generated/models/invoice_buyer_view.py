@@ -64,6 +64,7 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.approval_chain import ApprovalChain
     from ..models.bank_details_confirmation import BankDetailsConfirmation
+    from ..models.e_invoice_summary import EInvoiceSummary
     from ..models.invoice_adjustment import InvoiceAdjustment
     from ..models.invoice_base_currency_amount import InvoiceBaseCurrencyAmount
     from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
@@ -79,6 +80,7 @@ if TYPE_CHECKING:
     from ..models.invoice_currency_amount import InvoiceCurrencyAmount
     from ..models.invoice_deduction import InvoiceDeduction
     from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
+    from ..models.invoice_e_invoice_details import InvoiceEInvoiceDetails
     from ..models.invoice_early_payment import InvoiceEarlyPayment
     from ..models.invoice_held_back import InvoiceHeldBack
     from ..models.invoice_line_item import InvoiceLineItem
@@ -158,6 +160,7 @@ class InvoiceBuyerView:
         previous_exported_at (Union[Unset, str]):
         due_date_source (Union[Unset, InvoiceBuyerViewDueDateSource]):
         early_payment (Union[Unset, InvoiceEarlyPayment]):
+        contract_early_payment (Union[Unset, InvoiceEarlyPayment]):
         last_reminded_at (Union[Unset, str]):
         last_approver_reminded_at (Union[Unset, str]):
         rejection (Union[Unset, InvoiceRejection]):
@@ -173,6 +176,9 @@ class InvoiceBuyerView:
         invoice_date (Union[Unset, str]):
         sod_excluded_keys (Union[Unset, List[str]]):
         submitted_format (Union[Unset, InvoiceBuyerViewSubmittedFormat]):
+        e_invoice (Union[Unset, EInvoiceSummary]):
+        e_invoice_details (Union[Unset, InvoiceEInvoiceDetails]):
+        e_invoice_buyer_downloaded_at (Union[Unset, str]):
         submitted_by (Union[Unset, str]):
         feed_payload_hash (Union[Unset, str]):
         external_invoice_number (Union[Unset, str]):
@@ -260,6 +266,7 @@ class InvoiceBuyerView:
     previous_exported_at: Union[Unset, str] = UNSET
     due_date_source: Union[Unset, InvoiceBuyerViewDueDateSource] = UNSET
     early_payment: Union[Unset, "InvoiceEarlyPayment"] = UNSET
+    contract_early_payment: Union[Unset, "InvoiceEarlyPayment"] = UNSET
     last_reminded_at: Union[Unset, str] = UNSET
     last_approver_reminded_at: Union[Unset, str] = UNSET
     rejection: Union[Unset, "InvoiceRejection"] = UNSET
@@ -275,6 +282,9 @@ class InvoiceBuyerView:
     invoice_date: Union[Unset, str] = UNSET
     sod_excluded_keys: Union[Unset, List[str]] = UNSET
     submitted_format: Union[Unset, InvoiceBuyerViewSubmittedFormat] = UNSET
+    e_invoice: Union[Unset, "EInvoiceSummary"] = UNSET
+    e_invoice_details: Union[Unset, "InvoiceEInvoiceDetails"] = UNSET
+    e_invoice_buyer_downloaded_at: Union[Unset, str] = UNSET
     submitted_by: Union[Unset, str] = UNSET
     feed_payload_hash: Union[Unset, str] = UNSET
     external_invoice_number: Union[Unset, str] = UNSET
@@ -476,6 +486,10 @@ class InvoiceBuyerView:
         if not isinstance(self.early_payment, Unset):
             early_payment = self.early_payment.to_dict()
 
+        contract_early_payment: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.contract_early_payment, Unset):
+            contract_early_payment = self.contract_early_payment.to_dict()
+
         last_reminded_at = self.last_reminded_at
 
         last_approver_reminded_at = self.last_approver_reminded_at
@@ -524,6 +538,16 @@ class InvoiceBuyerView:
         submitted_format: Union[Unset, str] = UNSET
         if not isinstance(self.submitted_format, Unset):
             submitted_format = self.submitted_format
+
+        e_invoice: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.e_invoice, Unset):
+            e_invoice = self.e_invoice.to_dict()
+
+        e_invoice_details: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.e_invoice_details, Unset):
+            e_invoice_details = self.e_invoice_details.to_dict()
+
+        e_invoice_buyer_downloaded_at = self.e_invoice_buyer_downloaded_at
 
         submitted_by = self.submitted_by
 
@@ -761,6 +785,8 @@ class InvoiceBuyerView:
             field_dict["dueDateSource"] = due_date_source
         if early_payment is not UNSET:
             field_dict["earlyPayment"] = early_payment
+        if contract_early_payment is not UNSET:
+            field_dict["contractEarlyPayment"] = contract_early_payment
         if last_reminded_at is not UNSET:
             field_dict["lastRemindedAt"] = last_reminded_at
         if last_approver_reminded_at is not UNSET:
@@ -791,6 +817,12 @@ class InvoiceBuyerView:
             field_dict["sodExcludedKeys"] = sod_excluded_keys
         if submitted_format is not UNSET:
             field_dict["submittedFormat"] = submitted_format
+        if e_invoice is not UNSET:
+            field_dict["eInvoice"] = e_invoice
+        if e_invoice_details is not UNSET:
+            field_dict["eInvoiceDetails"] = e_invoice_details
+        if e_invoice_buyer_downloaded_at is not UNSET:
+            field_dict["eInvoiceBuyerDownloadedAt"] = e_invoice_buyer_downloaded_at
         if submitted_by is not UNSET:
             field_dict["submittedBy"] = submitted_by
         if feed_payload_hash is not UNSET:
@@ -860,6 +892,7 @@ class InvoiceBuyerView:
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.approval_chain import ApprovalChain
         from ..models.bank_details_confirmation import BankDetailsConfirmation
+        from ..models.e_invoice_summary import EInvoiceSummary
         from ..models.invoice_adjustment import InvoiceAdjustment
         from ..models.invoice_base_currency_amount import InvoiceBaseCurrencyAmount
         from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
@@ -877,6 +910,7 @@ class InvoiceBuyerView:
         from ..models.invoice_currency_amount import InvoiceCurrencyAmount
         from ..models.invoice_deduction import InvoiceDeduction
         from ..models.invoice_duplicate_ref import InvoiceDuplicateRef
+        from ..models.invoice_e_invoice_details import InvoiceEInvoiceDetails
         from ..models.invoice_early_payment import InvoiceEarlyPayment
         from ..models.invoice_held_back import InvoiceHeldBack
         from ..models.invoice_line_item import InvoiceLineItem
@@ -1135,6 +1169,15 @@ class InvoiceBuyerView:
         else:
             early_payment = InvoiceEarlyPayment.from_dict(_early_payment)
 
+        _contract_early_payment = d.pop("contractEarlyPayment", UNSET)
+        contract_early_payment: Union[Unset, InvoiceEarlyPayment]
+        if isinstance(_contract_early_payment, Unset):
+            contract_early_payment = UNSET
+        else:
+            contract_early_payment = InvoiceEarlyPayment.from_dict(
+                _contract_early_payment
+            )
+
         last_reminded_at = d.pop("lastRemindedAt", UNSET)
 
         last_approver_reminded_at = d.pop("lastApproverRemindedAt", UNSET)
@@ -1193,6 +1236,22 @@ class InvoiceBuyerView:
             submitted_format = check_invoice_buyer_view_submitted_format(
                 _submitted_format
             )
+
+        _e_invoice = d.pop("eInvoice", UNSET)
+        e_invoice: Union[Unset, EInvoiceSummary]
+        if isinstance(_e_invoice, Unset):
+            e_invoice = UNSET
+        else:
+            e_invoice = EInvoiceSummary.from_dict(_e_invoice)
+
+        _e_invoice_details = d.pop("eInvoiceDetails", UNSET)
+        e_invoice_details: Union[Unset, InvoiceEInvoiceDetails]
+        if isinstance(_e_invoice_details, Unset):
+            e_invoice_details = UNSET
+        else:
+            e_invoice_details = InvoiceEInvoiceDetails.from_dict(_e_invoice_details)
+
+        e_invoice_buyer_downloaded_at = d.pop("eInvoiceBuyerDownloadedAt", UNSET)
 
         submitted_by = d.pop("submittedBy", UNSET)
 
@@ -1413,6 +1472,7 @@ class InvoiceBuyerView:
             previous_exported_at=previous_exported_at,
             due_date_source=due_date_source,
             early_payment=early_payment,
+            contract_early_payment=contract_early_payment,
             last_reminded_at=last_reminded_at,
             last_approver_reminded_at=last_approver_reminded_at,
             rejection=rejection,
@@ -1428,6 +1488,9 @@ class InvoiceBuyerView:
             invoice_date=invoice_date,
             sod_excluded_keys=sod_excluded_keys,
             submitted_format=submitted_format,
+            e_invoice=e_invoice,
+            e_invoice_details=e_invoice_details,
+            e_invoice_buyer_downloaded_at=e_invoice_buyer_downloaded_at,
             submitted_by=submitted_by,
             feed_payload_hash=feed_payload_hash,
             external_invoice_number=external_invoice_number,

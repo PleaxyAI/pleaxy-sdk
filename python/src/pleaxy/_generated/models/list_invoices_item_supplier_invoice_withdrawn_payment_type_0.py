@@ -14,10 +14,8 @@ from ..models.list_invoices_item_supplier_invoice_withdrawn_payment_type_0_statu
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.early_payment_discount_taken import EarlyPaymentDiscountTaken
     from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
-    from ..models.list_invoices_item_supplier_invoice_withdrawn_payment_type_0_early_payment_discount import (
-        ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount,
-    )
     from ..models.list_invoices_item_supplier_invoice_withdrawn_payment_type_0_paid_amount import (
         ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0PaidAmount,
     )
@@ -37,7 +35,7 @@ class ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0:
         recorded_at (Union[Unset, str]):
         advice_version (Union[Unset, float]):
         paid_amount (Union[Unset, ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0PaidAmount]):
-        early_payment_discount (Union[Unset, ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount]):
+        early_payment_discount (Union[Unset, EarlyPaymentDiscountTaken]):
         status (Union[Unset, ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0Status]):
     """
 
@@ -52,10 +50,7 @@ class ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0:
     paid_amount: Union[
         Unset, "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0PaidAmount"
     ] = UNSET
-    early_payment_discount: Union[
-        Unset,
-        "ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount",
-    ] = UNSET
+    early_payment_discount: Union[Unset, "EarlyPaymentDiscountTaken"] = UNSET
     status: Union[Unset, ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0Status] = (
         UNSET
     )
@@ -119,10 +114,8 @@ class ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.early_payment_discount_taken import EarlyPaymentDiscountTaken
         from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
-        from ..models.list_invoices_item_supplier_invoice_withdrawn_payment_type_0_early_payment_discount import (
-            ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount,
-        )
         from ..models.list_invoices_item_supplier_invoice_withdrawn_payment_type_0_paid_amount import (
             ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0PaidAmount,
         )
@@ -164,14 +157,11 @@ class ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0:
             )
 
         _early_payment_discount = d.pop("earlyPaymentDiscount", UNSET)
-        early_payment_discount: Union[
-            Unset,
-            ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount,
-        ]
+        early_payment_discount: Union[Unset, EarlyPaymentDiscountTaken]
         if isinstance(_early_payment_discount, Unset):
             early_payment_discount = UNSET
         else:
-            early_payment_discount = ListInvoicesItemSupplierInvoiceWithdrawnPaymentType0EarlyPaymentDiscount.from_dict(
+            early_payment_discount = EarlyPaymentDiscountTaken.from_dict(
                 _early_payment_discount
             )
 

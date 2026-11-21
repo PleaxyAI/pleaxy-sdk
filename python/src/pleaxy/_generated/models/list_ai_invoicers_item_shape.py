@@ -1,12 +1,13 @@
 from typing import Literal, Set, cast
 
-ListAiInvoicersItemShape = Literal["capacity", "credits", "seats", "tokens"]
+ListAiInvoicersItemShape = Literal["capacity", "credits", "seats", "tokens", "usage"]
 
 LIST_AI_INVOICERS_ITEM_SHAPE_VALUES: Set[ListAiInvoicersItemShape] = {
     "capacity",
     "credits",
     "seats",
     "tokens",
+    "usage",
 }
 
 

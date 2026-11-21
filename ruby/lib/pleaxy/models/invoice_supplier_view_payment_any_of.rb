@@ -85,7 +85,7 @@ module Pleaxy
         :'recorded_at' => :'String',
         :'advice_version' => :'Float',
         :'paid_amount' => :'InvoicePaymentRecordPaidAmount',
-        :'early_payment_discount' => :'InvoicePaymentRecordEarlyPaymentDiscount',
+        :'early_payment_discount' => :'EarlyPaymentDiscountTaken',
         :'status' => :'String'
       }
     end

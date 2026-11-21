@@ -18,8 +18,11 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.ai_provider_credit_price import AiProviderCreditPrice
     from ..models.ai_provider_databricks import AiProviderDatabricks
+    from ..models.ai_provider_datadog import AiProviderDatadog
     from ..models.ai_provider_github import AiProviderGithub
+    from ..models.ai_provider_mongodb import AiProviderMongodb
     from ..models.ai_provider_snowflake import AiProviderSnowflake
+    from ..models.ai_provider_twilio import AiProviderTwilio
     from ..models.ai_provider_zoom import AiProviderZoom
 
 
@@ -41,6 +44,9 @@ class AiProvider:
         databricks (Union[Unset, AiProviderDatabricks]):
         github (Union[Unset, AiProviderGithub]):
         zoom (Union[Unset, AiProviderZoom]):
+        datadog (Union[Unset, AiProviderDatadog]):
+        twilio (Union[Unset, AiProviderTwilio]):
+        mongodb (Union[Unset, AiProviderMongodb]):
         credit_price (Union[Unset, AiProviderCreditPrice]):
         supplier_connection_id (Union[Unset, str]):
         last_synced_at (Union[Unset, str]):
@@ -61,6 +67,9 @@ class AiProvider:
     databricks: Union[Unset, "AiProviderDatabricks"] = UNSET
     github: Union[Unset, "AiProviderGithub"] = UNSET
     zoom: Union[Unset, "AiProviderZoom"] = UNSET
+    datadog: Union[Unset, "AiProviderDatadog"] = UNSET
+    twilio: Union[Unset, "AiProviderTwilio"] = UNSET
+    mongodb: Union[Unset, "AiProviderMongodb"] = UNSET
     credit_price: Union[Unset, "AiProviderCreditPrice"] = UNSET
     supplier_connection_id: Union[Unset, str] = UNSET
     last_synced_at: Union[Unset, str] = UNSET
@@ -104,6 +113,18 @@ class AiProvider:
         zoom: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.zoom, Unset):
             zoom = self.zoom.to_dict()
+
+        datadog: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.datadog, Unset):
+            datadog = self.datadog.to_dict()
+
+        twilio: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.twilio, Unset):
+            twilio = self.twilio.to_dict()
+
+        mongodb: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.mongodb, Unset):
+            mongodb = self.mongodb.to_dict()
 
         credit_price: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.credit_price, Unset):
@@ -152,6 +173,12 @@ class AiProvider:
             field_dict["github"] = github
         if zoom is not UNSET:
             field_dict["zoom"] = zoom
+        if datadog is not UNSET:
+            field_dict["datadog"] = datadog
+        if twilio is not UNSET:
+            field_dict["twilio"] = twilio
+        if mongodb is not UNSET:
+            field_dict["mongodb"] = mongodb
         if credit_price is not UNSET:
             field_dict["creditPrice"] = credit_price
         if supplier_connection_id is not UNSET:
@@ -173,8 +200,11 @@ class AiProvider:
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.ai_provider_credit_price import AiProviderCreditPrice
         from ..models.ai_provider_databricks import AiProviderDatabricks
+        from ..models.ai_provider_datadog import AiProviderDatadog
         from ..models.ai_provider_github import AiProviderGithub
+        from ..models.ai_provider_mongodb import AiProviderMongodb
         from ..models.ai_provider_snowflake import AiProviderSnowflake
+        from ..models.ai_provider_twilio import AiProviderTwilio
         from ..models.ai_provider_zoom import AiProviderZoom
 
         d = src_dict.copy()
@@ -230,6 +260,27 @@ class AiProvider:
         else:
             zoom = AiProviderZoom.from_dict(_zoom)
 
+        _datadog = d.pop("datadog", UNSET)
+        datadog: Union[Unset, AiProviderDatadog]
+        if isinstance(_datadog, Unset):
+            datadog = UNSET
+        else:
+            datadog = AiProviderDatadog.from_dict(_datadog)
+
+        _twilio = d.pop("twilio", UNSET)
+        twilio: Union[Unset, AiProviderTwilio]
+        if isinstance(_twilio, Unset):
+            twilio = UNSET
+        else:
+            twilio = AiProviderTwilio.from_dict(_twilio)
+
+        _mongodb = d.pop("mongodb", UNSET)
+        mongodb: Union[Unset, AiProviderMongodb]
+        if isinstance(_mongodb, Unset):
+            mongodb = UNSET
+        else:
+            mongodb = AiProviderMongodb.from_dict(_mongodb)
+
         _credit_price = d.pop("creditPrice", UNSET)
         credit_price: Union[Unset, AiProviderCreditPrice]
         if isinstance(_credit_price, Unset):
@@ -273,6 +324,9 @@ class AiProvider:
             databricks=databricks,
             github=github,
             zoom=zoom,
+            datadog=datadog,
+            twilio=twilio,
+            mongodb=mongodb,
             credit_price=credit_price,
             supplier_connection_id=supplier_connection_id,
             last_synced_at=last_synced_at,

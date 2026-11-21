@@ -63,6 +63,13 @@ pub struct UpdateOrgProfileInput {
         skip_serializing_if = "Option::is_none"
     )]
     pub geography_preset_id: Option<Option<GeographyPresetId>>,
+    #[serde(
+        rename = "eInvoicing",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub e_invoicing: Option<Option<models::EInvoicingSettingsInput>>,
 }
 
 impl UpdateOrgProfileInput {
@@ -84,6 +91,7 @@ impl UpdateOrgProfileInput {
             listed_in_directory: None,
             locale: None,
             geography_preset_id: None,
+            e_invoicing: None,
         }
     }
 }

@@ -21,8 +21,11 @@ import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.CreditPriceInput;
 import ai.pleaxy.model.DatabricksConnectionInput;
+import ai.pleaxy.model.DatadogConnectionInput;
 import ai.pleaxy.model.GitHubConnectionInput;
+import ai.pleaxy.model.MongoDbConnectionInput;
 import ai.pleaxy.model.SnowflakeConnectionInput;
+import ai.pleaxy.model.TwilioConnectionInput;
 import ai.pleaxy.model.ZoomConnectionInput;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -44,6 +47,9 @@ import ai.pleaxy.client.ApiClient;
   CreateAiProviderInput.JSON_PROPERTY_DATABRICKS,
   CreateAiProviderInput.JSON_PROPERTY_GITHUB,
   CreateAiProviderInput.JSON_PROPERTY_ZOOM,
+  CreateAiProviderInput.JSON_PROPERTY_DATADOG,
+  CreateAiProviderInput.JSON_PROPERTY_TWILIO,
+  CreateAiProviderInput.JSON_PROPERTY_MONGODB,
   CreateAiProviderInput.JSON_PROPERTY_CREDIT_PRICE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -71,6 +77,18 @@ public class CreateAiProviderInput {
   public static final String JSON_PROPERTY_ZOOM = "zoom";
   @javax.annotation.Nullable
   private ZoomConnectionInput zoom;
+
+  public static final String JSON_PROPERTY_DATADOG = "datadog";
+  @javax.annotation.Nullable
+  private DatadogConnectionInput datadog;
+
+  public static final String JSON_PROPERTY_TWILIO = "twilio";
+  @javax.annotation.Nullable
+  private TwilioConnectionInput twilio;
+
+  public static final String JSON_PROPERTY_MONGODB = "mongodb";
+  @javax.annotation.Nullable
+  private MongoDbConnectionInput mongodb;
 
   public static final String JSON_PROPERTY_CREDIT_PRICE = "creditPrice";
   @javax.annotation.Nullable
@@ -223,6 +241,78 @@ public class CreateAiProviderInput {
   }
 
 
+  public CreateAiProviderInput datadog(@javax.annotation.Nullable DatadogConnectionInput datadog) {
+    this.datadog = datadog;
+    return this;
+  }
+
+  /**
+   * Get datadog
+   * @return datadog
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DATADOG)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public DatadogConnectionInput getDatadog() {
+    return datadog;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DATADOG)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDatadog(@javax.annotation.Nullable DatadogConnectionInput datadog) {
+    this.datadog = datadog;
+  }
+
+
+  public CreateAiProviderInput twilio(@javax.annotation.Nullable TwilioConnectionInput twilio) {
+    this.twilio = twilio;
+    return this;
+  }
+
+  /**
+   * Get twilio
+   * @return twilio
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_TWILIO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public TwilioConnectionInput getTwilio() {
+    return twilio;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_TWILIO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setTwilio(@javax.annotation.Nullable TwilioConnectionInput twilio) {
+    this.twilio = twilio;
+  }
+
+
+  public CreateAiProviderInput mongodb(@javax.annotation.Nullable MongoDbConnectionInput mongodb) {
+    this.mongodb = mongodb;
+    return this;
+  }
+
+  /**
+   * Get mongodb
+   * @return mongodb
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MONGODB)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public MongoDbConnectionInput getMongodb() {
+    return mongodb;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MONGODB)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMongodb(@javax.annotation.Nullable MongoDbConnectionInput mongodb) {
+    this.mongodb = mongodb;
+  }
+
+
   public CreateAiProviderInput creditPrice(@javax.annotation.Nullable CreditPriceInput creditPrice) {
     this.creditPrice = creditPrice;
     return this;
@@ -265,12 +355,15 @@ public class CreateAiProviderInput {
         Objects.equals(this.databricks, createAiProviderInput.databricks) &&
         Objects.equals(this.github, createAiProviderInput.github) &&
         Objects.equals(this.zoom, createAiProviderInput.zoom) &&
+        Objects.equals(this.datadog, createAiProviderInput.datadog) &&
+        Objects.equals(this.twilio, createAiProviderInput.twilio) &&
+        Objects.equals(this.mongodb, createAiProviderInput.mongodb) &&
         Objects.equals(this.creditPrice, createAiProviderInput.creditPrice);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(provider, key, snowflake, databricks, github, zoom, creditPrice);
+    return Objects.hash(provider, key, snowflake, databricks, github, zoom, datadog, twilio, mongodb, creditPrice);
   }
 
   @Override
@@ -283,6 +376,9 @@ public class CreateAiProviderInput {
     sb.append("    databricks: ").append(toIndentedString(databricks)).append("\n");
     sb.append("    github: ").append(toIndentedString(github)).append("\n");
     sb.append("    zoom: ").append(toIndentedString(zoom)).append("\n");
+    sb.append("    datadog: ").append(toIndentedString(datadog)).append("\n");
+    sb.append("    twilio: ").append(toIndentedString(twilio)).append("\n");
+    sb.append("    mongodb: ").append(toIndentedString(mongodb)).append("\n");
     sb.append("    creditPrice: ").append(toIndentedString(creditPrice)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -359,6 +455,21 @@ public class CreateAiProviderInput {
     // add `zoom` to the URL query string
     if (getZoom() != null) {
       joiner.add(getZoom().toUrlQueryString(prefix + "zoom" + suffix));
+    }
+
+    // add `datadog` to the URL query string
+    if (getDatadog() != null) {
+      joiner.add(getDatadog().toUrlQueryString(prefix + "datadog" + suffix));
+    }
+
+    // add `twilio` to the URL query string
+    if (getTwilio() != null) {
+      joiner.add(getTwilio().toUrlQueryString(prefix + "twilio" + suffix));
+    }
+
+    // add `mongodb` to the URL query string
+    if (getMongodb() != null) {
+      joiner.add(getMongodb().toUrlQueryString(prefix + "mongodb" + suffix));
     }
 
     // add `creditPrice` to the URL query string

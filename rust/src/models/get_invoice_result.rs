@@ -211,6 +211,11 @@ pub struct GetInvoiceResult {
     pub due_date_source: Option<DueDateSource>,
     #[serde(rename = "earlyPayment", skip_serializing_if = "Option::is_none")]
     pub early_payment: Option<models::InvoiceEarlyPayment>,
+    #[serde(
+        rename = "contractEarlyPayment",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub contract_early_payment: Option<models::InvoiceEarlyPayment>,
     #[serde(rename = "lastRemindedAt", skip_serializing_if = "Option::is_none")]
     pub last_reminded_at: Option<String>,
     #[serde(
@@ -239,6 +244,15 @@ pub struct GetInvoiceResult {
     pub invoice_date: Option<String>,
     #[serde(rename = "sodExcludedKeys", skip_serializing_if = "Option::is_none")]
     pub sod_excluded_keys: Option<Vec<String>>,
+    #[serde(rename = "eInvoice", skip_serializing_if = "Option::is_none")]
+    pub e_invoice: Option<models::EInvoiceSummary>,
+    #[serde(rename = "eInvoiceDetails", skip_serializing_if = "Option::is_none")]
+    pub e_invoice_details: Option<models::InvoiceEInvoiceDetails>,
+    #[serde(
+        rename = "eInvoiceBuyerDownloadedAt",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub e_invoice_buyer_downloaded_at: Option<String>,
     #[serde(rename = "feedPayloadHash", skip_serializing_if = "Option::is_none")]
     pub feed_payload_hash: Option<String>,
     #[serde(rename = "withholdings", skip_serializing_if = "Option::is_none")]
@@ -301,6 +315,11 @@ pub struct GetInvoiceResult {
         skip_serializing_if = "Option::is_none"
     )]
     pub next_approver_reminder_at: Option<String>,
+    #[serde(
+        rename = "canOfferEarlyPayment",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub can_offer_early_payment: Option<bool>,
     #[serde(rename = "withdrawnPayment", skip_serializing_if = "Option::is_none")]
     pub withdrawn_payment: Option<models::InvoiceSupplierViewPayment>,
     #[serde(rename = "nextReminderAt", skip_serializing_if = "Option::is_none")]
@@ -394,6 +413,7 @@ impl GetInvoiceResult {
             previous_exported_at: None,
             due_date_source: None,
             early_payment: None,
+            contract_early_payment: None,
             last_reminded_at: None,
             last_approver_reminded_at: None,
             replaces_invoice_id: None,
@@ -405,6 +425,9 @@ impl GetInvoiceResult {
             cloud_connection_id: None,
             invoice_date: None,
             sod_excluded_keys: None,
+            e_invoice: None,
+            e_invoice_details: None,
+            e_invoice_buyer_downloaded_at: None,
             feed_payload_hash: None,
             withholdings: None,
             amends_invoice_id: None,
@@ -427,6 +450,7 @@ impl GetInvoiceResult {
             base_currency_amount: None,
             viewer_is_supplier_member: None,
             next_approver_reminder_at: None,
+            can_offer_early_payment: None,
             withdrawn_payment: None,
             next_reminder_at: None,
         }
@@ -511,6 +535,10 @@ pub enum SubmittedFormat {
     Ubl,
     #[serde(rename = "cxml")]
     Cxml,
+    #[serde(rename = "cii")]
+    Cii,
+    #[serde(rename = "fatturapa")]
+    Fatturapa,
 }
 
 impl Default for SubmittedFormat {

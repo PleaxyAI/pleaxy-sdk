@@ -19,8 +19,8 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.EarlyPaymentDiscountTaken;
 import ai.pleaxy.model.InvoiceBreakdownEntry;
-import ai.pleaxy.model.InvoicePaymentRecordEarlyPaymentDiscount;
 import ai.pleaxy.model.InvoicePaymentRecordPaidAmount;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -125,7 +125,7 @@ public class InvoiceSupplierViewPaymentAnyOf {
 
   public static final String JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT = "earlyPaymentDiscount";
   @javax.annotation.Nullable
-  private InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount;
+  private EarlyPaymentDiscountTaken earlyPaymentDiscount;
 
   /**
    * Gets or Sets status
@@ -343,7 +343,7 @@ public class InvoiceSupplierViewPaymentAnyOf {
   }
 
 
-  public InvoiceSupplierViewPaymentAnyOf earlyPaymentDiscount(@javax.annotation.Nullable InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount) {
+  public InvoiceSupplierViewPaymentAnyOf earlyPaymentDiscount(@javax.annotation.Nullable EarlyPaymentDiscountTaken earlyPaymentDiscount) {
     this.earlyPaymentDiscount = earlyPaymentDiscount;
     return this;
   }
@@ -355,14 +355,14 @@ public class InvoiceSupplierViewPaymentAnyOf {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public InvoicePaymentRecordEarlyPaymentDiscount getEarlyPaymentDiscount() {
+  public EarlyPaymentDiscountTaken getEarlyPaymentDiscount() {
     return earlyPaymentDiscount;
   }
 
 
   @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEarlyPaymentDiscount(@javax.annotation.Nullable InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount) {
+  public void setEarlyPaymentDiscount(@javax.annotation.Nullable EarlyPaymentDiscountTaken earlyPaymentDiscount) {
     this.earlyPaymentDiscount = earlyPaymentDiscount;
   }
 

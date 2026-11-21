@@ -121,7 +121,9 @@ public class InvoiceControlFinding {
     
     AI_COMMITMENT_EXCEEDED(String.valueOf("ai_commitment_exceeded")),
     
-    AI_SEATS_ABOVE_ACTIVE(String.valueOf("ai_seats_above_active"));
+    AI_SEATS_ABOVE_ACTIVE(String.valueOf("ai_seats_above_active")),
+    
+    USAGE_BILLED_MISMATCH(String.valueOf("usage_billed_mismatch"));
 
     private String value;
 

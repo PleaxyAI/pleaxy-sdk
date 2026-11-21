@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.EInvoicingSettingsInput;
 import ai.pleaxy.model.PostalAddressInput;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -51,7 +52,8 @@ import ai.pleaxy.client.ApiClient;
   UpdateOrgProfileInput.JSON_PROPERTY_TIME_ZONE,
   UpdateOrgProfileInput.JSON_PROPERTY_LISTED_IN_DIRECTORY,
   UpdateOrgProfileInput.JSON_PROPERTY_LOCALE,
-  UpdateOrgProfileInput.JSON_PROPERTY_GEOGRAPHY_PRESET_ID
+  UpdateOrgProfileInput.JSON_PROPERTY_GEOGRAPHY_PRESET_ID,
+  UpdateOrgProfileInput.JSON_PROPERTY_E_INVOICING
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class UpdateOrgProfileInput {
@@ -222,6 +224,10 @@ public class UpdateOrgProfileInput {
   public static final String JSON_PROPERTY_GEOGRAPHY_PRESET_ID = "geographyPresetId";
   @javax.annotation.Nullable
   private GeographyPresetIdEnum geographyPresetId;
+
+  public static final String JSON_PROPERTY_E_INVOICING = "eInvoicing";
+  @javax.annotation.Nullable
+  private EInvoicingSettingsInput eInvoicing;
 
   public UpdateOrgProfileInput() { 
   }
@@ -634,6 +640,30 @@ public class UpdateOrgProfileInput {
   }
 
 
+  public UpdateOrgProfileInput eInvoicing(@javax.annotation.Nullable EInvoicingSettingsInput eInvoicing) {
+    this.eInvoicing = eInvoicing;
+    return this;
+  }
+
+  /**
+   * Get eInvoicing
+   * @return eInvoicing
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_E_INVOICING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public EInvoicingSettingsInput geteInvoicing() {
+    return eInvoicing;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_E_INVOICING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void seteInvoicing(@javax.annotation.Nullable EInvoicingSettingsInput eInvoicing) {
+    this.eInvoicing = eInvoicing;
+  }
+
+
   /**
    * Return true if this UpdateOrgProfileInput object is equal to o.
    */
@@ -661,12 +691,13 @@ public class UpdateOrgProfileInput {
         Objects.equals(this.timeZone, updateOrgProfileInput.timeZone) &&
         Objects.equals(this.listedInDirectory, updateOrgProfileInput.listedInDirectory) &&
         Objects.equals(this.locale, updateOrgProfileInput.locale) &&
-        Objects.equals(this.geographyPresetId, updateOrgProfileInput.geographyPresetId);
+        Objects.equals(this.geographyPresetId, updateOrgProfileInput.geographyPresetId) &&
+        Objects.equals(this.eInvoicing, updateOrgProfileInput.eInvoicing);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(regionName, companyName, billingEmail, billingAddress, billingAddressParts, taxId, currency, otherCurrencies, paymentCurrencies, primaryContactName, primaryContactEmail, countries, timeZone, listedInDirectory, locale, geographyPresetId);
+    return Objects.hash(regionName, companyName, billingEmail, billingAddress, billingAddressParts, taxId, currency, otherCurrencies, paymentCurrencies, primaryContactName, primaryContactEmail, countries, timeZone, listedInDirectory, locale, geographyPresetId, eInvoicing);
   }
 
   @Override
@@ -689,6 +720,7 @@ public class UpdateOrgProfileInput {
     sb.append("    listedInDirectory: ").append(toIndentedString(listedInDirectory)).append("\n");
     sb.append("    locale: ").append(toIndentedString(locale)).append("\n");
     sb.append("    geographyPresetId: ").append(toIndentedString(geographyPresetId)).append("\n");
+    sb.append("    eInvoicing: ").append(toIndentedString(eInvoicing)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -826,6 +858,11 @@ public class UpdateOrgProfileInput {
     // add `geographyPresetId` to the URL query string
     if (getGeographyPresetId() != null) {
       joiner.add(String.format("%sgeographyPresetId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getGeographyPresetId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `eInvoicing` to the URL query string
+    if (geteInvoicing() != null) {
+      joiner.add(geteInvoicing().toUrlQueryString(prefix + "eInvoicing" + suffix));
     }
 
     return joiner.toString();

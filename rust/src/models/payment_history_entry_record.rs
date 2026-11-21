@@ -31,7 +31,7 @@ pub struct PaymentHistoryEntryRecord {
         rename = "earlyPaymentDiscount",
         skip_serializing_if = "Option::is_none"
     )]
-    pub early_payment_discount: Option<models::InvoicePaymentRecordEarlyPaymentDiscount>,
+    pub early_payment_discount: Option<models::EarlyPaymentDiscountTaken>,
 }
 
 impl PaymentHistoryEntryRecord {

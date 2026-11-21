@@ -1149,7 +1149,7 @@ export interface paths {
         /** [Buyer] The workspace's direct AI provider connections (OpenAI, Anthropic, Mistral, Snowflake): status, last sync, and the key's last four characters - never the key. 'view' on suppliers or on invoices. */
         get: operations["ListAiProviders"];
         put?: never;
-        /** [Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seat tools read only the month's active users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`, the client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers. */
+        /** [Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seat tools read only the month's active users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`, the client secret as key). Usage-billed suppliers read only the month's billed total, for the invoice check: Datadog (`datadog.site` and `datadog.apiKey`, a service account's application key scoped to usage_read and billing_read as key), Twilio (`twilio.accountSid` and `twilio.keySid`, a restricted key's secret with Usage Records read as key) and MongoDB Atlas (`mongodb.orgId` and `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers. */
         post: operations["CreateAiProvider"];
         delete?: never;
         options?: never;
@@ -1878,6 +1878,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/approvals": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] List every purchase order and invoice in this region currently at a stage this employee can act on, plus the ones this employee has already approved or rejected */
+        get: operations["ListApprovals"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ai-spend": {
         parameters: {
             query?: never;
@@ -2569,23 +2586,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/approvals": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** [Buyer] List every purchase order and invoice in this region currently at a stage this employee can act on, plus the ones this employee has already approved or rejected */
-        get: operations["ListApprovals"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/invoices/{invoiceId}/stripe-payment": {
         parameters: {
             query?: never;
@@ -2789,6 +2789,17 @@ export interface components {
             postalCode?: string;
             country: string;
         };
+        ElectronicAddressInput: {
+            scheme: string;
+            value: string;
+        };
+        EInvoicingSettingsInput: {
+            contactName?: string;
+            contactPhone?: string;
+            contactEmail?: string;
+            electronicAddress?: components["schemas"]["ElectronicAddressInput"] | null;
+            buyerReference?: string;
+        };
         UpdateOrgProfileInput: {
             regionName?: string;
             companyName?: string;
@@ -2808,6 +2819,7 @@ export interface components {
             locale?: "en" | "es" | "pt-BR" | "de" | "fr" | "it" | null;
             /** @enum {string|null} */
             geographyPresetId?: "eu" | "eea" | "uk" | "emea" | "apac" | "latam" | "namer" | "global" | "continent-africa" | "continent-antarctica" | "continent-asia" | "continent-europe" | "continent-north-america" | "continent-oceania" | "continent-south-america" | null;
+            eInvoicing?: components["schemas"]["EInvoicingSettingsInput"] | null;
         };
         PayerAccountRefInput: {
             id: string;
@@ -3386,6 +3398,19 @@ export interface components {
             accountId: string;
             clientId: string;
         };
+        DatadogConnectionInput: {
+            /** @enum {string} */
+            site: "datadoghq.com" | "us3.datadoghq.com" | "us5.datadoghq.com" | "datadoghq.eu" | "ap1.datadoghq.com" | "ap2.datadoghq.com" | "uk1.datadoghq.com" | "ddog-gov.com" | "us2.ddog-gov.com";
+            apiKey: string;
+        };
+        TwilioConnectionInput: {
+            accountSid: string;
+            keySid: string;
+        };
+        MongoDbConnectionInput: {
+            orgId: string;
+            clientId: string;
+        };
         CreateAiProviderInput: {
             provider: string;
             key?: string;
@@ -3393,6 +3418,9 @@ export interface components {
             databricks?: components["schemas"]["DatabricksConnectionInput"];
             github?: components["schemas"]["GitHubConnectionInput"];
             zoom?: components["schemas"]["ZoomConnectionInput"];
+            datadog?: components["schemas"]["DatadogConnectionInput"];
+            twilio?: components["schemas"]["TwilioConnectionInput"];
+            mongodb?: components["schemas"]["MongoDbConnectionInput"];
             creditPrice?: components["schemas"]["CreditPriceInput"];
         };
         UpdateBudgetControlInput: {
@@ -4254,7 +4282,7 @@ export interface components {
             /** @enum {string} */
             mode?: "submit" | "validate";
             /** @enum {string} */
-            format?: "json" | "ubl" | "cxml";
+            format?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
             /** @enum {string} */
             outcome?: "accepted" | "replayed" | "valid" | "refused";
             /** Format: double */
@@ -4277,7 +4305,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "ai_forecast_over_budget" | "ai_drafts_ready" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "rfq_invited" | "rfq_due_soon" | "rfq_deadline_moved" | "rfq_canceled" | "rfq_awarded" | "rfq_not_selected" | "rfq_question_answered" | "rfq_answer_received" | "rfq_deadline_passed" | "rfq_declined" | "rfq_question_asked" | "rfq_not_shortlisted" | "rfq_evaluate" | "rfq_evaluation_complete" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "credit_request_received" | "credit_request_answered" | "credit_request_attention" | "recovery_weekly_digest" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "contract_renewal_notice_due" | "contract_termination_notice_due" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
+            type?: "ai_forecast_over_budget" | "usage_anomaly" | "usage_contract_projection" | "ai_drafts_ready" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "rfq_invited" | "rfq_due_soon" | "rfq_deadline_moved" | "rfq_canceled" | "rfq_awarded" | "rfq_not_selected" | "rfq_question_answered" | "rfq_answer_received" | "rfq_deadline_passed" | "rfq_declined" | "rfq_question_asked" | "rfq_not_shortlisted" | "rfq_evaluate" | "rfq_evaluation_complete" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "credit_request_received" | "credit_request_answered" | "credit_request_attention" | "recovery_weekly_digest" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_early_payment_offer" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "contract_renewal_notice_due" | "contract_termination_notice_due" | "contract_seat_review_due" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -4346,6 +4374,16 @@ export interface components {
             companyIds?: string[];
             at?: string;
         };
+        EInvoicingProfileSettings: {
+            contactName?: string;
+            contactPhone?: string;
+            contactEmail?: string;
+            electronicAddress?: {
+                scheme?: string;
+                value?: string;
+            };
+            buyerReference?: string;
+        };
         OrgProfile: {
             id: string;
             /** @enum {string} */
@@ -4378,6 +4416,7 @@ export interface components {
             directoryId?: string;
             /** @enum {string} */
             setupGoal?: "audit" | "network";
+            eInvoicing?: components["schemas"]["EInvoicingProfileSettings"];
         };
         PurchaseOrder: {
             id: string;
@@ -5100,6 +5139,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -5117,7 +5157,10 @@ export interface components {
             invoiceDate?: string;
             sodExcludedKeys?: string[];
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            eInvoice?: components["schemas"]["EInvoiceSummary"];
+            eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
+            eInvoiceBuyerDownloadedAt?: string;
             submittedBy?: string;
             feedPayloadHash?: string;
             externalInvoiceNumber?: string;
@@ -5190,6 +5233,7 @@ export interface components {
         InvoicePartyDetails: {
             name?: string;
             addressLines?: string[];
+            address?: components["schemas"]["PostalAddress"];
             taxId?: string;
             taxIdLabel?: string;
         };
@@ -5212,7 +5256,7 @@ export interface components {
         };
         InvoiceControlFinding: {
             /** @enum {string} */
-            code?: "usage_grew" | "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "contract_rate_not_checked" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled" | "contract_milestone_unknown" | "contract_milestone_already_billed" | "contract_milestone_exceeded" | "contract_milestone_unconfirmed" | "ai_rate_above_contract" | "ai_rate_above_list" | "ai_price_cut_not_applied" | "ai_cache_discount_missing" | "ai_batch_discount_missing" | "ai_tokens_mismatch" | "ai_capacity_underused" | "ai_double_billed" | "ai_commitment_exceeded" | "ai_seats_above_active";
+            code?: "usage_grew" | "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "contract_rate_not_checked" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled" | "contract_milestone_unknown" | "contract_milestone_already_billed" | "contract_milestone_exceeded" | "contract_milestone_unconfirmed" | "ai_rate_above_contract" | "ai_rate_above_list" | "ai_price_cut_not_applied" | "ai_cache_discount_missing" | "ai_batch_discount_missing" | "ai_tokens_mismatch" | "ai_capacity_underused" | "ai_double_billed" | "ai_commitment_exceeded" | "ai_seats_above_active" | "usage_billed_mismatch";
             message?: string;
             messageId?: string;
             params?: components["schemas"]["ServerMessageParams"];
@@ -5254,13 +5298,7 @@ export interface components {
                 rateDate?: string;
             };
             withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
-            earlyPaymentDiscount?: {
-                /** Format: double */
-                percent?: number;
-                /** Format: double */
-                amount?: number;
-                deadline?: string;
-            };
+            earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
             scheduledPaymentDate?: string;
         };
         InvoiceStripePayment: {
@@ -5280,14 +5318,17 @@ export interface components {
             startedBy?: string;
             startedByName?: string;
             succeededAt?: string;
-            earlyPaymentDiscount?: {
-                /** Format: double */
-                percent?: number;
-                /** Format: double */
-                amount?: number;
-                deadline?: string;
-            };
+            earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
             initiatedDate?: string;
+        };
+        EarlyPaymentDiscountTaken: {
+            /** Format: double */
+            percent?: number;
+            /** Format: double */
+            amount?: number;
+            deadline?: string;
+            /** @enum {string} */
+            source?: "supplier_offer";
         };
         InvoiceBreakdownEntry: {
             description?: string;
@@ -5343,13 +5384,7 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
             };
         };
         SolePayerWaiverRecord: {
@@ -5403,7 +5438,14 @@ export interface components {
             /** Format: double */
             percent?: number;
             deadline?: string;
+            /** @enum {string} */
+            source?: "contract" | "supplier_offer";
             contractId?: string;
+            offeredBy?: {
+                sub?: string;
+                name?: string;
+            };
+            offeredAt?: string;
         };
         InvoiceRejection: {
             /** @enum {string} */
@@ -5415,6 +5457,41 @@ export interface components {
             id: string;
             externalInvoiceNumber?: string;
             createdAt?: string;
+        };
+        EInvoiceSummary: {
+            /** @enum {string} */
+            syntax?: "ubl" | "cii" | "fatturapa";
+            /** @enum {string} */
+            profile?: "fatturapa" | "other" | "en16931" | "peppol-bis-billing-3" | "xrechnung" | "xrechnung-extension" | "factur-x-minimum" | "factur-x-basic-wl" | "factur-x-basic" | "factur-x-extended";
+            specificationId?: string;
+            profileVersion?: string;
+            ruleSets?: ("en16931" | "xrechnung")[];
+            findings?: {
+                rule?: string;
+                /** @enum {string} */
+                severity?: "fatal" | "warning";
+                /** Format: double */
+                position?: number;
+            }[];
+            findingsTruncated?: boolean;
+            /** @enum {string} */
+            container?: "pdf";
+            embeddedFilename?: string;
+        };
+        InvoiceEInvoiceDetails: {
+            lineVat?: components["schemas"]["EInvoiceVat"][];
+            adjustmentVat?: components["schemas"]["EInvoiceVat"][];
+            exemptionReason?: string;
+            exemptionReasonCode?: string;
+            buyerReference?: string;
+            updatedAt?: string;
+            updatedBy?: string;
+        };
+        EInvoiceVat: {
+            /** @enum {string} */
+            category?: "S" | "Z" | "E" | "AE" | "K" | "G" | "O" | "L" | "M";
+            /** Format: double */
+            rate?: number;
         };
         InvoiceAdjustment: {
             /** @enum {string} */
@@ -5630,6 +5707,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -5645,7 +5723,10 @@ export interface components {
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            eInvoice?: components["schemas"]["EInvoiceSummary"];
+            eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
+            eInvoiceBuyerDownloadedAt?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -5670,6 +5751,7 @@ export interface components {
             bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
+            canOfferEarlyPayment?: boolean;
             heldBack?: components["schemas"]["SupplierHeldBackView"];
             settlement?: components["schemas"]["SupplierSettlementView"];
             paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
@@ -5693,13 +5775,7 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -5710,13 +5786,7 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
             };
             withdrawnPayment?: {
                 withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
@@ -5735,13 +5805,7 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -5752,13 +5816,7 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
             };
             remittances?: components["schemas"]["SupplierRemittanceView"][];
             buyerWorkspaceId?: string;
@@ -5890,7 +5948,7 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -5960,7 +6018,7 @@ export interface components {
             valid?: boolean;
             feedEnabled?: boolean;
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
             invoice?: {
                 supplier?: string;
                 buyerOrgId?: string;
@@ -6014,13 +6072,7 @@ export interface components {
                         rate?: number;
                         rateDate?: string;
                     };
-                    earlyPaymentDiscount?: {
-                        /** Format: double */
-                        percent?: number;
-                        /** Format: double */
-                        amount?: number;
-                        deadline?: string;
-                    };
+                    earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
                     /** @enum {string} */
                     status?: "recorded";
                 } | {
@@ -6031,19 +6083,14 @@ export interface components {
                     /** @enum {string} */
                     paymentMethodType?: "card" | "us_bank_account";
                     succeededAt?: string;
-                    earlyPaymentDiscount?: {
-                        /** Format: double */
-                        percent?: number;
-                        /** Format: double */
-                        amount?: number;
-                        deadline?: string;
-                    };
+                    earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
                 };
                 remittances?: components["schemas"]["SupplierRemittanceView"][];
                 paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
                 /** @enum {string} */
                 dueDateSource?: "default" | "stated";
                 earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+                contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
                 lastRemindedAt?: string;
                 lastApproverRemindedAt?: string;
                 rejection?: components["schemas"]["InvoiceRejection"];
@@ -6057,7 +6104,10 @@ export interface components {
                 enteredBy?: "buyer" | "supplier";
                 invoiceDate?: string;
                 /** @enum {string} */
-                submittedFormat?: "json" | "ubl" | "cxml";
+                submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+                eInvoice?: components["schemas"]["EInvoiceSummary"];
+                eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
+                eInvoiceBuyerDownloadedAt?: string;
                 externalInvoiceNumber?: string;
                 adjustments?: components["schemas"]["InvoiceAdjustment"][];
                 /** Format: double */
@@ -6084,6 +6134,7 @@ export interface components {
                 bankLane?: string;
                 sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
                 hasOriginalPdf?: boolean;
+                canOfferEarlyPayment?: boolean;
                 baseCurrencyAmount?: components["schemas"]["InvoiceBaseCurrencyAmount"];
                 withdrawnPayment?: {
                     withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
@@ -6102,13 +6153,7 @@ export interface components {
                         rate?: number;
                         rateDate?: string;
                     };
-                    earlyPaymentDiscount?: {
-                        /** Format: double */
-                        percent?: number;
-                        /** Format: double */
-                        amount?: number;
-                        deadline?: string;
-                    };
+                    earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
                     /** @enum {string} */
                     status?: "recorded";
                 } | {
@@ -6119,13 +6164,7 @@ export interface components {
                     /** @enum {string} */
                     paymentMethodType?: "card" | "us_bank_account";
                     succeededAt?: string;
-                    earlyPaymentDiscount?: {
-                        /** Format: double */
-                        percent?: number;
-                        /** Format: double */
-                        amount?: number;
-                        deadline?: string;
-                    };
+                    earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
                 };
                 buyerWorkspaceId?: string;
                 nextReminderAt?: string;
@@ -6137,7 +6176,7 @@ export interface components {
                 /** Format: double */
                 poLineNo?: number;
                 /** @enum {string} */
-                code?: "usage_grew" | "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "contract_rate_not_checked" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled" | "contract_milestone_unknown" | "contract_milestone_already_billed" | "contract_milestone_exceeded" | "contract_milestone_unconfirmed" | "ai_rate_above_contract" | "ai_rate_above_list" | "ai_price_cut_not_applied" | "ai_cache_discount_missing" | "ai_batch_discount_missing" | "ai_tokens_mismatch" | "ai_capacity_underused" | "ai_double_billed" | "ai_commitment_exceeded" | "ai_seats_above_active";
+                code?: "usage_grew" | "po_balance_exceeded" | "po_line_amount_exceeded" | "po_line_qty_exceeded" | "po_line_price_exceeded" | "po_line_unassigned" | "po_line_missing" | "contract_rate_exceeded" | "contract_max_unit_price_exceeded" | "contract_outside_term" | "contract_cap_exceeded" | "contract_not_active" | "contract_check_failed" | "contract_rate_not_checked" | "receipt_missing" | "receipt_qty_exceeded" | "receipt_amount_exceeded" | "tier_price_exceeded" | "contract_discount_missing" | "fixed_discount_missing" | "commitment_shortfall_overbilled" | "contract_milestone_unknown" | "contract_milestone_already_billed" | "contract_milestone_exceeded" | "contract_milestone_unconfirmed" | "ai_rate_above_contract" | "ai_rate_above_list" | "ai_price_cut_not_applied" | "ai_cache_discount_missing" | "ai_batch_discount_missing" | "ai_tokens_mismatch" | "ai_capacity_underused" | "ai_double_billed" | "ai_commitment_exceeded" | "ai_seats_above_active" | "usage_billed_mismatch";
                 message?: string;
                 /** Format: double */
                 invoiceLine?: number;
@@ -6466,7 +6505,7 @@ export interface components {
         AiProvider: {
             id: string;
             /** @enum {string} */
-            provider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
+            provider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
             accountLabel?: string;
             keyHint?: string;
             /** @enum {string} */
@@ -6491,6 +6530,17 @@ export interface components {
             };
             zoom?: {
                 accountId?: string;
+                clientId?: string;
+            };
+            datadog?: {
+                site?: string;
+            };
+            twilio?: {
+                accountSid?: string;
+                keySid?: string;
+            };
+            mongodb?: {
+                orgId?: string;
                 clientId?: string;
             };
             creditPrice?: {
@@ -6590,7 +6640,7 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
             submittedBy?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
@@ -6871,6 +6921,103 @@ export interface components {
             selectedOptionIds?: string[];
             file?: components["schemas"]["QuestionnaireFileAnswer"];
             flagged?: boolean;
+        };
+        ApprovalQueue: {
+            purchaseOrders?: components["schemas"]["PurchaseOrder"][];
+            invoices?: components["schemas"]["InvoiceBuyerView"][];
+            serviceEntrySheets?: components["schemas"]["ServiceEntrySheetQueueItem"][];
+            needsAssignment?: {
+                purchaseOrders?: components["schemas"]["PurchaseOrder"][];
+                invoices?: components["schemas"]["InvoiceBuyerView"][];
+            };
+            decided?: {
+                purchaseOrders?: components["schemas"]["PurchaseOrder"][];
+                invoices?: components["schemas"]["InvoiceBuyerView"][];
+            };
+        };
+        ServiceEntrySheetQueueItem: {
+            receipt?: components["schemas"]["Receipt"];
+            supplier?: string;
+            supplierOrgId?: string;
+            releases?: {
+                id: string;
+                invoiceNumber?: string;
+                /** Format: double */
+                amount?: number;
+                currency?: string;
+            }[];
+        };
+        Receipt: {
+            id: string;
+            poId?: string;
+            /** @enum {string} */
+            kind?: "service_entry_sheet" | "goods_receipt";
+            /** @enum {string} */
+            status?: "approved" | "rejected" | "pending_approval" | "reversed";
+            receivedAt?: string;
+            periodFrom?: string;
+            periodTo?: string;
+            lines?: components["schemas"]["ReceiptLine"][];
+            /** Format: double */
+            amount?: number;
+            currency?: string;
+            note?: string;
+            shipmentId?: string;
+            attachment?: components["schemas"]["ReceiptAttachment"];
+            /** @enum {string} */
+            source?: "supplier" | "api" | "app" | "assistant" | "import";
+            createdBy?: string;
+            createdByName?: string;
+            createdAt?: string;
+            approvedBy?: string;
+            approvedByName?: string;
+            approvedAt?: string;
+            reversal?: {
+                by?: string;
+                byName?: string;
+                at?: string;
+                reason?: string;
+            };
+            approval?: components["schemas"]["ApprovalChain"];
+            /** Format: double */
+            approvalVersion?: number;
+            rejection?: {
+                by?: string;
+                byName?: string;
+                at?: string;
+                reason?: string;
+            };
+            returns?: components["schemas"]["ReceiptReturn"][];
+        };
+        ReceiptLine: {
+            /** Format: double */
+            lineNo?: number;
+            /** Format: double */
+            qty?: number;
+            /** Format: double */
+            amount?: number;
+        };
+        ReceiptAttachment: {
+            fileId?: string;
+            fileName?: string;
+            /** @enum {string} */
+            contentType?: "application/pdf" | "image/png" | "image/jpeg";
+            /** Format: double */
+            sizeBytes?: number;
+        };
+        ReceiptReturn: {
+            id: string;
+            lines?: components["schemas"]["ReceiptLine"][];
+            /** Format: double */
+            amount?: number;
+            returnedAt?: string;
+            reason?: string;
+            /** @enum {string} */
+            want?: "none" | "credit_note" | "replacement";
+            attachment?: components["schemas"]["ReceiptAttachment"];
+            by?: string;
+            byName?: string;
+            at?: string;
         };
         AiSpendResponse: {
             period?: string;
@@ -8111,7 +8258,7 @@ export interface components {
             id: string;
             at?: string;
             /** @enum {string} */
-            kind?: "approved" | "rejected" | "approval" | "received" | "payment" | "replacement" | "corrects" | "control_findings" | "match" | "sent_for_approval" | "reminder" | "held_back" | "hold_ended" | "comment";
+            kind?: "approved" | "rejected" | "approval" | "received" | "payment" | "replacement" | "corrects" | "control_findings" | "match" | "sent_for_approval" | "reminder" | "early_payment_offer" | "held_back" | "hold_ended" | "comment";
             actorName?: string;
             actorKey?: string;
             /** @enum {string} */
@@ -8247,103 +8394,6 @@ export interface components {
             yearlyPriceLabel?: string;
             yearlyPrice?: components["schemas"]["PriceAmount"];
         };
-        ApprovalQueue: {
-            purchaseOrders?: components["schemas"]["PurchaseOrder"][];
-            invoices?: components["schemas"]["InvoiceBuyerView"][];
-            serviceEntrySheets?: components["schemas"]["ServiceEntrySheetQueueItem"][];
-            needsAssignment?: {
-                purchaseOrders?: components["schemas"]["PurchaseOrder"][];
-                invoices?: components["schemas"]["InvoiceBuyerView"][];
-            };
-            decided?: {
-                purchaseOrders?: components["schemas"]["PurchaseOrder"][];
-                invoices?: components["schemas"]["InvoiceBuyerView"][];
-            };
-        };
-        ServiceEntrySheetQueueItem: {
-            receipt?: components["schemas"]["Receipt"];
-            supplier?: string;
-            supplierOrgId?: string;
-            releases?: {
-                id: string;
-                invoiceNumber?: string;
-                /** Format: double */
-                amount?: number;
-                currency?: string;
-            }[];
-        };
-        Receipt: {
-            id: string;
-            poId?: string;
-            /** @enum {string} */
-            kind?: "service_entry_sheet" | "goods_receipt";
-            /** @enum {string} */
-            status?: "approved" | "rejected" | "pending_approval" | "reversed";
-            receivedAt?: string;
-            periodFrom?: string;
-            periodTo?: string;
-            lines?: components["schemas"]["ReceiptLine"][];
-            /** Format: double */
-            amount?: number;
-            currency?: string;
-            note?: string;
-            shipmentId?: string;
-            attachment?: components["schemas"]["ReceiptAttachment"];
-            /** @enum {string} */
-            source?: "supplier" | "api" | "app" | "assistant" | "import";
-            createdBy?: string;
-            createdByName?: string;
-            createdAt?: string;
-            approvedBy?: string;
-            approvedByName?: string;
-            approvedAt?: string;
-            reversal?: {
-                by?: string;
-                byName?: string;
-                at?: string;
-                reason?: string;
-            };
-            approval?: components["schemas"]["ApprovalChain"];
-            /** Format: double */
-            approvalVersion?: number;
-            rejection?: {
-                by?: string;
-                byName?: string;
-                at?: string;
-                reason?: string;
-            };
-            returns?: components["schemas"]["ReceiptReturn"][];
-        };
-        ReceiptLine: {
-            /** Format: double */
-            lineNo?: number;
-            /** Format: double */
-            qty?: number;
-            /** Format: double */
-            amount?: number;
-        };
-        ReceiptAttachment: {
-            fileId?: string;
-            fileName?: string;
-            /** @enum {string} */
-            contentType?: "application/pdf" | "image/png" | "image/jpeg";
-            /** Format: double */
-            sizeBytes?: number;
-        };
-        ReceiptReturn: {
-            id: string;
-            lines?: components["schemas"]["ReceiptLine"][];
-            /** Format: double */
-            amount?: number;
-            returnedAt?: string;
-            reason?: string;
-            /** @enum {string} */
-            want?: "none" | "credit_note" | "replacement";
-            attachment?: components["schemas"]["ReceiptAttachment"];
-            by?: string;
-            byName?: string;
-            at?: string;
-        };
         StripePaymentStatus: {
             available?: boolean;
             /** @enum {string} */
@@ -8435,7 +8485,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8489,7 +8539,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8540,7 +8590,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8597,7 +8647,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8650,7 +8700,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8711,6 +8761,7 @@ export interface components {
             directoryId?: string;
             /** @enum {string} */
             setupGoal?: "audit" | "network";
+            eInvoicing?: components["schemas"]["EInvoicingProfileSettings"];
         };
         GetBuyerWorkspaceResult: {
             viewerIsSoleInvoiceReviewer?: boolean;
@@ -8743,7 +8794,7 @@ export interface components {
             documentType?: "credit_note";
             feedEnabled?: boolean;
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
             creditNote?: {
                 invoiceId?: string;
                 externalInvoiceNumber?: string;
@@ -8864,6 +8915,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -8881,7 +8933,10 @@ export interface components {
             invoiceDate?: string;
             sodExcludedKeys?: string[];
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            eInvoice?: components["schemas"]["EInvoiceSummary"];
+            eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
+            eInvoiceBuyerDownloadedAt?: string;
             submittedBy?: string;
             feedPayloadHash?: string;
             externalInvoiceNumber?: string;
@@ -8957,6 +9012,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -8972,7 +9028,10 @@ export interface components {
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            eInvoice?: components["schemas"]["EInvoiceSummary"];
+            eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
+            eInvoiceBuyerDownloadedAt?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -8997,6 +9056,7 @@ export interface components {
             bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
+            canOfferEarlyPayment?: boolean;
             heldBack?: components["schemas"]["SupplierHeldBackView"];
             settlement?: components["schemas"]["SupplierSettlementView"];
             paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
@@ -9020,13 +9080,7 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -9037,13 +9091,7 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
             };
             withdrawnPayment?: {
                 withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
@@ -9062,13 +9110,7 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -9079,13 +9121,7 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
             };
             remittances?: components["schemas"]["SupplierRemittanceView"][];
             buyerWorkspaceId?: string;
@@ -9118,7 +9154,7 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -9207,7 +9243,7 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
             submittedBy?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
@@ -9282,7 +9318,7 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -9371,7 +9407,7 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
             submittedBy?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
@@ -9510,6 +9546,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -9527,7 +9564,10 @@ export interface components {
             invoiceDate?: string;
             sodExcludedKeys?: string[];
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            eInvoice?: components["schemas"]["EInvoiceSummary"];
+            eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
+            eInvoiceBuyerDownloadedAt?: string;
             submittedBy?: string;
             feedPayloadHash?: string;
             externalInvoiceNumber?: string;
@@ -9603,6 +9643,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -9618,7 +9659,10 @@ export interface components {
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            eInvoice?: components["schemas"]["EInvoiceSummary"];
+            eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
+            eInvoiceBuyerDownloadedAt?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -9643,6 +9687,7 @@ export interface components {
             bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
+            canOfferEarlyPayment?: boolean;
             heldBack?: components["schemas"]["SupplierHeldBackView"];
             settlement?: components["schemas"]["SupplierSettlementView"];
             paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
@@ -9666,13 +9711,7 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -9683,13 +9722,7 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
             };
             withdrawnPayment?: {
                 withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
@@ -9708,13 +9741,7 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -9725,13 +9752,7 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
             };
             remittances?: components["schemas"]["SupplierRemittanceView"][];
             buyerWorkspaceId?: string;
@@ -9768,7 +9789,7 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -9857,7 +9878,7 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
             submittedBy?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
@@ -9998,6 +10019,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -10015,7 +10037,10 @@ export interface components {
             invoiceDate?: string;
             sodExcludedKeys?: string[];
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            eInvoice?: components["schemas"]["EInvoiceSummary"];
+            eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
+            eInvoiceBuyerDownloadedAt?: string;
             submittedBy?: string;
             feedPayloadHash?: string;
             externalInvoiceNumber?: string;
@@ -10091,6 +10116,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -10106,7 +10132,10 @@ export interface components {
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            eInvoice?: components["schemas"]["EInvoiceSummary"];
+            eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
+            eInvoiceBuyerDownloadedAt?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -10131,6 +10160,7 @@ export interface components {
             bankLane?: string;
             sourceDocument?: components["schemas"]["InvoiceSourceDocument"];
             hasOriginalPdf?: boolean;
+            canOfferEarlyPayment?: boolean;
             heldBack?: components["schemas"]["SupplierHeldBackView"];
             settlement?: components["schemas"]["SupplierSettlementView"];
             paymentProblem?: components["schemas"]["SupplierPaymentProblemView"];
@@ -10154,13 +10184,7 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -10171,13 +10195,7 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
             };
             withdrawnPayment?: {
                 withholdings?: components["schemas"]["InvoiceBreakdownEntry"][];
@@ -10196,13 +10214,7 @@ export interface components {
                     rate?: number;
                     rateDate?: string;
                 };
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
                 /** @enum {string} */
                 status?: "recorded";
             } | {
@@ -10213,13 +10225,7 @@ export interface components {
                 /** @enum {string} */
                 paymentMethodType?: "card" | "us_bank_account";
                 succeededAt?: string;
-                earlyPaymentDiscount?: {
-                    /** Format: double */
-                    percent?: number;
-                    /** Format: double */
-                    amount?: number;
-                    deadline?: string;
-                };
+                earlyPaymentDiscount?: components["schemas"]["EarlyPaymentDiscountTaken"];
             };
             remittances?: components["schemas"]["SupplierRemittanceView"][];
             buyerWorkspaceId?: string;
@@ -10319,6 +10325,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -10336,7 +10343,10 @@ export interface components {
             invoiceDate?: string;
             sodExcludedKeys?: string[];
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            eInvoice?: components["schemas"]["EInvoiceSummary"];
+            eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
+            eInvoiceBuyerDownloadedAt?: string;
             submittedBy?: string;
             feedPayloadHash?: string;
             externalInvoiceNumber?: string;
@@ -10465,6 +10475,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -10482,7 +10493,10 @@ export interface components {
             invoiceDate?: string;
             sodExcludedKeys?: string[];
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            eInvoice?: components["schemas"]["EInvoiceSummary"];
+            eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
+            eInvoiceBuyerDownloadedAt?: string;
             submittedBy?: string;
             feedPayloadHash?: string;
             externalInvoiceNumber?: string;
@@ -10616,6 +10630,7 @@ export interface components {
             /** @enum {string} */
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -10633,7 +10648,10 @@ export interface components {
             invoiceDate?: string;
             sodExcludedKeys?: string[];
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            eInvoice?: components["schemas"]["EInvoiceSummary"];
+            eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
+            eInvoiceBuyerDownloadedAt?: string;
             submittedBy?: string;
             feedPayloadHash?: string;
             externalInvoiceNumber?: string;
@@ -10735,7 +10753,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -10764,7 +10782,7 @@ export interface components {
         };
         ListAiInvoicersItem: {
             /** @enum {string} */
-            id: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
+            id: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
             name?: string;
             legalEntities?: {
                 /** @enum {string} */
@@ -10778,9 +10796,9 @@ export interface components {
             /** @enum {string} */
             credential?: "none" | "admin_key" | "key_pair";
             /** @enum {string} */
-            tier?: "seats" | "direct" | "data_platform" | "host" | "neocloud";
+            tier?: "seats" | "usage" | "direct" | "data_platform" | "host" | "neocloud";
             /** @enum {string} */
-            shape?: "seats" | "capacity" | "tokens" | "credits";
+            shape?: "seats" | "usage" | "capacity" | "tokens" | "credits";
             contactHint?: string;
             connectable?: boolean;
         };
@@ -15095,6 +15113,34 @@ export interface operations {
             };
         };
     };
+    ListApprovals: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApprovalQueue"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     GetAiSpend: {
         parameters: {
             query?: {
@@ -16675,34 +16721,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BillingSummary"];
-                };
-            };
-            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiError"];
-                };
-            };
-        };
-    };
-    ListApprovals: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApprovalQueue"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

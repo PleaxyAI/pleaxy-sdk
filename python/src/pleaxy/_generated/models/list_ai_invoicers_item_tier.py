@@ -1,7 +1,7 @@
 from typing import Literal, Set, cast
 
 ListAiInvoicersItemTier = Literal[
-    "data_platform", "direct", "host", "neocloud", "seats"
+    "data_platform", "direct", "host", "neocloud", "seats", "usage"
 ]
 
 LIST_AI_INVOICERS_ITEM_TIER_VALUES: Set[ListAiInvoicersItemTier] = {
@@ -10,6 +10,7 @@ LIST_AI_INVOICERS_ITEM_TIER_VALUES: Set[ListAiInvoicersItemTier] = {
     "host",
     "neocloud",
     "seats",
+    "usage",
 }
 
 

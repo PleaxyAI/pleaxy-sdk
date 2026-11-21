@@ -14,6 +14,7 @@ from ..models.update_org_profile_input_locale import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.e_invoicing_settings_input import EInvoicingSettingsInput
     from ..models.postal_address_input import PostalAddressInput
 
 
@@ -40,6 +41,7 @@ class UpdateOrgProfileInput:
         listed_in_directory (Union[Unset, bool]):
         locale (Union[Unset, UpdateOrgProfileInputLocale]):
         geography_preset_id (Union[Unset, UpdateOrgProfileInputGeographyPresetId]):
+        e_invoicing (Union[Unset, EInvoicingSettingsInput]):
     """
 
     region_name: Union[Unset, str] = UNSET
@@ -58,6 +60,7 @@ class UpdateOrgProfileInput:
     listed_in_directory: Union[Unset, bool] = UNSET
     locale: Union[Unset, UpdateOrgProfileInputLocale] = UNSET
     geography_preset_id: Union[Unset, UpdateOrgProfileInputGeographyPresetId] = UNSET
+    e_invoicing: Union[Unset, "EInvoicingSettingsInput"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -105,6 +108,10 @@ class UpdateOrgProfileInput:
         if not isinstance(self.geography_preset_id, Unset):
             geography_preset_id = self.geography_preset_id
 
+        e_invoicing: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.e_invoicing, Unset):
+            e_invoicing = self.e_invoicing.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -140,11 +147,14 @@ class UpdateOrgProfileInput:
             field_dict["locale"] = locale
         if geography_preset_id is not UNSET:
             field_dict["geographyPresetId"] = geography_preset_id
+        if e_invoicing is not UNSET:
+            field_dict["eInvoicing"] = e_invoicing
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.e_invoicing_settings_input import EInvoicingSettingsInput
         from ..models.postal_address_input import PostalAddressInput
 
         d = src_dict.copy()
@@ -197,6 +207,13 @@ class UpdateOrgProfileInput:
                 _geography_preset_id
             )
 
+        _e_invoicing = d.pop("eInvoicing", UNSET)
+        e_invoicing: Union[Unset, EInvoicingSettingsInput]
+        if isinstance(_e_invoicing, Unset):
+            e_invoicing = UNSET
+        else:
+            e_invoicing = EInvoicingSettingsInput.from_dict(_e_invoicing)
+
         update_org_profile_input = cls(
             region_name=region_name,
             company_name=company_name,
@@ -214,6 +231,7 @@ class UpdateOrgProfileInput:
             listed_in_directory=listed_in_directory,
             locale=locale,
             geography_preset_id=geography_preset_id,
+            e_invoicing=e_invoicing,
         )
 
         update_org_profile_input.additional_properties = d

@@ -27,6 +27,12 @@ module Pleaxy
 
     attr_accessor :zoom
 
+    attr_accessor :datadog
+
+    attr_accessor :twilio
+
+    attr_accessor :mongodb
+
     attr_accessor :credit_price
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -38,6 +44,9 @@ module Pleaxy
         :'databricks' => :'databricks',
         :'github' => :'github',
         :'zoom' => :'zoom',
+        :'datadog' => :'datadog',
+        :'twilio' => :'twilio',
+        :'mongodb' => :'mongodb',
         :'credit_price' => :'creditPrice'
       }
     end
@@ -56,6 +65,9 @@ module Pleaxy
         :'databricks' => :'DatabricksConnectionInput',
         :'github' => :'GitHubConnectionInput',
         :'zoom' => :'ZoomConnectionInput',
+        :'datadog' => :'DatadogConnectionInput',
+        :'twilio' => :'TwilioConnectionInput',
+        :'mongodb' => :'MongoDbConnectionInput',
         :'credit_price' => :'CreditPriceInput'
       }
     end
@@ -105,6 +117,18 @@ module Pleaxy
 
       if attributes.key?(:'zoom')
         self.zoom = attributes[:'zoom']
+      end
+
+      if attributes.key?(:'datadog')
+        self.datadog = attributes[:'datadog']
+      end
+
+      if attributes.key?(:'twilio')
+        self.twilio = attributes[:'twilio']
+      end
+
+      if attributes.key?(:'mongodb')
+        self.mongodb = attributes[:'mongodb']
       end
 
       if attributes.key?(:'credit_price')
@@ -181,6 +205,9 @@ module Pleaxy
           databricks == o.databricks &&
           github == o.github &&
           zoom == o.zoom &&
+          datadog == o.datadog &&
+          twilio == o.twilio &&
+          mongodb == o.mongodb &&
           credit_price == o.credit_price
     end
 
@@ -193,7 +220,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [provider, key, snowflake, databricks, github, zoom, credit_price].hash
+      [provider, key, snowflake, databricks, github, zoom, datadog, twilio, mongodb, credit_price].hash
     end
 
     # Builds the object from hash

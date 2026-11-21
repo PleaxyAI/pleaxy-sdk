@@ -19,14 +19,45 @@ module Pleaxy
 
     attr_accessor :deadline
 
+    attr_accessor :source
+
     attr_accessor :contract_id
+
+    attr_accessor :offered_by
+
+    attr_accessor :offered_at
+
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'percent' => :'percent',
         :'deadline' => :'deadline',
-        :'contract_id' => :'contractId'
+        :'source' => :'source',
+        :'contract_id' => :'contractId',
+        :'offered_by' => :'offeredBy',
+        :'offered_at' => :'offeredAt'
       }
     end
 
@@ -40,7 +71,10 @@ module Pleaxy
       {
         :'percent' => :'Float',
         :'deadline' => :'String',
-        :'contract_id' => :'String'
+        :'source' => :'String',
+        :'contract_id' => :'String',
+        :'offered_by' => :'InvoiceEarlyPaymentOfferedBy',
+        :'offered_at' => :'String'
       }
     end
 
@@ -73,8 +107,20 @@ module Pleaxy
         self.deadline = attributes[:'deadline']
       end
 
+      if attributes.key?(:'source')
+        self.source = attributes[:'source']
+      end
+
       if attributes.key?(:'contract_id')
         self.contract_id = attributes[:'contract_id']
+      end
+
+      if attributes.key?(:'offered_by')
+        self.offered_by = attributes[:'offered_by']
+      end
+
+      if attributes.key?(:'offered_at')
+        self.offered_at = attributes[:'offered_at']
       end
     end
 
@@ -90,7 +136,19 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
+      source_validator = EnumAttributeValidator.new('String', ["contract", "supplier_offer"])
+      return false unless source_validator.valid?(@source)
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] source Object to be assigned
+    def source=(source)
+      validator = EnumAttributeValidator.new('String', ["contract", "supplier_offer"])
+      unless validator.valid?(source)
+        fail ArgumentError, "invalid value for \"source\", must be one of #{validator.allowable_values}."
+      end
+      @source = source
     end
 
     # Checks equality by comparing each attribute.
@@ -100,7 +158,10 @@ module Pleaxy
       self.class == o.class &&
           percent == o.percent &&
           deadline == o.deadline &&
-          contract_id == o.contract_id
+          source == o.source &&
+          contract_id == o.contract_id &&
+          offered_by == o.offered_by &&
+          offered_at == o.offered_at
     end
 
     # @see the `==` method
@@ -112,7 +173,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [percent, deadline, contract_id].hash
+      [percent, deadline, source, contract_id, offered_by, offered_at].hash
     end
 
     # Builds the object from hash

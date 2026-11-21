@@ -1,11 +1,13 @@
 from typing import Literal, Set, cast
 
-InvoiceSupplierViewSubmittedFormat = Literal["cxml", "json", "ubl"]
+InvoiceSupplierViewSubmittedFormat = Literal["cii", "cxml", "fatturapa", "json", "ubl"]
 
 INVOICE_SUPPLIER_VIEW_SUBMITTED_FORMAT_VALUES: Set[
     InvoiceSupplierViewSubmittedFormat
 ] = {
+    "cii",
     "cxml",
+    "fatturapa",
     "json",
     "ubl",
 }

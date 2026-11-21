@@ -119,6 +119,8 @@ module Pleaxy
 
     attr_accessor :early_payment
 
+    attr_accessor :contract_early_payment
+
     attr_accessor :last_reminded_at
 
     attr_accessor :last_approver_reminded_at
@@ -148,6 +150,12 @@ module Pleaxy
     attr_accessor :sod_excluded_keys
 
     attr_accessor :submitted_format
+
+    attr_accessor :e_invoice
+
+    attr_accessor :e_invoice_details
+
+    attr_accessor :e_invoice_buyer_downloaded_at
 
     attr_accessor :submitted_by
 
@@ -288,6 +296,7 @@ module Pleaxy
         :'previous_exported_at' => :'previousExportedAt',
         :'due_date_source' => :'dueDateSource',
         :'early_payment' => :'earlyPayment',
+        :'contract_early_payment' => :'contractEarlyPayment',
         :'last_reminded_at' => :'lastRemindedAt',
         :'last_approver_reminded_at' => :'lastApproverRemindedAt',
         :'rejection' => :'rejection',
@@ -303,6 +312,9 @@ module Pleaxy
         :'invoice_date' => :'invoiceDate',
         :'sod_excluded_keys' => :'sodExcludedKeys',
         :'submitted_format' => :'submittedFormat',
+        :'e_invoice' => :'eInvoice',
+        :'e_invoice_details' => :'eInvoiceDetails',
+        :'e_invoice_buyer_downloaded_at' => :'eInvoiceBuyerDownloadedAt',
         :'submitted_by' => :'submittedBy',
         :'feed_payload_hash' => :'feedPayloadHash',
         :'external_invoice_number' => :'externalInvoiceNumber',
@@ -397,6 +409,7 @@ module Pleaxy
         :'previous_exported_at' => :'String',
         :'due_date_source' => :'String',
         :'early_payment' => :'InvoiceEarlyPayment',
+        :'contract_early_payment' => :'InvoiceEarlyPayment',
         :'last_reminded_at' => :'String',
         :'last_approver_reminded_at' => :'String',
         :'rejection' => :'InvoiceRejection',
@@ -412,6 +425,9 @@ module Pleaxy
         :'invoice_date' => :'String',
         :'sod_excluded_keys' => :'Array<String>',
         :'submitted_format' => :'String',
+        :'e_invoice' => :'EInvoiceSummary',
+        :'e_invoice_details' => :'InvoiceEInvoiceDetails',
+        :'e_invoice_buyer_downloaded_at' => :'String',
         :'submitted_by' => :'String',
         :'feed_payload_hash' => :'String',
         :'external_invoice_number' => :'String',
@@ -687,6 +703,10 @@ module Pleaxy
         self.early_payment = attributes[:'early_payment']
       end
 
+      if attributes.key?(:'contract_early_payment')
+        self.contract_early_payment = attributes[:'contract_early_payment']
+      end
+
       if attributes.key?(:'last_reminded_at')
         self.last_reminded_at = attributes[:'last_reminded_at']
       end
@@ -753,6 +773,18 @@ module Pleaxy
 
       if attributes.key?(:'submitted_format')
         self.submitted_format = attributes[:'submitted_format']
+      end
+
+      if attributes.key?(:'e_invoice')
+        self.e_invoice = attributes[:'e_invoice']
+      end
+
+      if attributes.key?(:'e_invoice_details')
+        self.e_invoice_details = attributes[:'e_invoice_details']
+      end
+
+      if attributes.key?(:'e_invoice_buyer_downloaded_at')
+        self.e_invoice_buyer_downloaded_at = attributes[:'e_invoice_buyer_downloaded_at']
       end
 
       if attributes.key?(:'submitted_by')
@@ -937,7 +969,7 @@ module Pleaxy
       return false unless source_validator.valid?(@source)
       entered_by_validator = EnumAttributeValidator.new('String', ["buyer", "supplier"])
       return false unless entered_by_validator.valid?(@entered_by)
-      submitted_format_validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml"])
+      submitted_format_validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml", "cii", "fatturapa"])
       return false unless submitted_format_validator.valid?(@submitted_format)
       document_type_validator = EnumAttributeValidator.new('String', ["invoice", "debit_note"])
       return false unless document_type_validator.valid?(@document_type)
@@ -1059,7 +1091,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] submitted_format Object to be assigned
     def submitted_format=(submitted_format)
-      validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml"])
+      validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml", "cii", "fatturapa"])
       unless validator.valid?(submitted_format)
         fail ArgumentError, "invalid value for \"submitted_format\", must be one of #{validator.allowable_values}."
       end
@@ -1143,6 +1175,7 @@ module Pleaxy
           previous_exported_at == o.previous_exported_at &&
           due_date_source == o.due_date_source &&
           early_payment == o.early_payment &&
+          contract_early_payment == o.contract_early_payment &&
           last_reminded_at == o.last_reminded_at &&
           last_approver_reminded_at == o.last_approver_reminded_at &&
           rejection == o.rejection &&
@@ -1158,6 +1191,9 @@ module Pleaxy
           invoice_date == o.invoice_date &&
           sod_excluded_keys == o.sod_excluded_keys &&
           submitted_format == o.submitted_format &&
+          e_invoice == o.e_invoice &&
+          e_invoice_details == o.e_invoice_details &&
+          e_invoice_buyer_downloaded_at == o.e_invoice_buyer_downloaded_at &&
           submitted_by == o.submitted_by &&
           feed_payload_hash == o.feed_payload_hash &&
           external_invoice_number == o.external_invoice_number &&
@@ -1200,7 +1236,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier, id, buyer_org_id, supplier_org_id, created_at, cloud_provider, late_fee_terms, amount, settlement, approval_version, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, usage_amount, usage_amount_simulated, usage_simulated_after_disconnect, usage_currency, usage_source, usage_lines, tolerance_pct, match_status, unverified_reason, match_basis, no_po_comparison, payment_route, receipt_check_skipped, receipt_tolerance_applied, match_type, discrepancy_reason, control_findings, paid, due_in_days, due_date, paid_at, payment, remittances, payment_history, payment_problem, receipt_confirmation_reminded_at, export_available_from, previous_exported_at, due_date_source, early_payment, last_reminded_at, last_approver_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, cloud_connection_id, entered_by, invoice_date, sod_excluded_keys, submitted_format, submitted_by, feed_payload_hash, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, held_back, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, rate_warnings, remittance_instructions, remittance_check, bank_details_confirmation, bank_lane, source_document, has_original_pdf, base_currency_amount, viewer_is_supplier_member, next_approver_reminder_at, replacement, uncredited_originals].hash
+      [supplier, id, buyer_org_id, supplier_org_id, created_at, cloud_provider, late_fee_terms, amount, settlement, approval_version, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, usage_amount, usage_amount_simulated, usage_simulated_after_disconnect, usage_currency, usage_source, usage_lines, tolerance_pct, match_status, unverified_reason, match_basis, no_po_comparison, payment_route, receipt_check_skipped, receipt_tolerance_applied, match_type, discrepancy_reason, control_findings, paid, due_in_days, due_date, paid_at, payment, remittances, payment_history, payment_problem, receipt_confirmation_reminded_at, export_available_from, previous_exported_at, due_date_source, early_payment, contract_early_payment, last_reminded_at, last_approver_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, source, cloud_connection_id, entered_by, invoice_date, sod_excluded_keys, submitted_format, e_invoice, e_invoice_details, e_invoice_buyer_downloaded_at, submitted_by, feed_payload_hash, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, held_back, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, rate_warnings, remittance_instructions, remittance_check, bank_details_confirmation, bank_lane, source_document, has_original_pdf, base_currency_amount, viewer_is_supplier_member, next_approver_reminder_at, replacement, uncredited_originals].hash
     end
 
     # Builds the object from hash

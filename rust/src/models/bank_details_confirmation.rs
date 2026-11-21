@@ -24,7 +24,7 @@ pub struct BankDetailsConfirmation {
     #[serde(rename = "confirmedAt", skip_serializing_if = "Option::is_none")]
     pub confirmed_at: Option<String>,
     #[serde(rename = "confirmedBy", skip_serializing_if = "Option::is_none")]
-    pub confirmed_by: Option<models::BankDetailsConfirmationConfirmedBy>,
+    pub confirmed_by: Option<models::InvoiceEarlyPaymentOfferedBy>,
     #[serde(rename = "phone", skip_serializing_if = "Option::is_none")]
     pub phone: Option<models::BankDetailsConfirmationPhone>,
     #[serde(rename = "dispute", skip_serializing_if = "Option::is_none")]

@@ -78,6 +78,11 @@ pub struct FeedValidationResultInvoice {
     pub due_date_source: Option<DueDateSource>,
     #[serde(rename = "earlyPayment", skip_serializing_if = "Option::is_none")]
     pub early_payment: Option<models::InvoiceEarlyPayment>,
+    #[serde(
+        rename = "contractEarlyPayment",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub contract_early_payment: Option<models::InvoiceEarlyPayment>,
     #[serde(rename = "lastRemindedAt", skip_serializing_if = "Option::is_none")]
     pub last_reminded_at: Option<String>,
     #[serde(
@@ -108,6 +113,15 @@ pub struct FeedValidationResultInvoice {
     pub invoice_date: Option<String>,
     #[serde(rename = "submittedFormat", skip_serializing_if = "Option::is_none")]
     pub submitted_format: Option<SubmittedFormat>,
+    #[serde(rename = "eInvoice", skip_serializing_if = "Option::is_none")]
+    pub e_invoice: Option<models::EInvoiceSummary>,
+    #[serde(rename = "eInvoiceDetails", skip_serializing_if = "Option::is_none")]
+    pub e_invoice_details: Option<models::InvoiceEInvoiceDetails>,
+    #[serde(
+        rename = "eInvoiceBuyerDownloadedAt",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub e_invoice_buyer_downloaded_at: Option<String>,
     #[serde(
         rename = "externalInvoiceNumber",
         skip_serializing_if = "Option::is_none"
@@ -167,6 +181,11 @@ pub struct FeedValidationResultInvoice {
     pub source_document: Option<models::InvoiceSourceDocument>,
     #[serde(rename = "hasOriginalPdf", skip_serializing_if = "Option::is_none")]
     pub has_original_pdf: Option<bool>,
+    #[serde(
+        rename = "canOfferEarlyPayment",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub can_offer_early_payment: Option<bool>,
     #[serde(rename = "baseCurrencyAmount", skip_serializing_if = "Option::is_none")]
     pub base_currency_amount: Option<models::InvoiceBaseCurrencyAmount>,
     #[serde(rename = "withdrawnPayment", skip_serializing_if = "Option::is_none")]
@@ -211,6 +230,7 @@ impl FeedValidationResultInvoice {
             payment_problem: None,
             due_date_source: None,
             early_payment: None,
+            contract_early_payment: None,
             last_reminded_at: None,
             last_approver_reminded_at: None,
             rejection: None,
@@ -223,6 +243,9 @@ impl FeedValidationResultInvoice {
             entered_by: None,
             invoice_date: None,
             submitted_format: None,
+            e_invoice: None,
+            e_invoice_details: None,
+            e_invoice_buyer_downloaded_at: None,
             external_invoice_number: None,
             adjustments: None,
             tax_amount: None,
@@ -245,6 +268,7 @@ impl FeedValidationResultInvoice {
             bank_lane: None,
             source_document: None,
             has_original_pdf: None,
+            can_offer_early_payment: None,
             base_currency_amount: None,
             withdrawn_payment: None,
             buyer_workspace_id: None,
@@ -339,6 +363,10 @@ pub enum SubmittedFormat {
     Ubl,
     #[serde(rename = "cxml")]
     Cxml,
+    #[serde(rename = "cii")]
+    Cii,
+    #[serde(rename = "fatturapa")]
+    Fatturapa,
 }
 
 impl Default for SubmittedFormat {

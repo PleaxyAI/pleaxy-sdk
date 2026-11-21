@@ -65,8 +65,13 @@ def sync_detailed(
     assign to the service user (sync then finishes connecting). Seat tools read only the month's active
     users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token
     with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`,
-    the client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's
-    provider limit. 'create' on suppliers.
+    the client secret as key). Usage-billed suppliers read only the month's billed total, for the
+    invoice check: Datadog (`datadog.site` and `datadog.apiKey`, a service account's application key
+    scoped to usage_read and billing_read as key), Twilio (`twilio.accountSid` and `twilio.keySid`, a
+    restricted key's secret with Usage Records read as key) and MongoDB Atlas (`mongodb.orgId` and
+    `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key). Seats
+    the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on
+    suppliers.
 
     Args:
         body (CreateAiProviderInput):
@@ -101,8 +106,13 @@ def sync(
     assign to the service user (sync then finishes connecting). Seat tools read only the month's active
     users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token
     with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`,
-    the client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's
-    provider limit. 'create' on suppliers.
+    the client secret as key). Usage-billed suppliers read only the month's billed total, for the
+    invoice check: Datadog (`datadog.site` and `datadog.apiKey`, a service account's application key
+    scoped to usage_read and billing_read as key), Twilio (`twilio.accountSid` and `twilio.keySid`, a
+    restricted key's secret with Usage Records read as key) and MongoDB Atlas (`mongodb.orgId` and
+    `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key). Seats
+    the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on
+    suppliers.
 
     Args:
         body (CreateAiProviderInput):
@@ -132,8 +142,13 @@ async def asyncio_detailed(
     assign to the service user (sync then finishes connecting). Seat tools read only the month's active
     users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token
     with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`,
-    the client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's
-    provider limit. 'create' on suppliers.
+    the client secret as key). Usage-billed suppliers read only the month's billed total, for the
+    invoice check: Datadog (`datadog.site` and `datadog.apiKey`, a service account's application key
+    scoped to usage_read and billing_read as key), Twilio (`twilio.accountSid` and `twilio.keySid`, a
+    restricted key's secret with Usage Records read as key) and MongoDB Atlas (`mongodb.orgId` and
+    `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key). Seats
+    the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on
+    suppliers.
 
     Args:
         body (CreateAiProviderInput):
@@ -166,8 +181,13 @@ async def asyncio(
     assign to the service user (sync then finishes connecting). Seat tools read only the month's active
     users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token
     with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`,
-    the client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's
-    provider limit. 'create' on suppliers.
+    the client secret as key). Usage-billed suppliers read only the month's billed total, for the
+    invoice check: Datadog (`datadog.site` and `datadog.apiKey`, a service account's application key
+    scoped to usage_read and billing_read as key), Twilio (`twilio.accountSid` and `twilio.keySid`, a
+    restricted key's secret with Usage Records read as key) and MongoDB Atlas (`mongodb.orgId` and
+    `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key). Seats
+    the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on
+    suppliers.
 
     Args:
         body (CreateAiProviderInput):

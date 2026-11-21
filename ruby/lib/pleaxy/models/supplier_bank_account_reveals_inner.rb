@@ -36,7 +36,7 @@ module Pleaxy
     def self.openapi_types
       {
         :'at' => :'String',
-        :'by' => :'BankDetailsConfirmationConfirmedBy'
+        :'by' => :'InvoiceEarlyPaymentOfferedBy'
       }
     end
 

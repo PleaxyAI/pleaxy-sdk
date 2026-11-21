@@ -1,11 +1,15 @@
 from typing import Literal, Set, cast
 
-RemoveInvoiceReplacementLinkResultSubmittedFormat = Literal["cxml", "json", "ubl"]
+RemoveInvoiceReplacementLinkResultSubmittedFormat = Literal[
+    "cii", "cxml", "fatturapa", "json", "ubl"
+]
 
 REMOVE_INVOICE_REPLACEMENT_LINK_RESULT_SUBMITTED_FORMAT_VALUES: Set[
     RemoveInvoiceReplacementLinkResultSubmittedFormat
 ] = {
+    "cii",
     "cxml",
+    "fatturapa",
     "json",
     "ubl",
 }

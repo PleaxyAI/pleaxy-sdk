@@ -14,10 +14,8 @@ from ..models.invoice_supplier_view_withdrawn_payment_type_0_status import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.early_payment_discount_taken import EarlyPaymentDiscountTaken
     from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
-    from ..models.invoice_supplier_view_withdrawn_payment_type_0_early_payment_discount import (
-        InvoiceSupplierViewWithdrawnPaymentType0EarlyPaymentDiscount,
-    )
     from ..models.invoice_supplier_view_withdrawn_payment_type_0_paid_amount import (
         InvoiceSupplierViewWithdrawnPaymentType0PaidAmount,
     )
@@ -37,7 +35,7 @@ class InvoiceSupplierViewWithdrawnPaymentType0:
         recorded_at (Union[Unset, str]):
         advice_version (Union[Unset, float]):
         paid_amount (Union[Unset, InvoiceSupplierViewWithdrawnPaymentType0PaidAmount]):
-        early_payment_discount (Union[Unset, InvoiceSupplierViewWithdrawnPaymentType0EarlyPaymentDiscount]):
+        early_payment_discount (Union[Unset, EarlyPaymentDiscountTaken]):
         status (Union[Unset, InvoiceSupplierViewWithdrawnPaymentType0Status]):
     """
 
@@ -50,9 +48,7 @@ class InvoiceSupplierViewWithdrawnPaymentType0:
     paid_amount: Union[Unset, "InvoiceSupplierViewWithdrawnPaymentType0PaidAmount"] = (
         UNSET
     )
-    early_payment_discount: Union[
-        Unset, "InvoiceSupplierViewWithdrawnPaymentType0EarlyPaymentDiscount"
-    ] = UNSET
+    early_payment_discount: Union[Unset, "EarlyPaymentDiscountTaken"] = UNSET
     status: Union[Unset, InvoiceSupplierViewWithdrawnPaymentType0Status] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -114,10 +110,8 @@ class InvoiceSupplierViewWithdrawnPaymentType0:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.early_payment_discount_taken import EarlyPaymentDiscountTaken
         from ..models.invoice_breakdown_entry import InvoiceBreakdownEntry
-        from ..models.invoice_supplier_view_withdrawn_payment_type_0_early_payment_discount import (
-            InvoiceSupplierViewWithdrawnPaymentType0EarlyPaymentDiscount,
-        )
         from ..models.invoice_supplier_view_withdrawn_payment_type_0_paid_amount import (
             InvoiceSupplierViewWithdrawnPaymentType0PaidAmount,
         )
@@ -157,16 +151,12 @@ class InvoiceSupplierViewWithdrawnPaymentType0:
             )
 
         _early_payment_discount = d.pop("earlyPaymentDiscount", UNSET)
-        early_payment_discount: Union[
-            Unset, InvoiceSupplierViewWithdrawnPaymentType0EarlyPaymentDiscount
-        ]
+        early_payment_discount: Union[Unset, EarlyPaymentDiscountTaken]
         if isinstance(_early_payment_discount, Unset):
             early_payment_discount = UNSET
         else:
-            early_payment_discount = (
-                InvoiceSupplierViewWithdrawnPaymentType0EarlyPaymentDiscount.from_dict(
-                    _early_payment_discount
-                )
+            early_payment_discount = EarlyPaymentDiscountTaken.from_dict(
+                _early_payment_discount
             )
 
         _status = d.pop("status", UNSET)

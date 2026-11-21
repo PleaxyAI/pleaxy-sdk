@@ -465,7 +465,7 @@ module Pleaxy
       return false unless origin_validator.valid?(@origin)
       cloud_provider_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci"])
       return false unless cloud_provider_validator.valid?(@cloud_provider)
-      ai_provider_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom"])
+      ai_provider_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom", "datadog", "twilio", "mongodb"])
       return false unless ai_provider_validator.valid?(@ai_provider)
       true
     end
@@ -503,7 +503,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] ai_provider Object to be assigned
     def ai_provider=(ai_provider)
-      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom"])
+      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom", "datadog", "twilio", "mongodb"])
       unless validator.valid?(ai_provider)
         fail ArgumentError, "invalid value for \"ai_provider\", must be one of #{validator.allowable_values}."
       end

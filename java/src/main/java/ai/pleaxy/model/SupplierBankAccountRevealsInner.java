@@ -19,7 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import ai.pleaxy.model.BankDetailsConfirmationConfirmedBy;
+import ai.pleaxy.model.InvoiceEarlyPaymentOfferedBy;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -45,7 +45,7 @@ public class SupplierBankAccountRevealsInner {
 
   public static final String JSON_PROPERTY_BY = "by";
   @javax.annotation.Nullable
-  private BankDetailsConfirmationConfirmedBy by;
+  private InvoiceEarlyPaymentOfferedBy by;
 
   public SupplierBankAccountRevealsInner() { 
   }
@@ -74,7 +74,7 @@ public class SupplierBankAccountRevealsInner {
   }
 
 
-  public SupplierBankAccountRevealsInner by(@javax.annotation.Nullable BankDetailsConfirmationConfirmedBy by) {
+  public SupplierBankAccountRevealsInner by(@javax.annotation.Nullable InvoiceEarlyPaymentOfferedBy by) {
     this.by = by;
     return this;
   }
@@ -86,14 +86,14 @@ public class SupplierBankAccountRevealsInner {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public BankDetailsConfirmationConfirmedBy getBy() {
+  public InvoiceEarlyPaymentOfferedBy getBy() {
     return by;
   }
 
 
   @JsonProperty(JSON_PROPERTY_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBy(@javax.annotation.Nullable BankDetailsConfirmationConfirmedBy by) {
+  public void setBy(@javax.annotation.Nullable InvoiceEarlyPaymentOfferedBy by) {
     this.by = by;
   }
 

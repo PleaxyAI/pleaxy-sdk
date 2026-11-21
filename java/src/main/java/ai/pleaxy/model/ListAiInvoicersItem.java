@@ -86,7 +86,13 @@ public class ListAiInvoicersItem {
     
     SLACK(String.valueOf("slack")),
     
-    ZOOM(String.valueOf("zoom"));
+    ZOOM(String.valueOf("zoom")),
+    
+    DATADOG(String.valueOf("datadog")),
+    
+    TWILIO(String.valueOf("twilio")),
+    
+    MONGODB(String.valueOf("mongodb"));
 
     private String value;
 
@@ -221,6 +227,8 @@ public class ListAiInvoicersItem {
   public enum TierEnum {
     SEATS(String.valueOf("seats")),
     
+    USAGE(String.valueOf("usage")),
+    
     DIRECT(String.valueOf("direct")),
     
     DATA_PLATFORM(String.valueOf("data_platform")),
@@ -265,6 +273,8 @@ public class ListAiInvoicersItem {
    */
   public enum ShapeEnum {
     SEATS(String.valueOf("seats")),
+    
+    USAGE(String.valueOf("usage")),
     
     CAPACITY(String.valueOf("capacity")),
     

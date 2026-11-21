@@ -3588,7 +3588,7 @@
       },
       "post": {
         "operationId": "CreateAiProvider",
-        "summary": "[Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seat tools read only the month's active users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`, the client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers.",
+        "summary": "[Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seat tools read only the month's active users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`, the client secret as key). Usage-billed suppliers read only the month's billed total, for the invoice check: Datadog (`datadog.site` and `datadog.apiKey`, a service account's application key scoped to usage_read and billing_read as key), Twilio (`twilio.accountSid` and `twilio.keySid`, a restricted key's secret with Usage Records read as key) and MongoDB Atlas (`mongodb.orgId` and `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers.",
         "requestBody": {
           "required": true,
           "content": {
@@ -5862,6 +5862,37 @@
         },
         "tags": [
           "purchase-requests"
+        ]
+      }
+    },
+    "/approvals": {
+      "get": {
+        "operationId": "ListApprovals",
+        "summary": "[Buyer] List every purchase order and invoice in this region currently at a stage this employee can act on, plus the ones this employee has already approved or rejected",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApprovalQueue"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "approvals"
         ]
       }
     },
@@ -8170,37 +8201,6 @@
         ]
       }
     },
-    "/approvals": {
-      "get": {
-        "operationId": "ListApprovals",
-        "summary": "[Buyer] List every purchase order and invoice in this region currently at a stage this employee can act on, plus the ones this employee has already approved or rejected",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApprovalQueue"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "approvals"
-        ]
-      }
-    },
     "/invoices/{invoiceId}/stripe-payment": {
       "get": {
         "operationId": "GetStripePayment",
@@ -8899,6 +8899,53 @@
           "country"
         ]
       },
+      "ElectronicAddressInput": {
+        "type": "object",
+        "properties": {
+          "scheme": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "scheme",
+          "value"
+        ]
+      },
+      "EInvoicingSettingsInput": {
+        "type": "object",
+        "properties": {
+          "contactName": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "contactPhone": {
+            "type": "string",
+            "maxLength": 40,
+            "pattern": "^$|^[+()\\d\\s.\\/-]*\\d[+()\\d\\s.\\/-]*\\d[+()\\d\\s.\\/-]*\\d[+()\\d\\s.\\/-]*$"
+          },
+          "contactEmail": {
+            "type": "string",
+            "maxLength": 254
+          },
+          "electronicAddress": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ElectronicAddressInput"
+              }
+            ],
+            "type": "object"
+          },
+          "buyerReference": {
+            "type": "string",
+            "maxLength": 100
+          }
+        }
+      },
       "UpdateOrgProfileInput": {
         "type": "object",
         "properties": {
@@ -8995,6 +9042,15 @@
               "continent-oceania",
               "continent-south-america"
             ]
+          },
+          "eInvoicing": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EInvoicingSettingsInput"
+              }
+            ],
+            "type": "object"
           }
         }
       },
@@ -10678,6 +10734,67 @@
           "clientId"
         ]
       },
+      "DatadogConnectionInput": {
+        "type": "object",
+        "properties": {
+          "site": {
+            "type": "string",
+            "enum": [
+              "datadoghq.com",
+              "us3.datadoghq.com",
+              "us5.datadoghq.com",
+              "datadoghq.eu",
+              "ap1.datadoghq.com",
+              "ap2.datadoghq.com",
+              "uk1.datadoghq.com",
+              "ddog-gov.com",
+              "us2.ddog-gov.com"
+            ]
+          },
+          "apiKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{20,100}$"
+          }
+        },
+        "required": [
+          "site",
+          "apiKey"
+        ]
+      },
+      "TwilioConnectionInput": {
+        "type": "object",
+        "properties": {
+          "accountSid": {
+            "type": "string",
+            "pattern": "^AC[0-9a-fA-F]{32}$"
+          },
+          "keySid": {
+            "type": "string",
+            "pattern": "^SK[0-9a-fA-F]{32}$"
+          }
+        },
+        "required": [
+          "accountSid",
+          "keySid"
+        ]
+      },
+      "MongoDbConnectionInput": {
+        "type": "object",
+        "properties": {
+          "orgId": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{24}$"
+          },
+          "clientId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{8,80}$"
+          }
+        },
+        "required": [
+          "orgId",
+          "clientId"
+        ]
+      },
       "CreateAiProviderInput": {
         "type": "object",
         "properties": {
@@ -10700,6 +10817,15 @@
           },
           "zoom": {
             "$ref": "#/components/schemas/ZoomConnectionInput"
+          },
+          "datadog": {
+            "$ref": "#/components/schemas/DatadogConnectionInput"
+          },
+          "twilio": {
+            "$ref": "#/components/schemas/TwilioConnectionInput"
+          },
+          "mongodb": {
+            "$ref": "#/components/schemas/MongoDbConnectionInput"
           },
           "creditPrice": {
             "$ref": "#/components/schemas/CreditPriceInput"
@@ -13303,7 +13429,9 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
           },
           "outcome": {
@@ -13383,6 +13511,8 @@
             "type": "string",
             "enum": [
               "ai_forecast_over_budget",
+              "usage_anomaly",
+              "usage_contract_projection",
               "ai_drafts_ready",
               "report_ready",
               "company_report_ready",
@@ -13442,6 +13572,7 @@
               "invoice_entered_by_buyer",
               "invoice_bank_details_to_confirm",
               "invoice_bank_details_confirmed",
+              "invoice_early_payment_offer",
               "invoice_bank_account_to_approve",
               "supplier_screening_match",
               "invoice_bank_details_disputed",
@@ -13482,6 +13613,7 @@
               "contract_sent_to_joined_supplier",
               "contract_renewal_notice_due",
               "contract_termination_notice_due",
+              "contract_seat_review_due",
               "copilot_allowance_80",
               "copilot_allowance_100",
               "copilot_degraded",
@@ -13728,6 +13860,34 @@
           }
         }
       },
+      "EInvoicingProfileSettings": {
+        "type": "object",
+        "properties": {
+          "contactName": {
+            "type": "string"
+          },
+          "contactPhone": {
+            "type": "string"
+          },
+          "contactEmail": {
+            "type": "string"
+          },
+          "electronicAddress": {
+            "type": "object",
+            "properties": {
+              "scheme": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          },
+          "buyerReference": {
+            "type": "string"
+          }
+        }
+      },
       "OrgProfile": {
         "type": "object",
         "properties": {
@@ -13837,6 +13997,9 @@
               "audit",
               "network"
             ]
+          },
+          "eInvoicing": {
+            "$ref": "#/components/schemas/EInvoicingProfileSettings"
           }
         },
         "required": [
@@ -16101,6 +16264,9 @@
           "earlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "contractEarlyPayment": {
+            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -16171,8 +16337,19 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
+          },
+          "eInvoice": {
+            "$ref": "#/components/schemas/EInvoiceSummary"
+          },
+          "eInvoiceDetails": {
+            "$ref": "#/components/schemas/InvoiceEInvoiceDetails"
+          },
+          "eInvoiceBuyerDownloadedAt": {
+            "type": "string"
           },
           "submittedBy": {
             "type": "string"
@@ -16458,6 +16635,9 @@
               "type": "string"
             }
           },
+          "address": {
+            "$ref": "#/components/schemas/PostalAddress"
+          },
           "taxId": {
             "type": "string"
           },
@@ -16548,7 +16728,8 @@
               "ai_capacity_underused",
               "ai_double_billed",
               "ai_commitment_exceeded",
-              "ai_seats_above_active"
+              "ai_seats_above_active",
+              "usage_billed_mismatch"
             ]
           },
           "message": {
@@ -16668,20 +16849,7 @@
             }
           },
           "earlyPaymentDiscount": {
-            "type": "object",
-            "properties": {
-              "percent": {
-                "type": "number",
-                "format": "double"
-              },
-              "amount": {
-                "type": "number",
-                "format": "double"
-              },
-              "deadline": {
-                "type": "string"
-              }
-            }
+            "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
           },
           "scheduledPaymentDate": {
             "type": "string"
@@ -16739,23 +16907,32 @@
             "type": "string"
           },
           "earlyPaymentDiscount": {
-            "type": "object",
-            "properties": {
-              "percent": {
-                "type": "number",
-                "format": "double"
-              },
-              "amount": {
-                "type": "number",
-                "format": "double"
-              },
-              "deadline": {
-                "type": "string"
-              }
-            }
+            "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
           },
           "initiatedDate": {
             "type": "string"
+          }
+        }
+      },
+      "EarlyPaymentDiscountTaken": {
+        "type": "object",
+        "properties": {
+          "percent": {
+            "type": "number",
+            "format": "double"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "deadline": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "supplier_offer"
+            ]
           }
         }
       },
@@ -16933,20 +17110,7 @@
                 }
               },
               "earlyPaymentDiscount": {
-                "type": "object",
-                "properties": {
-                  "percent": {
-                    "type": "number",
-                    "format": "double"
-                  },
-                  "amount": {
-                    "type": "number",
-                    "format": "double"
-                  },
-                  "deadline": {
-                    "type": "string"
-                  }
-                }
+                "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
               }
             }
           }
@@ -17100,7 +17264,28 @@
           "deadline": {
             "type": "string"
           },
+          "source": {
+            "type": "string",
+            "enum": [
+              "contract",
+              "supplier_offer"
+            ]
+          },
           "contractId": {
+            "type": "string"
+          },
+          "offeredBy": {
+            "type": "object",
+            "properties": {
+              "sub": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "offeredAt": {
             "type": "string"
           }
         }
@@ -17143,6 +17328,139 @@
         "required": [
           "id"
         ]
+      },
+      "EInvoiceSummary": {
+        "type": "object",
+        "properties": {
+          "syntax": {
+            "type": "string",
+            "enum": [
+              "ubl",
+              "cii",
+              "fatturapa"
+            ]
+          },
+          "profile": {
+            "type": "string",
+            "enum": [
+              "fatturapa",
+              "other",
+              "en16931",
+              "peppol-bis-billing-3",
+              "xrechnung",
+              "xrechnung-extension",
+              "factur-x-minimum",
+              "factur-x-basic-wl",
+              "factur-x-basic",
+              "factur-x-extended"
+            ]
+          },
+          "specificationId": {
+            "type": "string"
+          },
+          "profileVersion": {
+            "type": "string"
+          },
+          "ruleSets": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "en16931",
+                "xrechnung"
+              ]
+            }
+          },
+          "findings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "rule": {
+                  "type": "string"
+                },
+                "severity": {
+                  "type": "string",
+                  "enum": [
+                    "fatal",
+                    "warning"
+                  ]
+                },
+                "position": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          },
+          "findingsTruncated": {
+            "type": "boolean"
+          },
+          "container": {
+            "type": "string",
+            "enum": [
+              "pdf"
+            ]
+          },
+          "embeddedFilename": {
+            "type": "string"
+          }
+        }
+      },
+      "InvoiceEInvoiceDetails": {
+        "type": "object",
+        "properties": {
+          "lineVat": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EInvoiceVat"
+            }
+          },
+          "adjustmentVat": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EInvoiceVat"
+            }
+          },
+          "exemptionReason": {
+            "type": "string"
+          },
+          "exemptionReasonCode": {
+            "type": "string"
+          },
+          "buyerReference": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          }
+        }
+      },
+      "EInvoiceVat": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "S",
+              "Z",
+              "E",
+              "AE",
+              "K",
+              "G",
+              "O",
+              "L",
+              "M"
+            ]
+          },
+          "rate": {
+            "type": "number",
+            "format": "double"
+          }
+        }
       },
       "InvoiceAdjustment": {
         "type": "object",
@@ -17771,6 +18089,9 @@
           "earlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "contractEarlyPayment": {
+            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -17832,8 +18153,19 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
+          },
+          "eInvoice": {
+            "$ref": "#/components/schemas/EInvoiceSummary"
+          },
+          "eInvoiceDetails": {
+            "$ref": "#/components/schemas/InvoiceEInvoiceDetails"
+          },
+          "eInvoiceBuyerDownloadedAt": {
+            "type": "string"
           },
           "externalInvoiceNumber": {
             "type": "string"
@@ -17924,6 +18256,9 @@
           "hasOriginalPdf": {
             "type": "boolean"
           },
+          "canOfferEarlyPayment": {
+            "type": "boolean"
+          },
           "heldBack": {
             "$ref": "#/components/schemas/SupplierHeldBackView"
           },
@@ -17998,20 +18333,7 @@
                     }
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   },
                   "status": {
                     "type": "string",
@@ -18048,20 +18370,7 @@
                     "type": "string"
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   }
                 }
               }
@@ -18123,20 +18432,7 @@
                     }
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   },
                   "status": {
                     "type": "string",
@@ -18173,20 +18469,7 @@
                     "type": "string"
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   }
                 }
               }
@@ -18599,7 +18882,9 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
           },
           "externalInvoiceNumber": {
@@ -18829,7 +19114,9 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
           },
           "invoice": {
@@ -18999,20 +19286,7 @@
                         }
                       },
                       "earlyPaymentDiscount": {
-                        "type": "object",
-                        "properties": {
-                          "percent": {
-                            "type": "number",
-                            "format": "double"
-                          },
-                          "amount": {
-                            "type": "number",
-                            "format": "double"
-                          },
-                          "deadline": {
-                            "type": "string"
-                          }
-                        }
+                        "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                       },
                       "status": {
                         "type": "string",
@@ -19049,20 +19323,7 @@
                         "type": "string"
                       },
                       "earlyPaymentDiscount": {
-                        "type": "object",
-                        "properties": {
-                          "percent": {
-                            "type": "number",
-                            "format": "double"
-                          },
-                          "amount": {
-                            "type": "number",
-                            "format": "double"
-                          },
-                          "deadline": {
-                            "type": "string"
-                          }
-                        }
+                        "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                       }
                     }
                   }
@@ -19085,6 +19346,9 @@
                 ]
               },
               "earlyPayment": {
+                "$ref": "#/components/schemas/InvoiceEarlyPayment"
+              },
+              "contractEarlyPayment": {
                 "$ref": "#/components/schemas/InvoiceEarlyPayment"
               },
               "lastRemindedAt": {
@@ -19138,8 +19402,19 @@
                 "enum": [
                   "json",
                   "ubl",
-                  "cxml"
+                  "cxml",
+                  "cii",
+                  "fatturapa"
                 ]
+              },
+              "eInvoice": {
+                "$ref": "#/components/schemas/EInvoiceSummary"
+              },
+              "eInvoiceDetails": {
+                "$ref": "#/components/schemas/InvoiceEInvoiceDetails"
+              },
+              "eInvoiceBuyerDownloadedAt": {
+                "type": "string"
               },
               "externalInvoiceNumber": {
                 "type": "string"
@@ -19236,6 +19511,9 @@
               "hasOriginalPdf": {
                 "type": "boolean"
               },
+              "canOfferEarlyPayment": {
+                "type": "boolean"
+              },
               "baseCurrencyAmount": {
                 "$ref": "#/components/schemas/InvoiceBaseCurrencyAmount"
               },
@@ -19295,20 +19573,7 @@
                         }
                       },
                       "earlyPaymentDiscount": {
-                        "type": "object",
-                        "properties": {
-                          "percent": {
-                            "type": "number",
-                            "format": "double"
-                          },
-                          "amount": {
-                            "type": "number",
-                            "format": "double"
-                          },
-                          "deadline": {
-                            "type": "string"
-                          }
-                        }
+                        "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                       },
                       "status": {
                         "type": "string",
@@ -19345,20 +19610,7 @@
                         "type": "string"
                       },
                       "earlyPaymentDiscount": {
-                        "type": "object",
-                        "properties": {
-                          "percent": {
-                            "type": "number",
-                            "format": "double"
-                          },
-                          "amount": {
-                            "type": "number",
-                            "format": "double"
-                          },
-                          "deadline": {
-                            "type": "string"
-                          }
-                        }
+                        "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                       }
                     }
                   }
@@ -19430,7 +19682,8 @@
                     "ai_capacity_underused",
                     "ai_double_billed",
                     "ai_commitment_exceeded",
-                    "ai_seats_above_active"
+                    "ai_seats_above_active",
+                    "usage_billed_mismatch"
                   ]
                 },
                 "message": {
@@ -20506,7 +20759,10 @@
               "github",
               "microsoft",
               "slack",
-              "zoom"
+              "zoom",
+              "datadog",
+              "twilio",
+              "mongodb"
             ]
           },
           "accountLabel": {
@@ -20577,6 +20833,36 @@
             "type": "object",
             "properties": {
               "accountId": {
+                "type": "string"
+              },
+              "clientId": {
+                "type": "string"
+              }
+            }
+          },
+          "datadog": {
+            "type": "object",
+            "properties": {
+              "site": {
+                "type": "string"
+              }
+            }
+          },
+          "twilio": {
+            "type": "object",
+            "properties": {
+              "accountSid": {
+                "type": "string"
+              },
+              "keySid": {
+                "type": "string"
+              }
+            }
+          },
+          "mongodb": {
+            "type": "object",
+            "properties": {
+              "orgId": {
                 "type": "string"
               },
               "clientId": {
@@ -20869,7 +21155,9 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
           },
           "submittedBy": {
@@ -21854,6 +22142,324 @@
             "type": "boolean"
           }
         }
+      },
+      "ApprovalQueue": {
+        "type": "object",
+        "properties": {
+          "purchaseOrders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseOrder"
+            }
+          },
+          "invoices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoiceBuyerView"
+            }
+          },
+          "serviceEntrySheets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceEntrySheetQueueItem"
+            }
+          },
+          "needsAssignment": {
+            "type": "object",
+            "properties": {
+              "purchaseOrders": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PurchaseOrder"
+                }
+              },
+              "invoices": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/InvoiceBuyerView"
+                }
+              }
+            }
+          },
+          "decided": {
+            "type": "object",
+            "properties": {
+              "purchaseOrders": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PurchaseOrder"
+                }
+              },
+              "invoices": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/InvoiceBuyerView"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ServiceEntrySheetQueueItem": {
+        "type": "object",
+        "properties": {
+          "receipt": {
+            "$ref": "#/components/schemas/Receipt"
+          },
+          "supplier": {
+            "type": "string"
+          },
+          "supplierOrgId": {
+            "type": "string"
+          },
+          "releases": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "invoiceNumber": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "number",
+                  "format": "double"
+                },
+                "currency": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ]
+            }
+          }
+        }
+      },
+      "Receipt": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "poId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "service_entry_sheet",
+              "goods_receipt"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "rejected",
+              "pending_approval",
+              "reversed"
+            ]
+          },
+          "receivedAt": {
+            "type": "string"
+          },
+          "periodFrom": {
+            "type": "string"
+          },
+          "periodTo": {
+            "type": "string"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReceiptLine"
+            }
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "shipmentId": {
+            "type": "string"
+          },
+          "attachment": {
+            "$ref": "#/components/schemas/ReceiptAttachment"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "supplier",
+              "api",
+              "app",
+              "assistant",
+              "import"
+            ]
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "createdByName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "approvedBy": {
+            "type": "string"
+          },
+          "approvedByName": {
+            "type": "string"
+          },
+          "approvedAt": {
+            "type": "string"
+          },
+          "reversal": {
+            "type": "object",
+            "properties": {
+              "by": {
+                "type": "string"
+              },
+              "byName": {
+                "type": "string"
+              },
+              "at": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            }
+          },
+          "approval": {
+            "$ref": "#/components/schemas/ApprovalChain"
+          },
+          "approvalVersion": {
+            "type": "number",
+            "format": "double"
+          },
+          "rejection": {
+            "type": "object",
+            "properties": {
+              "by": {
+                "type": "string"
+              },
+              "byName": {
+                "type": "string"
+              },
+              "at": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            }
+          },
+          "returns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReceiptReturn"
+            }
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "ReceiptLine": {
+        "type": "object",
+        "properties": {
+          "lineNo": {
+            "type": "number",
+            "format": "double"
+          },
+          "qty": {
+            "type": "number",
+            "format": "double"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ReceiptAttachment": {
+        "type": "object",
+        "properties": {
+          "fileId": {
+            "type": "string"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string",
+            "enum": [
+              "application/pdf",
+              "image/png",
+              "image/jpeg"
+            ]
+          },
+          "sizeBytes": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ReceiptReturn": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReceiptLine"
+            }
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "returnedAt": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "want": {
+            "type": "string",
+            "enum": [
+              "none",
+              "credit_note",
+              "replacement"
+            ]
+          },
+          "attachment": {
+            "$ref": "#/components/schemas/ReceiptAttachment"
+          },
+          "by": {
+            "type": "string"
+          },
+          "byName": {
+            "type": "string"
+          },
+          "at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
       },
       "AiSpendResponse": {
         "type": "object",
@@ -25950,6 +26556,7 @@
               "match",
               "sent_for_approval",
               "reminder",
+              "early_payment_offer",
               "held_back",
               "hold_ended",
               "comment"
@@ -26463,324 +27070,6 @@
           }
         }
       },
-      "ApprovalQueue": {
-        "type": "object",
-        "properties": {
-          "purchaseOrders": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PurchaseOrder"
-            }
-          },
-          "invoices": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/InvoiceBuyerView"
-            }
-          },
-          "serviceEntrySheets": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ServiceEntrySheetQueueItem"
-            }
-          },
-          "needsAssignment": {
-            "type": "object",
-            "properties": {
-              "purchaseOrders": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/PurchaseOrder"
-                }
-              },
-              "invoices": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/InvoiceBuyerView"
-                }
-              }
-            }
-          },
-          "decided": {
-            "type": "object",
-            "properties": {
-              "purchaseOrders": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/PurchaseOrder"
-                }
-              },
-              "invoices": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/InvoiceBuyerView"
-                }
-              }
-            }
-          }
-        }
-      },
-      "ServiceEntrySheetQueueItem": {
-        "type": "object",
-        "properties": {
-          "receipt": {
-            "$ref": "#/components/schemas/Receipt"
-          },
-          "supplier": {
-            "type": "string"
-          },
-          "supplierOrgId": {
-            "type": "string"
-          },
-          "releases": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "invoiceNumber": {
-                  "type": "string"
-                },
-                "amount": {
-                  "type": "number",
-                  "format": "double"
-                },
-                "currency": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "id"
-              ]
-            }
-          }
-        }
-      },
-      "Receipt": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "poId": {
-            "type": "string"
-          },
-          "kind": {
-            "type": "string",
-            "enum": [
-              "service_entry_sheet",
-              "goods_receipt"
-            ]
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "approved",
-              "rejected",
-              "pending_approval",
-              "reversed"
-            ]
-          },
-          "receivedAt": {
-            "type": "string"
-          },
-          "periodFrom": {
-            "type": "string"
-          },
-          "periodTo": {
-            "type": "string"
-          },
-          "lines": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ReceiptLine"
-            }
-          },
-          "amount": {
-            "type": "number",
-            "format": "double"
-          },
-          "currency": {
-            "type": "string"
-          },
-          "note": {
-            "type": "string"
-          },
-          "shipmentId": {
-            "type": "string"
-          },
-          "attachment": {
-            "$ref": "#/components/schemas/ReceiptAttachment"
-          },
-          "source": {
-            "type": "string",
-            "enum": [
-              "supplier",
-              "api",
-              "app",
-              "assistant",
-              "import"
-            ]
-          },
-          "createdBy": {
-            "type": "string"
-          },
-          "createdByName": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string"
-          },
-          "approvedBy": {
-            "type": "string"
-          },
-          "approvedByName": {
-            "type": "string"
-          },
-          "approvedAt": {
-            "type": "string"
-          },
-          "reversal": {
-            "type": "object",
-            "properties": {
-              "by": {
-                "type": "string"
-              },
-              "byName": {
-                "type": "string"
-              },
-              "at": {
-                "type": "string"
-              },
-              "reason": {
-                "type": "string"
-              }
-            }
-          },
-          "approval": {
-            "$ref": "#/components/schemas/ApprovalChain"
-          },
-          "approvalVersion": {
-            "type": "number",
-            "format": "double"
-          },
-          "rejection": {
-            "type": "object",
-            "properties": {
-              "by": {
-                "type": "string"
-              },
-              "byName": {
-                "type": "string"
-              },
-              "at": {
-                "type": "string"
-              },
-              "reason": {
-                "type": "string"
-              }
-            }
-          },
-          "returns": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ReceiptReturn"
-            }
-          }
-        },
-        "required": [
-          "id"
-        ]
-      },
-      "ReceiptLine": {
-        "type": "object",
-        "properties": {
-          "lineNo": {
-            "type": "number",
-            "format": "double"
-          },
-          "qty": {
-            "type": "number",
-            "format": "double"
-          },
-          "amount": {
-            "type": "number",
-            "format": "double"
-          }
-        }
-      },
-      "ReceiptAttachment": {
-        "type": "object",
-        "properties": {
-          "fileId": {
-            "type": "string"
-          },
-          "fileName": {
-            "type": "string"
-          },
-          "contentType": {
-            "type": "string",
-            "enum": [
-              "application/pdf",
-              "image/png",
-              "image/jpeg"
-            ]
-          },
-          "sizeBytes": {
-            "type": "number",
-            "format": "double"
-          }
-        }
-      },
-      "ReceiptReturn": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "lines": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ReceiptLine"
-            }
-          },
-          "amount": {
-            "type": "number",
-            "format": "double"
-          },
-          "returnedAt": {
-            "type": "string"
-          },
-          "reason": {
-            "type": "string"
-          },
-          "want": {
-            "type": "string",
-            "enum": [
-              "none",
-              "credit_note",
-              "replacement"
-            ]
-          },
-          "attachment": {
-            "$ref": "#/components/schemas/ReceiptAttachment"
-          },
-          "by": {
-            "type": "string"
-          },
-          "byName": {
-            "type": "string"
-          },
-          "at": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id"
-        ]
-      },
       "StripePaymentStatus": {
         "type": "object",
         "properties": {
@@ -27107,7 +27396,10 @@
               "github",
               "microsoft",
               "slack",
-              "zoom"
+              "zoom",
+              "datadog",
+              "twilio",
+              "mongodb"
             ]
           },
           "billingCurrency": {
@@ -27297,7 +27589,10 @@
                   "github",
                   "microsoft",
                   "slack",
-                  "zoom"
+                  "zoom",
+                  "datadog",
+                  "twilio",
+                  "mongodb"
                 ]
               },
               "billingCurrency": {
@@ -27473,7 +27768,10 @@
                   "github",
                   "microsoft",
                   "slack",
-                  "zoom"
+                  "zoom",
+                  "datadog",
+                  "twilio",
+                  "mongodb"
                 ]
               },
               "billingCurrency": {
@@ -27679,7 +27977,10 @@
                   "github",
                   "microsoft",
                   "slack",
-                  "zoom"
+                  "zoom",
+                  "datadog",
+                  "twilio",
+                  "mongodb"
                 ]
               },
               "billingCurrency": {
@@ -27866,7 +28167,10 @@
                   "github",
                   "microsoft",
                   "slack",
-                  "zoom"
+                  "zoom",
+                  "datadog",
+                  "twilio",
+                  "mongodb"
                 ]
               },
               "billingCurrency": {
@@ -28062,6 +28366,9 @@
               "audit",
               "network"
             ]
+          },
+          "eInvoicing": {
+            "$ref": "#/components/schemas/EInvoicingProfileSettings"
           }
         },
         "required": [
@@ -28268,7 +28575,9 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
           },
           "creditNote": {
@@ -28667,6 +28976,9 @@
           "earlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "contractEarlyPayment": {
+            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -28737,8 +29049,19 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
+          },
+          "eInvoice": {
+            "$ref": "#/components/schemas/EInvoiceSummary"
+          },
+          "eInvoiceDetails": {
+            "$ref": "#/components/schemas/InvoiceEInvoiceDetails"
+          },
+          "eInvoiceBuyerDownloadedAt": {
+            "type": "string"
           },
           "submittedBy": {
             "type": "string"
@@ -28994,6 +29317,9 @@
           "earlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "contractEarlyPayment": {
+            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -29055,8 +29381,19 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
+          },
+          "eInvoice": {
+            "$ref": "#/components/schemas/EInvoiceSummary"
+          },
+          "eInvoiceDetails": {
+            "$ref": "#/components/schemas/InvoiceEInvoiceDetails"
+          },
+          "eInvoiceBuyerDownloadedAt": {
+            "type": "string"
           },
           "externalInvoiceNumber": {
             "type": "string"
@@ -29147,6 +29484,9 @@
           "hasOriginalPdf": {
             "type": "boolean"
           },
+          "canOfferEarlyPayment": {
+            "type": "boolean"
+          },
           "heldBack": {
             "$ref": "#/components/schemas/SupplierHeldBackView"
           },
@@ -29221,20 +29561,7 @@
                     }
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   },
                   "status": {
                     "type": "string",
@@ -29271,20 +29598,7 @@
                     "type": "string"
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   }
                 }
               }
@@ -29346,20 +29660,7 @@
                     }
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   },
                   "status": {
                     "type": "string",
@@ -29396,20 +29697,7 @@
                     "type": "string"
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   }
                 }
               }
@@ -29520,7 +29808,9 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
           },
           "externalInvoiceNumber": {
@@ -29813,7 +30103,9 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
           },
           "submittedBy": {
@@ -30075,7 +30367,9 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
           },
           "externalInvoiceNumber": {
@@ -30366,7 +30660,9 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
           },
           "submittedBy": {
@@ -30817,6 +31113,9 @@
           "earlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "contractEarlyPayment": {
+            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -30887,8 +31186,19 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
+          },
+          "eInvoice": {
+            "$ref": "#/components/schemas/EInvoiceSummary"
+          },
+          "eInvoiceDetails": {
+            "$ref": "#/components/schemas/InvoiceEInvoiceDetails"
+          },
+          "eInvoiceBuyerDownloadedAt": {
+            "type": "string"
           },
           "submittedBy": {
             "type": "string"
@@ -31145,6 +31455,9 @@
           "earlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "contractEarlyPayment": {
+            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -31206,8 +31519,19 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
+          },
+          "eInvoice": {
+            "$ref": "#/components/schemas/EInvoiceSummary"
+          },
+          "eInvoiceDetails": {
+            "$ref": "#/components/schemas/InvoiceEInvoiceDetails"
+          },
+          "eInvoiceBuyerDownloadedAt": {
+            "type": "string"
           },
           "externalInvoiceNumber": {
             "type": "string"
@@ -31299,6 +31623,9 @@
           "hasOriginalPdf": {
             "type": "boolean"
           },
+          "canOfferEarlyPayment": {
+            "type": "boolean"
+          },
           "heldBack": {
             "$ref": "#/components/schemas/SupplierHeldBackView"
           },
@@ -31373,20 +31700,7 @@
                     }
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   },
                   "status": {
                     "type": "string",
@@ -31423,20 +31737,7 @@
                     "type": "string"
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   }
                 }
               }
@@ -31498,20 +31799,7 @@
                     }
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   },
                   "status": {
                     "type": "string",
@@ -31548,20 +31836,7 @@
                     "type": "string"
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   }
                 }
               }
@@ -31699,7 +31974,9 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
           },
           "externalInvoiceNumber": {
@@ -31990,7 +32267,9 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
           },
           "submittedBy": {
@@ -32450,6 +32729,9 @@
           "earlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "contractEarlyPayment": {
+            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -32520,8 +32802,19 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
+          },
+          "eInvoice": {
+            "$ref": "#/components/schemas/EInvoiceSummary"
+          },
+          "eInvoiceDetails": {
+            "$ref": "#/components/schemas/InvoiceEInvoiceDetails"
+          },
+          "eInvoiceBuyerDownloadedAt": {
+            "type": "string"
           },
           "submittedBy": {
             "type": "string"
@@ -32778,6 +33071,9 @@
           "earlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "contractEarlyPayment": {
+            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -32839,8 +33135,19 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
+          },
+          "eInvoice": {
+            "$ref": "#/components/schemas/EInvoiceSummary"
+          },
+          "eInvoiceDetails": {
+            "$ref": "#/components/schemas/InvoiceEInvoiceDetails"
+          },
+          "eInvoiceBuyerDownloadedAt": {
+            "type": "string"
           },
           "externalInvoiceNumber": {
             "type": "string"
@@ -32932,6 +33239,9 @@
           "hasOriginalPdf": {
             "type": "boolean"
           },
+          "canOfferEarlyPayment": {
+            "type": "boolean"
+          },
           "heldBack": {
             "$ref": "#/components/schemas/SupplierHeldBackView"
           },
@@ -33006,20 +33316,7 @@
                     }
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   },
                   "status": {
                     "type": "string",
@@ -33056,20 +33353,7 @@
                     "type": "string"
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   }
                 }
               }
@@ -33131,20 +33415,7 @@
                     }
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   },
                   "status": {
                     "type": "string",
@@ -33181,20 +33452,7 @@
                     "type": "string"
                   },
                   "earlyPaymentDiscount": {
-                    "type": "object",
-                    "properties": {
-                      "percent": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "amount": {
-                        "type": "number",
-                        "format": "double"
-                      },
-                      "deadline": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/EarlyPaymentDiscountTaken"
                   }
                 }
               }
@@ -33521,6 +33779,9 @@
           "earlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "contractEarlyPayment": {
+            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -33591,8 +33852,19 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
+          },
+          "eInvoice": {
+            "$ref": "#/components/schemas/EInvoiceSummary"
+          },
+          "eInvoiceDetails": {
+            "$ref": "#/components/schemas/InvoiceEInvoiceDetails"
+          },
+          "eInvoiceBuyerDownloadedAt": {
+            "type": "string"
           },
           "submittedBy": {
             "type": "string"
@@ -34023,6 +34295,9 @@
           "earlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "contractEarlyPayment": {
+            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -34093,8 +34368,19 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
+          },
+          "eInvoice": {
+            "$ref": "#/components/schemas/EInvoiceSummary"
+          },
+          "eInvoiceDetails": {
+            "$ref": "#/components/schemas/InvoiceEInvoiceDetails"
+          },
+          "eInvoiceBuyerDownloadedAt": {
+            "type": "string"
           },
           "submittedBy": {
             "type": "string"
@@ -34537,6 +34823,9 @@
           "earlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "contractEarlyPayment": {
+            "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -34607,8 +34896,19 @@
             "enum": [
               "json",
               "ubl",
-              "cxml"
+              "cxml",
+              "cii",
+              "fatturapa"
             ]
+          },
+          "eInvoice": {
+            "$ref": "#/components/schemas/EInvoiceSummary"
+          },
+          "eInvoiceDetails": {
+            "$ref": "#/components/schemas/InvoiceEInvoiceDetails"
+          },
+          "eInvoiceBuyerDownloadedAt": {
+            "type": "string"
           },
           "submittedBy": {
             "type": "string"
@@ -34958,7 +35258,10 @@
               "github",
               "microsoft",
               "slack",
-              "zoom"
+              "zoom",
+              "datadog",
+              "twilio",
+              "mongodb"
             ]
           },
           "billingCurrency": {
@@ -35059,7 +35362,10 @@
               "github",
               "microsoft",
               "slack",
-              "zoom"
+              "zoom",
+              "datadog",
+              "twilio",
+              "mongodb"
             ]
           },
           "name": {
@@ -35121,6 +35427,7 @@
             "type": "string",
             "enum": [
               "seats",
+              "usage",
               "direct",
               "data_platform",
               "host",
@@ -35131,6 +35438,7 @@
             "type": "string",
             "enum": [
               "seats",
+              "usage",
               "capacity",
               "tokens",
               "credits"

@@ -19,9 +19,9 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import ai.pleaxy.model.BankDetailsConfirmationConfirmedBy;
 import ai.pleaxy.model.BankDetailsConfirmationDispute;
 import ai.pleaxy.model.BankDetailsConfirmationPhone;
+import ai.pleaxy.model.InvoiceEarlyPaymentOfferedBy;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -141,7 +141,7 @@ public class BankDetailsConfirmation {
 
   public static final String JSON_PROPERTY_CONFIRMED_BY = "confirmedBy";
   @javax.annotation.Nullable
-  private BankDetailsConfirmationConfirmedBy confirmedBy;
+  private InvoiceEarlyPaymentOfferedBy confirmedBy;
 
   public static final String JSON_PROPERTY_PHONE = "phone";
   @javax.annotation.Nullable
@@ -274,7 +274,7 @@ public class BankDetailsConfirmation {
   }
 
 
-  public BankDetailsConfirmation confirmedBy(@javax.annotation.Nullable BankDetailsConfirmationConfirmedBy confirmedBy) {
+  public BankDetailsConfirmation confirmedBy(@javax.annotation.Nullable InvoiceEarlyPaymentOfferedBy confirmedBy) {
     this.confirmedBy = confirmedBy;
     return this;
   }
@@ -286,14 +286,14 @@ public class BankDetailsConfirmation {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CONFIRMED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public BankDetailsConfirmationConfirmedBy getConfirmedBy() {
+  public InvoiceEarlyPaymentOfferedBy getConfirmedBy() {
     return confirmedBy;
   }
 
 
   @JsonProperty(JSON_PROPERTY_CONFIRMED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setConfirmedBy(@javax.annotation.Nullable BankDetailsConfirmationConfirmedBy confirmedBy) {
+  public void setConfirmedBy(@javax.annotation.Nullable InvoiceEarlyPaymentOfferedBy confirmedBy) {
     this.confirmedBy = confirmedBy;
   }
 

@@ -84,6 +84,8 @@ pub struct GetOrgProfileResult {
     pub directory_id: Option<String>,
     #[serde(rename = "setupGoal", skip_serializing_if = "Option::is_none")]
     pub setup_goal: Option<SetupGoal>,
+    #[serde(rename = "eInvoicing", skip_serializing_if = "Option::is_none")]
+    pub e_invoicing: Option<models::EInvoicingProfileSettings>,
 }
 
 impl GetOrgProfileResult {
@@ -117,6 +119,7 @@ impl GetOrgProfileResult {
             listed_in_directory: None,
             directory_id: None,
             setup_goal: None,
+            e_invoicing: None,
         }
     }
 }

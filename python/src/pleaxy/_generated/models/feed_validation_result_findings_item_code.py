@@ -35,6 +35,7 @@ FeedValidationResultFindingsItemCode = Literal[
     "receipt_missing",
     "receipt_qty_exceeded",
     "tier_price_exceeded",
+    "usage_billed_mismatch",
     "usage_grew",
 ]
 
@@ -75,6 +76,7 @@ FEED_VALIDATION_RESULT_FINDINGS_ITEM_CODE_VALUES: Set[
     "receipt_missing",
     "receipt_qty_exceeded",
     "tier_price_exceeded",
+    "usage_billed_mismatch",
     "usage_grew",
 }
 

@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.EInvoicingProfileSettings;
 import ai.pleaxy.model.Geography;
 import ai.pleaxy.model.PostalAddress;
 import ai.pleaxy.model.SameDomainAcknowledgement;
@@ -64,7 +65,8 @@ import ai.pleaxy.client.ApiClient;
   OrgProfile.JSON_PROPERTY_VERIFIED,
   OrgProfile.JSON_PROPERTY_LISTED_IN_DIRECTORY,
   OrgProfile.JSON_PROPERTY_DIRECTORY_ID,
-  OrgProfile.JSON_PROPERTY_SETUP_GOAL
+  OrgProfile.JSON_PROPERTY_SETUP_GOAL,
+  OrgProfile.JSON_PROPERTY_E_INVOICING
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class OrgProfile {
@@ -288,6 +290,10 @@ public class OrgProfile {
   public static final String JSON_PROPERTY_SETUP_GOAL = "setupGoal";
   @javax.annotation.Nullable
   private SetupGoalEnum setupGoal;
+
+  public static final String JSON_PROPERTY_E_INVOICING = "eInvoicing";
+  @javax.annotation.Nullable
+  private EInvoicingProfileSettings eInvoicing;
 
   public OrgProfile() { 
   }
@@ -964,6 +970,30 @@ public class OrgProfile {
   }
 
 
+  public OrgProfile eInvoicing(@javax.annotation.Nullable EInvoicingProfileSettings eInvoicing) {
+    this.eInvoicing = eInvoicing;
+    return this;
+  }
+
+  /**
+   * Get eInvoicing
+   * @return eInvoicing
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_E_INVOICING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public EInvoicingProfileSettings geteInvoicing() {
+    return eInvoicing;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_E_INVOICING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void seteInvoicing(@javax.annotation.Nullable EInvoicingProfileSettings eInvoicing) {
+    this.eInvoicing = eInvoicing;
+  }
+
+
   /**
    * Return true if this OrgProfile object is equal to o.
    */
@@ -1002,12 +1032,13 @@ public class OrgProfile {
         Objects.equals(this.verified, orgProfile.verified) &&
         Objects.equals(this.listedInDirectory, orgProfile.listedInDirectory) &&
         Objects.equals(this.directoryId, orgProfile.directoryId) &&
-        Objects.equals(this.setupGoal, orgProfile.setupGoal);
+        Objects.equals(this.setupGoal, orgProfile.setupGoal) &&
+        Objects.equals(this.eInvoicing, orgProfile.eInvoicing);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, role, regionId, regionName, companyName, billingEmail, billingAddress, billingAddressParts, billingAddressLegacyText, billingAddressNeedsReview, taxId, currency, otherCurrencies, paymentCurrencies, fxWarningPct, countries, geography, timeZone, locale, primaryContactName, primaryContactEmail, createdAt, sameDomainAcknowledged, verified, listedInDirectory, directoryId, setupGoal);
+    return Objects.hash(id, role, regionId, regionName, companyName, billingEmail, billingAddress, billingAddressParts, billingAddressLegacyText, billingAddressNeedsReview, taxId, currency, otherCurrencies, paymentCurrencies, fxWarningPct, countries, geography, timeZone, locale, primaryContactName, primaryContactEmail, createdAt, sameDomainAcknowledged, verified, listedInDirectory, directoryId, setupGoal, eInvoicing);
   }
 
   @Override
@@ -1041,6 +1072,7 @@ public class OrgProfile {
     sb.append("    listedInDirectory: ").append(toIndentedString(listedInDirectory)).append("\n");
     sb.append("    directoryId: ").append(toIndentedString(directoryId)).append("\n");
     sb.append("    setupGoal: ").append(toIndentedString(setupGoal)).append("\n");
+    sb.append("    eInvoicing: ").append(toIndentedString(eInvoicing)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -1233,6 +1265,11 @@ public class OrgProfile {
     // add `setupGoal` to the URL query string
     if (getSetupGoal() != null) {
       joiner.add(String.format("%ssetupGoal%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSetupGoal()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `eInvoicing` to the URL query string
+    if (geteInvoicing() != null) {
+      joiner.add(geteInvoicing().toUrlQueryString(prefix + "eInvoicing" + suffix));
     }
 
     return joiner.toString();

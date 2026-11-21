@@ -14,9 +14,7 @@ from ..models.invoice_stripe_payment_state import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.invoice_stripe_payment_early_payment_discount import (
-        InvoiceStripePaymentEarlyPaymentDiscount,
-    )
+    from ..models.early_payment_discount_taken import EarlyPaymentDiscountTaken
 
 
 T = TypeVar("T", bound="InvoiceStripePayment")
@@ -38,7 +36,7 @@ class InvoiceStripePayment:
         started_by (Union[Unset, str]):
         started_by_name (Union[Unset, str]):
         succeeded_at (Union[Unset, str]):
-        early_payment_discount (Union[Unset, InvoiceStripePaymentEarlyPaymentDiscount]):
+        early_payment_discount (Union[Unset, EarlyPaymentDiscountTaken]):
         initiated_date (Union[Unset, str]):
     """
 
@@ -54,9 +52,7 @@ class InvoiceStripePayment:
     started_by: Union[Unset, str] = UNSET
     started_by_name: Union[Unset, str] = UNSET
     succeeded_at: Union[Unset, str] = UNSET
-    early_payment_discount: Union[Unset, "InvoiceStripePaymentEarlyPaymentDiscount"] = (
-        UNSET
-    )
+    early_payment_discount: Union[Unset, "EarlyPaymentDiscountTaken"] = UNSET
     initiated_date: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -131,9 +127,7 @@ class InvoiceStripePayment:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.invoice_stripe_payment_early_payment_discount import (
-            InvoiceStripePaymentEarlyPaymentDiscount,
-        )
+        from ..models.early_payment_discount_taken import EarlyPaymentDiscountTaken
 
         d = src_dict.copy()
         account_id = d.pop("accountId", UNSET)
@@ -173,11 +167,11 @@ class InvoiceStripePayment:
         succeeded_at = d.pop("succeededAt", UNSET)
 
         _early_payment_discount = d.pop("earlyPaymentDiscount", UNSET)
-        early_payment_discount: Union[Unset, InvoiceStripePaymentEarlyPaymentDiscount]
+        early_payment_discount: Union[Unset, EarlyPaymentDiscountTaken]
         if isinstance(_early_payment_discount, Unset):
             early_payment_discount = UNSET
         else:
-            early_payment_discount = InvoiceStripePaymentEarlyPaymentDiscount.from_dict(
+            early_payment_discount = EarlyPaymentDiscountTaken.from_dict(
                 _early_payment_discount
             )
 

@@ -1,11 +1,13 @@
 from typing import Literal, Set, cast
 
-BuyerCreditNoteViewSubmittedFormat = Literal["cxml", "json", "ubl"]
+BuyerCreditNoteViewSubmittedFormat = Literal["cii", "cxml", "fatturapa", "json", "ubl"]
 
 BUYER_CREDIT_NOTE_VIEW_SUBMITTED_FORMAT_VALUES: Set[
     BuyerCreditNoteViewSubmittedFormat
 ] = {
+    "cii",
     "cxml",
+    "fatturapa",
     "json",
     "ubl",
 }

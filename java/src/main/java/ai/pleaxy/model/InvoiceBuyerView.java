@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.ApprovalChain;
 import ai.pleaxy.model.BankDetailsConfirmation;
+import ai.pleaxy.model.EInvoiceSummary;
 import ai.pleaxy.model.InvoiceAdjustment;
 import ai.pleaxy.model.InvoiceBaseCurrencyAmount;
 import ai.pleaxy.model.InvoiceBreakdownEntry;
@@ -32,6 +33,7 @@ import ai.pleaxy.model.InvoiceCreditApplication;
 import ai.pleaxy.model.InvoiceCurrencyAmount;
 import ai.pleaxy.model.InvoiceDeduction;
 import ai.pleaxy.model.InvoiceDuplicateRef;
+import ai.pleaxy.model.InvoiceEInvoiceDetails;
 import ai.pleaxy.model.InvoiceEarlyPayment;
 import ai.pleaxy.model.InvoiceHeldBack;
 import ai.pleaxy.model.InvoiceLineItem;
@@ -118,6 +120,7 @@ import ai.pleaxy.client.ApiClient;
   InvoiceBuyerView.JSON_PROPERTY_PREVIOUS_EXPORTED_AT,
   InvoiceBuyerView.JSON_PROPERTY_DUE_DATE_SOURCE,
   InvoiceBuyerView.JSON_PROPERTY_EARLY_PAYMENT,
+  InvoiceBuyerView.JSON_PROPERTY_CONTRACT_EARLY_PAYMENT,
   InvoiceBuyerView.JSON_PROPERTY_LAST_REMINDED_AT,
   InvoiceBuyerView.JSON_PROPERTY_LAST_APPROVER_REMINDED_AT,
   InvoiceBuyerView.JSON_PROPERTY_REJECTION,
@@ -133,6 +136,9 @@ import ai.pleaxy.client.ApiClient;
   InvoiceBuyerView.JSON_PROPERTY_INVOICE_DATE,
   InvoiceBuyerView.JSON_PROPERTY_SOD_EXCLUDED_KEYS,
   InvoiceBuyerView.JSON_PROPERTY_SUBMITTED_FORMAT,
+  InvoiceBuyerView.JSON_PROPERTY_E_INVOICE,
+  InvoiceBuyerView.JSON_PROPERTY_E_INVOICE_DETAILS,
+  InvoiceBuyerView.JSON_PROPERTY_E_INVOICE_BUYER_DOWNLOADED_AT,
   InvoiceBuyerView.JSON_PROPERTY_SUBMITTED_BY,
   InvoiceBuyerView.JSON_PROPERTY_FEED_PAYLOAD_HASH,
   InvoiceBuyerView.JSON_PROPERTY_EXTERNAL_INVOICE_NUMBER,
@@ -724,6 +730,10 @@ public class InvoiceBuyerView {
   @javax.annotation.Nullable
   private InvoiceEarlyPayment earlyPayment;
 
+  public static final String JSON_PROPERTY_CONTRACT_EARLY_PAYMENT = "contractEarlyPayment";
+  @javax.annotation.Nullable
+  private InvoiceEarlyPayment contractEarlyPayment;
+
   public static final String JSON_PROPERTY_LAST_REMINDED_AT = "lastRemindedAt";
   @javax.annotation.Nullable
   private String lastRemindedAt;
@@ -864,7 +874,11 @@ public class InvoiceBuyerView {
     
     UBL(String.valueOf("ubl")),
     
-    CXML(String.valueOf("cxml"));
+    CXML(String.valueOf("cxml")),
+    
+    CII(String.valueOf("cii")),
+    
+    FATTURAPA(String.valueOf("fatturapa"));
 
     private String value;
 
@@ -896,6 +910,18 @@ public class InvoiceBuyerView {
   public static final String JSON_PROPERTY_SUBMITTED_FORMAT = "submittedFormat";
   @javax.annotation.Nullable
   private SubmittedFormatEnum submittedFormat;
+
+  public static final String JSON_PROPERTY_E_INVOICE = "eInvoice";
+  @javax.annotation.Nullable
+  private EInvoiceSummary eInvoice;
+
+  public static final String JSON_PROPERTY_E_INVOICE_DETAILS = "eInvoiceDetails";
+  @javax.annotation.Nullable
+  private InvoiceEInvoiceDetails eInvoiceDetails;
+
+  public static final String JSON_PROPERTY_E_INVOICE_BUYER_DOWNLOADED_AT = "eInvoiceBuyerDownloadedAt";
+  @javax.annotation.Nullable
+  private String eInvoiceBuyerDownloadedAt;
 
   public static final String JSON_PROPERTY_SUBMITTED_BY = "submittedBy";
   @javax.annotation.Nullable
@@ -2378,6 +2404,30 @@ public class InvoiceBuyerView {
   }
 
 
+  public InvoiceBuyerView contractEarlyPayment(@javax.annotation.Nullable InvoiceEarlyPayment contractEarlyPayment) {
+    this.contractEarlyPayment = contractEarlyPayment;
+    return this;
+  }
+
+  /**
+   * Get contractEarlyPayment
+   * @return contractEarlyPayment
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CONTRACT_EARLY_PAYMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceEarlyPayment getContractEarlyPayment() {
+    return contractEarlyPayment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CONTRACT_EARLY_PAYMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setContractEarlyPayment(@javax.annotation.Nullable InvoiceEarlyPayment contractEarlyPayment) {
+    this.contractEarlyPayment = contractEarlyPayment;
+  }
+
+
   public InvoiceBuyerView lastRemindedAt(@javax.annotation.Nullable String lastRemindedAt) {
     this.lastRemindedAt = lastRemindedAt;
     return this;
@@ -2767,6 +2817,78 @@ public class InvoiceBuyerView {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSubmittedFormat(@javax.annotation.Nullable SubmittedFormatEnum submittedFormat) {
     this.submittedFormat = submittedFormat;
+  }
+
+
+  public InvoiceBuyerView eInvoice(@javax.annotation.Nullable EInvoiceSummary eInvoice) {
+    this.eInvoice = eInvoice;
+    return this;
+  }
+
+  /**
+   * Get eInvoice
+   * @return eInvoice
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_E_INVOICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public EInvoiceSummary geteInvoice() {
+    return eInvoice;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_E_INVOICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void seteInvoice(@javax.annotation.Nullable EInvoiceSummary eInvoice) {
+    this.eInvoice = eInvoice;
+  }
+
+
+  public InvoiceBuyerView eInvoiceDetails(@javax.annotation.Nullable InvoiceEInvoiceDetails eInvoiceDetails) {
+    this.eInvoiceDetails = eInvoiceDetails;
+    return this;
+  }
+
+  /**
+   * Get eInvoiceDetails
+   * @return eInvoiceDetails
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_E_INVOICE_DETAILS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public InvoiceEInvoiceDetails geteInvoiceDetails() {
+    return eInvoiceDetails;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_E_INVOICE_DETAILS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void seteInvoiceDetails(@javax.annotation.Nullable InvoiceEInvoiceDetails eInvoiceDetails) {
+    this.eInvoiceDetails = eInvoiceDetails;
+  }
+
+
+  public InvoiceBuyerView eInvoiceBuyerDownloadedAt(@javax.annotation.Nullable String eInvoiceBuyerDownloadedAt) {
+    this.eInvoiceBuyerDownloadedAt = eInvoiceBuyerDownloadedAt;
+    return this;
+  }
+
+  /**
+   * Get eInvoiceBuyerDownloadedAt
+   * @return eInvoiceBuyerDownloadedAt
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_E_INVOICE_BUYER_DOWNLOADED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String geteInvoiceBuyerDownloadedAt() {
+    return eInvoiceBuyerDownloadedAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_E_INVOICE_BUYER_DOWNLOADED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void seteInvoiceBuyerDownloadedAt(@javax.annotation.Nullable String eInvoiceBuyerDownloadedAt) {
+    this.eInvoiceBuyerDownloadedAt = eInvoiceBuyerDownloadedAt;
   }
 
 
@@ -3650,6 +3772,7 @@ public class InvoiceBuyerView {
         Objects.equals(this.previousExportedAt, invoiceBuyerView.previousExportedAt) &&
         Objects.equals(this.dueDateSource, invoiceBuyerView.dueDateSource) &&
         Objects.equals(this.earlyPayment, invoiceBuyerView.earlyPayment) &&
+        Objects.equals(this.contractEarlyPayment, invoiceBuyerView.contractEarlyPayment) &&
         Objects.equals(this.lastRemindedAt, invoiceBuyerView.lastRemindedAt) &&
         Objects.equals(this.lastApproverRemindedAt, invoiceBuyerView.lastApproverRemindedAt) &&
         Objects.equals(this.rejection, invoiceBuyerView.rejection) &&
@@ -3665,6 +3788,9 @@ public class InvoiceBuyerView {
         Objects.equals(this.invoiceDate, invoiceBuyerView.invoiceDate) &&
         Objects.equals(this.sodExcludedKeys, invoiceBuyerView.sodExcludedKeys) &&
         Objects.equals(this.submittedFormat, invoiceBuyerView.submittedFormat) &&
+        Objects.equals(this.eInvoice, invoiceBuyerView.eInvoice) &&
+        Objects.equals(this.eInvoiceDetails, invoiceBuyerView.eInvoiceDetails) &&
+        Objects.equals(this.eInvoiceBuyerDownloadedAt, invoiceBuyerView.eInvoiceBuyerDownloadedAt) &&
         Objects.equals(this.submittedBy, invoiceBuyerView.submittedBy) &&
         Objects.equals(this.feedPayloadHash, invoiceBuyerView.feedPayloadHash) &&
         Objects.equals(this.externalInvoiceNumber, invoiceBuyerView.externalInvoiceNumber) &&
@@ -3700,7 +3826,7 @@ public class InvoiceBuyerView {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, cloudProvider, lateFeeTerms, amount, settlement, approvalVersion, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, usageAmount, usageAmountSimulated, usageSimulatedAfterDisconnect, usageCurrency, usageSource, usageLines, tolerancePct, matchStatus, unverifiedReason, matchBasis, noPoComparison, paymentRoute, receiptCheckSkipped, receiptToleranceApplied, matchType, discrepancyReason, controlFindings, paid, dueInDays, dueDate, paidAt, payment, remittances, paymentHistory, paymentProblem, receiptConfirmationRemindedAt, exportAvailableFrom, previousExportedAt, dueDateSource, earlyPayment, lastRemindedAt, lastApproverRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, cloudConnectionId, enteredBy, invoiceDate, sodExcludedKeys, submittedFormat, submittedBy, feedPayloadHash, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, heldBack, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, rateWarnings, remittanceInstructions, remittanceCheck, bankDetailsConfirmation, bankLane, sourceDocument, hasOriginalPdf, baseCurrencyAmount, viewerIsSupplierMember, nextApproverReminderAt, replacement, uncreditedOriginals);
+    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, cloudProvider, lateFeeTerms, amount, settlement, approvalVersion, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, usageAmount, usageAmountSimulated, usageSimulatedAfterDisconnect, usageCurrency, usageSource, usageLines, tolerancePct, matchStatus, unverifiedReason, matchBasis, noPoComparison, paymentRoute, receiptCheckSkipped, receiptToleranceApplied, matchType, discrepancyReason, controlFindings, paid, dueInDays, dueDate, paidAt, payment, remittances, paymentHistory, paymentProblem, receiptConfirmationRemindedAt, exportAvailableFrom, previousExportedAt, dueDateSource, earlyPayment, contractEarlyPayment, lastRemindedAt, lastApproverRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, cloudConnectionId, enteredBy, invoiceDate, sodExcludedKeys, submittedFormat, eInvoice, eInvoiceDetails, eInvoiceBuyerDownloadedAt, submittedBy, feedPayloadHash, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, heldBack, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, rateWarnings, remittanceInstructions, remittanceCheck, bankDetailsConfirmation, bankLane, sourceDocument, hasOriginalPdf, baseCurrencyAmount, viewerIsSupplierMember, nextApproverReminderAt, replacement, uncreditedOriginals);
   }
 
   @Override
@@ -3759,6 +3885,7 @@ public class InvoiceBuyerView {
     sb.append("    previousExportedAt: ").append(toIndentedString(previousExportedAt)).append("\n");
     sb.append("    dueDateSource: ").append(toIndentedString(dueDateSource)).append("\n");
     sb.append("    earlyPayment: ").append(toIndentedString(earlyPayment)).append("\n");
+    sb.append("    contractEarlyPayment: ").append(toIndentedString(contractEarlyPayment)).append("\n");
     sb.append("    lastRemindedAt: ").append(toIndentedString(lastRemindedAt)).append("\n");
     sb.append("    lastApproverRemindedAt: ").append(toIndentedString(lastApproverRemindedAt)).append("\n");
     sb.append("    rejection: ").append(toIndentedString(rejection)).append("\n");
@@ -3774,6 +3901,9 @@ public class InvoiceBuyerView {
     sb.append("    invoiceDate: ").append(toIndentedString(invoiceDate)).append("\n");
     sb.append("    sodExcludedKeys: ").append(toIndentedString(sodExcludedKeys)).append("\n");
     sb.append("    submittedFormat: ").append(toIndentedString(submittedFormat)).append("\n");
+    sb.append("    eInvoice: ").append(toIndentedString(eInvoice)).append("\n");
+    sb.append("    eInvoiceDetails: ").append(toIndentedString(eInvoiceDetails)).append("\n");
+    sb.append("    eInvoiceBuyerDownloadedAt: ").append(toIndentedString(eInvoiceBuyerDownloadedAt)).append("\n");
     sb.append("    submittedBy: ").append(toIndentedString(submittedBy)).append("\n");
     sb.append("    feedPayloadHash: ").append(toIndentedString(feedPayloadHash)).append("\n");
     sb.append("    externalInvoiceNumber: ").append(toIndentedString(externalInvoiceNumber)).append("\n");
@@ -4137,6 +4267,11 @@ public class InvoiceBuyerView {
       joiner.add(getEarlyPayment().toUrlQueryString(prefix + "earlyPayment" + suffix));
     }
 
+    // add `contractEarlyPayment` to the URL query string
+    if (getContractEarlyPayment() != null) {
+      joiner.add(getContractEarlyPayment().toUrlQueryString(prefix + "contractEarlyPayment" + suffix));
+    }
+
     // add `lastRemindedAt` to the URL query string
     if (getLastRemindedAt() != null) {
       joiner.add(String.format("%slastRemindedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLastRemindedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -4227,6 +4362,21 @@ public class InvoiceBuyerView {
     // add `submittedFormat` to the URL query string
     if (getSubmittedFormat() != null) {
       joiner.add(String.format("%ssubmittedFormat%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSubmittedFormat()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `eInvoice` to the URL query string
+    if (geteInvoice() != null) {
+      joiner.add(geteInvoice().toUrlQueryString(prefix + "eInvoice" + suffix));
+    }
+
+    // add `eInvoiceDetails` to the URL query string
+    if (geteInvoiceDetails() != null) {
+      joiner.add(geteInvoiceDetails().toUrlQueryString(prefix + "eInvoiceDetails" + suffix));
+    }
+
+    // add `eInvoiceBuyerDownloadedAt` to the URL query string
+    if (geteInvoiceBuyerDownloadedAt() != null) {
+      joiner.add(String.format("%seInvoiceBuyerDownloadedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(geteInvoiceBuyerDownloadedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `submittedBy` to the URL query string

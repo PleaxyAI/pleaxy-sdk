@@ -66,7 +66,7 @@ module Pleaxy
         :'reason' => :'String',
         :'note' => :'String',
         :'at' => :'String',
-        :'by' => :'BankDetailsConfirmationConfirmedBy'
+        :'by' => :'InvoiceEarlyPaymentOfferedBy'
       }
     end
 

@@ -19,7 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import ai.pleaxy.model.InvoicePaymentRecordEarlyPaymentDiscount;
+import ai.pleaxy.model.EarlyPaymentDiscountTaken;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -173,7 +173,7 @@ public class InvoiceStripePayment {
 
   public static final String JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT = "earlyPaymentDiscount";
   @javax.annotation.Nullable
-  private InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount;
+  private EarlyPaymentDiscountTaken earlyPaymentDiscount;
 
   public static final String JSON_PROPERTY_INITIATED_DATE = "initiatedDate";
   @javax.annotation.Nullable
@@ -470,7 +470,7 @@ public class InvoiceStripePayment {
   }
 
 
-  public InvoiceStripePayment earlyPaymentDiscount(@javax.annotation.Nullable InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount) {
+  public InvoiceStripePayment earlyPaymentDiscount(@javax.annotation.Nullable EarlyPaymentDiscountTaken earlyPaymentDiscount) {
     this.earlyPaymentDiscount = earlyPaymentDiscount;
     return this;
   }
@@ -482,14 +482,14 @@ public class InvoiceStripePayment {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public InvoicePaymentRecordEarlyPaymentDiscount getEarlyPaymentDiscount() {
+  public EarlyPaymentDiscountTaken getEarlyPaymentDiscount() {
     return earlyPaymentDiscount;
   }
 
 
   @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_DISCOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEarlyPaymentDiscount(@javax.annotation.Nullable InvoicePaymentRecordEarlyPaymentDiscount earlyPaymentDiscount) {
+  public void setEarlyPaymentDiscount(@javax.annotation.Nullable EarlyPaymentDiscountTaken earlyPaymentDiscount) {
     this.earlyPaymentDiscount = earlyPaymentDiscount;
   }
 

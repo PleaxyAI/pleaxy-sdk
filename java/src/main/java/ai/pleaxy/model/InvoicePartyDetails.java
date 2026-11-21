@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.PostalAddress;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,6 +38,7 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   InvoicePartyDetails.JSON_PROPERTY_NAME,
   InvoicePartyDetails.JSON_PROPERTY_ADDRESS_LINES,
+  InvoicePartyDetails.JSON_PROPERTY_ADDRESS,
   InvoicePartyDetails.JSON_PROPERTY_TAX_ID,
   InvoicePartyDetails.JSON_PROPERTY_TAX_ID_LABEL
 })
@@ -49,6 +51,10 @@ public class InvoicePartyDetails {
   public static final String JSON_PROPERTY_ADDRESS_LINES = "addressLines";
   @javax.annotation.Nullable
   private List<String> addressLines = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_ADDRESS = "address";
+  @javax.annotation.Nullable
+  private PostalAddress address;
 
   public static final String JSON_PROPERTY_TAX_ID = "taxId";
   @javax.annotation.Nullable
@@ -117,6 +123,30 @@ public class InvoicePartyDetails {
   }
 
 
+  public InvoicePartyDetails address(@javax.annotation.Nullable PostalAddress address) {
+    this.address = address;
+    return this;
+  }
+
+  /**
+   * Get address
+   * @return address
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ADDRESS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PostalAddress getAddress() {
+    return address;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ADDRESS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAddress(@javax.annotation.Nullable PostalAddress address) {
+    this.address = address;
+  }
+
+
   public InvoicePartyDetails taxId(@javax.annotation.Nullable String taxId) {
     this.taxId = taxId;
     return this;
@@ -179,13 +209,14 @@ public class InvoicePartyDetails {
     InvoicePartyDetails invoicePartyDetails = (InvoicePartyDetails) o;
     return Objects.equals(this.name, invoicePartyDetails.name) &&
         Objects.equals(this.addressLines, invoicePartyDetails.addressLines) &&
+        Objects.equals(this.address, invoicePartyDetails.address) &&
         Objects.equals(this.taxId, invoicePartyDetails.taxId) &&
         Objects.equals(this.taxIdLabel, invoicePartyDetails.taxIdLabel);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, addressLines, taxId, taxIdLabel);
+    return Objects.hash(name, addressLines, address, taxId, taxIdLabel);
   }
 
   @Override
@@ -194,6 +225,7 @@ public class InvoicePartyDetails {
     sb.append("class InvoicePartyDetails {\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    addressLines: ").append(toIndentedString(addressLines)).append("\n");
+    sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("    taxId: ").append(toIndentedString(taxId)).append("\n");
     sb.append("    taxIdLabel: ").append(toIndentedString(taxIdLabel)).append("\n");
     sb.append("}");
@@ -255,6 +287,11 @@ public class InvoicePartyDetails {
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getAddressLines().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
+    }
+
+    // add `address` to the URL query string
+    if (getAddress() != null) {
+      joiner.add(getAddress().toUrlQueryString(prefix + "address" + suffix));
     }
 
     // add `taxId` to the URL query string

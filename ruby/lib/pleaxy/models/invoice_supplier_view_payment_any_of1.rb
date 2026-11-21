@@ -70,7 +70,7 @@ module Pleaxy
         :'state' => :'String',
         :'payment_method_type' => :'String',
         :'succeeded_at' => :'String',
-        :'early_payment_discount' => :'InvoicePaymentRecordEarlyPaymentDiscount'
+        :'early_payment_discount' => :'EarlyPaymentDiscountTaken'
       }
     end
 

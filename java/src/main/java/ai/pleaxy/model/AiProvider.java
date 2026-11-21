@@ -21,8 +21,11 @@ import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.AiProviderCreditPrice;
 import ai.pleaxy.model.AiProviderDatabricks;
+import ai.pleaxy.model.AiProviderDatadog;
 import ai.pleaxy.model.AiProviderGithub;
+import ai.pleaxy.model.AiProviderMongodb;
 import ai.pleaxy.model.AiProviderSnowflake;
+import ai.pleaxy.model.AiProviderTwilio;
 import ai.pleaxy.model.AiProviderZoom;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -49,6 +52,9 @@ import ai.pleaxy.client.ApiClient;
   AiProvider.JSON_PROPERTY_DATABRICKS,
   AiProvider.JSON_PROPERTY_GITHUB,
   AiProvider.JSON_PROPERTY_ZOOM,
+  AiProvider.JSON_PROPERTY_DATADOG,
+  AiProvider.JSON_PROPERTY_TWILIO,
+  AiProvider.JSON_PROPERTY_MONGODB,
   AiProvider.JSON_PROPERTY_CREDIT_PRICE,
   AiProvider.JSON_PROPERTY_SUPPLIER_CONNECTION_ID,
   AiProvider.JSON_PROPERTY_LAST_SYNCED_AT,
@@ -99,7 +105,13 @@ public class AiProvider {
     
     SLACK(String.valueOf("slack")),
     
-    ZOOM(String.valueOf("zoom"));
+    ZOOM(String.valueOf("zoom")),
+    
+    DATADOG(String.valueOf("datadog")),
+    
+    TWILIO(String.valueOf("twilio")),
+    
+    MONGODB(String.valueOf("mongodb"));
 
     private String value;
 
@@ -202,6 +214,18 @@ public class AiProvider {
   public static final String JSON_PROPERTY_ZOOM = "zoom";
   @javax.annotation.Nullable
   private AiProviderZoom zoom;
+
+  public static final String JSON_PROPERTY_DATADOG = "datadog";
+  @javax.annotation.Nullable
+  private AiProviderDatadog datadog;
+
+  public static final String JSON_PROPERTY_TWILIO = "twilio";
+  @javax.annotation.Nullable
+  private AiProviderTwilio twilio;
+
+  public static final String JSON_PROPERTY_MONGODB = "mongodb";
+  @javax.annotation.Nullable
+  private AiProviderMongodb mongodb;
 
   public static final String JSON_PROPERTY_CREDIT_PRICE = "creditPrice";
   @javax.annotation.Nullable
@@ -576,6 +600,78 @@ public class AiProvider {
   }
 
 
+  public AiProvider datadog(@javax.annotation.Nullable AiProviderDatadog datadog) {
+    this.datadog = datadog;
+    return this;
+  }
+
+  /**
+   * Get datadog
+   * @return datadog
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DATADOG)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public AiProviderDatadog getDatadog() {
+    return datadog;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DATADOG)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDatadog(@javax.annotation.Nullable AiProviderDatadog datadog) {
+    this.datadog = datadog;
+  }
+
+
+  public AiProvider twilio(@javax.annotation.Nullable AiProviderTwilio twilio) {
+    this.twilio = twilio;
+    return this;
+  }
+
+  /**
+   * Get twilio
+   * @return twilio
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_TWILIO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public AiProviderTwilio getTwilio() {
+    return twilio;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_TWILIO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setTwilio(@javax.annotation.Nullable AiProviderTwilio twilio) {
+    this.twilio = twilio;
+  }
+
+
+  public AiProvider mongodb(@javax.annotation.Nullable AiProviderMongodb mongodb) {
+    this.mongodb = mongodb;
+    return this;
+  }
+
+  /**
+   * Get mongodb
+   * @return mongodb
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MONGODB)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public AiProviderMongodb getMongodb() {
+    return mongodb;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MONGODB)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMongodb(@javax.annotation.Nullable AiProviderMongodb mongodb) {
+    this.mongodb = mongodb;
+  }
+
+
   public AiProvider creditPrice(@javax.annotation.Nullable AiProviderCreditPrice creditPrice) {
     this.creditPrice = creditPrice;
     return this;
@@ -767,6 +863,9 @@ public class AiProvider {
         Objects.equals(this.databricks, aiProvider.databricks) &&
         Objects.equals(this.github, aiProvider.github) &&
         Objects.equals(this.zoom, aiProvider.zoom) &&
+        Objects.equals(this.datadog, aiProvider.datadog) &&
+        Objects.equals(this.twilio, aiProvider.twilio) &&
+        Objects.equals(this.mongodb, aiProvider.mongodb) &&
         Objects.equals(this.creditPrice, aiProvider.creditPrice) &&
         Objects.equals(this.supplierConnectionId, aiProvider.supplierConnectionId) &&
         Objects.equals(this.lastSyncedAt, aiProvider.lastSyncedAt) &&
@@ -778,7 +877,7 @@ public class AiProvider {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, provider, accountLabel, keyHint, status, connectedAt, connectedBy, snowflake, databricks, github, zoom, creditPrice, supplierConnectionId, lastSyncedAt, lastSyncStatus, lastSyncError, lastSyncErrorCode, currency);
+    return Objects.hash(id, provider, accountLabel, keyHint, status, connectedAt, connectedBy, snowflake, databricks, github, zoom, datadog, twilio, mongodb, creditPrice, supplierConnectionId, lastSyncedAt, lastSyncStatus, lastSyncError, lastSyncErrorCode, currency);
   }
 
   @Override
@@ -796,6 +895,9 @@ public class AiProvider {
     sb.append("    databricks: ").append(toIndentedString(databricks)).append("\n");
     sb.append("    github: ").append(toIndentedString(github)).append("\n");
     sb.append("    zoom: ").append(toIndentedString(zoom)).append("\n");
+    sb.append("    datadog: ").append(toIndentedString(datadog)).append("\n");
+    sb.append("    twilio: ").append(toIndentedString(twilio)).append("\n");
+    sb.append("    mongodb: ").append(toIndentedString(mongodb)).append("\n");
     sb.append("    creditPrice: ").append(toIndentedString(creditPrice)).append("\n");
     sb.append("    supplierConnectionId: ").append(toIndentedString(supplierConnectionId)).append("\n");
     sb.append("    lastSyncedAt: ").append(toIndentedString(lastSyncedAt)).append("\n");
@@ -903,6 +1005,21 @@ public class AiProvider {
     // add `zoom` to the URL query string
     if (getZoom() != null) {
       joiner.add(getZoom().toUrlQueryString(prefix + "zoom" + suffix));
+    }
+
+    // add `datadog` to the URL query string
+    if (getDatadog() != null) {
+      joiner.add(getDatadog().toUrlQueryString(prefix + "datadog" + suffix));
+    }
+
+    // add `twilio` to the URL query string
+    if (getTwilio() != null) {
+      joiner.add(getTwilio().toUrlQueryString(prefix + "twilio" + suffix));
+    }
+
+    // add `mongodb` to the URL query string
+    if (getMongodb() != null) {
+      joiner.add(getMongodb().toUrlQueryString(prefix + "mongodb" + suffix));
     }
 
     // add `creditPrice` to the URL query string
