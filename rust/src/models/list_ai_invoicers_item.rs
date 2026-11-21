@@ -31,6 +31,11 @@ pub struct ListAiInvoicersItem {
     pub tier: Option<Tier>,
     #[serde(rename = "shape", skip_serializing_if = "Option::is_none")]
     pub shape: Option<Shape>,
+    #[serde(
+        rename = "credentialCanChangeBilling",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub credential_can_change_billing: Option<bool>,
     #[serde(rename = "contactHint", skip_serializing_if = "Option::is_none")]
     pub contact_hint: Option<String>,
     #[serde(rename = "connectable", skip_serializing_if = "Option::is_none")]
@@ -49,6 +54,7 @@ impl ListAiInvoicersItem {
             credential: None,
             tier: None,
             shape: None,
+            credential_can_change_billing: None,
             contact_hint: None,
             connectable: None,
         }
@@ -97,6 +103,10 @@ pub enum Id {
     Twilio,
     #[serde(rename = "mongodb")]
     Mongodb,
+    #[serde(rename = "confluent")]
+    Confluent,
+    #[serde(rename = "vercel")]
+    Vercel,
 }
 
 impl Default for Id {

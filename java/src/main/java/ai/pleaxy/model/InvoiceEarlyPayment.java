@@ -39,7 +39,8 @@ import ai.pleaxy.client.ApiClient;
   InvoiceEarlyPayment.JSON_PROPERTY_SOURCE,
   InvoiceEarlyPayment.JSON_PROPERTY_CONTRACT_ID,
   InvoiceEarlyPayment.JSON_PROPERTY_OFFERED_BY,
-  InvoiceEarlyPayment.JSON_PROPERTY_OFFERED_AT
+  InvoiceEarlyPayment.JSON_PROPERTY_OFFERED_AT,
+  InvoiceEarlyPayment.JSON_PROPERTY_STANDING
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class InvoiceEarlyPayment {
@@ -101,6 +102,10 @@ public class InvoiceEarlyPayment {
   public static final String JSON_PROPERTY_OFFERED_AT = "offeredAt";
   @javax.annotation.Nullable
   private String offeredAt;
+
+  public static final String JSON_PROPERTY_STANDING = "standing";
+  @javax.annotation.Nullable
+  private Boolean standing;
 
   public InvoiceEarlyPayment() { 
   }
@@ -249,6 +254,30 @@ public class InvoiceEarlyPayment {
   }
 
 
+  public InvoiceEarlyPayment standing(@javax.annotation.Nullable Boolean standing) {
+    this.standing = standing;
+    return this;
+  }
+
+  /**
+   * Get standing
+   * @return standing
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_STANDING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getStanding() {
+    return standing;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_STANDING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setStanding(@javax.annotation.Nullable Boolean standing) {
+    this.standing = standing;
+  }
+
+
   /**
    * Return true if this InvoiceEarlyPayment object is equal to o.
    */
@@ -266,12 +295,13 @@ public class InvoiceEarlyPayment {
         Objects.equals(this.source, invoiceEarlyPayment.source) &&
         Objects.equals(this.contractId, invoiceEarlyPayment.contractId) &&
         Objects.equals(this.offeredBy, invoiceEarlyPayment.offeredBy) &&
-        Objects.equals(this.offeredAt, invoiceEarlyPayment.offeredAt);
+        Objects.equals(this.offeredAt, invoiceEarlyPayment.offeredAt) &&
+        Objects.equals(this.standing, invoiceEarlyPayment.standing);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(percent, deadline, source, contractId, offeredBy, offeredAt);
+    return Objects.hash(percent, deadline, source, contractId, offeredBy, offeredAt, standing);
   }
 
   @Override
@@ -284,6 +314,7 @@ public class InvoiceEarlyPayment {
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
     sb.append("    offeredBy: ").append(toIndentedString(offeredBy)).append("\n");
     sb.append("    offeredAt: ").append(toIndentedString(offeredAt)).append("\n");
+    sb.append("    standing: ").append(toIndentedString(standing)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -359,6 +390,11 @@ public class InvoiceEarlyPayment {
     // add `offeredAt` to the URL query string
     if (getOfferedAt() != null) {
       joiner.add(String.format("%sofferedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOfferedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `standing` to the URL query string
+    if (getStanding() != null) {
+      joiner.add(String.format("%sstanding%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStanding()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

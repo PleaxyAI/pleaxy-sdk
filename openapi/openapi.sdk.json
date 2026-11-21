@@ -607,7 +607,9 @@
                         "zoom",
                         "datadog",
                         "twilio",
-                        "mongodb"
+                        "mongodb",
+                        "confluent",
+                        "vercel"
                       ]
                     },
                     "billingCurrency": {
@@ -672,6 +674,9 @@
                     },
                     "lateFeeTermsUpdatedAt": {
                       "type": "string"
+                    },
+                    "earlyPaymentStandingOffer": {
+                      "$ref": "#/components/schemas/EarlyPaymentStandingOffer"
                     },
                     "lateFeeTermsAttestedAt": {
                       "type": "string"
@@ -1469,7 +1474,9 @@
                             "zoom",
                             "datadog",
                             "twilio",
-                            "mongodb"
+                            "mongodb",
+                            "confluent",
+                            "vercel"
                           ]
                         },
                         "billingCurrency": {
@@ -1534,6 +1541,9 @@
                         },
                         "lateFeeTermsUpdatedAt": {
                           "type": "string"
+                        },
+                        "earlyPaymentStandingOffer": {
+                          "$ref": "#/components/schemas/EarlyPaymentStandingOffer"
                         },
                         "lateFeeTermsAttestedAt": {
                           "type": "string"
@@ -1653,7 +1663,9 @@
                             "zoom",
                             "datadog",
                             "twilio",
-                            "mongodb"
+                            "mongodb",
+                            "confluent",
+                            "vercel"
                           ]
                         },
                         "billingCurrency": {
@@ -1718,6 +1730,9 @@
                         },
                         "lateFeeTermsUpdatedAt": {
                           "type": "string"
+                        },
+                        "earlyPaymentStandingOffer": {
+                          "$ref": "#/components/schemas/EarlyPaymentStandingOffer"
                         },
                         "lateFeeTermsAttestedAt": {
                           "type": "string"
@@ -1922,7 +1937,9 @@
                             "zoom",
                             "datadog",
                             "twilio",
-                            "mongodb"
+                            "mongodb",
+                            "confluent",
+                            "vercel"
                           ]
                         },
                         "billingCurrency": {
@@ -1987,6 +2004,9 @@
                         },
                         "lateFeeTermsUpdatedAt": {
                           "type": "string"
+                        },
+                        "earlyPaymentStandingOffer": {
+                          "$ref": "#/components/schemas/EarlyPaymentStandingOffer"
                         },
                         "lateFeeTermsAttestedAt": {
                           "type": "string"
@@ -2118,7 +2138,9 @@
                             "zoom",
                             "datadog",
                             "twilio",
-                            "mongodb"
+                            "mongodb",
+                            "confluent",
+                            "vercel"
                           ]
                         },
                         "billingCurrency": {
@@ -2183,6 +2205,9 @@
                         },
                         "lateFeeTermsUpdatedAt": {
                           "type": "string"
+                        },
+                        "earlyPaymentStandingOffer": {
+                          "$ref": "#/components/schemas/EarlyPaymentStandingOffer"
                         },
                         "lateFeeTermsAttestedAt": {
                           "type": "string"
@@ -12500,7 +12525,7 @@
       },
       "post": {
         "operationId": "CreateAiProvider",
-        "summary": "[Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seat tools read only the month's active users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`, the client secret as key). Usage-billed suppliers read only the month's billed total, for the invoice check: Datadog (`datadog.site` and `datadog.apiKey`, a service account's application key scoped to usage_read and billing_read as key), Twilio (`twilio.accountSid` and `twilio.keySid`, a restricted key's secret with Usage Records read as key) and MongoDB Atlas (`mongodb.orgId` and `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers.",
+        "summary": "[Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seat tools read only the month's active users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`, the client secret as key). Usage-billed suppliers read only the month's billed total, for the invoice check: Datadog (`datadog.site` and `datadog.apiKey`, a service account's application key scoped to usage_read and billing_read as key), Twilio (`twilio.accountSid` and `twilio.keySid`, a restricted key's secret with Usage Records read as key), MongoDB Atlas (`mongodb.orgId` and `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key), Confluent Cloud (`confluent.keyId`, a BillingAdmin service account's Cloud API key secret as key) and Vercel (`vercel.teamId`, a team-scoped token as key). Confluent and Vercel offer no read-only billing credential: theirs can also change billing settings, and Pleaxy only reads with it. Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers.",
         "parameters": [
           {
             "name": "regionId",
@@ -12796,7 +12821,9 @@
                         "zoom",
                         "datadog",
                         "twilio",
-                        "mongodb"
+                        "mongodb",
+                        "confluent",
+                        "vercel"
                       ]
                     },
                     "billingCurrency": {
@@ -12861,6 +12888,9 @@
                     },
                     "lateFeeTermsUpdatedAt": {
                       "type": "string"
+                    },
+                    "earlyPaymentStandingOffer": {
+                      "$ref": "#/components/schemas/EarlyPaymentStandingOffer"
                     },
                     "lateFeeTermsAttestedAt": {
                       "type": "string"
@@ -12946,7 +12976,9 @@
                           "zoom",
                           "datadog",
                           "twilio",
-                          "mongodb"
+                          "mongodb",
+                          "confluent",
+                          "vercel"
                         ]
                       },
                       "name": {
@@ -13029,6 +13061,9 @@
                           "tokens",
                           "credits"
                         ]
+                      },
+                      "credentialCanChangeBilling": {
+                        "type": "boolean"
                       },
                       "contactHint": {
                         "type": "string"
@@ -21673,6 +21708,30 @@
           "clientId"
         ]
       },
+      "ConfluentConnectionDto": {
+        "type": "object",
+        "properties": {
+          "keyId": {
+            "type": "string",
+            "pattern": "^[A-Z0-9]{12,32}$"
+          }
+        },
+        "required": [
+          "keyId"
+        ]
+      },
+      "VercelConnectionDto": {
+        "type": "object",
+        "properties": {
+          "teamId": {
+            "type": "string",
+            "pattern": "^team_[A-Za-z0-9]{8,64}$"
+          }
+        },
+        "required": [
+          "teamId"
+        ]
+      },
       "CreateAiProviderDto": {
         "type": "object",
         "properties": {
@@ -21704,6 +21763,12 @@
           },
           "mongodb": {
             "$ref": "#/components/schemas/MongoDbConnectionDto"
+          },
+          "confluent": {
+            "$ref": "#/components/schemas/ConfluentConnectionDto"
+          },
+          "vercel": {
+            "$ref": "#/components/schemas/VercelConnectionDto"
           },
           "creditPrice": {
             "$ref": "#/components/schemas/CreditPriceDto"
@@ -24000,6 +24065,25 @@
           "basis"
         ]
       },
+      "EarlyPaymentStandingOffer": {
+        "type": "object",
+        "properties": {
+          "percent": {
+            "type": "number"
+          },
+          "daysBeforeDue": {
+            "type": "number"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "percent",
+          "daysBeforeDue",
+          "updatedAt"
+        ]
+      },
       "CloudConnectionDisconnected": {
         "type": "object",
         "properties": {
@@ -24603,6 +24687,7 @@
               "support_case_opened",
               "support_case_updated",
               "supplier_late_fee_terms_changed",
+              "supplier_early_payment_offer_changed",
               "contract_terms_to_acknowledge",
               "contract_terms_acknowledged",
               "contract_terms_disputed",
@@ -28662,6 +28747,9 @@
           },
           "offeredAt": {
             "type": "string"
+          },
+          "standing": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -32560,7 +32648,9 @@
               "zoom",
               "datadog",
               "twilio",
-              "mongodb"
+              "mongodb",
+              "confluent",
+              "vercel"
             ]
           },
           "accountLabel": {
@@ -32694,6 +32784,28 @@
             "required": [
               "orgId",
               "clientId"
+            ]
+          },
+          "confluent": {
+            "type": "object",
+            "properties": {
+              "keyId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "keyId"
+            ]
+          },
+          "vercel": {
+            "type": "object",
+            "properties": {
+              "teamId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "teamId"
             ]
           },
           "creditPrice": {

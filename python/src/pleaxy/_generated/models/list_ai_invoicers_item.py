@@ -47,6 +47,7 @@ class ListAiInvoicersItem:
         credential (Union[Unset, ListAiInvoicersItemCredential]):
         tier (Union[Unset, ListAiInvoicersItemTier]):
         shape (Union[Unset, ListAiInvoicersItemShape]):
+        credential_can_change_billing (Union[Unset, bool]):
         contact_hint (Union[Unset, str]):
         connectable (Union[Unset, bool]):
     """
@@ -60,6 +61,7 @@ class ListAiInvoicersItem:
     credential: Union[Unset, ListAiInvoicersItemCredential] = UNSET
     tier: Union[Unset, ListAiInvoicersItemTier] = UNSET
     shape: Union[Unset, ListAiInvoicersItemShape] = UNSET
+    credential_can_change_billing: Union[Unset, bool] = UNSET
     contact_hint: Union[Unset, str] = UNSET
     connectable: Union[Unset, bool] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -103,6 +105,8 @@ class ListAiInvoicersItem:
         if not isinstance(self.shape, Unset):
             shape = self.shape
 
+        credential_can_change_billing = self.credential_can_change_billing
+
         contact_hint = self.contact_hint
 
         connectable = self.connectable
@@ -130,6 +134,8 @@ class ListAiInvoicersItem:
             field_dict["tier"] = tier
         if shape is not UNSET:
             field_dict["shape"] = shape
+        if credential_can_change_billing is not UNSET:
+            field_dict["credentialCanChangeBilling"] = credential_can_change_billing
         if contact_hint is not UNSET:
             field_dict["contactHint"] = contact_hint
         if connectable is not UNSET:
@@ -189,6 +195,8 @@ class ListAiInvoicersItem:
         else:
             shape = check_list_ai_invoicers_item_shape(_shape)
 
+        credential_can_change_billing = d.pop("credentialCanChangeBilling", UNSET)
+
         contact_hint = d.pop("contactHint", UNSET)
 
         connectable = d.pop("connectable", UNSET)
@@ -203,6 +211,7 @@ class ListAiInvoicersItem:
             credential=credential,
             tier=tier,
             shape=shape,
+            credential_can_change_billing=credential_can_change_billing,
             contact_hint=contact_hint,
             connectable=connectable,
         )

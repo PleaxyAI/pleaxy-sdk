@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.EarlyPaymentStandingOffer;
 import ai.pleaxy.model.LateFeeTerms;
 import ai.pleaxy.model.QuestionnaireFieldDef;
 import ai.pleaxy.model.QuestionnaireResponseItem;

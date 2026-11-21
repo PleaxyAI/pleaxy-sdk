@@ -27,6 +27,7 @@ const (
 const (
 	AddAiProviderSupplierResultAiProviderAnthropic  AddAiProviderSupplierResultAiProvider = "anthropic"
 	AddAiProviderSupplierResultAiProviderCohere     AddAiProviderSupplierResultAiProvider = "cohere"
+	AddAiProviderSupplierResultAiProviderConfluent  AddAiProviderSupplierResultAiProvider = "confluent"
 	AddAiProviderSupplierResultAiProviderCoreweave  AddAiProviderSupplierResultAiProvider = "coreweave"
 	AddAiProviderSupplierResultAiProviderCrusoe     AddAiProviderSupplierResultAiProvider = "crusoe"
 	AddAiProviderSupplierResultAiProviderCursor     AddAiProviderSupplierResultAiProvider = "cursor"
@@ -43,6 +44,7 @@ const (
 	AddAiProviderSupplierResultAiProviderSlack      AddAiProviderSupplierResultAiProvider = "slack"
 	AddAiProviderSupplierResultAiProviderSnowflake  AddAiProviderSupplierResultAiProvider = "snowflake"
 	AddAiProviderSupplierResultAiProviderTwilio     AddAiProviderSupplierResultAiProvider = "twilio"
+	AddAiProviderSupplierResultAiProviderVercel     AddAiProviderSupplierResultAiProvider = "vercel"
 	AddAiProviderSupplierResultAiProviderXai        AddAiProviderSupplierResultAiProvider = "xai"
 	AddAiProviderSupplierResultAiProviderZoom       AddAiProviderSupplierResultAiProvider = "zoom"
 )
@@ -74,6 +76,7 @@ const (
 const (
 	AddCloudProviderAsSupplierResultAiProviderAnthropic  AddCloudProviderAsSupplierResultAiProvider = "anthropic"
 	AddCloudProviderAsSupplierResultAiProviderCohere     AddCloudProviderAsSupplierResultAiProvider = "cohere"
+	AddCloudProviderAsSupplierResultAiProviderConfluent  AddCloudProviderAsSupplierResultAiProvider = "confluent"
 	AddCloudProviderAsSupplierResultAiProviderCoreweave  AddCloudProviderAsSupplierResultAiProvider = "coreweave"
 	AddCloudProviderAsSupplierResultAiProviderCrusoe     AddCloudProviderAsSupplierResultAiProvider = "crusoe"
 	AddCloudProviderAsSupplierResultAiProviderCursor     AddCloudProviderAsSupplierResultAiProvider = "cursor"
@@ -90,6 +93,7 @@ const (
 	AddCloudProviderAsSupplierResultAiProviderSlack      AddCloudProviderAsSupplierResultAiProvider = "slack"
 	AddCloudProviderAsSupplierResultAiProviderSnowflake  AddCloudProviderAsSupplierResultAiProvider = "snowflake"
 	AddCloudProviderAsSupplierResultAiProviderTwilio     AddCloudProviderAsSupplierResultAiProvider = "twilio"
+	AddCloudProviderAsSupplierResultAiProviderVercel     AddCloudProviderAsSupplierResultAiProvider = "vercel"
 	AddCloudProviderAsSupplierResultAiProviderXai        AddCloudProviderAsSupplierResultAiProvider = "xai"
 	AddCloudProviderAsSupplierResultAiProviderZoom       AddCloudProviderAsSupplierResultAiProvider = "zoom"
 )
@@ -579,6 +583,7 @@ const (
 const (
 	AiProviderProviderAnthropic  AiProviderProvider = "anthropic"
 	AiProviderProviderCohere     AiProviderProvider = "cohere"
+	AiProviderProviderConfluent  AiProviderProvider = "confluent"
 	AiProviderProviderCoreweave  AiProviderProvider = "coreweave"
 	AiProviderProviderCrusoe     AiProviderProvider = "crusoe"
 	AiProviderProviderCursor     AiProviderProvider = "cursor"
@@ -595,6 +600,7 @@ const (
 	AiProviderProviderSlack      AiProviderProvider = "slack"
 	AiProviderProviderSnowflake  AiProviderProvider = "snowflake"
 	AiProviderProviderTwilio     AiProviderProvider = "twilio"
+	AiProviderProviderVercel     AiProviderProvider = "vercel"
 	AiProviderProviderXai        AiProviderProvider = "xai"
 	AiProviderProviderZoom       AiProviderProvider = "zoom"
 )
@@ -4009,6 +4015,7 @@ const (
 const (
 	ListAiInvoicersItemIdAnthropic  ListAiInvoicersItemId = "anthropic"
 	ListAiInvoicersItemIdCohere     ListAiInvoicersItemId = "cohere"
+	ListAiInvoicersItemIdConfluent  ListAiInvoicersItemId = "confluent"
 	ListAiInvoicersItemIdCoreweave  ListAiInvoicersItemId = "coreweave"
 	ListAiInvoicersItemIdCrusoe     ListAiInvoicersItemId = "crusoe"
 	ListAiInvoicersItemIdCursor     ListAiInvoicersItemId = "cursor"
@@ -4025,6 +4032,7 @@ const (
 	ListAiInvoicersItemIdSlack      ListAiInvoicersItemId = "slack"
 	ListAiInvoicersItemIdSnowflake  ListAiInvoicersItemId = "snowflake"
 	ListAiInvoicersItemIdTwilio     ListAiInvoicersItemId = "twilio"
+	ListAiInvoicersItemIdVercel     ListAiInvoicersItemId = "vercel"
 	ListAiInvoicersItemIdXai        ListAiInvoicersItemId = "xai"
 	ListAiInvoicersItemIdZoom       ListAiInvoicersItemId = "zoom"
 )
@@ -4650,6 +4658,7 @@ const (
 	NotificationTypeSupplierConnectionRegionMismatch NotificationType = "supplier_connection_region_mismatch"
 	NotificationTypeSupplierConnectionRejected       NotificationType = "supplier_connection_rejected"
 	NotificationTypeSupplierConnectionSubmitted      NotificationType = "supplier_connection_submitted"
+	NotificationTypeSupplierEarlyPaymentOfferChanged NotificationType = "supplier_early_payment_offer_changed"
 	NotificationTypeSupplierLateFeeTermsChanged      NotificationType = "supplier_late_fee_terms_changed"
 	NotificationTypeSupplierScreeningMatch           NotificationType = "supplier_screening_match"
 	NotificationTypeSupportCaseOpened                NotificationType = "support_case_opened"
@@ -5546,6 +5555,7 @@ const (
 const (
 	SetInvoiceFeedResult0AiProviderAnthropic  SetInvoiceFeedResult0AiProvider = "anthropic"
 	SetInvoiceFeedResult0AiProviderCohere     SetInvoiceFeedResult0AiProvider = "cohere"
+	SetInvoiceFeedResult0AiProviderConfluent  SetInvoiceFeedResult0AiProvider = "confluent"
 	SetInvoiceFeedResult0AiProviderCoreweave  SetInvoiceFeedResult0AiProvider = "coreweave"
 	SetInvoiceFeedResult0AiProviderCrusoe     SetInvoiceFeedResult0AiProvider = "crusoe"
 	SetInvoiceFeedResult0AiProviderCursor     SetInvoiceFeedResult0AiProvider = "cursor"
@@ -5562,6 +5572,7 @@ const (
 	SetInvoiceFeedResult0AiProviderSlack      SetInvoiceFeedResult0AiProvider = "slack"
 	SetInvoiceFeedResult0AiProviderSnowflake  SetInvoiceFeedResult0AiProvider = "snowflake"
 	SetInvoiceFeedResult0AiProviderTwilio     SetInvoiceFeedResult0AiProvider = "twilio"
+	SetInvoiceFeedResult0AiProviderVercel     SetInvoiceFeedResult0AiProvider = "vercel"
 	SetInvoiceFeedResult0AiProviderXai        SetInvoiceFeedResult0AiProvider = "xai"
 	SetInvoiceFeedResult0AiProviderZoom       SetInvoiceFeedResult0AiProvider = "zoom"
 )
@@ -5603,6 +5614,7 @@ const (
 const (
 	SetInvoiceFeedResult1AiProviderAnthropic  SetInvoiceFeedResult1AiProvider = "anthropic"
 	SetInvoiceFeedResult1AiProviderCohere     SetInvoiceFeedResult1AiProvider = "cohere"
+	SetInvoiceFeedResult1AiProviderConfluent  SetInvoiceFeedResult1AiProvider = "confluent"
 	SetInvoiceFeedResult1AiProviderCoreweave  SetInvoiceFeedResult1AiProvider = "coreweave"
 	SetInvoiceFeedResult1AiProviderCrusoe     SetInvoiceFeedResult1AiProvider = "crusoe"
 	SetInvoiceFeedResult1AiProviderCursor     SetInvoiceFeedResult1AiProvider = "cursor"
@@ -5619,6 +5631,7 @@ const (
 	SetInvoiceFeedResult1AiProviderSlack      SetInvoiceFeedResult1AiProvider = "slack"
 	SetInvoiceFeedResult1AiProviderSnowflake  SetInvoiceFeedResult1AiProvider = "snowflake"
 	SetInvoiceFeedResult1AiProviderTwilio     SetInvoiceFeedResult1AiProvider = "twilio"
+	SetInvoiceFeedResult1AiProviderVercel     SetInvoiceFeedResult1AiProvider = "vercel"
 	SetInvoiceFeedResult1AiProviderXai        SetInvoiceFeedResult1AiProvider = "xai"
 	SetInvoiceFeedResult1AiProviderZoom       SetInvoiceFeedResult1AiProvider = "zoom"
 )
@@ -5660,6 +5673,7 @@ const (
 const (
 	SetSupplierCurrenciesResult0AiProviderAnthropic  SetSupplierCurrenciesResult0AiProvider = "anthropic"
 	SetSupplierCurrenciesResult0AiProviderCohere     SetSupplierCurrenciesResult0AiProvider = "cohere"
+	SetSupplierCurrenciesResult0AiProviderConfluent  SetSupplierCurrenciesResult0AiProvider = "confluent"
 	SetSupplierCurrenciesResult0AiProviderCoreweave  SetSupplierCurrenciesResult0AiProvider = "coreweave"
 	SetSupplierCurrenciesResult0AiProviderCrusoe     SetSupplierCurrenciesResult0AiProvider = "crusoe"
 	SetSupplierCurrenciesResult0AiProviderCursor     SetSupplierCurrenciesResult0AiProvider = "cursor"
@@ -5676,6 +5690,7 @@ const (
 	SetSupplierCurrenciesResult0AiProviderSlack      SetSupplierCurrenciesResult0AiProvider = "slack"
 	SetSupplierCurrenciesResult0AiProviderSnowflake  SetSupplierCurrenciesResult0AiProvider = "snowflake"
 	SetSupplierCurrenciesResult0AiProviderTwilio     SetSupplierCurrenciesResult0AiProvider = "twilio"
+	SetSupplierCurrenciesResult0AiProviderVercel     SetSupplierCurrenciesResult0AiProvider = "vercel"
 	SetSupplierCurrenciesResult0AiProviderXai        SetSupplierCurrenciesResult0AiProvider = "xai"
 	SetSupplierCurrenciesResult0AiProviderZoom       SetSupplierCurrenciesResult0AiProvider = "zoom"
 )
@@ -5707,6 +5722,7 @@ const (
 const (
 	SetSupplierCurrenciesResult1AiProviderAnthropic  SetSupplierCurrenciesResult1AiProvider = "anthropic"
 	SetSupplierCurrenciesResult1AiProviderCohere     SetSupplierCurrenciesResult1AiProvider = "cohere"
+	SetSupplierCurrenciesResult1AiProviderConfluent  SetSupplierCurrenciesResult1AiProvider = "confluent"
 	SetSupplierCurrenciesResult1AiProviderCoreweave  SetSupplierCurrenciesResult1AiProvider = "coreweave"
 	SetSupplierCurrenciesResult1AiProviderCrusoe     SetSupplierCurrenciesResult1AiProvider = "crusoe"
 	SetSupplierCurrenciesResult1AiProviderCursor     SetSupplierCurrenciesResult1AiProvider = "cursor"
@@ -5723,6 +5739,7 @@ const (
 	SetSupplierCurrenciesResult1AiProviderSlack      SetSupplierCurrenciesResult1AiProvider = "slack"
 	SetSupplierCurrenciesResult1AiProviderSnowflake  SetSupplierCurrenciesResult1AiProvider = "snowflake"
 	SetSupplierCurrenciesResult1AiProviderTwilio     SetSupplierCurrenciesResult1AiProvider = "twilio"
+	SetSupplierCurrenciesResult1AiProviderVercel     SetSupplierCurrenciesResult1AiProvider = "vercel"
 	SetSupplierCurrenciesResult1AiProviderXai        SetSupplierCurrenciesResult1AiProvider = "xai"
 	SetSupplierCurrenciesResult1AiProviderZoom       SetSupplierCurrenciesResult1AiProvider = "zoom"
 )
@@ -6519,6 +6536,7 @@ type AddAiProviderSupplierResult struct {
 	CommentsMutedAt                *string                                   `json:"commentsMutedAt,omitempty"`
 	CommentsMutedBy                *string                                   `json:"commentsMutedBy,omitempty"`
 	CreatedAt                      *string                                   `json:"createdAt,omitempty"`
+	EarlyPaymentStandingOffer      *EarlyPaymentStandingOffer                `json:"earlyPaymentStandingOffer,omitempty"`
 	FeedAcceptedCount              *float64                                  `json:"feedAcceptedCount,omitempty"`
 	FeedLastAcceptedAt             *string                                   `json:"feedLastAcceptedAt,omitempty"`
 	FeedLastAttemptAt              *string                                   `json:"feedLastAttemptAt,omitempty"`
@@ -6580,6 +6598,7 @@ type AddCloudProviderAsSupplierResult struct {
 	CommentsMutedAt                *string                                        `json:"commentsMutedAt,omitempty"`
 	CommentsMutedBy                *string                                        `json:"commentsMutedBy,omitempty"`
 	CreatedAt                      *string                                        `json:"createdAt,omitempty"`
+	EarlyPaymentStandingOffer      *EarlyPaymentStandingOffer                     `json:"earlyPaymentStandingOffer,omitempty"`
 	FeedAcceptedCount              *float64                                       `json:"feedAcceptedCount,omitempty"`
 	FeedLastAcceptedAt             *string                                        `json:"feedLastAcceptedAt,omitempty"`
 	FeedLastAttemptAt              *string                                        `json:"feedLastAttemptAt,omitempty"`
@@ -7078,9 +7097,12 @@ type AiPoLineSuggestionsInvoicer string
 // AiProvider defines model for AiProvider.
 type AiProvider struct {
 	AccountLabel *string `json:"accountLabel,omitempty"`
-	ConnectedAt  *string `json:"connectedAt,omitempty"`
-	ConnectedBy  *string `json:"connectedBy,omitempty"`
-	CreditPrice  *struct {
+	Confluent    *struct {
+		KeyId *string `json:"keyId,omitempty"`
+	} `json:"confluent,omitempty"`
+	ConnectedAt *string `json:"connectedAt,omitempty"`
+	ConnectedBy *string `json:"connectedBy,omitempty"`
+	CreditPrice *struct {
 		Amount   *float64                   `json:"amount,omitempty"`
 		Currency *string                    `json:"currency,omitempty"`
 		Kind     *AiProviderCreditPriceKind `json:"kind,omitempty"`
@@ -7122,6 +7144,9 @@ type AiProvider struct {
 		AccountSid *string `json:"accountSid,omitempty"`
 		KeySid     *string `json:"keySid,omitempty"`
 	} `json:"twilio,omitempty"`
+	Vercel *struct {
+		TeamId *string `json:"teamId,omitempty"`
+	} `json:"vercel,omitempty"`
 	Zoom *struct {
 		AccountId *string `json:"accountId,omitempty"`
 		ClientId  *string `json:"clientId,omitempty"`
@@ -8756,6 +8781,11 @@ type CommentMention struct {
 	Name        *string `json:"name,omitempty"`
 }
 
+// ConfluentConnectionInput defines model for ConfluentConnectionInput.
+type ConfluentConnectionInput struct {
+	KeyId string `json:"keyId"`
+}
+
 // ConvertPurchaseRequestInput defines model for ConvertPurchaseRequestInput.
 type ConvertPurchaseRequestInput struct {
 	// BillTo Use `billToParty`. A one-line bill-to address for the buyer's company, kept as typed; ignored when `billToParty` is sent.
@@ -8837,6 +8867,7 @@ type ConvertPurchaseRequestResult struct {
 
 // CreateAiProviderInput defines model for CreateAiProviderInput.
 type CreateAiProviderInput struct {
+	Confluent   *ConfluentConnectionInput  `json:"confluent,omitempty"`
 	CreditPrice *CreditPriceInput          `json:"creditPrice,omitempty"`
 	Databricks  *DatabricksConnectionInput `json:"databricks,omitempty"`
 	Datadog     *DatadogConnectionInput    `json:"datadog,omitempty"`
@@ -8846,6 +8877,7 @@ type CreateAiProviderInput struct {
 	Provider    string                     `json:"provider"`
 	Snowflake   *SnowflakeConnectionInput  `json:"snowflake,omitempty"`
 	Twilio      *TwilioConnectionInput     `json:"twilio,omitempty"`
+	Vercel      *VercelConnectionInput     `json:"vercel,omitempty"`
 	Zoom        *ZoomConnectionInput       `json:"zoom,omitempty"`
 }
 
@@ -10307,6 +10339,13 @@ type EarlyPaymentDiscountTaken struct {
 
 // EarlyPaymentDiscountTakenSource defines model for EarlyPaymentDiscountTaken.Source.
 type EarlyPaymentDiscountTakenSource string
+
+// EarlyPaymentStandingOffer defines model for EarlyPaymentStandingOffer.
+type EarlyPaymentStandingOffer struct {
+	DaysBeforeDue *float64 `json:"daysBeforeDue,omitempty"`
+	Percent       *float64 `json:"percent,omitempty"`
+	UpdatedAt     *string  `json:"updatedAt,omitempty"`
+}
 
 // ElectronicAddressInput defines model for ElectronicAddressInput.
 type ElectronicAddressInput struct {
@@ -12281,8 +12320,9 @@ type InvoiceEarlyPayment struct {
 		Name *string `json:"name,omitempty"`
 		Sub  *string `json:"sub,omitempty"`
 	} `json:"offeredBy,omitempty"`
-	Percent *float64                   `json:"percent,omitempty"`
-	Source  *InvoiceEarlyPaymentSource `json:"source,omitempty"`
+	Percent  *float64                   `json:"percent,omitempty"`
+	Source   *InvoiceEarlyPaymentSource `json:"source,omitempty"`
+	Standing *bool                      `json:"standing,omitempty"`
 }
 
 // InvoiceEarlyPaymentSource defines model for InvoiceEarlyPayment.Source.
@@ -12876,13 +12916,14 @@ type LineItemInputScopeType string
 
 // ListAiInvoicersItem defines model for ListAiInvoicersItem.
 type ListAiInvoicersItem struct {
-	Billing           *[]ListAiInvoicersItemBilling  `json:"billing,omitempty"`
-	BillingCurrencies *[]string                      `json:"billingCurrencies,omitempty"`
-	Connectable       *bool                          `json:"connectable,omitempty"`
-	ContactHint       *string                        `json:"contactHint,omitempty"`
-	Credential        *ListAiInvoicersItemCredential `json:"credential,omitempty"`
-	Id                ListAiInvoicersItemId          `json:"id"`
-	LegalEntities     *[]struct {
+	Billing                    *[]ListAiInvoicersItemBilling  `json:"billing,omitempty"`
+	BillingCurrencies          *[]string                      `json:"billingCurrencies,omitempty"`
+	Connectable                *bool                          `json:"connectable,omitempty"`
+	ContactHint                *string                        `json:"contactHint,omitempty"`
+	Credential                 *ListAiInvoicersItemCredential `json:"credential,omitempty"`
+	CredentialCanChangeBilling *bool                          `json:"credentialCanChangeBilling,omitempty"`
+	Id                         ListAiInvoicersItemId          `json:"id"`
+	LegalEntities              *[]struct {
 		Country *string                                 `json:"country,omitempty"`
 		Name    *string                                 `json:"name,omitempty"`
 		Region  *ListAiInvoicersItemLegalEntitiesRegion `json:"region,omitempty"`
@@ -15501,6 +15542,7 @@ type SetInvoiceFeedResult0 struct {
 	CommentsMutedAt                *string                             `json:"commentsMutedAt,omitempty"`
 	CommentsMutedBy                *string                             `json:"commentsMutedBy,omitempty"`
 	CreatedAt                      *string                             `json:"createdAt,omitempty"`
+	EarlyPaymentStandingOffer      *EarlyPaymentStandingOffer          `json:"earlyPaymentStandingOffer,omitempty"`
 	FeedAcceptedCount              *float64                            `json:"feedAcceptedCount,omitempty"`
 	FeedLastAcceptedAt             *string                             `json:"feedLastAcceptedAt,omitempty"`
 	FeedLastAttemptAt              *string                             `json:"feedLastAttemptAt,omitempty"`
@@ -15566,6 +15608,7 @@ type SetInvoiceFeedResult1 struct {
 	CommentsMutedAt                *string                             `json:"commentsMutedAt,omitempty"`
 	CommentsMutedBy                *string                             `json:"commentsMutedBy,omitempty"`
 	CreatedAt                      *string                             `json:"createdAt,omitempty"`
+	EarlyPaymentStandingOffer      *EarlyPaymentStandingOffer          `json:"earlyPaymentStandingOffer,omitempty"`
 	FeedAcceptedCount              *float64                            `json:"feedAcceptedCount,omitempty"`
 	FeedLastAcceptedAt             *string                             `json:"feedLastAcceptedAt,omitempty"`
 	FeedLastAttemptAt              *string                             `json:"feedLastAttemptAt,omitempty"`
@@ -15635,6 +15678,7 @@ type SetSupplierCurrenciesResult0 struct {
 	CommentsMutedAt                *string                                    `json:"commentsMutedAt,omitempty"`
 	CommentsMutedBy                *string                                    `json:"commentsMutedBy,omitempty"`
 	CreatedAt                      *string                                    `json:"createdAt,omitempty"`
+	EarlyPaymentStandingOffer      *EarlyPaymentStandingOffer                 `json:"earlyPaymentStandingOffer,omitempty"`
 	FeedAcceptedCount              *float64                                   `json:"feedAcceptedCount,omitempty"`
 	FeedLastAcceptedAt             *string                                    `json:"feedLastAcceptedAt,omitempty"`
 	FeedLastAttemptAt              *string                                    `json:"feedLastAttemptAt,omitempty"`
@@ -15696,6 +15740,7 @@ type SetSupplierCurrenciesResult1 struct {
 	CommentsMutedAt                *string                                    `json:"commentsMutedAt,omitempty"`
 	CommentsMutedBy                *string                                    `json:"commentsMutedBy,omitempty"`
 	CreatedAt                      *string                                    `json:"createdAt,omitempty"`
+	EarlyPaymentStandingOffer      *EarlyPaymentStandingOffer                 `json:"earlyPaymentStandingOffer,omitempty"`
 	FeedAcceptedCount              *float64                                   `json:"feedAcceptedCount,omitempty"`
 	FeedLastAcceptedAt             *string                                    `json:"feedLastAcceptedAt,omitempty"`
 	FeedLastAttemptAt              *string                                    `json:"feedLastAttemptAt,omitempty"`
@@ -16966,6 +17011,11 @@ type ValidateFeedInvoiceResultCreditNoteDocumentType string
 
 // ValidateFeedInvoiceResultCreditNoteSubmittedFormat defines model for ValidateFeedInvoiceResultCreditNote.SubmittedFormat.
 type ValidateFeedInvoiceResultCreditNoteSubmittedFormat string
+
+// VercelConnectionInput defines model for VercelConnectionInput.
+type VercelConnectionInput struct {
+	TeamId string `json:"teamId"`
+}
 
 // WebhookDelivery defines model for WebhookDelivery.
 type WebhookDelivery struct {

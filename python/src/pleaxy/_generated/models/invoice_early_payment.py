@@ -26,6 +26,7 @@ class InvoiceEarlyPayment:
         contract_id (Union[Unset, str]):
         offered_by (Union[Unset, InvoiceEarlyPaymentOfferedBy]):
         offered_at (Union[Unset, str]):
+        standing (Union[Unset, bool]):
     """
 
     percent: Union[Unset, float] = UNSET
@@ -34,6 +35,7 @@ class InvoiceEarlyPayment:
     contract_id: Union[Unset, str] = UNSET
     offered_by: Union[Unset, "InvoiceEarlyPaymentOfferedBy"] = UNSET
     offered_at: Union[Unset, str] = UNSET
+    standing: Union[Unset, bool] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -53,6 +55,8 @@ class InvoiceEarlyPayment:
 
         offered_at = self.offered_at
 
+        standing = self.standing
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -68,6 +72,8 @@ class InvoiceEarlyPayment:
             field_dict["offeredBy"] = offered_by
         if offered_at is not UNSET:
             field_dict["offeredAt"] = offered_at
+        if standing is not UNSET:
+            field_dict["standing"] = standing
 
         return field_dict
 
@@ -100,6 +106,8 @@ class InvoiceEarlyPayment:
 
         offered_at = d.pop("offeredAt", UNSET)
 
+        standing = d.pop("standing", UNSET)
+
         invoice_early_payment = cls(
             percent=percent,
             deadline=deadline,
@@ -107,6 +115,7 @@ class InvoiceEarlyPayment:
             contract_id=contract_id,
             offered_by=offered_by,
             offered_at=offered_at,
+            standing=standing,
         )
 
         invoice_early_payment.additional_properties = d

@@ -3,6 +3,7 @@ from typing import Literal, Set, cast
 SetInvoiceFeedResultType1AiProvider = Literal[
     "anthropic",
     "cohere",
+    "confluent",
     "coreweave",
     "crusoe",
     "cursor",
@@ -19,6 +20,7 @@ SetInvoiceFeedResultType1AiProvider = Literal[
     "slack",
     "snowflake",
     "twilio",
+    "vercel",
     "xai",
     "zoom",
 ]
@@ -28,6 +30,7 @@ SET_INVOICE_FEED_RESULT_TYPE_1_AI_PROVIDER_VALUES: Set[
 ] = {
     "anthropic",
     "cohere",
+    "confluent",
     "coreweave",
     "crusoe",
     "cursor",
@@ -44,6 +47,7 @@ SET_INVOICE_FEED_RESULT_TYPE_1_AI_PROVIDER_VALUES: Set[
     "slack",
     "snowflake",
     "twilio",
+    "vercel",
     "xai",
     "zoom",
 }

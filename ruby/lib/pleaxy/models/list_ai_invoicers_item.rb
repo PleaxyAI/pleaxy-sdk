@@ -33,6 +33,8 @@ module Pleaxy
 
     attr_accessor :shape
 
+    attr_accessor :credential_can_change_billing
+
     attr_accessor :contact_hint
 
     attr_accessor :connectable
@@ -71,6 +73,7 @@ module Pleaxy
         :'credential' => :'credential',
         :'tier' => :'tier',
         :'shape' => :'shape',
+        :'credential_can_change_billing' => :'credentialCanChangeBilling',
         :'contact_hint' => :'contactHint',
         :'connectable' => :'connectable'
       }
@@ -93,6 +96,7 @@ module Pleaxy
         :'credential' => :'String',
         :'tier' => :'String',
         :'shape' => :'String',
+        :'credential_can_change_billing' => :'Boolean',
         :'contact_hint' => :'String',
         :'connectable' => :'Boolean'
       }
@@ -165,6 +169,10 @@ module Pleaxy
         self.shape = attributes[:'shape']
       end
 
+      if attributes.key?(:'credential_can_change_billing')
+        self.credential_can_change_billing = attributes[:'credential_can_change_billing']
+      end
+
       if attributes.key?(:'contact_hint')
         self.contact_hint = attributes[:'contact_hint']
       end
@@ -191,7 +199,7 @@ module Pleaxy
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @id.nil?
-      id_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom", "datadog", "twilio", "mongodb"])
+      id_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom", "datadog", "twilio", "mongodb", "confluent", "vercel"])
       return false unless id_validator.valid?(@id)
       credential_validator = EnumAttributeValidator.new('String', ["none", "admin_key", "key_pair"])
       return false unless credential_validator.valid?(@credential)
@@ -205,7 +213,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] id Object to be assigned
     def id=(id)
-      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom", "datadog", "twilio", "mongodb"])
+      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom", "datadog", "twilio", "mongodb", "confluent", "vercel"])
       unless validator.valid?(id)
         fail ArgumentError, "invalid value for \"id\", must be one of #{validator.allowable_values}."
       end
@@ -256,6 +264,7 @@ module Pleaxy
           credential == o.credential &&
           tier == o.tier &&
           shape == o.shape &&
+          credential_can_change_billing == o.credential_can_change_billing &&
           contact_hint == o.contact_hint &&
           connectable == o.connectable
     end
@@ -269,7 +278,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, legal_entities, billing_currencies, billing, sender_domains, credential, tier, shape, contact_hint, connectable].hash
+      [id, name, legal_entities, billing_currencies, billing, sender_domains, credential, tier, shape, credential_can_change_billing, contact_hint, connectable].hash
     end
 
     # Builds the object from hash

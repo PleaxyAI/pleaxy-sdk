@@ -68,8 +68,11 @@ def sync_detailed(
     the client secret as key). Usage-billed suppliers read only the month's billed total, for the
     invoice check: Datadog (`datadog.site` and `datadog.apiKey`, a service account's application key
     scoped to usage_read and billing_read as key), Twilio (`twilio.accountSid` and `twilio.keySid`, a
-    restricted key's secret with Usage Records read as key) and MongoDB Atlas (`mongodb.orgId` and
-    `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key). Seats
+    restricted key's secret with Usage Records read as key), MongoDB Atlas (`mongodb.orgId` and
+    `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key),
+    Confluent Cloud (`confluent.keyId`, a BillingAdmin service account's Cloud API key secret as key)
+    and Vercel (`vercel.teamId`, a team-scoped token as key). Confluent and Vercel offer no read-only
+    billing credential: theirs can also change billing settings, and Pleaxy only reads with it. Seats
     the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on
     suppliers.
 
@@ -109,8 +112,11 @@ def sync(
     the client secret as key). Usage-billed suppliers read only the month's billed total, for the
     invoice check: Datadog (`datadog.site` and `datadog.apiKey`, a service account's application key
     scoped to usage_read and billing_read as key), Twilio (`twilio.accountSid` and `twilio.keySid`, a
-    restricted key's secret with Usage Records read as key) and MongoDB Atlas (`mongodb.orgId` and
-    `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key). Seats
+    restricted key's secret with Usage Records read as key), MongoDB Atlas (`mongodb.orgId` and
+    `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key),
+    Confluent Cloud (`confluent.keyId`, a BillingAdmin service account's Cloud API key secret as key)
+    and Vercel (`vercel.teamId`, a team-scoped token as key). Confluent and Vercel offer no read-only
+    billing credential: theirs can also change billing settings, and Pleaxy only reads with it. Seats
     the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on
     suppliers.
 
@@ -145,8 +151,11 @@ async def asyncio_detailed(
     the client secret as key). Usage-billed suppliers read only the month's billed total, for the
     invoice check: Datadog (`datadog.site` and `datadog.apiKey`, a service account's application key
     scoped to usage_read and billing_read as key), Twilio (`twilio.accountSid` and `twilio.keySid`, a
-    restricted key's secret with Usage Records read as key) and MongoDB Atlas (`mongodb.orgId` and
-    `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key). Seats
+    restricted key's secret with Usage Records read as key), MongoDB Atlas (`mongodb.orgId` and
+    `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key),
+    Confluent Cloud (`confluent.keyId`, a BillingAdmin service account's Cloud API key secret as key)
+    and Vercel (`vercel.teamId`, a team-scoped token as key). Confluent and Vercel offer no read-only
+    billing credential: theirs can also change billing settings, and Pleaxy only reads with it. Seats
     the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on
     suppliers.
 
@@ -184,8 +193,11 @@ async def asyncio(
     the client secret as key). Usage-billed suppliers read only the month's billed total, for the
     invoice check: Datadog (`datadog.site` and `datadog.apiKey`, a service account's application key
     scoped to usage_read and billing_read as key), Twilio (`twilio.accountSid` and `twilio.keySid`, a
-    restricted key's secret with Usage Records read as key) and MongoDB Atlas (`mongodb.orgId` and
-    `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key). Seats
+    restricted key's secret with Usage Records read as key), MongoDB Atlas (`mongodb.orgId` and
+    `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key),
+    Confluent Cloud (`confluent.keyId`, a BillingAdmin service account's Cloud API key secret as key)
+    and Vercel (`vercel.teamId`, a team-scoped token as key). Confluent and Vercel offer no read-only
+    billing credential: theirs can also change billing settings, and Pleaxy only reads with it. Seats
     the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on
     suppliers.
 

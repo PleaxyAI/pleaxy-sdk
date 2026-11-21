@@ -45,6 +45,7 @@ import ai.pleaxy.client.ApiClient;
   ListAiInvoicersItem.JSON_PROPERTY_CREDENTIAL,
   ListAiInvoicersItem.JSON_PROPERTY_TIER,
   ListAiInvoicersItem.JSON_PROPERTY_SHAPE,
+  ListAiInvoicersItem.JSON_PROPERTY_CREDENTIAL_CAN_CHANGE_BILLING,
   ListAiInvoicersItem.JSON_PROPERTY_CONTACT_HINT,
   ListAiInvoicersItem.JSON_PROPERTY_CONNECTABLE
 })
@@ -92,7 +93,11 @@ public class ListAiInvoicersItem {
     
     TWILIO(String.valueOf("twilio")),
     
-    MONGODB(String.valueOf("mongodb"));
+    MONGODB(String.valueOf("mongodb")),
+    
+    CONFLUENT(String.valueOf("confluent")),
+    
+    VERCEL(String.valueOf("vercel"));
 
     private String value;
 
@@ -312,6 +317,10 @@ public class ListAiInvoicersItem {
   public static final String JSON_PROPERTY_SHAPE = "shape";
   @javax.annotation.Nullable
   private ShapeEnum shape;
+
+  public static final String JSON_PROPERTY_CREDENTIAL_CAN_CHANGE_BILLING = "credentialCanChangeBilling";
+  @javax.annotation.Nullable
+  private Boolean credentialCanChangeBilling;
 
   public static final String JSON_PROPERTY_CONTACT_HINT = "contactHint";
   @javax.annotation.Nullable
@@ -572,6 +581,30 @@ public class ListAiInvoicersItem {
   }
 
 
+  public ListAiInvoicersItem credentialCanChangeBilling(@javax.annotation.Nullable Boolean credentialCanChangeBilling) {
+    this.credentialCanChangeBilling = credentialCanChangeBilling;
+    return this;
+  }
+
+  /**
+   * Get credentialCanChangeBilling
+   * @return credentialCanChangeBilling
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CREDENTIAL_CAN_CHANGE_BILLING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getCredentialCanChangeBilling() {
+    return credentialCanChangeBilling;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREDENTIAL_CAN_CHANGE_BILLING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCredentialCanChangeBilling(@javax.annotation.Nullable Boolean credentialCanChangeBilling) {
+    this.credentialCanChangeBilling = credentialCanChangeBilling;
+  }
+
+
   public ListAiInvoicersItem contactHint(@javax.annotation.Nullable String contactHint) {
     this.contactHint = contactHint;
     return this;
@@ -641,13 +674,14 @@ public class ListAiInvoicersItem {
         Objects.equals(this.credential, listAiInvoicersItem.credential) &&
         Objects.equals(this.tier, listAiInvoicersItem.tier) &&
         Objects.equals(this.shape, listAiInvoicersItem.shape) &&
+        Objects.equals(this.credentialCanChangeBilling, listAiInvoicersItem.credentialCanChangeBilling) &&
         Objects.equals(this.contactHint, listAiInvoicersItem.contactHint) &&
         Objects.equals(this.connectable, listAiInvoicersItem.connectable);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, legalEntities, billingCurrencies, billing, senderDomains, credential, tier, shape, contactHint, connectable);
+    return Objects.hash(id, name, legalEntities, billingCurrencies, billing, senderDomains, credential, tier, shape, credentialCanChangeBilling, contactHint, connectable);
   }
 
   @Override
@@ -663,6 +697,7 @@ public class ListAiInvoicersItem {
     sb.append("    credential: ").append(toIndentedString(credential)).append("\n");
     sb.append("    tier: ").append(toIndentedString(tier)).append("\n");
     sb.append("    shape: ").append(toIndentedString(shape)).append("\n");
+    sb.append("    credentialCanChangeBilling: ").append(toIndentedString(credentialCanChangeBilling)).append("\n");
     sb.append("    contactHint: ").append(toIndentedString(contactHint)).append("\n");
     sb.append("    connectable: ").append(toIndentedString(connectable)).append("\n");
     sb.append("}");
@@ -772,6 +807,11 @@ public class ListAiInvoicersItem {
     // add `shape` to the URL query string
     if (getShape() != null) {
       joiner.add(String.format("%sshape%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getShape()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `credentialCanChangeBilling` to the URL query string
+    if (getCredentialCanChangeBilling() != null) {
+      joiner.add(String.format("%scredentialCanChangeBilling%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCredentialCanChangeBilling()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `contactHint` to the URL query string

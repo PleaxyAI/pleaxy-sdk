@@ -281,6 +281,8 @@ pub enum Type {
     SupportCaseUpdated,
     #[serde(rename = "supplier_late_fee_terms_changed")]
     SupplierLateFeeTermsChanged,
+    #[serde(rename = "supplier_early_payment_offer_changed")]
+    SupplierEarlyPaymentOfferChanged,
     #[serde(rename = "contract_terms_to_acknowledge")]
     ContractTermsToAcknowledge,
     #[serde(rename = "contract_terms_acknowledged")]

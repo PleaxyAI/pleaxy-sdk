@@ -299,6 +299,8 @@ public class Notification {
     
     SUPPLIER_LATE_FEE_TERMS_CHANGED(String.valueOf("supplier_late_fee_terms_changed")),
     
+    SUPPLIER_EARLY_PAYMENT_OFFER_CHANGED(String.valueOf("supplier_early_payment_offer_changed")),
+    
     CONTRACT_TERMS_TO_ACKNOWLEDGE(String.valueOf("contract_terms_to_acknowledge")),
     
     CONTRACT_TERMS_ACKNOWLEDGED(String.valueOf("contract_terms_acknowledged")),

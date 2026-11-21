@@ -3,6 +3,7 @@ from typing import Literal, Set, cast
 ListAiInvoicersItemId = Literal[
     "anthropic",
     "cohere",
+    "confluent",
     "coreweave",
     "crusoe",
     "cursor",
@@ -19,6 +20,7 @@ ListAiInvoicersItemId = Literal[
     "slack",
     "snowflake",
     "twilio",
+    "vercel",
     "xai",
     "zoom",
 ]
@@ -26,6 +28,7 @@ ListAiInvoicersItemId = Literal[
 LIST_AI_INVOICERS_ITEM_ID_VALUES: Set[ListAiInvoicersItemId] = {
     "anthropic",
     "cohere",
+    "confluent",
     "coreweave",
     "crusoe",
     "cursor",
@@ -42,6 +45,7 @@ LIST_AI_INVOICERS_ITEM_ID_VALUES: Set[ListAiInvoicersItemId] = {
     "slack",
     "snowflake",
     "twilio",
+    "vercel",
     "xai",
     "zoom",
 }

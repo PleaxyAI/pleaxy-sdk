@@ -3,6 +3,7 @@ from typing import Literal, Set, cast
 SetSupplierCurrenciesResultType0AiProvider = Literal[
     "anthropic",
     "cohere",
+    "confluent",
     "coreweave",
     "crusoe",
     "cursor",
@@ -19,6 +20,7 @@ SetSupplierCurrenciesResultType0AiProvider = Literal[
     "slack",
     "snowflake",
     "twilio",
+    "vercel",
     "xai",
     "zoom",
 ]
@@ -28,6 +30,7 @@ SET_SUPPLIER_CURRENCIES_RESULT_TYPE_0_AI_PROVIDER_VALUES: Set[
 ] = {
     "anthropic",
     "cohere",
+    "confluent",
     "coreweave",
     "crusoe",
     "cursor",
@@ -44,6 +47,7 @@ SET_SUPPLIER_CURRENCIES_RESULT_TYPE_0_AI_PROVIDER_VALUES: Set[
     "slack",
     "snowflake",
     "twilio",
+    "vercel",
     "xai",
     "zoom",
 }

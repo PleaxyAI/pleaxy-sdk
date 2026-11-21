@@ -27,6 +27,8 @@ module Pleaxy
 
     attr_accessor :offered_at
 
+    attr_accessor :standing
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -57,7 +59,8 @@ module Pleaxy
         :'source' => :'source',
         :'contract_id' => :'contractId',
         :'offered_by' => :'offeredBy',
-        :'offered_at' => :'offeredAt'
+        :'offered_at' => :'offeredAt',
+        :'standing' => :'standing'
       }
     end
 
@@ -74,7 +77,8 @@ module Pleaxy
         :'source' => :'String',
         :'contract_id' => :'String',
         :'offered_by' => :'InvoiceEarlyPaymentOfferedBy',
-        :'offered_at' => :'String'
+        :'offered_at' => :'String',
+        :'standing' => :'Boolean'
       }
     end
 
@@ -122,6 +126,10 @@ module Pleaxy
       if attributes.key?(:'offered_at')
         self.offered_at = attributes[:'offered_at']
       end
+
+      if attributes.key?(:'standing')
+        self.standing = attributes[:'standing']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -161,7 +169,8 @@ module Pleaxy
           source == o.source &&
           contract_id == o.contract_id &&
           offered_by == o.offered_by &&
-          offered_at == o.offered_at
+          offered_at == o.offered_at &&
+          standing == o.standing
     end
 
     # @see the `==` method
@@ -173,7 +182,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [percent, deadline, source, contract_id, offered_by, offered_at].hash
+      [percent, deadline, source, contract_id, offered_by, offered_at, standing].hash
     end
 
     # Builds the object from hash

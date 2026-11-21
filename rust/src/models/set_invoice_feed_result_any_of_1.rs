@@ -128,6 +128,11 @@ pub struct SetInvoiceFeedResultAnyOf1 {
     )]
     pub late_fee_terms_updated_at: Option<String>,
     #[serde(
+        rename = "earlyPaymentStandingOffer",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub early_payment_standing_offer: Option<models::EarlyPaymentStandingOffer>,
+    #[serde(
         rename = "lateFeeTermsAttestedAt",
         skip_serializing_if = "Option::is_none"
     )]
@@ -189,6 +194,7 @@ impl SetInvoiceFeedResultAnyOf1 {
             feed_valid_count: None,
             late_fee_terms: None,
             late_fee_terms_updated_at: None,
+            early_payment_standing_offer: None,
             late_fee_terms_attested_at: None,
             late_fee_terms_attestation_version: None,
             questionnaire_redacted: None,
@@ -312,6 +318,10 @@ pub enum AiProvider {
     Twilio,
     #[serde(rename = "mongodb")]
     Mongodb,
+    #[serde(rename = "confluent")]
+    Confluent,
+    #[serde(rename = "vercel")]
+    Vercel,
 }
 
 impl Default for AiProvider {

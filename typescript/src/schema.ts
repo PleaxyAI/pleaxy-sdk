@@ -1149,7 +1149,7 @@ export interface paths {
         /** [Buyer] The workspace's direct AI provider connections (OpenAI, Anthropic, Mistral, Snowflake): status, last sync, and the key's last four characters - never the key. 'view' on suppliers or on invoices. */
         get: operations["ListAiProviders"];
         put?: never;
-        /** [Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seat tools read only the month's active users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`, the client secret as key). Usage-billed suppliers read only the month's billed total, for the invoice check: Datadog (`datadog.site` and `datadog.apiKey`, a service account's application key scoped to usage_read and billing_read as key), Twilio (`twilio.accountSid` and `twilio.keySid`, a restricted key's secret with Usage Records read as key) and MongoDB Atlas (`mongodb.orgId` and `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key). Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers. */
+        /** [Buyer] Connect a direct AI provider whose connector is switched on. OpenAI, Anthropic and Mistral take a read-only admin key, checked with one read before anything is saved and then stored KMS-encrypted; Snowflake gets a key pair Pleaxy generates, returned pending with its public key to assign to the service user (sync then finishes connecting). Seat tools read only the month's active users for the seat check: Cursor (an Admin API key), Slack (a workspace admin's xoxp- user token with the admin scope) and Zoom (a Server-to-Server OAuth app: `zoom.accountId` and `zoom.clientId`, the client secret as key). Usage-billed suppliers read only the month's billed total, for the invoice check: Datadog (`datadog.site` and `datadog.apiKey`, a service account's application key scoped to usage_read and billing_read as key), Twilio (`twilio.accountSid` and `twilio.keySid`, a restricted key's secret with Usage Records read as key), MongoDB Atlas (`mongodb.orgId` and `mongodb.clientId`, an Organization Billing Viewer service account's client secret as key), Confluent Cloud (`confluent.keyId`, a BillingAdmin service account's Cloud API key secret as key) and Vercel (`vercel.teamId`, a team-scoped token as key). Confluent and Vercel offer no read-only billing credential: theirs can also change billing settings, and Pleaxy only reads with it. Seats the provider's pre-created supplier row. Counts toward the plan's provider limit. 'create' on suppliers. */
         post: operations["CreateAiProvider"];
         delete?: never;
         options?: never;
@@ -3411,6 +3411,12 @@ export interface components {
             orgId: string;
             clientId: string;
         };
+        ConfluentConnectionInput: {
+            keyId: string;
+        };
+        VercelConnectionInput: {
+            teamId: string;
+        };
         CreateAiProviderInput: {
             provider: string;
             key?: string;
@@ -3421,6 +3427,8 @@ export interface components {
             datadog?: components["schemas"]["DatadogConnectionInput"];
             twilio?: components["schemas"]["TwilioConnectionInput"];
             mongodb?: components["schemas"]["MongoDbConnectionInput"];
+            confluent?: components["schemas"]["ConfluentConnectionInput"];
+            vercel?: components["schemas"]["VercelConnectionInput"];
             creditPrice?: components["schemas"]["CreditPriceInput"];
         };
         UpdateBudgetControlInput: {
@@ -4170,6 +4178,13 @@ export interface components {
             /** Format: double */
             fixedCharge?: number;
         };
+        EarlyPaymentStandingOffer: {
+            /** Format: double */
+            percent?: number;
+            /** Format: double */
+            daysBeforeDue?: number;
+            updatedAt?: string;
+        };
         CloudConnectionDisconnected: {
             id: string;
             /** @enum {string} */
@@ -4305,7 +4320,7 @@ export interface components {
             audience?: "buyer" | "supplier";
             recipientEmployeeKey?: string;
             /** @enum {string} */
-            type?: "ai_forecast_over_budget" | "usage_anomaly" | "usage_contract_projection" | "ai_drafts_ready" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "rfq_invited" | "rfq_due_soon" | "rfq_deadline_moved" | "rfq_canceled" | "rfq_awarded" | "rfq_not_selected" | "rfq_question_answered" | "rfq_answer_received" | "rfq_deadline_passed" | "rfq_declined" | "rfq_question_asked" | "rfq_not_shortlisted" | "rfq_evaluate" | "rfq_evaluation_complete" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "credit_request_received" | "credit_request_answered" | "credit_request_attention" | "recovery_weekly_digest" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_early_payment_offer" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "contract_renewal_notice_due" | "contract_termination_notice_due" | "contract_seat_review_due" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
+            type?: "ai_forecast_over_budget" | "usage_anomaly" | "usage_contract_projection" | "ai_drafts_ready" | "report_ready" | "company_report_ready" | "po_approved" | "po_rejected" | "po_canceled" | "po_changed" | "po_approval_requested" | "request_approval_requested" | "request_approved" | "request_rejected" | "request_ordered" | "rfq_invited" | "rfq_due_soon" | "rfq_deadline_moved" | "rfq_canceled" | "rfq_awarded" | "rfq_not_selected" | "rfq_question_answered" | "rfq_answer_received" | "rfq_deadline_passed" | "rfq_declined" | "rfq_question_asked" | "rfq_not_shortlisted" | "rfq_evaluate" | "rfq_evaluation_complete" | "po_store_order_problem" | "po_supplier_confirmed" | "po_supplier_exception" | "po_shipped" | "po_supplier_email" | "po_changes_declined" | "po_needs_approver" | "invoice_submitted" | "invoice_ready_for_approval" | "invoice_approval_requested" | "invoice_discrepancy" | "invoice_approved" | "invoice_paid" | "invoice_payment_withdrawn" | "payment_problem_reported" | "payment_problem_answered" | "payment_receipt_to_confirm" | "payments_recorded_by_key" | "accounting_sync_failed" | "invoice_remittance_sent" | "invoice_payment_failed" | "invoice_reminder" | "invoice_rejected" | "invoice_on_hold" | "invoice_hold_released" | "credit_request_received" | "credit_request_answered" | "credit_request_attention" | "recovery_weekly_digest" | "invoice_payment_reminder" | "invoice_entered_by_buyer" | "invoice_bank_details_to_confirm" | "invoice_bank_details_confirmed" | "invoice_early_payment_offer" | "invoice_bank_account_to_approve" | "supplier_screening_match" | "invoice_bank_details_disputed" | "invoice_bank_details_changed" | "supplier_bank_details_changed" | "invoice_needs_approver" | "ses_approval_requested" | "ses_auto_approved" | "ses_approved" | "ses_rejected" | "receipt_return_recorded" | "po_line_due" | "po_line_due_asked" | "po_receipt_requested" | "invoice_held_due_soon" | "ses_approval_overdue" | "credit_note_received" | "credit_note_accepted" | "credit_note_rejected" | "credit_note_applied" | "invoice_comment" | "po_comment" | "contract_comment" | "invoice_feed_changed" | "supplier_connection_invited" | "supplier_connection_submitted" | "supplier_connection_approved" | "supplier_connection_rejected" | "supplier_connection_region_mismatch" | "agent_request" | "support_case_opened" | "support_case_updated" | "supplier_late_fee_terms_changed" | "supplier_early_payment_offer_changed" | "contract_terms_to_acknowledge" | "contract_terms_acknowledged" | "contract_terms_disputed" | "contract_recheck_requested" | "contract_sent_to_joined_supplier" | "contract_renewal_notice_due" | "contract_termination_notice_due" | "contract_seat_review_due" | "copilot_allowance_80" | "copilot_allowance_100" | "copilot_degraded" | "copilot_packs_low" | "copilot_packs_empty" | "copilot_payg_cap" | "agent_connected" | "agent_signed_out";
             title?: string;
             body?: string;
             titleMessageId?: string;
@@ -5446,6 +5461,7 @@ export interface components {
                 name?: string;
             };
             offeredAt?: string;
+            standing?: boolean;
         };
         InvoiceRejection: {
             /** @enum {string} */
@@ -6505,7 +6521,7 @@ export interface components {
         AiProvider: {
             id: string;
             /** @enum {string} */
-            provider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
+            provider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb" | "confluent" | "vercel";
             accountLabel?: string;
             keyHint?: string;
             /** @enum {string} */
@@ -6542,6 +6558,12 @@ export interface components {
             mongodb?: {
                 orgId?: string;
                 clientId?: string;
+            };
+            confluent?: {
+                keyId?: string;
+            };
+            vercel?: {
+                teamId?: string;
             };
             creditPrice?: {
                 /** Format: double */
@@ -8485,7 +8507,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb" | "confluent" | "vercel";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8509,6 +8531,7 @@ export interface components {
             feedValidCount?: number;
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             lateFeeTermsUpdatedAt?: string;
+            earlyPaymentStandingOffer?: components["schemas"]["EarlyPaymentStandingOffer"];
             lateFeeTermsAttestedAt?: string;
             lateFeeTermsAttestationVersion?: string;
         };
@@ -8539,7 +8562,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb" | "confluent" | "vercel";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8563,6 +8586,7 @@ export interface components {
             feedValidCount?: number;
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             lateFeeTermsUpdatedAt?: string;
+            earlyPaymentStandingOffer?: components["schemas"]["EarlyPaymentStandingOffer"];
             lateFeeTermsAttestedAt?: string;
             lateFeeTermsAttestationVersion?: string;
         } | {
@@ -8590,7 +8614,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb" | "confluent" | "vercel";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8614,6 +8638,7 @@ export interface components {
             feedValidCount?: number;
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             lateFeeTermsUpdatedAt?: string;
+            earlyPaymentStandingOffer?: components["schemas"]["EarlyPaymentStandingOffer"];
             lateFeeTermsAttestedAt?: string;
             lateFeeTermsAttestationVersion?: string;
             questionnaireRedacted?: boolean;
@@ -8647,7 +8672,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb" | "confluent" | "vercel";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8671,6 +8696,7 @@ export interface components {
             feedValidCount?: number;
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             lateFeeTermsUpdatedAt?: string;
+            earlyPaymentStandingOffer?: components["schemas"]["EarlyPaymentStandingOffer"];
             lateFeeTermsAttestedAt?: string;
             lateFeeTermsAttestationVersion?: string;
         } | {
@@ -8700,7 +8726,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb" | "confluent" | "vercel";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -8724,6 +8750,7 @@ export interface components {
             feedValidCount?: number;
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             lateFeeTermsUpdatedAt?: string;
+            earlyPaymentStandingOffer?: components["schemas"]["EarlyPaymentStandingOffer"];
             lateFeeTermsAttestedAt?: string;
             lateFeeTermsAttestationVersion?: string;
             questionnaireRedacted?: boolean;
@@ -10753,7 +10780,7 @@ export interface components {
             /** @enum {string} */
             cloudProvider?: "aws" | "gcp" | "azure" | "oci";
             /** @enum {string} */
-            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
+            aiProvider?: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb" | "confluent" | "vercel";
             billingCurrency?: string;
             paymentCurrency?: string;
             offPlatformInvoicesRecorded?: boolean;
@@ -10777,12 +10804,13 @@ export interface components {
             feedValidCount?: number;
             lateFeeTerms?: components["schemas"]["LateFeeTerms"];
             lateFeeTermsUpdatedAt?: string;
+            earlyPaymentStandingOffer?: components["schemas"]["EarlyPaymentStandingOffer"];
             lateFeeTermsAttestedAt?: string;
             lateFeeTermsAttestationVersion?: string;
         };
         ListAiInvoicersItem: {
             /** @enum {string} */
-            id: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb";
+            id: "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom" | "datadog" | "twilio" | "mongodb" | "confluent" | "vercel";
             name?: string;
             legalEntities?: {
                 /** @enum {string} */
@@ -10799,6 +10827,7 @@ export interface components {
             tier?: "seats" | "usage" | "direct" | "data_platform" | "host" | "neocloud";
             /** @enum {string} */
             shape?: "seats" | "usage" | "capacity" | "tokens" | "credits";
+            credentialCanChangeBilling?: boolean;
             contactHint?: string;
             connectable?: boolean;
         };

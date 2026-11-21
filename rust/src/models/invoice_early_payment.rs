@@ -25,6 +25,8 @@ pub struct InvoiceEarlyPayment {
     pub offered_by: Option<models::InvoiceEarlyPaymentOfferedBy>,
     #[serde(rename = "offeredAt", skip_serializing_if = "Option::is_none")]
     pub offered_at: Option<String>,
+    #[serde(rename = "standing", skip_serializing_if = "Option::is_none")]
+    pub standing: Option<bool>,
 }
 
 impl InvoiceEarlyPayment {
@@ -36,6 +38,7 @@ impl InvoiceEarlyPayment {
             contract_id: None,
             offered_by: None,
             offered_at: None,
+            standing: None,
         }
     }
 }

@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.AiProviderConfluent;
 import ai.pleaxy.model.AiProviderCreditPrice;
 import ai.pleaxy.model.AiProviderDatabricks;
 import ai.pleaxy.model.AiProviderDatadog;
@@ -26,6 +27,7 @@ import ai.pleaxy.model.AiProviderGithub;
 import ai.pleaxy.model.AiProviderMongodb;
 import ai.pleaxy.model.AiProviderSnowflake;
 import ai.pleaxy.model.AiProviderTwilio;
+import ai.pleaxy.model.AiProviderVercel;
 import ai.pleaxy.model.AiProviderZoom;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -55,6 +57,8 @@ import ai.pleaxy.client.ApiClient;
   AiProvider.JSON_PROPERTY_DATADOG,
   AiProvider.JSON_PROPERTY_TWILIO,
   AiProvider.JSON_PROPERTY_MONGODB,
+  AiProvider.JSON_PROPERTY_CONFLUENT,
+  AiProvider.JSON_PROPERTY_VERCEL,
   AiProvider.JSON_PROPERTY_CREDIT_PRICE,
   AiProvider.JSON_PROPERTY_SUPPLIER_CONNECTION_ID,
   AiProvider.JSON_PROPERTY_LAST_SYNCED_AT,
@@ -111,7 +115,11 @@ public class AiProvider {
     
     TWILIO(String.valueOf("twilio")),
     
-    MONGODB(String.valueOf("mongodb"));
+    MONGODB(String.valueOf("mongodb")),
+    
+    CONFLUENT(String.valueOf("confluent")),
+    
+    VERCEL(String.valueOf("vercel"));
 
     private String value;
 
@@ -226,6 +234,14 @@ public class AiProvider {
   public static final String JSON_PROPERTY_MONGODB = "mongodb";
   @javax.annotation.Nullable
   private AiProviderMongodb mongodb;
+
+  public static final String JSON_PROPERTY_CONFLUENT = "confluent";
+  @javax.annotation.Nullable
+  private AiProviderConfluent confluent;
+
+  public static final String JSON_PROPERTY_VERCEL = "vercel";
+  @javax.annotation.Nullable
+  private AiProviderVercel vercel;
 
   public static final String JSON_PROPERTY_CREDIT_PRICE = "creditPrice";
   @javax.annotation.Nullable
@@ -672,6 +688,54 @@ public class AiProvider {
   }
 
 
+  public AiProvider confluent(@javax.annotation.Nullable AiProviderConfluent confluent) {
+    this.confluent = confluent;
+    return this;
+  }
+
+  /**
+   * Get confluent
+   * @return confluent
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CONFLUENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public AiProviderConfluent getConfluent() {
+    return confluent;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CONFLUENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setConfluent(@javax.annotation.Nullable AiProviderConfluent confluent) {
+    this.confluent = confluent;
+  }
+
+
+  public AiProvider vercel(@javax.annotation.Nullable AiProviderVercel vercel) {
+    this.vercel = vercel;
+    return this;
+  }
+
+  /**
+   * Get vercel
+   * @return vercel
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_VERCEL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public AiProviderVercel getVercel() {
+    return vercel;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_VERCEL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setVercel(@javax.annotation.Nullable AiProviderVercel vercel) {
+    this.vercel = vercel;
+  }
+
+
   public AiProvider creditPrice(@javax.annotation.Nullable AiProviderCreditPrice creditPrice) {
     this.creditPrice = creditPrice;
     return this;
@@ -866,6 +930,8 @@ public class AiProvider {
         Objects.equals(this.datadog, aiProvider.datadog) &&
         Objects.equals(this.twilio, aiProvider.twilio) &&
         Objects.equals(this.mongodb, aiProvider.mongodb) &&
+        Objects.equals(this.confluent, aiProvider.confluent) &&
+        Objects.equals(this.vercel, aiProvider.vercel) &&
         Objects.equals(this.creditPrice, aiProvider.creditPrice) &&
         Objects.equals(this.supplierConnectionId, aiProvider.supplierConnectionId) &&
         Objects.equals(this.lastSyncedAt, aiProvider.lastSyncedAt) &&
@@ -877,7 +943,7 @@ public class AiProvider {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, provider, accountLabel, keyHint, status, connectedAt, connectedBy, snowflake, databricks, github, zoom, datadog, twilio, mongodb, creditPrice, supplierConnectionId, lastSyncedAt, lastSyncStatus, lastSyncError, lastSyncErrorCode, currency);
+    return Objects.hash(id, provider, accountLabel, keyHint, status, connectedAt, connectedBy, snowflake, databricks, github, zoom, datadog, twilio, mongodb, confluent, vercel, creditPrice, supplierConnectionId, lastSyncedAt, lastSyncStatus, lastSyncError, lastSyncErrorCode, currency);
   }
 
   @Override
@@ -898,6 +964,8 @@ public class AiProvider {
     sb.append("    datadog: ").append(toIndentedString(datadog)).append("\n");
     sb.append("    twilio: ").append(toIndentedString(twilio)).append("\n");
     sb.append("    mongodb: ").append(toIndentedString(mongodb)).append("\n");
+    sb.append("    confluent: ").append(toIndentedString(confluent)).append("\n");
+    sb.append("    vercel: ").append(toIndentedString(vercel)).append("\n");
     sb.append("    creditPrice: ").append(toIndentedString(creditPrice)).append("\n");
     sb.append("    supplierConnectionId: ").append(toIndentedString(supplierConnectionId)).append("\n");
     sb.append("    lastSyncedAt: ").append(toIndentedString(lastSyncedAt)).append("\n");
@@ -1020,6 +1088,16 @@ public class AiProvider {
     // add `mongodb` to the URL query string
     if (getMongodb() != null) {
       joiner.add(getMongodb().toUrlQueryString(prefix + "mongodb" + suffix));
+    }
+
+    // add `confluent` to the URL query string
+    if (getConfluent() != null) {
+      joiner.add(getConfluent().toUrlQueryString(prefix + "confluent" + suffix));
+    }
+
+    // add `vercel` to the URL query string
+    if (getVercel() != null) {
+      joiner.add(getVercel().toUrlQueryString(prefix + "vercel" + suffix));
     }
 
     // add `creditPrice` to the URL query string

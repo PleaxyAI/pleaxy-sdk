@@ -41,6 +41,10 @@ pub struct AiProvider {
     pub twilio: Option<models::AiProviderTwilio>,
     #[serde(rename = "mongodb", skip_serializing_if = "Option::is_none")]
     pub mongodb: Option<models::AiProviderMongodb>,
+    #[serde(rename = "confluent", skip_serializing_if = "Option::is_none")]
+    pub confluent: Option<models::AiProviderConfluent>,
+    #[serde(rename = "vercel", skip_serializing_if = "Option::is_none")]
+    pub vercel: Option<models::AiProviderVercel>,
     #[serde(rename = "creditPrice", skip_serializing_if = "Option::is_none")]
     pub credit_price: Option<models::AiProviderCreditPrice>,
     #[serde(
@@ -77,6 +81,8 @@ impl AiProvider {
             datadog: None,
             twilio: None,
             mongodb: None,
+            confluent: None,
+            vercel: None,
             credit_price: None,
             supplier_connection_id: None,
             last_synced_at: None,
@@ -130,6 +136,10 @@ pub enum Provider {
     Twilio,
     #[serde(rename = "mongodb")]
     Mongodb,
+    #[serde(rename = "confluent")]
+    Confluent,
+    #[serde(rename = "vercel")]
+    Vercel,
 }
 
 impl Default for Provider {

@@ -137,6 +137,7 @@ from .ai_po_line_suggestion_unit import AiPoLineSuggestionUnit
 from .ai_po_line_suggestions import AiPoLineSuggestions
 from .ai_po_line_suggestions_invoicer import AiPoLineSuggestionsInvoicer
 from .ai_provider import AiProvider
+from .ai_provider_confluent import AiProviderConfluent
 from .ai_provider_credit_price import AiProviderCreditPrice
 from .ai_provider_credit_price_kind import AiProviderCreditPriceKind
 from .ai_provider_databricks import AiProviderDatabricks
@@ -149,6 +150,7 @@ from .ai_provider_provider import AiProviderProvider
 from .ai_provider_snowflake import AiProviderSnowflake
 from .ai_provider_status import AiProviderStatus
 from .ai_provider_twilio import AiProviderTwilio
+from .ai_provider_vercel import AiProviderVercel
 from .ai_provider_zoom import AiProviderZoom
 from .ai_purchase_order_line_remaining import AiPurchaseOrderLineRemaining
 from .ai_rate_card_entry import AiRateCardEntry
@@ -444,6 +446,7 @@ from .comment_meeting_view_closed_by_side import CommentMeetingViewClosedBySide
 from .comment_meeting_view_proposed_by import CommentMeetingViewProposedBy
 from .comment_meeting_view_status import CommentMeetingViewStatus
 from .comment_mention import CommentMention
+from .confluent_connection_input import ConfluentConnectionInput
 from .convert_purchase_request_input import ConvertPurchaseRequestInput
 from .convert_purchase_request_input_matching import ConvertPurchaseRequestInputMatching
 from .convert_purchase_request_input_provider import ConvertPurchaseRequestInputProvider
@@ -776,6 +779,7 @@ from .e_invoicing_profile_settings_electronic_address import (
 from .e_invoicing_settings_input import EInvoicingSettingsInput
 from .early_payment_discount_taken import EarlyPaymentDiscountTaken
 from .early_payment_discount_taken_source import EarlyPaymentDiscountTakenSource
+from .early_payment_standing_offer import EarlyPaymentStandingOffer
 from .electronic_address_input import ElectronicAddressInput
 from .employee_summary import EmployeeSummary
 from .error_params import ErrorParams
@@ -2368,6 +2372,7 @@ from .validate_feed_invoice_result_credit_note_submitted_format import (
 from .validate_feed_invoice_result_credit_note_warnings_item import (
     ValidateFeedInvoiceResultCreditNoteWarningsItem,
 )
+from .vercel_connection_input import VercelConnectionInput
 from .webhook_delivery import WebhookDelivery
 from .webhook_delivery_last_error_code import WebhookDeliveryLastErrorCode
 from .webhook_delivery_status import WebhookDeliveryStatus
@@ -2455,6 +2460,7 @@ __all__ = (
     "AiPoLineSuggestionsInvoicer",
     "AiPoLineSuggestionUnit",
     "AiProvider",
+    "AiProviderConfluent",
     "AiProviderCreditPrice",
     "AiProviderCreditPriceKind",
     "AiProviderDatabricks",
@@ -2467,6 +2473,7 @@ __all__ = (
     "AiProviderSnowflake",
     "AiProviderStatus",
     "AiProviderTwilio",
+    "AiProviderVercel",
     "AiProviderZoom",
     "AiPurchaseOrderLineRemaining",
     "AiRateCardEntry",
@@ -2718,6 +2725,7 @@ __all__ = (
     "CommentMeetingViewProposedBy",
     "CommentMeetingViewStatus",
     "CommentMention",
+    "ConfluentConnectionInput",
     "ConvertPurchaseRequestInput",
     "ConvertPurchaseRequestInputMatching",
     "ConvertPurchaseRequestInputProvider",
@@ -2872,6 +2880,7 @@ __all__ = (
     "DraftAiOrdersInputScope",
     "EarlyPaymentDiscountTaken",
     "EarlyPaymentDiscountTakenSource",
+    "EarlyPaymentStandingOffer",
     "EInvoiceSummary",
     "EInvoiceSummaryContainer",
     "EInvoiceSummaryFindingsItem",
@@ -3818,6 +3827,7 @@ __all__ = (
     "ValidateFeedInvoiceResultCreditNoteReplayType0",
     "ValidateFeedInvoiceResultCreditNoteSubmittedFormat",
     "ValidateFeedInvoiceResultCreditNoteWarningsItem",
+    "VercelConnectionInput",
     "WebhookDelivery",
     "WebhookDeliveryLastErrorCode",
     "WebhookDeliveryStatus",

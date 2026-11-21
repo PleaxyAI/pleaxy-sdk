@@ -33,6 +33,10 @@ module Pleaxy
 
     attr_accessor :mongodb
 
+    attr_accessor :confluent
+
+    attr_accessor :vercel
+
     attr_accessor :credit_price
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -47,6 +51,8 @@ module Pleaxy
         :'datadog' => :'datadog',
         :'twilio' => :'twilio',
         :'mongodb' => :'mongodb',
+        :'confluent' => :'confluent',
+        :'vercel' => :'vercel',
         :'credit_price' => :'creditPrice'
       }
     end
@@ -68,6 +74,8 @@ module Pleaxy
         :'datadog' => :'DatadogConnectionInput',
         :'twilio' => :'TwilioConnectionInput',
         :'mongodb' => :'MongoDbConnectionInput',
+        :'confluent' => :'ConfluentConnectionInput',
+        :'vercel' => :'VercelConnectionInput',
         :'credit_price' => :'CreditPriceInput'
       }
     end
@@ -129,6 +137,14 @@ module Pleaxy
 
       if attributes.key?(:'mongodb')
         self.mongodb = attributes[:'mongodb']
+      end
+
+      if attributes.key?(:'confluent')
+        self.confluent = attributes[:'confluent']
+      end
+
+      if attributes.key?(:'vercel')
+        self.vercel = attributes[:'vercel']
       end
 
       if attributes.key?(:'credit_price')
@@ -208,6 +224,8 @@ module Pleaxy
           datadog == o.datadog &&
           twilio == o.twilio &&
           mongodb == o.mongodb &&
+          confluent == o.confluent &&
+          vercel == o.vercel &&
           credit_price == o.credit_price
     end
 
@@ -220,7 +238,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [provider, key, snowflake, databricks, github, zoom, datadog, twilio, mongodb, credit_price].hash
+      [provider, key, snowflake, databricks, github, zoom, datadog, twilio, mongodb, confluent, vercel, credit_price].hash
     end
 
     # Builds the object from hash

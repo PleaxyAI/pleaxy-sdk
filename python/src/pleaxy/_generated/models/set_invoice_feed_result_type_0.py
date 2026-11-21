@@ -26,6 +26,7 @@ from ..models.set_invoice_feed_result_type_0_status import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.early_payment_standing_offer import EarlyPaymentStandingOffer
     from ..models.late_fee_terms import LateFeeTerms
     from ..models.questionnaire_field_def import QuestionnaireFieldDef
     from ..models.questionnaire_response_item import QuestionnaireResponseItem
@@ -83,6 +84,7 @@ class SetInvoiceFeedResultType0:
         feed_valid_count (Union[Unset, float]):
         late_fee_terms (Union[Unset, LateFeeTerms]):
         late_fee_terms_updated_at (Union[Unset, str]):
+        early_payment_standing_offer (Union[Unset, EarlyPaymentStandingOffer]):
         late_fee_terms_attested_at (Union[Unset, str]):
         late_fee_terms_attestation_version (Union[Unset, str]):
     """
@@ -131,6 +133,7 @@ class SetInvoiceFeedResultType0:
     feed_valid_count: Union[Unset, float] = UNSET
     late_fee_terms: Union[Unset, "LateFeeTerms"] = UNSET
     late_fee_terms_updated_at: Union[Unset, str] = UNSET
+    early_payment_standing_offer: Union[Unset, "EarlyPaymentStandingOffer"] = UNSET
     late_fee_terms_attested_at: Union[Unset, str] = UNSET
     late_fee_terms_attestation_version: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -248,6 +251,10 @@ class SetInvoiceFeedResultType0:
 
         late_fee_terms_updated_at = self.late_fee_terms_updated_at
 
+        early_payment_standing_offer: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.early_payment_standing_offer, Unset):
+            early_payment_standing_offer = self.early_payment_standing_offer.to_dict()
+
         late_fee_terms_attested_at = self.late_fee_terms_attested_at
 
         late_fee_terms_attestation_version = self.late_fee_terms_attestation_version
@@ -345,6 +352,8 @@ class SetInvoiceFeedResultType0:
             field_dict["lateFeeTerms"] = late_fee_terms
         if late_fee_terms_updated_at is not UNSET:
             field_dict["lateFeeTermsUpdatedAt"] = late_fee_terms_updated_at
+        if early_payment_standing_offer is not UNSET:
+            field_dict["earlyPaymentStandingOffer"] = early_payment_standing_offer
         if late_fee_terms_attested_at is not UNSET:
             field_dict["lateFeeTermsAttestedAt"] = late_fee_terms_attested_at
         if late_fee_terms_attestation_version is not UNSET:
@@ -356,6 +365,7 @@ class SetInvoiceFeedResultType0:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.early_payment_standing_offer import EarlyPaymentStandingOffer
         from ..models.late_fee_terms import LateFeeTerms
         from ..models.questionnaire_field_def import QuestionnaireFieldDef
         from ..models.questionnaire_response_item import QuestionnaireResponseItem
@@ -499,6 +509,15 @@ class SetInvoiceFeedResultType0:
 
         late_fee_terms_updated_at = d.pop("lateFeeTermsUpdatedAt", UNSET)
 
+        _early_payment_standing_offer = d.pop("earlyPaymentStandingOffer", UNSET)
+        early_payment_standing_offer: Union[Unset, EarlyPaymentStandingOffer]
+        if isinstance(_early_payment_standing_offer, Unset):
+            early_payment_standing_offer = UNSET
+        else:
+            early_payment_standing_offer = EarlyPaymentStandingOffer.from_dict(
+                _early_payment_standing_offer
+            )
+
         late_fee_terms_attested_at = d.pop("lateFeeTermsAttestedAt", UNSET)
 
         late_fee_terms_attestation_version = d.pop(
@@ -550,6 +569,7 @@ class SetInvoiceFeedResultType0:
             feed_valid_count=feed_valid_count,
             late_fee_terms=late_fee_terms,
             late_fee_terms_updated_at=late_fee_terms_updated_at,
+            early_payment_standing_offer=early_payment_standing_offer,
             late_fee_terms_attested_at=late_fee_terms_attested_at,
             late_fee_terms_attestation_version=late_fee_terms_attestation_version,
         )

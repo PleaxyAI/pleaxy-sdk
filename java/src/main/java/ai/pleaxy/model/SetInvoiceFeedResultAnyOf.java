@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.EarlyPaymentStandingOffer;
 import ai.pleaxy.model.LateFeeTerms;
 import ai.pleaxy.model.QuestionnaireFieldDef;
 import ai.pleaxy.model.QuestionnaireResponseItem;
@@ -83,6 +84,7 @@ import ai.pleaxy.client.ApiClient;
   SetInvoiceFeedResultAnyOf.JSON_PROPERTY_FEED_VALID_COUNT,
   SetInvoiceFeedResultAnyOf.JSON_PROPERTY_LATE_FEE_TERMS,
   SetInvoiceFeedResultAnyOf.JSON_PROPERTY_LATE_FEE_TERMS_UPDATED_AT,
+  SetInvoiceFeedResultAnyOf.JSON_PROPERTY_EARLY_PAYMENT_STANDING_OFFER,
   SetInvoiceFeedResultAnyOf.JSON_PROPERTY_LATE_FEE_TERMS_ATTESTED_AT,
   SetInvoiceFeedResultAnyOf.JSON_PROPERTY_LATE_FEE_TERMS_ATTESTATION_VERSION
 })
@@ -376,7 +378,11 @@ public class SetInvoiceFeedResultAnyOf {
     
     TWILIO(String.valueOf("twilio")),
     
-    MONGODB(String.valueOf("mongodb"));
+    MONGODB(String.valueOf("mongodb")),
+    
+    CONFLUENT(String.valueOf("confluent")),
+    
+    VERCEL(String.valueOf("vercel"));
 
     private String value;
 
@@ -492,6 +498,10 @@ public class SetInvoiceFeedResultAnyOf {
   public static final String JSON_PROPERTY_LATE_FEE_TERMS_UPDATED_AT = "lateFeeTermsUpdatedAt";
   @javax.annotation.Nullable
   private String lateFeeTermsUpdatedAt;
+
+  public static final String JSON_PROPERTY_EARLY_PAYMENT_STANDING_OFFER = "earlyPaymentStandingOffer";
+  @javax.annotation.Nullable
+  private EarlyPaymentStandingOffer earlyPaymentStandingOffer;
 
   public static final String JSON_PROPERTY_LATE_FEE_TERMS_ATTESTED_AT = "lateFeeTermsAttestedAt";
   @javax.annotation.Nullable
@@ -1576,6 +1586,30 @@ public class SetInvoiceFeedResultAnyOf {
   }
 
 
+  public SetInvoiceFeedResultAnyOf earlyPaymentStandingOffer(@javax.annotation.Nullable EarlyPaymentStandingOffer earlyPaymentStandingOffer) {
+    this.earlyPaymentStandingOffer = earlyPaymentStandingOffer;
+    return this;
+  }
+
+  /**
+   * Get earlyPaymentStandingOffer
+   * @return earlyPaymentStandingOffer
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_STANDING_OFFER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public EarlyPaymentStandingOffer getEarlyPaymentStandingOffer() {
+    return earlyPaymentStandingOffer;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EARLY_PAYMENT_STANDING_OFFER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEarlyPaymentStandingOffer(@javax.annotation.Nullable EarlyPaymentStandingOffer earlyPaymentStandingOffer) {
+    this.earlyPaymentStandingOffer = earlyPaymentStandingOffer;
+  }
+
+
   public SetInvoiceFeedResultAnyOf lateFeeTermsAttestedAt(@javax.annotation.Nullable String lateFeeTermsAttestedAt) {
     this.lateFeeTermsAttestedAt = lateFeeTermsAttestedAt;
     return this;
@@ -1680,13 +1714,14 @@ public class SetInvoiceFeedResultAnyOf {
         Objects.equals(this.feedValidCount, setInvoiceFeedResultAnyOf.feedValidCount) &&
         Objects.equals(this.lateFeeTerms, setInvoiceFeedResultAnyOf.lateFeeTerms) &&
         Objects.equals(this.lateFeeTermsUpdatedAt, setInvoiceFeedResultAnyOf.lateFeeTermsUpdatedAt) &&
+        Objects.equals(this.earlyPaymentStandingOffer, setInvoiceFeedResultAnyOf.earlyPaymentStandingOffer) &&
         Objects.equals(this.lateFeeTermsAttestedAt, setInvoiceFeedResultAnyOf.lateFeeTermsAttestedAt) &&
         Objects.equals(this.lateFeeTermsAttestationVersion, setInvoiceFeedResultAnyOf.lateFeeTermsAttestationVersion);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(feedReadiness, id, buyerOrgId, buyerName, supplierOrgId, supplierName, invitedAsName, supplierContactEmail, status, origin, questionnaireRequested, questionnaireTemplateId, questionnaireTemplateVersion, fields, responses, createdAt, invitedAt, respondedAt, reviewedAt, reviewedBy, rejectionReason, cloudProvider, aiProvider, billingCurrency, paymentCurrency, offPlatformInvoicesRecorded, supplierRegion, acceptedRegionName, acceptedRegionMatchesRequest, invoiceFeedEnabled, invoiceFeedUpdatedAt, invoiceFeedUpdatedBy, commentsMuted, commentsMutedAt, commentsMutedBy, feedLastAttemptAt, feedLastAcceptedAt, feedAcceptedCount, feedLastRefusedAt, feedLastRefusedCode, feedLastValidAt, feedValidCount, lateFeeTerms, lateFeeTermsUpdatedAt, lateFeeTermsAttestedAt, lateFeeTermsAttestationVersion);
+    return Objects.hash(feedReadiness, id, buyerOrgId, buyerName, supplierOrgId, supplierName, invitedAsName, supplierContactEmail, status, origin, questionnaireRequested, questionnaireTemplateId, questionnaireTemplateVersion, fields, responses, createdAt, invitedAt, respondedAt, reviewedAt, reviewedBy, rejectionReason, cloudProvider, aiProvider, billingCurrency, paymentCurrency, offPlatformInvoicesRecorded, supplierRegion, acceptedRegionName, acceptedRegionMatchesRequest, invoiceFeedEnabled, invoiceFeedUpdatedAt, invoiceFeedUpdatedBy, commentsMuted, commentsMutedAt, commentsMutedBy, feedLastAttemptAt, feedLastAcceptedAt, feedAcceptedCount, feedLastRefusedAt, feedLastRefusedCode, feedLastValidAt, feedValidCount, lateFeeTerms, lateFeeTermsUpdatedAt, earlyPaymentStandingOffer, lateFeeTermsAttestedAt, lateFeeTermsAttestationVersion);
   }
 
   @Override
@@ -1737,6 +1772,7 @@ public class SetInvoiceFeedResultAnyOf {
     sb.append("    feedValidCount: ").append(toIndentedString(feedValidCount)).append("\n");
     sb.append("    lateFeeTerms: ").append(toIndentedString(lateFeeTerms)).append("\n");
     sb.append("    lateFeeTermsUpdatedAt: ").append(toIndentedString(lateFeeTermsUpdatedAt)).append("\n");
+    sb.append("    earlyPaymentStandingOffer: ").append(toIndentedString(earlyPaymentStandingOffer)).append("\n");
     sb.append("    lateFeeTermsAttestedAt: ").append(toIndentedString(lateFeeTermsAttestedAt)).append("\n");
     sb.append("    lateFeeTermsAttestationVersion: ").append(toIndentedString(lateFeeTermsAttestationVersion)).append("\n");
     sb.append("}");
@@ -2014,6 +2050,11 @@ public class SetInvoiceFeedResultAnyOf {
     // add `lateFeeTermsUpdatedAt` to the URL query string
     if (getLateFeeTermsUpdatedAt() != null) {
       joiner.add(String.format("%slateFeeTermsUpdatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLateFeeTermsUpdatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `earlyPaymentStandingOffer` to the URL query string
+    if (getEarlyPaymentStandingOffer() != null) {
+      joiner.add(getEarlyPaymentStandingOffer().toUrlQueryString(prefix + "earlyPaymentStandingOffer" + suffix));
     }
 
     // add `lateFeeTermsAttestedAt` to the URL query string

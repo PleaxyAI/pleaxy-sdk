@@ -6,6 +6,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.confluent_connection_input import ConfluentConnectionInput
     from ..models.credit_price_input import CreditPriceInput
     from ..models.databricks_connection_input import DatabricksConnectionInput
     from ..models.datadog_connection_input import DatadogConnectionInput
@@ -13,6 +14,7 @@ if TYPE_CHECKING:
     from ..models.mongo_db_connection_input import MongoDbConnectionInput
     from ..models.snowflake_connection_input import SnowflakeConnectionInput
     from ..models.twilio_connection_input import TwilioConnectionInput
+    from ..models.vercel_connection_input import VercelConnectionInput
     from ..models.zoom_connection_input import ZoomConnectionInput
 
 
@@ -32,6 +34,8 @@ class CreateAiProviderInput:
         datadog (Union[Unset, DatadogConnectionInput]):
         twilio (Union[Unset, TwilioConnectionInput]):
         mongodb (Union[Unset, MongoDbConnectionInput]):
+        confluent (Union[Unset, ConfluentConnectionInput]):
+        vercel (Union[Unset, VercelConnectionInput]):
         credit_price (Union[Unset, CreditPriceInput]):
     """
 
@@ -44,6 +48,8 @@ class CreateAiProviderInput:
     datadog: Union[Unset, "DatadogConnectionInput"] = UNSET
     twilio: Union[Unset, "TwilioConnectionInput"] = UNSET
     mongodb: Union[Unset, "MongoDbConnectionInput"] = UNSET
+    confluent: Union[Unset, "ConfluentConnectionInput"] = UNSET
+    vercel: Union[Unset, "VercelConnectionInput"] = UNSET
     credit_price: Union[Unset, "CreditPriceInput"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -80,6 +86,14 @@ class CreateAiProviderInput:
         if not isinstance(self.mongodb, Unset):
             mongodb = self.mongodb.to_dict()
 
+        confluent: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.confluent, Unset):
+            confluent = self.confluent.to_dict()
+
+        vercel: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.vercel, Unset):
+            vercel = self.vercel.to_dict()
+
         credit_price: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.credit_price, Unset):
             credit_price = self.credit_price.to_dict()
@@ -107,6 +121,10 @@ class CreateAiProviderInput:
             field_dict["twilio"] = twilio
         if mongodb is not UNSET:
             field_dict["mongodb"] = mongodb
+        if confluent is not UNSET:
+            field_dict["confluent"] = confluent
+        if vercel is not UNSET:
+            field_dict["vercel"] = vercel
         if credit_price is not UNSET:
             field_dict["creditPrice"] = credit_price
 
@@ -114,6 +132,7 @@ class CreateAiProviderInput:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.confluent_connection_input import ConfluentConnectionInput
         from ..models.credit_price_input import CreditPriceInput
         from ..models.databricks_connection_input import DatabricksConnectionInput
         from ..models.datadog_connection_input import DatadogConnectionInput
@@ -121,6 +140,7 @@ class CreateAiProviderInput:
         from ..models.mongo_db_connection_input import MongoDbConnectionInput
         from ..models.snowflake_connection_input import SnowflakeConnectionInput
         from ..models.twilio_connection_input import TwilioConnectionInput
+        from ..models.vercel_connection_input import VercelConnectionInput
         from ..models.zoom_connection_input import ZoomConnectionInput
 
         d = src_dict.copy()
@@ -177,6 +197,20 @@ class CreateAiProviderInput:
         else:
             mongodb = MongoDbConnectionInput.from_dict(_mongodb)
 
+        _confluent = d.pop("confluent", UNSET)
+        confluent: Union[Unset, ConfluentConnectionInput]
+        if isinstance(_confluent, Unset):
+            confluent = UNSET
+        else:
+            confluent = ConfluentConnectionInput.from_dict(_confluent)
+
+        _vercel = d.pop("vercel", UNSET)
+        vercel: Union[Unset, VercelConnectionInput]
+        if isinstance(_vercel, Unset):
+            vercel = UNSET
+        else:
+            vercel = VercelConnectionInput.from_dict(_vercel)
+
         _credit_price = d.pop("creditPrice", UNSET)
         credit_price: Union[Unset, CreditPriceInput]
         if isinstance(_credit_price, Unset):
@@ -194,6 +228,8 @@ class CreateAiProviderInput:
             datadog=datadog,
             twilio=twilio,
             mongodb=mongodb,
+            confluent=confluent,
+            vercel=vercel,
             credit_price=credit_price,
         )
 

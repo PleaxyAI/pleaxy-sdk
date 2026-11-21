@@ -16,6 +16,7 @@ from ..models.ai_provider_status import AiProviderStatus, check_ai_provider_stat
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.ai_provider_confluent import AiProviderConfluent
     from ..models.ai_provider_credit_price import AiProviderCreditPrice
     from ..models.ai_provider_databricks import AiProviderDatabricks
     from ..models.ai_provider_datadog import AiProviderDatadog
@@ -23,6 +24,7 @@ if TYPE_CHECKING:
     from ..models.ai_provider_mongodb import AiProviderMongodb
     from ..models.ai_provider_snowflake import AiProviderSnowflake
     from ..models.ai_provider_twilio import AiProviderTwilio
+    from ..models.ai_provider_vercel import AiProviderVercel
     from ..models.ai_provider_zoom import AiProviderZoom
 
 
@@ -47,6 +49,8 @@ class AiProvider:
         datadog (Union[Unset, AiProviderDatadog]):
         twilio (Union[Unset, AiProviderTwilio]):
         mongodb (Union[Unset, AiProviderMongodb]):
+        confluent (Union[Unset, AiProviderConfluent]):
+        vercel (Union[Unset, AiProviderVercel]):
         credit_price (Union[Unset, AiProviderCreditPrice]):
         supplier_connection_id (Union[Unset, str]):
         last_synced_at (Union[Unset, str]):
@@ -70,6 +74,8 @@ class AiProvider:
     datadog: Union[Unset, "AiProviderDatadog"] = UNSET
     twilio: Union[Unset, "AiProviderTwilio"] = UNSET
     mongodb: Union[Unset, "AiProviderMongodb"] = UNSET
+    confluent: Union[Unset, "AiProviderConfluent"] = UNSET
+    vercel: Union[Unset, "AiProviderVercel"] = UNSET
     credit_price: Union[Unset, "AiProviderCreditPrice"] = UNSET
     supplier_connection_id: Union[Unset, str] = UNSET
     last_synced_at: Union[Unset, str] = UNSET
@@ -126,6 +132,14 @@ class AiProvider:
         if not isinstance(self.mongodb, Unset):
             mongodb = self.mongodb.to_dict()
 
+        confluent: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.confluent, Unset):
+            confluent = self.confluent.to_dict()
+
+        vercel: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.vercel, Unset):
+            vercel = self.vercel.to_dict()
+
         credit_price: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.credit_price, Unset):
             credit_price = self.credit_price.to_dict()
@@ -179,6 +193,10 @@ class AiProvider:
             field_dict["twilio"] = twilio
         if mongodb is not UNSET:
             field_dict["mongodb"] = mongodb
+        if confluent is not UNSET:
+            field_dict["confluent"] = confluent
+        if vercel is not UNSET:
+            field_dict["vercel"] = vercel
         if credit_price is not UNSET:
             field_dict["creditPrice"] = credit_price
         if supplier_connection_id is not UNSET:
@@ -198,6 +216,7 @@ class AiProvider:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ai_provider_confluent import AiProviderConfluent
         from ..models.ai_provider_credit_price import AiProviderCreditPrice
         from ..models.ai_provider_databricks import AiProviderDatabricks
         from ..models.ai_provider_datadog import AiProviderDatadog
@@ -205,6 +224,7 @@ class AiProvider:
         from ..models.ai_provider_mongodb import AiProviderMongodb
         from ..models.ai_provider_snowflake import AiProviderSnowflake
         from ..models.ai_provider_twilio import AiProviderTwilio
+        from ..models.ai_provider_vercel import AiProviderVercel
         from ..models.ai_provider_zoom import AiProviderZoom
 
         d = src_dict.copy()
@@ -281,6 +301,20 @@ class AiProvider:
         else:
             mongodb = AiProviderMongodb.from_dict(_mongodb)
 
+        _confluent = d.pop("confluent", UNSET)
+        confluent: Union[Unset, AiProviderConfluent]
+        if isinstance(_confluent, Unset):
+            confluent = UNSET
+        else:
+            confluent = AiProviderConfluent.from_dict(_confluent)
+
+        _vercel = d.pop("vercel", UNSET)
+        vercel: Union[Unset, AiProviderVercel]
+        if isinstance(_vercel, Unset):
+            vercel = UNSET
+        else:
+            vercel = AiProviderVercel.from_dict(_vercel)
+
         _credit_price = d.pop("creditPrice", UNSET)
         credit_price: Union[Unset, AiProviderCreditPrice]
         if isinstance(_credit_price, Unset):
@@ -327,6 +361,8 @@ class AiProvider:
             datadog=datadog,
             twilio=twilio,
             mongodb=mongodb,
+            confluent=confluent,
+            vercel=vercel,
             credit_price=credit_price,
             supplier_connection_id=supplier_connection_id,
             last_synced_at=last_synced_at,

@@ -31,6 +31,10 @@ pub struct CreateAiProviderInput {
     pub twilio: Option<models::TwilioConnectionInput>,
     #[serde(rename = "mongodb", skip_serializing_if = "Option::is_none")]
     pub mongodb: Option<models::MongoDbConnectionInput>,
+    #[serde(rename = "confluent", skip_serializing_if = "Option::is_none")]
+    pub confluent: Option<models::ConfluentConnectionInput>,
+    #[serde(rename = "vercel", skip_serializing_if = "Option::is_none")]
+    pub vercel: Option<models::VercelConnectionInput>,
     #[serde(rename = "creditPrice", skip_serializing_if = "Option::is_none")]
     pub credit_price: Option<models::CreditPriceInput>,
 }
@@ -47,6 +51,8 @@ impl CreateAiProviderInput {
             datadog: None,
             twilio: None,
             mongodb: None,
+            confluent: None,
+            vercel: None,
             credit_price: None,
         }
     }

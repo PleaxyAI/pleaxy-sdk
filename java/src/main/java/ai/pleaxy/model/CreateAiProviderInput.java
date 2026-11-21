@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.ConfluentConnectionInput;
 import ai.pleaxy.model.CreditPriceInput;
 import ai.pleaxy.model.DatabricksConnectionInput;
 import ai.pleaxy.model.DatadogConnectionInput;
@@ -26,6 +27,7 @@ import ai.pleaxy.model.GitHubConnectionInput;
 import ai.pleaxy.model.MongoDbConnectionInput;
 import ai.pleaxy.model.SnowflakeConnectionInput;
 import ai.pleaxy.model.TwilioConnectionInput;
+import ai.pleaxy.model.VercelConnectionInput;
 import ai.pleaxy.model.ZoomConnectionInput;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -50,6 +52,8 @@ import ai.pleaxy.client.ApiClient;
   CreateAiProviderInput.JSON_PROPERTY_DATADOG,
   CreateAiProviderInput.JSON_PROPERTY_TWILIO,
   CreateAiProviderInput.JSON_PROPERTY_MONGODB,
+  CreateAiProviderInput.JSON_PROPERTY_CONFLUENT,
+  CreateAiProviderInput.JSON_PROPERTY_VERCEL,
   CreateAiProviderInput.JSON_PROPERTY_CREDIT_PRICE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -89,6 +93,14 @@ public class CreateAiProviderInput {
   public static final String JSON_PROPERTY_MONGODB = "mongodb";
   @javax.annotation.Nullable
   private MongoDbConnectionInput mongodb;
+
+  public static final String JSON_PROPERTY_CONFLUENT = "confluent";
+  @javax.annotation.Nullable
+  private ConfluentConnectionInput confluent;
+
+  public static final String JSON_PROPERTY_VERCEL = "vercel";
+  @javax.annotation.Nullable
+  private VercelConnectionInput vercel;
 
   public static final String JSON_PROPERTY_CREDIT_PRICE = "creditPrice";
   @javax.annotation.Nullable
@@ -313,6 +325,54 @@ public class CreateAiProviderInput {
   }
 
 
+  public CreateAiProviderInput confluent(@javax.annotation.Nullable ConfluentConnectionInput confluent) {
+    this.confluent = confluent;
+    return this;
+  }
+
+  /**
+   * Get confluent
+   * @return confluent
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CONFLUENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public ConfluentConnectionInput getConfluent() {
+    return confluent;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CONFLUENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setConfluent(@javax.annotation.Nullable ConfluentConnectionInput confluent) {
+    this.confluent = confluent;
+  }
+
+
+  public CreateAiProviderInput vercel(@javax.annotation.Nullable VercelConnectionInput vercel) {
+    this.vercel = vercel;
+    return this;
+  }
+
+  /**
+   * Get vercel
+   * @return vercel
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_VERCEL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public VercelConnectionInput getVercel() {
+    return vercel;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_VERCEL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setVercel(@javax.annotation.Nullable VercelConnectionInput vercel) {
+    this.vercel = vercel;
+  }
+
+
   public CreateAiProviderInput creditPrice(@javax.annotation.Nullable CreditPriceInput creditPrice) {
     this.creditPrice = creditPrice;
     return this;
@@ -358,12 +418,14 @@ public class CreateAiProviderInput {
         Objects.equals(this.datadog, createAiProviderInput.datadog) &&
         Objects.equals(this.twilio, createAiProviderInput.twilio) &&
         Objects.equals(this.mongodb, createAiProviderInput.mongodb) &&
+        Objects.equals(this.confluent, createAiProviderInput.confluent) &&
+        Objects.equals(this.vercel, createAiProviderInput.vercel) &&
         Objects.equals(this.creditPrice, createAiProviderInput.creditPrice);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(provider, key, snowflake, databricks, github, zoom, datadog, twilio, mongodb, creditPrice);
+    return Objects.hash(provider, key, snowflake, databricks, github, zoom, datadog, twilio, mongodb, confluent, vercel, creditPrice);
   }
 
   @Override
@@ -379,6 +441,8 @@ public class CreateAiProviderInput {
     sb.append("    datadog: ").append(toIndentedString(datadog)).append("\n");
     sb.append("    twilio: ").append(toIndentedString(twilio)).append("\n");
     sb.append("    mongodb: ").append(toIndentedString(mongodb)).append("\n");
+    sb.append("    confluent: ").append(toIndentedString(confluent)).append("\n");
+    sb.append("    vercel: ").append(toIndentedString(vercel)).append("\n");
     sb.append("    creditPrice: ").append(toIndentedString(creditPrice)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -470,6 +534,16 @@ public class CreateAiProviderInput {
     // add `mongodb` to the URL query string
     if (getMongodb() != null) {
       joiner.add(getMongodb().toUrlQueryString(prefix + "mongodb" + suffix));
+    }
+
+    // add `confluent` to the URL query string
+    if (getConfluent() != null) {
+      joiner.add(getConfluent().toUrlQueryString(prefix + "confluent" + suffix));
+    }
+
+    // add `vercel` to the URL query string
+    if (getVercel() != null) {
+      joiner.add(getVercel().toUrlQueryString(prefix + "vercel" + suffix));
     }
 
     // add `creditPrice` to the URL query string

@@ -101,6 +101,8 @@ module Pleaxy
 
     attr_accessor :late_fee_terms_updated_at
 
+    attr_accessor :early_payment_standing_offer
+
     attr_accessor :late_fee_terms_attested_at
 
     attr_accessor :late_fee_terms_attestation_version
@@ -173,6 +175,7 @@ module Pleaxy
         :'feed_valid_count' => :'feedValidCount',
         :'late_fee_terms' => :'lateFeeTerms',
         :'late_fee_terms_updated_at' => :'lateFeeTermsUpdatedAt',
+        :'early_payment_standing_offer' => :'earlyPaymentStandingOffer',
         :'late_fee_terms_attested_at' => :'lateFeeTermsAttestedAt',
         :'late_fee_terms_attestation_version' => :'lateFeeTermsAttestationVersion'
       }
@@ -229,6 +232,7 @@ module Pleaxy
         :'feed_valid_count' => :'Float',
         :'late_fee_terms' => :'LateFeeTerms',
         :'late_fee_terms_updated_at' => :'String',
+        :'early_payment_standing_offer' => :'EarlyPaymentStandingOffer',
         :'late_fee_terms_attested_at' => :'String',
         :'late_fee_terms_attestation_version' => :'String'
       }
@@ -433,6 +437,10 @@ module Pleaxy
         self.late_fee_terms_updated_at = attributes[:'late_fee_terms_updated_at']
       end
 
+      if attributes.key?(:'early_payment_standing_offer')
+        self.early_payment_standing_offer = attributes[:'early_payment_standing_offer']
+      end
+
       if attributes.key?(:'late_fee_terms_attested_at')
         self.late_fee_terms_attested_at = attributes[:'late_fee_terms_attested_at']
       end
@@ -465,7 +473,7 @@ module Pleaxy
       return false unless origin_validator.valid?(@origin)
       cloud_provider_validator = EnumAttributeValidator.new('String', ["aws", "gcp", "azure", "oci"])
       return false unless cloud_provider_validator.valid?(@cloud_provider)
-      ai_provider_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom", "datadog", "twilio", "mongodb"])
+      ai_provider_validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom", "datadog", "twilio", "mongodb", "confluent", "vercel"])
       return false unless ai_provider_validator.valid?(@ai_provider)
       true
     end
@@ -503,7 +511,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] ai_provider Object to be assigned
     def ai_provider=(ai_provider)
-      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom", "datadog", "twilio", "mongodb"])
+      validator = EnumAttributeValidator.new('String', ["openai", "anthropic", "mistral", "cohere", "xai", "openrouter", "snowflake", "databricks", "coreweave", "lambda", "nebius", "crusoe", "cursor", "github", "microsoft", "slack", "zoom", "datadog", "twilio", "mongodb", "confluent", "vercel"])
       unless validator.valid?(ai_provider)
         fail ArgumentError, "invalid value for \"ai_provider\", must be one of #{validator.allowable_values}."
       end
@@ -558,6 +566,7 @@ module Pleaxy
           feed_valid_count == o.feed_valid_count &&
           late_fee_terms == o.late_fee_terms &&
           late_fee_terms_updated_at == o.late_fee_terms_updated_at &&
+          early_payment_standing_offer == o.early_payment_standing_offer &&
           late_fee_terms_attested_at == o.late_fee_terms_attested_at &&
           late_fee_terms_attestation_version == o.late_fee_terms_attestation_version
     end
@@ -571,7 +580,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, buyer_org_id, buyer_name, supplier_org_id, supplier_name, invited_as_name, supplier_contact_email, status, origin, questionnaire_requested, questionnaire_template_id, questionnaire_template_version, fields, responses, created_at, invited_at, responded_at, reviewed_at, reviewed_by, rejection_reason, cloud_provider, ai_provider, billing_currency, payment_currency, off_platform_invoices_recorded, supplier_region, accepted_region_name, accepted_region_matches_request, invoice_feed_enabled, invoice_feed_updated_at, invoice_feed_updated_by, comments_muted, comments_muted_at, comments_muted_by, feed_last_attempt_at, feed_last_accepted_at, feed_accepted_count, feed_last_refused_at, feed_last_refused_code, feed_last_valid_at, feed_valid_count, late_fee_terms, late_fee_terms_updated_at, late_fee_terms_attested_at, late_fee_terms_attestation_version].hash
+      [id, buyer_org_id, buyer_name, supplier_org_id, supplier_name, invited_as_name, supplier_contact_email, status, origin, questionnaire_requested, questionnaire_template_id, questionnaire_template_version, fields, responses, created_at, invited_at, responded_at, reviewed_at, reviewed_by, rejection_reason, cloud_provider, ai_provider, billing_currency, payment_currency, off_platform_invoices_recorded, supplier_region, accepted_region_name, accepted_region_matches_request, invoice_feed_enabled, invoice_feed_updated_at, invoice_feed_updated_by, comments_muted, comments_muted_at, comments_muted_by, feed_last_attempt_at, feed_last_accepted_at, feed_accepted_count, feed_last_refused_at, feed_last_refused_code, feed_last_valid_at, feed_valid_count, late_fee_terms, late_fee_terms_updated_at, early_payment_standing_offer, late_fee_terms_attested_at, late_fee_terms_attestation_version].hash
     end
 
     # Builds the object from hash
