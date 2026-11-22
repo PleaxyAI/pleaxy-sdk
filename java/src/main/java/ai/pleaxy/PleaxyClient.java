@@ -13,6 +13,7 @@ import ai.pleaxy.api.FulfillmentApi;
 import ai.pleaxy.api.PurchaseRequestsApi;
 import ai.pleaxy.api.RequestTypesApi;
 import ai.pleaxy.api.BankAccountsApi;
+import ai.pleaxy.api.UsageAlertsApi;
 import ai.pleaxy.api.ScreeningApi;
 import ai.pleaxy.api.SupplierRiskApi;
 import ai.pleaxy.api.AiProvidersApi;
@@ -71,6 +72,7 @@ public final class PleaxyClient {
   private final PurchaseRequestsApi purchaseRequests;
   private final RequestTypesApi requestTypes;
   private final BankAccountsApi bankAccounts;
+  private final UsageAlertsApi usageAlerts;
   private final ScreeningApi screening;
   private final SupplierRiskApi supplierRisk;
   private final AiSpendApi aiSpend;
@@ -126,6 +128,7 @@ public final class PleaxyClient {
     this.purchaseRequests = new PurchaseRequestsApi(apiClient);
     this.requestTypes = new RequestTypesApi(apiClient);
     this.bankAccounts = new BankAccountsApi(apiClient);
+    this.usageAlerts = new UsageAlertsApi(apiClient);
     this.screening = new ScreeningApi(apiClient);
     this.supplierRisk = new SupplierRiskApi(apiClient);
     this.aiSpend = new AiSpendApi(apiClient);
@@ -212,6 +215,10 @@ public final class PleaxyClient {
   /** Suppliers' bank accounts on file and why a payment waits for one. */
   public BankAccountsApi bankAccounts() {
     return bankAccounts;
+  }
+
+  public UsageAlertsApi usageAlerts() {
+    return usageAlerts;
   }
 
   /** Suppliers' sanctions screening: which wait on a review, and why. Deciding on a match is a person's, in the app. */
