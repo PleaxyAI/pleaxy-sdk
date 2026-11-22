@@ -79,6 +79,8 @@ module Pleaxy
 
     attr_accessor :contract_early_payment
 
+    attr_accessor :early_payment_credit_note_id
+
     attr_accessor :last_reminded_at
 
     attr_accessor :last_approver_reminded_at
@@ -220,6 +222,7 @@ module Pleaxy
         :'due_date_source' => :'dueDateSource',
         :'early_payment' => :'earlyPayment',
         :'contract_early_payment' => :'contractEarlyPayment',
+        :'early_payment_credit_note_id' => :'earlyPaymentCreditNoteId',
         :'last_reminded_at' => :'lastRemindedAt',
         :'last_approver_reminded_at' => :'lastApproverRemindedAt',
         :'rejection' => :'rejection',
@@ -305,6 +308,7 @@ module Pleaxy
         :'due_date_source' => :'String',
         :'early_payment' => :'InvoiceEarlyPayment',
         :'contract_early_payment' => :'InvoiceEarlyPayment',
+        :'early_payment_credit_note_id' => :'String',
         :'last_reminded_at' => :'String',
         :'last_approver_reminded_at' => :'String',
         :'rejection' => :'InvoiceRejection',
@@ -501,6 +505,10 @@ module Pleaxy
 
       if attributes.key?(:'contract_early_payment')
         self.contract_early_payment = attributes[:'contract_early_payment']
+      end
+
+      if attributes.key?(:'early_payment_credit_note_id')
+        self.early_payment_credit_note_id = attributes[:'early_payment_credit_note_id']
       end
 
       if attributes.key?(:'last_reminded_at')
@@ -840,6 +848,7 @@ module Pleaxy
           due_date_source == o.due_date_source &&
           early_payment == o.early_payment &&
           contract_early_payment == o.contract_early_payment &&
+          early_payment_credit_note_id == o.early_payment_credit_note_id &&
           last_reminded_at == o.last_reminded_at &&
           last_approver_reminded_at == o.last_approver_reminded_at &&
           rejection == o.rejection &&
@@ -893,7 +902,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier, buyer_org_id, supplier_org_id, cloud_provider, late_fee_terms, amount, settlement, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, no_po_comparison, payment_route, paid, due_in_days, due_date, paid_at, payment, remittances, payment_problem, due_date_source, early_payment, contract_early_payment, last_reminded_at, last_approver_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, entered_by, invoice_date, submitted_format, e_invoice, e_invoice_details, e_invoice_buyer_downloaded_at, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, held_back, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, bank_details_confirmation, bank_lane, source_document, has_original_pdf, can_offer_early_payment, base_currency_amount, withdrawn_payment, buyer_workspace_id, next_reminder_at].hash
+      [supplier, buyer_org_id, supplier_org_id, cloud_provider, late_fee_terms, amount, settlement, approval, supplier_connection_id, currency, buyer_org_name, buyer_region_name, supplier_region_name, contract_id, line_items, po, po_line_no, bills_no_po_line, party_details, match_status, no_po_comparison, payment_route, paid, due_in_days, due_date, paid_at, payment, remittances, payment_problem, due_date_source, early_payment, contract_early_payment, early_payment_credit_note_id, last_reminded_at, last_approver_reminded_at, rejection, replaces_invoice_id, replaces_invoice_ids, replaced_by_invoice_ids, possible_duplicates, duplicates_checked, has_lookup_rows, entered_by, invoice_date, submitted_format, e_invoice, e_invoice_details, e_invoice_buyer_downloaded_at, external_invoice_number, adjustments, tax_amount, tax_breakdown, withholdings, document_type, amends_invoice_id, amends_external_invoice_number, debit_note_ids, invoice_kind, deductions, credit_applications, held_back, credit_note_ids, credit_version, payment_currency_amount, tax_currency_amount, remittance_instructions, bank_details_confirmation, bank_lane, source_document, has_original_pdf, can_offer_early_payment, base_currency_amount, withdrawn_payment, buyer_workspace_id, next_reminder_at].hash
     end
 
     # Builds the object from hash

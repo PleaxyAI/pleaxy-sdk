@@ -120,6 +120,7 @@ pub mod settlement_api;
 pub mod sourcing_api;
 pub mod supplier_connections_api;
 pub mod supplier_risk_api;
+pub mod usage_alerts_api;
 pub mod workspaces_api;
 
 pub mod configuration;

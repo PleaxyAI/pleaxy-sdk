@@ -143,6 +143,11 @@ pub struct ListInvoicesItemBuyerInvoice {
         skip_serializing_if = "Option::is_none"
     )]
     pub contract_early_payment: Option<models::InvoiceEarlyPayment>,
+    #[serde(
+        rename = "earlyPaymentCreditNoteId",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub early_payment_credit_note_id: Option<String>,
     #[serde(rename = "lastRemindedAt", skip_serializing_if = "Option::is_none")]
     pub last_reminded_at: Option<String>,
     #[serde(
@@ -332,6 +337,7 @@ impl ListInvoicesItemBuyerInvoice {
             due_date_source: None,
             early_payment: None,
             contract_early_payment: None,
+            early_payment_credit_note_id: None,
             last_reminded_at: None,
             last_approver_reminded_at: None,
             rejection: None,

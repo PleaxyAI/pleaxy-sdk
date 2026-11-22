@@ -245,6 +245,11 @@ const (
 	Workspace        AiAttributionRuleInputDimension = "workspace"
 )
 
+// Defines values for AiCommitmentFindingType.
+const (
+	AiCommitment AiCommitmentFindingType = "ai_commitment"
+)
+
 // Defines values for AiCommitmentViewAiInvoicer.
 const (
 	AiCommitmentViewAiInvoicerAnthropic  AiCommitmentViewAiInvoicer = "anthropic"
@@ -1442,11 +1447,12 @@ const (
 
 // Defines values for BuyerCreditNoteViewReason.
 const (
-	BuyerCreditNoteViewReasonOther           BuyerCreditNoteViewReason = "other"
-	BuyerCreditNoteViewReasonPriceAdjustment BuyerCreditNoteViewReason = "price_adjustment"
-	BuyerCreditNoteViewReasonRebate          BuyerCreditNoteViewReason = "rebate"
-	BuyerCreditNoteViewReasonReturnedGoods   BuyerCreditNoteViewReason = "returned_goods"
-	BuyerCreditNoteViewReasonServiceCredit   BuyerCreditNoteViewReason = "service_credit"
+	BuyerCreditNoteViewReasonEarlyPaymentDiscount BuyerCreditNoteViewReason = "early_payment_discount"
+	BuyerCreditNoteViewReasonOther                BuyerCreditNoteViewReason = "other"
+	BuyerCreditNoteViewReasonPriceAdjustment      BuyerCreditNoteViewReason = "price_adjustment"
+	BuyerCreditNoteViewReasonRebate               BuyerCreditNoteViewReason = "rebate"
+	BuyerCreditNoteViewReasonReturnedGoods        BuyerCreditNoteViewReason = "returned_goods"
+	BuyerCreditNoteViewReasonServiceCredit        BuyerCreditNoteViewReason = "service_credit"
 )
 
 // Defines values for BuyerCreditNoteViewSource.
@@ -1515,6 +1521,11 @@ const (
 // Defines values for BuyerSourcingResponseViewAnsweredVia.
 const (
 	BuyerSourcingResponseViewAnsweredViaLink BuyerSourcingResponseViewAnsweredVia = "link"
+)
+
+// Defines values for CapFindingType.
+const (
+	ContractCap CapFindingType = "contract_cap"
 )
 
 // Defines values for CloudAiSyncStateCode.
@@ -1682,6 +1693,11 @@ const (
 	CommentMeetingViewStatusOpen      CommentMeetingViewStatus = "open"
 )
 
+// Defines values for CommitmentFindingType.
+const (
+	ContractCommitment CommitmentFindingType = "contract_commitment"
+)
+
 // Defines values for ConvertPurchaseRequestInputMatching.
 const (
 	ConvertPurchaseRequestInputMatchingThreeWay ConvertPurchaseRequestInputMatching = "three_way"
@@ -1829,11 +1845,12 @@ const (
 
 // Defines values for CreateCreditNoteInputReason.
 const (
-	CreateCreditNoteInputReasonOther           CreateCreditNoteInputReason = "other"
-	CreateCreditNoteInputReasonPriceAdjustment CreateCreditNoteInputReason = "price_adjustment"
-	CreateCreditNoteInputReasonRebate          CreateCreditNoteInputReason = "rebate"
-	CreateCreditNoteInputReasonReturnedGoods   CreateCreditNoteInputReason = "returned_goods"
-	CreateCreditNoteInputReasonServiceCredit   CreateCreditNoteInputReason = "service_credit"
+	CreateCreditNoteInputReasonEarlyPaymentDiscount CreateCreditNoteInputReason = "early_payment_discount"
+	CreateCreditNoteInputReasonOther                CreateCreditNoteInputReason = "other"
+	CreateCreditNoteInputReasonPriceAdjustment      CreateCreditNoteInputReason = "price_adjustment"
+	CreateCreditNoteInputReasonRebate               CreateCreditNoteInputReason = "rebate"
+	CreateCreditNoteInputReasonReturnedGoods        CreateCreditNoteInputReason = "returned_goods"
+	CreateCreditNoteInputReasonServiceCredit        CreateCreditNoteInputReason = "service_credit"
 )
 
 // Defines values for CreateFeedInvoiceInputDocumentType.
@@ -1912,11 +1929,12 @@ const (
 
 // Defines values for CreateInvoiceResultBuyerCreditNoteReason.
 const (
-	CreateInvoiceResultBuyerCreditNoteReasonOther           CreateInvoiceResultBuyerCreditNoteReason = "other"
-	CreateInvoiceResultBuyerCreditNoteReasonPriceAdjustment CreateInvoiceResultBuyerCreditNoteReason = "price_adjustment"
-	CreateInvoiceResultBuyerCreditNoteReasonRebate          CreateInvoiceResultBuyerCreditNoteReason = "rebate"
-	CreateInvoiceResultBuyerCreditNoteReasonReturnedGoods   CreateInvoiceResultBuyerCreditNoteReason = "returned_goods"
-	CreateInvoiceResultBuyerCreditNoteReasonServiceCredit   CreateInvoiceResultBuyerCreditNoteReason = "service_credit"
+	CreateInvoiceResultBuyerCreditNoteReasonEarlyPaymentDiscount CreateInvoiceResultBuyerCreditNoteReason = "early_payment_discount"
+	CreateInvoiceResultBuyerCreditNoteReasonOther                CreateInvoiceResultBuyerCreditNoteReason = "other"
+	CreateInvoiceResultBuyerCreditNoteReasonPriceAdjustment      CreateInvoiceResultBuyerCreditNoteReason = "price_adjustment"
+	CreateInvoiceResultBuyerCreditNoteReasonRebate               CreateInvoiceResultBuyerCreditNoteReason = "rebate"
+	CreateInvoiceResultBuyerCreditNoteReasonReturnedGoods        CreateInvoiceResultBuyerCreditNoteReason = "returned_goods"
+	CreateInvoiceResultBuyerCreditNoteReasonServiceCredit        CreateInvoiceResultBuyerCreditNoteReason = "service_credit"
 )
 
 // Defines values for CreateInvoiceResultBuyerCreditNoteSource.
@@ -2103,11 +2121,12 @@ const (
 
 // Defines values for CreateInvoiceResultSupplierCreditNoteReason.
 const (
-	CreateInvoiceResultSupplierCreditNoteReasonOther           CreateInvoiceResultSupplierCreditNoteReason = "other"
-	CreateInvoiceResultSupplierCreditNoteReasonPriceAdjustment CreateInvoiceResultSupplierCreditNoteReason = "price_adjustment"
-	CreateInvoiceResultSupplierCreditNoteReasonRebate          CreateInvoiceResultSupplierCreditNoteReason = "rebate"
-	CreateInvoiceResultSupplierCreditNoteReasonReturnedGoods   CreateInvoiceResultSupplierCreditNoteReason = "returned_goods"
-	CreateInvoiceResultSupplierCreditNoteReasonServiceCredit   CreateInvoiceResultSupplierCreditNoteReason = "service_credit"
+	CreateInvoiceResultSupplierCreditNoteReasonEarlyPaymentDiscount CreateInvoiceResultSupplierCreditNoteReason = "early_payment_discount"
+	CreateInvoiceResultSupplierCreditNoteReasonOther                CreateInvoiceResultSupplierCreditNoteReason = "other"
+	CreateInvoiceResultSupplierCreditNoteReasonPriceAdjustment      CreateInvoiceResultSupplierCreditNoteReason = "price_adjustment"
+	CreateInvoiceResultSupplierCreditNoteReasonRebate               CreateInvoiceResultSupplierCreditNoteReason = "rebate"
+	CreateInvoiceResultSupplierCreditNoteReasonReturnedGoods        CreateInvoiceResultSupplierCreditNoteReason = "returned_goods"
+	CreateInvoiceResultSupplierCreditNoteReasonServiceCredit        CreateInvoiceResultSupplierCreditNoteReason = "service_credit"
 )
 
 // Defines values for CreateInvoiceResultSupplierCreditNoteSource.
@@ -2845,11 +2864,12 @@ const (
 
 // Defines values for GetInvoiceResultBuyerCreditNoteReason.
 const (
-	GetInvoiceResultBuyerCreditNoteReasonOther           GetInvoiceResultBuyerCreditNoteReason = "other"
-	GetInvoiceResultBuyerCreditNoteReasonPriceAdjustment GetInvoiceResultBuyerCreditNoteReason = "price_adjustment"
-	GetInvoiceResultBuyerCreditNoteReasonRebate          GetInvoiceResultBuyerCreditNoteReason = "rebate"
-	GetInvoiceResultBuyerCreditNoteReasonReturnedGoods   GetInvoiceResultBuyerCreditNoteReason = "returned_goods"
-	GetInvoiceResultBuyerCreditNoteReasonServiceCredit   GetInvoiceResultBuyerCreditNoteReason = "service_credit"
+	GetInvoiceResultBuyerCreditNoteReasonEarlyPaymentDiscount GetInvoiceResultBuyerCreditNoteReason = "early_payment_discount"
+	GetInvoiceResultBuyerCreditNoteReasonOther                GetInvoiceResultBuyerCreditNoteReason = "other"
+	GetInvoiceResultBuyerCreditNoteReasonPriceAdjustment      GetInvoiceResultBuyerCreditNoteReason = "price_adjustment"
+	GetInvoiceResultBuyerCreditNoteReasonRebate               GetInvoiceResultBuyerCreditNoteReason = "rebate"
+	GetInvoiceResultBuyerCreditNoteReasonReturnedGoods        GetInvoiceResultBuyerCreditNoteReason = "returned_goods"
+	GetInvoiceResultBuyerCreditNoteReasonServiceCredit        GetInvoiceResultBuyerCreditNoteReason = "service_credit"
 )
 
 // Defines values for GetInvoiceResultBuyerCreditNoteSource.
@@ -3036,11 +3056,12 @@ const (
 
 // Defines values for GetInvoiceResultSupplierCreditNoteReason.
 const (
-	GetInvoiceResultSupplierCreditNoteReasonOther           GetInvoiceResultSupplierCreditNoteReason = "other"
-	GetInvoiceResultSupplierCreditNoteReasonPriceAdjustment GetInvoiceResultSupplierCreditNoteReason = "price_adjustment"
-	GetInvoiceResultSupplierCreditNoteReasonRebate          GetInvoiceResultSupplierCreditNoteReason = "rebate"
-	GetInvoiceResultSupplierCreditNoteReasonReturnedGoods   GetInvoiceResultSupplierCreditNoteReason = "returned_goods"
-	GetInvoiceResultSupplierCreditNoteReasonServiceCredit   GetInvoiceResultSupplierCreditNoteReason = "service_credit"
+	GetInvoiceResultSupplierCreditNoteReasonEarlyPaymentDiscount GetInvoiceResultSupplierCreditNoteReason = "early_payment_discount"
+	GetInvoiceResultSupplierCreditNoteReasonOther                GetInvoiceResultSupplierCreditNoteReason = "other"
+	GetInvoiceResultSupplierCreditNoteReasonPriceAdjustment      GetInvoiceResultSupplierCreditNoteReason = "price_adjustment"
+	GetInvoiceResultSupplierCreditNoteReasonRebate               GetInvoiceResultSupplierCreditNoteReason = "rebate"
+	GetInvoiceResultSupplierCreditNoteReasonReturnedGoods        GetInvoiceResultSupplierCreditNoteReason = "returned_goods"
+	GetInvoiceResultSupplierCreditNoteReasonServiceCredit        GetInvoiceResultSupplierCreditNoteReason = "service_credit"
 )
 
 // Defines values for GetInvoiceResultSupplierCreditNoteSource.
@@ -4071,11 +4092,12 @@ const (
 
 // Defines values for ListAvailableCreditsResultCreditsReason.
 const (
-	ListAvailableCreditsResultCreditsReasonOther           ListAvailableCreditsResultCreditsReason = "other"
-	ListAvailableCreditsResultCreditsReasonPriceAdjustment ListAvailableCreditsResultCreditsReason = "price_adjustment"
-	ListAvailableCreditsResultCreditsReasonRebate          ListAvailableCreditsResultCreditsReason = "rebate"
-	ListAvailableCreditsResultCreditsReasonReturnedGoods   ListAvailableCreditsResultCreditsReason = "returned_goods"
-	ListAvailableCreditsResultCreditsReasonServiceCredit   ListAvailableCreditsResultCreditsReason = "service_credit"
+	ListAvailableCreditsResultCreditsReasonEarlyPaymentDiscount ListAvailableCreditsResultCreditsReason = "early_payment_discount"
+	ListAvailableCreditsResultCreditsReasonOther                ListAvailableCreditsResultCreditsReason = "other"
+	ListAvailableCreditsResultCreditsReasonPriceAdjustment      ListAvailableCreditsResultCreditsReason = "price_adjustment"
+	ListAvailableCreditsResultCreditsReasonRebate               ListAvailableCreditsResultCreditsReason = "rebate"
+	ListAvailableCreditsResultCreditsReasonReturnedGoods        ListAvailableCreditsResultCreditsReason = "returned_goods"
+	ListAvailableCreditsResultCreditsReasonServiceCredit        ListAvailableCreditsResultCreditsReason = "service_credit"
 )
 
 // Defines values for ListAvailableCreditsResultLocked.
@@ -4088,11 +4110,12 @@ const (
 
 // Defines values for ListAvailableCreditsResultPendingReason.
 const (
-	ListAvailableCreditsResultPendingReasonOther           ListAvailableCreditsResultPendingReason = "other"
-	ListAvailableCreditsResultPendingReasonPriceAdjustment ListAvailableCreditsResultPendingReason = "price_adjustment"
-	ListAvailableCreditsResultPendingReasonRebate          ListAvailableCreditsResultPendingReason = "rebate"
-	ListAvailableCreditsResultPendingReasonReturnedGoods   ListAvailableCreditsResultPendingReason = "returned_goods"
-	ListAvailableCreditsResultPendingReasonServiceCredit   ListAvailableCreditsResultPendingReason = "service_credit"
+	ListAvailableCreditsResultPendingReasonEarlyPaymentDiscount ListAvailableCreditsResultPendingReason = "early_payment_discount"
+	ListAvailableCreditsResultPendingReasonOther                ListAvailableCreditsResultPendingReason = "other"
+	ListAvailableCreditsResultPendingReasonPriceAdjustment      ListAvailableCreditsResultPendingReason = "price_adjustment"
+	ListAvailableCreditsResultPendingReasonRebate               ListAvailableCreditsResultPendingReason = "rebate"
+	ListAvailableCreditsResultPendingReasonReturnedGoods        ListAvailableCreditsResultPendingReason = "returned_goods"
+	ListAvailableCreditsResultPendingReasonServiceCredit        ListAvailableCreditsResultPendingReason = "service_credit"
 )
 
 // Defines values for ListInvoicesItemBuyerCreditNoteCloudProvider.
@@ -4135,11 +4158,12 @@ const (
 
 // Defines values for ListInvoicesItemBuyerCreditNoteReason.
 const (
-	ListInvoicesItemBuyerCreditNoteReasonOther           ListInvoicesItemBuyerCreditNoteReason = "other"
-	ListInvoicesItemBuyerCreditNoteReasonPriceAdjustment ListInvoicesItemBuyerCreditNoteReason = "price_adjustment"
-	ListInvoicesItemBuyerCreditNoteReasonRebate          ListInvoicesItemBuyerCreditNoteReason = "rebate"
-	ListInvoicesItemBuyerCreditNoteReasonReturnedGoods   ListInvoicesItemBuyerCreditNoteReason = "returned_goods"
-	ListInvoicesItemBuyerCreditNoteReasonServiceCredit   ListInvoicesItemBuyerCreditNoteReason = "service_credit"
+	ListInvoicesItemBuyerCreditNoteReasonEarlyPaymentDiscount ListInvoicesItemBuyerCreditNoteReason = "early_payment_discount"
+	ListInvoicesItemBuyerCreditNoteReasonOther                ListInvoicesItemBuyerCreditNoteReason = "other"
+	ListInvoicesItemBuyerCreditNoteReasonPriceAdjustment      ListInvoicesItemBuyerCreditNoteReason = "price_adjustment"
+	ListInvoicesItemBuyerCreditNoteReasonRebate               ListInvoicesItemBuyerCreditNoteReason = "rebate"
+	ListInvoicesItemBuyerCreditNoteReasonReturnedGoods        ListInvoicesItemBuyerCreditNoteReason = "returned_goods"
+	ListInvoicesItemBuyerCreditNoteReasonServiceCredit        ListInvoicesItemBuyerCreditNoteReason = "service_credit"
 )
 
 // Defines values for ListInvoicesItemBuyerCreditNoteSource.
@@ -4327,11 +4351,12 @@ const (
 
 // Defines values for ListInvoicesItemSupplierCreditNoteReason.
 const (
-	ListInvoicesItemSupplierCreditNoteReasonOther           ListInvoicesItemSupplierCreditNoteReason = "other"
-	ListInvoicesItemSupplierCreditNoteReasonPriceAdjustment ListInvoicesItemSupplierCreditNoteReason = "price_adjustment"
-	ListInvoicesItemSupplierCreditNoteReasonRebate          ListInvoicesItemSupplierCreditNoteReason = "rebate"
-	ListInvoicesItemSupplierCreditNoteReasonReturnedGoods   ListInvoicesItemSupplierCreditNoteReason = "returned_goods"
-	ListInvoicesItemSupplierCreditNoteReasonServiceCredit   ListInvoicesItemSupplierCreditNoteReason = "service_credit"
+	ListInvoicesItemSupplierCreditNoteReasonEarlyPaymentDiscount ListInvoicesItemSupplierCreditNoteReason = "early_payment_discount"
+	ListInvoicesItemSupplierCreditNoteReasonOther                ListInvoicesItemSupplierCreditNoteReason = "other"
+	ListInvoicesItemSupplierCreditNoteReasonPriceAdjustment      ListInvoicesItemSupplierCreditNoteReason = "price_adjustment"
+	ListInvoicesItemSupplierCreditNoteReasonRebate               ListInvoicesItemSupplierCreditNoteReason = "rebate"
+	ListInvoicesItemSupplierCreditNoteReasonReturnedGoods        ListInvoicesItemSupplierCreditNoteReason = "returned_goods"
+	ListInvoicesItemSupplierCreditNoteReasonServiceCredit        ListInvoicesItemSupplierCreditNoteReason = "service_credit"
 )
 
 // Defines values for ListInvoicesItemSupplierCreditNoteSource.
@@ -4745,6 +4770,103 @@ const (
 const (
 	OrgProfileSetupGoalAudit   OrgProfileSetupGoal = "audit"
 	OrgProfileSetupGoalNetwork OrgProfileSetupGoal = "network"
+)
+
+// Defines values for PaceFindingLastMonthSource.
+const (
+	PaceFindingLastMonthSourceInvoice  PaceFindingLastMonthSource = "invoice"
+	PaceFindingLastMonthSourceSnapshot PaceFindingLastMonthSource = "snapshot"
+)
+
+// Defines values for PaceFindingSubject0Invoicer.
+const (
+	PaceFindingSubject0InvoicerAnthropic  PaceFindingSubject0Invoicer = "anthropic"
+	PaceFindingSubject0InvoicerAws        PaceFindingSubject0Invoicer = "aws"
+	PaceFindingSubject0InvoicerAzure      PaceFindingSubject0Invoicer = "azure"
+	PaceFindingSubject0InvoicerCohere     PaceFindingSubject0Invoicer = "cohere"
+	PaceFindingSubject0InvoicerCoreweave  PaceFindingSubject0Invoicer = "coreweave"
+	PaceFindingSubject0InvoicerCrusoe     PaceFindingSubject0Invoicer = "crusoe"
+	PaceFindingSubject0InvoicerCursor     PaceFindingSubject0Invoicer = "cursor"
+	PaceFindingSubject0InvoicerDatabricks PaceFindingSubject0Invoicer = "databricks"
+	PaceFindingSubject0InvoicerGcp        PaceFindingSubject0Invoicer = "gcp"
+	PaceFindingSubject0InvoicerGithub     PaceFindingSubject0Invoicer = "github"
+	PaceFindingSubject0InvoicerLambda     PaceFindingSubject0Invoicer = "lambda"
+	PaceFindingSubject0InvoicerMicrosoft  PaceFindingSubject0Invoicer = "microsoft"
+	PaceFindingSubject0InvoicerMistral    PaceFindingSubject0Invoicer = "mistral"
+	PaceFindingSubject0InvoicerNebius     PaceFindingSubject0Invoicer = "nebius"
+	PaceFindingSubject0InvoicerOci        PaceFindingSubject0Invoicer = "oci"
+	PaceFindingSubject0InvoicerOpenai     PaceFindingSubject0Invoicer = "openai"
+	PaceFindingSubject0InvoicerOpenrouter PaceFindingSubject0Invoicer = "openrouter"
+	PaceFindingSubject0InvoicerSlack      PaceFindingSubject0Invoicer = "slack"
+	PaceFindingSubject0InvoicerSnowflake  PaceFindingSubject0Invoicer = "snowflake"
+	PaceFindingSubject0InvoicerXai        PaceFindingSubject0Invoicer = "xai"
+	PaceFindingSubject0InvoicerZoom       PaceFindingSubject0Invoicer = "zoom"
+)
+
+// Defines values for PaceFindingSubject0Kind.
+const (
+	PaceFindingSubject0KindAiInvoicer PaceFindingSubject0Kind = "ai_invoicer"
+)
+
+// Defines values for PaceFindingSubject1Invoicer.
+const (
+	PaceFindingSubject1InvoicerAnthropic  PaceFindingSubject1Invoicer = "anthropic"
+	PaceFindingSubject1InvoicerAws        PaceFindingSubject1Invoicer = "aws"
+	PaceFindingSubject1InvoicerAzure      PaceFindingSubject1Invoicer = "azure"
+	PaceFindingSubject1InvoicerCohere     PaceFindingSubject1Invoicer = "cohere"
+	PaceFindingSubject1InvoicerCoreweave  PaceFindingSubject1Invoicer = "coreweave"
+	PaceFindingSubject1InvoicerCrusoe     PaceFindingSubject1Invoicer = "crusoe"
+	PaceFindingSubject1InvoicerCursor     PaceFindingSubject1Invoicer = "cursor"
+	PaceFindingSubject1InvoicerDatabricks PaceFindingSubject1Invoicer = "databricks"
+	PaceFindingSubject1InvoicerGcp        PaceFindingSubject1Invoicer = "gcp"
+	PaceFindingSubject1InvoicerGithub     PaceFindingSubject1Invoicer = "github"
+	PaceFindingSubject1InvoicerLambda     PaceFindingSubject1Invoicer = "lambda"
+	PaceFindingSubject1InvoicerMicrosoft  PaceFindingSubject1Invoicer = "microsoft"
+	PaceFindingSubject1InvoicerMistral    PaceFindingSubject1Invoicer = "mistral"
+	PaceFindingSubject1InvoicerNebius     PaceFindingSubject1Invoicer = "nebius"
+	PaceFindingSubject1InvoicerOci        PaceFindingSubject1Invoicer = "oci"
+	PaceFindingSubject1InvoicerOpenai     PaceFindingSubject1Invoicer = "openai"
+	PaceFindingSubject1InvoicerOpenrouter PaceFindingSubject1Invoicer = "openrouter"
+	PaceFindingSubject1InvoicerSlack      PaceFindingSubject1Invoicer = "slack"
+	PaceFindingSubject1InvoicerSnowflake  PaceFindingSubject1Invoicer = "snowflake"
+	PaceFindingSubject1InvoicerXai        PaceFindingSubject1Invoicer = "xai"
+	PaceFindingSubject1InvoicerZoom       PaceFindingSubject1Invoicer = "zoom"
+)
+
+// Defines values for PaceFindingSubject1Kind.
+const (
+	PaceFindingSubject1KindAiModel PaceFindingSubject1Kind = "ai_model"
+)
+
+// Defines values for PaceFindingSubject2Kind.
+const (
+	PaceFindingSubject2KindCloudAccount PaceFindingSubject2Kind = "cloud_account"
+)
+
+// Defines values for PaceFindingSubject2Provider.
+const (
+	PaceFindingSubject2ProviderAws   PaceFindingSubject2Provider = "aws"
+	PaceFindingSubject2ProviderAzure PaceFindingSubject2Provider = "azure"
+	PaceFindingSubject2ProviderGcp   PaceFindingSubject2Provider = "gcp"
+	PaceFindingSubject2ProviderOci   PaceFindingSubject2Provider = "oci"
+)
+
+// Defines values for PaceFindingSubject3Kind.
+const (
+	PaceFindingSubject3KindCloudService PaceFindingSubject3Kind = "cloud_service"
+)
+
+// Defines values for PaceFindingSubject3Provider.
+const (
+	PaceFindingSubject3ProviderAws   PaceFindingSubject3Provider = "aws"
+	PaceFindingSubject3ProviderAzure PaceFindingSubject3Provider = "azure"
+	PaceFindingSubject3ProviderGcp   PaceFindingSubject3Provider = "gcp"
+	PaceFindingSubject3ProviderOci   PaceFindingSubject3Provider = "oci"
+)
+
+// Defines values for PaceFindingType.
+const (
+	Pace PaceFindingType = "pace"
 )
 
 // Defines values for PaymentHistoryEntryAction.
@@ -5911,6 +6033,97 @@ const (
 	Requester SpendLimitBreachSubject = "requester"
 )
 
+// Defines values for SpikeFindingSubject0Invoicer.
+const (
+	SpikeFindingSubject0InvoicerAnthropic  SpikeFindingSubject0Invoicer = "anthropic"
+	SpikeFindingSubject0InvoicerAws        SpikeFindingSubject0Invoicer = "aws"
+	SpikeFindingSubject0InvoicerAzure      SpikeFindingSubject0Invoicer = "azure"
+	SpikeFindingSubject0InvoicerCohere     SpikeFindingSubject0Invoicer = "cohere"
+	SpikeFindingSubject0InvoicerCoreweave  SpikeFindingSubject0Invoicer = "coreweave"
+	SpikeFindingSubject0InvoicerCrusoe     SpikeFindingSubject0Invoicer = "crusoe"
+	SpikeFindingSubject0InvoicerCursor     SpikeFindingSubject0Invoicer = "cursor"
+	SpikeFindingSubject0InvoicerDatabricks SpikeFindingSubject0Invoicer = "databricks"
+	SpikeFindingSubject0InvoicerGcp        SpikeFindingSubject0Invoicer = "gcp"
+	SpikeFindingSubject0InvoicerGithub     SpikeFindingSubject0Invoicer = "github"
+	SpikeFindingSubject0InvoicerLambda     SpikeFindingSubject0Invoicer = "lambda"
+	SpikeFindingSubject0InvoicerMicrosoft  SpikeFindingSubject0Invoicer = "microsoft"
+	SpikeFindingSubject0InvoicerMistral    SpikeFindingSubject0Invoicer = "mistral"
+	SpikeFindingSubject0InvoicerNebius     SpikeFindingSubject0Invoicer = "nebius"
+	SpikeFindingSubject0InvoicerOci        SpikeFindingSubject0Invoicer = "oci"
+	SpikeFindingSubject0InvoicerOpenai     SpikeFindingSubject0Invoicer = "openai"
+	SpikeFindingSubject0InvoicerOpenrouter SpikeFindingSubject0Invoicer = "openrouter"
+	SpikeFindingSubject0InvoicerSlack      SpikeFindingSubject0Invoicer = "slack"
+	SpikeFindingSubject0InvoicerSnowflake  SpikeFindingSubject0Invoicer = "snowflake"
+	SpikeFindingSubject0InvoicerXai        SpikeFindingSubject0Invoicer = "xai"
+	SpikeFindingSubject0InvoicerZoom       SpikeFindingSubject0Invoicer = "zoom"
+)
+
+// Defines values for SpikeFindingSubject0Kind.
+const (
+	SpikeFindingSubject0KindAiInvoicer SpikeFindingSubject0Kind = "ai_invoicer"
+)
+
+// Defines values for SpikeFindingSubject1Invoicer.
+const (
+	SpikeFindingSubject1InvoicerAnthropic  SpikeFindingSubject1Invoicer = "anthropic"
+	SpikeFindingSubject1InvoicerAws        SpikeFindingSubject1Invoicer = "aws"
+	SpikeFindingSubject1InvoicerAzure      SpikeFindingSubject1Invoicer = "azure"
+	SpikeFindingSubject1InvoicerCohere     SpikeFindingSubject1Invoicer = "cohere"
+	SpikeFindingSubject1InvoicerCoreweave  SpikeFindingSubject1Invoicer = "coreweave"
+	SpikeFindingSubject1InvoicerCrusoe     SpikeFindingSubject1Invoicer = "crusoe"
+	SpikeFindingSubject1InvoicerCursor     SpikeFindingSubject1Invoicer = "cursor"
+	SpikeFindingSubject1InvoicerDatabricks SpikeFindingSubject1Invoicer = "databricks"
+	SpikeFindingSubject1InvoicerGcp        SpikeFindingSubject1Invoicer = "gcp"
+	SpikeFindingSubject1InvoicerGithub     SpikeFindingSubject1Invoicer = "github"
+	SpikeFindingSubject1InvoicerLambda     SpikeFindingSubject1Invoicer = "lambda"
+	SpikeFindingSubject1InvoicerMicrosoft  SpikeFindingSubject1Invoicer = "microsoft"
+	SpikeFindingSubject1InvoicerMistral    SpikeFindingSubject1Invoicer = "mistral"
+	SpikeFindingSubject1InvoicerNebius     SpikeFindingSubject1Invoicer = "nebius"
+	SpikeFindingSubject1InvoicerOci        SpikeFindingSubject1Invoicer = "oci"
+	SpikeFindingSubject1InvoicerOpenai     SpikeFindingSubject1Invoicer = "openai"
+	SpikeFindingSubject1InvoicerOpenrouter SpikeFindingSubject1Invoicer = "openrouter"
+	SpikeFindingSubject1InvoicerSlack      SpikeFindingSubject1Invoicer = "slack"
+	SpikeFindingSubject1InvoicerSnowflake  SpikeFindingSubject1Invoicer = "snowflake"
+	SpikeFindingSubject1InvoicerXai        SpikeFindingSubject1Invoicer = "xai"
+	SpikeFindingSubject1InvoicerZoom       SpikeFindingSubject1Invoicer = "zoom"
+)
+
+// Defines values for SpikeFindingSubject1Kind.
+const (
+	SpikeFindingSubject1KindAiModel SpikeFindingSubject1Kind = "ai_model"
+)
+
+// Defines values for SpikeFindingSubject2Kind.
+const (
+	SpikeFindingSubject2KindCloudAccount SpikeFindingSubject2Kind = "cloud_account"
+)
+
+// Defines values for SpikeFindingSubject2Provider.
+const (
+	SpikeFindingSubject2ProviderAws   SpikeFindingSubject2Provider = "aws"
+	SpikeFindingSubject2ProviderAzure SpikeFindingSubject2Provider = "azure"
+	SpikeFindingSubject2ProviderGcp   SpikeFindingSubject2Provider = "gcp"
+	SpikeFindingSubject2ProviderOci   SpikeFindingSubject2Provider = "oci"
+)
+
+// Defines values for SpikeFindingSubject3Kind.
+const (
+	SpikeFindingSubject3KindCloudService SpikeFindingSubject3Kind = "cloud_service"
+)
+
+// Defines values for SpikeFindingSubject3Provider.
+const (
+	SpikeFindingSubject3ProviderAws   SpikeFindingSubject3Provider = "aws"
+	SpikeFindingSubject3ProviderAzure SpikeFindingSubject3Provider = "azure"
+	SpikeFindingSubject3ProviderGcp   SpikeFindingSubject3Provider = "gcp"
+	SpikeFindingSubject3ProviderOci   SpikeFindingSubject3Provider = "oci"
+)
+
+// Defines values for SpikeFindingType.
+const (
+	Spike SpikeFindingType = "spike"
+)
+
 // Defines values for StartStripePaymentResultState.
 const (
 	StartStripePaymentResultStateCheckoutOpen StartStripePaymentResultState = "checkout_open"
@@ -6125,11 +6338,12 @@ const (
 
 // Defines values for SupplierCreditNoteViewReason.
 const (
-	SupplierCreditNoteViewReasonOther           SupplierCreditNoteViewReason = "other"
-	SupplierCreditNoteViewReasonPriceAdjustment SupplierCreditNoteViewReason = "price_adjustment"
-	SupplierCreditNoteViewReasonRebate          SupplierCreditNoteViewReason = "rebate"
-	SupplierCreditNoteViewReasonReturnedGoods   SupplierCreditNoteViewReason = "returned_goods"
-	SupplierCreditNoteViewReasonServiceCredit   SupplierCreditNoteViewReason = "service_credit"
+	SupplierCreditNoteViewReasonEarlyPaymentDiscount SupplierCreditNoteViewReason = "early_payment_discount"
+	SupplierCreditNoteViewReasonOther                SupplierCreditNoteViewReason = "other"
+	SupplierCreditNoteViewReasonPriceAdjustment      SupplierCreditNoteViewReason = "price_adjustment"
+	SupplierCreditNoteViewReasonRebate               SupplierCreditNoteViewReason = "rebate"
+	SupplierCreditNoteViewReasonReturnedGoods        SupplierCreditNoteViewReason = "returned_goods"
+	SupplierCreditNoteViewReasonServiceCredit        SupplierCreditNoteViewReason = "service_credit"
 )
 
 // Defines values for SupplierCreditNoteViewSource.
@@ -6301,6 +6515,16 @@ const (
 	TestWebhookResultErrorCodeUnreachable    TestWebhookResultErrorCode = "unreachable"
 )
 
+// Defines values for TierFindingExcess.
+const (
+	N0 TierFindingExcess = 0
+)
+
+// Defines values for TierFindingType.
+const (
+	ContractTier TierFindingType = "contract_tier"
+)
+
 // Defines values for UpdateApprovalChainInputLinkedTo.
 const (
 	UpdateApprovalChainInputLinkedToInvoicePayment UpdateApprovalChainInputLinkedTo = "invoice_payment"
@@ -6355,13 +6579,28 @@ const (
 	PtBR UpdateOrgProfileInputLocale = "pt-BR"
 )
 
+// Defines values for UpdateUsageAlertSettingsInputSensitivity.
+const (
+	UpdateUsageAlertSettingsInputSensitivityHigh   UpdateUsageAlertSettingsInputSensitivity = "high"
+	UpdateUsageAlertSettingsInputSensitivityLow    UpdateUsageAlertSettingsInputSensitivity = "low"
+	UpdateUsageAlertSettingsInputSensitivityMedium UpdateUsageAlertSettingsInputSensitivity = "medium"
+)
+
+// Defines values for UsageAlertSettingsSensitivity.
+const (
+	UsageAlertSettingsSensitivityHigh   UsageAlertSettingsSensitivity = "high"
+	UsageAlertSettingsSensitivityLow    UsageAlertSettingsSensitivity = "low"
+	UsageAlertSettingsSensitivityMedium UsageAlertSettingsSensitivity = "medium"
+)
+
 // Defines values for ValidateFeedInvoiceResultCreditNoteCreditNoteReason.
 const (
-	Other           ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "other"
-	PriceAdjustment ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "price_adjustment"
-	Rebate          ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "rebate"
-	ReturnedGoods   ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "returned_goods"
-	ServiceCredit   ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "service_credit"
+	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonEarlyPaymentDiscount ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "early_payment_discount"
+	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonOther                ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "other"
+	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonPriceAdjustment      ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "price_adjustment"
+	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonRebate               ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "rebate"
+	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonReturnedGoods        ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "returned_goods"
+	ValidateFeedInvoiceResultCreditNoteCreditNoteReasonServiceCredit        ValidateFeedInvoiceResultCreditNoteCreditNoteReason = "service_credit"
 )
 
 // Defines values for ValidateFeedInvoiceResultCreditNoteDocumentType.
@@ -6684,6 +6923,7 @@ type AddInvoiceReplacementLinksResult struct {
 	EInvoiceBuyerDownloadedAt   *string                                            `json:"eInvoiceBuyerDownloadedAt,omitempty"`
 	EInvoiceDetails             *InvoiceEInvoiceDetails                            `json:"eInvoiceDetails,omitempty"`
 	EarlyPayment                *InvoiceEarlyPayment                               `json:"earlyPayment,omitempty"`
+	EarlyPaymentCreditNoteId    *string                                            `json:"earlyPaymentCreditNoteId,omitempty"`
 	EnteredBy                   *AddInvoiceReplacementLinksResultEnteredBy         `json:"enteredBy,omitempty"`
 	ExportAvailableFrom         *string                                            `json:"exportAvailableFrom,omitempty"`
 	ExternalInvoiceNumber       *string                                            `json:"externalInvoiceNumber,omitempty"`
@@ -6875,6 +7115,25 @@ type AiAttributionRuleView struct {
 	} `json:"matched,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
+
+// AiCommitmentFinding defines model for AiCommitmentFinding.
+type AiCommitmentFinding struct {
+	Committed     *float64                 `json:"committed,omitempty"`
+	ContractId    *string                  `json:"contractId,omitempty"`
+	ContractTitle *string                  `json:"contractTitle,omitempty"`
+	Currency      *string                  `json:"currency,omitempty"`
+	Description   *string                  `json:"description,omitempty"`
+	Excess        *float64                 `json:"excess,omitempty"`
+	Projected     *float64                 `json:"projected,omitempty"`
+	Supplier      *string                  `json:"supplier,omitempty"`
+	TermId        *string                  `json:"termId,omitempty"`
+	Type          *AiCommitmentFindingType `json:"type,omitempty"`
+	WindowEnd     *string                  `json:"windowEnd,omitempty"`
+	WindowStart   *string                  `json:"windowStart,omitempty"`
+}
+
+// AiCommitmentFindingType defines model for AiCommitmentFinding.Type.
+type AiCommitmentFindingType string
 
 // AiCommitmentView defines model for AiCommitmentView.
 type AiCommitmentView struct {
@@ -8523,6 +8782,23 @@ type CancelPurchaseOrderInput struct {
 	Reason *string `json:"reason,omitempty"`
 }
 
+// CapFinding defines model for CapFinding.
+type CapFinding struct {
+	Billed        *float64        `json:"billed,omitempty"`
+	Cap           *float64        `json:"cap,omitempty"`
+	ContractId    *string         `json:"contractId,omitempty"`
+	ContractTitle *string         `json:"contractTitle,omitempty"`
+	Currency      *string         `json:"currency,omitempty"`
+	Excess        *float64        `json:"excess,omitempty"`
+	Projected     *float64        `json:"projected,omitempty"`
+	Supplier      *string         `json:"supplier,omitempty"`
+	Total         *float64        `json:"total,omitempty"`
+	Type          *CapFindingType `json:"type,omitempty"`
+}
+
+// CapFindingType defines model for CapFinding.Type.
+type CapFindingType string
+
 // ChangeFinishedCostCenterInput defines model for ChangeFinishedCostCenterInput.
 type ChangeFinishedCostCenterInput struct {
 	// CostCenter The cost center to book the order to: an active one from the workspace's cost centers when it keeps a list.
@@ -8780,6 +9056,25 @@ type CommentMention struct {
 	EmployeeKey *string `json:"employeeKey,omitempty"`
 	Name        *string `json:"name,omitempty"`
 }
+
+// CommitmentFinding defines model for CommitmentFinding.
+type CommitmentFinding struct {
+	Billed        *float64               `json:"billed,omitempty"`
+	Committed     *float64               `json:"committed,omitempty"`
+	ContractId    *string                `json:"contractId,omitempty"`
+	ContractTitle *string                `json:"contractTitle,omitempty"`
+	Currency      *string                `json:"currency,omitempty"`
+	Excess        *float64               `json:"excess,omitempty"`
+	Projected     *float64               `json:"projected,omitempty"`
+	Supplier      *string                `json:"supplier,omitempty"`
+	Total         *float64               `json:"total,omitempty"`
+	Type          *CommitmentFindingType `json:"type,omitempty"`
+	WindowEnd     *string                `json:"windowEnd,omitempty"`
+	WindowStart   *string                `json:"windowStart,omitempty"`
+}
+
+// CommitmentFindingType defines model for CommitmentFinding.Type.
+type CommitmentFindingType string
 
 // ConfluentConnectionInput defines model for ConfluentConnectionInput.
 type ConfluentConnectionInput struct {
@@ -9046,7 +9341,7 @@ type CreateCreditNoteInput struct {
 	// PdfBase64 Base64-encoded PDF of the credit note as issued, kept with it. Up to 8 MB.
 	PdfBase64 *string `json:"pdfBase64,omitempty"`
 
-	// Reason returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't.
+	// Reason returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't. early_payment_discount documents the early-payment discount the invoice's payment took: invoiceId required, its total exactly that discount, once per invoice; it is settled by that payment, so it leaves no credit to use (GET .../invoices/:invoiceId/early-payment-credit-note prepares one).
 	Reason CreateCreditNoteInputReason `json:"reason"`
 
 	// SourceImportId Buyer only: the invoice import (POST .../invoice-imports) this credit note was recorded from - the supplier's credit note document Pleaxy read. Its document is kept with the credit note when it is a PDF under 8 MB, and the import records the credit note.
@@ -9059,7 +9354,7 @@ type CreateCreditNoteInput struct {
 	TaxBreakdown *[]BreakdownEntryInput `json:"taxBreakdown,omitempty"`
 }
 
-// CreateCreditNoteInputReason returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't.
+// CreateCreditNoteInputReason returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't. early_payment_discount documents the early-payment discount the invoice's payment took: invoiceId required, its total exactly that discount, once per invoice; it is settled by that payment, so it leaves no credit to use (GET .../invoices/:invoiceId/early-payment-credit-note prepares one).
 type CreateCreditNoteInputReason string
 
 // CreateCreditNoteResult defines model for CreateCreditNoteResult.
@@ -9338,6 +9633,7 @@ type CreateInvoiceResultBuyerInvoice struct {
 	EInvoiceBuyerDownloadedAt   *string                                           `json:"eInvoiceBuyerDownloadedAt,omitempty"`
 	EInvoiceDetails             *InvoiceEInvoiceDetails                           `json:"eInvoiceDetails,omitempty"`
 	EarlyPayment                *InvoiceEarlyPayment                              `json:"earlyPayment,omitempty"`
+	EarlyPaymentCreditNoteId    *string                                           `json:"earlyPaymentCreditNoteId,omitempty"`
 	EnteredBy                   *CreateInvoiceResultBuyerInvoiceEnteredBy         `json:"enteredBy,omitempty"`
 	ExportAvailableFrom         *string                                           `json:"exportAvailableFrom,omitempty"`
 	ExternalInvoiceNumber       *string                                           `json:"externalInvoiceNumber,omitempty"`
@@ -9613,6 +9909,7 @@ type CreateInvoiceResultSupplierInvoice struct {
 	EInvoiceBuyerDownloadedAt   *string                                          `json:"eInvoiceBuyerDownloadedAt,omitempty"`
 	EInvoiceDetails             *InvoiceEInvoiceDetails                          `json:"eInvoiceDetails,omitempty"`
 	EarlyPayment                *InvoiceEarlyPayment                             `json:"earlyPayment,omitempty"`
+	EarlyPaymentCreditNoteId    *string                                          `json:"earlyPaymentCreditNoteId,omitempty"`
 	EnteredBy                   *CreateInvoiceResultSupplierInvoiceEnteredBy     `json:"enteredBy,omitempty"`
 	ExternalInvoiceNumber       *string                                          `json:"externalInvoiceNumber,omitempty"`
 	HasLookupRows               *bool                                            `json:"hasLookupRows,omitempty"`
@@ -10492,6 +10789,7 @@ type FeedValidationResult struct {
 		EInvoiceBuyerDownloadedAt   *string                                   `json:"eInvoiceBuyerDownloadedAt,omitempty"`
 		EInvoiceDetails             *InvoiceEInvoiceDetails                   `json:"eInvoiceDetails,omitempty"`
 		EarlyPayment                *InvoiceEarlyPayment                      `json:"earlyPayment,omitempty"`
+		EarlyPaymentCreditNoteId    *string                                   `json:"earlyPaymentCreditNoteId,omitempty"`
 		EnteredBy                   *FeedValidationResultInvoiceEnteredBy     `json:"enteredBy,omitempty"`
 		ExternalInvoiceNumber       *string                                   `json:"externalInvoiceNumber,omitempty"`
 		HasLookupRows               *bool                                     `json:"hasLookupRows,omitempty"`
@@ -11154,6 +11452,7 @@ type GetInvoiceResultBuyerInvoice struct {
 	EInvoiceBuyerDownloadedAt   *string                                        `json:"eInvoiceBuyerDownloadedAt,omitempty"`
 	EInvoiceDetails             *InvoiceEInvoiceDetails                        `json:"eInvoiceDetails,omitempty"`
 	EarlyPayment                *InvoiceEarlyPayment                           `json:"earlyPayment,omitempty"`
+	EarlyPaymentCreditNoteId    *string                                        `json:"earlyPaymentCreditNoteId,omitempty"`
 	EnteredBy                   *GetInvoiceResultBuyerInvoiceEnteredBy         `json:"enteredBy,omitempty"`
 	ExportAvailableFrom         *string                                        `json:"exportAvailableFrom,omitempty"`
 	ExternalInvoiceNumber       *string                                        `json:"externalInvoiceNumber,omitempty"`
@@ -11429,6 +11728,7 @@ type GetInvoiceResultSupplierInvoice struct {
 	EInvoiceBuyerDownloadedAt   *string                                       `json:"eInvoiceBuyerDownloadedAt,omitempty"`
 	EInvoiceDetails             *InvoiceEInvoiceDetails                       `json:"eInvoiceDetails,omitempty"`
 	EarlyPayment                *InvoiceEarlyPayment                          `json:"earlyPayment,omitempty"`
+	EarlyPaymentCreditNoteId    *string                                       `json:"earlyPaymentCreditNoteId,omitempty"`
 	EnteredBy                   *GetInvoiceResultSupplierInvoiceEnteredBy     `json:"enteredBy,omitempty"`
 	ExternalInvoiceNumber       *string                                       `json:"externalInvoiceNumber,omitempty"`
 	HasLookupRows               *bool                                         `json:"hasLookupRows,omitempty"`
@@ -12003,6 +12303,7 @@ type InvoiceBuyerView struct {
 	EInvoiceBuyerDownloadedAt   *string                            `json:"eInvoiceBuyerDownloadedAt,omitempty"`
 	EInvoiceDetails             *InvoiceEInvoiceDetails            `json:"eInvoiceDetails,omitempty"`
 	EarlyPayment                *InvoiceEarlyPayment               `json:"earlyPayment,omitempty"`
+	EarlyPaymentCreditNoteId    *string                            `json:"earlyPaymentCreditNoteId,omitempty"`
 	EnteredBy                   *InvoiceBuyerViewEnteredBy         `json:"enteredBy,omitempty"`
 	ExportAvailableFrom         *string                            `json:"exportAvailableFrom,omitempty"`
 	ExternalInvoiceNumber       *string                            `json:"externalInvoiceNumber,omitempty"`
@@ -12621,6 +12922,7 @@ type InvoiceSupplierView struct {
 	EInvoiceBuyerDownloadedAt   *string                              `json:"eInvoiceBuyerDownloadedAt,omitempty"`
 	EInvoiceDetails             *InvoiceEInvoiceDetails              `json:"eInvoiceDetails,omitempty"`
 	EarlyPayment                *InvoiceEarlyPayment                 `json:"earlyPayment,omitempty"`
+	EarlyPaymentCreditNoteId    *string                              `json:"earlyPaymentCreditNoteId,omitempty"`
 	EnteredBy                   *InvoiceSupplierViewEnteredBy        `json:"enteredBy,omitempty"`
 	ExternalInvoiceNumber       *string                              `json:"externalInvoiceNumber,omitempty"`
 	HasLookupRows               *bool                                `json:"hasLookupRows,omitempty"`
@@ -13181,6 +13483,7 @@ type ListInvoicesItemBuyerInvoice struct {
 	EInvoiceBuyerDownloadedAt   *string                                        `json:"eInvoiceBuyerDownloadedAt,omitempty"`
 	EInvoiceDetails             *InvoiceEInvoiceDetails                        `json:"eInvoiceDetails,omitempty"`
 	EarlyPayment                *InvoiceEarlyPayment                           `json:"earlyPayment,omitempty"`
+	EarlyPaymentCreditNoteId    *string                                        `json:"earlyPaymentCreditNoteId,omitempty"`
 	EnteredBy                   *ListInvoicesItemBuyerInvoiceEnteredBy         `json:"enteredBy,omitempty"`
 	ExportAvailableFrom         *string                                        `json:"exportAvailableFrom,omitempty"`
 	ExternalInvoiceNumber       *string                                        `json:"externalInvoiceNumber,omitempty"`
@@ -13456,6 +13759,7 @@ type ListInvoicesItemSupplierInvoice struct {
 	EInvoiceBuyerDownloadedAt   *string                                       `json:"eInvoiceBuyerDownloadedAt,omitempty"`
 	EInvoiceDetails             *InvoiceEInvoiceDetails                       `json:"eInvoiceDetails,omitempty"`
 	EarlyPayment                *InvoiceEarlyPayment                          `json:"earlyPayment,omitempty"`
+	EarlyPaymentCreditNoteId    *string                                       `json:"earlyPaymentCreditNoteId,omitempty"`
 	EnteredBy                   *ListInvoicesItemSupplierInvoiceEnteredBy     `json:"enteredBy,omitempty"`
 	ExternalInvoiceNumber       *string                                       `json:"externalInvoiceNumber,omitempty"`
 	HasLookupRows               *bool                                         `json:"hasLookupRows,omitempty"`
@@ -13871,6 +14175,96 @@ type OrgProfileRole string
 
 // OrgProfileSetupGoal defines model for OrgProfile.SetupGoal.
 type OrgProfileSetupGoal string
+
+// PaceFinding defines model for PaceFinding.
+type PaceFinding struct {
+	AsOf            *string                     `json:"asOf,omitempty"`
+	Excess          *float64                    `json:"excess,omitempty"`
+	LastMonth       *float64                    `json:"lastMonth,omitempty"`
+	LastMonthSource *PaceFindingLastMonthSource `json:"lastMonthSource,omitempty"`
+	MonthToDate     *float64                    `json:"monthToDate,omitempty"`
+	Projected       *float64                    `json:"projected,omitempty"`
+	RisePct         *float64                    `json:"risePct,omitempty"`
+	Subject         *PaceFinding_Subject        `json:"subject,omitempty"`
+	Type            *PaceFindingType            `json:"type,omitempty"`
+}
+
+// PaceFindingLastMonthSource defines model for PaceFinding.LastMonthSource.
+type PaceFindingLastMonthSource string
+
+// PaceFindingSubject0 defines model for .
+type PaceFindingSubject0 struct {
+	Account    *string                      `json:"account,omitempty"`
+	Currency   *string                      `json:"currency,omitempty"`
+	Invoicer   *PaceFindingSubject0Invoicer `json:"invoicer,omitempty"`
+	InvoicerId *string                      `json:"invoicerId,omitempty"`
+	Key        *string                      `json:"key,omitempty"`
+	Kind       *PaceFindingSubject0Kind     `json:"kind,omitempty"`
+}
+
+// PaceFindingSubject0Invoicer defines model for PaceFinding.Subject.0.Invoicer.
+type PaceFindingSubject0Invoicer string
+
+// PaceFindingSubject0Kind defines model for PaceFinding.Subject.0.Kind.
+type PaceFindingSubject0Kind string
+
+// PaceFindingSubject1 defines model for .
+type PaceFindingSubject1 struct {
+	Account    *string                      `json:"account,omitempty"`
+	Currency   *string                      `json:"currency,omitempty"`
+	Invoicer   *PaceFindingSubject1Invoicer `json:"invoicer,omitempty"`
+	InvoicerId *string                      `json:"invoicerId,omitempty"`
+	Key        *string                      `json:"key,omitempty"`
+	Kind       *PaceFindingSubject1Kind     `json:"kind,omitempty"`
+	Model      *string                      `json:"model,omitempty"`
+}
+
+// PaceFindingSubject1Invoicer defines model for PaceFinding.Subject.1.Invoicer.
+type PaceFindingSubject1Invoicer string
+
+// PaceFindingSubject1Kind defines model for PaceFinding.Subject.1.Kind.
+type PaceFindingSubject1Kind string
+
+// PaceFindingSubject2 defines model for .
+type PaceFindingSubject2 struct {
+	Account      *string                      `json:"account,omitempty"`
+	ConnectionId *string                      `json:"connectionId,omitempty"`
+	Currency     *string                      `json:"currency,omitempty"`
+	Key          *string                      `json:"key,omitempty"`
+	Kind         *PaceFindingSubject2Kind     `json:"kind,omitempty"`
+	Provider     *PaceFindingSubject2Provider `json:"provider,omitempty"`
+}
+
+// PaceFindingSubject2Kind defines model for PaceFinding.Subject.2.Kind.
+type PaceFindingSubject2Kind string
+
+// PaceFindingSubject2Provider defines model for PaceFinding.Subject.2.Provider.
+type PaceFindingSubject2Provider string
+
+// PaceFindingSubject3 defines model for .
+type PaceFindingSubject3 struct {
+	Account      *string                      `json:"account,omitempty"`
+	ConnectionId *string                      `json:"connectionId,omitempty"`
+	Currency     *string                      `json:"currency,omitempty"`
+	Key          *string                      `json:"key,omitempty"`
+	Kind         *PaceFindingSubject3Kind     `json:"kind,omitempty"`
+	Provider     *PaceFindingSubject3Provider `json:"provider,omitempty"`
+	Service      *string                      `json:"service,omitempty"`
+}
+
+// PaceFindingSubject3Kind defines model for PaceFinding.Subject.3.Kind.
+type PaceFindingSubject3Kind string
+
+// PaceFindingSubject3Provider defines model for PaceFinding.Subject.3.Provider.
+type PaceFindingSubject3Provider string
+
+// PaceFinding_Subject defines model for PaceFinding.Subject.
+type PaceFinding_Subject struct {
+	union json.RawMessage
+}
+
+// PaceFindingType defines model for PaceFinding.Type.
+type PaceFindingType string
 
 // PayerAccountRef defines model for PayerAccountRef.
 type PayerAccountRef struct {
@@ -14697,6 +15091,7 @@ type RecordPaymentResult struct {
 	EInvoiceBuyerDownloadedAt   *string                               `json:"eInvoiceBuyerDownloadedAt,omitempty"`
 	EInvoiceDetails             *InvoiceEInvoiceDetails               `json:"eInvoiceDetails,omitempty"`
 	EarlyPayment                *InvoiceEarlyPayment                  `json:"earlyPayment,omitempty"`
+	EarlyPaymentCreditNoteId    *string                               `json:"earlyPaymentCreditNoteId,omitempty"`
 	EnteredBy                   *RecordPaymentResultEnteredBy         `json:"enteredBy,omitempty"`
 	ExportAvailableFrom         *string                               `json:"exportAvailableFrom,omitempty"`
 	ExternalInvoiceNumber       *string                               `json:"externalInvoiceNumber,omitempty"`
@@ -15077,6 +15472,7 @@ type RemoveInvoiceReplacementLinkResult struct {
 	EInvoiceBuyerDownloadedAt   *string                                              `json:"eInvoiceBuyerDownloadedAt,omitempty"`
 	EInvoiceDetails             *InvoiceEInvoiceDetails                              `json:"eInvoiceDetails,omitempty"`
 	EarlyPayment                *InvoiceEarlyPayment                                 `json:"earlyPayment,omitempty"`
+	EarlyPaymentCreditNoteId    *string                                              `json:"earlyPaymentCreditNoteId,omitempty"`
 	EnteredBy                   *RemoveInvoiceReplacementLinkResultEnteredBy         `json:"enteredBy,omitempty"`
 	ExportAvailableFrom         *string                                              `json:"exportAvailableFrom,omitempty"`
 	ExternalInvoiceNumber       *string                                              `json:"externalInvoiceNumber,omitempty"`
@@ -15375,6 +15771,13 @@ type SelfApprovalRecordWaivedExclusion string
 type SendRemittanceInput struct {
 	File *RemittanceFileInput `json:"file,omitempty"`
 	Note *string              `json:"note,omitempty"`
+}
+
+// SensitivityPreset defines model for SensitivityPreset.
+type SensitivityPreset struct {
+	MinAmount *float64 `json:"minAmount,omitempty"`
+	PacePct   *float64 `json:"pacePct,omitempty"`
+	SpikePct  *float64 `json:"spikePct,omitempty"`
 }
 
 // ServerMessage defines model for ServerMessage.
@@ -16274,6 +16677,94 @@ type SpendLimitHistoryDetail struct {
 	SatisfiedByName         *string             `json:"satisfiedByName,omitempty"`
 }
 
+// SpikeFinding defines model for SpikeFinding.
+type SpikeFinding struct {
+	BaselineFrom   *string               `json:"baselineFrom,omitempty"`
+	BaselinePerDay *float64              `json:"baselinePerDay,omitempty"`
+	BaselineTo     *string               `json:"baselineTo,omitempty"`
+	Excess         *float64              `json:"excess,omitempty"`
+	RecentFrom     *string               `json:"recentFrom,omitempty"`
+	RecentPerDay   *float64              `json:"recentPerDay,omitempty"`
+	RecentTo       *string               `json:"recentTo,omitempty"`
+	RisePct        *float64              `json:"risePct,omitempty"`
+	Subject        *SpikeFinding_Subject `json:"subject,omitempty"`
+	Type           *SpikeFindingType     `json:"type,omitempty"`
+}
+
+// SpikeFindingSubject0 defines model for .
+type SpikeFindingSubject0 struct {
+	Account    *string                       `json:"account,omitempty"`
+	Currency   *string                       `json:"currency,omitempty"`
+	Invoicer   *SpikeFindingSubject0Invoicer `json:"invoicer,omitempty"`
+	InvoicerId *string                       `json:"invoicerId,omitempty"`
+	Key        *string                       `json:"key,omitempty"`
+	Kind       *SpikeFindingSubject0Kind     `json:"kind,omitempty"`
+}
+
+// SpikeFindingSubject0Invoicer defines model for SpikeFinding.Subject.0.Invoicer.
+type SpikeFindingSubject0Invoicer string
+
+// SpikeFindingSubject0Kind defines model for SpikeFinding.Subject.0.Kind.
+type SpikeFindingSubject0Kind string
+
+// SpikeFindingSubject1 defines model for .
+type SpikeFindingSubject1 struct {
+	Account    *string                       `json:"account,omitempty"`
+	Currency   *string                       `json:"currency,omitempty"`
+	Invoicer   *SpikeFindingSubject1Invoicer `json:"invoicer,omitempty"`
+	InvoicerId *string                       `json:"invoicerId,omitempty"`
+	Key        *string                       `json:"key,omitempty"`
+	Kind       *SpikeFindingSubject1Kind     `json:"kind,omitempty"`
+	Model      *string                       `json:"model,omitempty"`
+}
+
+// SpikeFindingSubject1Invoicer defines model for SpikeFinding.Subject.1.Invoicer.
+type SpikeFindingSubject1Invoicer string
+
+// SpikeFindingSubject1Kind defines model for SpikeFinding.Subject.1.Kind.
+type SpikeFindingSubject1Kind string
+
+// SpikeFindingSubject2 defines model for .
+type SpikeFindingSubject2 struct {
+	Account      *string                       `json:"account,omitempty"`
+	ConnectionId *string                       `json:"connectionId,omitempty"`
+	Currency     *string                       `json:"currency,omitempty"`
+	Key          *string                       `json:"key,omitempty"`
+	Kind         *SpikeFindingSubject2Kind     `json:"kind,omitempty"`
+	Provider     *SpikeFindingSubject2Provider `json:"provider,omitempty"`
+}
+
+// SpikeFindingSubject2Kind defines model for SpikeFinding.Subject.2.Kind.
+type SpikeFindingSubject2Kind string
+
+// SpikeFindingSubject2Provider defines model for SpikeFinding.Subject.2.Provider.
+type SpikeFindingSubject2Provider string
+
+// SpikeFindingSubject3 defines model for .
+type SpikeFindingSubject3 struct {
+	Account      *string                       `json:"account,omitempty"`
+	ConnectionId *string                       `json:"connectionId,omitempty"`
+	Currency     *string                       `json:"currency,omitempty"`
+	Key          *string                       `json:"key,omitempty"`
+	Kind         *SpikeFindingSubject3Kind     `json:"kind,omitempty"`
+	Provider     *SpikeFindingSubject3Provider `json:"provider,omitempty"`
+	Service      *string                       `json:"service,omitempty"`
+}
+
+// SpikeFindingSubject3Kind defines model for SpikeFinding.Subject.3.Kind.
+type SpikeFindingSubject3Kind string
+
+// SpikeFindingSubject3Provider defines model for SpikeFinding.Subject.3.Provider.
+type SpikeFindingSubject3Provider string
+
+// SpikeFinding_Subject defines model for SpikeFinding.Subject.
+type SpikeFinding_Subject struct {
+	union json.RawMessage
+}
+
+// SpikeFindingType defines model for SpikeFinding.Type.
+type SpikeFindingType string
+
 // StartStripePaymentResult defines model for StartStripePaymentResult.
 type StartStripePaymentResult struct {
 	State *StartStripePaymentResultState `json:"state,omitempty"`
@@ -16780,6 +17271,29 @@ type TestWebhookResult struct {
 // TestWebhookResultErrorCode defines model for TestWebhookResult.ErrorCode.
 type TestWebhookResultErrorCode string
 
+// TierFinding defines model for TierFinding.
+type TierFinding struct {
+	Billed        *float64           `json:"billed,omitempty"`
+	ContractId    *string            `json:"contractId,omitempty"`
+	ContractTitle *string            `json:"contractTitle,omitempty"`
+	Currency      *string            `json:"currency,omitempty"`
+	Excess        *TierFindingExcess `json:"excess,omitempty"`
+	Percent       *float64           `json:"percent,omitempty"`
+	Projected     *float64           `json:"projected,omitempty"`
+	Supplier      *string            `json:"supplier,omitempty"`
+	TierFrom      *float64           `json:"tierFrom,omitempty"`
+	Total         *float64           `json:"total,omitempty"`
+	Type          *TierFindingType   `json:"type,omitempty"`
+	WindowEnd     *string            `json:"windowEnd,omitempty"`
+	WindowStart   *string            `json:"windowStart,omitempty"`
+}
+
+// TierFindingExcess defines model for TierFinding.Excess.
+type TierFindingExcess float64
+
+// TierFindingType defines model for TierFinding.Type.
+type TierFindingType string
+
 // TwilioConnectionInput defines model for TwilioConnectionInput.
 type TwilioConnectionInput struct {
 	AccountSid string `json:"accountSid"`
@@ -16958,6 +17472,18 @@ type UpdateReminderSettingsInput struct {
 	IdleDays *float64 `json:"idleDays,omitempty"`
 }
 
+// UpdateUsageAlertSettingsInput defines model for UpdateUsageAlertSettingsInput.
+type UpdateUsageAlertSettingsInput struct {
+	// Enabled Whether usage anomaly alerts are sent. Off: nothing is sent; the spend page still shows what the rules find.
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// Sensitivity high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. Amounts in each subject's own currency.
+	Sensitivity *UpdateUsageAlertSettingsInputSensitivity `json:"sensitivity,omitempty"`
+}
+
+// UpdateUsageAlertSettingsInputSensitivity high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. Amounts in each subject's own currency.
+type UpdateUsageAlertSettingsInputSensitivity string
+
 // UpdateWebhookInput defines model for UpdateWebhookInput.
 type UpdateWebhookInput struct {
 	Description *string `json:"description,omitempty"`
@@ -16966,6 +17492,44 @@ type UpdateWebhookInput struct {
 	Enabled *bool     `json:"enabled,omitempty"`
 	Events  *[]string `json:"events,omitempty"`
 	Url     *string   `json:"url,omitempty"`
+}
+
+// UsageAlertSettings defines model for UsageAlertSettings.
+type UsageAlertSettings struct {
+	Enabled     *bool                          `json:"enabled,omitempty"`
+	Sensitivity *UsageAlertSettingsSensitivity `json:"sensitivity,omitempty"`
+	UpdatedAt   *string                        `json:"updatedAt,omitempty"`
+	UpdatedBy   *string                        `json:"updatedBy,omitempty"`
+}
+
+// UsageAlertSettingsSensitivity defines model for UsageAlertSettings.Sensitivity.
+type UsageAlertSettingsSensitivity string
+
+// UsageAlertView defines model for UsageAlertView.
+type UsageAlertView struct {
+	Body           *string                 `json:"body,omitempty"`
+	BodyMessageId  *string                 `json:"bodyMessageId,omitempty"`
+	BodyParams     *map[string]interface{} `json:"bodyParams,omitempty"`
+	Finding        *UsageAlertView_Finding `json:"finding,omitempty"`
+	Key            *string                 `json:"key,omitempty"`
+	SentAt         *string                 `json:"sentAt,omitempty"`
+	Title          *string                 `json:"title,omitempty"`
+	TitleMessageId *string                 `json:"titleMessageId,omitempty"`
+	TitleParams    *map[string]interface{} `json:"titleParams,omitempty"`
+}
+
+// UsageAlertView_Finding defines model for UsageAlertView.Finding.
+type UsageAlertView_Finding struct {
+	union json.RawMessage
+}
+
+// UsageAlertsResponse defines model for UsageAlertsResponse.
+type UsageAlertsResponse struct {
+	Alerts      *[]UsageAlertView   `json:"alerts,omitempty"`
+	GeneratedAt *string             `json:"generatedAt,omitempty"`
+	Period      *string             `json:"period,omitempty"`
+	Preset      *SensitivityPreset  `json:"preset,omitempty"`
+	Settings    *UsageAlertSettings `json:"settings,omitempty"`
 }
 
 // ValidateFeedInvoiceResult defines model for ValidateFeedInvoiceResult.
@@ -17607,6 +18171,9 @@ type SetSupplierCurrenciesJSONRequestBody = SetConnectionCurrenciesInput
 
 // SetInvoiceFeedJSONRequestBody defines body for SetInvoiceFeed for application/json ContentType.
 type SetInvoiceFeedJSONRequestBody = SetInvoiceFeedInput
+
+// UpdateUsageAlertSettingsJSONRequestBody defines body for UpdateUsageAlertSettings for application/json ContentType.
+type UpdateUsageAlertSettingsJSONRequestBody = UpdateUsageAlertSettingsInput
 
 // CreateWebhookJSONRequestBody defines body for CreateWebhook for application/json ContentType.
 type CreateWebhookJSONRequestBody = CreateWebhookInput
@@ -20478,6 +21045,120 @@ func (t *ListPurchaseOrdersItem) UnmarshalJSON(b []byte) error {
 	return err
 }
 
+// AsPaceFindingSubject0 returns the union data inside the PaceFinding_Subject as a PaceFindingSubject0
+func (t PaceFinding_Subject) AsPaceFindingSubject0() (PaceFindingSubject0, error) {
+	var body PaceFindingSubject0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPaceFindingSubject0 overwrites any union data inside the PaceFinding_Subject as the provided PaceFindingSubject0
+func (t *PaceFinding_Subject) FromPaceFindingSubject0(v PaceFindingSubject0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePaceFindingSubject0 performs a merge with any union data inside the PaceFinding_Subject, using the provided PaceFindingSubject0
+func (t *PaceFinding_Subject) MergePaceFindingSubject0(v PaceFindingSubject0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsPaceFindingSubject1 returns the union data inside the PaceFinding_Subject as a PaceFindingSubject1
+func (t PaceFinding_Subject) AsPaceFindingSubject1() (PaceFindingSubject1, error) {
+	var body PaceFindingSubject1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPaceFindingSubject1 overwrites any union data inside the PaceFinding_Subject as the provided PaceFindingSubject1
+func (t *PaceFinding_Subject) FromPaceFindingSubject1(v PaceFindingSubject1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePaceFindingSubject1 performs a merge with any union data inside the PaceFinding_Subject, using the provided PaceFindingSubject1
+func (t *PaceFinding_Subject) MergePaceFindingSubject1(v PaceFindingSubject1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsPaceFindingSubject2 returns the union data inside the PaceFinding_Subject as a PaceFindingSubject2
+func (t PaceFinding_Subject) AsPaceFindingSubject2() (PaceFindingSubject2, error) {
+	var body PaceFindingSubject2
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPaceFindingSubject2 overwrites any union data inside the PaceFinding_Subject as the provided PaceFindingSubject2
+func (t *PaceFinding_Subject) FromPaceFindingSubject2(v PaceFindingSubject2) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePaceFindingSubject2 performs a merge with any union data inside the PaceFinding_Subject, using the provided PaceFindingSubject2
+func (t *PaceFinding_Subject) MergePaceFindingSubject2(v PaceFindingSubject2) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsPaceFindingSubject3 returns the union data inside the PaceFinding_Subject as a PaceFindingSubject3
+func (t PaceFinding_Subject) AsPaceFindingSubject3() (PaceFindingSubject3, error) {
+	var body PaceFindingSubject3
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPaceFindingSubject3 overwrites any union data inside the PaceFinding_Subject as the provided PaceFindingSubject3
+func (t *PaceFinding_Subject) FromPaceFindingSubject3(v PaceFindingSubject3) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePaceFindingSubject3 performs a merge with any union data inside the PaceFinding_Subject, using the provided PaceFindingSubject3
+func (t *PaceFinding_Subject) MergePaceFindingSubject3(v PaceFindingSubject3) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t PaceFinding_Subject) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *PaceFinding_Subject) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsInvoiceBuyerView returns the union data inside the RemoveCreditApplicationResult as a InvoiceBuyerView
 func (t RemoveCreditApplicationResult) AsInvoiceBuyerView() (InvoiceBuyerView, error) {
 	var body InvoiceBuyerView
@@ -20928,6 +21609,120 @@ func (t *SourcingRound_FeedbackBySupplier_AdditionalProperties) UnmarshalJSON(b 
 	return err
 }
 
+// AsSpikeFindingSubject0 returns the union data inside the SpikeFinding_Subject as a SpikeFindingSubject0
+func (t SpikeFinding_Subject) AsSpikeFindingSubject0() (SpikeFindingSubject0, error) {
+	var body SpikeFindingSubject0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSpikeFindingSubject0 overwrites any union data inside the SpikeFinding_Subject as the provided SpikeFindingSubject0
+func (t *SpikeFinding_Subject) FromSpikeFindingSubject0(v SpikeFindingSubject0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSpikeFindingSubject0 performs a merge with any union data inside the SpikeFinding_Subject, using the provided SpikeFindingSubject0
+func (t *SpikeFinding_Subject) MergeSpikeFindingSubject0(v SpikeFindingSubject0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSpikeFindingSubject1 returns the union data inside the SpikeFinding_Subject as a SpikeFindingSubject1
+func (t SpikeFinding_Subject) AsSpikeFindingSubject1() (SpikeFindingSubject1, error) {
+	var body SpikeFindingSubject1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSpikeFindingSubject1 overwrites any union data inside the SpikeFinding_Subject as the provided SpikeFindingSubject1
+func (t *SpikeFinding_Subject) FromSpikeFindingSubject1(v SpikeFindingSubject1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSpikeFindingSubject1 performs a merge with any union data inside the SpikeFinding_Subject, using the provided SpikeFindingSubject1
+func (t *SpikeFinding_Subject) MergeSpikeFindingSubject1(v SpikeFindingSubject1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSpikeFindingSubject2 returns the union data inside the SpikeFinding_Subject as a SpikeFindingSubject2
+func (t SpikeFinding_Subject) AsSpikeFindingSubject2() (SpikeFindingSubject2, error) {
+	var body SpikeFindingSubject2
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSpikeFindingSubject2 overwrites any union data inside the SpikeFinding_Subject as the provided SpikeFindingSubject2
+func (t *SpikeFinding_Subject) FromSpikeFindingSubject2(v SpikeFindingSubject2) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSpikeFindingSubject2 performs a merge with any union data inside the SpikeFinding_Subject, using the provided SpikeFindingSubject2
+func (t *SpikeFinding_Subject) MergeSpikeFindingSubject2(v SpikeFindingSubject2) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSpikeFindingSubject3 returns the union data inside the SpikeFinding_Subject as a SpikeFindingSubject3
+func (t SpikeFinding_Subject) AsSpikeFindingSubject3() (SpikeFindingSubject3, error) {
+	var body SpikeFindingSubject3
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSpikeFindingSubject3 overwrites any union data inside the SpikeFinding_Subject as the provided SpikeFindingSubject3
+func (t *SpikeFinding_Subject) FromSpikeFindingSubject3(v SpikeFindingSubject3) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSpikeFindingSubject3 performs a merge with any union data inside the SpikeFinding_Subject, using the provided SpikeFindingSubject3
+func (t *SpikeFinding_Subject) MergeSpikeFindingSubject3(v SpikeFindingSubject3) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t SpikeFinding_Subject) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *SpikeFinding_Subject) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsInvoiceSupplierView returns the union data inside the SubmitFeedInvoiceResult as a InvoiceSupplierView
 func (t SubmitFeedInvoiceResult) AsInvoiceSupplierView() (InvoiceSupplierView, error) {
 	var body InvoiceSupplierView
@@ -21048,6 +21843,172 @@ func (t SupplierCreditNoteView_PoEffect) MarshalJSON() ([]byte, error) {
 }
 
 func (t *SupplierCreditNoteView_PoEffect) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsSpikeFinding returns the union data inside the UsageAlertView_Finding as a SpikeFinding
+func (t UsageAlertView_Finding) AsSpikeFinding() (SpikeFinding, error) {
+	var body SpikeFinding
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSpikeFinding overwrites any union data inside the UsageAlertView_Finding as the provided SpikeFinding
+func (t *UsageAlertView_Finding) FromSpikeFinding(v SpikeFinding) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSpikeFinding performs a merge with any union data inside the UsageAlertView_Finding, using the provided SpikeFinding
+func (t *UsageAlertView_Finding) MergeSpikeFinding(v SpikeFinding) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsPaceFinding returns the union data inside the UsageAlertView_Finding as a PaceFinding
+func (t UsageAlertView_Finding) AsPaceFinding() (PaceFinding, error) {
+	var body PaceFinding
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPaceFinding overwrites any union data inside the UsageAlertView_Finding as the provided PaceFinding
+func (t *UsageAlertView_Finding) FromPaceFinding(v PaceFinding) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePaceFinding performs a merge with any union data inside the UsageAlertView_Finding, using the provided PaceFinding
+func (t *UsageAlertView_Finding) MergePaceFinding(v PaceFinding) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsCapFinding returns the union data inside the UsageAlertView_Finding as a CapFinding
+func (t UsageAlertView_Finding) AsCapFinding() (CapFinding, error) {
+	var body CapFinding
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCapFinding overwrites any union data inside the UsageAlertView_Finding as the provided CapFinding
+func (t *UsageAlertView_Finding) FromCapFinding(v CapFinding) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCapFinding performs a merge with any union data inside the UsageAlertView_Finding, using the provided CapFinding
+func (t *UsageAlertView_Finding) MergeCapFinding(v CapFinding) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsTierFinding returns the union data inside the UsageAlertView_Finding as a TierFinding
+func (t UsageAlertView_Finding) AsTierFinding() (TierFinding, error) {
+	var body TierFinding
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromTierFinding overwrites any union data inside the UsageAlertView_Finding as the provided TierFinding
+func (t *UsageAlertView_Finding) FromTierFinding(v TierFinding) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeTierFinding performs a merge with any union data inside the UsageAlertView_Finding, using the provided TierFinding
+func (t *UsageAlertView_Finding) MergeTierFinding(v TierFinding) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsCommitmentFinding returns the union data inside the UsageAlertView_Finding as a CommitmentFinding
+func (t UsageAlertView_Finding) AsCommitmentFinding() (CommitmentFinding, error) {
+	var body CommitmentFinding
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCommitmentFinding overwrites any union data inside the UsageAlertView_Finding as the provided CommitmentFinding
+func (t *UsageAlertView_Finding) FromCommitmentFinding(v CommitmentFinding) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCommitmentFinding performs a merge with any union data inside the UsageAlertView_Finding, using the provided CommitmentFinding
+func (t *UsageAlertView_Finding) MergeCommitmentFinding(v CommitmentFinding) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsAiCommitmentFinding returns the union data inside the UsageAlertView_Finding as a AiCommitmentFinding
+func (t UsageAlertView_Finding) AsAiCommitmentFinding() (AiCommitmentFinding, error) {
+	var body AiCommitmentFinding
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromAiCommitmentFinding overwrites any union data inside the UsageAlertView_Finding as the provided AiCommitmentFinding
+func (t *UsageAlertView_Finding) FromAiCommitmentFinding(v AiCommitmentFinding) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeAiCommitmentFinding performs a merge with any union data inside the UsageAlertView_Finding, using the provided AiCommitmentFinding
+func (t *UsageAlertView_Finding) MergeAiCommitmentFinding(v AiCommitmentFinding) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t UsageAlertView_Finding) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *UsageAlertView_Finding) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -21831,6 +22792,14 @@ type ClientInterface interface {
 
 	// ListSyncEvents request
 	ListSyncEvents(ctx context.Context, params *ListSyncEventsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetUsageAlerts request
+	GetUsageAlerts(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UpdateUsageAlertSettingsWithBody request with any body
+	UpdateUsageAlertSettingsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpdateUsageAlertSettings(ctx context.Context, body UpdateUsageAlertSettingsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ListWebhooks request
 	ListWebhooks(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -24656,6 +25625,42 @@ func (c *RawClient) GetSupplierRisk(ctx context.Context, connectionId string, re
 
 func (c *RawClient) ListSyncEvents(ctx context.Context, params *ListSyncEventsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewListSyncEventsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetUsageAlerts(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetUsageAlertsRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) UpdateUsageAlertSettingsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateUsageAlertSettingsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) UpdateUsageAlertSettings(ctx context.Context, body UpdateUsageAlertSettingsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateUsageAlertSettingsRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -32835,6 +33840,73 @@ func NewListSyncEventsRequest(server string, params *ListSyncEventsParams) (*htt
 	return req, nil
 }
 
+// NewGetUsageAlertsRequest generates requests for GetUsageAlerts
+func NewGetUsageAlertsRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/usage-alerts")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewUpdateUsageAlertSettingsRequest calls the generic UpdateUsageAlertSettings builder with application/json body
+func NewUpdateUsageAlertSettingsRequest(server string, body UpdateUsageAlertSettingsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpdateUsageAlertSettingsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewUpdateUsageAlertSettingsRequestWithBody generates requests for UpdateUsageAlertSettings with any type of body
+func NewUpdateUsageAlertSettingsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/usage-alerts/settings")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewListWebhooksRequest generates requests for ListWebhooks
 func NewListWebhooksRequest(server string) (*http.Request, error) {
 	var err error
@@ -33772,6 +34844,14 @@ type ClientWithResponsesInterface interface {
 
 	// ListSyncEventsWithResponse request
 	ListSyncEventsWithResponse(ctx context.Context, params *ListSyncEventsParams, reqEditors ...RequestEditorFn) (*ListSyncEventsResponse, error)
+
+	// GetUsageAlertsWithResponse request
+	GetUsageAlertsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetUsageAlertsResponse, error)
+
+	// UpdateUsageAlertSettingsWithBodyWithResponse request with any body
+	UpdateUsageAlertSettingsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateUsageAlertSettingsResponse, error)
+
+	UpdateUsageAlertSettingsWithResponse(ctx context.Context, body UpdateUsageAlertSettingsJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateUsageAlertSettingsResponse, error)
 
 	// ListWebhooksWithResponse request
 	ListWebhooksWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListWebhooksResponse, error)
@@ -37863,6 +38943,52 @@ func (r ListSyncEventsResponse) StatusCode() int {
 	return 0
 }
 
+type GetUsageAlertsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *UsageAlertsResponse
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetUsageAlertsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetUsageAlertsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UpdateUsageAlertSettingsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *UsageAlertSettings
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r UpdateUsageAlertSettingsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpdateUsageAlertSettingsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type ListWebhooksResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -40070,6 +41196,32 @@ func (c *ClientWithResponses) ListSyncEventsWithResponse(ctx context.Context, pa
 		return nil, err
 	}
 	return ParseListSyncEventsResponse(rsp)
+}
+
+// GetUsageAlertsWithResponse request returning *GetUsageAlertsResponse
+func (c *ClientWithResponses) GetUsageAlertsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetUsageAlertsResponse, error) {
+	rsp, err := c.GetUsageAlerts(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetUsageAlertsResponse(rsp)
+}
+
+// UpdateUsageAlertSettingsWithBodyWithResponse request with arbitrary body returning *UpdateUsageAlertSettingsResponse
+func (c *ClientWithResponses) UpdateUsageAlertSettingsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateUsageAlertSettingsResponse, error) {
+	rsp, err := c.UpdateUsageAlertSettingsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateUsageAlertSettingsResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpdateUsageAlertSettingsWithResponse(ctx context.Context, body UpdateUsageAlertSettingsJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateUsageAlertSettingsResponse, error) {
+	rsp, err := c.UpdateUsageAlertSettings(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateUsageAlertSettingsResponse(rsp)
 }
 
 // ListWebhooksWithResponse request returning *ListWebhooksResponse
@@ -45926,6 +47078,72 @@ func ParseListSyncEventsResponse(rsp *http.Response) (*ListSyncEventsResponse, e
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest SyncEventPage
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetUsageAlertsResponse parses an HTTP response from a GetUsageAlertsWithResponse call
+func ParseGetUsageAlertsResponse(rsp *http.Response) (*GetUsageAlertsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetUsageAlertsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest UsageAlertsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUpdateUsageAlertSettingsResponse parses an HTTP response from a UpdateUsageAlertSettingsWithResponse call
+func ParseUpdateUsageAlertSettingsResponse(rsp *http.Response) (*UpdateUsageAlertSettingsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpdateUsageAlertSettingsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest UsageAlertSettings
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

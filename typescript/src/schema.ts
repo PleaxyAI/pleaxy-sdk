@@ -2604,6 +2604,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/usage-alerts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Usage anomaly alerts: the workspace's setting and what the rules find right now - an AI model, AI invoicer, cloud account or service above its own trend, or the month's projection breaking a contract's cap, tier or commitment - each with its figures, its text (titleMessageId/bodyMessageId and params) and sentAt when this month's notification went out. Writes nothing. 'view' on suppliers or on invoices. */
+        get: operations["GetUsageAlerts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/usage-alerts/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** [Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a signed-in session. */
+        patch: operations["UpdateUsageAlertSettings"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -3482,10 +3516,10 @@ export interface components {
             /** @description YYYY-MM-DD - not in the future, not more than 365 days back */
             issueDate: string;
             /**
-             * @description returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't.
+             * @description returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't. early_payment_discount documents the early-payment discount the invoice's payment took: invoiceId required, its total exactly that discount, once per invoice; it is settled by that payment, so it leaves no credit to use (GET .../invoices/:invoiceId/early-payment-credit-note prepares one).
              * @enum {string}
              */
-            reason: "returned_goods" | "price_adjustment" | "service_credit" | "rebate" | "other";
+            reason: "returned_goods" | "price_adjustment" | "service_credit" | "rebate" | "other" | "early_payment_discount";
             /** @description Reason "other" only: it corrects what was billed, so it gives PO balance back too. */
             correctsBilling?: boolean;
             /** @description 1–1000 characters, e.g. the return's RMA number. */
@@ -3965,6 +3999,15 @@ export interface components {
             mentions?: string[];
             /** @description Makes the comment a meeting request to the other company (shared only): `topic` (one line), `durationMinutes` (15, 30 or 45), `timeZone` (yours, IANA), `times` (two or three ISO 8601 starts with an offset, in the future) and an optional https `link` to the call. Starting one needs a paid plan; one open request per document. */
             meeting?: components["schemas"]["CommentMeetingInput"];
+        };
+        UpdateUsageAlertSettingsInput: {
+            /** @description Whether usage anomaly alerts are sent. Off: nothing is sent; the spend page still shows what the rules find. */
+            enabled?: boolean;
+            /**
+             * @description high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. Amounts in each subject's own currency.
+             * @enum {string}
+             */
+            sensitivity?: "low" | "medium" | "high";
         };
         EmployeeSummary: {
             key?: string;
@@ -5155,6 +5198,7 @@ export interface components {
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            earlyPaymentCreditNoteId?: string;
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -5724,6 +5768,7 @@ export interface components {
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            earlyPaymentCreditNoteId?: string;
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -5974,7 +6019,7 @@ export interface components {
             externalCreditNoteNumber?: string;
             issueDate?: string;
             /** @enum {string} */
-            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate" | "early_payment_discount";
             correctsBilling?: boolean;
             /** Format: double */
             refunded?: number;
@@ -6107,6 +6152,7 @@ export interface components {
                 dueDateSource?: "default" | "stated";
                 earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
                 contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+                earlyPaymentCreditNoteId?: string;
                 lastRemindedAt?: string;
                 lastApproverRemindedAt?: string;
                 rejection?: components["schemas"]["InvoiceRejection"];
@@ -6674,7 +6720,7 @@ export interface components {
             externalCreditNoteNumber?: string;
             issueDate?: string;
             /** @enum {string} */
-            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate" | "early_payment_discount";
             correctsBilling?: boolean;
             /** Format: double */
             refunded?: number;
@@ -8453,6 +8499,235 @@ export interface components {
                 taken?: boolean;
             };
         };
+        UsageAlertsResponse: {
+            period?: string;
+            settings?: components["schemas"]["UsageAlertSettings"];
+            preset?: components["schemas"]["SensitivityPreset"];
+            alerts?: components["schemas"]["UsageAlertView"][];
+            generatedAt?: string;
+        };
+        UsageAlertSettings: {
+            enabled?: boolean;
+            /** @enum {string} */
+            sensitivity?: "low" | "medium" | "high";
+            updatedAt?: string;
+            updatedBy?: string;
+        };
+        SensitivityPreset: {
+            /** Format: double */
+            spikePct?: number;
+            /** Format: double */
+            pacePct?: number;
+            /** Format: double */
+            minAmount?: number;
+        };
+        UsageAlertView: {
+            key?: string;
+            finding?: components["schemas"]["SpikeFinding"] | components["schemas"]["PaceFinding"] | components["schemas"]["CapFinding"] | components["schemas"]["TierFinding"] | components["schemas"]["CommitmentFinding"] | components["schemas"]["AiCommitmentFinding"];
+            title?: string;
+            titleMessageId?: string;
+            titleParams?: {
+                [key: string]: unknown;
+            };
+            body?: string;
+            bodyMessageId?: string;
+            bodyParams?: {
+                [key: string]: unknown;
+            };
+            sentAt?: string;
+        };
+        SpikeFinding: {
+            /** @enum {string} */
+            type?: "spike";
+            subject?: {
+                /** @enum {string} */
+                kind?: "ai_invoicer";
+                key?: string;
+                invoicerId?: string;
+                /** @enum {string} */
+                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
+                account?: string;
+                currency?: string;
+            } | {
+                /** @enum {string} */
+                kind?: "ai_model";
+                key?: string;
+                invoicerId?: string;
+                /** @enum {string} */
+                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
+                account?: string;
+                model?: string;
+                currency?: string;
+            } | {
+                /** @enum {string} */
+                kind?: "cloud_account";
+                key?: string;
+                connectionId?: string;
+                /** @enum {string} */
+                provider?: "aws" | "gcp" | "azure" | "oci";
+                account?: string;
+                currency?: string;
+            } | {
+                /** @enum {string} */
+                kind?: "cloud_service";
+                key?: string;
+                connectionId?: string;
+                /** @enum {string} */
+                provider?: "aws" | "gcp" | "azure" | "oci";
+                account?: string;
+                service?: string;
+                currency?: string;
+            };
+            recentFrom?: string;
+            recentTo?: string;
+            baselineFrom?: string;
+            baselineTo?: string;
+            /** Format: double */
+            recentPerDay?: number;
+            /** Format: double */
+            baselinePerDay?: number;
+            /** Format: double */
+            risePct?: number;
+            /** Format: double */
+            excess?: number;
+        };
+        PaceFinding: {
+            /** @enum {string} */
+            type?: "pace";
+            subject?: {
+                /** @enum {string} */
+                kind?: "ai_invoicer";
+                key?: string;
+                invoicerId?: string;
+                /** @enum {string} */
+                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
+                account?: string;
+                currency?: string;
+            } | {
+                /** @enum {string} */
+                kind?: "ai_model";
+                key?: string;
+                invoicerId?: string;
+                /** @enum {string} */
+                invoicer?: "aws" | "gcp" | "azure" | "oci" | "openai" | "anthropic" | "mistral" | "cohere" | "xai" | "openrouter" | "snowflake" | "databricks" | "coreweave" | "lambda" | "nebius" | "crusoe" | "cursor" | "github" | "microsoft" | "slack" | "zoom";
+                account?: string;
+                model?: string;
+                currency?: string;
+            } | {
+                /** @enum {string} */
+                kind?: "cloud_account";
+                key?: string;
+                connectionId?: string;
+                /** @enum {string} */
+                provider?: "aws" | "gcp" | "azure" | "oci";
+                account?: string;
+                currency?: string;
+            } | {
+                /** @enum {string} */
+                kind?: "cloud_service";
+                key?: string;
+                connectionId?: string;
+                /** @enum {string} */
+                provider?: "aws" | "gcp" | "azure" | "oci";
+                account?: string;
+                service?: string;
+                currency?: string;
+            };
+            /** Format: double */
+            monthToDate?: number;
+            asOf?: string;
+            /** Format: double */
+            projected?: number;
+            /** Format: double */
+            lastMonth?: number;
+            /** @enum {string} */
+            lastMonthSource?: "invoice" | "snapshot";
+            /** Format: double */
+            risePct?: number;
+            /** Format: double */
+            excess?: number;
+        };
+        CapFinding: {
+            /** @enum {string} */
+            type?: "contract_cap";
+            /** Format: double */
+            billed?: number;
+            /** Format: double */
+            projected?: number;
+            /** Format: double */
+            total?: number;
+            /** Format: double */
+            cap?: number;
+            /** Format: double */
+            excess?: number;
+            contractId?: string;
+            contractTitle?: string;
+            supplier?: string;
+            currency?: string;
+        };
+        TierFinding: {
+            /** @enum {string} */
+            type?: "contract_tier";
+            /** Format: double */
+            billed?: number;
+            /** Format: double */
+            projected?: number;
+            /** Format: double */
+            total?: number;
+            /** Format: double */
+            tierFrom?: number;
+            /** Format: double */
+            percent?: number;
+            windowStart?: string;
+            windowEnd?: string;
+            /**
+             * Format: double
+             * @enum {number}
+             */
+            excess?: 0;
+            contractId?: string;
+            contractTitle?: string;
+            supplier?: string;
+            currency?: string;
+        };
+        CommitmentFinding: {
+            /** @enum {string} */
+            type?: "contract_commitment";
+            /** Format: double */
+            committed?: number;
+            /** Format: double */
+            billed?: number;
+            /** Format: double */
+            projected?: number;
+            /** Format: double */
+            total?: number;
+            windowStart?: string;
+            windowEnd?: string;
+            /** Format: double */
+            excess?: number;
+            contractId?: string;
+            contractTitle?: string;
+            supplier?: string;
+            currency?: string;
+        };
+        AiCommitmentFinding: {
+            /** @enum {string} */
+            type?: "ai_commitment";
+            termId?: string;
+            description?: string;
+            /** Format: double */
+            committed?: number;
+            /** Format: double */
+            projected?: number;
+            windowStart?: string;
+            windowEnd?: string;
+            /** Format: double */
+            excess?: number;
+            contractId?: string;
+            contractTitle?: string;
+            supplier?: string;
+            currency?: string;
+        };
         ApiError: {
             /** @description The HTTP status, repeated. */
             statusCode: number;
@@ -8838,7 +9113,7 @@ export interface components {
                 issueDate?: string;
                 currency?: string;
                 /** @enum {string} */
-                reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+                reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate" | "early_payment_discount";
             };
             replay?: {
                 creditNoteId?: string;
@@ -8943,6 +9218,7 @@ export interface components {
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            earlyPaymentCreditNoteId?: string;
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -9040,6 +9316,7 @@ export interface components {
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            earlyPaymentCreditNoteId?: string;
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -9191,7 +9468,7 @@ export interface components {
             externalCreditNoteNumber?: string;
             issueDate?: string;
             /** @enum {string} */
-            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate" | "early_payment_discount";
             correctsBilling?: boolean;
             /** Format: double */
             refunded?: number;
@@ -9282,7 +9559,7 @@ export interface components {
             externalCreditNoteNumber?: string;
             issueDate?: string;
             /** @enum {string} */
-            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate" | "early_payment_discount";
             correctsBilling?: boolean;
             /** Format: double */
             refunded?: number;
@@ -9355,7 +9632,7 @@ export interface components {
             externalCreditNoteNumber?: string;
             issueDate?: string;
             /** @enum {string} */
-            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate" | "early_payment_discount";
             correctsBilling?: boolean;
             /** Format: double */
             refunded?: number;
@@ -9446,7 +9723,7 @@ export interface components {
             externalCreditNoteNumber?: string;
             issueDate?: string;
             /** @enum {string} */
-            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate" | "early_payment_discount";
             correctsBilling?: boolean;
             /** Format: double */
             refunded?: number;
@@ -9574,6 +9851,7 @@ export interface components {
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            earlyPaymentCreditNoteId?: string;
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -9671,6 +9949,7 @@ export interface components {
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            earlyPaymentCreditNoteId?: string;
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -9826,7 +10105,7 @@ export interface components {
             externalCreditNoteNumber?: string;
             issueDate?: string;
             /** @enum {string} */
-            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate" | "early_payment_discount";
             correctsBilling?: boolean;
             /** Format: double */
             refunded?: number;
@@ -9917,7 +10196,7 @@ export interface components {
             externalCreditNoteNumber?: string;
             issueDate?: string;
             /** @enum {string} */
-            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+            reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate" | "early_payment_discount";
             correctsBilling?: boolean;
             /** Format: double */
             refunded?: number;
@@ -10047,6 +10326,7 @@ export interface components {
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            earlyPaymentCreditNoteId?: string;
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -10144,6 +10424,7 @@ export interface components {
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            earlyPaymentCreditNoteId?: string;
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -10353,6 +10634,7 @@ export interface components {
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            earlyPaymentCreditNoteId?: string;
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -10503,6 +10785,7 @@ export interface components {
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            earlyPaymentCreditNoteId?: string;
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -10658,6 +10941,7 @@ export interface components {
             dueDateSource?: "default" | "stated";
             earlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
             contractEarlyPayment?: components["schemas"]["InvoiceEarlyPayment"];
+            earlyPaymentCreditNoteId?: string;
             lastRemindedAt?: string;
             lastApproverRemindedAt?: string;
             rejection?: components["schemas"]["InvoiceRejection"];
@@ -10872,7 +11156,7 @@ export interface components {
                 creditNoteId?: string;
                 externalCreditNoteNumber?: string;
                 /** @enum {string} */
-                reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+                reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate" | "early_payment_discount";
                 issueDate?: string;
                 /** Format: double */
                 amount?: number;
@@ -10885,7 +11169,7 @@ export interface components {
                 creditNoteId?: string;
                 externalCreditNoteNumber?: string;
                 /** @enum {string} */
-                reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate";
+                reason?: "other" | "returned_goods" | "price_adjustment" | "service_credit" | "rebate" | "early_payment_discount";
                 /** Format: double */
                 amount?: number;
             }[];
@@ -16813,6 +17097,66 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["StartStripePaymentResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetUsageAlerts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsageAlertsResponse"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    UpdateUsageAlertSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateUsageAlertSettingsInput"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsageAlertSettings"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

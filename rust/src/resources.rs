@@ -142,6 +142,11 @@ impl Client {
         SupplierRisk(self)
     }
 
+    /// UsageAlerts operations.
+    pub fn usage_alerts(&self) -> UsageAlerts<'_> {
+        UsageAlerts(self)
+    }
+
     /// Workspaces operations.
     pub fn workspaces(&self) -> Workspaces<'_> {
         Workspaces(self)
@@ -2573,6 +2578,35 @@ impl<'a> SupplierRisk<'a> {
         crate::apis::Error<crate::apis::supplier_risk_api::ListSupplierRiskError>,
     > {
         crate::apis::supplier_risk_api::list_supplier_risk(&self.0.config).await
+    }
+}
+
+/// UsageAlerts operations: `client.usage_alerts()`.
+#[derive(Debug, Clone, Copy)]
+pub struct UsageAlerts<'a>(&'a Client);
+
+impl<'a> UsageAlerts<'a> {
+    pub async fn get_usage_alerts(
+        &self,
+    ) -> Result<
+        crate::models::UsageAlertsResponse,
+        crate::apis::Error<crate::apis::usage_alerts_api::GetUsageAlertsError>,
+    > {
+        crate::apis::usage_alerts_api::get_usage_alerts(&self.0.config).await
+    }
+
+    pub async fn update_usage_alert_settings(
+        &self,
+        update_usage_alert_settings_input: crate::models::UpdateUsageAlertSettingsInput,
+    ) -> Result<
+        crate::models::UsageAlertSettings,
+        crate::apis::Error<crate::apis::usage_alerts_api::UpdateUsageAlertSettingsError>,
+    > {
+        crate::apis::usage_alerts_api::update_usage_alert_settings(
+            &self.0.config,
+            update_usage_alert_settings_input,
+        )
+        .await
     }
 }
 

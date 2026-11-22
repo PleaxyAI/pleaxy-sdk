@@ -1387,6 +1387,24 @@ export class SupplierRiskResource {
   }
 }
 
+export class UsageAlertsResource {
+  constructor(private readonly transport: Transport) {}
+
+  /**
+   * [Buyer] Usage anomaly alerts: the workspace's setting and what the rules find right now - an AI model, AI invoicer, cloud account or service above its own trend, or the month's projection breaking a contract's cap, tier or commitment - each with its figures, its text (titleMessageId/bodyMessageId and params) and sentAt when this month's notification went out. Writes nothing. 'view' on suppliers or on invoices.
+   */
+  getUsageAlerts(options?: RequestOptions): Promise<ResponseBody<"GetUsageAlerts">> {
+    return this.transport.request("get", "/usage-alerts", { path: undefined, options }) as Promise<ResponseBody<"GetUsageAlerts">>;
+  }
+
+  /**
+   * [Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a signed-in session.
+   */
+  updateUsageAlertSettings(body: RequestBody<"UpdateUsageAlertSettings">, options?: RequestOptions): Promise<ResponseBody<"UpdateUsageAlertSettings">> {
+    return this.transport.request("patch", "/usage-alerts/settings", { path: undefined, body, options }) as Promise<ResponseBody<"UpdateUsageAlertSettings">>;
+  }
+}
+
 export class WorkspacesResource {
   constructor(private readonly transport: Transport) {}
 
@@ -1435,6 +1453,7 @@ export class Resources {
   readonly sourcing: SourcingResource;
   readonly supplierConnections: SupplierConnectionsResource;
   readonly supplierRisk: SupplierRiskResource;
+  readonly usageAlerts: UsageAlertsResource;
   readonly workspaces: WorkspacesResource;
 
   constructor(transport: Transport) {
@@ -1466,6 +1485,7 @@ export class Resources {
     this.sourcing = new SourcingResource(transport);
     this.supplierConnections = new SupplierConnectionsResource(transport);
     this.supplierRisk = new SupplierRiskResource(transport);
+    this.usageAlerts = new UsageAlertsResource(transport);
     this.workspaces = new WorkspacesResource(transport);
   }
 }

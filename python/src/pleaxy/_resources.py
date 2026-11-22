@@ -1733,6 +1733,25 @@ class SupplierRiskResource:
         )
 
 
+class UsageAlertsResource:
+    def __init__(self, transport: Transport) -> None:
+        self._transport = transport
+
+    def get_usage_alerts(self) -> UsageAlertsResponse:
+        """[Buyer] Usage anomaly alerts: the workspace's setting and what the rules find right now - an AI model, AI invoicer, cloud account or service above its own trend, or the month's projection breaking a contract's cap, tier or commitment - each with its figures, its text (titleMessageId/bodyMessageId and params) and sentAt when this month's notification went out. Writes nothing. 'view' on suppliers or on invoices."""
+        return self._transport.call(
+            "pleaxy._generated.api.usage_alerts.get_usage_alerts"
+        )
+
+    def update_usage_alert_settings(
+        self, *, body: UpdateUsageAlertSettingsInput
+    ) -> UsageAlertSettings:
+        """[Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a signed-in session."""
+        return self._transport.call(
+            "pleaxy._generated.api.usage_alerts.update_usage_alert_settings", body=body
+        )
+
+
 class WorkspacesResource:
     def __init__(self, transport: Transport) -> None:
         self._transport = transport
@@ -1800,4 +1819,5 @@ class Resources:
         self.sourcing = SourcingResource(transport)
         self.supplier_connections = SupplierConnectionsResource(transport)
         self.supplier_risk = SupplierRiskResource(transport)
+        self.usage_alerts = UsageAlertsResource(transport)
         self.workspaces = WorkspacesResource(transport)

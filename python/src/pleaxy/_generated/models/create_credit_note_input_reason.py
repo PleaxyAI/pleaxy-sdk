@@ -1,10 +1,16 @@
 from typing import Literal, Set, cast
 
 CreateCreditNoteInputReason = Literal[
-    "other", "price_adjustment", "rebate", "returned_goods", "service_credit"
+    "early_payment_discount",
+    "other",
+    "price_adjustment",
+    "rebate",
+    "returned_goods",
+    "service_credit",
 ]
 
 CREATE_CREDIT_NOTE_INPUT_REASON_VALUES: Set[CreateCreditNoteInputReason] = {
+    "early_payment_discount",
     "other",
     "price_adjustment",
     "rebate",

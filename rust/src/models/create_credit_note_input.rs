@@ -25,7 +25,7 @@ pub struct CreateCreditNoteInput {
     /// YYYY-MM-DD - not in the future, not more than 365 days back
     #[serde(rename = "issueDate")]
     pub issue_date: String,
-    /// returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't.
+    /// returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't. early_payment_discount documents the early-payment discount the invoice's payment took: invoiceId required, its total exactly that discount, once per invoice; it is settled by that payment, so it leaves no credit to use (GET .../invoices/:invoiceId/early-payment-credit-note prepares one).
     #[serde(rename = "reason")]
     pub reason: Reason,
     /// Reason \"other\" only: it corrects what was billed, so it gives PO balance back too.
@@ -78,7 +78,7 @@ impl CreateCreditNoteInput {
         }
     }
 }
-/// returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't.
+/// returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't. early_payment_discount documents the early-payment discount the invoice's payment took: invoiceId required, its total exactly that discount, once per invoice; it is settled by that payment, so it leaves no credit to use (GET .../invoices/:invoiceId/early-payment-credit-note prepares one).
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Reason {
     #[serde(rename = "returned_goods")]
@@ -91,6 +91,8 @@ pub enum Reason {
     Rebate,
     #[serde(rename = "other")]
     Other,
+    #[serde(rename = "early_payment_discount")]
+    EarlyPaymentDiscount,
 }
 
 impl Default for Reason {

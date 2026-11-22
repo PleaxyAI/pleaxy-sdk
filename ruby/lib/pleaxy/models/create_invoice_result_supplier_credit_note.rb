@@ -437,7 +437,7 @@ module Pleaxy
       return false unless entered_by_validator.valid?(@entered_by)
       submitted_format_validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml", "cii", "fatturapa"])
       return false unless submitted_format_validator.valid?(@submitted_format)
-      reason_validator = EnumAttributeValidator.new('String', ["other", "returned_goods", "price_adjustment", "service_credit", "rebate"])
+      reason_validator = EnumAttributeValidator.new('String', ["other", "returned_goods", "price_adjustment", "service_credit", "rebate", "early_payment_discount"])
       return false unless reason_validator.valid?(@reason)
       document_type_validator = EnumAttributeValidator.new('String', ["credit_note"])
       return false unless document_type_validator.valid?(@document_type)
@@ -497,7 +497,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] reason Object to be assigned
     def reason=(reason)
-      validator = EnumAttributeValidator.new('String', ["other", "returned_goods", "price_adjustment", "service_credit", "rebate"])
+      validator = EnumAttributeValidator.new('String', ["other", "returned_goods", "price_adjustment", "service_credit", "rebate", "early_payment_discount"])
       unless validator.valid?(reason)
         fail ArgumentError, "invalid value for \"reason\", must be one of #{validator.allowable_values}."
       end

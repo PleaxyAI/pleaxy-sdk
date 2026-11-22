@@ -406,7 +406,9 @@ public class CreateInvoiceResultBuyerCreditNote {
     
     SERVICE_CREDIT(String.valueOf("service_credit")),
     
-    REBATE(String.valueOf("rebate"));
+    REBATE(String.valueOf("rebate")),
+    
+    EARLY_PAYMENT_DISCOUNT(String.valueOf("early_payment_discount"));
 
     private String value;
 

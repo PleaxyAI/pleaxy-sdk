@@ -70,7 +70,7 @@ public class CreateCreditNoteInput {
   private String issueDate;
 
   /**
-   * returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don&#39;t.
+   * returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don&#39;t. early_payment_discount documents the early-payment discount the invoice&#39;s payment took: invoiceId required, its total exactly that discount, once per invoice; it is settled by that payment, so it leaves no credit to use (GET .../invoices/:invoiceId/early-payment-credit-note prepares one).
    */
   public enum ReasonEnum {
     RETURNED_GOODS(String.valueOf("returned_goods")),
@@ -81,7 +81,9 @@ public class CreateCreditNoteInput {
     
     REBATE(String.valueOf("rebate")),
     
-    OTHER(String.valueOf("other"));
+    OTHER(String.valueOf("other")),
+    
+    EARLY_PAYMENT_DISCOUNT(String.valueOf("early_payment_discount"));
 
     private String value;
 
@@ -251,7 +253,7 @@ public class CreateCreditNoteInput {
   }
 
   /**
-   * returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don&#39;t.
+   * returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don&#39;t. early_payment_discount documents the early-payment discount the invoice&#39;s payment took: invoiceId required, its total exactly that discount, once per invoice; it is settled by that payment, so it leaves no credit to use (GET .../invoices/:invoiceId/early-payment-credit-note prepares one).
    * @return reason
    */
   @javax.annotation.Nonnull

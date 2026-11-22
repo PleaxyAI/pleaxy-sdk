@@ -49,6 +49,8 @@ pub enum Reason {
     ServiceCredit,
     #[serde(rename = "rebate")]
     Rebate,
+    #[serde(rename = "early_payment_discount")]
+    EarlyPaymentDiscount,
 }
 
 impl Default for Reason {

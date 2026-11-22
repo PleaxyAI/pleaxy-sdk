@@ -1,12 +1,18 @@
 from typing import Literal, Set, cast
 
 ValidateFeedInvoiceResultCreditNoteCreditNoteReason = Literal[
-    "other", "price_adjustment", "rebate", "returned_goods", "service_credit"
+    "early_payment_discount",
+    "other",
+    "price_adjustment",
+    "rebate",
+    "returned_goods",
+    "service_credit",
 ]
 
 VALIDATE_FEED_INVOICE_RESULT_CREDIT_NOTE_CREDIT_NOTE_REASON_VALUES: Set[
     ValidateFeedInvoiceResultCreditNoteCreditNoteReason
 ] = {
+    "early_payment_discount",
     "other",
     "price_adjustment",
     "rebate",

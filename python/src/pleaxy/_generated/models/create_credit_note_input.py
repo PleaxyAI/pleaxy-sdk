@@ -27,7 +27,9 @@ class CreateCreditNoteInput:
             insensitively.
         issue_date (str): YYYY-MM-DD - not in the future, not more than 365 days back
         reason (CreateCreditNoteInputReason): returned_goods and price_adjustment give PO balance back once accepted;
-            service_credit and rebate don't.
+            service_credit and rebate don't. early_payment_discount documents the early-payment discount the invoice's
+            payment took: invoiceId required, its total exactly that discount, once per invoice; it is settled by that
+            payment, so it leaves no credit to use (GET .../invoices/:invoiceId/early-payment-credit-note prepares one).
         line_items (List['CreateManualInvoiceLineItemInput']): What is credited, before tax. 1–200 lines.
         invoice_id (Union[Unset, str]): The invoice it corrects. Its buyer, supplier, currency, PO and PO line are the
             credit note's. Give this or connectionId.

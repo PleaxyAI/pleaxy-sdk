@@ -1,12 +1,18 @@
 from typing import Literal, Set, cast
 
 ListAvailableCreditsResultCreditsItemReason = Literal[
-    "other", "price_adjustment", "rebate", "returned_goods", "service_credit"
+    "early_payment_discount",
+    "other",
+    "price_adjustment",
+    "rebate",
+    "returned_goods",
+    "service_credit",
 ]
 
 LIST_AVAILABLE_CREDITS_RESULT_CREDITS_ITEM_REASON_VALUES: Set[
     ListAvailableCreditsResultCreditsItemReason
 ] = {
+    "early_payment_discount",
     "other",
     "price_adjustment",
     "rebate",

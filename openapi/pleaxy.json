@@ -8296,6 +8296,78 @@
           "invoices"
         ]
       }
+    },
+    "/usage-alerts": {
+      "get": {
+        "operationId": "GetUsageAlerts",
+        "summary": "[Buyer] Usage anomaly alerts: the workspace's setting and what the rules find right now - an AI model, AI invoicer, cloud account or service above its own trend, or the month's projection breaking a contract's cap, tier or commitment - each with its figures, its text (titleMessageId/bodyMessageId and params) and sentAt when this month's notification went out. Writes nothing. 'view' on suppliers or on invoices.",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageAlertsResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "usage-alerts"
+        ]
+      }
+    },
+    "/usage-alerts/settings": {
+      "patch": {
+        "operationId": "UpdateUsageAlertSettings",
+        "summary": "[Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a signed-in session.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUsageAlertSettingsInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageAlertSettings"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "usage-alerts"
+        ]
+      }
     }
   },
   "info": {
@@ -10980,9 +11052,10 @@
               "price_adjustment",
               "service_credit",
               "rebate",
-              "other"
+              "other",
+              "early_payment_discount"
             ],
-            "description": "returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't."
+            "description": "returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't. early_payment_discount documents the early-payment discount the invoice's payment took: invoiceId required, its total exactly that discount, once per invoice; it is settled by that payment, so it leaves no credit to use (GET .../invoices/:invoiceId/early-payment-credit-note prepares one)."
           },
           "correctsBilling": {
             "type": "boolean",
@@ -12378,6 +12451,24 @@
           "body",
           "visibility"
         ]
+      },
+      "UpdateUsageAlertSettingsInput": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether usage anomaly alerts are sent. Off: nothing is sent; the spend page still shows what the rules find."
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "description": "high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. Amounts in each subject's own currency."
+          }
+        }
       },
       "EmployeeSummary": {
         "type": "object",
@@ -16314,6 +16405,9 @@
           "contractEarlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "earlyPaymentCreditNoteId": {
+            "type": "string"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -18142,6 +18236,9 @@
           "contractEarlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "earlyPaymentCreditNoteId": {
+            "type": "string"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -18972,7 +19069,8 @@
               "returned_goods",
               "price_adjustment",
               "service_credit",
-              "rebate"
+              "rebate",
+              "early_payment_discount"
             ]
           },
           "correctsBilling": {
@@ -19400,6 +19498,9 @@
               },
               "contractEarlyPayment": {
                 "$ref": "#/components/schemas/InvoiceEarlyPayment"
+              },
+              "earlyPaymentCreditNoteId": {
+                "type": "string"
               },
               "lastRemindedAt": {
                 "type": "string"
@@ -21269,7 +21370,8 @@
               "returned_goods",
               "price_adjustment",
               "service_credit",
-              "rebate"
+              "rebate",
+              "early_payment_discount"
             ]
           },
           "correctsBilling": {
@@ -27240,6 +27342,742 @@
           }
         }
       },
+      "UsageAlertsResponse": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "type": "string"
+          },
+          "settings": {
+            "$ref": "#/components/schemas/UsageAlertSettings"
+          },
+          "preset": {
+            "$ref": "#/components/schemas/SensitivityPreset"
+          },
+          "alerts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsageAlertView"
+            }
+          },
+          "generatedAt": {
+            "type": "string"
+          }
+        }
+      },
+      "UsageAlertSettings": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          }
+        }
+      },
+      "SensitivityPreset": {
+        "type": "object",
+        "properties": {
+          "spikePct": {
+            "type": "number",
+            "format": "double"
+          },
+          "pacePct": {
+            "type": "number",
+            "format": "double"
+          },
+          "minAmount": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "UsageAlertView": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "finding": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SpikeFinding"
+              },
+              {
+                "$ref": "#/components/schemas/PaceFinding"
+              },
+              {
+                "$ref": "#/components/schemas/CapFinding"
+              },
+              {
+                "$ref": "#/components/schemas/TierFinding"
+              },
+              {
+                "$ref": "#/components/schemas/CommitmentFinding"
+              },
+              {
+                "$ref": "#/components/schemas/AiCommitmentFinding"
+              }
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "titleMessageId": {
+            "type": "string"
+          },
+          "titleParams": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": {}
+          },
+          "body": {
+            "type": "string"
+          },
+          "bodyMessageId": {
+            "type": "string"
+          },
+          "bodyParams": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": {}
+          },
+          "sentAt": {
+            "type": "string"
+          }
+        }
+      },
+      "SpikeFinding": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "spike"
+            ]
+          },
+          "subject": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "ai_invoicer"
+                    ]
+                  },
+                  "key": {
+                    "type": "string"
+                  },
+                  "invoicerId": {
+                    "type": "string"
+                  },
+                  "invoicer": {
+                    "type": "string",
+                    "enum": [
+                      "aws",
+                      "gcp",
+                      "azure",
+                      "oci",
+                      "openai",
+                      "anthropic",
+                      "mistral",
+                      "cohere",
+                      "xai",
+                      "openrouter",
+                      "snowflake",
+                      "databricks",
+                      "coreweave",
+                      "lambda",
+                      "nebius",
+                      "crusoe",
+                      "cursor",
+                      "github",
+                      "microsoft",
+                      "slack",
+                      "zoom"
+                    ]
+                  },
+                  "account": {
+                    "type": "string"
+                  },
+                  "currency": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "ai_model"
+                    ]
+                  },
+                  "key": {
+                    "type": "string"
+                  },
+                  "invoicerId": {
+                    "type": "string"
+                  },
+                  "invoicer": {
+                    "type": "string",
+                    "enum": [
+                      "aws",
+                      "gcp",
+                      "azure",
+                      "oci",
+                      "openai",
+                      "anthropic",
+                      "mistral",
+                      "cohere",
+                      "xai",
+                      "openrouter",
+                      "snowflake",
+                      "databricks",
+                      "coreweave",
+                      "lambda",
+                      "nebius",
+                      "crusoe",
+                      "cursor",
+                      "github",
+                      "microsoft",
+                      "slack",
+                      "zoom"
+                    ]
+                  },
+                  "account": {
+                    "type": "string"
+                  },
+                  "model": {
+                    "type": "string"
+                  },
+                  "currency": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "cloud_account"
+                    ]
+                  },
+                  "key": {
+                    "type": "string"
+                  },
+                  "connectionId": {
+                    "type": "string"
+                  },
+                  "provider": {
+                    "type": "string",
+                    "enum": [
+                      "aws",
+                      "gcp",
+                      "azure",
+                      "oci"
+                    ]
+                  },
+                  "account": {
+                    "type": "string"
+                  },
+                  "currency": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "cloud_service"
+                    ]
+                  },
+                  "key": {
+                    "type": "string"
+                  },
+                  "connectionId": {
+                    "type": "string"
+                  },
+                  "provider": {
+                    "type": "string",
+                    "enum": [
+                      "aws",
+                      "gcp",
+                      "azure",
+                      "oci"
+                    ]
+                  },
+                  "account": {
+                    "type": "string"
+                  },
+                  "service": {
+                    "type": "string"
+                  },
+                  "currency": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "recentFrom": {
+            "type": "string"
+          },
+          "recentTo": {
+            "type": "string"
+          },
+          "baselineFrom": {
+            "type": "string"
+          },
+          "baselineTo": {
+            "type": "string"
+          },
+          "recentPerDay": {
+            "type": "number",
+            "format": "double"
+          },
+          "baselinePerDay": {
+            "type": "number",
+            "format": "double"
+          },
+          "risePct": {
+            "type": "number",
+            "format": "double"
+          },
+          "excess": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "PaceFinding": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "pace"
+            ]
+          },
+          "subject": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "ai_invoicer"
+                    ]
+                  },
+                  "key": {
+                    "type": "string"
+                  },
+                  "invoicerId": {
+                    "type": "string"
+                  },
+                  "invoicer": {
+                    "type": "string",
+                    "enum": [
+                      "aws",
+                      "gcp",
+                      "azure",
+                      "oci",
+                      "openai",
+                      "anthropic",
+                      "mistral",
+                      "cohere",
+                      "xai",
+                      "openrouter",
+                      "snowflake",
+                      "databricks",
+                      "coreweave",
+                      "lambda",
+                      "nebius",
+                      "crusoe",
+                      "cursor",
+                      "github",
+                      "microsoft",
+                      "slack",
+                      "zoom"
+                    ]
+                  },
+                  "account": {
+                    "type": "string"
+                  },
+                  "currency": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "ai_model"
+                    ]
+                  },
+                  "key": {
+                    "type": "string"
+                  },
+                  "invoicerId": {
+                    "type": "string"
+                  },
+                  "invoicer": {
+                    "type": "string",
+                    "enum": [
+                      "aws",
+                      "gcp",
+                      "azure",
+                      "oci",
+                      "openai",
+                      "anthropic",
+                      "mistral",
+                      "cohere",
+                      "xai",
+                      "openrouter",
+                      "snowflake",
+                      "databricks",
+                      "coreweave",
+                      "lambda",
+                      "nebius",
+                      "crusoe",
+                      "cursor",
+                      "github",
+                      "microsoft",
+                      "slack",
+                      "zoom"
+                    ]
+                  },
+                  "account": {
+                    "type": "string"
+                  },
+                  "model": {
+                    "type": "string"
+                  },
+                  "currency": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "cloud_account"
+                    ]
+                  },
+                  "key": {
+                    "type": "string"
+                  },
+                  "connectionId": {
+                    "type": "string"
+                  },
+                  "provider": {
+                    "type": "string",
+                    "enum": [
+                      "aws",
+                      "gcp",
+                      "azure",
+                      "oci"
+                    ]
+                  },
+                  "account": {
+                    "type": "string"
+                  },
+                  "currency": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "cloud_service"
+                    ]
+                  },
+                  "key": {
+                    "type": "string"
+                  },
+                  "connectionId": {
+                    "type": "string"
+                  },
+                  "provider": {
+                    "type": "string",
+                    "enum": [
+                      "aws",
+                      "gcp",
+                      "azure",
+                      "oci"
+                    ]
+                  },
+                  "account": {
+                    "type": "string"
+                  },
+                  "service": {
+                    "type": "string"
+                  },
+                  "currency": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "monthToDate": {
+            "type": "number",
+            "format": "double"
+          },
+          "asOf": {
+            "type": "string"
+          },
+          "projected": {
+            "type": "number",
+            "format": "double"
+          },
+          "lastMonth": {
+            "type": "number",
+            "format": "double"
+          },
+          "lastMonthSource": {
+            "type": "string",
+            "enum": [
+              "invoice",
+              "snapshot"
+            ]
+          },
+          "risePct": {
+            "type": "number",
+            "format": "double"
+          },
+          "excess": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "CapFinding": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "contract_cap"
+            ]
+          },
+          "billed": {
+            "type": "number",
+            "format": "double"
+          },
+          "projected": {
+            "type": "number",
+            "format": "double"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          },
+          "cap": {
+            "type": "number",
+            "format": "double"
+          },
+          "excess": {
+            "type": "number",
+            "format": "double"
+          },
+          "contractId": {
+            "type": "string"
+          },
+          "contractTitle": {
+            "type": "string"
+          },
+          "supplier": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          }
+        }
+      },
+      "TierFinding": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "contract_tier"
+            ]
+          },
+          "billed": {
+            "type": "number",
+            "format": "double"
+          },
+          "projected": {
+            "type": "number",
+            "format": "double"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          },
+          "tierFrom": {
+            "type": "number",
+            "format": "double"
+          },
+          "percent": {
+            "type": "number",
+            "format": "double"
+          },
+          "windowStart": {
+            "type": "string"
+          },
+          "windowEnd": {
+            "type": "string"
+          },
+          "excess": {
+            "type": "number",
+            "enum": [
+              0
+            ],
+            "format": "double"
+          },
+          "contractId": {
+            "type": "string"
+          },
+          "contractTitle": {
+            "type": "string"
+          },
+          "supplier": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          }
+        }
+      },
+      "CommitmentFinding": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "contract_commitment"
+            ]
+          },
+          "committed": {
+            "type": "number",
+            "format": "double"
+          },
+          "billed": {
+            "type": "number",
+            "format": "double"
+          },
+          "projected": {
+            "type": "number",
+            "format": "double"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          },
+          "windowStart": {
+            "type": "string"
+          },
+          "windowEnd": {
+            "type": "string"
+          },
+          "excess": {
+            "type": "number",
+            "format": "double"
+          },
+          "contractId": {
+            "type": "string"
+          },
+          "contractTitle": {
+            "type": "string"
+          },
+          "supplier": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          }
+        }
+      },
+      "AiCommitmentFinding": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "ai_commitment"
+            ]
+          },
+          "termId": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "committed": {
+            "type": "number",
+            "format": "double"
+          },
+          "projected": {
+            "type": "number",
+            "format": "double"
+          },
+          "windowStart": {
+            "type": "string"
+          },
+          "windowEnd": {
+            "type": "string"
+          },
+          "excess": {
+            "type": "number",
+            "format": "double"
+          },
+          "contractId": {
+            "type": "string"
+          },
+          "contractTitle": {
+            "type": "string"
+          },
+          "supplier": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          }
+        }
+      },
       "ApiError": {
         "type": "object",
         "required": [
@@ -28725,7 +29563,8 @@
                   "returned_goods",
                   "price_adjustment",
                   "service_credit",
-                  "rebate"
+                  "rebate",
+                  "early_payment_discount"
                 ]
               }
             }
@@ -29072,6 +29911,9 @@
           "contractEarlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "earlyPaymentCreditNoteId": {
+            "type": "string"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -29412,6 +30254,9 @@
           },
           "contractEarlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
+          "earlyPaymentCreditNoteId": {
+            "type": "string"
           },
           "lastRemindedAt": {
             "type": "string"
@@ -29941,7 +30786,8 @@
               "returned_goods",
               "price_adjustment",
               "service_credit",
-              "rebate"
+              "rebate",
+              "early_payment_discount"
             ]
           },
           "correctsBilling": {
@@ -30242,7 +31088,8 @@
               "returned_goods",
               "price_adjustment",
               "service_credit",
-              "rebate"
+              "rebate",
+              "early_payment_discount"
             ]
           },
           "correctsBilling": {
@@ -30500,7 +31347,8 @@
               "returned_goods",
               "price_adjustment",
               "service_credit",
-              "rebate"
+              "rebate",
+              "early_payment_discount"
             ]
           },
           "correctsBilling": {
@@ -30799,7 +31647,8 @@
               "returned_goods",
               "price_adjustment",
               "service_credit",
-              "rebate"
+              "rebate",
+              "early_payment_discount"
             ]
           },
           "correctsBilling": {
@@ -31209,6 +32058,9 @@
           "contractEarlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "earlyPaymentCreditNoteId": {
+            "type": "string"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -31550,6 +32402,9 @@
           },
           "contractEarlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
+          "earlyPaymentCreditNoteId": {
+            "type": "string"
           },
           "lastRemindedAt": {
             "type": "string"
@@ -32107,7 +32962,8 @@
               "returned_goods",
               "price_adjustment",
               "service_credit",
-              "rebate"
+              "rebate",
+              "early_payment_discount"
             ]
           },
           "correctsBilling": {
@@ -32406,7 +33262,8 @@
               "returned_goods",
               "price_adjustment",
               "service_credit",
-              "rebate"
+              "rebate",
+              "early_payment_discount"
             ]
           },
           "correctsBilling": {
@@ -32825,6 +33682,9 @@
           "contractEarlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "earlyPaymentCreditNoteId": {
+            "type": "string"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -33166,6 +34026,9 @@
           },
           "contractEarlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
+          "earlyPaymentCreditNoteId": {
+            "type": "string"
           },
           "lastRemindedAt": {
             "type": "string"
@@ -33875,6 +34738,9 @@
           "contractEarlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
           },
+          "earlyPaymentCreditNoteId": {
+            "type": "string"
+          },
           "lastRemindedAt": {
             "type": "string"
           },
@@ -34390,6 +35256,9 @@
           },
           "contractEarlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
+          "earlyPaymentCreditNoteId": {
+            "type": "string"
           },
           "lastRemindedAt": {
             "type": "string"
@@ -34918,6 +35787,9 @@
           },
           "contractEarlyPayment": {
             "$ref": "#/components/schemas/InvoiceEarlyPayment"
+          },
+          "earlyPaymentCreditNoteId": {
+            "type": "string"
           },
           "lastRemindedAt": {
             "type": "string"
@@ -35704,7 +36576,8 @@
                     "returned_goods",
                     "price_adjustment",
                     "service_credit",
-                    "rebate"
+                    "rebate",
+                    "early_payment_discount"
                   ]
                 },
                 "issueDate": {
@@ -35743,7 +36616,8 @@
                     "returned_goods",
                     "price_adjustment",
                     "service_credit",
-                    "rebate"
+                    "rebate",
+                    "early_payment_discount"
                   ]
                 },
                 "amount": {

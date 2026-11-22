@@ -27,7 +27,7 @@ module Pleaxy
     # YYYY-MM-DD - not in the future, not more than 365 days back
     attr_accessor :issue_date
 
-    # returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't.
+    # returned_goods and price_adjustment give PO balance back once accepted; service_credit and rebate don't. early_payment_discount documents the early-payment discount the invoice's payment took: invoiceId required, its total exactly that discount, once per invoice; it is settled by that payment, so it leaves no credit to use (GET .../invoices/:invoiceId/early-payment-credit-note prepares one).
     attr_accessor :reason
 
     # Reason \"other\" only: it corrects what was billed, so it gives PO balance back too.
@@ -293,7 +293,7 @@ module Pleaxy
       return false if @issue_date.nil?
       return false if @issue_date !~ Regexp.new(/^\d{4}-\d{2}-\d{2}$/)
       return false if @reason.nil?
-      reason_validator = EnumAttributeValidator.new('String', ["returned_goods", "price_adjustment", "service_credit", "rebate", "other"])
+      reason_validator = EnumAttributeValidator.new('String', ["returned_goods", "price_adjustment", "service_credit", "rebate", "other", "early_payment_discount"])
       return false unless reason_validator.valid?(@reason)
       return false if !@note.nil? && @note.to_s.length > 1000
       return false if !@note.nil? && @note.to_s.length < 1
@@ -376,7 +376,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] reason Object to be assigned
     def reason=(reason)
-      validator = EnumAttributeValidator.new('String', ["returned_goods", "price_adjustment", "service_credit", "rebate", "other"])
+      validator = EnumAttributeValidator.new('String', ["returned_goods", "price_adjustment", "service_credit", "rebate", "other", "early_payment_discount"])
       unless validator.valid?(reason)
         fail ArgumentError, "invalid value for \"reason\", must be one of #{validator.allowable_values}."
       end

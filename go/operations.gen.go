@@ -1069,6 +1069,18 @@ func (c *Client) GetSupplierWorkspace(ctx context.Context, params *GetSupplierWo
 	return resp.JSON200, nil
 }
 
+// GetUsageAlerts - [Buyer] Usage anomaly alerts: the workspace's setting and what the rules find right now - an AI model, AI invoicer, cloud account or service above its own trend, or the month's projection breaking a contract's cap, tier or commitment - each with its figures, its text (titleMessageId/bodyMessageId and params) and sentAt when this month's notification went out. Writes nothing. 'view' on suppliers or on invoices.
+func (c *Client) GetUsageAlerts(ctx context.Context) (*UsageAlertsResponse, error) {
+	resp, err := c.api.GetUsageAlertsWithResponse(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // InitAwsCloudConnection - [Buyer] Start connecting an AWS account - returns the values to paste into the setup script, reusing the caller's own unfinished draft (and its external ID) if one exists. 'create' on suppliers.
 func (c *Client) InitAwsCloudConnection(ctx context.Context) (*AwsCloudConnectionInit, error) {
 	resp, err := c.api.InitAwsCloudConnectionWithResponse(ctx)
@@ -2134,6 +2146,18 @@ func (c *Client) UpdatePurchaseRequest(ctx context.Context, requestId string, bo
 // UpdateReminderSettings - [Supplier] Update reminder settings
 func (c *Client) UpdateReminderSettings(ctx context.Context, body UpdateReminderSettingsJSONRequestBody) (*ReminderSettings, error) {
 	resp, err := c.api.UpdateReminderSettingsWithResponse(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
+// UpdateUsageAlertSettings - [Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a signed-in session.
+func (c *Client) UpdateUsageAlertSettings(ctx context.Context, body UpdateUsageAlertSettingsJSONRequestBody) (*UsageAlertSettings, error) {
+	resp, err := c.api.UpdateUsageAlertSettingsWithResponse(ctx, body)
 	if err != nil {
 		return nil, err
 	}

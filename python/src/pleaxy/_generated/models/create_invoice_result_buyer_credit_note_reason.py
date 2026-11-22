@@ -1,12 +1,18 @@
 from typing import Literal, Set, cast
 
 CreateInvoiceResultBuyerCreditNoteReason = Literal[
-    "other", "price_adjustment", "rebate", "returned_goods", "service_credit"
+    "early_payment_discount",
+    "other",
+    "price_adjustment",
+    "rebate",
+    "returned_goods",
+    "service_credit",
 ]
 
 CREATE_INVOICE_RESULT_BUYER_CREDIT_NOTE_REASON_VALUES: Set[
     CreateInvoiceResultBuyerCreditNoteReason
 ] = {
+    "early_payment_discount",
     "other",
     "price_adjustment",
     "rebate",

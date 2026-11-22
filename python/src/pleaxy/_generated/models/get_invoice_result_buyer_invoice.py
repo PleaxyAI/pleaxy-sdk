@@ -165,6 +165,7 @@ class GetInvoiceResultBuyerInvoice:
         due_date_source (Union[Unset, GetInvoiceResultBuyerInvoiceDueDateSource]):
         early_payment (Union[Unset, InvoiceEarlyPayment]):
         contract_early_payment (Union[Unset, InvoiceEarlyPayment]):
+        early_payment_credit_note_id (Union[Unset, str]):
         last_reminded_at (Union[Unset, str]):
         last_approver_reminded_at (Union[Unset, str]):
         rejection (Union[Unset, InvoiceRejection]):
@@ -277,6 +278,7 @@ class GetInvoiceResultBuyerInvoice:
     due_date_source: Union[Unset, GetInvoiceResultBuyerInvoiceDueDateSource] = UNSET
     early_payment: Union[Unset, "InvoiceEarlyPayment"] = UNSET
     contract_early_payment: Union[Unset, "InvoiceEarlyPayment"] = UNSET
+    early_payment_credit_note_id: Union[Unset, str] = UNSET
     last_reminded_at: Union[Unset, str] = UNSET
     last_approver_reminded_at: Union[Unset, str] = UNSET
     rejection: Union[Unset, "InvoiceRejection"] = UNSET
@@ -508,6 +510,8 @@ class GetInvoiceResultBuyerInvoice:
         contract_early_payment: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.contract_early_payment, Unset):
             contract_early_payment = self.contract_early_payment.to_dict()
+
+        early_payment_credit_note_id = self.early_payment_credit_note_id
 
         last_reminded_at = self.last_reminded_at
 
@@ -799,6 +803,8 @@ class GetInvoiceResultBuyerInvoice:
             field_dict["earlyPayment"] = early_payment
         if contract_early_payment is not UNSET:
             field_dict["contractEarlyPayment"] = contract_early_payment
+        if early_payment_credit_note_id is not UNSET:
+            field_dict["earlyPaymentCreditNoteId"] = early_payment_credit_note_id
         if last_reminded_at is not UNSET:
             field_dict["lastRemindedAt"] = last_reminded_at
         if last_approver_reminded_at is not UNSET:
@@ -1226,6 +1232,8 @@ class GetInvoiceResultBuyerInvoice:
                 _contract_early_payment
             )
 
+        early_payment_credit_note_id = d.pop("earlyPaymentCreditNoteId", UNSET)
+
         last_reminded_at = d.pop("lastRemindedAt", UNSET)
 
         last_approver_reminded_at = d.pop("lastApproverRemindedAt", UNSET)
@@ -1511,6 +1519,7 @@ class GetInvoiceResultBuyerInvoice:
             due_date_source=due_date_source,
             early_payment=early_payment,
             contract_early_payment=contract_early_payment,
+            early_payment_credit_note_id=early_payment_credit_note_id,
             last_reminded_at=last_reminded_at,
             last_approver_reminded_at=last_approver_reminded_at,
             rejection=rejection,
