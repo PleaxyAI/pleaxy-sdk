@@ -21,6 +21,8 @@ module Pleaxy
 
     attr_accessor :preset
 
+    attr_accessor :currencies
+
     attr_accessor :alerts
 
     attr_accessor :generated_at
@@ -31,6 +33,7 @@ module Pleaxy
         :'period' => :'period',
         :'settings' => :'settings',
         :'preset' => :'preset',
+        :'currencies' => :'currencies',
         :'alerts' => :'alerts',
         :'generated_at' => :'generatedAt'
       }
@@ -47,6 +50,7 @@ module Pleaxy
         :'period' => :'String',
         :'settings' => :'UsageAlertSettings',
         :'preset' => :'SensitivityPreset',
+        :'currencies' => :'Array<UsageAlertCurrency>',
         :'alerts' => :'Array<UsageAlertView>',
         :'generated_at' => :'String'
       }
@@ -85,6 +89,12 @@ module Pleaxy
         self.preset = attributes[:'preset']
       end
 
+      if attributes.key?(:'currencies')
+        if (value = attributes[:'currencies']).is_a?(Array)
+          self.currencies = value
+        end
+      end
+
       if attributes.key?(:'alerts')
         if (value = attributes[:'alerts']).is_a?(Array)
           self.alerts = value
@@ -119,6 +129,7 @@ module Pleaxy
           period == o.period &&
           settings == o.settings &&
           preset == o.preset &&
+          currencies == o.currencies &&
           alerts == o.alerts &&
           generated_at == o.generated_at
     end
@@ -132,7 +143,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [period, settings, preset, alerts, generated_at].hash
+      [period, settings, preset, currencies, alerts, generated_at].hash
     end
 
     # Builds the object from hash

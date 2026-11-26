@@ -72,6 +72,12 @@ pub enum SubmittedFormat {
     Cii,
     #[serde(rename = "fatturapa")]
     Fatturapa,
+    #[serde(rename = "facturae")]
+    Facturae,
+    #[serde(rename = "nfe")]
+    Nfe,
+    #[serde(rename = "nfse")]
+    Nfse,
 }
 
 impl Default for SubmittedFormat {

@@ -151,7 +151,7 @@ public class UsageAlertsApi {
   }
 
   /**
-   * [Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a signed-in session.
+   * [Buyer] Turn usage anomaly alerts on or off, set their sensitivity (low, medium, high), or set the minimum a finding must reach in a currency. The workspace administrator only, signed in.
    * 
    * @param updateUsageAlertSettingsInput  (required)
    * @return UsageAlertSettings
@@ -163,7 +163,7 @@ public class UsageAlertsApi {
   }
 
   /**
-   * [Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a signed-in session.
+   * [Buyer] Turn usage anomaly alerts on or off, set their sensitivity (low, medium, high), or set the minimum a finding must reach in a currency. The workspace administrator only, signed in.
    * 
    * @param updateUsageAlertSettingsInput  (required)
    * @return ApiResponse&lt;UsageAlertSettings&gt;

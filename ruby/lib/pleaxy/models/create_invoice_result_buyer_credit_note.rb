@@ -55,6 +55,8 @@ module Pleaxy
 
     attr_accessor :submitted_format
 
+    attr_accessor :issued_in_billing_software
+
     attr_accessor :submitted_by
 
     attr_accessor :external_invoice_number
@@ -144,6 +146,7 @@ module Pleaxy
         :'source' => :'source',
         :'entered_by' => :'enteredBy',
         :'submitted_format' => :'submittedFormat',
+        :'issued_in_billing_software' => :'issuedInBillingSoftware',
         :'submitted_by' => :'submittedBy',
         :'external_invoice_number' => :'externalInvoiceNumber',
         :'adjustments' => :'adjustments',
@@ -197,6 +200,7 @@ module Pleaxy
         :'source' => :'String',
         :'entered_by' => :'String',
         :'submitted_format' => :'String',
+        :'issued_in_billing_software' => :'Boolean',
         :'submitted_by' => :'String',
         :'external_invoice_number' => :'String',
         :'adjustments' => :'Array<InvoiceAdjustment>',
@@ -327,6 +331,10 @@ module Pleaxy
         self.submitted_format = attributes[:'submitted_format']
       end
 
+      if attributes.key?(:'issued_in_billing_software')
+        self.issued_in_billing_software = attributes[:'issued_in_billing_software']
+      end
+
       if attributes.key?(:'submitted_by')
         self.submitted_by = attributes[:'submitted_by']
       end
@@ -451,7 +459,7 @@ module Pleaxy
       return false unless source_validator.valid?(@source)
       entered_by_validator = EnumAttributeValidator.new('String', ["buyer", "supplier"])
       return false unless entered_by_validator.valid?(@entered_by)
-      submitted_format_validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml", "cii", "fatturapa"])
+      submitted_format_validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml", "cii", "fatturapa", "facturae", "nfe", "nfse"])
       return false unless submitted_format_validator.valid?(@submitted_format)
       reason_validator = EnumAttributeValidator.new('String', ["other", "returned_goods", "price_adjustment", "service_credit", "rebate", "early_payment_discount"])
       return false unless reason_validator.valid?(@reason)
@@ -503,7 +511,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] submitted_format Object to be assigned
     def submitted_format=(submitted_format)
-      validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml", "cii", "fatturapa"])
+      validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml", "cii", "fatturapa", "facturae", "nfe", "nfse"])
       unless validator.valid?(submitted_format)
         fail ArgumentError, "invalid value for \"submitted_format\", must be one of #{validator.allowable_values}."
       end
@@ -555,6 +563,7 @@ module Pleaxy
           source == o.source &&
           entered_by == o.entered_by &&
           submitted_format == o.submitted_format &&
+          issued_in_billing_software == o.issued_in_billing_software &&
           submitted_by == o.submitted_by &&
           external_invoice_number == o.external_invoice_number &&
           adjustments == o.adjustments &&
@@ -588,7 +597,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier, id, buyer_org_id, supplier_org_id, status, created_at, cloud_provider, amount, supplier_connection_id, currency, invoice_id, buyer_org_name, line_items, version, po, po_line_no, rejection, source, entered_by, submitted_format, submitted_by, external_invoice_number, adjustments, tax_amount, tax_breakdown, source_document, note, external_credit_note_number, issue_date, reason, corrects_billing, refunded, accepted_at, accepted_by_name, auto_accepted, po_effect, applications, exports, history, remaining, has_pdf, document_type].hash
+      [supplier, id, buyer_org_id, supplier_org_id, status, created_at, cloud_provider, amount, supplier_connection_id, currency, invoice_id, buyer_org_name, line_items, version, po, po_line_no, rejection, source, entered_by, submitted_format, issued_in_billing_software, submitted_by, external_invoice_number, adjustments, tax_amount, tax_breakdown, source_document, note, external_credit_note_number, issue_date, reason, corrects_billing, refunded, accepted_at, accepted_by_name, auto_accepted, po_effect, applications, exports, history, remaining, has_pdf, document_type].hash
     end
 
     # Builds the object from hash

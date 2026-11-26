@@ -56,6 +56,11 @@ pub struct BuyerCreditNoteView {
     pub entered_by: Option<EnteredBy>,
     #[serde(rename = "submittedFormat", skip_serializing_if = "Option::is_none")]
     pub submitted_format: Option<SubmittedFormat>,
+    #[serde(
+        rename = "issuedInBillingSoftware",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub issued_in_billing_software: Option<bool>,
     #[serde(rename = "submittedBy", skip_serializing_if = "Option::is_none")]
     pub submitted_by: Option<String>,
     #[serde(
@@ -129,6 +134,7 @@ impl BuyerCreditNoteView {
             source: None,
             entered_by: None,
             submitted_format: None,
+            issued_in_billing_software: None,
             submitted_by: None,
             external_invoice_number: None,
             adjustments: None,
@@ -230,6 +236,12 @@ pub enum SubmittedFormat {
     Cii,
     #[serde(rename = "fatturapa")]
     Fatturapa,
+    #[serde(rename = "facturae")]
+    Facturae,
+    #[serde(rename = "nfe")]
+    Nfe,
+    #[serde(rename = "nfse")]
+    Nfse,
 }
 
 impl Default for SubmittedFormat {

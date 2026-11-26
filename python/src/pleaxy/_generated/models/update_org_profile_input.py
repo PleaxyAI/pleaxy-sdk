@@ -11,6 +11,14 @@ from ..models.update_org_profile_input_locale import (
     UpdateOrgProfileInputLocale,
     check_update_org_profile_input_locale,
 )
+from ..models.update_org_profile_input_sells_categories_item import (
+    UpdateOrgProfileInputSellsCategoriesItem,
+    check_update_org_profile_input_sells_categories_item,
+)
+from ..models.update_org_profile_input_sells_segments_item import (
+    UpdateOrgProfileInputSellsSegmentsItem,
+    check_update_org_profile_input_sells_segments_item,
+)
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -25,6 +33,13 @@ T = TypeVar("T", bound="UpdateOrgProfileInput")
 class UpdateOrgProfileInput:
     """
     Attributes:
+        sells_categories (Union[Unset, List[UpdateOrgProfileInputSellsCategoriesItem]]): Supplier profiles only (ignored
+            for a buyer): what you sell, as Pleaxy category ids. The whole list each time; [] clears it. While you are
+            listed in the directory, buyers that don't know you find you by these, and under the UN segments each category
+            belongs to.
+        sells_segments (Union[Unset, List[UpdateOrgProfileInputSellsSegmentsItem]]): Supplier profiles only (ignored for
+            a buyer): what you sell, as two-digit UN standard (UNSPSC) segment codes, e.g. 43. The whole list each time; []
+            clears it.
         region_name (Union[Unset, str]):
         company_name (Union[Unset, str]):
         billing_email (Union[Unset, str]):
@@ -44,6 +59,10 @@ class UpdateOrgProfileInput:
         e_invoicing (Union[Unset, EInvoicingSettingsInput]):
     """
 
+    sells_categories: Union[Unset, List[UpdateOrgProfileInputSellsCategoriesItem]] = (
+        UNSET
+    )
+    sells_segments: Union[Unset, List[UpdateOrgProfileInputSellsSegmentsItem]] = UNSET
     region_name: Union[Unset, str] = UNSET
     company_name: Union[Unset, str] = UNSET
     billing_email: Union[Unset, str] = UNSET
@@ -64,6 +83,20 @@ class UpdateOrgProfileInput:
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
+        sells_categories: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.sells_categories, Unset):
+            sells_categories = []
+            for sells_categories_item_data in self.sells_categories:
+                sells_categories_item: str = sells_categories_item_data
+                sells_categories.append(sells_categories_item)
+
+        sells_segments: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.sells_segments, Unset):
+            sells_segments = []
+            for sells_segments_item_data in self.sells_segments:
+                sells_segments_item: str = sells_segments_item_data
+                sells_segments.append(sells_segments_item)
+
         region_name = self.region_name
 
         company_name = self.company_name
@@ -115,6 +148,10 @@ class UpdateOrgProfileInput:
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
+        if sells_categories is not UNSET:
+            field_dict["sellsCategories"] = sells_categories
+        if sells_segments is not UNSET:
+            field_dict["sellsSegments"] = sells_segments
         if region_name is not UNSET:
             field_dict["regionName"] = region_name
         if company_name is not UNSET:
@@ -158,6 +195,26 @@ class UpdateOrgProfileInput:
         from ..models.postal_address_input import PostalAddressInput
 
         d = src_dict.copy()
+        sells_categories = []
+        _sells_categories = d.pop("sellsCategories", UNSET)
+        for sells_categories_item_data in _sells_categories or []:
+            sells_categories_item = (
+                check_update_org_profile_input_sells_categories_item(
+                    sells_categories_item_data
+                )
+            )
+
+            sells_categories.append(sells_categories_item)
+
+        sells_segments = []
+        _sells_segments = d.pop("sellsSegments", UNSET)
+        for sells_segments_item_data in _sells_segments or []:
+            sells_segments_item = check_update_org_profile_input_sells_segments_item(
+                sells_segments_item_data
+            )
+
+            sells_segments.append(sells_segments_item)
+
         region_name = d.pop("regionName", UNSET)
 
         company_name = d.pop("companyName", UNSET)
@@ -215,6 +272,8 @@ class UpdateOrgProfileInput:
             e_invoicing = EInvoicingSettingsInput.from_dict(_e_invoicing)
 
         update_org_profile_input = cls(
+            sells_categories=sells_categories,
+            sells_segments=sells_segments,
             region_name=region_name,
             company_name=company_name,
             billing_email=billing_email,

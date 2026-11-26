@@ -80,6 +80,10 @@ pub struct OrgProfile {
     pub listed_in_directory: Option<bool>,
     #[serde(rename = "directoryId", skip_serializing_if = "Option::is_none")]
     pub directory_id: Option<String>,
+    #[serde(rename = "sellsCategories", skip_serializing_if = "Option::is_none")]
+    pub sells_categories: Option<Vec<String>>,
+    #[serde(rename = "sellsSegments", skip_serializing_if = "Option::is_none")]
+    pub sells_segments: Option<Vec<String>>,
     #[serde(rename = "setupGoal", skip_serializing_if = "Option::is_none")]
     pub setup_goal: Option<SetupGoal>,
     #[serde(rename = "eInvoicing", skip_serializing_if = "Option::is_none")]
@@ -115,6 +119,8 @@ impl OrgProfile {
             verified: None,
             listed_in_directory: None,
             directory_id: None,
+            sells_categories: None,
+            sells_segments: None,
             setup_goal: None,
             e_invoicing: None,
         }

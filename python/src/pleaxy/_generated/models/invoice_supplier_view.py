@@ -145,6 +145,7 @@ class InvoiceSupplierView:
         e_invoice (Union[Unset, EInvoiceSummary]):
         e_invoice_details (Union[Unset, InvoiceEInvoiceDetails]):
         e_invoice_buyer_downloaded_at (Union[Unset, str]):
+        issued_in_billing_software (Union[Unset, bool]):
         external_invoice_number (Union[Unset, str]):
         adjustments (Union[Unset, List['InvoiceAdjustment']]):
         tax_amount (Union[Unset, float]):
@@ -226,6 +227,7 @@ class InvoiceSupplierView:
     e_invoice: Union[Unset, "EInvoiceSummary"] = UNSET
     e_invoice_details: Union[Unset, "InvoiceEInvoiceDetails"] = UNSET
     e_invoice_buyer_downloaded_at: Union[Unset, str] = UNSET
+    issued_in_billing_software: Union[Unset, bool] = UNSET
     external_invoice_number: Union[Unset, str] = UNSET
     adjustments: Union[Unset, List["InvoiceAdjustment"]] = UNSET
     tax_amount: Union[Unset, float] = UNSET
@@ -411,6 +413,8 @@ class InvoiceSupplierView:
             e_invoice_details = self.e_invoice_details.to_dict()
 
         e_invoice_buyer_downloaded_at = self.e_invoice_buyer_downloaded_at
+
+        issued_in_billing_software = self.issued_in_billing_software
 
         external_invoice_number = self.external_invoice_number
 
@@ -645,6 +649,8 @@ class InvoiceSupplierView:
             field_dict["eInvoiceDetails"] = e_invoice_details
         if e_invoice_buyer_downloaded_at is not UNSET:
             field_dict["eInvoiceBuyerDownloadedAt"] = e_invoice_buyer_downloaded_at
+        if issued_in_billing_software is not UNSET:
+            field_dict["issuedInBillingSoftware"] = issued_in_billing_software
         if external_invoice_number is not UNSET:
             field_dict["externalInvoiceNumber"] = external_invoice_number
         if adjustments is not UNSET:
@@ -940,6 +946,8 @@ class InvoiceSupplierView:
 
         e_invoice_buyer_downloaded_at = d.pop("eInvoiceBuyerDownloadedAt", UNSET)
 
+        issued_in_billing_software = d.pop("issuedInBillingSoftware", UNSET)
+
         external_invoice_number = d.pop("externalInvoiceNumber", UNSET)
 
         adjustments = []
@@ -1201,6 +1209,7 @@ class InvoiceSupplierView:
             e_invoice=e_invoice,
             e_invoice_details=e_invoice_details,
             e_invoice_buyer_downloaded_at=e_invoice_buyer_downloaded_at,
+            issued_in_billing_software=issued_in_billing_software,
             external_invoice_number=external_invoice_number,
             adjustments=adjustments,
             tax_amount=tax_amount,

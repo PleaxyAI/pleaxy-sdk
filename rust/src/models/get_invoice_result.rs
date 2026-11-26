@@ -55,6 +55,11 @@ pub struct GetInvoiceResult {
     #[serde(rename = "submittedFormat", skip_serializing_if = "Option::is_none")]
     pub submitted_format: Option<SubmittedFormat>,
     #[serde(
+        rename = "issuedInBillingSoftware",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub issued_in_billing_software: Option<bool>,
+    #[serde(
         rename = "externalInvoiceNumber",
         skip_serializing_if = "Option::is_none"
     )]
@@ -353,6 +358,7 @@ impl GetInvoiceResult {
             source: None,
             entered_by: None,
             submitted_format: None,
+            issued_in_billing_software: None,
             external_invoice_number: None,
             adjustments: None,
             tax_amount: None,
@@ -545,6 +551,12 @@ pub enum SubmittedFormat {
     Cii,
     #[serde(rename = "fatturapa")]
     Fatturapa,
+    #[serde(rename = "facturae")]
+    Facturae,
+    #[serde(rename = "nfe")]
+    Nfe,
+    #[serde(rename = "nfse")]
+    Nfse,
 }
 
 impl Default for SubmittedFormat {

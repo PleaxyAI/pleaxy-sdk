@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.pleaxy.model.SensitivityPreset;
+import ai.pleaxy.model.UsageAlertCurrency;
 import ai.pleaxy.model.UsageAlertSettings;
 import ai.pleaxy.model.UsageAlertView;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -41,6 +42,7 @@ import ai.pleaxy.client.ApiClient;
   UsageAlertsResponse.JSON_PROPERTY_PERIOD,
   UsageAlertsResponse.JSON_PROPERTY_SETTINGS,
   UsageAlertsResponse.JSON_PROPERTY_PRESET,
+  UsageAlertsResponse.JSON_PROPERTY_CURRENCIES,
   UsageAlertsResponse.JSON_PROPERTY_ALERTS,
   UsageAlertsResponse.JSON_PROPERTY_GENERATED_AT
 })
@@ -57,6 +59,10 @@ public class UsageAlertsResponse {
   public static final String JSON_PROPERTY_PRESET = "preset";
   @javax.annotation.Nullable
   private SensitivityPreset preset;
+
+  public static final String JSON_PROPERTY_CURRENCIES = "currencies";
+  @javax.annotation.Nullable
+  private List<UsageAlertCurrency> currencies = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ALERTS = "alerts";
   @javax.annotation.Nullable
@@ -141,6 +147,38 @@ public class UsageAlertsResponse {
   }
 
 
+  public UsageAlertsResponse currencies(@javax.annotation.Nullable List<UsageAlertCurrency> currencies) {
+    this.currencies = currencies;
+    return this;
+  }
+
+  public UsageAlertsResponse addCurrenciesItem(UsageAlertCurrency currenciesItem) {
+    if (this.currencies == null) {
+      this.currencies = new ArrayList<>();
+    }
+    this.currencies.add(currenciesItem);
+    return this;
+  }
+
+  /**
+   * Get currencies
+   * @return currencies
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CURRENCIES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<UsageAlertCurrency> getCurrencies() {
+    return currencies;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CURRENCIES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCurrencies(@javax.annotation.Nullable List<UsageAlertCurrency> currencies) {
+    this.currencies = currencies;
+  }
+
+
   public UsageAlertsResponse alerts(@javax.annotation.Nullable List<UsageAlertView> alerts) {
     this.alerts = alerts;
     return this;
@@ -212,13 +250,14 @@ public class UsageAlertsResponse {
     return Objects.equals(this.period, usageAlertsResponse.period) &&
         Objects.equals(this.settings, usageAlertsResponse.settings) &&
         Objects.equals(this.preset, usageAlertsResponse.preset) &&
+        Objects.equals(this.currencies, usageAlertsResponse.currencies) &&
         Objects.equals(this.alerts, usageAlertsResponse.alerts) &&
         Objects.equals(this.generatedAt, usageAlertsResponse.generatedAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(period, settings, preset, alerts, generatedAt);
+    return Objects.hash(period, settings, preset, currencies, alerts, generatedAt);
   }
 
   @Override
@@ -228,6 +267,7 @@ public class UsageAlertsResponse {
     sb.append("    period: ").append(toIndentedString(period)).append("\n");
     sb.append("    settings: ").append(toIndentedString(settings)).append("\n");
     sb.append("    preset: ").append(toIndentedString(preset)).append("\n");
+    sb.append("    currencies: ").append(toIndentedString(currencies)).append("\n");
     sb.append("    alerts: ").append(toIndentedString(alerts)).append("\n");
     sb.append("    generatedAt: ").append(toIndentedString(generatedAt)).append("\n");
     sb.append("}");
@@ -290,6 +330,16 @@ public class UsageAlertsResponse {
     // add `preset` to the URL query string
     if (getPreset() != null) {
       joiner.add(getPreset().toUrlQueryString(prefix + "preset" + suffix));
+    }
+
+    // add `currencies` to the URL query string
+    if (getCurrencies() != null) {
+      for (int i = 0; i < getCurrencies().size(); i++) {
+        if (getCurrencies().get(i) != null) {
+          joiner.add(getCurrencies().get(i).toUrlQueryString(String.format("%scurrencies%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
     }
 
     // add `alerts` to the URL query string

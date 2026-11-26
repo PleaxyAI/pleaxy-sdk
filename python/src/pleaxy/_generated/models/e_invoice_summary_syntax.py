@@ -1,10 +1,13 @@
 from typing import Literal, Set, cast
 
-EInvoiceSummarySyntax = Literal["cii", "fatturapa", "ubl"]
+EInvoiceSummarySyntax = Literal["cii", "facturae", "fatturapa", "nfe", "nfse", "ubl"]
 
 E_INVOICE_SUMMARY_SYNTAX_VALUES: Set[EInvoiceSummarySyntax] = {
     "cii",
+    "facturae",
     "fatturapa",
+    "nfe",
+    "nfse",
     "ubl",
 }
 

@@ -67,6 +67,8 @@ import ai.pleaxy.client.ApiClient;
   GetOrgProfileResult.JSON_PROPERTY_VERIFIED,
   GetOrgProfileResult.JSON_PROPERTY_LISTED_IN_DIRECTORY,
   GetOrgProfileResult.JSON_PROPERTY_DIRECTORY_ID,
+  GetOrgProfileResult.JSON_PROPERTY_SELLS_CATEGORIES,
+  GetOrgProfileResult.JSON_PROPERTY_SELLS_SEGMENTS,
   GetOrgProfileResult.JSON_PROPERTY_SETUP_GOAL,
   GetOrgProfileResult.JSON_PROPERTY_E_INVOICING
 })
@@ -257,6 +259,14 @@ public class GetOrgProfileResult {
   public static final String JSON_PROPERTY_DIRECTORY_ID = "directoryId";
   @javax.annotation.Nullable
   private String directoryId;
+
+  public static final String JSON_PROPERTY_SELLS_CATEGORIES = "sellsCategories";
+  @javax.annotation.Nullable
+  private List<String> sellsCategories = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_SELLS_SEGMENTS = "sellsSegments";
+  @javax.annotation.Nullable
+  private List<String> sellsSegments = new ArrayList<>();
 
   /**
    * Gets or Sets setupGoal
@@ -976,6 +986,70 @@ public class GetOrgProfileResult {
   }
 
 
+  public GetOrgProfileResult sellsCategories(@javax.annotation.Nullable List<String> sellsCategories) {
+    this.sellsCategories = sellsCategories;
+    return this;
+  }
+
+  public GetOrgProfileResult addSellsCategoriesItem(String sellsCategoriesItem) {
+    if (this.sellsCategories == null) {
+      this.sellsCategories = new ArrayList<>();
+    }
+    this.sellsCategories.add(sellsCategoriesItem);
+    return this;
+  }
+
+  /**
+   * Get sellsCategories
+   * @return sellsCategories
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SELLS_CATEGORIES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getSellsCategories() {
+    return sellsCategories;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SELLS_CATEGORIES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSellsCategories(@javax.annotation.Nullable List<String> sellsCategories) {
+    this.sellsCategories = sellsCategories;
+  }
+
+
+  public GetOrgProfileResult sellsSegments(@javax.annotation.Nullable List<String> sellsSegments) {
+    this.sellsSegments = sellsSegments;
+    return this;
+  }
+
+  public GetOrgProfileResult addSellsSegmentsItem(String sellsSegmentsItem) {
+    if (this.sellsSegments == null) {
+      this.sellsSegments = new ArrayList<>();
+    }
+    this.sellsSegments.add(sellsSegmentsItem);
+    return this;
+  }
+
+  /**
+   * Get sellsSegments
+   * @return sellsSegments
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SELLS_SEGMENTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<String> getSellsSegments() {
+    return sellsSegments;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SELLS_SEGMENTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSellsSegments(@javax.annotation.Nullable List<String> sellsSegments) {
+    this.sellsSegments = sellsSegments;
+  }
+
+
   public GetOrgProfileResult setupGoal(@javax.annotation.Nullable SetupGoalEnum setupGoal) {
     this.setupGoal = setupGoal;
     return this;
@@ -1063,13 +1137,15 @@ public class GetOrgProfileResult {
         Objects.equals(this.verified, getOrgProfileResult.verified) &&
         Objects.equals(this.listedInDirectory, getOrgProfileResult.listedInDirectory) &&
         Objects.equals(this.directoryId, getOrgProfileResult.directoryId) &&
+        Objects.equals(this.sellsCategories, getOrgProfileResult.sellsCategories) &&
+        Objects.equals(this.sellsSegments, getOrgProfileResult.sellsSegments) &&
         Objects.equals(this.setupGoal, getOrgProfileResult.setupGoal) &&
         Objects.equals(this.eInvoicing, getOrgProfileResult.eInvoicing);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(images, id, role, regionId, regionName, companyName, billingEmail, billingAddress, billingAddressParts, billingAddressLegacyText, billingAddressNeedsReview, taxId, currency, otherCurrencies, paymentCurrencies, fxWarningPct, countries, geography, timeZone, locale, primaryContactName, primaryContactEmail, createdAt, sameDomainAcknowledged, verified, listedInDirectory, directoryId, setupGoal, eInvoicing);
+    return Objects.hash(images, id, role, regionId, regionName, companyName, billingEmail, billingAddress, billingAddressParts, billingAddressLegacyText, billingAddressNeedsReview, taxId, currency, otherCurrencies, paymentCurrencies, fxWarningPct, countries, geography, timeZone, locale, primaryContactName, primaryContactEmail, createdAt, sameDomainAcknowledged, verified, listedInDirectory, directoryId, sellsCategories, sellsSegments, setupGoal, eInvoicing);
   }
 
   @Override
@@ -1103,6 +1179,8 @@ public class GetOrgProfileResult {
     sb.append("    verified: ").append(toIndentedString(verified)).append("\n");
     sb.append("    listedInDirectory: ").append(toIndentedString(listedInDirectory)).append("\n");
     sb.append("    directoryId: ").append(toIndentedString(directoryId)).append("\n");
+    sb.append("    sellsCategories: ").append(toIndentedString(sellsCategories)).append("\n");
+    sb.append("    sellsSegments: ").append(toIndentedString(sellsSegments)).append("\n");
     sb.append("    setupGoal: ").append(toIndentedString(setupGoal)).append("\n");
     sb.append("    eInvoicing: ").append(toIndentedString(eInvoicing)).append("\n");
     sb.append("}");
@@ -1297,6 +1375,24 @@ public class GetOrgProfileResult {
     // add `directoryId` to the URL query string
     if (getDirectoryId() != null) {
       joiner.add(String.format("%sdirectoryId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDirectoryId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `sellsCategories` to the URL query string
+    if (getSellsCategories() != null) {
+      for (int i = 0; i < getSellsCategories().size(); i++) {
+        joiner.add(String.format("%ssellsCategories%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getSellsCategories().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `sellsSegments` to the URL query string
+    if (getSellsSegments() != null) {
+      for (int i = 0; i < getSellsSegments().size(); i++) {
+        joiner.add(String.format("%ssellsSegments%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getSellsSegments().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
     }
 
     // add `setupGoal` to the URL query string

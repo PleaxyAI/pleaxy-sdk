@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import ai.pleaxy.model.EInvoiceSummaryArchive;
 import ai.pleaxy.model.EInvoiceSummaryFindingsInner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -44,7 +45,8 @@ import ai.pleaxy.client.ApiClient;
   EInvoiceSummary.JSON_PROPERTY_FINDINGS,
   EInvoiceSummary.JSON_PROPERTY_FINDINGS_TRUNCATED,
   EInvoiceSummary.JSON_PROPERTY_CONTAINER,
-  EInvoiceSummary.JSON_PROPERTY_EMBEDDED_FILENAME
+  EInvoiceSummary.JSON_PROPERTY_EMBEDDED_FILENAME,
+  EInvoiceSummary.JSON_PROPERTY_ARCHIVE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class EInvoiceSummary {
@@ -56,7 +58,13 @@ public class EInvoiceSummary {
     
     CII(String.valueOf("cii")),
     
-    FATTURAPA(String.valueOf("fatturapa"));
+    FATTURAPA(String.valueOf("fatturapa")),
+    
+    FACTURAE(String.valueOf("facturae")),
+    
+    NFE(String.valueOf("nfe")),
+    
+    NFSE(String.valueOf("nfse"));
 
     private String value;
 
@@ -94,6 +102,12 @@ public class EInvoiceSummary {
    */
   public enum ProfileEnum {
     FATTURAPA(String.valueOf("fatturapa")),
+    
+    FACTURAE(String.valueOf("facturae")),
+    
+    NFE(String.valueOf("nfe")),
+    
+    NFSE(String.valueOf("nfse")),
     
     OTHER(String.valueOf("other")),
     
@@ -239,6 +253,10 @@ public class EInvoiceSummary {
   public static final String JSON_PROPERTY_EMBEDDED_FILENAME = "embeddedFilename";
   @javax.annotation.Nullable
   private String embeddedFilename;
+
+  public static final String JSON_PROPERTY_ARCHIVE = "archive";
+  @javax.annotation.Nullable
+  private EInvoiceSummaryArchive archive;
 
   public EInvoiceSummary() { 
   }
@@ -475,6 +493,30 @@ public class EInvoiceSummary {
   }
 
 
+  public EInvoiceSummary archive(@javax.annotation.Nullable EInvoiceSummaryArchive archive) {
+    this.archive = archive;
+    return this;
+  }
+
+  /**
+   * Get archive
+   * @return archive
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARCHIVE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public EInvoiceSummaryArchive getArchive() {
+    return archive;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARCHIVE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArchive(@javax.annotation.Nullable EInvoiceSummaryArchive archive) {
+    this.archive = archive;
+  }
+
+
   /**
    * Return true if this EInvoiceSummary object is equal to o.
    */
@@ -495,12 +537,13 @@ public class EInvoiceSummary {
         Objects.equals(this.findings, einvoiceSummary.findings) &&
         Objects.equals(this.findingsTruncated, einvoiceSummary.findingsTruncated) &&
         Objects.equals(this.container, einvoiceSummary.container) &&
-        Objects.equals(this.embeddedFilename, einvoiceSummary.embeddedFilename);
+        Objects.equals(this.embeddedFilename, einvoiceSummary.embeddedFilename) &&
+        Objects.equals(this.archive, einvoiceSummary.archive);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(syntax, profile, specificationId, profileVersion, ruleSets, findings, findingsTruncated, container, embeddedFilename);
+    return Objects.hash(syntax, profile, specificationId, profileVersion, ruleSets, findings, findingsTruncated, container, embeddedFilename, archive);
   }
 
   @Override
@@ -516,6 +559,7 @@ public class EInvoiceSummary {
     sb.append("    findingsTruncated: ").append(toIndentedString(findingsTruncated)).append("\n");
     sb.append("    container: ").append(toIndentedString(container)).append("\n");
     sb.append("    embeddedFilename: ").append(toIndentedString(embeddedFilename)).append("\n");
+    sb.append("    archive: ").append(toIndentedString(archive)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -615,6 +659,11 @@ public class EInvoiceSummary {
     // add `embeddedFilename` to the URL query string
     if (getEmbeddedFilename() != null) {
       joiner.add(String.format("%sembeddedFilename%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEmbeddedFilename()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `archive` to the URL query string
+    if (getArchive() != null) {
+      joiner.add(getArchive().toUrlQueryString(prefix + "archive" + suffix));
     }
 
     return joiner.toString();

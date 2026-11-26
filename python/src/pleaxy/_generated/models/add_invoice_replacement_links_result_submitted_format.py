@@ -1,7 +1,7 @@
 from typing import Literal, Set, cast
 
 AddInvoiceReplacementLinksResultSubmittedFormat = Literal[
-    "cii", "cxml", "fatturapa", "json", "ubl"
+    "cii", "cxml", "facturae", "fatturapa", "json", "nfe", "nfse", "ubl"
 ]
 
 ADD_INVOICE_REPLACEMENT_LINKS_RESULT_SUBMITTED_FORMAT_VALUES: Set[
@@ -9,8 +9,11 @@ ADD_INVOICE_REPLACEMENT_LINKS_RESULT_SUBMITTED_FORMAT_VALUES: Set[
 ] = {
     "cii",
     "cxml",
+    "facturae",
     "fatturapa",
     "json",
+    "nfe",
+    "nfse",
     "ubl",
 }
 

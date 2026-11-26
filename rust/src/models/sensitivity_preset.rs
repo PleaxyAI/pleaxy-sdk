@@ -19,6 +19,8 @@ pub struct SensitivityPreset {
     pub pace_pct: Option<f64>,
     #[serde(rename = "minAmount", skip_serializing_if = "Option::is_none")]
     pub min_amount: Option<f64>,
+    #[serde(rename = "minimums", skip_serializing_if = "Option::is_none")]
+    pub minimums: Option<std::collections::HashMap<String, f64>>,
 }
 
 impl SensitivityPreset {
@@ -27,6 +29,7 @@ impl SensitivityPreset {
             spike_pct: None,
             pace_pct: None,
             min_amount: None,
+            minimums: None,
         }
     }
 }

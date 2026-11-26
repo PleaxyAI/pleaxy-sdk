@@ -105,6 +105,7 @@ import ai.pleaxy.client.ApiClient;
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_E_INVOICE,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_E_INVOICE_DETAILS,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_E_INVOICE_BUYER_DOWNLOADED_AT,
+  ListInvoicesItemSupplierInvoice.JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_EXTERNAL_INVOICE_NUMBER,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_ADJUSTMENTS,
   ListInvoicesItemSupplierInvoice.JSON_PROPERTY_TAX_AMOUNT,
@@ -544,7 +545,13 @@ public class ListInvoicesItemSupplierInvoice {
     
     CII(String.valueOf("cii")),
     
-    FATTURAPA(String.valueOf("fatturapa"));
+    FATTURAPA(String.valueOf("fatturapa")),
+    
+    FACTURAE(String.valueOf("facturae")),
+    
+    NFE(String.valueOf("nfe")),
+    
+    NFSE(String.valueOf("nfse"));
 
     private String value;
 
@@ -588,6 +595,10 @@ public class ListInvoicesItemSupplierInvoice {
   public static final String JSON_PROPERTY_E_INVOICE_BUYER_DOWNLOADED_AT = "eInvoiceBuyerDownloadedAt";
   @javax.annotation.Nullable
   private String eInvoiceBuyerDownloadedAt;
+
+  public static final String JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE = "issuedInBillingSoftware";
+  @javax.annotation.Nullable
+  private Boolean issuedInBillingSoftware;
 
   public static final String JSON_PROPERTY_EXTERNAL_INVOICE_NUMBER = "externalInvoiceNumber";
   @javax.annotation.Nullable
@@ -1922,6 +1933,30 @@ public class ListInvoicesItemSupplierInvoice {
   }
 
 
+  public ListInvoicesItemSupplierInvoice issuedInBillingSoftware(@javax.annotation.Nullable Boolean issuedInBillingSoftware) {
+    this.issuedInBillingSoftware = issuedInBillingSoftware;
+    return this;
+  }
+
+  /**
+   * Get issuedInBillingSoftware
+   * @return issuedInBillingSoftware
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getIssuedInBillingSoftware() {
+    return issuedInBillingSoftware;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setIssuedInBillingSoftware(@javax.annotation.Nullable Boolean issuedInBillingSoftware) {
+    this.issuedInBillingSoftware = issuedInBillingSoftware;
+  }
+
+
   public ListInvoicesItemSupplierInvoice externalInvoiceNumber(@javax.annotation.Nullable String externalInvoiceNumber) {
     this.externalInvoiceNumber = externalInvoiceNumber;
     return this;
@@ -2812,6 +2847,7 @@ public class ListInvoicesItemSupplierInvoice {
         Objects.equals(this.eInvoice, listInvoicesItemSupplierInvoice.eInvoice) &&
         Objects.equals(this.eInvoiceDetails, listInvoicesItemSupplierInvoice.eInvoiceDetails) &&
         Objects.equals(this.eInvoiceBuyerDownloadedAt, listInvoicesItemSupplierInvoice.eInvoiceBuyerDownloadedAt) &&
+        Objects.equals(this.issuedInBillingSoftware, listInvoicesItemSupplierInvoice.issuedInBillingSoftware) &&
         Objects.equals(this.externalInvoiceNumber, listInvoicesItemSupplierInvoice.externalInvoiceNumber) &&
         Objects.equals(this.adjustments, listInvoicesItemSupplierInvoice.adjustments) &&
         Objects.equals(this.taxAmount, listInvoicesItemSupplierInvoice.taxAmount) &&
@@ -2848,7 +2884,7 @@ public class ListInvoicesItemSupplierInvoice {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, cloudProvider, lateFeeTerms, amount, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, noPoComparison, paymentRoute, paid, dueInDays, dueDate, paidAt, dueDateSource, earlyPayment, contractEarlyPayment, earlyPaymentCreditNoteId, lastRemindedAt, lastApproverRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, submittedFormat, eInvoice, eInvoiceDetails, eInvoiceBuyerDownloadedAt, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, bankLane, sourceDocument, hasOriginalPdf, canOfferEarlyPayment, heldBack, settlement, paymentProblem, bankDetailsConfirmation, baseCurrencyAmount, approval, payment, withdrawnPayment, remittances, buyerWorkspaceId, nextReminderAt);
+    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, cloudProvider, lateFeeTerms, amount, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, matchStatus, noPoComparison, paymentRoute, paid, dueInDays, dueDate, paidAt, dueDateSource, earlyPayment, contractEarlyPayment, earlyPaymentCreditNoteId, lastRemindedAt, lastApproverRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, enteredBy, invoiceDate, submittedFormat, eInvoice, eInvoiceDetails, eInvoiceBuyerDownloadedAt, issuedInBillingSoftware, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, remittanceInstructions, bankLane, sourceDocument, hasOriginalPdf, canOfferEarlyPayment, heldBack, settlement, paymentProblem, bankDetailsConfirmation, baseCurrencyAmount, approval, payment, withdrawnPayment, remittances, buyerWorkspaceId, nextReminderAt);
   }
 
   @Override
@@ -2901,6 +2937,7 @@ public class ListInvoicesItemSupplierInvoice {
     sb.append("    eInvoice: ").append(toIndentedString(eInvoice)).append("\n");
     sb.append("    eInvoiceDetails: ").append(toIndentedString(eInvoiceDetails)).append("\n");
     sb.append("    eInvoiceBuyerDownloadedAt: ").append(toIndentedString(eInvoiceBuyerDownloadedAt)).append("\n");
+    sb.append("    issuedInBillingSoftware: ").append(toIndentedString(issuedInBillingSoftware)).append("\n");
     sb.append("    externalInvoiceNumber: ").append(toIndentedString(externalInvoiceNumber)).append("\n");
     sb.append("    adjustments: ").append(toIndentedString(adjustments)).append("\n");
     sb.append("    taxAmount: ").append(toIndentedString(taxAmount)).append("\n");
@@ -3226,6 +3263,11 @@ public class ListInvoicesItemSupplierInvoice {
     // add `eInvoiceBuyerDownloadedAt` to the URL query string
     if (geteInvoiceBuyerDownloadedAt() != null) {
       joiner.add(String.format("%seInvoiceBuyerDownloadedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(geteInvoiceBuyerDownloadedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `issuedInBillingSoftware` to the URL query string
+    if (getIssuedInBillingSoftware() != null) {
+      joiner.add(String.format("%sissuedInBillingSoftware%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getIssuedInBillingSoftware()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `externalInvoiceNumber` to the URL query string

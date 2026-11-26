@@ -35,6 +35,8 @@ module Pleaxy
 
     attr_accessor :credential_can_change_billing
 
+    attr_accessor :credential_has_admin_rights
+
     attr_accessor :contact_hint
 
     attr_accessor :connectable
@@ -74,6 +76,7 @@ module Pleaxy
         :'tier' => :'tier',
         :'shape' => :'shape',
         :'credential_can_change_billing' => :'credentialCanChangeBilling',
+        :'credential_has_admin_rights' => :'credentialHasAdminRights',
         :'contact_hint' => :'contactHint',
         :'connectable' => :'connectable'
       }
@@ -97,6 +100,7 @@ module Pleaxy
         :'tier' => :'String',
         :'shape' => :'String',
         :'credential_can_change_billing' => :'Boolean',
+        :'credential_has_admin_rights' => :'Boolean',
         :'contact_hint' => :'String',
         :'connectable' => :'Boolean'
       }
@@ -171,6 +175,10 @@ module Pleaxy
 
       if attributes.key?(:'credential_can_change_billing')
         self.credential_can_change_billing = attributes[:'credential_can_change_billing']
+      end
+
+      if attributes.key?(:'credential_has_admin_rights')
+        self.credential_has_admin_rights = attributes[:'credential_has_admin_rights']
       end
 
       if attributes.key?(:'contact_hint')
@@ -265,6 +273,7 @@ module Pleaxy
           tier == o.tier &&
           shape == o.shape &&
           credential_can_change_billing == o.credential_can_change_billing &&
+          credential_has_admin_rights == o.credential_has_admin_rights &&
           contact_hint == o.contact_hint &&
           connectable == o.connectable
     end
@@ -278,7 +287,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, legal_entities, billing_currencies, billing, sender_domains, credential, tier, shape, credential_can_change_billing, contact_hint, connectable].hash
+      [id, name, legal_entities, billing_currencies, billing, sender_domains, credential, tier, shape, credential_can_change_billing, credential_has_admin_rights, contact_hint, connectable].hash
     end
 
     # Builds the object from hash

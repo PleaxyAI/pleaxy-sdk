@@ -140,6 +140,7 @@ import ai.pleaxy.client.ApiClient;
   CreateInvoiceResultBuyerInvoice.JSON_PROPERTY_E_INVOICE,
   CreateInvoiceResultBuyerInvoice.JSON_PROPERTY_E_INVOICE_DETAILS,
   CreateInvoiceResultBuyerInvoice.JSON_PROPERTY_E_INVOICE_BUYER_DOWNLOADED_AT,
+  CreateInvoiceResultBuyerInvoice.JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE,
   CreateInvoiceResultBuyerInvoice.JSON_PROPERTY_SUBMITTED_BY,
   CreateInvoiceResultBuyerInvoice.JSON_PROPERTY_FEED_PAYLOAD_HASH,
   CreateInvoiceResultBuyerInvoice.JSON_PROPERTY_EXTERNAL_INVOICE_NUMBER,
@@ -883,7 +884,13 @@ public class CreateInvoiceResultBuyerInvoice {
     
     CII(String.valueOf("cii")),
     
-    FATTURAPA(String.valueOf("fatturapa"));
+    FATTURAPA(String.valueOf("fatturapa")),
+    
+    FACTURAE(String.valueOf("facturae")),
+    
+    NFE(String.valueOf("nfe")),
+    
+    NFSE(String.valueOf("nfse"));
 
     private String value;
 
@@ -927,6 +934,10 @@ public class CreateInvoiceResultBuyerInvoice {
   public static final String JSON_PROPERTY_E_INVOICE_BUYER_DOWNLOADED_AT = "eInvoiceBuyerDownloadedAt";
   @javax.annotation.Nullable
   private String eInvoiceBuyerDownloadedAt;
+
+  public static final String JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE = "issuedInBillingSoftware";
+  @javax.annotation.Nullable
+  private Boolean issuedInBillingSoftware;
 
   public static final String JSON_PROPERTY_SUBMITTED_BY = "submittedBy";
   @javax.annotation.Nullable
@@ -2923,6 +2934,30 @@ public class CreateInvoiceResultBuyerInvoice {
   }
 
 
+  public CreateInvoiceResultBuyerInvoice issuedInBillingSoftware(@javax.annotation.Nullable Boolean issuedInBillingSoftware) {
+    this.issuedInBillingSoftware = issuedInBillingSoftware;
+    return this;
+  }
+
+  /**
+   * Get issuedInBillingSoftware
+   * @return issuedInBillingSoftware
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getIssuedInBillingSoftware() {
+    return issuedInBillingSoftware;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setIssuedInBillingSoftware(@javax.annotation.Nullable Boolean issuedInBillingSoftware) {
+    this.issuedInBillingSoftware = issuedInBillingSoftware;
+  }
+
+
   public CreateInvoiceResultBuyerInvoice submittedBy(@javax.annotation.Nullable String submittedBy) {
     this.submittedBy = submittedBy;
     return this;
@@ -3823,6 +3858,7 @@ public class CreateInvoiceResultBuyerInvoice {
         Objects.equals(this.eInvoice, createInvoiceResultBuyerInvoice.eInvoice) &&
         Objects.equals(this.eInvoiceDetails, createInvoiceResultBuyerInvoice.eInvoiceDetails) &&
         Objects.equals(this.eInvoiceBuyerDownloadedAt, createInvoiceResultBuyerInvoice.eInvoiceBuyerDownloadedAt) &&
+        Objects.equals(this.issuedInBillingSoftware, createInvoiceResultBuyerInvoice.issuedInBillingSoftware) &&
         Objects.equals(this.submittedBy, createInvoiceResultBuyerInvoice.submittedBy) &&
         Objects.equals(this.feedPayloadHash, createInvoiceResultBuyerInvoice.feedPayloadHash) &&
         Objects.equals(this.externalInvoiceNumber, createInvoiceResultBuyerInvoice.externalInvoiceNumber) &&
@@ -3858,7 +3894,7 @@ public class CreateInvoiceResultBuyerInvoice {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, cloudProvider, lateFeeTerms, amount, settlement, approvalVersion, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, usageAmount, usageAmountSimulated, usageSimulatedAfterDisconnect, usageCurrency, usageSource, usageLines, tolerancePct, matchStatus, unverifiedReason, matchBasis, noPoComparison, paymentRoute, receiptCheckSkipped, receiptToleranceApplied, matchType, discrepancyReason, controlFindings, paid, dueInDays, dueDate, paidAt, payment, remittances, paymentHistory, paymentProblem, receiptConfirmationRemindedAt, exportAvailableFrom, previousExportedAt, dueDateSource, earlyPayment, contractEarlyPayment, earlyPaymentCreditNoteId, lastRemindedAt, lastApproverRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, cloudConnectionId, enteredBy, invoiceDate, sodExcludedKeys, submittedFormat, eInvoice, eInvoiceDetails, eInvoiceBuyerDownloadedAt, submittedBy, feedPayloadHash, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, heldBack, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, rateWarnings, remittanceInstructions, remittanceCheck, bankDetailsConfirmation, bankLane, sourceDocument, hasOriginalPdf, baseCurrencyAmount, viewerIsSupplierMember, nextApproverReminderAt, replacement, uncreditedOriginals);
+    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, createdAt, cloudProvider, lateFeeTerms, amount, settlement, approvalVersion, approval, supplierConnectionId, currency, buyerOrgName, buyerRegionName, supplierRegionName, contractId, lineItems, po, poLineNo, billsNoPoLine, partyDetails, usageAmount, usageAmountSimulated, usageSimulatedAfterDisconnect, usageCurrency, usageSource, usageLines, tolerancePct, matchStatus, unverifiedReason, matchBasis, noPoComparison, paymentRoute, receiptCheckSkipped, receiptToleranceApplied, matchType, discrepancyReason, controlFindings, paid, dueInDays, dueDate, paidAt, payment, remittances, paymentHistory, paymentProblem, receiptConfirmationRemindedAt, exportAvailableFrom, previousExportedAt, dueDateSource, earlyPayment, contractEarlyPayment, earlyPaymentCreditNoteId, lastRemindedAt, lastApproverRemindedAt, rejection, replacesInvoiceId, replacesInvoiceIds, replacedByInvoiceIds, possibleDuplicates, duplicatesChecked, hasLookupRows, source, cloudConnectionId, enteredBy, invoiceDate, sodExcludedKeys, submittedFormat, eInvoice, eInvoiceDetails, eInvoiceBuyerDownloadedAt, issuedInBillingSoftware, submittedBy, feedPayloadHash, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, withholdings, documentType, amendsInvoiceId, amendsExternalInvoiceNumber, debitNoteIds, invoiceKind, deductions, creditApplications, heldBack, creditNoteIds, creditVersion, paymentCurrencyAmount, taxCurrencyAmount, rateWarnings, remittanceInstructions, remittanceCheck, bankDetailsConfirmation, bankLane, sourceDocument, hasOriginalPdf, baseCurrencyAmount, viewerIsSupplierMember, nextApproverReminderAt, replacement, uncreditedOriginals);
   }
 
   @Override
@@ -3937,6 +3973,7 @@ public class CreateInvoiceResultBuyerInvoice {
     sb.append("    eInvoice: ").append(toIndentedString(eInvoice)).append("\n");
     sb.append("    eInvoiceDetails: ").append(toIndentedString(eInvoiceDetails)).append("\n");
     sb.append("    eInvoiceBuyerDownloadedAt: ").append(toIndentedString(eInvoiceBuyerDownloadedAt)).append("\n");
+    sb.append("    issuedInBillingSoftware: ").append(toIndentedString(issuedInBillingSoftware)).append("\n");
     sb.append("    submittedBy: ").append(toIndentedString(submittedBy)).append("\n");
     sb.append("    feedPayloadHash: ").append(toIndentedString(feedPayloadHash)).append("\n");
     sb.append("    externalInvoiceNumber: ").append(toIndentedString(externalInvoiceNumber)).append("\n");
@@ -4415,6 +4452,11 @@ public class CreateInvoiceResultBuyerInvoice {
     // add `eInvoiceBuyerDownloadedAt` to the URL query string
     if (geteInvoiceBuyerDownloadedAt() != null) {
       joiner.add(String.format("%seInvoiceBuyerDownloadedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(geteInvoiceBuyerDownloadedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `issuedInBillingSoftware` to the URL query string
+    if (getIssuedInBillingSoftware() != null) {
+      joiner.add(String.format("%sissuedInBillingSoftware%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getIssuedInBillingSoftware()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `submittedBy` to the URL query string

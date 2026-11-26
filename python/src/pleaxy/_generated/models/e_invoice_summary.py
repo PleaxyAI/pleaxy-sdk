@@ -22,6 +22,7 @@ from ..models.e_invoice_summary_syntax import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.e_invoice_summary_archive import EInvoiceSummaryArchive
     from ..models.e_invoice_summary_findings_item import EInvoiceSummaryFindingsItem
 
 
@@ -41,6 +42,7 @@ class EInvoiceSummary:
         findings_truncated (Union[Unset, bool]):
         container (Union[Unset, EInvoiceSummaryContainer]):
         embedded_filename (Union[Unset, str]):
+        archive (Union[Unset, EInvoiceSummaryArchive]):
     """
 
     syntax: Union[Unset, EInvoiceSummarySyntax] = UNSET
@@ -52,6 +54,7 @@ class EInvoiceSummary:
     findings_truncated: Union[Unset, bool] = UNSET
     container: Union[Unset, EInvoiceSummaryContainer] = UNSET
     embedded_filename: Union[Unset, str] = UNSET
+    archive: Union[Unset, "EInvoiceSummaryArchive"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -89,6 +92,10 @@ class EInvoiceSummary:
 
         embedded_filename = self.embedded_filename
 
+        archive: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.archive, Unset):
+            archive = self.archive.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -110,11 +117,14 @@ class EInvoiceSummary:
             field_dict["container"] = container
         if embedded_filename is not UNSET:
             field_dict["embeddedFilename"] = embedded_filename
+        if archive is not UNSET:
+            field_dict["archive"] = archive
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.e_invoice_summary_archive import EInvoiceSummaryArchive
         from ..models.e_invoice_summary_findings_item import EInvoiceSummaryFindingsItem
 
         d = src_dict.copy()
@@ -161,6 +171,13 @@ class EInvoiceSummary:
 
         embedded_filename = d.pop("embeddedFilename", UNSET)
 
+        _archive = d.pop("archive", UNSET)
+        archive: Union[Unset, EInvoiceSummaryArchive]
+        if isinstance(_archive, Unset):
+            archive = UNSET
+        else:
+            archive = EInvoiceSummaryArchive.from_dict(_archive)
+
         e_invoice_summary = cls(
             syntax=syntax,
             profile=profile,
@@ -171,6 +188,7 @@ class EInvoiceSummary:
             findings_truncated=findings_truncated,
             container=container,
             embedded_filename=embedded_filename,
+            archive=archive,
         )
 
         e_invoice_summary.additional_properties = d

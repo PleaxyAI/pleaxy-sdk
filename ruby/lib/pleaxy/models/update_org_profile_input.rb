@@ -15,6 +15,12 @@ require 'time'
 
 module Pleaxy
   class UpdateOrgProfileInput
+    # Supplier profiles only (ignored for a buyer): what you sell, as Pleaxy category ids. The whole list each time; [] clears it. While you are listed in the directory, buyers that don't know you find you by these, and under the UN segments each category belongs to.
+    attr_accessor :sells_categories
+
+    # Supplier profiles only (ignored for a buyer): what you sell, as two-digit UN standard (UNSPSC) segment codes, e.g. 43. The whole list each time; [] clears it.
+    attr_accessor :sells_segments
+
     attr_accessor :region_name
 
     attr_accessor :company_name
@@ -74,6 +80,8 @@ module Pleaxy
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'sells_categories' => :'sellsCategories',
+        :'sells_segments' => :'sellsSegments',
         :'region_name' => :'regionName',
         :'company_name' => :'companyName',
         :'billing_email' => :'billingEmail',
@@ -102,6 +110,8 @@ module Pleaxy
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'sells_categories' => :'Array<String>',
+        :'sells_segments' => :'Array<String>',
         :'region_name' => :'String',
         :'company_name' => :'String',
         :'billing_email' => :'String',
@@ -146,6 +156,18 @@ module Pleaxy
         end
         h[k.to_sym] = v
       }
+
+      if attributes.key?(:'sells_categories')
+        if (value = attributes[:'sells_categories']).is_a?(Array)
+          self.sells_categories = value
+        end
+      end
+
+      if attributes.key?(:'sells_segments')
+        if (value = attributes[:'sells_segments']).is_a?(Array)
+          self.sells_segments = value
+        end
+      end
 
       if attributes.key?(:'region_name')
         self.region_name = attributes[:'region_name']
@@ -227,6 +249,14 @@ module Pleaxy
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
+      if !@sells_categories.nil? && @sells_categories.length > 6
+        invalid_properties.push('invalid value for "sells_categories", number of items must be less than or equal to 6.')
+      end
+
+      if !@sells_segments.nil? && @sells_segments.length > 10
+        invalid_properties.push('invalid value for "sells_segments", number of items must be less than or equal to 10.')
+      end
+
       if !@region_name.nil? && @region_name.to_s.length > 40
         invalid_properties.push('invalid value for "region_name", the character length must be smaller than or equal to 40.')
       end
@@ -250,6 +280,8 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
+      return false if !@sells_categories.nil? && @sells_categories.length > 6
+      return false if !@sells_segments.nil? && @sells_segments.length > 10
       return false if !@region_name.nil? && @region_name.to_s.length > 40
       return false if !@company_name.nil? && @company_name.to_s.length > 200
       return false if !@billing_address.nil? && @billing_address.to_s.length > 500
@@ -342,6 +374,8 @@ module Pleaxy
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
+          sells_categories == o.sells_categories &&
+          sells_segments == o.sells_segments &&
           region_name == o.region_name &&
           company_name == o.company_name &&
           billing_email == o.billing_email &&
@@ -370,7 +404,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [region_name, company_name, billing_email, billing_address, billing_address_parts, tax_id, currency, other_currencies, payment_currencies, primary_contact_name, primary_contact_email, countries, time_zone, listed_in_directory, locale, geography_preset_id, e_invoicing].hash
+      [sells_categories, sells_segments, region_name, company_name, billing_email, billing_address, billing_address_parts, tax_id, currency, other_currencies, payment_currencies, primary_contact_name, primary_contact_email, countries, time_zone, listed_in_directory, locale, geography_preset_id, e_invoicing].hash
     end
 
     # Builds the object from hash

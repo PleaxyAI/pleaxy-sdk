@@ -19,6 +19,8 @@ pub struct UsageAlertsResponse {
     pub settings: Option<models::UsageAlertSettings>,
     #[serde(rename = "preset", skip_serializing_if = "Option::is_none")]
     pub preset: Option<models::SensitivityPreset>,
+    #[serde(rename = "currencies", skip_serializing_if = "Option::is_none")]
+    pub currencies: Option<Vec<models::UsageAlertCurrency>>,
     #[serde(rename = "alerts", skip_serializing_if = "Option::is_none")]
     pub alerts: Option<Vec<models::UsageAlertView>>,
     #[serde(rename = "generatedAt", skip_serializing_if = "Option::is_none")]
@@ -31,6 +33,7 @@ impl UsageAlertsResponse {
             period: None,
             settings: None,
             preset: None,
+            currencies: None,
             alerts: None,
             generated_at: None,
         }

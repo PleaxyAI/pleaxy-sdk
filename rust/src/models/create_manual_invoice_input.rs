@@ -99,6 +99,12 @@ pub struct CreateManualInvoiceInput {
     /// Base64-encoded PDF of the invoice
     #[serde(rename = "pdfBase64", skip_serializing_if = "Option::is_none")]
     pub pdf_base64: Option<String>,
+    /// The supplier says it issued this document in its own billing software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise).
+    #[serde(
+        rename = "issuedInBillingSoftware",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub issued_in_billing_software: Option<bool>,
 }
 
 impl CreateManualInvoiceInput {
@@ -133,6 +139,7 @@ impl CreateManualInvoiceInput {
             currency: None,
             remittance_instructions: None,
             pdf_base64: None,
+            issued_in_billing_software: None,
         }
     }
 }

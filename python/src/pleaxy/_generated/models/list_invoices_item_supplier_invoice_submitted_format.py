@@ -1,7 +1,7 @@
 from typing import Literal, Set, cast
 
 ListInvoicesItemSupplierInvoiceSubmittedFormat = Literal[
-    "cii", "cxml", "fatturapa", "json", "ubl"
+    "cii", "cxml", "facturae", "fatturapa", "json", "nfe", "nfse", "ubl"
 ]
 
 LIST_INVOICES_ITEM_SUPPLIER_INVOICE_SUBMITTED_FORMAT_VALUES: Set[
@@ -9,8 +9,11 @@ LIST_INVOICES_ITEM_SUPPLIER_INVOICE_SUBMITTED_FORMAT_VALUES: Set[
 ] = {
     "cii",
     "cxml",
+    "facturae",
     "fatturapa",
     "json",
+    "nfe",
+    "nfse",
     "ubl",
 }
 

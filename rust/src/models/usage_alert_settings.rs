@@ -17,6 +17,8 @@ pub struct UsageAlertSettings {
     pub enabled: Option<bool>,
     #[serde(rename = "sensitivity", skip_serializing_if = "Option::is_none")]
     pub sensitivity: Option<Sensitivity>,
+    #[serde(rename = "minimums", skip_serializing_if = "Option::is_none")]
+    pub minimums: Option<std::collections::HashMap<String, f64>>,
     #[serde(rename = "updatedAt", skip_serializing_if = "Option::is_none")]
     pub updated_at: Option<String>,
     #[serde(rename = "updatedBy", skip_serializing_if = "Option::is_none")]
@@ -28,6 +30,7 @@ impl UsageAlertSettings {
         UsageAlertSettings {
             enabled: None,
             sensitivity: None,
+            minimums: None,
             updated_at: None,
             updated_by: None,
         }

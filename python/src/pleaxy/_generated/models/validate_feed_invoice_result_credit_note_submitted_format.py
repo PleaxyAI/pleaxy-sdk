@@ -1,7 +1,7 @@
 from typing import Literal, Set, cast
 
 ValidateFeedInvoiceResultCreditNoteSubmittedFormat = Literal[
-    "cii", "cxml", "fatturapa", "json", "ubl"
+    "cii", "cxml", "facturae", "fatturapa", "json", "nfe", "nfse", "ubl"
 ]
 
 VALIDATE_FEED_INVOICE_RESULT_CREDIT_NOTE_SUBMITTED_FORMAT_VALUES: Set[
@@ -9,8 +9,11 @@ VALIDATE_FEED_INVOICE_RESULT_CREDIT_NOTE_SUBMITTED_FORMAT_VALUES: Set[
 ] = {
     "cii",
     "cxml",
+    "facturae",
     "fatturapa",
     "json",
+    "nfe",
+    "nfse",
     "ubl",
 }
 

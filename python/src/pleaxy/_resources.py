@@ -1746,7 +1746,7 @@ class UsageAlertsResource:
     def update_usage_alert_settings(
         self, *, body: UpdateUsageAlertSettingsInput
     ) -> UsageAlertSettings:
-        """[Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a signed-in session."""
+        """[Buyer] Turn usage anomaly alerts on or off, set their sensitivity (low, medium, high), or set the minimum a finding must reach in a currency. The workspace administrator only, signed in."""
         return self._transport.call(
             "pleaxy._generated.api.usage_alerts.update_usage_alert_settings", body=body
         )

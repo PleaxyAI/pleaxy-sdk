@@ -108,7 +108,13 @@ public class FeedAttempt {
     
     CII(String.valueOf("cii")),
     
-    FATTURAPA(String.valueOf("fatturapa"));
+    FATTURAPA(String.valueOf("fatturapa")),
+    
+    FACTURAE(String.valueOf("facturae")),
+    
+    NFE(String.valueOf("nfe")),
+    
+    NFSE(String.valueOf("nfse"));
 
     private String value;
 

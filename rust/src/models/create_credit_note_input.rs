@@ -49,6 +49,12 @@ pub struct CreateCreditNoteInput {
     /// Base64-encoded PDF of the credit note as issued, kept with it. Up to 8 MB.
     #[serde(rename = "pdfBase64", skip_serializing_if = "Option::is_none")]
     pub pdf_base64: Option<String>,
+    /// The supplier says it issued this document in its own billing software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise).
+    #[serde(
+        rename = "issuedInBillingSoftware",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub issued_in_billing_software: Option<bool>,
     /// Buyer only: the invoice import (POST .../invoice-imports) this credit note was recorded from - the supplier's credit note document Pleaxy read. Its document is kept with the credit note when it is a PDF under 8 MB, and the import records the credit note.
     #[serde(rename = "sourceImportId", skip_serializing_if = "Option::is_none")]
     pub source_import_id: Option<String>,
@@ -74,6 +80,7 @@ impl CreateCreditNoteInput {
             tax_amount: None,
             tax_breakdown: None,
             pdf_base64: None,
+            issued_in_billing_software: None,
             source_import_id: None,
         }
     }

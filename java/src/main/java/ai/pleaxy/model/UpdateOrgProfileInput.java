@@ -37,6 +37,8 @@ import ai.pleaxy.client.ApiClient;
  * UpdateOrgProfileInput
  */
 @JsonPropertyOrder({
+  UpdateOrgProfileInput.JSON_PROPERTY_SELLS_CATEGORIES,
+  UpdateOrgProfileInput.JSON_PROPERTY_SELLS_SEGMENTS,
   UpdateOrgProfileInput.JSON_PROPERTY_REGION_NAME,
   UpdateOrgProfileInput.JSON_PROPERTY_COMPANY_NAME,
   UpdateOrgProfileInput.JSON_PROPERTY_BILLING_EMAIL,
@@ -57,6 +59,240 @@ import ai.pleaxy.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class UpdateOrgProfileInput {
+  /**
+   * Gets or Sets sellsCategories
+   */
+  public enum SellsCategoriesEnum {
+    CLOUD_AI(String.valueOf("cloud-ai")),
+    
+    SOFTWARE(String.valueOf("software")),
+    
+    IT_HARDWARE(String.valueOf("it-hardware")),
+    
+    IT_SERVICES(String.valueOf("it-services")),
+    
+    PROFESSIONAL_SERVICES(String.valueOf("professional-services")),
+    
+    LEGAL_FINANCE(String.valueOf("legal-finance")),
+    
+    MARKETING_CREATIVE(String.valueOf("marketing-creative")),
+    
+    STAFFING(String.valueOf("staffing")),
+    
+    TRAINING(String.valueOf("training")),
+    
+    FACILITIES(String.valueOf("facilities")),
+    
+    CONSTRUCTION(String.valueOf("construction")),
+    
+    LOGISTICS(String.valueOf("logistics")),
+    
+    TRAVEL_EVENTS(String.valueOf("travel-events")),
+    
+    OFFICE(String.valueOf("office")),
+    
+    INDUSTRIAL(String.valueOf("industrial")),
+    
+    ELECTRICAL(String.valueOf("electrical")),
+    
+    RAW_MATERIALS(String.valueOf("raw-materials")),
+    
+    PACKAGING_PRINT(String.valueOf("packaging-print")),
+    
+    FOOD(String.valueOf("food")),
+    
+    HEALTHCARE(String.valueOf("healthcare")),
+    
+    SAFETY_SECURITY(String.valueOf("safety-security")),
+    
+    VEHICLES(String.valueOf("vehicles")),
+    
+    UTILITIES_ENERGY(String.valueOf("utilities-energy")),
+    
+    AGRICULTURE(String.valueOf("agriculture"));
+
+    private String value;
+
+    SellsCategoriesEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static SellsCategoriesEnum fromValue(String value) {
+      for (SellsCategoriesEnum b : SellsCategoriesEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_SELLS_CATEGORIES = "sellsCategories";
+  @javax.annotation.Nullable
+  private List<SellsCategoriesEnum> sellsCategories = new ArrayList<>();
+
+  /**
+   * Gets or Sets sellsSegments
+   */
+  public enum SellsSegmentsEnum {
+    _10(String.valueOf("10")),
+    
+    _11(String.valueOf("11")),
+    
+    _12(String.valueOf("12")),
+    
+    _13(String.valueOf("13")),
+    
+    _14(String.valueOf("14")),
+    
+    _15(String.valueOf("15")),
+    
+    _20(String.valueOf("20")),
+    
+    _21(String.valueOf("21")),
+    
+    _22(String.valueOf("22")),
+    
+    _23(String.valueOf("23")),
+    
+    _24(String.valueOf("24")),
+    
+    _25(String.valueOf("25")),
+    
+    _26(String.valueOf("26")),
+    
+    _27(String.valueOf("27")),
+    
+    _30(String.valueOf("30")),
+    
+    _31(String.valueOf("31")),
+    
+    _32(String.valueOf("32")),
+    
+    _39(String.valueOf("39")),
+    
+    _40(String.valueOf("40")),
+    
+    _41(String.valueOf("41")),
+    
+    _42(String.valueOf("42")),
+    
+    _43(String.valueOf("43")),
+    
+    _44(String.valueOf("44")),
+    
+    _45(String.valueOf("45")),
+    
+    _46(String.valueOf("46")),
+    
+    _47(String.valueOf("47")),
+    
+    _48(String.valueOf("48")),
+    
+    _49(String.valueOf("49")),
+    
+    _50(String.valueOf("50")),
+    
+    _51(String.valueOf("51")),
+    
+    _52(String.valueOf("52")),
+    
+    _53(String.valueOf("53")),
+    
+    _54(String.valueOf("54")),
+    
+    _55(String.valueOf("55")),
+    
+    _56(String.valueOf("56")),
+    
+    _57(String.valueOf("57")),
+    
+    _60(String.valueOf("60")),
+    
+    _64(String.valueOf("64")),
+    
+    _70(String.valueOf("70")),
+    
+    _71(String.valueOf("71")),
+    
+    _72(String.valueOf("72")),
+    
+    _73(String.valueOf("73")),
+    
+    _76(String.valueOf("76")),
+    
+    _77(String.valueOf("77")),
+    
+    _78(String.valueOf("78")),
+    
+    _80(String.valueOf("80")),
+    
+    _81(String.valueOf("81")),
+    
+    _82(String.valueOf("82")),
+    
+    _83(String.valueOf("83")),
+    
+    _84(String.valueOf("84")),
+    
+    _85(String.valueOf("85")),
+    
+    _86(String.valueOf("86")),
+    
+    _90(String.valueOf("90")),
+    
+    _91(String.valueOf("91")),
+    
+    _92(String.valueOf("92")),
+    
+    _93(String.valueOf("93")),
+    
+    _94(String.valueOf("94")),
+    
+    _95(String.valueOf("95"));
+
+    private String value;
+
+    SellsSegmentsEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static SellsSegmentsEnum fromValue(String value) {
+      for (SellsSegmentsEnum b : SellsSegmentsEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_SELLS_SEGMENTS = "sellsSegments";
+  @javax.annotation.Nullable
+  private List<SellsSegmentsEnum> sellsSegments = new ArrayList<>();
+
   public static final String JSON_PROPERTY_REGION_NAME = "regionName";
   @javax.annotation.Nullable
   private String regionName;
@@ -231,6 +467,70 @@ public class UpdateOrgProfileInput {
 
   public UpdateOrgProfileInput() { 
   }
+
+  public UpdateOrgProfileInput sellsCategories(@javax.annotation.Nullable List<SellsCategoriesEnum> sellsCategories) {
+    this.sellsCategories = sellsCategories;
+    return this;
+  }
+
+  public UpdateOrgProfileInput addSellsCategoriesItem(SellsCategoriesEnum sellsCategoriesItem) {
+    if (this.sellsCategories == null) {
+      this.sellsCategories = new ArrayList<>();
+    }
+    this.sellsCategories.add(sellsCategoriesItem);
+    return this;
+  }
+
+  /**
+   * Supplier profiles only (ignored for a buyer): what you sell, as Pleaxy category ids. The whole list each time; [] clears it. While you are listed in the directory, buyers that don&#39;t know you find you by these, and under the UN segments each category belongs to.
+   * @return sellsCategories
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SELLS_CATEGORIES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<SellsCategoriesEnum> getSellsCategories() {
+    return sellsCategories;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SELLS_CATEGORIES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSellsCategories(@javax.annotation.Nullable List<SellsCategoriesEnum> sellsCategories) {
+    this.sellsCategories = sellsCategories;
+  }
+
+
+  public UpdateOrgProfileInput sellsSegments(@javax.annotation.Nullable List<SellsSegmentsEnum> sellsSegments) {
+    this.sellsSegments = sellsSegments;
+    return this;
+  }
+
+  public UpdateOrgProfileInput addSellsSegmentsItem(SellsSegmentsEnum sellsSegmentsItem) {
+    if (this.sellsSegments == null) {
+      this.sellsSegments = new ArrayList<>();
+    }
+    this.sellsSegments.add(sellsSegmentsItem);
+    return this;
+  }
+
+  /**
+   * Supplier profiles only (ignored for a buyer): what you sell, as two-digit UN standard (UNSPSC) segment codes, e.g. 43. The whole list each time; [] clears it.
+   * @return sellsSegments
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SELLS_SEGMENTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public List<SellsSegmentsEnum> getSellsSegments() {
+    return sellsSegments;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SELLS_SEGMENTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSellsSegments(@javax.annotation.Nullable List<SellsSegmentsEnum> sellsSegments) {
+    this.sellsSegments = sellsSegments;
+  }
+
 
   public UpdateOrgProfileInput regionName(@javax.annotation.Nullable String regionName) {
     this.regionName = regionName;
@@ -676,7 +976,9 @@ public class UpdateOrgProfileInput {
       return false;
     }
     UpdateOrgProfileInput updateOrgProfileInput = (UpdateOrgProfileInput) o;
-    return Objects.equals(this.regionName, updateOrgProfileInput.regionName) &&
+    return Objects.equals(this.sellsCategories, updateOrgProfileInput.sellsCategories) &&
+        Objects.equals(this.sellsSegments, updateOrgProfileInput.sellsSegments) &&
+        Objects.equals(this.regionName, updateOrgProfileInput.regionName) &&
         Objects.equals(this.companyName, updateOrgProfileInput.companyName) &&
         Objects.equals(this.billingEmail, updateOrgProfileInput.billingEmail) &&
         Objects.equals(this.billingAddress, updateOrgProfileInput.billingAddress) &&
@@ -697,13 +999,15 @@ public class UpdateOrgProfileInput {
 
   @Override
   public int hashCode() {
-    return Objects.hash(regionName, companyName, billingEmail, billingAddress, billingAddressParts, taxId, currency, otherCurrencies, paymentCurrencies, primaryContactName, primaryContactEmail, countries, timeZone, listedInDirectory, locale, geographyPresetId, eInvoicing);
+    return Objects.hash(sellsCategories, sellsSegments, regionName, companyName, billingEmail, billingAddress, billingAddressParts, taxId, currency, otherCurrencies, paymentCurrencies, primaryContactName, primaryContactEmail, countries, timeZone, listedInDirectory, locale, geographyPresetId, eInvoicing);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class UpdateOrgProfileInput {\n");
+    sb.append("    sellsCategories: ").append(toIndentedString(sellsCategories)).append("\n");
+    sb.append("    sellsSegments: ").append(toIndentedString(sellsSegments)).append("\n");
     sb.append("    regionName: ").append(toIndentedString(regionName)).append("\n");
     sb.append("    companyName: ").append(toIndentedString(companyName)).append("\n");
     sb.append("    billingEmail: ").append(toIndentedString(billingEmail)).append("\n");
@@ -767,6 +1071,24 @@ public class UpdateOrgProfileInput {
     }
 
     StringJoiner joiner = new StringJoiner("&");
+
+    // add `sellsCategories` to the URL query string
+    if (getSellsCategories() != null) {
+      for (int i = 0; i < getSellsCategories().size(); i++) {
+        joiner.add(String.format("%ssellsCategories%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getSellsCategories().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `sellsSegments` to the URL query string
+    if (getSellsSegments() != null) {
+      for (int i = 0; i < getSellsSegments().size(); i++) {
+        joiner.add(String.format("%ssellsSegments%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(ApiClient.valueToString(getSellsSegments().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
 
     // add `regionName` to the URL query string
     if (getRegionName() != null) {

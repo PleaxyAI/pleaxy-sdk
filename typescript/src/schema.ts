@@ -2634,7 +2634,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        /** [Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a signed-in session. */
+        /** [Buyer] Turn usage anomaly alerts on or off, set their sensitivity (low, medium, high), or set the minimum a finding must reach in a currency. The workspace administrator only, signed in. */
         patch: operations["UpdateUsageAlertSettings"];
         trace?: never;
     };
@@ -2835,6 +2835,10 @@ export interface components {
             buyerReference?: string;
         };
         UpdateOrgProfileInput: {
+            /** @description Supplier profiles only (ignored for a buyer): what you sell, as Pleaxy category ids. The whole list each time; [] clears it. While you are listed in the directory, buyers that don't know you find you by these, and under the UN segments each category belongs to. */
+            sellsCategories?: ("cloud-ai" | "software" | "it-hardware" | "it-services" | "professional-services" | "legal-finance" | "marketing-creative" | "staffing" | "training" | "facilities" | "construction" | "logistics" | "travel-events" | "office" | "industrial" | "electrical" | "raw-materials" | "packaging-print" | "food" | "healthcare" | "safety-security" | "vehicles" | "utilities-energy" | "agriculture")[];
+            /** @description Supplier profiles only (ignored for a buyer): what you sell, as two-digit UN standard (UNSPSC) segment codes, e.g. 43. The whole list each time; [] clears it. */
+            sellsSegments?: ("10" | "11" | "12" | "13" | "14" | "15" | "20" | "21" | "22" | "23" | "24" | "25" | "26" | "27" | "30" | "31" | "32" | "39" | "40" | "41" | "42" | "43" | "44" | "45" | "46" | "47" | "48" | "49" | "50" | "51" | "52" | "53" | "54" | "55" | "56" | "57" | "60" | "64" | "70" | "71" | "72" | "73" | "76" | "77" | "78" | "80" | "81" | "82" | "83" | "84" | "85" | "86" | "90" | "91" | "92" | "93" | "94" | "95")[];
             regionName?: string;
             companyName?: string;
             billingEmail?: string;
@@ -3276,6 +3280,8 @@ export interface components {
             remittanceInstructions?: components["schemas"]["RemittanceInstructionsInput"];
             /** @description Base64-encoded PDF of the invoice */
             pdfBase64?: string;
+            /** @description The supplier says it issued this document in its own billing software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise). */
+            issuedInBillingSoftware?: boolean;
         };
         AddReplacementLinksInput: {
             /** @description The Pleaxy ids of the invoices and debit notes this invoice replaces, from the same supplier. 1–20; links already there are kept. */
@@ -3346,6 +3352,8 @@ export interface components {
             remittanceInstructions?: components["schemas"]["RemittanceInstructionsInput"];
             /** @description Base64-encoded PDF of the invoice */
             pdfBase64?: string;
+            /** @description The supplier says it issued this document in its own billing software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise). */
+            issuedInBillingSoftware?: boolean;
         };
         RejectInvoiceInput: {
             /** @enum {string} */
@@ -3537,6 +3545,8 @@ export interface components {
             taxBreakdown?: components["schemas"]["BreakdownEntryInput"][];
             /** @description Base64-encoded PDF of the credit note as issued, kept with it. Up to 8 MB. */
             pdfBase64?: string;
+            /** @description The supplier says it issued this document in its own billing software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise). */
+            issuedInBillingSoftware?: boolean;
             /** @description Buyer only: the invoice import (POST .../invoice-imports) this credit note was recorded from - the supplier's credit note document Pleaxy read. Its document is kept with the credit note when it is a PDF under 8 MB, and the import records the credit note. */
             sourceImportId?: string;
         };
@@ -4004,10 +4014,20 @@ export interface components {
             /** @description Whether usage anomaly alerts are sent. Off: nothing is sent; the spend page still shows what the rules find. */
             enabled?: boolean;
             /**
-             * @description high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. Amounts in each subject's own currency.
+             * @description high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. The minimum is in each subject's own currency, scaled for currencies like JPY (medium: JPY 75,000) unless the workspace set its own for that currency (minimums).
              * @enum {string}
              */
             sensitivity?: "low" | "medium" | "high";
+            /**
+             * @description The least a finding must add (or miss by) over a month, per currency the workspace is billed in (ISO 4217): used as set, whatever the sensitivity. Merged into what is stored; null for a currency goes back to its default.
+             * @example {
+             *       "USD": 1000,
+             *       "JPY": 100000
+             *     }
+             */
+            minimums?: {
+                [key: string]: number | null;
+            };
         };
         EmployeeSummary: {
             key?: string;
@@ -4340,7 +4360,7 @@ export interface components {
             /** @enum {string} */
             mode?: "submit" | "validate";
             /** @enum {string} */
-            format?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            format?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             /** @enum {string} */
             outcome?: "accepted" | "replayed" | "valid" | "refused";
             /** Format: double */
@@ -4472,6 +4492,8 @@ export interface components {
             verified?: boolean;
             listedInDirectory?: boolean;
             directoryId?: string;
+            sellsCategories?: string[];
+            sellsSegments?: string[];
             /** @enum {string} */
             setupGoal?: "audit" | "network";
             eInvoicing?: components["schemas"]["EInvoicingProfileSettings"];
@@ -5216,10 +5238,11 @@ export interface components {
             invoiceDate?: string;
             sodExcludedKeys?: string[];
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             eInvoice?: components["schemas"]["EInvoiceSummary"];
             eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
             eInvoiceBuyerDownloadedAt?: string;
+            issuedInBillingSoftware?: boolean;
             submittedBy?: string;
             feedPayloadHash?: string;
             externalInvoiceNumber?: string;
@@ -5520,9 +5543,9 @@ export interface components {
         };
         EInvoiceSummary: {
             /** @enum {string} */
-            syntax?: "ubl" | "cii" | "fatturapa";
+            syntax?: "ubl" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             /** @enum {string} */
-            profile?: "fatturapa" | "other" | "en16931" | "peppol-bis-billing-3" | "xrechnung" | "xrechnung-extension" | "factur-x-minimum" | "factur-x-basic-wl" | "factur-x-basic" | "factur-x-extended";
+            profile?: "fatturapa" | "facturae" | "nfe" | "nfse" | "other" | "en16931" | "peppol-bis-billing-3" | "xrechnung" | "xrechnung-extension" | "factur-x-minimum" | "factur-x-basic-wl" | "factur-x-basic" | "factur-x-extended";
             specificationId?: string;
             profileVersion?: string;
             ruleSets?: ("en16931" | "xrechnung")[];
@@ -5537,6 +5560,12 @@ export interface components {
             /** @enum {string} */
             container?: "pdf";
             embeddedFilename?: string;
+            archive?: {
+                key?: string;
+                sha256?: string;
+                /** Format: double */
+                retainUntilYear?: number;
+            };
         };
         InvoiceEInvoiceDetails: {
             lineVat?: components["schemas"]["EInvoiceVat"][];
@@ -5784,10 +5813,11 @@ export interface components {
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             eInvoice?: components["schemas"]["EInvoiceSummary"];
             eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
             eInvoiceBuyerDownloadedAt?: string;
+            issuedInBillingSoftware?: boolean;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -6009,7 +6039,8 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
+            issuedInBillingSoftware?: boolean;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -6079,7 +6110,7 @@ export interface components {
             valid?: boolean;
             feedEnabled?: boolean;
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             invoice?: {
                 supplier?: string;
                 buyerOrgId?: string;
@@ -6166,10 +6197,11 @@ export interface components {
                 enteredBy?: "buyer" | "supplier";
                 invoiceDate?: string;
                 /** @enum {string} */
-                submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+                submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
                 eInvoice?: components["schemas"]["EInvoiceSummary"];
                 eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
                 eInvoiceBuyerDownloadedAt?: string;
+                issuedInBillingSoftware?: boolean;
                 externalInvoiceNumber?: string;
                 adjustments?: components["schemas"]["InvoiceAdjustment"][];
                 /** Format: double */
@@ -6708,7 +6740,8 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
+            issuedInBillingSoftware?: boolean;
             submittedBy?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
@@ -8503,6 +8536,7 @@ export interface components {
             period?: string;
             settings?: components["schemas"]["UsageAlertSettings"];
             preset?: components["schemas"]["SensitivityPreset"];
+            currencies?: components["schemas"]["UsageAlertCurrency"][];
             alerts?: components["schemas"]["UsageAlertView"][];
             generatedAt?: string;
         };
@@ -8510,6 +8544,9 @@ export interface components {
             enabled?: boolean;
             /** @enum {string} */
             sensitivity?: "low" | "medium" | "high";
+            minimums?: {
+                [key: string]: number;
+            };
             updatedAt?: string;
             updatedBy?: string;
         };
@@ -8520,6 +8557,17 @@ export interface components {
             pacePct?: number;
             /** Format: double */
             minAmount?: number;
+            minimums?: {
+                [key: string]: number;
+            };
+        };
+        UsageAlertCurrency: {
+            currency?: string;
+            /** Format: double */
+            minimum?: number;
+            /** Format: double */
+            defaultMinimum?: number;
+            custom?: boolean;
         };
         UsageAlertView: {
             key?: string;
@@ -9061,6 +9109,8 @@ export interface components {
             verified?: boolean;
             listedInDirectory?: boolean;
             directoryId?: string;
+            sellsCategories?: string[];
+            sellsSegments?: string[];
             /** @enum {string} */
             setupGoal?: "audit" | "network";
             eInvoicing?: components["schemas"]["EInvoicingProfileSettings"];
@@ -9096,7 +9146,7 @@ export interface components {
             documentType?: "credit_note";
             feedEnabled?: boolean;
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             creditNote?: {
                 invoiceId?: string;
                 externalInvoiceNumber?: string;
@@ -9236,10 +9286,11 @@ export interface components {
             invoiceDate?: string;
             sodExcludedKeys?: string[];
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             eInvoice?: components["schemas"]["EInvoiceSummary"];
             eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
             eInvoiceBuyerDownloadedAt?: string;
+            issuedInBillingSoftware?: boolean;
             submittedBy?: string;
             feedPayloadHash?: string;
             externalInvoiceNumber?: string;
@@ -9332,10 +9383,11 @@ export interface components {
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             eInvoice?: components["schemas"]["EInvoiceSummary"];
             eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
             eInvoiceBuyerDownloadedAt?: string;
+            issuedInBillingSoftware?: boolean;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -9458,7 +9510,8 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
+            issuedInBillingSoftware?: boolean;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -9547,7 +9600,8 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
+            issuedInBillingSoftware?: boolean;
             submittedBy?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
@@ -9622,7 +9676,8 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
+            issuedInBillingSoftware?: boolean;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -9711,7 +9766,8 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
+            issuedInBillingSoftware?: boolean;
             submittedBy?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
@@ -9869,10 +9925,11 @@ export interface components {
             invoiceDate?: string;
             sodExcludedKeys?: string[];
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             eInvoice?: components["schemas"]["EInvoiceSummary"];
             eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
             eInvoiceBuyerDownloadedAt?: string;
+            issuedInBillingSoftware?: boolean;
             submittedBy?: string;
             feedPayloadHash?: string;
             externalInvoiceNumber?: string;
@@ -9965,10 +10022,11 @@ export interface components {
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             eInvoice?: components["schemas"]["EInvoiceSummary"];
             eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
             eInvoiceBuyerDownloadedAt?: string;
+            issuedInBillingSoftware?: boolean;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -10095,7 +10153,8 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
+            issuedInBillingSoftware?: boolean;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -10184,7 +10243,8 @@ export interface components {
             /** @enum {string} */
             enteredBy?: "buyer" | "supplier";
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
+            issuedInBillingSoftware?: boolean;
             submittedBy?: string;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
@@ -10344,10 +10404,11 @@ export interface components {
             invoiceDate?: string;
             sodExcludedKeys?: string[];
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             eInvoice?: components["schemas"]["EInvoiceSummary"];
             eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
             eInvoiceBuyerDownloadedAt?: string;
+            issuedInBillingSoftware?: boolean;
             submittedBy?: string;
             feedPayloadHash?: string;
             externalInvoiceNumber?: string;
@@ -10440,10 +10501,11 @@ export interface components {
             enteredBy?: "buyer" | "supplier";
             invoiceDate?: string;
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             eInvoice?: components["schemas"]["EInvoiceSummary"];
             eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
             eInvoiceBuyerDownloadedAt?: string;
+            issuedInBillingSoftware?: boolean;
             externalInvoiceNumber?: string;
             adjustments?: components["schemas"]["InvoiceAdjustment"][];
             /** Format: double */
@@ -10652,10 +10714,11 @@ export interface components {
             invoiceDate?: string;
             sodExcludedKeys?: string[];
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             eInvoice?: components["schemas"]["EInvoiceSummary"];
             eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
             eInvoiceBuyerDownloadedAt?: string;
+            issuedInBillingSoftware?: boolean;
             submittedBy?: string;
             feedPayloadHash?: string;
             externalInvoiceNumber?: string;
@@ -10803,10 +10866,11 @@ export interface components {
             invoiceDate?: string;
             sodExcludedKeys?: string[];
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             eInvoice?: components["schemas"]["EInvoiceSummary"];
             eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
             eInvoiceBuyerDownloadedAt?: string;
+            issuedInBillingSoftware?: boolean;
             submittedBy?: string;
             feedPayloadHash?: string;
             externalInvoiceNumber?: string;
@@ -10959,10 +11023,11 @@ export interface components {
             invoiceDate?: string;
             sodExcludedKeys?: string[];
             /** @enum {string} */
-            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa";
+            submittedFormat?: "json" | "ubl" | "cxml" | "cii" | "fatturapa" | "facturae" | "nfe" | "nfse";
             eInvoice?: components["schemas"]["EInvoiceSummary"];
             eInvoiceDetails?: components["schemas"]["InvoiceEInvoiceDetails"];
             eInvoiceBuyerDownloadedAt?: string;
+            issuedInBillingSoftware?: boolean;
             submittedBy?: string;
             feedPayloadHash?: string;
             externalInvoiceNumber?: string;
@@ -11112,6 +11177,7 @@ export interface components {
             /** @enum {string} */
             shape?: "seats" | "usage" | "capacity" | "tokens" | "credits";
             credentialCanChangeBilling?: boolean;
+            credentialHasAdminRights?: boolean;
             contactHint?: string;
             connectable?: boolean;
         };

@@ -1,14 +1,19 @@
 from typing import Literal, Set, cast
 
-RecordPaymentResultSubmittedFormat = Literal["cii", "cxml", "fatturapa", "json", "ubl"]
+RecordPaymentResultSubmittedFormat = Literal[
+    "cii", "cxml", "facturae", "fatturapa", "json", "nfe", "nfse", "ubl"
+]
 
 RECORD_PAYMENT_RESULT_SUBMITTED_FORMAT_VALUES: Set[
     RecordPaymentResultSubmittedFormat
 ] = {
     "cii",
     "cxml",
+    "facturae",
     "fatturapa",
     "json",
+    "nfe",
+    "nfse",
     "ubl",
 }
 

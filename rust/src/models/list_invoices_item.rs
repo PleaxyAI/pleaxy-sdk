@@ -193,6 +193,11 @@ pub struct ListInvoicesItem {
         skip_serializing_if = "Option::is_none"
     )]
     pub e_invoice_buyer_downloaded_at: Option<String>,
+    #[serde(
+        rename = "issuedInBillingSoftware",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub issued_in_billing_software: Option<bool>,
     #[serde(rename = "submittedBy", skip_serializing_if = "Option::is_none")]
     pub submitted_by: Option<String>,
     #[serde(rename = "feedPayloadHash", skip_serializing_if = "Option::is_none")]
@@ -406,6 +411,7 @@ impl ListInvoicesItem {
             e_invoice: None,
             e_invoice_details: None,
             e_invoice_buyer_downloaded_at: None,
+            issued_in_billing_software: None,
             submitted_by: None,
             feed_payload_hash: None,
             external_invoice_number: None,
@@ -663,6 +669,12 @@ pub enum SubmittedFormat {
     Cii,
     #[serde(rename = "fatturapa")]
     Fatturapa,
+    #[serde(rename = "facturae")]
+    Facturae,
+    #[serde(rename = "nfe")]
+    Nfe,
+    #[serde(rename = "nfse")]
+    Nfse,
 }
 
 impl Default for SubmittedFormat {

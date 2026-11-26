@@ -768,6 +768,7 @@ from .document_comment_view_visibility import DocumentCommentViewVisibility
 from .draft_ai_orders_input import DraftAiOrdersInput
 from .draft_ai_orders_input_scope import DraftAiOrdersInputScope
 from .e_invoice_summary import EInvoiceSummary
+from .e_invoice_summary_archive import EInvoiceSummaryArchive
 from .e_invoice_summary_container import EInvoiceSummaryContainer
 from .e_invoice_summary_findings_item import EInvoiceSummaryFindingsItem
 from .e_invoice_summary_findings_item_severity import (
@@ -2056,6 +2057,7 @@ from .self_approval_record_basis import SelfApprovalRecordBasis
 from .self_approval_record_waived_exclusion import SelfApprovalRecordWaivedExclusion
 from .send_remittance_input import SendRemittanceInput
 from .sensitivity_preset import SensitivityPreset
+from .sensitivity_preset_minimums import SensitivityPresetMinimums
 from .server_message import ServerMessage
 from .server_message_params import ServerMessageParams
 from .service_entry_sheet_queue_item import ServiceEntrySheetQueueItem
@@ -2386,15 +2388,26 @@ from .update_org_profile_input_geography_preset_id import (
     UpdateOrgProfileInputGeographyPresetId,
 )
 from .update_org_profile_input_locale import UpdateOrgProfileInputLocale
+from .update_org_profile_input_sells_categories_item import (
+    UpdateOrgProfileInputSellsCategoriesItem,
+)
+from .update_org_profile_input_sells_segments_item import (
+    UpdateOrgProfileInputSellsSegmentsItem,
+)
 from .update_purchase_order_input import UpdatePurchaseOrderInput
 from .update_purchase_request_input import UpdatePurchaseRequestInput
 from .update_reminder_settings_input import UpdateReminderSettingsInput
 from .update_usage_alert_settings_input import UpdateUsageAlertSettingsInput
+from .update_usage_alert_settings_input_minimums import (
+    UpdateUsageAlertSettingsInputMinimums,
+)
 from .update_usage_alert_settings_input_sensitivity import (
     UpdateUsageAlertSettingsInputSensitivity,
 )
 from .update_webhook_input import UpdateWebhookInput
+from .usage_alert_currency import UsageAlertCurrency
 from .usage_alert_settings import UsageAlertSettings
+from .usage_alert_settings_minimums import UsageAlertSettingsMinimums
 from .usage_alert_settings_sensitivity import UsageAlertSettingsSensitivity
 from .usage_alert_view import UsageAlertView
 from .usage_alert_view_body_params import UsageAlertViewBodyParams
@@ -2937,6 +2950,7 @@ __all__ = (
     "EarlyPaymentDiscountTakenSource",
     "EarlyPaymentStandingOffer",
     "EInvoiceSummary",
+    "EInvoiceSummaryArchive",
     "EInvoiceSummaryContainer",
     "EInvoiceSummaryFindingsItem",
     "EInvoiceSummaryFindingsItemSeverity",
@@ -3674,6 +3688,7 @@ __all__ = (
     "SelfApprovalRecordWaivedExclusion",
     "SendRemittanceInput",
     "SensitivityPreset",
+    "SensitivityPresetMinimums",
     "ServerMessage",
     "ServerMessageParams",
     "ServiceEntrySheetQueueItem",
@@ -3904,13 +3919,18 @@ __all__ = (
     "UpdateOrgProfileInput",
     "UpdateOrgProfileInputGeographyPresetId",
     "UpdateOrgProfileInputLocale",
+    "UpdateOrgProfileInputSellsCategoriesItem",
+    "UpdateOrgProfileInputSellsSegmentsItem",
     "UpdatePurchaseOrderInput",
     "UpdatePurchaseRequestInput",
     "UpdateReminderSettingsInput",
     "UpdateUsageAlertSettingsInput",
+    "UpdateUsageAlertSettingsInputMinimums",
     "UpdateUsageAlertSettingsInputSensitivity",
     "UpdateWebhookInput",
+    "UsageAlertCurrency",
     "UsageAlertSettings",
+    "UsageAlertSettingsMinimums",
     "UsageAlertSettingsSensitivity",
     "UsageAlertsResponse",
     "UsageAlertView",

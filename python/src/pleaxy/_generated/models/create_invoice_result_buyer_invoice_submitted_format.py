@@ -1,7 +1,7 @@
 from typing import Literal, Set, cast
 
 CreateInvoiceResultBuyerInvoiceSubmittedFormat = Literal[
-    "cii", "cxml", "fatturapa", "json", "ubl"
+    "cii", "cxml", "facturae", "fatturapa", "json", "nfe", "nfse", "ubl"
 ]
 
 CREATE_INVOICE_RESULT_BUYER_INVOICE_SUBMITTED_FORMAT_VALUES: Set[
@@ -9,8 +9,11 @@ CREATE_INVOICE_RESULT_BUYER_INVOICE_SUBMITTED_FORMAT_VALUES: Set[
 ] = {
     "cii",
     "cxml",
+    "facturae",
     "fatturapa",
     "json",
+    "nfe",
+    "nfse",
     "ubl",
 }
 

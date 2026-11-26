@@ -74,7 +74,7 @@ module Pleaxy
       return data, status_code, headers
     end
 
-    # [Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a signed-in session.
+    # [Buyer] Turn usage anomaly alerts on or off, set their sensitivity (low, medium, high), or set the minimum a finding must reach in a currency. The workspace administrator only, signed in.
     # @param update_usage_alert_settings_input [UpdateUsageAlertSettingsInput] 
     # @param [Hash] opts the optional parameters
     # @return [UsageAlertSettings]
@@ -83,7 +83,7 @@ module Pleaxy
       data
     end
 
-    # [Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a signed-in session.
+    # [Buyer] Turn usage anomaly alerts on or off, set their sensitivity (low, medium, high), or set the minimum a finding must reach in a currency. The workspace administrator only, signed in.
     # @param update_usage_alert_settings_input [UpdateUsageAlertSettingsInput] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(UsageAlertSettings, Integer, Hash)>] UsageAlertSettings data, response status code and response headers

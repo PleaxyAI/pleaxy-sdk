@@ -18,8 +18,11 @@ module Pleaxy
     # Whether usage anomaly alerts are sent. Off: nothing is sent; the spend page still shows what the rules find.
     attr_accessor :enabled
 
-    # high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. Amounts in each subject's own currency.
+    # high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. The minimum is in each subject's own currency, scaled for currencies like JPY (medium: JPY 75,000) unless the workspace set its own for that currency (minimums).
     attr_accessor :sensitivity
+
+    # The least a finding must add (or miss by) over a month, per currency the workspace is billed in (ISO 4217): used as set, whatever the sensitivity. Merged into what is stored; null for a currency goes back to its default.
+    attr_accessor :minimums
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -47,7 +50,8 @@ module Pleaxy
     def self.attribute_map
       {
         :'enabled' => :'enabled',
-        :'sensitivity' => :'sensitivity'
+        :'sensitivity' => :'sensitivity',
+        :'minimums' => :'minimums'
       }
     end
 
@@ -60,7 +64,8 @@ module Pleaxy
     def self.openapi_types
       {
         :'enabled' => :'Boolean',
-        :'sensitivity' => :'String'
+        :'sensitivity' => :'String',
+        :'minimums' => :'Hash<String, Float>'
       }
     end
 
@@ -91,6 +96,12 @@ module Pleaxy
 
       if attributes.key?(:'sensitivity')
         self.sensitivity = attributes[:'sensitivity']
+      end
+
+      if attributes.key?(:'minimums')
+        if (value = attributes[:'minimums']).is_a?(Hash)
+          self.minimums = value
+        end
       end
     end
 
@@ -127,7 +138,8 @@ module Pleaxy
       return true if self.equal?(o)
       self.class == o.class &&
           enabled == o.enabled &&
-          sensitivity == o.sensitivity
+          sensitivity == o.sensitivity &&
+          minimums == o.minimums
     end
 
     # @see the `==` method
@@ -139,7 +151,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [enabled, sensitivity].hash
+      [enabled, sensitivity, minimums].hash
     end
 
     # Builds the object from hash

@@ -184,6 +184,7 @@ class RemoveInvoiceReplacementLinkResult:
         e_invoice (Union[Unset, EInvoiceSummary]):
         e_invoice_details (Union[Unset, InvoiceEInvoiceDetails]):
         e_invoice_buyer_downloaded_at (Union[Unset, str]):
+        issued_in_billing_software (Union[Unset, bool]):
         submitted_by (Union[Unset, str]):
         feed_payload_hash (Union[Unset, str]):
         external_invoice_number (Union[Unset, str]):
@@ -305,6 +306,7 @@ class RemoveInvoiceReplacementLinkResult:
     e_invoice: Union[Unset, "EInvoiceSummary"] = UNSET
     e_invoice_details: Union[Unset, "InvoiceEInvoiceDetails"] = UNSET
     e_invoice_buyer_downloaded_at: Union[Unset, str] = UNSET
+    issued_in_billing_software: Union[Unset, bool] = UNSET
     submitted_by: Union[Unset, str] = UNSET
     feed_payload_hash: Union[Unset, str] = UNSET
     external_invoice_number: Union[Unset, str] = UNSET
@@ -580,6 +582,8 @@ class RemoveInvoiceReplacementLinkResult:
 
         e_invoice_buyer_downloaded_at = self.e_invoice_buyer_downloaded_at
 
+        issued_in_billing_software = self.issued_in_billing_software
+
         submitted_by = self.submitted_by
 
         feed_payload_hash = self.feed_payload_hash
@@ -849,6 +853,8 @@ class RemoveInvoiceReplacementLinkResult:
             field_dict["eInvoiceDetails"] = e_invoice_details
         if e_invoice_buyer_downloaded_at is not UNSET:
             field_dict["eInvoiceBuyerDownloadedAt"] = e_invoice_buyer_downloaded_at
+        if issued_in_billing_software is not UNSET:
+            field_dict["issuedInBillingSoftware"] = issued_in_billing_software
         if submitted_by is not UNSET:
             field_dict["submittedBy"] = submitted_by
         if feed_payload_hash is not UNSET:
@@ -1333,6 +1339,8 @@ class RemoveInvoiceReplacementLinkResult:
 
         e_invoice_buyer_downloaded_at = d.pop("eInvoiceBuyerDownloadedAt", UNSET)
 
+        issued_in_billing_software = d.pop("issuedInBillingSoftware", UNSET)
+
         submitted_by = d.pop("submittedBy", UNSET)
 
         feed_payload_hash = d.pop("feedPayloadHash", UNSET)
@@ -1562,6 +1570,7 @@ class RemoveInvoiceReplacementLinkResult:
             e_invoice=e_invoice,
             e_invoice_details=e_invoice_details,
             e_invoice_buyer_downloaded_at=e_invoice_buyer_downloaded_at,
+            issued_in_billing_software=issued_in_billing_software,
             submitted_by=submitted_by,
             feed_payload_hash=feed_payload_hash,
             external_invoice_number=external_invoice_number,

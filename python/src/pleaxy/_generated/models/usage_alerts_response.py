@@ -7,6 +7,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.sensitivity_preset import SensitivityPreset
+    from ..models.usage_alert_currency import UsageAlertCurrency
     from ..models.usage_alert_settings import UsageAlertSettings
     from ..models.usage_alert_view import UsageAlertView
 
@@ -21,6 +22,7 @@ class UsageAlertsResponse:
         period (Union[Unset, str]):
         settings (Union[Unset, UsageAlertSettings]):
         preset (Union[Unset, SensitivityPreset]):
+        currencies (Union[Unset, List['UsageAlertCurrency']]):
         alerts (Union[Unset, List['UsageAlertView']]):
         generated_at (Union[Unset, str]):
     """
@@ -28,6 +30,7 @@ class UsageAlertsResponse:
     period: Union[Unset, str] = UNSET
     settings: Union[Unset, "UsageAlertSettings"] = UNSET
     preset: Union[Unset, "SensitivityPreset"] = UNSET
+    currencies: Union[Unset, List["UsageAlertCurrency"]] = UNSET
     alerts: Union[Unset, List["UsageAlertView"]] = UNSET
     generated_at: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -42,6 +45,13 @@ class UsageAlertsResponse:
         preset: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.preset, Unset):
             preset = self.preset.to_dict()
+
+        currencies: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.currencies, Unset):
+            currencies = []
+            for currencies_item_data in self.currencies:
+                currencies_item = currencies_item_data.to_dict()
+                currencies.append(currencies_item)
 
         alerts: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.alerts, Unset):
@@ -61,6 +71,8 @@ class UsageAlertsResponse:
             field_dict["settings"] = settings
         if preset is not UNSET:
             field_dict["preset"] = preset
+        if currencies is not UNSET:
+            field_dict["currencies"] = currencies
         if alerts is not UNSET:
             field_dict["alerts"] = alerts
         if generated_at is not UNSET:
@@ -71,6 +83,7 @@ class UsageAlertsResponse:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.sensitivity_preset import SensitivityPreset
+        from ..models.usage_alert_currency import UsageAlertCurrency
         from ..models.usage_alert_settings import UsageAlertSettings
         from ..models.usage_alert_view import UsageAlertView
 
@@ -91,6 +104,13 @@ class UsageAlertsResponse:
         else:
             preset = SensitivityPreset.from_dict(_preset)
 
+        currencies = []
+        _currencies = d.pop("currencies", UNSET)
+        for currencies_item_data in _currencies or []:
+            currencies_item = UsageAlertCurrency.from_dict(currencies_item_data)
+
+            currencies.append(currencies_item)
+
         alerts = []
         _alerts = d.pop("alerts", UNSET)
         for alerts_item_data in _alerts or []:
@@ -104,6 +124,7 @@ class UsageAlertsResponse:
             period=period,
             settings=settings,
             preset=preset,
+            currencies=currencies,
             alerts=alerts,
             generated_at=generated_at,
         )

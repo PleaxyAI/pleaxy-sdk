@@ -59,8 +59,8 @@ def sync_detailed(
     client: Union[AuthenticatedClient, Client],
     body: UpdateUsageAlertSettingsInput,
 ) -> Response[UsageAlertSettings]:
-    """[Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a
-    signed-in session.
+    """[Buyer] Turn usage anomaly alerts on or off, set their sensitivity (low, medium, high), or set the
+    minimum a finding must reach in a currency. The workspace administrator only, signed in.
 
     Args:
         body (UpdateUsageAlertSettingsInput):
@@ -89,8 +89,8 @@ def sync(
     client: Union[AuthenticatedClient, Client],
     body: UpdateUsageAlertSettingsInput,
 ) -> Optional[UsageAlertSettings]:
-    """[Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a
-    signed-in session.
+    """[Buyer] Turn usage anomaly alerts on or off, set their sensitivity (low, medium, high), or set the
+    minimum a finding must reach in a currency. The workspace administrator only, signed in.
 
     Args:
         body (UpdateUsageAlertSettingsInput):
@@ -114,8 +114,8 @@ async def asyncio_detailed(
     client: Union[AuthenticatedClient, Client],
     body: UpdateUsageAlertSettingsInput,
 ) -> Response[UsageAlertSettings]:
-    """[Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a
-    signed-in session.
+    """[Buyer] Turn usage anomaly alerts on or off, set their sensitivity (low, medium, high), or set the
+    minimum a finding must reach in a currency. The workspace administrator only, signed in.
 
     Args:
         body (UpdateUsageAlertSettingsInput):
@@ -142,8 +142,8 @@ async def asyncio(
     client: Union[AuthenticatedClient, Client],
     body: UpdateUsageAlertSettingsInput,
 ) -> Optional[UsageAlertSettings]:
-    """[Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a
-    signed-in session.
+    """[Buyer] Turn usage anomaly alerts on or off, set their sensitivity (low, medium, high), or set the
+    minimum a finding must reach in a currency. The workspace administrator only, signed in.
 
     Args:
         body (UpdateUsageAlertSettingsInput):

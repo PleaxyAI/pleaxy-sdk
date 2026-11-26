@@ -62,6 +62,7 @@ import ai.pleaxy.client.ApiClient;
   CreateInvoiceResultSupplierCreditNote.JSON_PROPERTY_SOURCE,
   CreateInvoiceResultSupplierCreditNote.JSON_PROPERTY_ENTERED_BY,
   CreateInvoiceResultSupplierCreditNote.JSON_PROPERTY_SUBMITTED_FORMAT,
+  CreateInvoiceResultSupplierCreditNote.JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE,
   CreateInvoiceResultSupplierCreditNote.JSON_PROPERTY_EXTERNAL_INVOICE_NUMBER,
   CreateInvoiceResultSupplierCreditNote.JSON_PROPERTY_ADJUSTMENTS,
   CreateInvoiceResultSupplierCreditNote.JSON_PROPERTY_TAX_AMOUNT,
@@ -318,7 +319,13 @@ public class CreateInvoiceResultSupplierCreditNote {
     
     CII(String.valueOf("cii")),
     
-    FATTURAPA(String.valueOf("fatturapa"));
+    FATTURAPA(String.valueOf("fatturapa")),
+    
+    FACTURAE(String.valueOf("facturae")),
+    
+    NFE(String.valueOf("nfe")),
+    
+    NFSE(String.valueOf("nfse"));
 
     private String value;
 
@@ -350,6 +357,10 @@ public class CreateInvoiceResultSupplierCreditNote {
   public static final String JSON_PROPERTY_SUBMITTED_FORMAT = "submittedFormat";
   @javax.annotation.Nullable
   private SubmittedFormatEnum submittedFormat;
+
+  public static final String JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE = "issuedInBillingSoftware";
+  @javax.annotation.Nullable
+  private Boolean issuedInBillingSoftware;
 
   public static final String JSON_PROPERTY_EXTERNAL_INVOICE_NUMBER = "externalInvoiceNumber";
   @javax.annotation.Nullable
@@ -978,6 +989,30 @@ public class CreateInvoiceResultSupplierCreditNote {
   }
 
 
+  public CreateInvoiceResultSupplierCreditNote issuedInBillingSoftware(@javax.annotation.Nullable Boolean issuedInBillingSoftware) {
+    this.issuedInBillingSoftware = issuedInBillingSoftware;
+    return this;
+  }
+
+  /**
+   * Get issuedInBillingSoftware
+   * @return issuedInBillingSoftware
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getIssuedInBillingSoftware() {
+    return issuedInBillingSoftware;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setIssuedInBillingSoftware(@javax.annotation.Nullable Boolean issuedInBillingSoftware) {
+    this.issuedInBillingSoftware = issuedInBillingSoftware;
+  }
+
+
   public CreateInvoiceResultSupplierCreditNote externalInvoiceNumber(@javax.annotation.Nullable String externalInvoiceNumber) {
     this.externalInvoiceNumber = externalInvoiceNumber;
     return this;
@@ -1553,6 +1588,7 @@ public class CreateInvoiceResultSupplierCreditNote {
         Objects.equals(this.source, createInvoiceResultSupplierCreditNote.source) &&
         Objects.equals(this.enteredBy, createInvoiceResultSupplierCreditNote.enteredBy) &&
         Objects.equals(this.submittedFormat, createInvoiceResultSupplierCreditNote.submittedFormat) &&
+        Objects.equals(this.issuedInBillingSoftware, createInvoiceResultSupplierCreditNote.issuedInBillingSoftware) &&
         Objects.equals(this.externalInvoiceNumber, createInvoiceResultSupplierCreditNote.externalInvoiceNumber) &&
         Objects.equals(this.adjustments, createInvoiceResultSupplierCreditNote.adjustments) &&
         Objects.equals(this.taxAmount, createInvoiceResultSupplierCreditNote.taxAmount) &&
@@ -1578,7 +1614,7 @@ public class CreateInvoiceResultSupplierCreditNote {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, status, createdAt, cloudProvider, amount, supplierConnectionId, currency, invoiceId, buyerOrgName, lineItems, version, po, poLineNo, source, enteredBy, submittedFormat, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, note, externalCreditNoteNumber, issueDate, reason, correctsBilling, refunded, acceptedAt, autoAccepted, poEffect, applications, exports, remaining, hasPdf, buyerWorkspaceId, history, rejection, documentType);
+    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, status, createdAt, cloudProvider, amount, supplierConnectionId, currency, invoiceId, buyerOrgName, lineItems, version, po, poLineNo, source, enteredBy, submittedFormat, issuedInBillingSoftware, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, note, externalCreditNoteNumber, issueDate, reason, correctsBilling, refunded, acceptedAt, autoAccepted, poEffect, applications, exports, remaining, hasPdf, buyerWorkspaceId, history, rejection, documentType);
   }
 
   @Override
@@ -1604,6 +1640,7 @@ public class CreateInvoiceResultSupplierCreditNote {
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    enteredBy: ").append(toIndentedString(enteredBy)).append("\n");
     sb.append("    submittedFormat: ").append(toIndentedString(submittedFormat)).append("\n");
+    sb.append("    issuedInBillingSoftware: ").append(toIndentedString(issuedInBillingSoftware)).append("\n");
     sb.append("    externalInvoiceNumber: ").append(toIndentedString(externalInvoiceNumber)).append("\n");
     sb.append("    adjustments: ").append(toIndentedString(adjustments)).append("\n");
     sb.append("    taxAmount: ").append(toIndentedString(taxAmount)).append("\n");
@@ -1770,6 +1807,11 @@ public class CreateInvoiceResultSupplierCreditNote {
     // add `submittedFormat` to the URL query string
     if (getSubmittedFormat() != null) {
       joiner.add(String.format("%ssubmittedFormat%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSubmittedFormat()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `issuedInBillingSoftware` to the URL query string
+    if (getIssuedInBillingSoftware() != null) {
+      joiner.add(String.format("%sissuedInBillingSoftware%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getIssuedInBillingSoftware()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `externalInvoiceNumber` to the URL query string

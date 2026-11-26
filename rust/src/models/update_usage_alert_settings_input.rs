@@ -16,9 +16,12 @@ pub struct UpdateUsageAlertSettingsInput {
     /// Whether usage anomaly alerts are sent. Off: nothing is sent; the spend page still shows what the rules find.
     #[serde(rename = "enabled", skip_serializing_if = "Option::is_none")]
     pub enabled: Option<bool>,
-    /// high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. Amounts in each subject's own currency.
+    /// high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. The minimum is in each subject's own currency, scaled for currencies like JPY (medium: JPY 75,000) unless the workspace set its own for that currency (minimums).
     #[serde(rename = "sensitivity", skip_serializing_if = "Option::is_none")]
     pub sensitivity: Option<Sensitivity>,
+    /// The least a finding must add (or miss by) over a month, per currency the workspace is billed in (ISO 4217): used as set, whatever the sensitivity. Merged into what is stored; null for a currency goes back to its default.
+    #[serde(rename = "minimums", skip_serializing_if = "Option::is_none")]
+    pub minimums: Option<std::collections::HashMap<String, f64>>,
 }
 
 impl UpdateUsageAlertSettingsInput {
@@ -26,10 +29,11 @@ impl UpdateUsageAlertSettingsInput {
         UpdateUsageAlertSettingsInput {
             enabled: None,
             sensitivity: None,
+            minimums: None,
         }
     }
 }
-/// high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. Amounts in each subject's own currency.
+/// high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. The minimum is in each subject's own currency, scaled for currencies like JPY (medium: JPY 75,000) unless the workspace set its own for that currency (minimums).
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Sensitivity {
     #[serde(rename = "low")]

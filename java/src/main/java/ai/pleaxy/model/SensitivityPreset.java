@@ -25,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -35,7 +37,8 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   SensitivityPreset.JSON_PROPERTY_SPIKE_PCT,
   SensitivityPreset.JSON_PROPERTY_PACE_PCT,
-  SensitivityPreset.JSON_PROPERTY_MIN_AMOUNT
+  SensitivityPreset.JSON_PROPERTY_MIN_AMOUNT,
+  SensitivityPreset.JSON_PROPERTY_MINIMUMS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class SensitivityPreset {
@@ -50,6 +53,10 @@ public class SensitivityPreset {
   public static final String JSON_PROPERTY_MIN_AMOUNT = "minAmount";
   @javax.annotation.Nullable
   private Double minAmount;
+
+  public static final String JSON_PROPERTY_MINIMUMS = "minimums";
+  @javax.annotation.Nullable
+  private Map<String, Double> minimums = new HashMap<>();
 
   public SensitivityPreset() { 
   }
@@ -126,6 +133,38 @@ public class SensitivityPreset {
   }
 
 
+  public SensitivityPreset minimums(@javax.annotation.Nullable Map<String, Double> minimums) {
+    this.minimums = minimums;
+    return this;
+  }
+
+  public SensitivityPreset putMinimumsItem(String key, Double minimumsItem) {
+    if (this.minimums == null) {
+      this.minimums = new HashMap<>();
+    }
+    this.minimums.put(key, minimumsItem);
+    return this;
+  }
+
+  /**
+   * Get minimums
+   * @return minimums
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MINIMUMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Map<String, Double> getMinimums() {
+    return minimums;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MINIMUMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMinimums(@javax.annotation.Nullable Map<String, Double> minimums) {
+    this.minimums = minimums;
+  }
+
+
   /**
    * Return true if this SensitivityPreset object is equal to o.
    */
@@ -140,12 +179,13 @@ public class SensitivityPreset {
     SensitivityPreset sensitivityPreset = (SensitivityPreset) o;
     return Objects.equals(this.spikePct, sensitivityPreset.spikePct) &&
         Objects.equals(this.pacePct, sensitivityPreset.pacePct) &&
-        Objects.equals(this.minAmount, sensitivityPreset.minAmount);
+        Objects.equals(this.minAmount, sensitivityPreset.minAmount) &&
+        Objects.equals(this.minimums, sensitivityPreset.minimums);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(spikePct, pacePct, minAmount);
+    return Objects.hash(spikePct, pacePct, minAmount, minimums);
   }
 
   @Override
@@ -155,6 +195,7 @@ public class SensitivityPreset {
     sb.append("    spikePct: ").append(toIndentedString(spikePct)).append("\n");
     sb.append("    pacePct: ").append(toIndentedString(pacePct)).append("\n");
     sb.append("    minAmount: ").append(toIndentedString(minAmount)).append("\n");
+    sb.append("    minimums: ").append(toIndentedString(minimums)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -215,6 +256,15 @@ public class SensitivityPreset {
     // add `minAmount` to the URL query string
     if (getMinAmount() != null) {
       joiner.add(String.format("%sminAmount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMinAmount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `minimums` to the URL query string
+    if (getMinimums() != null) {
+      for (String _key : getMinimums().keySet()) {
+        joiner.add(String.format("%sminimums%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+            getMinimums().get(_key), URLEncoder.encode(ApiClient.valueToString(getMinimums().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
     }
 
     return joiner.toString();

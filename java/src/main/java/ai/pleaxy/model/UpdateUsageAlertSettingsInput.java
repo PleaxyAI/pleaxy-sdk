@@ -25,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -34,7 +36,8 @@ import ai.pleaxy.client.ApiClient;
  */
 @JsonPropertyOrder({
   UpdateUsageAlertSettingsInput.JSON_PROPERTY_ENABLED,
-  UpdateUsageAlertSettingsInput.JSON_PROPERTY_SENSITIVITY
+  UpdateUsageAlertSettingsInput.JSON_PROPERTY_SENSITIVITY,
+  UpdateUsageAlertSettingsInput.JSON_PROPERTY_MINIMUMS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class UpdateUsageAlertSettingsInput {
@@ -43,7 +46,7 @@ public class UpdateUsageAlertSettingsInput {
   private Boolean enabled;
 
   /**
-   * high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. Amounts in each subject&#39;s own currency.
+   * high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. The minimum is in each subject&#39;s own currency, scaled for currencies like JPY (medium: JPY 75,000) unless the workspace set its own for that currency (minimums).
    */
   public enum SensitivityEnum {
     LOW(String.valueOf("low")),
@@ -83,6 +86,10 @@ public class UpdateUsageAlertSettingsInput {
   @javax.annotation.Nullable
   private SensitivityEnum sensitivity;
 
+  public static final String JSON_PROPERTY_MINIMUMS = "minimums";
+  @javax.annotation.Nullable
+  private Map<String, Double> minimums = new HashMap<>();
+
   public UpdateUsageAlertSettingsInput() { 
   }
 
@@ -116,7 +123,7 @@ public class UpdateUsageAlertSettingsInput {
   }
 
   /**
-   * high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. Amounts in each subject&#39;s own currency.
+   * high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. The minimum is in each subject&#39;s own currency, scaled for currencies like JPY (medium: JPY 75,000) unless the workspace set its own for that currency (minimums).
    * @return sensitivity
    */
   @javax.annotation.Nullable
@@ -134,6 +141,38 @@ public class UpdateUsageAlertSettingsInput {
   }
 
 
+  public UpdateUsageAlertSettingsInput minimums(@javax.annotation.Nullable Map<String, Double> minimums) {
+    this.minimums = minimums;
+    return this;
+  }
+
+  public UpdateUsageAlertSettingsInput putMinimumsItem(String key, Double minimumsItem) {
+    if (this.minimums == null) {
+      this.minimums = new HashMap<>();
+    }
+    this.minimums.put(key, minimumsItem);
+    return this;
+  }
+
+  /**
+   * The least a finding must add (or miss by) over a month, per currency the workspace is billed in (ISO 4217): used as set, whatever the sensitivity. Merged into what is stored; null for a currency goes back to its default.
+   * @return minimums
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MINIMUMS)
+  @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
+  public Map<String, Double> getMinimums() {
+    return minimums;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MINIMUMS)
+  @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMinimums(@javax.annotation.Nullable Map<String, Double> minimums) {
+    this.minimums = minimums;
+  }
+
+
   /**
    * Return true if this UpdateUsageAlertSettingsInput object is equal to o.
    */
@@ -147,12 +186,13 @@ public class UpdateUsageAlertSettingsInput {
     }
     UpdateUsageAlertSettingsInput updateUsageAlertSettingsInput = (UpdateUsageAlertSettingsInput) o;
     return Objects.equals(this.enabled, updateUsageAlertSettingsInput.enabled) &&
-        Objects.equals(this.sensitivity, updateUsageAlertSettingsInput.sensitivity);
+        Objects.equals(this.sensitivity, updateUsageAlertSettingsInput.sensitivity) &&
+        Objects.equals(this.minimums, updateUsageAlertSettingsInput.minimums);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(enabled, sensitivity);
+    return Objects.hash(enabled, sensitivity, minimums);
   }
 
   @Override
@@ -161,6 +201,7 @@ public class UpdateUsageAlertSettingsInput {
     sb.append("class UpdateUsageAlertSettingsInput {\n");
     sb.append("    enabled: ").append(toIndentedString(enabled)).append("\n");
     sb.append("    sensitivity: ").append(toIndentedString(sensitivity)).append("\n");
+    sb.append("    minimums: ").append(toIndentedString(minimums)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -216,6 +257,15 @@ public class UpdateUsageAlertSettingsInput {
     // add `sensitivity` to the URL query string
     if (getSensitivity() != null) {
       joiner.add(String.format("%ssensitivity%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSensitivity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `minimums` to the URL query string
+    if (getMinimums() != null) {
+      for (String _key : getMinimums().keySet()) {
+        joiner.add(String.format("%sminimums%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+            getMinimums().get(_key), URLEncoder.encode(ApiClient.valueToString(getMinimums().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
     }
 
     return joiner.toString();

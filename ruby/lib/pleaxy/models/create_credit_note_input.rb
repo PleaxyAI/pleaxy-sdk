@@ -51,6 +51,9 @@ module Pleaxy
     # Base64-encoded PDF of the credit note as issued, kept with it. Up to 8 MB.
     attr_accessor :pdf_base64
 
+    # The supplier says it issued this document in its own billing software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise).
+    attr_accessor :issued_in_billing_software
+
     # Buyer only: the invoice import (POST .../invoice-imports) this credit note was recorded from - the supplier's credit note document Pleaxy read. Its document is kept with the credit note when it is a PDF under 8 MB, and the import records the credit note.
     attr_accessor :source_import_id
 
@@ -91,6 +94,7 @@ module Pleaxy
         :'tax_amount' => :'taxAmount',
         :'tax_breakdown' => :'taxBreakdown',
         :'pdf_base64' => :'pdfBase64',
+        :'issued_in_billing_software' => :'issuedInBillingSoftware',
         :'source_import_id' => :'sourceImportId'
       }
     end
@@ -115,6 +119,7 @@ module Pleaxy
         :'tax_amount' => :'Float',
         :'tax_breakdown' => :'Array<BreakdownEntryInput>',
         :'pdf_base64' => :'String',
+        :'issued_in_billing_software' => :'Boolean',
         :'source_import_id' => :'String'
       }
     end
@@ -198,6 +203,10 @@ module Pleaxy
 
       if attributes.key?(:'pdf_base64')
         self.pdf_base64 = attributes[:'pdf_base64']
+      end
+
+      if attributes.key?(:'issued_in_billing_software')
+        self.issued_in_billing_software = attributes[:'issued_in_billing_software']
       end
 
       if attributes.key?(:'source_import_id')
@@ -451,6 +460,7 @@ module Pleaxy
           tax_amount == o.tax_amount &&
           tax_breakdown == o.tax_breakdown &&
           pdf_base64 == o.pdf_base64 &&
+          issued_in_billing_software == o.issued_in_billing_software &&
           source_import_id == o.source_import_id
     end
 
@@ -463,7 +473,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [invoice_id, connection_id, external_credit_note_number, issue_date, reason, corrects_billing, note, currency, line_items, tax_amount, tax_breakdown, pdf_base64, source_import_id].hash
+      [invoice_id, connection_id, external_credit_note_number, issue_date, reason, corrects_billing, note, currency, line_items, tax_amount, tax_breakdown, pdf_base64, issued_in_billing_software, source_import_id].hash
     end
 
     # Builds the object from hash

@@ -2155,7 +2155,7 @@ func (c *Client) UpdateReminderSettings(ctx context.Context, body UpdateReminder
 	return resp.JSON200, nil
 }
 
-// UpdateUsageAlertSettings - [Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a signed-in session.
+// UpdateUsageAlertSettings - [Buyer] Turn usage anomaly alerts on or off, set their sensitivity (low, medium, high), or set the minimum a finding must reach in a currency. The workspace administrator only, signed in.
 func (c *Client) UpdateUsageAlertSettings(ctx context.Context, body UpdateUsageAlertSettingsJSONRequestBody) (*UsageAlertSettings, error) {
 	resp, err := c.api.UpdateUsageAlertSettingsWithResponse(ctx, body)
 	if err != nil {

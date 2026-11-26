@@ -89,6 +89,7 @@ class CreateInvoiceResultBuyerCreditNote:
         source (Union[Unset, CreateInvoiceResultBuyerCreditNoteSource]):
         entered_by (Union[Unset, CreateInvoiceResultBuyerCreditNoteEnteredBy]):
         submitted_format (Union[Unset, CreateInvoiceResultBuyerCreditNoteSubmittedFormat]):
+        issued_in_billing_software (Union[Unset, bool]):
         submitted_by (Union[Unset, str]):
         external_invoice_number (Union[Unset, str]):
         adjustments (Union[Unset, List['InvoiceAdjustment']]):
@@ -138,6 +139,7 @@ class CreateInvoiceResultBuyerCreditNote:
     submitted_format: Union[
         Unset, CreateInvoiceResultBuyerCreditNoteSubmittedFormat
     ] = UNSET
+    issued_in_billing_software: Union[Unset, bool] = UNSET
     submitted_by: Union[Unset, str] = UNSET
     external_invoice_number: Union[Unset, str] = UNSET
     adjustments: Union[Unset, List["InvoiceAdjustment"]] = UNSET
@@ -227,6 +229,8 @@ class CreateInvoiceResultBuyerCreditNote:
         submitted_format: Union[Unset, str] = UNSET
         if not isinstance(self.submitted_format, Unset):
             submitted_format = self.submitted_format
+
+        issued_in_billing_software = self.issued_in_billing_software
 
         submitted_by = self.submitted_by
 
@@ -356,6 +360,8 @@ class CreateInvoiceResultBuyerCreditNote:
             field_dict["enteredBy"] = entered_by
         if submitted_format is not UNSET:
             field_dict["submittedFormat"] = submitted_format
+        if issued_in_billing_software is not UNSET:
+            field_dict["issuedInBillingSoftware"] = issued_in_billing_software
         if submitted_by is not UNSET:
             field_dict["submittedBy"] = submitted_by
         if external_invoice_number is not UNSET:
@@ -514,6 +520,8 @@ class CreateInvoiceResultBuyerCreditNote:
                 )
             )
 
+        issued_in_billing_software = d.pop("issuedInBillingSoftware", UNSET)
+
         submitted_by = d.pop("submittedBy", UNSET)
 
         external_invoice_number = d.pop("externalInvoiceNumber", UNSET)
@@ -652,6 +660,7 @@ class CreateInvoiceResultBuyerCreditNote:
             source=source,
             entered_by=entered_by,
             submitted_format=submitted_format,
+            issued_in_billing_software=issued_in_billing_software,
             submitted_by=submitted_by,
             external_invoice_number=external_invoice_number,
             adjustments=adjustments,

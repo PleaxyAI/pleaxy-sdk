@@ -1,7 +1,7 @@
 from typing import Literal, Set, cast
 
 SupplierCreditNoteViewSubmittedFormat = Literal[
-    "cii", "cxml", "fatturapa", "json", "ubl"
+    "cii", "cxml", "facturae", "fatturapa", "json", "nfe", "nfse", "ubl"
 ]
 
 SUPPLIER_CREDIT_NOTE_VIEW_SUBMITTED_FORMAT_VALUES: Set[
@@ -9,8 +9,11 @@ SUPPLIER_CREDIT_NOTE_VIEW_SUBMITTED_FORMAT_VALUES: Set[
 ] = {
     "cii",
     "cxml",
+    "facturae",
     "fatturapa",
     "json",
+    "nfe",
+    "nfse",
     "ubl",
 }
 

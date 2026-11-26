@@ -149,7 +149,7 @@ module Pleaxy
       warn '[DEPRECATED] the `valid?` method is obsolete'
       document_type_validator = EnumAttributeValidator.new('String', ["credit_note"])
       return false unless document_type_validator.valid?(@document_type)
-      submitted_format_validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml", "cii", "fatturapa"])
+      submitted_format_validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml", "cii", "fatturapa", "facturae", "nfe", "nfse"])
       return false unless submitted_format_validator.valid?(@submitted_format)
       true
     end
@@ -167,7 +167,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] submitted_format Object to be assigned
     def submitted_format=(submitted_format)
-      validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml", "cii", "fatturapa"])
+      validator = EnumAttributeValidator.new('String', ["json", "ubl", "cxml", "cii", "fatturapa", "facturae", "nfe", "nfse"])
       unless validator.valid?(submitted_format)
         fail ArgumentError, "invalid value for \"submitted_format\", must be one of #{validator.allowable_values}."
       end

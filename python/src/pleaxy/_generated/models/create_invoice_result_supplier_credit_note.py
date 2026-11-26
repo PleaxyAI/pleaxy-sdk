@@ -89,6 +89,7 @@ class CreateInvoiceResultSupplierCreditNote:
         source (Union[Unset, CreateInvoiceResultSupplierCreditNoteSource]):
         entered_by (Union[Unset, CreateInvoiceResultSupplierCreditNoteEnteredBy]):
         submitted_format (Union[Unset, CreateInvoiceResultSupplierCreditNoteSubmittedFormat]):
+        issued_in_billing_software (Union[Unset, bool]):
         external_invoice_number (Union[Unset, str]):
         adjustments (Union[Unset, List['InvoiceAdjustment']]):
         tax_amount (Union[Unset, float]):
@@ -136,6 +137,7 @@ class CreateInvoiceResultSupplierCreditNote:
     submitted_format: Union[
         Unset, CreateInvoiceResultSupplierCreditNoteSubmittedFormat
     ] = UNSET
+    issued_in_billing_software: Union[Unset, bool] = UNSET
     external_invoice_number: Union[Unset, str] = UNSET
     adjustments: Union[Unset, List["InvoiceAdjustment"]] = UNSET
     tax_amount: Union[Unset, float] = UNSET
@@ -226,6 +228,8 @@ class CreateInvoiceResultSupplierCreditNote:
         submitted_format: Union[Unset, str] = UNSET
         if not isinstance(self.submitted_format, Unset):
             submitted_format = self.submitted_format
+
+        issued_in_billing_software = self.issued_in_billing_software
 
         external_invoice_number = self.external_invoice_number
 
@@ -351,6 +355,8 @@ class CreateInvoiceResultSupplierCreditNote:
             field_dict["enteredBy"] = entered_by
         if submitted_format is not UNSET:
             field_dict["submittedFormat"] = submitted_format
+        if issued_in_billing_software is not UNSET:
+            field_dict["issuedInBillingSoftware"] = issued_in_billing_software
         if external_invoice_number is not UNSET:
             field_dict["externalInvoiceNumber"] = external_invoice_number
         if adjustments is not UNSET:
@@ -499,6 +505,8 @@ class CreateInvoiceResultSupplierCreditNote:
                 )
             )
 
+        issued_in_billing_software = d.pop("issuedInBillingSoftware", UNSET)
+
         external_invoice_number = d.pop("externalInvoiceNumber", UNSET)
 
         adjustments = []
@@ -640,6 +648,7 @@ class CreateInvoiceResultSupplierCreditNote:
             source=source,
             entered_by=entered_by,
             submitted_format=submitted_format,
+            issued_in_billing_software=issued_in_billing_software,
             external_invoice_number=external_invoice_number,
             adjustments=adjustments,
             tax_amount=tax_amount,

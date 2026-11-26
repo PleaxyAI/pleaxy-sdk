@@ -64,6 +64,7 @@ import ai.pleaxy.client.ApiClient;
   BuyerCreditNoteView.JSON_PROPERTY_SOURCE,
   BuyerCreditNoteView.JSON_PROPERTY_ENTERED_BY,
   BuyerCreditNoteView.JSON_PROPERTY_SUBMITTED_FORMAT,
+  BuyerCreditNoteView.JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE,
   BuyerCreditNoteView.JSON_PROPERTY_SUBMITTED_BY,
   BuyerCreditNoteView.JSON_PROPERTY_EXTERNAL_INVOICE_NUMBER,
   BuyerCreditNoteView.JSON_PROPERTY_ADJUSTMENTS,
@@ -324,7 +325,13 @@ public class BuyerCreditNoteView {
     
     CII(String.valueOf("cii")),
     
-    FATTURAPA(String.valueOf("fatturapa"));
+    FATTURAPA(String.valueOf("fatturapa")),
+    
+    FACTURAE(String.valueOf("facturae")),
+    
+    NFE(String.valueOf("nfe")),
+    
+    NFSE(String.valueOf("nfse"));
 
     private String value;
 
@@ -356,6 +363,10 @@ public class BuyerCreditNoteView {
   public static final String JSON_PROPERTY_SUBMITTED_FORMAT = "submittedFormat";
   @javax.annotation.Nullable
   private SubmittedFormatEnum submittedFormat;
+
+  public static final String JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE = "issuedInBillingSoftware";
+  @javax.annotation.Nullable
+  private Boolean issuedInBillingSoftware;
 
   public static final String JSON_PROPERTY_SUBMITTED_BY = "submittedBy";
   @javax.annotation.Nullable
@@ -975,6 +986,30 @@ public class BuyerCreditNoteView {
   }
 
 
+  public BuyerCreditNoteView issuedInBillingSoftware(@javax.annotation.Nullable Boolean issuedInBillingSoftware) {
+    this.issuedInBillingSoftware = issuedInBillingSoftware;
+    return this;
+  }
+
+  /**
+   * Get issuedInBillingSoftware
+   * @return issuedInBillingSoftware
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getIssuedInBillingSoftware() {
+    return issuedInBillingSoftware;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setIssuedInBillingSoftware(@javax.annotation.Nullable Boolean issuedInBillingSoftware) {
+    this.issuedInBillingSoftware = issuedInBillingSoftware;
+  }
+
+
   public BuyerCreditNoteView submittedBy(@javax.annotation.Nullable String submittedBy) {
     this.submittedBy = submittedBy;
     return this;
@@ -1551,6 +1586,7 @@ public class BuyerCreditNoteView {
         Objects.equals(this.source, buyerCreditNoteView.source) &&
         Objects.equals(this.enteredBy, buyerCreditNoteView.enteredBy) &&
         Objects.equals(this.submittedFormat, buyerCreditNoteView.submittedFormat) &&
+        Objects.equals(this.issuedInBillingSoftware, buyerCreditNoteView.issuedInBillingSoftware) &&
         Objects.equals(this.submittedBy, buyerCreditNoteView.submittedBy) &&
         Objects.equals(this.externalInvoiceNumber, buyerCreditNoteView.externalInvoiceNumber) &&
         Objects.equals(this.adjustments, buyerCreditNoteView.adjustments) &&
@@ -1576,7 +1612,7 @@ public class BuyerCreditNoteView {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, status, createdAt, cloudProvider, amount, supplierConnectionId, currency, invoiceId, buyerOrgName, lineItems, version, po, poLineNo, rejection, source, enteredBy, submittedFormat, submittedBy, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, sourceDocument, note, externalCreditNoteNumber, issueDate, reason, correctsBilling, refunded, acceptedAt, acceptedByName, autoAccepted, poEffect, applications, exports, history, remaining, hasPdf);
+    return Objects.hash(supplier, id, buyerOrgId, supplierOrgId, status, createdAt, cloudProvider, amount, supplierConnectionId, currency, invoiceId, buyerOrgName, lineItems, version, po, poLineNo, rejection, source, enteredBy, submittedFormat, issuedInBillingSoftware, submittedBy, externalInvoiceNumber, adjustments, taxAmount, taxBreakdown, sourceDocument, note, externalCreditNoteNumber, issueDate, reason, correctsBilling, refunded, acceptedAt, acceptedByName, autoAccepted, poEffect, applications, exports, history, remaining, hasPdf);
   }
 
   @Override
@@ -1603,6 +1639,7 @@ public class BuyerCreditNoteView {
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    enteredBy: ").append(toIndentedString(enteredBy)).append("\n");
     sb.append("    submittedFormat: ").append(toIndentedString(submittedFormat)).append("\n");
+    sb.append("    issuedInBillingSoftware: ").append(toIndentedString(issuedInBillingSoftware)).append("\n");
     sb.append("    submittedBy: ").append(toIndentedString(submittedBy)).append("\n");
     sb.append("    externalInvoiceNumber: ").append(toIndentedString(externalInvoiceNumber)).append("\n");
     sb.append("    adjustments: ").append(toIndentedString(adjustments)).append("\n");
@@ -1774,6 +1811,11 @@ public class BuyerCreditNoteView {
     // add `submittedFormat` to the URL query string
     if (getSubmittedFormat() != null) {
       joiner.add(String.format("%ssubmittedFormat%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSubmittedFormat()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `issuedInBillingSoftware` to the URL query string
+    if (getIssuedInBillingSoftware() != null) {
+      joiner.add(String.format("%sissuedInBillingSoftware%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getIssuedInBillingSoftware()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `submittedBy` to the URL query string

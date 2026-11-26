@@ -21,12 +21,15 @@ module Pleaxy
 
     attr_accessor :min_amount
 
+    attr_accessor :minimums
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'spike_pct' => :'spikePct',
         :'pace_pct' => :'pacePct',
-        :'min_amount' => :'minAmount'
+        :'min_amount' => :'minAmount',
+        :'minimums' => :'minimums'
       }
     end
 
@@ -40,7 +43,8 @@ module Pleaxy
       {
         :'spike_pct' => :'Float',
         :'pace_pct' => :'Float',
-        :'min_amount' => :'Float'
+        :'min_amount' => :'Float',
+        :'minimums' => :'Hash<String, Float>'
       }
     end
 
@@ -76,6 +80,12 @@ module Pleaxy
       if attributes.key?(:'min_amount')
         self.min_amount = attributes[:'min_amount']
       end
+
+      if attributes.key?(:'minimums')
+        if (value = attributes[:'minimums']).is_a?(Hash)
+          self.minimums = value
+        end
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -100,7 +110,8 @@ module Pleaxy
       self.class == o.class &&
           spike_pct == o.spike_pct &&
           pace_pct == o.pace_pct &&
-          min_amount == o.min_amount
+          min_amount == o.min_amount &&
+          minimums == o.minimums
     end
 
     # @see the `==` method
@@ -112,7 +123,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [spike_pct, pace_pct, min_amount].hash
+      [spike_pct, pace_pct, min_amount, minimums].hash
     end
 
     # Builds the object from hash

@@ -33,6 +33,8 @@ module Pleaxy
 
     attr_accessor :embedded_filename
 
+    attr_accessor :archive
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -66,7 +68,8 @@ module Pleaxy
         :'findings' => :'findings',
         :'findings_truncated' => :'findingsTruncated',
         :'container' => :'container',
-        :'embedded_filename' => :'embeddedFilename'
+        :'embedded_filename' => :'embeddedFilename',
+        :'archive' => :'archive'
       }
     end
 
@@ -86,7 +89,8 @@ module Pleaxy
         :'findings' => :'Array<EInvoiceSummaryFindingsInner>',
         :'findings_truncated' => :'Boolean',
         :'container' => :'String',
-        :'embedded_filename' => :'String'
+        :'embedded_filename' => :'String',
+        :'archive' => :'EInvoiceSummaryArchive'
       }
     end
 
@@ -150,6 +154,10 @@ module Pleaxy
       if attributes.key?(:'embedded_filename')
         self.embedded_filename = attributes[:'embedded_filename']
       end
+
+      if attributes.key?(:'archive')
+        self.archive = attributes[:'archive']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -164,9 +172,9 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      syntax_validator = EnumAttributeValidator.new('String', ["ubl", "cii", "fatturapa"])
+      syntax_validator = EnumAttributeValidator.new('String', ["ubl", "cii", "fatturapa", "facturae", "nfe", "nfse"])
       return false unless syntax_validator.valid?(@syntax)
-      profile_validator = EnumAttributeValidator.new('String', ["fatturapa", "other", "en16931", "peppol-bis-billing-3", "xrechnung", "xrechnung-extension", "factur-x-minimum", "factur-x-basic-wl", "factur-x-basic", "factur-x-extended"])
+      profile_validator = EnumAttributeValidator.new('String', ["fatturapa", "facturae", "nfe", "nfse", "other", "en16931", "peppol-bis-billing-3", "xrechnung", "xrechnung-extension", "factur-x-minimum", "factur-x-basic-wl", "factur-x-basic", "factur-x-extended"])
       return false unless profile_validator.valid?(@profile)
       container_validator = EnumAttributeValidator.new('String', ["pdf"])
       return false unless container_validator.valid?(@container)
@@ -176,7 +184,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] syntax Object to be assigned
     def syntax=(syntax)
-      validator = EnumAttributeValidator.new('String', ["ubl", "cii", "fatturapa"])
+      validator = EnumAttributeValidator.new('String', ["ubl", "cii", "fatturapa", "facturae", "nfe", "nfse"])
       unless validator.valid?(syntax)
         fail ArgumentError, "invalid value for \"syntax\", must be one of #{validator.allowable_values}."
       end
@@ -186,7 +194,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] profile Object to be assigned
     def profile=(profile)
-      validator = EnumAttributeValidator.new('String', ["fatturapa", "other", "en16931", "peppol-bis-billing-3", "xrechnung", "xrechnung-extension", "factur-x-minimum", "factur-x-basic-wl", "factur-x-basic", "factur-x-extended"])
+      validator = EnumAttributeValidator.new('String', ["fatturapa", "facturae", "nfe", "nfse", "other", "en16931", "peppol-bis-billing-3", "xrechnung", "xrechnung-extension", "factur-x-minimum", "factur-x-basic-wl", "factur-x-basic", "factur-x-extended"])
       unless validator.valid?(profile)
         fail ArgumentError, "invalid value for \"profile\", must be one of #{validator.allowable_values}."
       end
@@ -216,7 +224,8 @@ module Pleaxy
           findings == o.findings &&
           findings_truncated == o.findings_truncated &&
           container == o.container &&
-          embedded_filename == o.embedded_filename
+          embedded_filename == o.embedded_filename &&
+          archive == o.archive
     end
 
     # @see the `==` method
@@ -228,7 +237,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [syntax, profile, specification_id, profile_version, rule_sets, findings, findings_truncated, container, embedded_filename].hash
+      [syntax, profile, specification_id, profile_version, rule_sets, findings, findings_truncated, container, embedded_filename, archive].hash
     end
 
     # Builds the object from hash

@@ -2704,6 +2704,18 @@
                     "directoryId": {
                       "type": "string"
                     },
+                    "sellsCategories": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "sellsSegments": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
                     "setupGoal": {
                       "type": "string",
                       "enum": [
@@ -4089,7 +4101,10 @@
                             "ubl",
                             "cxml",
                             "cii",
-                            "fatturapa"
+                            "fatturapa",
+                            "facturae",
+                            "nfe",
+                            "nfse"
                           ]
                         },
                         "creditNote": {
@@ -4650,7 +4665,10 @@
                               "ubl",
                               "cxml",
                               "cii",
-                              "fatturapa"
+                              "fatturapa",
+                              "facturae",
+                              "nfe",
+                              "nfse"
                             ]
                           },
                           "eInvoice": {
@@ -4661,6 +4679,9 @@
                           },
                           "eInvoiceBuyerDownloadedAt": {
                             "type": "string"
+                          },
+                          "issuedInBillingSoftware": {
+                            "type": "boolean"
                           },
                           "submittedBy": {
                             "type": "string"
@@ -4992,7 +5013,10 @@
                               "ubl",
                               "cxml",
                               "cii",
-                              "fatturapa"
+                              "fatturapa",
+                              "facturae",
+                              "nfe",
+                              "nfse"
                             ]
                           },
                           "eInvoice": {
@@ -5003,6 +5027,9 @@
                           },
                           "eInvoiceBuyerDownloadedAt": {
                             "type": "string"
+                          },
+                          "issuedInBillingSoftware": {
+                            "type": "boolean"
                           },
                           "externalInvoiceNumber": {
                             "type": "string"
@@ -5446,8 +5473,14 @@
                               "ubl",
                               "cxml",
                               "cii",
-                              "fatturapa"
+                              "fatturapa",
+                              "facturae",
+                              "nfe",
+                              "nfse"
                             ]
+                          },
+                          "issuedInBillingSoftware": {
+                            "type": "boolean"
                           },
                           "externalInvoiceNumber": {
                             "type": "string"
@@ -5774,8 +5807,14 @@
                               "ubl",
                               "cxml",
                               "cii",
-                              "fatturapa"
+                              "fatturapa",
+                              "facturae",
+                              "nfe",
+                              "nfse"
                             ]
+                          },
+                          "issuedInBillingSoftware": {
+                            "type": "boolean"
                           },
                           "submittedBy": {
                             "type": "string"
@@ -6095,8 +6134,14 @@
                             "ubl",
                             "cxml",
                             "cii",
-                            "fatturapa"
+                            "fatturapa",
+                            "facturae",
+                            "nfe",
+                            "nfse"
                           ]
+                        },
+                        "issuedInBillingSoftware": {
+                          "type": "boolean"
                         },
                         "externalInvoiceNumber": {
                           "type": "string"
@@ -6421,8 +6466,14 @@
                             "ubl",
                             "cxml",
                             "cii",
-                            "fatturapa"
+                            "fatturapa",
+                            "facturae",
+                            "nfe",
+                            "nfse"
                           ]
+                        },
+                        "issuedInBillingSoftware": {
+                          "type": "boolean"
                         },
                         "submittedBy": {
                           "type": "string"
@@ -6979,7 +7030,10 @@
                             "ubl",
                             "cxml",
                             "cii",
-                            "fatturapa"
+                            "fatturapa",
+                            "facturae",
+                            "nfe",
+                            "nfse"
                           ]
                         },
                         "eInvoice": {
@@ -6990,6 +7044,9 @@
                         },
                         "eInvoiceBuyerDownloadedAt": {
                           "type": "string"
+                        },
+                        "issuedInBillingSoftware": {
+                          "type": "boolean"
                         },
                         "submittedBy": {
                           "type": "string"
@@ -7322,7 +7379,10 @@
                             "ubl",
                             "cxml",
                             "cii",
-                            "fatturapa"
+                            "fatturapa",
+                            "facturae",
+                            "nfe",
+                            "nfse"
                           ]
                         },
                         "eInvoice": {
@@ -7333,6 +7393,9 @@
                         },
                         "eInvoiceBuyerDownloadedAt": {
                           "type": "string"
+                        },
+                        "issuedInBillingSoftware": {
+                          "type": "boolean"
                         },
                         "externalInvoiceNumber": {
                           "type": "string"
@@ -7895,8 +7958,14 @@
                             "ubl",
                             "cxml",
                             "cii",
-                            "fatturapa"
+                            "fatturapa",
+                            "facturae",
+                            "nfe",
+                            "nfse"
                           ]
+                        },
+                        "issuedInBillingSoftware": {
+                          "type": "boolean"
                         },
                         "externalInvoiceNumber": {
                           "type": "string"
@@ -8221,8 +8290,14 @@
                             "ubl",
                             "cxml",
                             "cii",
-                            "fatturapa"
+                            "fatturapa",
+                            "facturae",
+                            "nfe",
+                            "nfse"
                           ]
+                        },
+                        "issuedInBillingSoftware": {
+                          "type": "boolean"
                         },
                         "submittedBy": {
                           "type": "string"
@@ -8788,7 +8863,10 @@
                             "ubl",
                             "cxml",
                             "cii",
-                            "fatturapa"
+                            "fatturapa",
+                            "facturae",
+                            "nfe",
+                            "nfse"
                           ]
                         },
                         "eInvoice": {
@@ -8799,6 +8877,9 @@
                         },
                         "eInvoiceBuyerDownloadedAt": {
                           "type": "string"
+                        },
+                        "issuedInBillingSoftware": {
+                          "type": "boolean"
                         },
                         "submittedBy": {
                           "type": "string"
@@ -9131,7 +9212,10 @@
                             "ubl",
                             "cxml",
                             "cii",
-                            "fatturapa"
+                            "fatturapa",
+                            "facturae",
+                            "nfe",
+                            "nfse"
                           ]
                         },
                         "eInvoice": {
@@ -9142,6 +9226,9 @@
                         },
                         "eInvoiceBuyerDownloadedAt": {
                           "type": "string"
+                        },
+                        "issuedInBillingSoftware": {
+                          "type": "boolean"
                         },
                         "externalInvoiceNumber": {
                           "type": "string"
@@ -9943,7 +10030,10 @@
                         "ubl",
                         "cxml",
                         "cii",
-                        "fatturapa"
+                        "fatturapa",
+                        "facturae",
+                        "nfe",
+                        "nfse"
                       ]
                     },
                     "eInvoice": {
@@ -9954,6 +10044,9 @@
                     },
                     "eInvoiceBuyerDownloadedAt": {
                       "type": "string"
+                    },
+                    "issuedInBillingSoftware": {
+                      "type": "boolean"
                     },
                     "submittedBy": {
                       "type": "string"
@@ -10530,7 +10623,10 @@
                         "ubl",
                         "cxml",
                         "cii",
-                        "fatturapa"
+                        "fatturapa",
+                        "facturae",
+                        "nfe",
+                        "nfse"
                       ]
                     },
                     "eInvoice": {
@@ -10541,6 +10637,9 @@
                     },
                     "eInvoiceBuyerDownloadedAt": {
                       "type": "string"
+                    },
+                    "issuedInBillingSoftware": {
+                      "type": "boolean"
                     },
                     "submittedBy": {
                       "type": "string"
@@ -11450,7 +11549,10 @@
                         "ubl",
                         "cxml",
                         "cii",
-                        "fatturapa"
+                        "fatturapa",
+                        "facturae",
+                        "nfe",
+                        "nfse"
                       ]
                     },
                     "eInvoice": {
@@ -11461,6 +11563,9 @@
                     },
                     "eInvoiceBuyerDownloadedAt": {
                       "type": "string"
+                    },
+                    "issuedInBillingSoftware": {
+                      "type": "boolean"
                     },
                     "submittedBy": {
                       "type": "string"
@@ -13097,6 +13202,9 @@
                         ]
                       },
                       "credentialCanChangeBilling": {
+                        "type": "boolean"
+                      },
+                      "credentialHasAdminRights": {
                         "type": "boolean"
                       },
                       "contactHint": {
@@ -19340,7 +19448,7 @@
     "/v1/workspaces/{regionId}/usage-alerts/settings": {
       "patch": {
         "operationId": "UpdateUsageAlertSettings",
-        "summary": "[Buyer] Turn usage anomaly alerts on or off, or set their sensitivity (low, medium, high). Needs a signed-in session.",
+        "summary": "[Buyer] Turn usage anomaly alerts on or off, set their sensitivity (low, medium, high), or set the minimum a finding must reach in a currency. The workspace administrator only, signed in.",
         "parameters": [
           {
             "name": "regionId",
@@ -20023,6 +20131,108 @@
       "UpdateOrgProfileDto": {
         "type": "object",
         "properties": {
+          "sellsCategories": {
+            "type": "array",
+            "maxItems": 6,
+            "description": "Supplier profiles only (ignored for a buyer): what you sell, as Pleaxy category ids. The whole list each time; [] clears it. While you are listed in the directory, buyers that don't know you find you by these, and under the UN segments each category belongs to.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "cloud-ai",
+                "software",
+                "it-hardware",
+                "it-services",
+                "professional-services",
+                "legal-finance",
+                "marketing-creative",
+                "staffing",
+                "training",
+                "facilities",
+                "construction",
+                "logistics",
+                "travel-events",
+                "office",
+                "industrial",
+                "electrical",
+                "raw-materials",
+                "packaging-print",
+                "food",
+                "healthcare",
+                "safety-security",
+                "vehicles",
+                "utilities-energy",
+                "agriculture"
+              ]
+            }
+          },
+          "sellsSegments": {
+            "type": "array",
+            "maxItems": 10,
+            "description": "Supplier profiles only (ignored for a buyer): what you sell, as two-digit UN standard (UNSPSC) segment codes, e.g. 43. The whole list each time; [] clears it.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "30",
+                "31",
+                "32",
+                "39",
+                "40",
+                "41",
+                "42",
+                "43",
+                "44",
+                "45",
+                "46",
+                "47",
+                "48",
+                "49",
+                "50",
+                "51",
+                "52",
+                "53",
+                "54",
+                "55",
+                "56",
+                "57",
+                "60",
+                "64",
+                "70",
+                "71",
+                "72",
+                "73",
+                "76",
+                "77",
+                "78",
+                "80",
+                "81",
+                "82",
+                "83",
+                "84",
+                "85",
+                "86",
+                "90",
+                "91",
+                "92",
+                "93",
+                "94",
+                "95"
+              ]
+            }
+          },
           "regionName": {
             "type": "string",
             "maxLength": 40
@@ -21249,6 +21459,10 @@
           "pdfBase64": {
             "type": "string",
             "description": "Base64-encoded PDF of the invoice"
+          },
+          "issuedInBillingSoftware": {
+            "type": "boolean",
+            "description": "The supplier says it issued this document in its own billing software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise)."
           }
         },
         "required": [
@@ -21437,6 +21651,10 @@
           "pdfBase64": {
             "type": "string",
             "description": "Base64-encoded PDF of the invoice"
+          },
+          "issuedInBillingSoftware": {
+            "type": "boolean",
+            "description": "The supplier says it issued this document in its own billing software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise)."
           }
         },
         "required": [
@@ -22061,6 +22279,10 @@
           "pdfBase64": {
             "type": "string",
             "description": "Base64-encoded PDF of the credit note as issued, kept with it. Up to 8 MB."
+          },
+          "issuedInBillingSoftware": {
+            "type": "boolean",
+            "description": "The supplier says it issued this document in its own billing software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise)."
           },
           "sourceImportId": {
             "type": "string",
@@ -23416,7 +23638,19 @@
               "medium",
               "high"
             ],
-            "description": "high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. Amounts in each subject's own currency."
+            "description": "high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. The minimum is in each subject's own currency, scaled for currencies like JPY (medium: JPY 75,000) unless the workspace set its own for that currency (minimums)."
+          },
+          "minimums": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "nullable": true
+            },
+            "example": {
+              "USD": 1000,
+              "JPY": 100000
+            },
+            "description": "The least a finding must add (or miss by) over a month, per currency the workspace is billed in (ISO 4217): used as set, whatever the sensitivity. Merged into what is stored; null for a currency goes back to its default."
           }
         }
       },
@@ -24653,7 +24887,10 @@
               "ubl",
               "cxml",
               "cii",
-              "fatturapa"
+              "fatturapa",
+              "facturae",
+              "nfe",
+              "nfse"
             ]
           },
           "outcome": {
@@ -25264,6 +25501,18 @@
           },
           "directoryId": {
             "type": "string"
+          },
+          "sellsCategories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sellsSegments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "setupGoal": {
             "type": "string",
@@ -27860,7 +28109,10 @@
               "ubl",
               "cxml",
               "cii",
-              "fatturapa"
+              "fatturapa",
+              "facturae",
+              "nfe",
+              "nfse"
             ]
           },
           "eInvoice": {
@@ -27871,6 +28123,9 @@
           },
           "eInvoiceBuyerDownloadedAt": {
             "type": "string"
+          },
+          "issuedInBillingSoftware": {
+            "type": "boolean"
           },
           "submittedBy": {
             "type": "string"
@@ -28960,13 +29215,19 @@
             "enum": [
               "ubl",
               "cii",
-              "fatturapa"
+              "fatturapa",
+              "facturae",
+              "nfe",
+              "nfse"
             ]
           },
           "profile": {
             "type": "string",
             "enum": [
               "fatturapa",
+              "facturae",
+              "nfe",
+              "nfse",
               "other",
               "en16931",
               "peppol-bis-billing-3",
@@ -29030,6 +29291,25 @@
           },
           "embeddedFilename": {
             "type": "string"
+          },
+          "archive": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "sha256": {
+                "type": "string"
+              },
+              "retainUntilYear": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "key",
+              "sha256",
+              "retainUntilYear"
+            ]
           }
         },
         "required": [
@@ -29868,7 +30148,10 @@
               "ubl",
               "cxml",
               "cii",
-              "fatturapa"
+              "fatturapa",
+              "facturae",
+              "nfe",
+              "nfse"
             ]
           },
           "eInvoice": {
@@ -29879,6 +30162,9 @@
           },
           "eInvoiceBuyerDownloadedAt": {
             "type": "string"
+          },
+          "issuedInBillingSoftware": {
+            "type": "boolean"
           },
           "externalInvoiceNumber": {
             "type": "string"
@@ -30685,8 +30971,14 @@
               "ubl",
               "cxml",
               "cii",
-              "fatturapa"
+              "fatturapa",
+              "facturae",
+              "nfe",
+              "nfse"
             ]
+          },
+          "issuedInBillingSoftware": {
+            "type": "boolean"
           },
           "externalInvoiceNumber": {
             "type": "string"
@@ -30949,7 +31241,10 @@
               "ubl",
               "cxml",
               "cii",
-              "fatturapa"
+              "fatturapa",
+              "facturae",
+              "nfe",
+              "nfse"
             ]
           },
           "invoice": {
@@ -31247,7 +31542,10 @@
                   "ubl",
                   "cxml",
                   "cii",
-                  "fatturapa"
+                  "fatturapa",
+                  "facturae",
+                  "nfe",
+                  "nfse"
                 ]
               },
               "eInvoice": {
@@ -31258,6 +31556,9 @@
               },
               "eInvoiceBuyerDownloadedAt": {
                 "type": "string"
+              },
+              "issuedInBillingSoftware": {
+                "type": "boolean"
               },
               "externalInvoiceNumber": {
                 "type": "string"
@@ -33283,8 +33584,14 @@
               "ubl",
               "cxml",
               "cii",
-              "fatturapa"
+              "fatturapa",
+              "facturae",
+              "nfe",
+              "nfse"
             ]
+          },
+          "issuedInBillingSoftware": {
+            "type": "boolean"
           },
           "submittedBy": {
             "type": "string"
@@ -40074,6 +40381,12 @@
           "preset": {
             "$ref": "#/components/schemas/SensitivityPreset"
           },
+          "currencies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsageAlertCurrency"
+            }
+          },
           "alerts": {
             "type": "array",
             "items": {
@@ -40088,6 +40401,7 @@
           "period",
           "settings",
           "preset",
+          "currencies",
           "alerts",
           "generatedAt"
         ]
@@ -40105,6 +40419,13 @@
               "medium",
               "high"
             ]
+          },
+          "minimums": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": {
+              "type": "number"
+            }
           },
           "updatedAt": {
             "type": "string"
@@ -40129,12 +40450,42 @@
           },
           "minAmount": {
             "type": "number"
+          },
+          "minimums": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": {
+              "type": "number"
+            }
           }
         },
         "required": [
           "spikePct",
           "pacePct",
           "minAmount"
+        ]
+      },
+      "UsageAlertCurrency": {
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string"
+          },
+          "minimum": {
+            "type": "number"
+          },
+          "defaultMinimum": {
+            "type": "number"
+          },
+          "custom": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "currency",
+          "minimum",
+          "defaultMinimum",
+          "custom"
         ]
       },
       "UsageAlertView": {

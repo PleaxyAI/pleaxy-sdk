@@ -205,8 +205,11 @@ const (
 const (
 	AddInvoiceReplacementLinksResultSubmittedFormatCii       AddInvoiceReplacementLinksResultSubmittedFormat = "cii"
 	AddInvoiceReplacementLinksResultSubmittedFormatCxml      AddInvoiceReplacementLinksResultSubmittedFormat = "cxml"
+	AddInvoiceReplacementLinksResultSubmittedFormatFacturae  AddInvoiceReplacementLinksResultSubmittedFormat = "facturae"
 	AddInvoiceReplacementLinksResultSubmittedFormatFatturapa AddInvoiceReplacementLinksResultSubmittedFormat = "fatturapa"
 	AddInvoiceReplacementLinksResultSubmittedFormatJson      AddInvoiceReplacementLinksResultSubmittedFormat = "json"
+	AddInvoiceReplacementLinksResultSubmittedFormatNfe       AddInvoiceReplacementLinksResultSubmittedFormat = "nfe"
+	AddInvoiceReplacementLinksResultSubmittedFormatNfse      AddInvoiceReplacementLinksResultSubmittedFormat = "nfse"
 	AddInvoiceReplacementLinksResultSubmittedFormatUbl       AddInvoiceReplacementLinksResultSubmittedFormat = "ubl"
 )
 
@@ -1473,8 +1476,11 @@ const (
 const (
 	BuyerCreditNoteViewSubmittedFormatCii       BuyerCreditNoteViewSubmittedFormat = "cii"
 	BuyerCreditNoteViewSubmittedFormatCxml      BuyerCreditNoteViewSubmittedFormat = "cxml"
+	BuyerCreditNoteViewSubmittedFormatFacturae  BuyerCreditNoteViewSubmittedFormat = "facturae"
 	BuyerCreditNoteViewSubmittedFormatFatturapa BuyerCreditNoteViewSubmittedFormat = "fatturapa"
 	BuyerCreditNoteViewSubmittedFormatJson      BuyerCreditNoteViewSubmittedFormat = "json"
+	BuyerCreditNoteViewSubmittedFormatNfe       BuyerCreditNoteViewSubmittedFormat = "nfe"
+	BuyerCreditNoteViewSubmittedFormatNfse      BuyerCreditNoteViewSubmittedFormat = "nfse"
 	BuyerCreditNoteViewSubmittedFormatUbl       BuyerCreditNoteViewSubmittedFormat = "ubl"
 )
 
@@ -1661,9 +1667,9 @@ const (
 
 // Defines values for CommentMeetingInputDurationMinutes.
 const (
-	N15 CommentMeetingInputDurationMinutes = 15
-	N30 CommentMeetingInputDurationMinutes = 30
-	N45 CommentMeetingInputDurationMinutes = 45
+	CommentMeetingInputDurationMinutesN15 CommentMeetingInputDurationMinutes = 15
+	CommentMeetingInputDurationMinutesN30 CommentMeetingInputDurationMinutes = 30
+	CommentMeetingInputDurationMinutesN45 CommentMeetingInputDurationMinutes = 45
 )
 
 // Defines values for CommentMeetingViewAttendeeSide.
@@ -1955,8 +1961,11 @@ const (
 const (
 	CreateInvoiceResultBuyerCreditNoteSubmittedFormatCii       CreateInvoiceResultBuyerCreditNoteSubmittedFormat = "cii"
 	CreateInvoiceResultBuyerCreditNoteSubmittedFormatCxml      CreateInvoiceResultBuyerCreditNoteSubmittedFormat = "cxml"
+	CreateInvoiceResultBuyerCreditNoteSubmittedFormatFacturae  CreateInvoiceResultBuyerCreditNoteSubmittedFormat = "facturae"
 	CreateInvoiceResultBuyerCreditNoteSubmittedFormatFatturapa CreateInvoiceResultBuyerCreditNoteSubmittedFormat = "fatturapa"
 	CreateInvoiceResultBuyerCreditNoteSubmittedFormatJson      CreateInvoiceResultBuyerCreditNoteSubmittedFormat = "json"
+	CreateInvoiceResultBuyerCreditNoteSubmittedFormatNfe       CreateInvoiceResultBuyerCreditNoteSubmittedFormat = "nfe"
+	CreateInvoiceResultBuyerCreditNoteSubmittedFormatNfse      CreateInvoiceResultBuyerCreditNoteSubmittedFormat = "nfse"
 	CreateInvoiceResultBuyerCreditNoteSubmittedFormatUbl       CreateInvoiceResultBuyerCreditNoteSubmittedFormat = "ubl"
 )
 
@@ -2044,8 +2053,11 @@ const (
 const (
 	CreateInvoiceResultBuyerInvoiceSubmittedFormatCii       CreateInvoiceResultBuyerInvoiceSubmittedFormat = "cii"
 	CreateInvoiceResultBuyerInvoiceSubmittedFormatCxml      CreateInvoiceResultBuyerInvoiceSubmittedFormat = "cxml"
+	CreateInvoiceResultBuyerInvoiceSubmittedFormatFacturae  CreateInvoiceResultBuyerInvoiceSubmittedFormat = "facturae"
 	CreateInvoiceResultBuyerInvoiceSubmittedFormatFatturapa CreateInvoiceResultBuyerInvoiceSubmittedFormat = "fatturapa"
 	CreateInvoiceResultBuyerInvoiceSubmittedFormatJson      CreateInvoiceResultBuyerInvoiceSubmittedFormat = "json"
+	CreateInvoiceResultBuyerInvoiceSubmittedFormatNfe       CreateInvoiceResultBuyerInvoiceSubmittedFormat = "nfe"
+	CreateInvoiceResultBuyerInvoiceSubmittedFormatNfse      CreateInvoiceResultBuyerInvoiceSubmittedFormat = "nfse"
 	CreateInvoiceResultBuyerInvoiceSubmittedFormatUbl       CreateInvoiceResultBuyerInvoiceSubmittedFormat = "ubl"
 )
 
@@ -2147,8 +2159,11 @@ const (
 const (
 	CreateInvoiceResultSupplierCreditNoteSubmittedFormatCii       CreateInvoiceResultSupplierCreditNoteSubmittedFormat = "cii"
 	CreateInvoiceResultSupplierCreditNoteSubmittedFormatCxml      CreateInvoiceResultSupplierCreditNoteSubmittedFormat = "cxml"
+	CreateInvoiceResultSupplierCreditNoteSubmittedFormatFacturae  CreateInvoiceResultSupplierCreditNoteSubmittedFormat = "facturae"
 	CreateInvoiceResultSupplierCreditNoteSubmittedFormatFatturapa CreateInvoiceResultSupplierCreditNoteSubmittedFormat = "fatturapa"
 	CreateInvoiceResultSupplierCreditNoteSubmittedFormatJson      CreateInvoiceResultSupplierCreditNoteSubmittedFormat = "json"
+	CreateInvoiceResultSupplierCreditNoteSubmittedFormatNfe       CreateInvoiceResultSupplierCreditNoteSubmittedFormat = "nfe"
+	CreateInvoiceResultSupplierCreditNoteSubmittedFormatNfse      CreateInvoiceResultSupplierCreditNoteSubmittedFormat = "nfse"
 	CreateInvoiceResultSupplierCreditNoteSubmittedFormatUbl       CreateInvoiceResultSupplierCreditNoteSubmittedFormat = "ubl"
 )
 
@@ -2243,8 +2258,11 @@ const (
 const (
 	CreateInvoiceResultSupplierInvoiceSubmittedFormatCii       CreateInvoiceResultSupplierInvoiceSubmittedFormat = "cii"
 	CreateInvoiceResultSupplierInvoiceSubmittedFormatCxml      CreateInvoiceResultSupplierInvoiceSubmittedFormat = "cxml"
+	CreateInvoiceResultSupplierInvoiceSubmittedFormatFacturae  CreateInvoiceResultSupplierInvoiceSubmittedFormat = "facturae"
 	CreateInvoiceResultSupplierInvoiceSubmittedFormatFatturapa CreateInvoiceResultSupplierInvoiceSubmittedFormat = "fatturapa"
 	CreateInvoiceResultSupplierInvoiceSubmittedFormatJson      CreateInvoiceResultSupplierInvoiceSubmittedFormat = "json"
+	CreateInvoiceResultSupplierInvoiceSubmittedFormatNfe       CreateInvoiceResultSupplierInvoiceSubmittedFormat = "nfe"
+	CreateInvoiceResultSupplierInvoiceSubmittedFormatNfse      CreateInvoiceResultSupplierInvoiceSubmittedFormat = "nfse"
 	CreateInvoiceResultSupplierInvoiceSubmittedFormatUbl       CreateInvoiceResultSupplierInvoiceSubmittedFormat = "ubl"
 )
 
@@ -2437,7 +2455,10 @@ const (
 	EInvoiceSummaryProfileFacturXBasicWl     EInvoiceSummaryProfile = "factur-x-basic-wl"
 	EInvoiceSummaryProfileFacturXExtended    EInvoiceSummaryProfile = "factur-x-extended"
 	EInvoiceSummaryProfileFacturXMinimum     EInvoiceSummaryProfile = "factur-x-minimum"
+	EInvoiceSummaryProfileFacturae           EInvoiceSummaryProfile = "facturae"
 	EInvoiceSummaryProfileFatturapa          EInvoiceSummaryProfile = "fatturapa"
+	EInvoiceSummaryProfileNfe                EInvoiceSummaryProfile = "nfe"
+	EInvoiceSummaryProfileNfse               EInvoiceSummaryProfile = "nfse"
 	EInvoiceSummaryProfileOther              EInvoiceSummaryProfile = "other"
 	EInvoiceSummaryProfilePeppolBisBilling3  EInvoiceSummaryProfile = "peppol-bis-billing-3"
 	EInvoiceSummaryProfileXrechnung          EInvoiceSummaryProfile = "xrechnung"
@@ -2453,7 +2474,10 @@ const (
 // Defines values for EInvoiceSummarySyntax.
 const (
 	EInvoiceSummarySyntaxCii       EInvoiceSummarySyntax = "cii"
+	EInvoiceSummarySyntaxFacturae  EInvoiceSummarySyntax = "facturae"
 	EInvoiceSummarySyntaxFatturapa EInvoiceSummarySyntax = "fatturapa"
+	EInvoiceSummarySyntaxNfe       EInvoiceSummarySyntax = "nfe"
+	EInvoiceSummarySyntaxNfse      EInvoiceSummarySyntax = "nfse"
 	EInvoiceSummarySyntaxUbl       EInvoiceSummarySyntax = "ubl"
 )
 
@@ -2479,8 +2503,11 @@ const (
 const (
 	FeedAttemptFormatCii       FeedAttemptFormat = "cii"
 	FeedAttemptFormatCxml      FeedAttemptFormat = "cxml"
+	FeedAttemptFormatFacturae  FeedAttemptFormat = "facturae"
 	FeedAttemptFormatFatturapa FeedAttemptFormat = "fatturapa"
 	FeedAttemptFormatJson      FeedAttemptFormat = "json"
+	FeedAttemptFormatNfe       FeedAttemptFormat = "nfe"
+	FeedAttemptFormatNfse      FeedAttemptFormat = "nfse"
 	FeedAttemptFormatUbl       FeedAttemptFormat = "ubl"
 )
 
@@ -2619,8 +2646,11 @@ const (
 const (
 	FeedValidationResultInvoiceSubmittedFormatCii       FeedValidationResultInvoiceSubmittedFormat = "cii"
 	FeedValidationResultInvoiceSubmittedFormatCxml      FeedValidationResultInvoiceSubmittedFormat = "cxml"
+	FeedValidationResultInvoiceSubmittedFormatFacturae  FeedValidationResultInvoiceSubmittedFormat = "facturae"
 	FeedValidationResultInvoiceSubmittedFormatFatturapa FeedValidationResultInvoiceSubmittedFormat = "fatturapa"
 	FeedValidationResultInvoiceSubmittedFormatJson      FeedValidationResultInvoiceSubmittedFormat = "json"
+	FeedValidationResultInvoiceSubmittedFormatNfe       FeedValidationResultInvoiceSubmittedFormat = "nfe"
+	FeedValidationResultInvoiceSubmittedFormatNfse      FeedValidationResultInvoiceSubmittedFormat = "nfse"
 	FeedValidationResultInvoiceSubmittedFormatUbl       FeedValidationResultInvoiceSubmittedFormat = "ubl"
 )
 
@@ -2669,8 +2699,11 @@ const (
 const (
 	FeedValidationResultSubmittedFormatCii       FeedValidationResultSubmittedFormat = "cii"
 	FeedValidationResultSubmittedFormatCxml      FeedValidationResultSubmittedFormat = "cxml"
+	FeedValidationResultSubmittedFormatFacturae  FeedValidationResultSubmittedFormat = "facturae"
 	FeedValidationResultSubmittedFormatFatturapa FeedValidationResultSubmittedFormat = "fatturapa"
 	FeedValidationResultSubmittedFormatJson      FeedValidationResultSubmittedFormat = "json"
+	FeedValidationResultSubmittedFormatNfe       FeedValidationResultSubmittedFormat = "nfe"
+	FeedValidationResultSubmittedFormatNfse      FeedValidationResultSubmittedFormat = "nfse"
 	FeedValidationResultSubmittedFormatUbl       FeedValidationResultSubmittedFormat = "ubl"
 )
 
@@ -2890,8 +2923,11 @@ const (
 const (
 	GetInvoiceResultBuyerCreditNoteSubmittedFormatCii       GetInvoiceResultBuyerCreditNoteSubmittedFormat = "cii"
 	GetInvoiceResultBuyerCreditNoteSubmittedFormatCxml      GetInvoiceResultBuyerCreditNoteSubmittedFormat = "cxml"
+	GetInvoiceResultBuyerCreditNoteSubmittedFormatFacturae  GetInvoiceResultBuyerCreditNoteSubmittedFormat = "facturae"
 	GetInvoiceResultBuyerCreditNoteSubmittedFormatFatturapa GetInvoiceResultBuyerCreditNoteSubmittedFormat = "fatturapa"
 	GetInvoiceResultBuyerCreditNoteSubmittedFormatJson      GetInvoiceResultBuyerCreditNoteSubmittedFormat = "json"
+	GetInvoiceResultBuyerCreditNoteSubmittedFormatNfe       GetInvoiceResultBuyerCreditNoteSubmittedFormat = "nfe"
+	GetInvoiceResultBuyerCreditNoteSubmittedFormatNfse      GetInvoiceResultBuyerCreditNoteSubmittedFormat = "nfse"
 	GetInvoiceResultBuyerCreditNoteSubmittedFormatUbl       GetInvoiceResultBuyerCreditNoteSubmittedFormat = "ubl"
 )
 
@@ -2979,8 +3015,11 @@ const (
 const (
 	GetInvoiceResultBuyerInvoiceSubmittedFormatCii       GetInvoiceResultBuyerInvoiceSubmittedFormat = "cii"
 	GetInvoiceResultBuyerInvoiceSubmittedFormatCxml      GetInvoiceResultBuyerInvoiceSubmittedFormat = "cxml"
+	GetInvoiceResultBuyerInvoiceSubmittedFormatFacturae  GetInvoiceResultBuyerInvoiceSubmittedFormat = "facturae"
 	GetInvoiceResultBuyerInvoiceSubmittedFormatFatturapa GetInvoiceResultBuyerInvoiceSubmittedFormat = "fatturapa"
 	GetInvoiceResultBuyerInvoiceSubmittedFormatJson      GetInvoiceResultBuyerInvoiceSubmittedFormat = "json"
+	GetInvoiceResultBuyerInvoiceSubmittedFormatNfe       GetInvoiceResultBuyerInvoiceSubmittedFormat = "nfe"
+	GetInvoiceResultBuyerInvoiceSubmittedFormatNfse      GetInvoiceResultBuyerInvoiceSubmittedFormat = "nfse"
 	GetInvoiceResultBuyerInvoiceSubmittedFormatUbl       GetInvoiceResultBuyerInvoiceSubmittedFormat = "ubl"
 )
 
@@ -3082,8 +3121,11 @@ const (
 const (
 	GetInvoiceResultSupplierCreditNoteSubmittedFormatCii       GetInvoiceResultSupplierCreditNoteSubmittedFormat = "cii"
 	GetInvoiceResultSupplierCreditNoteSubmittedFormatCxml      GetInvoiceResultSupplierCreditNoteSubmittedFormat = "cxml"
+	GetInvoiceResultSupplierCreditNoteSubmittedFormatFacturae  GetInvoiceResultSupplierCreditNoteSubmittedFormat = "facturae"
 	GetInvoiceResultSupplierCreditNoteSubmittedFormatFatturapa GetInvoiceResultSupplierCreditNoteSubmittedFormat = "fatturapa"
 	GetInvoiceResultSupplierCreditNoteSubmittedFormatJson      GetInvoiceResultSupplierCreditNoteSubmittedFormat = "json"
+	GetInvoiceResultSupplierCreditNoteSubmittedFormatNfe       GetInvoiceResultSupplierCreditNoteSubmittedFormat = "nfe"
+	GetInvoiceResultSupplierCreditNoteSubmittedFormatNfse      GetInvoiceResultSupplierCreditNoteSubmittedFormat = "nfse"
 	GetInvoiceResultSupplierCreditNoteSubmittedFormatUbl       GetInvoiceResultSupplierCreditNoteSubmittedFormat = "ubl"
 )
 
@@ -3178,8 +3220,11 @@ const (
 const (
 	GetInvoiceResultSupplierInvoiceSubmittedFormatCii       GetInvoiceResultSupplierInvoiceSubmittedFormat = "cii"
 	GetInvoiceResultSupplierInvoiceSubmittedFormatCxml      GetInvoiceResultSupplierInvoiceSubmittedFormat = "cxml"
+	GetInvoiceResultSupplierInvoiceSubmittedFormatFacturae  GetInvoiceResultSupplierInvoiceSubmittedFormat = "facturae"
 	GetInvoiceResultSupplierInvoiceSubmittedFormatFatturapa GetInvoiceResultSupplierInvoiceSubmittedFormat = "fatturapa"
 	GetInvoiceResultSupplierInvoiceSubmittedFormatJson      GetInvoiceResultSupplierInvoiceSubmittedFormat = "json"
+	GetInvoiceResultSupplierInvoiceSubmittedFormatNfe       GetInvoiceResultSupplierInvoiceSubmittedFormat = "nfe"
+	GetInvoiceResultSupplierInvoiceSubmittedFormatNfse      GetInvoiceResultSupplierInvoiceSubmittedFormat = "nfse"
 	GetInvoiceResultSupplierInvoiceSubmittedFormatUbl       GetInvoiceResultSupplierInvoiceSubmittedFormat = "ubl"
 )
 
@@ -3504,8 +3549,11 @@ const (
 const (
 	InvoiceBuyerViewSubmittedFormatCii       InvoiceBuyerViewSubmittedFormat = "cii"
 	InvoiceBuyerViewSubmittedFormatCxml      InvoiceBuyerViewSubmittedFormat = "cxml"
+	InvoiceBuyerViewSubmittedFormatFacturae  InvoiceBuyerViewSubmittedFormat = "facturae"
 	InvoiceBuyerViewSubmittedFormatFatturapa InvoiceBuyerViewSubmittedFormat = "fatturapa"
 	InvoiceBuyerViewSubmittedFormatJson      InvoiceBuyerViewSubmittedFormat = "json"
+	InvoiceBuyerViewSubmittedFormatNfe       InvoiceBuyerViewSubmittedFormat = "nfe"
+	InvoiceBuyerViewSubmittedFormatNfse      InvoiceBuyerViewSubmittedFormat = "nfse"
 	InvoiceBuyerViewSubmittedFormatUbl       InvoiceBuyerViewSubmittedFormat = "ubl"
 )
 
@@ -3916,8 +3964,11 @@ const (
 const (
 	InvoiceSupplierViewSubmittedFormatCii       InvoiceSupplierViewSubmittedFormat = "cii"
 	InvoiceSupplierViewSubmittedFormatCxml      InvoiceSupplierViewSubmittedFormat = "cxml"
+	InvoiceSupplierViewSubmittedFormatFacturae  InvoiceSupplierViewSubmittedFormat = "facturae"
 	InvoiceSupplierViewSubmittedFormatFatturapa InvoiceSupplierViewSubmittedFormat = "fatturapa"
 	InvoiceSupplierViewSubmittedFormatJson      InvoiceSupplierViewSubmittedFormat = "json"
+	InvoiceSupplierViewSubmittedFormatNfe       InvoiceSupplierViewSubmittedFormat = "nfe"
+	InvoiceSupplierViewSubmittedFormatNfse      InvoiceSupplierViewSubmittedFormat = "nfse"
 	InvoiceSupplierViewSubmittedFormatUbl       InvoiceSupplierViewSubmittedFormat = "ubl"
 )
 
@@ -4184,8 +4235,11 @@ const (
 const (
 	ListInvoicesItemBuyerCreditNoteSubmittedFormatCii       ListInvoicesItemBuyerCreditNoteSubmittedFormat = "cii"
 	ListInvoicesItemBuyerCreditNoteSubmittedFormatCxml      ListInvoicesItemBuyerCreditNoteSubmittedFormat = "cxml"
+	ListInvoicesItemBuyerCreditNoteSubmittedFormatFacturae  ListInvoicesItemBuyerCreditNoteSubmittedFormat = "facturae"
 	ListInvoicesItemBuyerCreditNoteSubmittedFormatFatturapa ListInvoicesItemBuyerCreditNoteSubmittedFormat = "fatturapa"
 	ListInvoicesItemBuyerCreditNoteSubmittedFormatJson      ListInvoicesItemBuyerCreditNoteSubmittedFormat = "json"
+	ListInvoicesItemBuyerCreditNoteSubmittedFormatNfe       ListInvoicesItemBuyerCreditNoteSubmittedFormat = "nfe"
+	ListInvoicesItemBuyerCreditNoteSubmittedFormatNfse      ListInvoicesItemBuyerCreditNoteSubmittedFormat = "nfse"
 	ListInvoicesItemBuyerCreditNoteSubmittedFormatUbl       ListInvoicesItemBuyerCreditNoteSubmittedFormat = "ubl"
 )
 
@@ -4272,8 +4326,11 @@ const (
 const (
 	ListInvoicesItemBuyerInvoiceSubmittedFormatCii       ListInvoicesItemBuyerInvoiceSubmittedFormat = "cii"
 	ListInvoicesItemBuyerInvoiceSubmittedFormatCxml      ListInvoicesItemBuyerInvoiceSubmittedFormat = "cxml"
+	ListInvoicesItemBuyerInvoiceSubmittedFormatFacturae  ListInvoicesItemBuyerInvoiceSubmittedFormat = "facturae"
 	ListInvoicesItemBuyerInvoiceSubmittedFormatFatturapa ListInvoicesItemBuyerInvoiceSubmittedFormat = "fatturapa"
 	ListInvoicesItemBuyerInvoiceSubmittedFormatJson      ListInvoicesItemBuyerInvoiceSubmittedFormat = "json"
+	ListInvoicesItemBuyerInvoiceSubmittedFormatNfe       ListInvoicesItemBuyerInvoiceSubmittedFormat = "nfe"
+	ListInvoicesItemBuyerInvoiceSubmittedFormatNfse      ListInvoicesItemBuyerInvoiceSubmittedFormat = "nfse"
 	ListInvoicesItemBuyerInvoiceSubmittedFormatUbl       ListInvoicesItemBuyerInvoiceSubmittedFormat = "ubl"
 )
 
@@ -4377,8 +4434,11 @@ const (
 const (
 	ListInvoicesItemSupplierCreditNoteSubmittedFormatCii       ListInvoicesItemSupplierCreditNoteSubmittedFormat = "cii"
 	ListInvoicesItemSupplierCreditNoteSubmittedFormatCxml      ListInvoicesItemSupplierCreditNoteSubmittedFormat = "cxml"
+	ListInvoicesItemSupplierCreditNoteSubmittedFormatFacturae  ListInvoicesItemSupplierCreditNoteSubmittedFormat = "facturae"
 	ListInvoicesItemSupplierCreditNoteSubmittedFormatFatturapa ListInvoicesItemSupplierCreditNoteSubmittedFormat = "fatturapa"
 	ListInvoicesItemSupplierCreditNoteSubmittedFormatJson      ListInvoicesItemSupplierCreditNoteSubmittedFormat = "json"
+	ListInvoicesItemSupplierCreditNoteSubmittedFormatNfe       ListInvoicesItemSupplierCreditNoteSubmittedFormat = "nfe"
+	ListInvoicesItemSupplierCreditNoteSubmittedFormatNfse      ListInvoicesItemSupplierCreditNoteSubmittedFormat = "nfse"
 	ListInvoicesItemSupplierCreditNoteSubmittedFormatUbl       ListInvoicesItemSupplierCreditNoteSubmittedFormat = "ubl"
 )
 
@@ -4472,8 +4532,11 @@ const (
 const (
 	ListInvoicesItemSupplierInvoiceSubmittedFormatCii       ListInvoicesItemSupplierInvoiceSubmittedFormat = "cii"
 	ListInvoicesItemSupplierInvoiceSubmittedFormatCxml      ListInvoicesItemSupplierInvoiceSubmittedFormat = "cxml"
+	ListInvoicesItemSupplierInvoiceSubmittedFormatFacturae  ListInvoicesItemSupplierInvoiceSubmittedFormat = "facturae"
 	ListInvoicesItemSupplierInvoiceSubmittedFormatFatturapa ListInvoicesItemSupplierInvoiceSubmittedFormat = "fatturapa"
 	ListInvoicesItemSupplierInvoiceSubmittedFormatJson      ListInvoicesItemSupplierInvoiceSubmittedFormat = "json"
+	ListInvoicesItemSupplierInvoiceSubmittedFormatNfe       ListInvoicesItemSupplierInvoiceSubmittedFormat = "nfe"
+	ListInvoicesItemSupplierInvoiceSubmittedFormatNfse      ListInvoicesItemSupplierInvoiceSubmittedFormat = "nfse"
 	ListInvoicesItemSupplierInvoiceSubmittedFormatUbl       ListInvoicesItemSupplierInvoiceSubmittedFormat = "ubl"
 )
 
@@ -5301,8 +5364,11 @@ const (
 const (
 	RecordPaymentResultSubmittedFormatCii       RecordPaymentResultSubmittedFormat = "cii"
 	RecordPaymentResultSubmittedFormatCxml      RecordPaymentResultSubmittedFormat = "cxml"
+	RecordPaymentResultSubmittedFormatFacturae  RecordPaymentResultSubmittedFormat = "facturae"
 	RecordPaymentResultSubmittedFormatFatturapa RecordPaymentResultSubmittedFormat = "fatturapa"
 	RecordPaymentResultSubmittedFormatJson      RecordPaymentResultSubmittedFormat = "json"
+	RecordPaymentResultSubmittedFormatNfe       RecordPaymentResultSubmittedFormat = "nfe"
+	RecordPaymentResultSubmittedFormatNfse      RecordPaymentResultSubmittedFormat = "nfse"
 	RecordPaymentResultSubmittedFormatUbl       RecordPaymentResultSubmittedFormat = "ubl"
 )
 
@@ -5495,8 +5561,11 @@ const (
 const (
 	RemoveInvoiceReplacementLinkResultSubmittedFormatCii       RemoveInvoiceReplacementLinkResultSubmittedFormat = "cii"
 	RemoveInvoiceReplacementLinkResultSubmittedFormatCxml      RemoveInvoiceReplacementLinkResultSubmittedFormat = "cxml"
+	RemoveInvoiceReplacementLinkResultSubmittedFormatFacturae  RemoveInvoiceReplacementLinkResultSubmittedFormat = "facturae"
 	RemoveInvoiceReplacementLinkResultSubmittedFormatFatturapa RemoveInvoiceReplacementLinkResultSubmittedFormat = "fatturapa"
 	RemoveInvoiceReplacementLinkResultSubmittedFormatJson      RemoveInvoiceReplacementLinkResultSubmittedFormat = "json"
+	RemoveInvoiceReplacementLinkResultSubmittedFormatNfe       RemoveInvoiceReplacementLinkResultSubmittedFormat = "nfe"
+	RemoveInvoiceReplacementLinkResultSubmittedFormatNfse      RemoveInvoiceReplacementLinkResultSubmittedFormat = "nfse"
 	RemoveInvoiceReplacementLinkResultSubmittedFormatUbl       RemoveInvoiceReplacementLinkResultSubmittedFormat = "ubl"
 )
 
@@ -6364,8 +6433,11 @@ const (
 const (
 	SupplierCreditNoteViewSubmittedFormatCii       SupplierCreditNoteViewSubmittedFormat = "cii"
 	SupplierCreditNoteViewSubmittedFormatCxml      SupplierCreditNoteViewSubmittedFormat = "cxml"
+	SupplierCreditNoteViewSubmittedFormatFacturae  SupplierCreditNoteViewSubmittedFormat = "facturae"
 	SupplierCreditNoteViewSubmittedFormatFatturapa SupplierCreditNoteViewSubmittedFormat = "fatturapa"
 	SupplierCreditNoteViewSubmittedFormatJson      SupplierCreditNoteViewSubmittedFormat = "json"
+	SupplierCreditNoteViewSubmittedFormatNfe       SupplierCreditNoteViewSubmittedFormat = "nfe"
+	SupplierCreditNoteViewSubmittedFormatNfse      SupplierCreditNoteViewSubmittedFormat = "nfse"
 	SupplierCreditNoteViewSubmittedFormatUbl       SupplierCreditNoteViewSubmittedFormat = "ubl"
 )
 
@@ -6579,6 +6651,96 @@ const (
 	PtBR UpdateOrgProfileInputLocale = "pt-BR"
 )
 
+// Defines values for UpdateOrgProfileInputSellsCategories.
+const (
+	Agriculture          UpdateOrgProfileInputSellsCategories = "agriculture"
+	CloudAi              UpdateOrgProfileInputSellsCategories = "cloud-ai"
+	Construction         UpdateOrgProfileInputSellsCategories = "construction"
+	Electrical           UpdateOrgProfileInputSellsCategories = "electrical"
+	Facilities           UpdateOrgProfileInputSellsCategories = "facilities"
+	Food                 UpdateOrgProfileInputSellsCategories = "food"
+	Healthcare           UpdateOrgProfileInputSellsCategories = "healthcare"
+	Industrial           UpdateOrgProfileInputSellsCategories = "industrial"
+	ItHardware           UpdateOrgProfileInputSellsCategories = "it-hardware"
+	ItServices           UpdateOrgProfileInputSellsCategories = "it-services"
+	LegalFinance         UpdateOrgProfileInputSellsCategories = "legal-finance"
+	Logistics            UpdateOrgProfileInputSellsCategories = "logistics"
+	MarketingCreative    UpdateOrgProfileInputSellsCategories = "marketing-creative"
+	Office               UpdateOrgProfileInputSellsCategories = "office"
+	PackagingPrint       UpdateOrgProfileInputSellsCategories = "packaging-print"
+	ProfessionalServices UpdateOrgProfileInputSellsCategories = "professional-services"
+	RawMaterials         UpdateOrgProfileInputSellsCategories = "raw-materials"
+	SafetySecurity       UpdateOrgProfileInputSellsCategories = "safety-security"
+	Software             UpdateOrgProfileInputSellsCategories = "software"
+	Staffing             UpdateOrgProfileInputSellsCategories = "staffing"
+	Training             UpdateOrgProfileInputSellsCategories = "training"
+	TravelEvents         UpdateOrgProfileInputSellsCategories = "travel-events"
+	UtilitiesEnergy      UpdateOrgProfileInputSellsCategories = "utilities-energy"
+	Vehicles             UpdateOrgProfileInputSellsCategories = "vehicles"
+)
+
+// Defines values for UpdateOrgProfileInputSellsSegments.
+const (
+	UpdateOrgProfileInputSellsSegmentsN10 UpdateOrgProfileInputSellsSegments = "10"
+	UpdateOrgProfileInputSellsSegmentsN11 UpdateOrgProfileInputSellsSegments = "11"
+	UpdateOrgProfileInputSellsSegmentsN12 UpdateOrgProfileInputSellsSegments = "12"
+	UpdateOrgProfileInputSellsSegmentsN13 UpdateOrgProfileInputSellsSegments = "13"
+	UpdateOrgProfileInputSellsSegmentsN14 UpdateOrgProfileInputSellsSegments = "14"
+	UpdateOrgProfileInputSellsSegmentsN15 UpdateOrgProfileInputSellsSegments = "15"
+	UpdateOrgProfileInputSellsSegmentsN20 UpdateOrgProfileInputSellsSegments = "20"
+	UpdateOrgProfileInputSellsSegmentsN21 UpdateOrgProfileInputSellsSegments = "21"
+	UpdateOrgProfileInputSellsSegmentsN22 UpdateOrgProfileInputSellsSegments = "22"
+	UpdateOrgProfileInputSellsSegmentsN23 UpdateOrgProfileInputSellsSegments = "23"
+	UpdateOrgProfileInputSellsSegmentsN24 UpdateOrgProfileInputSellsSegments = "24"
+	UpdateOrgProfileInputSellsSegmentsN25 UpdateOrgProfileInputSellsSegments = "25"
+	UpdateOrgProfileInputSellsSegmentsN26 UpdateOrgProfileInputSellsSegments = "26"
+	UpdateOrgProfileInputSellsSegmentsN27 UpdateOrgProfileInputSellsSegments = "27"
+	UpdateOrgProfileInputSellsSegmentsN30 UpdateOrgProfileInputSellsSegments = "30"
+	UpdateOrgProfileInputSellsSegmentsN31 UpdateOrgProfileInputSellsSegments = "31"
+	UpdateOrgProfileInputSellsSegmentsN32 UpdateOrgProfileInputSellsSegments = "32"
+	UpdateOrgProfileInputSellsSegmentsN39 UpdateOrgProfileInputSellsSegments = "39"
+	UpdateOrgProfileInputSellsSegmentsN40 UpdateOrgProfileInputSellsSegments = "40"
+	UpdateOrgProfileInputSellsSegmentsN41 UpdateOrgProfileInputSellsSegments = "41"
+	UpdateOrgProfileInputSellsSegmentsN42 UpdateOrgProfileInputSellsSegments = "42"
+	UpdateOrgProfileInputSellsSegmentsN43 UpdateOrgProfileInputSellsSegments = "43"
+	UpdateOrgProfileInputSellsSegmentsN44 UpdateOrgProfileInputSellsSegments = "44"
+	UpdateOrgProfileInputSellsSegmentsN45 UpdateOrgProfileInputSellsSegments = "45"
+	UpdateOrgProfileInputSellsSegmentsN46 UpdateOrgProfileInputSellsSegments = "46"
+	UpdateOrgProfileInputSellsSegmentsN47 UpdateOrgProfileInputSellsSegments = "47"
+	UpdateOrgProfileInputSellsSegmentsN48 UpdateOrgProfileInputSellsSegments = "48"
+	UpdateOrgProfileInputSellsSegmentsN49 UpdateOrgProfileInputSellsSegments = "49"
+	UpdateOrgProfileInputSellsSegmentsN50 UpdateOrgProfileInputSellsSegments = "50"
+	UpdateOrgProfileInputSellsSegmentsN51 UpdateOrgProfileInputSellsSegments = "51"
+	UpdateOrgProfileInputSellsSegmentsN52 UpdateOrgProfileInputSellsSegments = "52"
+	UpdateOrgProfileInputSellsSegmentsN53 UpdateOrgProfileInputSellsSegments = "53"
+	UpdateOrgProfileInputSellsSegmentsN54 UpdateOrgProfileInputSellsSegments = "54"
+	UpdateOrgProfileInputSellsSegmentsN55 UpdateOrgProfileInputSellsSegments = "55"
+	UpdateOrgProfileInputSellsSegmentsN56 UpdateOrgProfileInputSellsSegments = "56"
+	UpdateOrgProfileInputSellsSegmentsN57 UpdateOrgProfileInputSellsSegments = "57"
+	UpdateOrgProfileInputSellsSegmentsN60 UpdateOrgProfileInputSellsSegments = "60"
+	UpdateOrgProfileInputSellsSegmentsN64 UpdateOrgProfileInputSellsSegments = "64"
+	UpdateOrgProfileInputSellsSegmentsN70 UpdateOrgProfileInputSellsSegments = "70"
+	UpdateOrgProfileInputSellsSegmentsN71 UpdateOrgProfileInputSellsSegments = "71"
+	UpdateOrgProfileInputSellsSegmentsN72 UpdateOrgProfileInputSellsSegments = "72"
+	UpdateOrgProfileInputSellsSegmentsN73 UpdateOrgProfileInputSellsSegments = "73"
+	UpdateOrgProfileInputSellsSegmentsN76 UpdateOrgProfileInputSellsSegments = "76"
+	UpdateOrgProfileInputSellsSegmentsN77 UpdateOrgProfileInputSellsSegments = "77"
+	UpdateOrgProfileInputSellsSegmentsN78 UpdateOrgProfileInputSellsSegments = "78"
+	UpdateOrgProfileInputSellsSegmentsN80 UpdateOrgProfileInputSellsSegments = "80"
+	UpdateOrgProfileInputSellsSegmentsN81 UpdateOrgProfileInputSellsSegments = "81"
+	UpdateOrgProfileInputSellsSegmentsN82 UpdateOrgProfileInputSellsSegments = "82"
+	UpdateOrgProfileInputSellsSegmentsN83 UpdateOrgProfileInputSellsSegments = "83"
+	UpdateOrgProfileInputSellsSegmentsN84 UpdateOrgProfileInputSellsSegments = "84"
+	UpdateOrgProfileInputSellsSegmentsN85 UpdateOrgProfileInputSellsSegments = "85"
+	UpdateOrgProfileInputSellsSegmentsN86 UpdateOrgProfileInputSellsSegments = "86"
+	UpdateOrgProfileInputSellsSegmentsN90 UpdateOrgProfileInputSellsSegments = "90"
+	UpdateOrgProfileInputSellsSegmentsN91 UpdateOrgProfileInputSellsSegments = "91"
+	UpdateOrgProfileInputSellsSegmentsN92 UpdateOrgProfileInputSellsSegments = "92"
+	UpdateOrgProfileInputSellsSegmentsN93 UpdateOrgProfileInputSellsSegments = "93"
+	UpdateOrgProfileInputSellsSegmentsN94 UpdateOrgProfileInputSellsSegments = "94"
+	UpdateOrgProfileInputSellsSegmentsN95 UpdateOrgProfileInputSellsSegments = "95"
+)
+
 // Defines values for UpdateUsageAlertSettingsInputSensitivity.
 const (
 	UpdateUsageAlertSettingsInputSensitivityHigh   UpdateUsageAlertSettingsInputSensitivity = "high"
@@ -6612,8 +6774,11 @@ const (
 const (
 	ValidateFeedInvoiceResultCreditNoteSubmittedFormatCii       ValidateFeedInvoiceResultCreditNoteSubmittedFormat = "cii"
 	ValidateFeedInvoiceResultCreditNoteSubmittedFormatCxml      ValidateFeedInvoiceResultCreditNoteSubmittedFormat = "cxml"
+	ValidateFeedInvoiceResultCreditNoteSubmittedFormatFacturae  ValidateFeedInvoiceResultCreditNoteSubmittedFormat = "facturae"
 	ValidateFeedInvoiceResultCreditNoteSubmittedFormatFatturapa ValidateFeedInvoiceResultCreditNoteSubmittedFormat = "fatturapa"
 	ValidateFeedInvoiceResultCreditNoteSubmittedFormatJson      ValidateFeedInvoiceResultCreditNoteSubmittedFormat = "json"
+	ValidateFeedInvoiceResultCreditNoteSubmittedFormatNfe       ValidateFeedInvoiceResultCreditNoteSubmittedFormat = "nfe"
+	ValidateFeedInvoiceResultCreditNoteSubmittedFormatNfse      ValidateFeedInvoiceResultCreditNoteSubmittedFormat = "nfse"
 	ValidateFeedInvoiceResultCreditNoteSubmittedFormatUbl       ValidateFeedInvoiceResultCreditNoteSubmittedFormat = "ubl"
 )
 
@@ -6934,6 +7099,7 @@ type AddInvoiceReplacementLinksResult struct {
 	Id                          string                                             `json:"id"`
 	InvoiceDate                 *string                                            `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *AddInvoiceReplacementLinksResultInvoiceKind       `json:"invoiceKind,omitempty"`
+	IssuedInBillingSoftware     *bool                                              `json:"issuedInBillingSoftware,omitempty"`
 	LastApproverRemindedAt      *string                                            `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                            `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                      `json:"lateFeeTerms,omitempty"`
@@ -8565,6 +8731,7 @@ type BuyerCreditNoteView struct {
 	Id                       string                        `json:"id"`
 	InvoiceId                *string                       `json:"invoiceId,omitempty"`
 	IssueDate                *string                       `json:"issueDate,omitempty"`
+	IssuedInBillingSoftware  *bool                         `json:"issuedInBillingSoftware,omitempty"`
 	LineItems                *[]InvoiceLineItem            `json:"lineItems,omitempty"`
 	Note                     *string                       `json:"note,omitempty"`
 	Po                       *string                       `json:"po,omitempty"`
@@ -9332,6 +9499,9 @@ type CreateCreditNoteInput struct {
 	// IssueDate YYYY-MM-DD - not in the future, not more than 365 days back
 	IssueDate string `json:"issueDate"`
 
+	// IssuedInBillingSoftware The supplier says it issued this document in its own billing software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise).
+	IssuedInBillingSoftware *bool `json:"issuedInBillingSoftware,omitempty"`
+
 	// LineItems What is credited, before tax. 1–200 lines.
 	LineItems []CreateManualInvoiceLineItemInput `json:"lineItems"`
 
@@ -9395,8 +9565,11 @@ type CreateFeedInvoiceInput struct {
 	InvoiceKind *CreateFeedInvoiceInputInvoiceKind `json:"invoiceKind,omitempty"`
 
 	// InvoiceNumber Unique per supplier within the buyer's workspace, case-insensitively
-	InvoiceNumber string                             `json:"invoiceNumber"`
-	LineItems     []CreateManualInvoiceLineItemInput `json:"lineItems"`
+	InvoiceNumber string `json:"invoiceNumber"`
+
+	// IssuedInBillingSoftware The supplier says it issued this document in its own billing software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise).
+	IssuedInBillingSoftware *bool                              `json:"issuedInBillingSoftware,omitempty"`
+	LineItems               []CreateManualInvoiceLineItemInput `json:"lineItems"`
 
 	// PaymentCurrencyAmount Only when the invoice names the amount owed in another currency (e.g. AWS billing in ARS): that amount, with the rate printed on the invoice. Leave it off when the invoice is converted at the payment-date rate. Pleaxy checks the figures against the rate and never converts anything itself.
 	PaymentCurrencyAmount *CurrencyAmountInput `json:"paymentCurrencyAmount,omitempty"`
@@ -9520,6 +9693,7 @@ type CreateInvoiceResultBuyerCreditNote struct {
 	Id                       string                                       `json:"id"`
 	InvoiceId                *string                                      `json:"invoiceId,omitempty"`
 	IssueDate                *string                                      `json:"issueDate,omitempty"`
+	IssuedInBillingSoftware  *bool                                        `json:"issuedInBillingSoftware,omitempty"`
 	LineItems                *[]InvoiceLineItem                           `json:"lineItems,omitempty"`
 	Note                     *string                                      `json:"note,omitempty"`
 	Po                       *string                                      `json:"po,omitempty"`
@@ -9644,6 +9818,7 @@ type CreateInvoiceResultBuyerInvoice struct {
 	Id                          string                                            `json:"id"`
 	InvoiceDate                 *string                                           `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *CreateInvoiceResultBuyerInvoiceInvoiceKind       `json:"invoiceKind,omitempty"`
+	IssuedInBillingSoftware     *bool                                             `json:"issuedInBillingSoftware,omitempty"`
 	LastApproverRemindedAt      *string                                           `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                           `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                     `json:"lateFeeTerms,omitempty"`
@@ -9795,17 +9970,18 @@ type CreateInvoiceResultSupplierCreditNote struct {
 		ExportId  *string                                             `json:"exportId,omitempty"`
 		InvoiceId *string                                             `json:"invoiceId,omitempty"`
 	} `json:"history,omitempty"`
-	Id        string                                          `json:"id"`
-	InvoiceId *string                                         `json:"invoiceId,omitempty"`
-	IssueDate *string                                         `json:"issueDate,omitempty"`
-	LineItems *[]InvoiceLineItem                              `json:"lineItems,omitempty"`
-	Note      *string                                         `json:"note,omitempty"`
-	Po        *string                                         `json:"po,omitempty"`
-	PoEffect  *CreateInvoiceResultSupplierCreditNote_PoEffect `json:"poEffect,omitempty"`
-	PoLineNo  *float64                                        `json:"poLineNo,omitempty"`
-	Reason    *CreateInvoiceResultSupplierCreditNoteReason    `json:"reason,omitempty"`
-	Refunded  *float64                                        `json:"refunded,omitempty"`
-	Rejection *struct {
+	Id                      string                                          `json:"id"`
+	InvoiceId               *string                                         `json:"invoiceId,omitempty"`
+	IssueDate               *string                                         `json:"issueDate,omitempty"`
+	IssuedInBillingSoftware *bool                                           `json:"issuedInBillingSoftware,omitempty"`
+	LineItems               *[]InvoiceLineItem                              `json:"lineItems,omitempty"`
+	Note                    *string                                         `json:"note,omitempty"`
+	Po                      *string                                         `json:"po,omitempty"`
+	PoEffect                *CreateInvoiceResultSupplierCreditNote_PoEffect `json:"poEffect,omitempty"`
+	PoLineNo                *float64                                        `json:"poLineNo,omitempty"`
+	Reason                  *CreateInvoiceResultSupplierCreditNoteReason    `json:"reason,omitempty"`
+	Refunded                *float64                                        `json:"refunded,omitempty"`
+	Rejection               *struct {
 		At     *string `json:"at,omitempty"`
 		Reason *string `json:"reason,omitempty"`
 	} `json:"rejection,omitempty"`
@@ -9918,6 +10094,7 @@ type CreateInvoiceResultSupplierInvoice struct {
 	Id                          string                                           `json:"id"`
 	InvoiceDate                 *string                                          `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *CreateInvoiceResultSupplierInvoiceInvoiceKind   `json:"invoiceKind,omitempty"`
+	IssuedInBillingSoftware     *bool                                            `json:"issuedInBillingSoftware,omitempty"`
 	LastApproverRemindedAt      *string                                          `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                          `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                    `json:"lateFeeTerms,omitempty"`
@@ -10116,8 +10293,11 @@ type CreateManualInvoiceInput struct {
 	InvoiceKind *CreateManualInvoiceInputInvoiceKind `json:"invoiceKind,omitempty"`
 
 	// InvoiceNumber Unique per supplier within the buyer's workspace, case-insensitively
-	InvoiceNumber string                             `json:"invoiceNumber"`
-	LineItems     []CreateManualInvoiceLineItemInput `json:"lineItems"`
+	InvoiceNumber string `json:"invoiceNumber"`
+
+	// IssuedInBillingSoftware The supplier says it issued this document in its own billing software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise).
+	IssuedInBillingSoftware *bool                              `json:"issuedInBillingSoftware,omitempty"`
+	LineItems               []CreateManualInvoiceLineItemInput `json:"lineItems"`
 
 	// PaymentCurrencyAmount Only when the invoice names the amount owed in another currency (e.g. AWS billing in ARS): that amount, with the rate printed on the invoice. Leave it off when the invoice is converted at the payment-date rate. Pleaxy checks the figures against the rate and never converts anything itself.
 	PaymentCurrencyAmount *CurrencyAmountInput `json:"paymentCurrencyAmount,omitempty"`
@@ -10566,6 +10746,11 @@ type DraftAiOrdersInputScope string
 
 // EInvoiceSummary defines model for EInvoiceSummary.
 type EInvoiceSummary struct {
+	Archive *struct {
+		Key             *string  `json:"key,omitempty"`
+		RetainUntilYear *float64 `json:"retainUntilYear,omitempty"`
+		Sha256          *string  `json:"sha256,omitempty"`
+	} `json:"archive,omitempty"`
 	Container        *EInvoiceSummaryContainer `json:"container,omitempty"`
 	EmbeddedFilename *string                   `json:"embeddedFilename,omitempty"`
 	Findings         *[]struct {
@@ -10797,6 +10982,7 @@ type FeedValidationResult struct {
 		HeldBack                    *SupplierHeldBackView                     `json:"heldBack,omitempty"`
 		InvoiceDate                 *string                                   `json:"invoiceDate,omitempty"`
 		InvoiceKind                 *FeedValidationResultInvoiceInvoiceKind   `json:"invoiceKind,omitempty"`
+		IssuedInBillingSoftware     *bool                                     `json:"issuedInBillingSoftware,omitempty"`
 		LastApproverRemindedAt      *string                                   `json:"lastApproverRemindedAt,omitempty"`
 		LastRemindedAt              *string                                   `json:"lastRemindedAt,omitempty"`
 		LateFeeTerms                *LateFeeTerms                             `json:"lateFeeTerms,omitempty"`
@@ -11339,6 +11525,7 @@ type GetInvoiceResultBuyerCreditNote struct {
 	Id                       string                                    `json:"id"`
 	InvoiceId                *string                                   `json:"invoiceId,omitempty"`
 	IssueDate                *string                                   `json:"issueDate,omitempty"`
+	IssuedInBillingSoftware  *bool                                     `json:"issuedInBillingSoftware,omitempty"`
 	LineItems                *[]InvoiceLineItem                        `json:"lineItems,omitempty"`
 	Note                     *string                                   `json:"note,omitempty"`
 	Po                       *string                                   `json:"po,omitempty"`
@@ -11463,6 +11650,7 @@ type GetInvoiceResultBuyerInvoice struct {
 	Id                          string                                         `json:"id"`
 	InvoiceDate                 *string                                        `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *GetInvoiceResultBuyerInvoiceInvoiceKind       `json:"invoiceKind,omitempty"`
+	IssuedInBillingSoftware     *bool                                          `json:"issuedInBillingSoftware,omitempty"`
 	LastApproverRemindedAt      *string                                        `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                        `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                  `json:"lateFeeTerms,omitempty"`
@@ -11614,17 +11802,18 @@ type GetInvoiceResultSupplierCreditNote struct {
 		ExportId  *string                                          `json:"exportId,omitempty"`
 		InvoiceId *string                                          `json:"invoiceId,omitempty"`
 	} `json:"history,omitempty"`
-	Id        string                                       `json:"id"`
-	InvoiceId *string                                      `json:"invoiceId,omitempty"`
-	IssueDate *string                                      `json:"issueDate,omitempty"`
-	LineItems *[]InvoiceLineItem                           `json:"lineItems,omitempty"`
-	Note      *string                                      `json:"note,omitempty"`
-	Po        *string                                      `json:"po,omitempty"`
-	PoEffect  *GetInvoiceResultSupplierCreditNote_PoEffect `json:"poEffect,omitempty"`
-	PoLineNo  *float64                                     `json:"poLineNo,omitempty"`
-	Reason    *GetInvoiceResultSupplierCreditNoteReason    `json:"reason,omitempty"`
-	Refunded  *float64                                     `json:"refunded,omitempty"`
-	Rejection *struct {
+	Id                      string                                       `json:"id"`
+	InvoiceId               *string                                      `json:"invoiceId,omitempty"`
+	IssueDate               *string                                      `json:"issueDate,omitempty"`
+	IssuedInBillingSoftware *bool                                        `json:"issuedInBillingSoftware,omitempty"`
+	LineItems               *[]InvoiceLineItem                           `json:"lineItems,omitempty"`
+	Note                    *string                                      `json:"note,omitempty"`
+	Po                      *string                                      `json:"po,omitempty"`
+	PoEffect                *GetInvoiceResultSupplierCreditNote_PoEffect `json:"poEffect,omitempty"`
+	PoLineNo                *float64                                     `json:"poLineNo,omitempty"`
+	Reason                  *GetInvoiceResultSupplierCreditNoteReason    `json:"reason,omitempty"`
+	Refunded                *float64                                     `json:"refunded,omitempty"`
+	Rejection               *struct {
 		At     *string `json:"at,omitempty"`
 		Reason *string `json:"reason,omitempty"`
 	} `json:"rejection,omitempty"`
@@ -11737,6 +11926,7 @@ type GetInvoiceResultSupplierInvoice struct {
 	Id                          string                                        `json:"id"`
 	InvoiceDate                 *string                                       `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *GetInvoiceResultSupplierInvoiceInvoiceKind   `json:"invoiceKind,omitempty"`
+	IssuedInBillingSoftware     *bool                                         `json:"issuedInBillingSoftware,omitempty"`
 	LastApproverRemindedAt      *string                                       `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                       `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                 `json:"lateFeeTerms,omitempty"`
@@ -11928,6 +12118,8 @@ type GetOrgProfileResult struct {
 	RegionName                *string                       `json:"regionName,omitempty"`
 	Role                      *GetOrgProfileResultRole      `json:"role,omitempty"`
 	SameDomainAcknowledged    *SameDomainAcknowledgement    `json:"sameDomainAcknowledged,omitempty"`
+	SellsCategories           *[]string                     `json:"sellsCategories,omitempty"`
+	SellsSegments             *[]string                     `json:"sellsSegments,omitempty"`
 	SetupGoal                 *GetOrgProfileResultSetupGoal `json:"setupGoal,omitempty"`
 	TaxId                     *string                       `json:"taxId,omitempty"`
 	TimeZone                  *string                       `json:"timeZone,omitempty"`
@@ -12314,6 +12506,7 @@ type InvoiceBuyerView struct {
 	Id                          string                             `json:"id"`
 	InvoiceDate                 *string                            `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *InvoiceBuyerViewInvoiceKind       `json:"invoiceKind,omitempty"`
+	IssuedInBillingSoftware     *bool                              `json:"issuedInBillingSoftware,omitempty"`
 	LastApproverRemindedAt      *string                            `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                            `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                      `json:"lateFeeTerms,omitempty"`
@@ -12931,6 +13124,7 @@ type InvoiceSupplierView struct {
 	Id                          string                               `json:"id"`
 	InvoiceDate                 *string                              `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *InvoiceSupplierViewInvoiceKind      `json:"invoiceKind,omitempty"`
+	IssuedInBillingSoftware     *bool                                `json:"issuedInBillingSoftware,omitempty"`
 	LastApproverRemindedAt      *string                              `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                              `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                        `json:"lateFeeTerms,omitempty"`
@@ -13224,6 +13418,7 @@ type ListAiInvoicersItem struct {
 	ContactHint                *string                        `json:"contactHint,omitempty"`
 	Credential                 *ListAiInvoicersItemCredential `json:"credential,omitempty"`
 	CredentialCanChangeBilling *bool                          `json:"credentialCanChangeBilling,omitempty"`
+	CredentialHasAdminRights   *bool                          `json:"credentialHasAdminRights,omitempty"`
 	Id                         ListAiInvoicersItemId          `json:"id"`
 	LegalEntities              *[]struct {
 		Country *string                                 `json:"country,omitempty"`
@@ -13370,6 +13565,7 @@ type ListInvoicesItemBuyerCreditNote struct {
 	Id                       string                                    `json:"id"`
 	InvoiceId                *string                                   `json:"invoiceId,omitempty"`
 	IssueDate                *string                                   `json:"issueDate,omitempty"`
+	IssuedInBillingSoftware  *bool                                     `json:"issuedInBillingSoftware,omitempty"`
 	LineItems                *[]InvoiceLineItem                        `json:"lineItems,omitempty"`
 	Note                     *string                                   `json:"note,omitempty"`
 	Po                       *string                                   `json:"po,omitempty"`
@@ -13494,6 +13690,7 @@ type ListInvoicesItemBuyerInvoice struct {
 	Id                          string                                         `json:"id"`
 	InvoiceDate                 *string                                        `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *ListInvoicesItemBuyerInvoiceInvoiceKind       `json:"invoiceKind,omitempty"`
+	IssuedInBillingSoftware     *bool                                          `json:"issuedInBillingSoftware,omitempty"`
 	LastApproverRemindedAt      *string                                        `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                        `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                  `json:"lateFeeTerms,omitempty"`
@@ -13645,17 +13842,18 @@ type ListInvoicesItemSupplierCreditNote struct {
 		ExportId  *string                                          `json:"exportId,omitempty"`
 		InvoiceId *string                                          `json:"invoiceId,omitempty"`
 	} `json:"history,omitempty"`
-	Id        string                                       `json:"id"`
-	InvoiceId *string                                      `json:"invoiceId,omitempty"`
-	IssueDate *string                                      `json:"issueDate,omitempty"`
-	LineItems *[]InvoiceLineItem                           `json:"lineItems,omitempty"`
-	Note      *string                                      `json:"note,omitempty"`
-	Po        *string                                      `json:"po,omitempty"`
-	PoEffect  *ListInvoicesItemSupplierCreditNote_PoEffect `json:"poEffect,omitempty"`
-	PoLineNo  *float64                                     `json:"poLineNo,omitempty"`
-	Reason    *ListInvoicesItemSupplierCreditNoteReason    `json:"reason,omitempty"`
-	Refunded  *float64                                     `json:"refunded,omitempty"`
-	Rejection *struct {
+	Id                      string                                       `json:"id"`
+	InvoiceId               *string                                      `json:"invoiceId,omitempty"`
+	IssueDate               *string                                      `json:"issueDate,omitempty"`
+	IssuedInBillingSoftware *bool                                        `json:"issuedInBillingSoftware,omitempty"`
+	LineItems               *[]InvoiceLineItem                           `json:"lineItems,omitempty"`
+	Note                    *string                                      `json:"note,omitempty"`
+	Po                      *string                                      `json:"po,omitempty"`
+	PoEffect                *ListInvoicesItemSupplierCreditNote_PoEffect `json:"poEffect,omitempty"`
+	PoLineNo                *float64                                     `json:"poLineNo,omitempty"`
+	Reason                  *ListInvoicesItemSupplierCreditNoteReason    `json:"reason,omitempty"`
+	Refunded                *float64                                     `json:"refunded,omitempty"`
+	Rejection               *struct {
 		At     *string `json:"at,omitempty"`
 		Reason *string `json:"reason,omitempty"`
 	} `json:"rejection,omitempty"`
@@ -13768,6 +13966,7 @@ type ListInvoicesItemSupplierInvoice struct {
 	Id                          string                                        `json:"id"`
 	InvoiceDate                 *string                                       `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *ListInvoicesItemSupplierInvoiceInvoiceKind   `json:"invoiceKind,omitempty"`
+	IssuedInBillingSoftware     *bool                                         `json:"issuedInBillingSoftware,omitempty"`
 	LastApproverRemindedAt      *string                                       `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                       `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                 `json:"lateFeeTerms,omitempty"`
@@ -14161,6 +14360,8 @@ type OrgProfile struct {
 	RegionName                *string                    `json:"regionName,omitempty"`
 	Role                      *OrgProfileRole            `json:"role,omitempty"`
 	SameDomainAcknowledged    *SameDomainAcknowledgement `json:"sameDomainAcknowledged,omitempty"`
+	SellsCategories           *[]string                  `json:"sellsCategories,omitempty"`
+	SellsSegments             *[]string                  `json:"sellsSegments,omitempty"`
 	SetupGoal                 *OrgProfileSetupGoal       `json:"setupGoal,omitempty"`
 	TaxId                     *string                    `json:"taxId,omitempty"`
 	TimeZone                  *string                    `json:"timeZone,omitempty"`
@@ -15102,6 +15303,7 @@ type RecordPaymentResult struct {
 	Id                          string                                `json:"id"`
 	InvoiceDate                 *string                               `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *RecordPaymentResultInvoiceKind       `json:"invoiceKind,omitempty"`
+	IssuedInBillingSoftware     *bool                                 `json:"issuedInBillingSoftware,omitempty"`
 	LastApproverRemindedAt      *string                               `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                               `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                         `json:"lateFeeTerms,omitempty"`
@@ -15483,6 +15685,7 @@ type RemoveInvoiceReplacementLinkResult struct {
 	Id                          string                                               `json:"id"`
 	InvoiceDate                 *string                                              `json:"invoiceDate,omitempty"`
 	InvoiceKind                 *RemoveInvoiceReplacementLinkResultInvoiceKind       `json:"invoiceKind,omitempty"`
+	IssuedInBillingSoftware     *bool                                                `json:"issuedInBillingSoftware,omitempty"`
 	LastApproverRemindedAt      *string                                              `json:"lastApproverRemindedAt,omitempty"`
 	LastRemindedAt              *string                                              `json:"lastRemindedAt,omitempty"`
 	LateFeeTerms                *LateFeeTerms                                        `json:"lateFeeTerms,omitempty"`
@@ -15775,9 +15978,10 @@ type SendRemittanceInput struct {
 
 // SensitivityPreset defines model for SensitivityPreset.
 type SensitivityPreset struct {
-	MinAmount *float64 `json:"minAmount,omitempty"`
-	PacePct   *float64 `json:"pacePct,omitempty"`
-	SpikePct  *float64 `json:"spikePct,omitempty"`
+	MinAmount *float64            `json:"minAmount,omitempty"`
+	Minimums  *map[string]float64 `json:"minimums,omitempty"`
+	PacePct   *float64            `json:"pacePct,omitempty"`
+	SpikePct  *float64            `json:"spikePct,omitempty"`
 }
 
 // ServerMessage defines model for ServerMessage.
@@ -17017,17 +17221,18 @@ type SupplierCreditNoteView struct {
 		ExportId  *string                              `json:"exportId,omitempty"`
 		InvoiceId *string                              `json:"invoiceId,omitempty"`
 	} `json:"history,omitempty"`
-	Id        string                           `json:"id"`
-	InvoiceId *string                          `json:"invoiceId,omitempty"`
-	IssueDate *string                          `json:"issueDate,omitempty"`
-	LineItems *[]InvoiceLineItem               `json:"lineItems,omitempty"`
-	Note      *string                          `json:"note,omitempty"`
-	Po        *string                          `json:"po,omitempty"`
-	PoEffect  *SupplierCreditNoteView_PoEffect `json:"poEffect,omitempty"`
-	PoLineNo  *float64                         `json:"poLineNo,omitempty"`
-	Reason    *SupplierCreditNoteViewReason    `json:"reason,omitempty"`
-	Refunded  *float64                         `json:"refunded,omitempty"`
-	Rejection *struct {
+	Id                      string                           `json:"id"`
+	InvoiceId               *string                          `json:"invoiceId,omitempty"`
+	IssueDate               *string                          `json:"issueDate,omitempty"`
+	IssuedInBillingSoftware *bool                            `json:"issuedInBillingSoftware,omitempty"`
+	LineItems               *[]InvoiceLineItem               `json:"lineItems,omitempty"`
+	Note                    *string                          `json:"note,omitempty"`
+	Po                      *string                          `json:"po,omitempty"`
+	PoEffect                *SupplierCreditNoteView_PoEffect `json:"poEffect,omitempty"`
+	PoLineNo                *float64                         `json:"poLineNo,omitempty"`
+	Reason                  *SupplierCreditNoteViewReason    `json:"reason,omitempty"`
+	Refunded                *float64                         `json:"refunded,omitempty"`
+	Rejection               *struct {
 		At     *string `json:"at,omitempty"`
 		Reason *string `json:"reason,omitempty"`
 	} `json:"rejection,omitempty"`
@@ -17374,8 +17579,14 @@ type UpdateOrgProfileInput struct {
 	PrimaryContactEmail *string                                 `json:"primaryContactEmail,omitempty"`
 	PrimaryContactName  *string                                 `json:"primaryContactName,omitempty"`
 	RegionName          *string                                 `json:"regionName,omitempty"`
-	TaxId               *string                                 `json:"taxId,omitempty"`
-	TimeZone            *string                                 `json:"timeZone,omitempty"`
+
+	// SellsCategories Supplier profiles only (ignored for a buyer): what you sell, as Pleaxy category ids. The whole list each time; [] clears it. While you are listed in the directory, buyers that don't know you find you by these, and under the UN segments each category belongs to.
+	SellsCategories *[]UpdateOrgProfileInputSellsCategories `json:"sellsCategories,omitempty"`
+
+	// SellsSegments Supplier profiles only (ignored for a buyer): what you sell, as two-digit UN standard (UNSPSC) segment codes, e.g. 43. The whole list each time; [] clears it.
+	SellsSegments *[]UpdateOrgProfileInputSellsSegments `json:"sellsSegments,omitempty"`
+	TaxId         *string                               `json:"taxId,omitempty"`
+	TimeZone      *string                               `json:"timeZone,omitempty"`
 }
 
 // UpdateOrgProfileInputGeographyPresetId defines model for UpdateOrgProfileInput.GeographyPresetId.
@@ -17383,6 +17594,12 @@ type UpdateOrgProfileInputGeographyPresetId string
 
 // UpdateOrgProfileInputLocale defines model for UpdateOrgProfileInput.Locale.
 type UpdateOrgProfileInputLocale string
+
+// UpdateOrgProfileInputSellsCategories defines model for UpdateOrgProfileInput.SellsCategories.
+type UpdateOrgProfileInputSellsCategories string
+
+// UpdateOrgProfileInputSellsSegments defines model for UpdateOrgProfileInput.SellsSegments.
+type UpdateOrgProfileInputSellsSegments string
 
 // UpdatePurchaseOrderInput defines model for UpdatePurchaseOrderInput.
 type UpdatePurchaseOrderInput struct {
@@ -17477,11 +17694,14 @@ type UpdateUsageAlertSettingsInput struct {
 	// Enabled Whether usage anomaly alerts are sent. Off: nothing is sent; the spend page still shows what the rules find.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	// Sensitivity high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. Amounts in each subject's own currency.
+	// Minimums The least a finding must add (or miss by) over a month, per currency the workspace is billed in (ISO 4217): used as set, whatever the sensitivity. Merged into what is stored; null for a currency goes back to its default.
+	Minimums *map[string]*float64 `json:"minimums,omitempty"`
+
+	// Sensitivity high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. The minimum is in each subject's own currency, scaled for currencies like JPY (medium: JPY 75,000) unless the workspace set its own for that currency (minimums).
 	Sensitivity *UpdateUsageAlertSettingsInputSensitivity `json:"sensitivity,omitempty"`
 }
 
-// UpdateUsageAlertSettingsInputSensitivity high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. Amounts in each subject's own currency.
+// UpdateUsageAlertSettingsInputSensitivity high: 25% above the trend, 20% above last month, from 100 a month. medium (default): 50%, 30%, from 500. low: 100%, 50%, from 2,000. The minimum is in each subject's own currency, scaled for currencies like JPY (medium: JPY 75,000) unless the workspace set its own for that currency (minimums).
 type UpdateUsageAlertSettingsInputSensitivity string
 
 // UpdateWebhookInput defines model for UpdateWebhookInput.
@@ -17494,9 +17714,18 @@ type UpdateWebhookInput struct {
 	Url     *string   `json:"url,omitempty"`
 }
 
+// UsageAlertCurrency defines model for UsageAlertCurrency.
+type UsageAlertCurrency struct {
+	Currency       *string  `json:"currency,omitempty"`
+	Custom         *bool    `json:"custom,omitempty"`
+	DefaultMinimum *float64 `json:"defaultMinimum,omitempty"`
+	Minimum        *float64 `json:"minimum,omitempty"`
+}
+
 // UsageAlertSettings defines model for UsageAlertSettings.
 type UsageAlertSettings struct {
 	Enabled     *bool                          `json:"enabled,omitempty"`
+	Minimums    *map[string]float64            `json:"minimums,omitempty"`
 	Sensitivity *UsageAlertSettingsSensitivity `json:"sensitivity,omitempty"`
 	UpdatedAt   *string                        `json:"updatedAt,omitempty"`
 	UpdatedBy   *string                        `json:"updatedBy,omitempty"`
@@ -17525,11 +17754,12 @@ type UsageAlertView_Finding struct {
 
 // UsageAlertsResponse defines model for UsageAlertsResponse.
 type UsageAlertsResponse struct {
-	Alerts      *[]UsageAlertView   `json:"alerts,omitempty"`
-	GeneratedAt *string             `json:"generatedAt,omitempty"`
-	Period      *string             `json:"period,omitempty"`
-	Preset      *SensitivityPreset  `json:"preset,omitempty"`
-	Settings    *UsageAlertSettings `json:"settings,omitempty"`
+	Alerts      *[]UsageAlertView     `json:"alerts,omitempty"`
+	Currencies  *[]UsageAlertCurrency `json:"currencies,omitempty"`
+	GeneratedAt *string               `json:"generatedAt,omitempty"`
+	Period      *string               `json:"period,omitempty"`
+	Preset      *SensitivityPreset    `json:"preset,omitempty"`
+	Settings    *UsageAlertSettings   `json:"settings,omitempty"`
 }
 
 // ValidateFeedInvoiceResult defines model for ValidateFeedInvoiceResult.

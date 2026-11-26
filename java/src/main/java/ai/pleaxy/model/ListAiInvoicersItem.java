@@ -46,6 +46,7 @@ import ai.pleaxy.client.ApiClient;
   ListAiInvoicersItem.JSON_PROPERTY_TIER,
   ListAiInvoicersItem.JSON_PROPERTY_SHAPE,
   ListAiInvoicersItem.JSON_PROPERTY_CREDENTIAL_CAN_CHANGE_BILLING,
+  ListAiInvoicersItem.JSON_PROPERTY_CREDENTIAL_HAS_ADMIN_RIGHTS,
   ListAiInvoicersItem.JSON_PROPERTY_CONTACT_HINT,
   ListAiInvoicersItem.JSON_PROPERTY_CONNECTABLE
 })
@@ -321,6 +322,10 @@ public class ListAiInvoicersItem {
   public static final String JSON_PROPERTY_CREDENTIAL_CAN_CHANGE_BILLING = "credentialCanChangeBilling";
   @javax.annotation.Nullable
   private Boolean credentialCanChangeBilling;
+
+  public static final String JSON_PROPERTY_CREDENTIAL_HAS_ADMIN_RIGHTS = "credentialHasAdminRights";
+  @javax.annotation.Nullable
+  private Boolean credentialHasAdminRights;
 
   public static final String JSON_PROPERTY_CONTACT_HINT = "contactHint";
   @javax.annotation.Nullable
@@ -605,6 +610,30 @@ public class ListAiInvoicersItem {
   }
 
 
+  public ListAiInvoicersItem credentialHasAdminRights(@javax.annotation.Nullable Boolean credentialHasAdminRights) {
+    this.credentialHasAdminRights = credentialHasAdminRights;
+    return this;
+  }
+
+  /**
+   * Get credentialHasAdminRights
+   * @return credentialHasAdminRights
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CREDENTIAL_HAS_ADMIN_RIGHTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getCredentialHasAdminRights() {
+    return credentialHasAdminRights;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREDENTIAL_HAS_ADMIN_RIGHTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCredentialHasAdminRights(@javax.annotation.Nullable Boolean credentialHasAdminRights) {
+    this.credentialHasAdminRights = credentialHasAdminRights;
+  }
+
+
   public ListAiInvoicersItem contactHint(@javax.annotation.Nullable String contactHint) {
     this.contactHint = contactHint;
     return this;
@@ -675,13 +704,14 @@ public class ListAiInvoicersItem {
         Objects.equals(this.tier, listAiInvoicersItem.tier) &&
         Objects.equals(this.shape, listAiInvoicersItem.shape) &&
         Objects.equals(this.credentialCanChangeBilling, listAiInvoicersItem.credentialCanChangeBilling) &&
+        Objects.equals(this.credentialHasAdminRights, listAiInvoicersItem.credentialHasAdminRights) &&
         Objects.equals(this.contactHint, listAiInvoicersItem.contactHint) &&
         Objects.equals(this.connectable, listAiInvoicersItem.connectable);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, legalEntities, billingCurrencies, billing, senderDomains, credential, tier, shape, credentialCanChangeBilling, contactHint, connectable);
+    return Objects.hash(id, name, legalEntities, billingCurrencies, billing, senderDomains, credential, tier, shape, credentialCanChangeBilling, credentialHasAdminRights, contactHint, connectable);
   }
 
   @Override
@@ -698,6 +728,7 @@ public class ListAiInvoicersItem {
     sb.append("    tier: ").append(toIndentedString(tier)).append("\n");
     sb.append("    shape: ").append(toIndentedString(shape)).append("\n");
     sb.append("    credentialCanChangeBilling: ").append(toIndentedString(credentialCanChangeBilling)).append("\n");
+    sb.append("    credentialHasAdminRights: ").append(toIndentedString(credentialHasAdminRights)).append("\n");
     sb.append("    contactHint: ").append(toIndentedString(contactHint)).append("\n");
     sb.append("    connectable: ").append(toIndentedString(connectable)).append("\n");
     sb.append("}");
@@ -812,6 +843,11 @@ public class ListAiInvoicersItem {
     // add `credentialCanChangeBilling` to the URL query string
     if (getCredentialCanChangeBilling() != null) {
       joiner.add(String.format("%scredentialCanChangeBilling%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCredentialCanChangeBilling()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `credentialHasAdminRights` to the URL query string
+    if (getCredentialHasAdminRights() != null) {
+      joiner.add(String.format("%scredentialHasAdminRights%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCredentialHasAdminRights()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `contactHint` to the URL query string

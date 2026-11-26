@@ -13,6 +13,12 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct UpdateOrgProfileInput {
+    /// Supplier profiles only (ignored for a buyer): what you sell, as Pleaxy category ids. The whole list each time; [] clears it. While you are listed in the directory, buyers that don't know you find you by these, and under the UN segments each category belongs to.
+    #[serde(rename = "sellsCategories", skip_serializing_if = "Option::is_none")]
+    pub sells_categories: Option<Vec<SellsCategories>>,
+    /// Supplier profiles only (ignored for a buyer): what you sell, as two-digit UN standard (UNSPSC) segment codes, e.g. 43. The whole list each time; [] clears it.
+    #[serde(rename = "sellsSegments", skip_serializing_if = "Option::is_none")]
+    pub sells_segments: Option<Vec<SellsSegments>>,
     #[serde(rename = "regionName", skip_serializing_if = "Option::is_none")]
     pub region_name: Option<String>,
     #[serde(rename = "companyName", skip_serializing_if = "Option::is_none")]
@@ -75,6 +81,8 @@ pub struct UpdateOrgProfileInput {
 impl UpdateOrgProfileInput {
     pub fn new() -> UpdateOrgProfileInput {
         UpdateOrgProfileInput {
+            sells_categories: None,
+            sells_segments: None,
             region_name: None,
             company_name: None,
             billing_email: None,
@@ -93,6 +101,190 @@ impl UpdateOrgProfileInput {
             geography_preset_id: None,
             e_invoicing: None,
         }
+    }
+}
+/// Supplier profiles only (ignored for a buyer): what you sell, as Pleaxy category ids. The whole list each time; [] clears it. While you are listed in the directory, buyers that don't know you find you by these, and under the UN segments each category belongs to.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum SellsCategories {
+    #[serde(rename = "cloud-ai")]
+    CloudAi,
+    #[serde(rename = "software")]
+    Software,
+    #[serde(rename = "it-hardware")]
+    ItHardware,
+    #[serde(rename = "it-services")]
+    ItServices,
+    #[serde(rename = "professional-services")]
+    ProfessionalServices,
+    #[serde(rename = "legal-finance")]
+    LegalFinance,
+    #[serde(rename = "marketing-creative")]
+    MarketingCreative,
+    #[serde(rename = "staffing")]
+    Staffing,
+    #[serde(rename = "training")]
+    Training,
+    #[serde(rename = "facilities")]
+    Facilities,
+    #[serde(rename = "construction")]
+    Construction,
+    #[serde(rename = "logistics")]
+    Logistics,
+    #[serde(rename = "travel-events")]
+    TravelEvents,
+    #[serde(rename = "office")]
+    Office,
+    #[serde(rename = "industrial")]
+    Industrial,
+    #[serde(rename = "electrical")]
+    Electrical,
+    #[serde(rename = "raw-materials")]
+    RawMaterials,
+    #[serde(rename = "packaging-print")]
+    PackagingPrint,
+    #[serde(rename = "food")]
+    Food,
+    #[serde(rename = "healthcare")]
+    Healthcare,
+    #[serde(rename = "safety-security")]
+    SafetySecurity,
+    #[serde(rename = "vehicles")]
+    Vehicles,
+    #[serde(rename = "utilities-energy")]
+    UtilitiesEnergy,
+    #[serde(rename = "agriculture")]
+    Agriculture,
+}
+
+impl Default for SellsCategories {
+    fn default() -> SellsCategories {
+        Self::CloudAi
+    }
+}
+/// Supplier profiles only (ignored for a buyer): what you sell, as two-digit UN standard (UNSPSC) segment codes, e.g. 43. The whole list each time; [] clears it.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum SellsSegments {
+    #[serde(rename = "10")]
+    Variant10,
+    #[serde(rename = "11")]
+    Variant11,
+    #[serde(rename = "12")]
+    Variant12,
+    #[serde(rename = "13")]
+    Variant13,
+    #[serde(rename = "14")]
+    Variant14,
+    #[serde(rename = "15")]
+    Variant15,
+    #[serde(rename = "20")]
+    Variant20,
+    #[serde(rename = "21")]
+    Variant21,
+    #[serde(rename = "22")]
+    Variant22,
+    #[serde(rename = "23")]
+    Variant23,
+    #[serde(rename = "24")]
+    Variant24,
+    #[serde(rename = "25")]
+    Variant25,
+    #[serde(rename = "26")]
+    Variant26,
+    #[serde(rename = "27")]
+    Variant27,
+    #[serde(rename = "30")]
+    Variant30,
+    #[serde(rename = "31")]
+    Variant31,
+    #[serde(rename = "32")]
+    Variant32,
+    #[serde(rename = "39")]
+    Variant39,
+    #[serde(rename = "40")]
+    Variant40,
+    #[serde(rename = "41")]
+    Variant41,
+    #[serde(rename = "42")]
+    Variant42,
+    #[serde(rename = "43")]
+    Variant43,
+    #[serde(rename = "44")]
+    Variant44,
+    #[serde(rename = "45")]
+    Variant45,
+    #[serde(rename = "46")]
+    Variant46,
+    #[serde(rename = "47")]
+    Variant47,
+    #[serde(rename = "48")]
+    Variant48,
+    #[serde(rename = "49")]
+    Variant49,
+    #[serde(rename = "50")]
+    Variant50,
+    #[serde(rename = "51")]
+    Variant51,
+    #[serde(rename = "52")]
+    Variant52,
+    #[serde(rename = "53")]
+    Variant53,
+    #[serde(rename = "54")]
+    Variant54,
+    #[serde(rename = "55")]
+    Variant55,
+    #[serde(rename = "56")]
+    Variant56,
+    #[serde(rename = "57")]
+    Variant57,
+    #[serde(rename = "60")]
+    Variant60,
+    #[serde(rename = "64")]
+    Variant64,
+    #[serde(rename = "70")]
+    Variant70,
+    #[serde(rename = "71")]
+    Variant71,
+    #[serde(rename = "72")]
+    Variant72,
+    #[serde(rename = "73")]
+    Variant73,
+    #[serde(rename = "76")]
+    Variant76,
+    #[serde(rename = "77")]
+    Variant77,
+    #[serde(rename = "78")]
+    Variant78,
+    #[serde(rename = "80")]
+    Variant80,
+    #[serde(rename = "81")]
+    Variant81,
+    #[serde(rename = "82")]
+    Variant82,
+    #[serde(rename = "83")]
+    Variant83,
+    #[serde(rename = "84")]
+    Variant84,
+    #[serde(rename = "85")]
+    Variant85,
+    #[serde(rename = "86")]
+    Variant86,
+    #[serde(rename = "90")]
+    Variant90,
+    #[serde(rename = "91")]
+    Variant91,
+    #[serde(rename = "92")]
+    Variant92,
+    #[serde(rename = "93")]
+    Variant93,
+    #[serde(rename = "94")]
+    Variant94,
+    #[serde(rename = "95")]
+    Variant95,
+}
+
+impl Default for SellsSegments {
+    fn default() -> SellsSegments {
+        Self::Variant10
     }
 }
 ///

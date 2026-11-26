@@ -31,6 +31,8 @@ pub struct EInvoiceSummary {
     pub container: Option<Container>,
     #[serde(rename = "embeddedFilename", skip_serializing_if = "Option::is_none")]
     pub embedded_filename: Option<String>,
+    #[serde(rename = "archive", skip_serializing_if = "Option::is_none")]
+    pub archive: Option<models::EInvoiceSummaryArchive>,
 }
 
 impl EInvoiceSummary {
@@ -45,6 +47,7 @@ impl EInvoiceSummary {
             findings_truncated: None,
             container: None,
             embedded_filename: None,
+            archive: None,
         }
     }
 }
@@ -57,6 +60,12 @@ pub enum Syntax {
     Cii,
     #[serde(rename = "fatturapa")]
     Fatturapa,
+    #[serde(rename = "facturae")]
+    Facturae,
+    #[serde(rename = "nfe")]
+    Nfe,
+    #[serde(rename = "nfse")]
+    Nfse,
 }
 
 impl Default for Syntax {
@@ -69,6 +78,12 @@ impl Default for Syntax {
 pub enum Profile {
     #[serde(rename = "fatturapa")]
     Fatturapa,
+    #[serde(rename = "facturae")]
+    Facturae,
+    #[serde(rename = "nfe")]
+    Nfe,
+    #[serde(rename = "nfse")]
+    Nfse,
     #[serde(rename = "other")]
     Other,
     #[serde(rename = "en16931")]

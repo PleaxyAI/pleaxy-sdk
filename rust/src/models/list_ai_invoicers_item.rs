@@ -36,6 +36,11 @@ pub struct ListAiInvoicersItem {
         skip_serializing_if = "Option::is_none"
     )]
     pub credential_can_change_billing: Option<bool>,
+    #[serde(
+        rename = "credentialHasAdminRights",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub credential_has_admin_rights: Option<bool>,
     #[serde(rename = "contactHint", skip_serializing_if = "Option::is_none")]
     pub contact_hint: Option<String>,
     #[serde(rename = "connectable", skip_serializing_if = "Option::is_none")]
@@ -55,6 +60,7 @@ impl ListAiInvoicersItem {
             tier: None,
             shape: None,
             credential_can_change_billing: None,
+            credential_has_admin_rights: None,
             contact_hint: None,
             connectable: None,
         }

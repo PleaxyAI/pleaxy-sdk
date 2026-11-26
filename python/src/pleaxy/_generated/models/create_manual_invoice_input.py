@@ -82,6 +82,9 @@ class CreateManualInvoiceInput:
             off-platform supplier (no Pleaxy account) it is the currency the invoice is in.
         remittance_instructions (Union[Unset, RemittanceInstructionsInput]):
         pdf_base_64 (Union[Unset, str]): Base64-encoded PDF of the invoice
+        issued_in_billing_software (Union[Unset, bool]): The supplier says it issued this document in its own billing
+            software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy
+            records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise).
     """
 
     invoice_number: str
@@ -109,6 +112,7 @@ class CreateManualInvoiceInput:
     currency: Union[Unset, str] = UNSET
     remittance_instructions: Union[Unset, "RemittanceInstructionsInput"] = UNSET
     pdf_base_64: Union[Unset, str] = UNSET
+    issued_in_billing_software: Union[Unset, bool] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -199,6 +203,8 @@ class CreateManualInvoiceInput:
 
         pdf_base_64 = self.pdf_base_64
 
+        issued_in_billing_software = self.issued_in_billing_software
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -252,6 +258,8 @@ class CreateManualInvoiceInput:
             field_dict["remittanceInstructions"] = remittance_instructions
         if pdf_base_64 is not UNSET:
             field_dict["pdfBase64"] = pdf_base_64
+        if issued_in_billing_software is not UNSET:
+            field_dict["issuedInBillingSoftware"] = issued_in_billing_software
 
         return field_dict
 
@@ -377,6 +385,8 @@ class CreateManualInvoiceInput:
 
         pdf_base_64 = d.pop("pdfBase64", UNSET)
 
+        issued_in_billing_software = d.pop("issuedInBillingSoftware", UNSET)
+
         create_manual_invoice_input = cls(
             invoice_number=invoice_number,
             invoice_date=invoice_date,
@@ -403,6 +413,7 @@ class CreateManualInvoiceInput:
             currency=currency,
             remittance_instructions=remittance_instructions,
             pdf_base_64=pdf_base_64,
+            issued_in_billing_software=issued_in_billing_software,
         )
 
         create_manual_invoice_input.additional_properties = d

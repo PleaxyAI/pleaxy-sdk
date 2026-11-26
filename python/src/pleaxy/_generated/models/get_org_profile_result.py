@@ -59,6 +59,8 @@ class GetOrgProfileResult:
         verified (Union[Unset, bool]):
         listed_in_directory (Union[Unset, bool]):
         directory_id (Union[Unset, str]):
+        sells_categories (Union[Unset, List[str]]):
+        sells_segments (Union[Unset, List[str]]):
         setup_goal (Union[Unset, GetOrgProfileResultSetupGoal]):
         e_invoicing (Union[Unset, EInvoicingProfileSettings]):
     """
@@ -90,6 +92,8 @@ class GetOrgProfileResult:
     verified: Union[Unset, bool] = UNSET
     listed_in_directory: Union[Unset, bool] = UNSET
     directory_id: Union[Unset, str] = UNSET
+    sells_categories: Union[Unset, List[str]] = UNSET
+    sells_segments: Union[Unset, List[str]] = UNSET
     setup_goal: Union[Unset, GetOrgProfileResultSetupGoal] = UNSET
     e_invoicing: Union[Unset, "EInvoicingProfileSettings"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -167,6 +171,14 @@ class GetOrgProfileResult:
 
         directory_id = self.directory_id
 
+        sells_categories: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.sells_categories, Unset):
+            sells_categories = self.sells_categories
+
+        sells_segments: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.sells_segments, Unset):
+            sells_segments = self.sells_segments
+
         setup_goal: Union[Unset, str] = UNSET
         if not isinstance(self.setup_goal, Unset):
             setup_goal = self.setup_goal
@@ -234,6 +246,10 @@ class GetOrgProfileResult:
             field_dict["listedInDirectory"] = listed_in_directory
         if directory_id is not UNSET:
             field_dict["directoryId"] = directory_id
+        if sells_categories is not UNSET:
+            field_dict["sellsCategories"] = sells_categories
+        if sells_segments is not UNSET:
+            field_dict["sellsSegments"] = sells_segments
         if setup_goal is not UNSET:
             field_dict["setupGoal"] = setup_goal
         if e_invoicing is not UNSET:
@@ -336,6 +352,10 @@ class GetOrgProfileResult:
 
         directory_id = d.pop("directoryId", UNSET)
 
+        sells_categories = cast(List[str], d.pop("sellsCategories", UNSET))
+
+        sells_segments = cast(List[str], d.pop("sellsSegments", UNSET))
+
         _setup_goal = d.pop("setupGoal", UNSET)
         setup_goal: Union[Unset, GetOrgProfileResultSetupGoal]
         if isinstance(_setup_goal, Unset):
@@ -378,6 +398,8 @@ class GetOrgProfileResult:
             verified=verified,
             listed_in_directory=listed_in_directory,
             directory_id=directory_id,
+            sells_categories=sells_categories,
+            sells_segments=sells_segments,
             setup_goal=setup_goal,
             e_invoicing=e_invoicing,
         )

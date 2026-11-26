@@ -19,6 +19,8 @@ module Pleaxy
 
     attr_accessor :sensitivity
 
+    attr_accessor :minimums
+
     attr_accessor :updated_at
 
     attr_accessor :updated_by
@@ -50,6 +52,7 @@ module Pleaxy
       {
         :'enabled' => :'enabled',
         :'sensitivity' => :'sensitivity',
+        :'minimums' => :'minimums',
         :'updated_at' => :'updatedAt',
         :'updated_by' => :'updatedBy'
       }
@@ -65,6 +68,7 @@ module Pleaxy
       {
         :'enabled' => :'Boolean',
         :'sensitivity' => :'String',
+        :'minimums' => :'Hash<String, Float>',
         :'updated_at' => :'String',
         :'updated_by' => :'String'
       }
@@ -97,6 +101,12 @@ module Pleaxy
 
       if attributes.key?(:'sensitivity')
         self.sensitivity = attributes[:'sensitivity']
+      end
+
+      if attributes.key?(:'minimums')
+        if (value = attributes[:'minimums']).is_a?(Hash)
+          self.minimums = value
+        end
       end
 
       if attributes.key?(:'updated_at')
@@ -142,6 +152,7 @@ module Pleaxy
       self.class == o.class &&
           enabled == o.enabled &&
           sensitivity == o.sensitivity &&
+          minimums == o.minimums &&
           updated_at == o.updated_at &&
           updated_by == o.updated_by
     end
@@ -155,7 +166,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [enabled, sensitivity, updated_at, updated_by].hash
+      [enabled, sensitivity, minimums, updated_at, updated_by].hash
     end
 
     # Builds the object from hash

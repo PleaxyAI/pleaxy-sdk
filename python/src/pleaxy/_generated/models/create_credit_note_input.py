@@ -42,6 +42,9 @@ class CreateCreditNoteInput:
         tax_amount (Union[Unset, float]): The tax credited, included in the credit note's total.
         tax_breakdown (Union[Unset, List['BreakdownEntryInput']]): Tax by type, summing to taxAmount. At most 20.
         pdf_base_64 (Union[Unset, str]): Base64-encoded PDF of the credit note as issued, kept with it. Up to 8 MB.
+        issued_in_billing_software (Union[Unset, bool]): The supplier says it issued this document in its own billing
+            software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy
+            records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise).
         source_import_id (Union[Unset, str]): Buyer only: the invoice import (POST .../invoice-imports) this credit note
             was recorded from - the supplier's credit note document Pleaxy read. Its document is kept with the credit note
             when it is a PDF under 8 MB, and the import records the credit note.
@@ -59,6 +62,7 @@ class CreateCreditNoteInput:
     tax_amount: Union[Unset, float] = UNSET
     tax_breakdown: Union[Unset, List["BreakdownEntryInput"]] = UNSET
     pdf_base_64: Union[Unset, str] = UNSET
+    issued_in_billing_software: Union[Unset, bool] = UNSET
     source_import_id: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -95,6 +99,8 @@ class CreateCreditNoteInput:
 
         pdf_base_64 = self.pdf_base_64
 
+        issued_in_billing_software = self.issued_in_billing_software
+
         source_import_id = self.source_import_id
 
         field_dict: Dict[str, Any] = {}
@@ -123,6 +129,8 @@ class CreateCreditNoteInput:
             field_dict["taxBreakdown"] = tax_breakdown
         if pdf_base_64 is not UNSET:
             field_dict["pdfBase64"] = pdf_base_64
+        if issued_in_billing_software is not UNSET:
+            field_dict["issuedInBillingSoftware"] = issued_in_billing_software
         if source_import_id is not UNSET:
             field_dict["sourceImportId"] = source_import_id
 
@@ -172,6 +180,8 @@ class CreateCreditNoteInput:
 
         pdf_base_64 = d.pop("pdfBase64", UNSET)
 
+        issued_in_billing_software = d.pop("issuedInBillingSoftware", UNSET)
+
         source_import_id = d.pop("sourceImportId", UNSET)
 
         create_credit_note_input = cls(
@@ -187,6 +197,7 @@ class CreateCreditNoteInput:
             tax_amount=tax_amount,
             tax_breakdown=tax_breakdown,
             pdf_base_64=pdf_base_64,
+            issued_in_billing_software=issued_in_billing_software,
             source_import_id=source_import_id,
         )
 

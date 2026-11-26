@@ -65,7 +65,8 @@ import ai.pleaxy.client.ApiClient;
   CreateManualInvoiceInput.JSON_PROPERTY_TAX_CURRENCY_AMOUNT,
   CreateManualInvoiceInput.JSON_PROPERTY_CURRENCY,
   CreateManualInvoiceInput.JSON_PROPERTY_REMITTANCE_INSTRUCTIONS,
-  CreateManualInvoiceInput.JSON_PROPERTY_PDF_BASE64
+  CreateManualInvoiceInput.JSON_PROPERTY_PDF_BASE64,
+  CreateManualInvoiceInput.JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class CreateManualInvoiceInput {
@@ -236,6 +237,10 @@ public class CreateManualInvoiceInput {
   public static final String JSON_PROPERTY_PDF_BASE64 = "pdfBase64";
   @javax.annotation.Nullable
   private String pdfBase64;
+
+  public static final String JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE = "issuedInBillingSoftware";
+  @javax.annotation.Nullable
+  private Boolean issuedInBillingSoftware;
 
   public CreateManualInvoiceInput() { 
   }
@@ -902,6 +907,30 @@ public class CreateManualInvoiceInput {
   }
 
 
+  public CreateManualInvoiceInput issuedInBillingSoftware(@javax.annotation.Nullable Boolean issuedInBillingSoftware) {
+    this.issuedInBillingSoftware = issuedInBillingSoftware;
+    return this;
+  }
+
+  /**
+   * The supplier says it issued this document in its own billing software, and attaches that software&#39;s PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy records its invoices, it doesn&#39;t issue them (400 VERI_FACTU_RECORD_ONLY otherwise).
+   * @return issuedInBillingSoftware
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Boolean getIssuedInBillingSoftware() {
+    return issuedInBillingSoftware;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ISSUED_IN_BILLING_SOFTWARE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setIssuedInBillingSoftware(@javax.annotation.Nullable Boolean issuedInBillingSoftware) {
+    this.issuedInBillingSoftware = issuedInBillingSoftware;
+  }
+
+
   /**
    * Return true if this CreateManualInvoiceInput object is equal to o.
    */
@@ -938,12 +967,13 @@ public class CreateManualInvoiceInput {
         Objects.equals(this.taxCurrencyAmount, createManualInvoiceInput.taxCurrencyAmount) &&
         Objects.equals(this.currency, createManualInvoiceInput.currency) &&
         Objects.equals(this.remittanceInstructions, createManualInvoiceInput.remittanceInstructions) &&
-        Objects.equals(this.pdfBase64, createManualInvoiceInput.pdfBase64);
+        Objects.equals(this.pdfBase64, createManualInvoiceInput.pdfBase64) &&
+        Objects.equals(this.issuedInBillingSoftware, createManualInvoiceInput.issuedInBillingSoftware);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(connectionId, documentType, amendsInvoiceId, amendsInvoiceNumber, replacesInvoiceIds, replacesInvoiceNumbers, poId, invoiceNumber, invoiceDate, dueInDays, lineItems, poLineNo, billsNoPoLine, adjustments, sourceImportId, taxAmount, taxBreakdown, withholdings, invoiceKind, deductions, paymentCurrencyAmount, taxCurrencyAmount, currency, remittanceInstructions, pdfBase64);
+    return Objects.hash(connectionId, documentType, amendsInvoiceId, amendsInvoiceNumber, replacesInvoiceIds, replacesInvoiceNumbers, poId, invoiceNumber, invoiceDate, dueInDays, lineItems, poLineNo, billsNoPoLine, adjustments, sourceImportId, taxAmount, taxBreakdown, withholdings, invoiceKind, deductions, paymentCurrencyAmount, taxCurrencyAmount, currency, remittanceInstructions, pdfBase64, issuedInBillingSoftware);
   }
 
   @Override
@@ -975,6 +1005,7 @@ public class CreateManualInvoiceInput {
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    remittanceInstructions: ").append(toIndentedString(remittanceInstructions)).append("\n");
     sb.append("    pdfBase64: ").append(toIndentedString(pdfBase64)).append("\n");
+    sb.append("    issuedInBillingSoftware: ").append(toIndentedString(issuedInBillingSoftware)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -1178,6 +1209,11 @@ public class CreateManualInvoiceInput {
     // add `pdfBase64` to the URL query string
     if (getPdfBase64() != null) {
       joiner.add(String.format("%spdfBase64%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPdfBase64()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `issuedInBillingSoftware` to the URL query string
+    if (getIssuedInBillingSoftware() != null) {
+      joiner.add(String.format("%sissuedInBillingSoftware%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getIssuedInBillingSoftware()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

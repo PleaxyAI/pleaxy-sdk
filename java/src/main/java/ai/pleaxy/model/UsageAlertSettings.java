@@ -25,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -35,6 +37,7 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   UsageAlertSettings.JSON_PROPERTY_ENABLED,
   UsageAlertSettings.JSON_PROPERTY_SENSITIVITY,
+  UsageAlertSettings.JSON_PROPERTY_MINIMUMS,
   UsageAlertSettings.JSON_PROPERTY_UPDATED_AT,
   UsageAlertSettings.JSON_PROPERTY_UPDATED_BY
 })
@@ -84,6 +87,10 @@ public class UsageAlertSettings {
   public static final String JSON_PROPERTY_SENSITIVITY = "sensitivity";
   @javax.annotation.Nullable
   private SensitivityEnum sensitivity;
+
+  public static final String JSON_PROPERTY_MINIMUMS = "minimums";
+  @javax.annotation.Nullable
+  private Map<String, Double> minimums = new HashMap<>();
 
   public static final String JSON_PROPERTY_UPDATED_AT = "updatedAt";
   @javax.annotation.Nullable
@@ -141,6 +148,38 @@ public class UsageAlertSettings {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSensitivity(@javax.annotation.Nullable SensitivityEnum sensitivity) {
     this.sensitivity = sensitivity;
+  }
+
+
+  public UsageAlertSettings minimums(@javax.annotation.Nullable Map<String, Double> minimums) {
+    this.minimums = minimums;
+    return this;
+  }
+
+  public UsageAlertSettings putMinimumsItem(String key, Double minimumsItem) {
+    if (this.minimums == null) {
+      this.minimums = new HashMap<>();
+    }
+    this.minimums.put(key, minimumsItem);
+    return this;
+  }
+
+  /**
+   * Get minimums
+   * @return minimums
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MINIMUMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Map<String, Double> getMinimums() {
+    return minimums;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MINIMUMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMinimums(@javax.annotation.Nullable Map<String, Double> minimums) {
+    this.minimums = minimums;
   }
 
 
@@ -206,13 +245,14 @@ public class UsageAlertSettings {
     UsageAlertSettings usageAlertSettings = (UsageAlertSettings) o;
     return Objects.equals(this.enabled, usageAlertSettings.enabled) &&
         Objects.equals(this.sensitivity, usageAlertSettings.sensitivity) &&
+        Objects.equals(this.minimums, usageAlertSettings.minimums) &&
         Objects.equals(this.updatedAt, usageAlertSettings.updatedAt) &&
         Objects.equals(this.updatedBy, usageAlertSettings.updatedBy);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(enabled, sensitivity, updatedAt, updatedBy);
+    return Objects.hash(enabled, sensitivity, minimums, updatedAt, updatedBy);
   }
 
   @Override
@@ -221,6 +261,7 @@ public class UsageAlertSettings {
     sb.append("class UsageAlertSettings {\n");
     sb.append("    enabled: ").append(toIndentedString(enabled)).append("\n");
     sb.append("    sensitivity: ").append(toIndentedString(sensitivity)).append("\n");
+    sb.append("    minimums: ").append(toIndentedString(minimums)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    updatedBy: ").append(toIndentedString(updatedBy)).append("\n");
     sb.append("}");
@@ -278,6 +319,15 @@ public class UsageAlertSettings {
     // add `sensitivity` to the URL query string
     if (getSensitivity() != null) {
       joiner.add(String.format("%ssensitivity%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSensitivity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `minimums` to the URL query string
+    if (getMinimums() != null) {
+      for (String _key : getMinimums().keySet()) {
+        joiner.add(String.format("%sminimums%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+            getMinimums().get(_key), URLEncoder.encode(ApiClient.valueToString(getMinimums().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
     }
 
     // add `updatedAt` to the URL query string

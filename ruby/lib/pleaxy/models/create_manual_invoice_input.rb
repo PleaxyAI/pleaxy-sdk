@@ -89,6 +89,9 @@ module Pleaxy
     # Base64-encoded PDF of the invoice
     attr_accessor :pdf_base64
 
+    # The supplier says it issued this document in its own billing software, and attaches that software's PDF. Required of a supplier in Spain from 2027-01-01 (Veri*factu): Pleaxy records its invoices, it doesn't issue them (400 VERI_FACTU_RECORD_ONLY otherwise).
+    attr_accessor :issued_in_billing_software
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -138,7 +141,8 @@ module Pleaxy
         :'tax_currency_amount' => :'taxCurrencyAmount',
         :'currency' => :'currency',
         :'remittance_instructions' => :'remittanceInstructions',
-        :'pdf_base64' => :'pdfBase64'
+        :'pdf_base64' => :'pdfBase64',
+        :'issued_in_billing_software' => :'issuedInBillingSoftware'
       }
     end
 
@@ -174,7 +178,8 @@ module Pleaxy
         :'tax_currency_amount' => :'CurrencyAmountInput',
         :'currency' => :'String',
         :'remittance_instructions' => :'RemittanceInstructionsInput',
-        :'pdf_base64' => :'String'
+        :'pdf_base64' => :'String',
+        :'issued_in_billing_software' => :'Boolean'
       }
     end
 
@@ -317,6 +322,10 @@ module Pleaxy
 
       if attributes.key?(:'pdf_base64')
         self.pdf_base64 = attributes[:'pdf_base64']
+      end
+
+      if attributes.key?(:'issued_in_billing_software')
+        self.issued_in_billing_software = attributes[:'issued_in_billing_software']
       end
     end
 
@@ -669,7 +678,8 @@ module Pleaxy
           tax_currency_amount == o.tax_currency_amount &&
           currency == o.currency &&
           remittance_instructions == o.remittance_instructions &&
-          pdf_base64 == o.pdf_base64
+          pdf_base64 == o.pdf_base64 &&
+          issued_in_billing_software == o.issued_in_billing_software
     end
 
     # @see the `==` method
@@ -681,7 +691,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [connection_id, document_type, amends_invoice_id, amends_invoice_number, replaces_invoice_ids, replaces_invoice_numbers, po_id, invoice_number, invoice_date, due_in_days, line_items, po_line_no, bills_no_po_line, adjustments, source_import_id, tax_amount, tax_breakdown, withholdings, invoice_kind, deductions, payment_currency_amount, tax_currency_amount, currency, remittance_instructions, pdf_base64].hash
+      [connection_id, document_type, amends_invoice_id, amends_invoice_number, replaces_invoice_ids, replaces_invoice_numbers, po_id, invoice_number, invoice_date, due_in_days, line_items, po_line_no, bills_no_po_line, adjustments, source_import_id, tax_amount, tax_breakdown, withholdings, invoice_kind, deductions, payment_currency_amount, tax_currency_amount, currency, remittance_instructions, pdf_base64, issued_in_billing_software].hash
     end
 
     # Builds the object from hash
