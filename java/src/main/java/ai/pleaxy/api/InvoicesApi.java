@@ -25,6 +25,7 @@ import ai.pleaxy.model.CreateInvoiceResult;
 import ai.pleaxy.model.CreateManualInvoiceInput;
 import java.io.File;
 import ai.pleaxy.model.GetInvoiceBankAccountResult;
+import ai.pleaxy.model.GetInvoiceReconciliationResult;
 import ai.pleaxy.model.GetInvoiceResult;
 import ai.pleaxy.model.GetRemittanceFileResult;
 import ai.pleaxy.model.InvoiceBuyerView;
@@ -586,6 +587,79 @@ public class InvoicesApi {
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * [Buyer] An invoice&#39;s match result as the UCP vendor capability ai.pleaxy.procurement.reconciliation returns it (https://pleaxy.ai/docs/mcp#ucp): the order, contract and usage records it was checked against, each check group&#39;s result, every failure by check name with Pleaxy&#39;s code and figures, and the first failure in a fixed order. Read-only: it changes nothing. Codes and figures only, no plain-language text. Pleaxy stores failures, not passes, so a group says no_failures_recorded where its check runs only when its data is there.
+   * 
+   * @param invoiceId  (required)
+   * @return GetInvoiceReconciliationResult
+   * @throws ApiException if fails to make API call
+   */
+  public GetInvoiceReconciliationResult getInvoiceReconciliation(String invoiceId) throws ApiException {
+    ApiResponse<GetInvoiceReconciliationResult> localVarResponse = getInvoiceReconciliationWithHttpInfo(invoiceId);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] An invoice&#39;s match result as the UCP vendor capability ai.pleaxy.procurement.reconciliation returns it (https://pleaxy.ai/docs/mcp#ucp): the order, contract and usage records it was checked against, each check group&#39;s result, every failure by check name with Pleaxy&#39;s code and figures, and the first failure in a fixed order. Read-only: it changes nothing. Codes and figures only, no plain-language text. Pleaxy stores failures, not passes, so a group says no_failures_recorded where its check runs only when its data is there.
+   * 
+   * @param invoiceId  (required)
+   * @return ApiResponse&lt;GetInvoiceReconciliationResult&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<GetInvoiceReconciliationResult> getInvoiceReconciliationWithHttpInfo(String invoiceId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getInvoiceReconciliationRequestBuilder(invoiceId);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("getInvoiceReconciliation", localVarResponse);
+        }
+        return new ApiResponse<GetInvoiceReconciliationResult>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<GetInvoiceReconciliationResult>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder getInvoiceReconciliationRequestBuilder(String invoiceId) throws ApiException {
+    // verify the required parameter 'invoiceId' is set
+    if (invoiceId == null) {
+      throw new ApiException(400, "Missing the required parameter 'invoiceId' when calling getInvoiceReconciliation");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/invoices/{invoiceId}/reconciliation"
+        .replace("{invoiceId}", ApiClient.urlEncode(invoiceId.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/json");
 

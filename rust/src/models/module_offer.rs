@@ -57,12 +57,12 @@ pub enum Item {
     Payment,
     #[serde(rename = "source")]
     Source,
-    #[serde(rename = "request")]
-    Request,
     #[serde(rename = "order")]
     Order,
     #[serde(rename = "receipt")]
     Receipt,
+    #[serde(rename = "request")]
+    Request,
     #[serde(rename = "aiSpend")]
     AiSpend,
     #[serde(rename = "procureToPay")]
@@ -105,12 +105,12 @@ pub enum Modules {
     Suppliers,
     #[serde(rename = "payment")]
     Payment,
-    #[serde(rename = "request")]
-    Request,
     #[serde(rename = "order")]
     Order,
     #[serde(rename = "receipt")]
     Receipt,
+    #[serde(rename = "request")]
+    Request,
     #[serde(rename = "aiSpend")]
     AiSpend,
 }

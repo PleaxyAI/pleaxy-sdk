@@ -1630,6 +1630,16 @@ impl<'a> Invoices<'a> {
         crate::apis::invoices_api::get_invoice_bank_account(&self.0.config, invoice_id, buyer).await
     }
 
+    pub async fn get_invoice_reconciliation(
+        &self,
+        invoice_id: &str,
+    ) -> Result<
+        crate::models::GetInvoiceReconciliationResult,
+        crate::apis::Error<crate::apis::invoices_api::GetInvoiceReconciliationError>,
+    > {
+        crate::apis::invoices_api::get_invoice_reconciliation(&self.0.config, invoice_id).await
+    }
+
     pub async fn get_payment_export(
         &self,
         export_id: &str,

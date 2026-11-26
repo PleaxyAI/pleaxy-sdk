@@ -5263,6 +5263,89 @@ const (
 	ReceiptReturnWantReplacement ReceiptReturnWant = "replacement"
 )
 
+// Defines values for ReconciliationFailureCheck.
+const (
+	ReconciliationFailureCheckAgreementActive        ReconciliationFailureCheck = "agreement_active"
+	ReconciliationFailureCheckAgreementCap           ReconciliationFailureCheck = "agreement_cap"
+	ReconciliationFailureCheckAgreementDiscount      ReconciliationFailureCheck = "agreement_discount"
+	ReconciliationFailureCheckAgreementRate          ReconciliationFailureCheck = "agreement_rate"
+	ReconciliationFailureCheckCommitmentShortfall    ReconciliationFailureCheck = "commitment_shortfall"
+	ReconciliationFailureCheckMilestoneAlreadyBilled ReconciliationFailureCheck = "milestone_already_billed"
+	ReconciliationFailureCheckMilestoneAmount        ReconciliationFailureCheck = "milestone_amount"
+	ReconciliationFailureCheckMilestoneConfirmed     ReconciliationFailureCheck = "milestone_confirmed"
+	ReconciliationFailureCheckMilestoneExists        ReconciliationFailureCheck = "milestone_exists"
+	ReconciliationFailureCheckOrderAmount            ReconciliationFailureCheck = "order_amount"
+	ReconciliationFailureCheckOrderLineExists        ReconciliationFailureCheck = "order_line_exists"
+	ReconciliationFailureCheckOrderPrice             ReconciliationFailureCheck = "order_price"
+	ReconciliationFailureCheckOrderQuantity          ReconciliationFailureCheck = "order_quantity"
+	ReconciliationFailureCheckReceiptAmount          ReconciliationFailureCheck = "receipt_amount"
+	ReconciliationFailureCheckReceiptExists          ReconciliationFailureCheck = "receipt_exists"
+	ReconciliationFailureCheckReceiptQuantity        ReconciliationFailureCheck = "receipt_quantity"
+	ReconciliationFailureCheckUsageCurrency          ReconciliationFailureCheck = "usage_currency"
+	ReconciliationFailureCheckUsageMatch             ReconciliationFailureCheck = "usage_match"
+)
+
+// Defines values for ReconciliationResultCheckedGroup.
+const (
+	ReconciliationResultCheckedGroupAgreement ReconciliationResultCheckedGroup = "agreement"
+	ReconciliationResultCheckedGroupOrder     ReconciliationResultCheckedGroup = "order"
+	ReconciliationResultCheckedGroupReceipt   ReconciliationResultCheckedGroup = "receipt"
+	ReconciliationResultCheckedGroupUsage     ReconciliationResultCheckedGroup = "usage"
+)
+
+// Defines values for ReconciliationResultCheckedResult.
+const (
+	ReconciliationResultCheckedResultFail               ReconciliationResultCheckedResult = "fail"
+	ReconciliationResultCheckedResultNoFailuresRecorded ReconciliationResultCheckedResult = "no_failures_recorded"
+	ReconciliationResultCheckedResultNotChecked         ReconciliationResultCheckedResult = "not_checked"
+	ReconciliationResultCheckedResultPass               ReconciliationResultCheckedResult = "pass"
+	ReconciliationResultCheckedResultPending            ReconciliationResultCheckedResult = "pending"
+	ReconciliationResultCheckedResultSkipped            ReconciliationResultCheckedResult = "skipped"
+)
+
+// Defines values for ReconciliationResultMatchType.
+const (
+	ReconciliationResultMatchTypeThreeWay ReconciliationResultMatchType = "three_way"
+	ReconciliationResultMatchTypeTwoWay   ReconciliationResultMatchType = "two_way"
+	ReconciliationResultMatchTypeUsage    ReconciliationResultMatchType = "usage"
+)
+
+// Defines values for ReconciliationResultPrimaryFailure.
+const (
+	ReconciliationResultPrimaryFailureAgreementActive        ReconciliationResultPrimaryFailure = "agreement_active"
+	ReconciliationResultPrimaryFailureAgreementCap           ReconciliationResultPrimaryFailure = "agreement_cap"
+	ReconciliationResultPrimaryFailureAgreementDiscount      ReconciliationResultPrimaryFailure = "agreement_discount"
+	ReconciliationResultPrimaryFailureAgreementRate          ReconciliationResultPrimaryFailure = "agreement_rate"
+	ReconciliationResultPrimaryFailureCommitmentShortfall    ReconciliationResultPrimaryFailure = "commitment_shortfall"
+	ReconciliationResultPrimaryFailureMilestoneAlreadyBilled ReconciliationResultPrimaryFailure = "milestone_already_billed"
+	ReconciliationResultPrimaryFailureMilestoneAmount        ReconciliationResultPrimaryFailure = "milestone_amount"
+	ReconciliationResultPrimaryFailureMilestoneConfirmed     ReconciliationResultPrimaryFailure = "milestone_confirmed"
+	ReconciliationResultPrimaryFailureMilestoneExists        ReconciliationResultPrimaryFailure = "milestone_exists"
+	ReconciliationResultPrimaryFailureOrderAmount            ReconciliationResultPrimaryFailure = "order_amount"
+	ReconciliationResultPrimaryFailureOrderLineExists        ReconciliationResultPrimaryFailure = "order_line_exists"
+	ReconciliationResultPrimaryFailureOrderPrice             ReconciliationResultPrimaryFailure = "order_price"
+	ReconciliationResultPrimaryFailureOrderQuantity          ReconciliationResultPrimaryFailure = "order_quantity"
+	ReconciliationResultPrimaryFailureReceiptAmount          ReconciliationResultPrimaryFailure = "receipt_amount"
+	ReconciliationResultPrimaryFailureReceiptExists          ReconciliationResultPrimaryFailure = "receipt_exists"
+	ReconciliationResultPrimaryFailureReceiptQuantity        ReconciliationResultPrimaryFailure = "receipt_quantity"
+	ReconciliationResultPrimaryFailureUsageCurrency          ReconciliationResultPrimaryFailure = "usage_currency"
+	ReconciliationResultPrimaryFailureUsageMatch             ReconciliationResultPrimaryFailure = "usage_match"
+)
+
+// Defines values for ReconciliationResultRecordsUsageSource.
+const (
+	ProviderInvoice ReconciliationResultRecordsUsageSource = "provider_invoice"
+	ProviderReport  ReconciliationResultRecordsUsageSource = "provider_report"
+)
+
+// Defines values for ReconciliationResultStatus.
+const (
+	ReconciliationResultStatusDisputed   ReconciliationResultStatus = "disputed"
+	ReconciliationResultStatusMatched    ReconciliationResultStatus = "matched"
+	ReconciliationResultStatusPending    ReconciliationResultStatus = "pending"
+	ReconciliationResultStatusUnverified ReconciliationResultStatus = "unverified"
+)
+
 // Defines values for RecordPaymentInputMethod.
 const (
 	RecordPaymentInputMethodAch   RecordPaymentInputMethod = "ach"
@@ -11493,6 +11576,19 @@ type GetInvoiceBankAccountResult struct {
 // GetInvoiceBankAccountResultHold defines model for GetInvoiceBankAccountResult.Hold.
 type GetInvoiceBankAccountResultHold string
 
+// GetInvoiceReconciliationResult defines model for GetInvoiceReconciliationResult.
+type GetInvoiceReconciliationResult struct {
+	Reconciliation *ReconciliationResult `json:"reconciliation,omitempty"`
+	Ucp            *struct {
+		Capabilities *struct {
+			AiPleaxyProcurementReconciliation *[]struct {
+				Version *string `json:"version,omitempty"`
+			} `json:"ai.pleaxy.procurement.reconciliation,omitempty"`
+		} `json:"capabilities,omitempty"`
+		Version *string `json:"version,omitempty"`
+	} `json:"ucp,omitempty"`
+}
+
 // GetInvoiceResult defines model for GetInvoiceResult.
 type GetInvoiceResult struct {
 	union json.RawMessage
@@ -15216,6 +15312,89 @@ type ReceiptReturn struct {
 
 // ReceiptReturnWant defines model for ReceiptReturn.Want.
 type ReceiptReturnWant string
+
+// ReconciliationFailure defines model for ReconciliationFailure.
+type ReconciliationFailure struct {
+	AgreementId      *string                     `json:"agreement_id,omitempty"`
+	AgreementVersion *float64                    `json:"agreement_version,omitempty"`
+	Allowed          *string                     `json:"allowed,omitempty"`
+	Billed           *string                     `json:"billed,omitempty"`
+	Check            *ReconciliationFailureCheck `json:"check,omitempty"`
+	Code             *string                     `json:"code,omitempty"`
+	InvoiceLine      *float64                    `json:"invoice_line,omitempty"`
+	OrderLine        *float64                    `json:"order_line,omitempty"`
+}
+
+// ReconciliationFailureCheck defines model for ReconciliationFailure.Check.
+type ReconciliationFailureCheck string
+
+// ReconciliationResult defines model for ReconciliationResult.
+type ReconciliationResult struct {
+	Amount         *string `json:"amount,omitempty"`
+	ApprovalStatus *string `json:"approval_status,omitempty"`
+	Checked        *[]struct {
+		Group  *ReconciliationResultCheckedGroup  `json:"group,omitempty"`
+		Result *ReconciliationResultCheckedResult `json:"result,omitempty"`
+	} `json:"checked,omitempty"`
+	Currency *string                  `json:"currency,omitempty"`
+	Failures *[]ReconciliationFailure `json:"failures,omitempty"`
+	Insights *[]struct {
+		Code        *string  `json:"code,omitempty"`
+		InvoiceLine *float64 `json:"invoice_line,omitempty"`
+		OrderLine   *float64 `json:"order_line,omitempty"`
+	} `json:"insights,omitempty"`
+	InvoiceId      *string                             `json:"invoice_id,omitempty"`
+	MatchType      *ReconciliationResultMatchType      `json:"match_type,omitempty"`
+	Paid           *bool                               `json:"paid,omitempty"`
+	PrimaryFailure *ReconciliationResultPrimaryFailure `json:"primary_failure,omitempty"`
+	Records        *struct {
+		Order *struct {
+			Id   string   `json:"id"`
+			Line *float64 `json:"line,omitempty"`
+		} `json:"order,omitempty"`
+		PriceAgreement *struct {
+			Id       string     `json:"id"`
+			Versions *[]float64 `json:"versions,omitempty"`
+		} `json:"price_agreement,omitempty"`
+		Usage *struct {
+			Amount   *string `json:"amount,omitempty"`
+			Currency *string `json:"currency,omitempty"`
+			Periods  *[]struct {
+				InvoiceLine *float64 `json:"invoice_line,omitempty"`
+				Period      *string  `json:"period,omitempty"`
+			} `json:"periods,omitempty"`
+			Source *ReconciliationResultRecordsUsageSource `json:"source,omitempty"`
+		} `json:"usage,omitempty"`
+	} `json:"records,omitempty"`
+	ResolvedByPerson *bool                       `json:"resolved_by_person,omitempty"`
+	Status           *ReconciliationResultStatus `json:"status,omitempty"`
+	Tolerance        *struct {
+		Percent *float64 `json:"percent,omitempty"`
+		Receipt *struct {
+			MaxAmount *string  `json:"max_amount,omitempty"`
+			Percent   *float64 `json:"percent,omitempty"`
+		} `json:"receipt,omitempty"`
+	} `json:"tolerance,omitempty"`
+	UnverifiedReason *string `json:"unverified_reason,omitempty"`
+}
+
+// ReconciliationResultCheckedGroup defines model for ReconciliationResult.Checked.Group.
+type ReconciliationResultCheckedGroup string
+
+// ReconciliationResultCheckedResult defines model for ReconciliationResult.Checked.Result.
+type ReconciliationResultCheckedResult string
+
+// ReconciliationResultMatchType defines model for ReconciliationResult.MatchType.
+type ReconciliationResultMatchType string
+
+// ReconciliationResultPrimaryFailure defines model for ReconciliationResult.PrimaryFailure.
+type ReconciliationResultPrimaryFailure string
+
+// ReconciliationResultRecordsUsageSource defines model for ReconciliationResult.Records.Usage.Source.
+type ReconciliationResultRecordsUsageSource string
+
+// ReconciliationResultStatus defines model for ReconciliationResult.Status.
+type ReconciliationResultStatus string
 
 // RecordPaymentInput defines model for RecordPaymentInput.
 type RecordPaymentInput struct {
@@ -22736,6 +22915,9 @@ type ClientInterface interface {
 
 	RecordPayment(ctx context.Context, invoiceId string, body RecordPaymentJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetInvoiceReconciliation request
+	GetInvoiceReconciliation(ctx context.Context, invoiceId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// RejectInvoiceWithBody request with any body
 	RejectInvoiceWithBody(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -24607,6 +24789,18 @@ func (c *RawClient) RecordPaymentWithBody(ctx context.Context, invoiceId string,
 
 func (c *RawClient) RecordPayment(ctx context.Context, invoiceId string, body RecordPaymentJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewRecordPaymentRequest(c.Server, invoiceId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) GetInvoiceReconciliation(ctx context.Context, invoiceId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetInvoiceReconciliationRequest(c.Server, invoiceId)
 	if err != nil {
 		return nil, err
 	}
@@ -30210,6 +30404,40 @@ func NewRecordPaymentRequestWithBody(server string, invoiceId string, contentTyp
 	return req, nil
 }
 
+// NewGetInvoiceReconciliationRequest generates requests for GetInvoiceReconciliation
+func NewGetInvoiceReconciliationRequest(server string, invoiceId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invoiceId", runtime.ParamLocationPath, invoiceId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/invoices/%s/reconciliation", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewRejectInvoiceRequest calls the generic RejectInvoice builder with application/json body
 func NewRejectInvoiceRequest(server string, invoiceId string, body RejectInvoiceJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -34788,6 +35016,9 @@ type ClientWithResponsesInterface interface {
 
 	RecordPaymentWithResponse(ctx context.Context, invoiceId string, body RecordPaymentJSONRequestBody, reqEditors ...RequestEditorFn) (*RecordPaymentResponse, error)
 
+	// GetInvoiceReconciliationWithResponse request
+	GetInvoiceReconciliationWithResponse(ctx context.Context, invoiceId string, reqEditors ...RequestEditorFn) (*GetInvoiceReconciliationResponse, error)
+
 	// RejectInvoiceWithBodyWithResponse request with any body
 	RejectInvoiceWithBodyWithResponse(ctx context.Context, invoiceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RejectInvoiceResponse, error)
 
@@ -37353,6 +37584,29 @@ func (r RecordPaymentResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r RecordPaymentResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetInvoiceReconciliationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *GetInvoiceReconciliationResult
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetInvoiceReconciliationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetInvoiceReconciliationResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -40515,6 +40769,15 @@ func (c *ClientWithResponses) RecordPaymentWithResponse(ctx context.Context, inv
 		return nil, err
 	}
 	return ParseRecordPaymentResponse(rsp)
+}
+
+// GetInvoiceReconciliationWithResponse request returning *GetInvoiceReconciliationResponse
+func (c *ClientWithResponses) GetInvoiceReconciliationWithResponse(ctx context.Context, invoiceId string, reqEditors ...RequestEditorFn) (*GetInvoiceReconciliationResponse, error) {
+	rsp, err := c.GetInvoiceReconciliation(ctx, invoiceId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetInvoiceReconciliationResponse(rsp)
 }
 
 // RejectInvoiceWithBodyWithResponse request with arbitrary body returning *RejectInvoiceResponse
@@ -44726,6 +44989,39 @@ func ParseRecordPaymentResponse(rsp *http.Response) (*RecordPaymentResponse, err
 			return nil, err
 		}
 		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetInvoiceReconciliationResponse parses an HTTP response from a GetInvoiceReconciliationWithResponse call
+func ParseGetInvoiceReconciliationResponse(rsp *http.Response) (*GetInvoiceReconciliationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetInvoiceReconciliationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetInvoiceReconciliationResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest ApiError

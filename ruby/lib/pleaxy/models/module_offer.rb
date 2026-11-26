@@ -146,7 +146,7 @@ module Pleaxy
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      item_validator = EnumAttributeValidator.new('String', ["invoice", "sourcing", "contracts", "suppliers", "payment", "source", "request", "order", "receipt", "aiSpend", "procureToPay", "suite"])
+      item_validator = EnumAttributeValidator.new('String', ["invoice", "sourcing", "contracts", "suppliers", "payment", "source", "order", "receipt", "request", "aiSpend", "procureToPay", "suite"])
       return false unless item_validator.valid?(@item)
       kind_validator = EnumAttributeValidator.new('String', ["suite", "module", "group"])
       return false unless kind_validator.valid?(@kind)
@@ -156,7 +156,7 @@ module Pleaxy
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] item Object to be assigned
     def item=(item)
-      validator = EnumAttributeValidator.new('String', ["invoice", "sourcing", "contracts", "suppliers", "payment", "source", "request", "order", "receipt", "aiSpend", "procureToPay", "suite"])
+      validator = EnumAttributeValidator.new('String', ["invoice", "sourcing", "contracts", "suppliers", "payment", "source", "order", "receipt", "request", "aiSpend", "procureToPay", "suite"])
       unless validator.valid?(item)
         fail ArgumentError, "invalid value for \"item\", must be one of #{validator.allowable_values}."
       end

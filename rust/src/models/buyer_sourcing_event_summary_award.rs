@@ -17,10 +17,10 @@ pub struct BuyerSourcingEventSummaryAward {
     pub supplier_name: Option<String>,
     #[serde(rename = "currency", skip_serializing_if = "Option::is_none")]
     pub currency: Option<String>,
-    #[serde(rename = "total", skip_serializing_if = "Option::is_none")]
-    pub total: Option<f64>,
     #[serde(rename = "order", skip_serializing_if = "Option::is_none")]
     pub order: Option<Order>,
+    #[serde(rename = "total", skip_serializing_if = "Option::is_none")]
+    pub total: Option<f64>,
     #[serde(rename = "poId", skip_serializing_if = "Option::is_none")]
     pub po_id: Option<String>,
 }
@@ -30,8 +30,8 @@ impl BuyerSourcingEventSummaryAward {
         BuyerSourcingEventSummaryAward {
             supplier_name: None,
             currency: None,
-            total: None,
             order: None,
+            total: None,
             po_id: None,
         }
     }

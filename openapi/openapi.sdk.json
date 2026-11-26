@@ -9607,6 +9607,98 @@
         ]
       }
     },
+    "/v1/workspaces/{regionId}/invoices/{invoiceId}/reconciliation": {
+      "get": {
+        "operationId": "GetInvoiceReconciliation",
+        "summary": "[Buyer] An invoice's match result as the UCP vendor capability ai.pleaxy.procurement.reconciliation returns it (https://pleaxy.ai/docs/mcp#ucp): the order, contract and usage records it was checked against, each check group's result, every failure by check name with Pleaxy's code and figures, and the first failure in a fixed order. Read-only: it changes nothing. Codes and figures only, no plain-language text. Pleaxy stores failures, not passes, so a group says no_failures_recorded where its check runs only when its data is there.",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoiceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ucp": {
+                      "type": "object",
+                      "properties": {
+                        "version": {
+                          "type": "string"
+                        },
+                        "capabilities": {
+                          "type": "object",
+                          "properties": {
+                            "ai.pleaxy.procurement.reconciliation": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "version": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "version"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "ai.pleaxy.procurement.reconciliation"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "version",
+                        "capabilities"
+                      ]
+                    },
+                    "reconciliation": {
+                      "$ref": "#/components/schemas/ReconciliationResult"
+                    }
+                  },
+                  "required": [
+                    "ucp",
+                    "reconciliation"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "invoices"
+        ]
+      }
+    },
     "/v1/workspaces/{regionId}/invoices/{invoiceId}/replaces": {
       "post": {
         "operationId": "AddInvoiceReplacementLinks",
@@ -32181,6 +32273,290 @@
           "available"
         ]
       },
+      "ReconciliationResult": {
+        "type": "object",
+        "properties": {
+          "invoice_id": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "matched",
+              "unverified",
+              "disputed"
+            ]
+          },
+          "unverified_reason": {
+            "type": "string"
+          },
+          "resolved_by_person": {
+            "type": "boolean"
+          },
+          "approval_status": {
+            "type": "string"
+          },
+          "paid": {
+            "type": "boolean"
+          },
+          "match_type": {
+            "type": "string",
+            "enum": [
+              "two_way",
+              "three_way",
+              "usage"
+            ]
+          },
+          "records": {
+            "type": "object",
+            "properties": {
+              "order": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "line": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              },
+              "price_agreement": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "versions": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "required": [
+                  "id",
+                  "versions"
+                ]
+              },
+              "usage": {
+                "type": "object",
+                "properties": {
+                  "source": {
+                    "type": "string",
+                    "enum": [
+                      "provider_invoice",
+                      "provider_report"
+                    ]
+                  },
+                  "amount": {
+                    "type": "string"
+                  },
+                  "currency": {
+                    "type": "string"
+                  },
+                  "periods": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "invoice_line": {
+                          "type": "number"
+                        },
+                        "period": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "invoice_line",
+                        "period"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "tolerance": {
+            "type": "object",
+            "properties": {
+              "percent": {
+                "type": "number"
+              },
+              "receipt": {
+                "type": "object",
+                "properties": {
+                  "percent": {
+                    "type": "number"
+                  },
+                  "max_amount": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "percent",
+                  "max_amount"
+                ]
+              }
+            }
+          },
+          "checked": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "group": {
+                  "type": "string",
+                  "enum": [
+                    "usage",
+                    "order",
+                    "receipt",
+                    "agreement"
+                  ]
+                },
+                "result": {
+                  "type": "string",
+                  "enum": [
+                    "pending",
+                    "skipped",
+                    "pass",
+                    "fail",
+                    "not_checked",
+                    "no_failures_recorded"
+                  ]
+                }
+              },
+              "required": [
+                "group",
+                "result"
+              ]
+            }
+          },
+          "failures": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReconciliationFailure"
+            }
+          },
+          "primary_failure": {
+            "type": "string",
+            "enum": [
+              "order_line_exists",
+              "order_amount",
+              "order_quantity",
+              "order_price",
+              "receipt_exists",
+              "receipt_quantity",
+              "receipt_amount",
+              "agreement_active",
+              "agreement_rate",
+              "agreement_cap",
+              "agreement_discount",
+              "commitment_shortfall",
+              "milestone_exists",
+              "milestone_already_billed",
+              "milestone_amount",
+              "milestone_confirmed",
+              "usage_match",
+              "usage_currency"
+            ]
+          },
+          "insights": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "invoice_line": {
+                  "type": "number"
+                },
+                "order_line": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "code"
+              ]
+            }
+          }
+        },
+        "required": [
+          "invoice_id",
+          "currency",
+          "amount",
+          "status",
+          "paid",
+          "records",
+          "checked",
+          "failures",
+          "insights"
+        ]
+      },
+      "ReconciliationFailure": {
+        "type": "object",
+        "properties": {
+          "check": {
+            "type": "string",
+            "enum": [
+              "order_line_exists",
+              "order_amount",
+              "order_quantity",
+              "order_price",
+              "receipt_exists",
+              "receipt_quantity",
+              "receipt_amount",
+              "agreement_active",
+              "agreement_rate",
+              "agreement_cap",
+              "agreement_discount",
+              "commitment_shortfall",
+              "milestone_exists",
+              "milestone_already_billed",
+              "milestone_amount",
+              "milestone_confirmed",
+              "usage_match",
+              "usage_currency"
+            ]
+          },
+          "code": {
+            "type": "string"
+          },
+          "invoice_line": {
+            "type": "number"
+          },
+          "order_line": {
+            "type": "number"
+          },
+          "agreement_id": {
+            "type": "string"
+          },
+          "agreement_version": {
+            "type": "number"
+          },
+          "allowed": {
+            "type": "string"
+          },
+          "billed": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "check",
+          "code"
+        ]
+      },
       "SupplierBankAccount": {
         "type": "object",
         "properties": {
@@ -37688,9 +38064,6 @@
               "currency": {
                 "type": "string"
               },
-              "total": {
-                "type": "number"
-              },
               "order": {
                 "type": "string",
                 "enum": [
@@ -37699,6 +38072,9 @@
                   "draft"
                 ]
               },
+              "total": {
+                "type": "number"
+              },
               "poId": {
                 "type": "string"
               }
@@ -37706,8 +38082,8 @@
             "required": [
               "supplierName",
               "currency",
-              "total",
-              "order"
+              "order",
+              "total"
             ]
           },
           "awards": {
@@ -37724,9 +38100,6 @@
                 "contractId": {
                   "type": "string"
                 },
-                "total": {
-                  "type": "number"
-                },
                 "order": {
                   "type": "string",
                   "enum": [
@@ -37734,6 +38107,9 @@
                     "none",
                     "draft"
                   ]
+                },
+                "total": {
+                  "type": "number"
                 },
                 "poId": {
                   "type": "string"
@@ -37745,8 +38121,8 @@
               "required": [
                 "supplierName",
                 "currency",
-                "total",
                 "order",
+                "total",
                 "supplierKey"
               ]
             }
@@ -40095,9 +40471,9 @@
                 "contracts",
                 "suppliers",
                 "payment",
-                "request",
                 "order",
                 "receipt",
+                "request",
                 "aiSpend"
               ]
             }
@@ -40121,9 +40497,9 @@
                     "contracts",
                     "suppliers",
                     "payment",
-                    "request",
                     "order",
                     "receipt",
+                    "request",
                     "aiSpend"
                   ]
                 }
@@ -40201,9 +40577,9 @@
               "suppliers",
               "payment",
               "source",
-              "request",
               "order",
               "receipt",
+              "request",
               "aiSpend",
               "procureToPay",
               "suite"
@@ -40227,9 +40603,9 @@
                 "contracts",
                 "suppliers",
                 "payment",
-                "request",
                 "order",
                 "receipt",
+                "request",
                 "aiSpend"
               ]
             }

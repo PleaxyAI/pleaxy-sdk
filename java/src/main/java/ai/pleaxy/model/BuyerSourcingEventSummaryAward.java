@@ -35,8 +35,8 @@ import ai.pleaxy.client.ApiClient;
 @JsonPropertyOrder({
   BuyerSourcingEventSummaryAward.JSON_PROPERTY_SUPPLIER_NAME,
   BuyerSourcingEventSummaryAward.JSON_PROPERTY_CURRENCY,
-  BuyerSourcingEventSummaryAward.JSON_PROPERTY_TOTAL,
   BuyerSourcingEventSummaryAward.JSON_PROPERTY_ORDER,
+  BuyerSourcingEventSummaryAward.JSON_PROPERTY_TOTAL,
   BuyerSourcingEventSummaryAward.JSON_PROPERTY_PO_ID
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -48,10 +48,6 @@ public class BuyerSourcingEventSummaryAward {
   public static final String JSON_PROPERTY_CURRENCY = "currency";
   @javax.annotation.Nullable
   private String currency;
-
-  public static final String JSON_PROPERTY_TOTAL = "total";
-  @javax.annotation.Nullable
-  private Double total;
 
   /**
    * Gets or Sets order
@@ -93,6 +89,10 @@ public class BuyerSourcingEventSummaryAward {
   public static final String JSON_PROPERTY_ORDER = "order";
   @javax.annotation.Nullable
   private OrderEnum order;
+
+  public static final String JSON_PROPERTY_TOTAL = "total";
+  @javax.annotation.Nullable
+  private Double total;
 
   public static final String JSON_PROPERTY_PO_ID = "poId";
   @javax.annotation.Nullable
@@ -149,30 +149,6 @@ public class BuyerSourcingEventSummaryAward {
   }
 
 
-  public BuyerSourcingEventSummaryAward total(@javax.annotation.Nullable Double total) {
-    this.total = total;
-    return this;
-  }
-
-  /**
-   * Get total
-   * @return total
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TOTAL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public Double getTotal() {
-    return total;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_TOTAL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTotal(@javax.annotation.Nullable Double total) {
-    this.total = total;
-  }
-
-
   public BuyerSourcingEventSummaryAward order(@javax.annotation.Nullable OrderEnum order) {
     this.order = order;
     return this;
@@ -194,6 +170,30 @@ public class BuyerSourcingEventSummaryAward {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOrder(@javax.annotation.Nullable OrderEnum order) {
     this.order = order;
+  }
+
+
+  public BuyerSourcingEventSummaryAward total(@javax.annotation.Nullable Double total) {
+    this.total = total;
+    return this;
+  }
+
+  /**
+   * Get total
+   * @return total
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_TOTAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Double getTotal() {
+    return total;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_TOTAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setTotal(@javax.annotation.Nullable Double total) {
+    this.total = total;
   }
 
 
@@ -235,14 +235,14 @@ public class BuyerSourcingEventSummaryAward {
     BuyerSourcingEventSummaryAward buyerSourcingEventSummaryAward = (BuyerSourcingEventSummaryAward) o;
     return Objects.equals(this.supplierName, buyerSourcingEventSummaryAward.supplierName) &&
         Objects.equals(this.currency, buyerSourcingEventSummaryAward.currency) &&
-        Objects.equals(this.total, buyerSourcingEventSummaryAward.total) &&
         Objects.equals(this.order, buyerSourcingEventSummaryAward.order) &&
+        Objects.equals(this.total, buyerSourcingEventSummaryAward.total) &&
         Objects.equals(this.poId, buyerSourcingEventSummaryAward.poId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplierName, currency, total, order, poId);
+    return Objects.hash(supplierName, currency, order, total, poId);
   }
 
   @Override
@@ -251,8 +251,8 @@ public class BuyerSourcingEventSummaryAward {
     sb.append("class BuyerSourcingEventSummaryAward {\n");
     sb.append("    supplierName: ").append(toIndentedString(supplierName)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
-    sb.append("    total: ").append(toIndentedString(total)).append("\n");
     sb.append("    order: ").append(toIndentedString(order)).append("\n");
+    sb.append("    total: ").append(toIndentedString(total)).append("\n");
     sb.append("    poId: ").append(toIndentedString(poId)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -311,14 +311,14 @@ public class BuyerSourcingEventSummaryAward {
       joiner.add(String.format("%scurrency%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCurrency()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `total` to the URL query string
-    if (getTotal() != null) {
-      joiner.add(String.format("%stotal%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTotal()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
     // add `order` to the URL query string
     if (getOrder() != null) {
       joiner.add(String.format("%sorder%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOrder()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `total` to the URL query string
+    if (getTotal() != null) {
+      joiner.add(String.format("%stotal%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTotal()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `poId` to the URL query string

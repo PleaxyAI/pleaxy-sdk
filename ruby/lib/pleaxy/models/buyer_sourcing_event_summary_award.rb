@@ -19,9 +19,9 @@ module Pleaxy
 
     attr_accessor :currency
 
-    attr_accessor :total
-
     attr_accessor :order
+
+    attr_accessor :total
 
     attr_accessor :po_id
 
@@ -52,8 +52,8 @@ module Pleaxy
       {
         :'supplier_name' => :'supplierName',
         :'currency' => :'currency',
-        :'total' => :'total',
         :'order' => :'order',
+        :'total' => :'total',
         :'po_id' => :'poId'
       }
     end
@@ -68,8 +68,8 @@ module Pleaxy
       {
         :'supplier_name' => :'String',
         :'currency' => :'String',
-        :'total' => :'Float',
         :'order' => :'String',
+        :'total' => :'Float',
         :'po_id' => :'String'
       }
     end
@@ -103,12 +103,12 @@ module Pleaxy
         self.currency = attributes[:'currency']
       end
 
-      if attributes.key?(:'total')
-        self.total = attributes[:'total']
-      end
-
       if attributes.key?(:'order')
         self.order = attributes[:'order']
+      end
+
+      if attributes.key?(:'total')
+        self.total = attributes[:'total']
       end
 
       if attributes.key?(:'po_id')
@@ -150,8 +150,8 @@ module Pleaxy
       self.class == o.class &&
           supplier_name == o.supplier_name &&
           currency == o.currency &&
-          total == o.total &&
           order == o.order &&
+          total == o.total &&
           po_id == o.po_id
     end
 
@@ -164,7 +164,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [supplier_name, currency, total, order, po_id].hash
+      [supplier_name, currency, order, total, po_id].hash
     end
 
     # Builds the object from hash

@@ -954,6 +954,14 @@ from .get_invoice_activity_result import GetInvoiceActivityResult
 from .get_invoice_bank_account_result import GetInvoiceBankAccountResult
 from .get_invoice_bank_account_result_hold import GetInvoiceBankAccountResultHold
 from .get_invoice_document_format import GetInvoiceDocumentFormat
+from .get_invoice_reconciliation_result import GetInvoiceReconciliationResult
+from .get_invoice_reconciliation_result_ucp import GetInvoiceReconciliationResultUcp
+from .get_invoice_reconciliation_result_ucp_capabilities import (
+    GetInvoiceReconciliationResultUcpCapabilities,
+)
+from .get_invoice_reconciliation_result_ucp_capabilities_ai_pleaxy_procurement_reconciliation_item import (
+    GetInvoiceReconciliationResultUcpCapabilitiesAiPleaxyProcurementReconciliationItem,
+)
 from .get_invoice_remittance_document_format import GetInvoiceRemittanceDocumentFormat
 from .get_invoice_result_buyer_credit_note import GetInvoiceResultBuyerCreditNote
 from .get_invoice_result_buyer_credit_note_cloud_provider import (
@@ -1888,6 +1896,36 @@ from .receipt_return_want import ReceiptReturnWant
 from .receipt_reversal import ReceiptReversal
 from .receipt_source import ReceiptSource
 from .receipt_status import ReceiptStatus
+from .reconciliation_failure import ReconciliationFailure
+from .reconciliation_failure_check import ReconciliationFailureCheck
+from .reconciliation_result import ReconciliationResult
+from .reconciliation_result_checked_item import ReconciliationResultCheckedItem
+from .reconciliation_result_checked_item_group import (
+    ReconciliationResultCheckedItemGroup,
+)
+from .reconciliation_result_checked_item_result import (
+    ReconciliationResultCheckedItemResult,
+)
+from .reconciliation_result_insights_item import ReconciliationResultInsightsItem
+from .reconciliation_result_match_type import ReconciliationResultMatchType
+from .reconciliation_result_primary_failure import ReconciliationResultPrimaryFailure
+from .reconciliation_result_records import ReconciliationResultRecords
+from .reconciliation_result_records_order import ReconciliationResultRecordsOrder
+from .reconciliation_result_records_price_agreement import (
+    ReconciliationResultRecordsPriceAgreement,
+)
+from .reconciliation_result_records_usage import ReconciliationResultRecordsUsage
+from .reconciliation_result_records_usage_periods_item import (
+    ReconciliationResultRecordsUsagePeriodsItem,
+)
+from .reconciliation_result_records_usage_source import (
+    ReconciliationResultRecordsUsageSource,
+)
+from .reconciliation_result_status import ReconciliationResultStatus
+from .reconciliation_result_tolerance import ReconciliationResultTolerance
+from .reconciliation_result_tolerance_receipt import (
+    ReconciliationResultToleranceReceipt,
+)
 from .record_payment_input import RecordPaymentInput
 from .record_payment_input_method import RecordPaymentInputMethod
 from .record_payment_item_input import RecordPaymentItemInput
@@ -3065,6 +3103,10 @@ __all__ = (
     "GetInvoiceBankAccountResult",
     "GetInvoiceBankAccountResultHold",
     "GetInvoiceDocumentFormat",
+    "GetInvoiceReconciliationResult",
+    "GetInvoiceReconciliationResultUcp",
+    "GetInvoiceReconciliationResultUcpCapabilities",
+    "GetInvoiceReconciliationResultUcpCapabilitiesAiPleaxyProcurementReconciliationItem",
     "GetInvoiceRemittanceDocumentFormat",
     "GetInvoiceResultBuyerCreditNote",
     "GetInvoiceResultBuyerCreditNoteCloudProvider",
@@ -3583,6 +3625,24 @@ __all__ = (
     "ReceiptReversal",
     "ReceiptSource",
     "ReceiptStatus",
+    "ReconciliationFailure",
+    "ReconciliationFailureCheck",
+    "ReconciliationResult",
+    "ReconciliationResultCheckedItem",
+    "ReconciliationResultCheckedItemGroup",
+    "ReconciliationResultCheckedItemResult",
+    "ReconciliationResultInsightsItem",
+    "ReconciliationResultMatchType",
+    "ReconciliationResultPrimaryFailure",
+    "ReconciliationResultRecords",
+    "ReconciliationResultRecordsOrder",
+    "ReconciliationResultRecordsPriceAgreement",
+    "ReconciliationResultRecordsUsage",
+    "ReconciliationResultRecordsUsagePeriodsItem",
+    "ReconciliationResultRecordsUsageSource",
+    "ReconciliationResultStatus",
+    "ReconciliationResultTolerance",
+    "ReconciliationResultToleranceReceipt",
     "RecordPaymentInput",
     "RecordPaymentInputMethod",
     "RecordPaymentItemInput",

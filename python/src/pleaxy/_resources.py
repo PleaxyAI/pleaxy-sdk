@@ -1074,6 +1074,15 @@ class InvoicesResource:
             buyer=buyer,
         )
 
+    def get_invoice_reconciliation(
+        self, invoice_id: str
+    ) -> GetInvoiceReconciliationResult:
+        """[Buyer] An invoice's match result as the UCP vendor capability ai.pleaxy.procurement.reconciliation returns it (https://pleaxy.ai/docs/mcp#ucp): the order, contract and usage records it was checked against, each check group's result, every failure by check name with Pleaxy's code and figures, and the first failure in a fixed order. Read-only: it changes nothing. Codes and figures only, no plain-language text. Pleaxy stores failures, not passes, so a group says no_failures_recorded where its check runs only when its data is there."""
+        return self._transport.call(
+            "pleaxy._generated.api.invoices.get_invoice_reconciliation",
+            invoice_id=invoice_id,
+        )
+
     def get_payment_export(self, export_id: str) -> bytes:
         """[Buyer] Download an export again: the same CSV, rebuilt from the invoices still exported under that export ID. 404 EXPORT_NOT_FOUND when none are."""
         return self._transport.call(

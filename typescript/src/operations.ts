@@ -871,6 +871,13 @@ export class InvoicesResource {
   }
 
   /**
+   * [Buyer] An invoice's match result as the UCP vendor capability ai.pleaxy.procurement.reconciliation returns it (https://pleaxy.ai/docs/mcp#ucp): the order, contract and usage records it was checked against, each check group's result, every failure by check name with Pleaxy's code and figures, and the first failure in a fixed order. Read-only: it changes nothing. Codes and figures only, no plain-language text. Pleaxy stores failures, not passes, so a group says no_failures_recorded where its check runs only when its data is there.
+   */
+  getInvoiceReconciliation(invoiceId: string, options?: RequestOptions): Promise<ResponseBody<"GetInvoiceReconciliation">> {
+    return this.transport.request("get", "/invoices/{invoiceId}/reconciliation", { path: { invoiceId }, options }) as Promise<ResponseBody<"GetInvoiceReconciliation">>;
+  }
+
+  /**
    * [Buyer] Download an export again: the same CSV, rebuilt from the invoices still exported under that export ID. 404 EXPORT_NOT_FOUND when none are.
    */
   getPaymentExport(exportId: string, options?: RequestOptions): Promise<ArrayBuffer> {

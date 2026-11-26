@@ -408,6 +408,67 @@ module Pleaxy
       return data, status_code, headers
     end
 
+    # [Buyer] An invoice's match result as the UCP vendor capability ai.pleaxy.procurement.reconciliation returns it (https://pleaxy.ai/docs/mcp#ucp): the order, contract and usage records it was checked against, each check group's result, every failure by check name with Pleaxy's code and figures, and the first failure in a fixed order. Read-only: it changes nothing. Codes and figures only, no plain-language text. Pleaxy stores failures, not passes, so a group says no_failures_recorded where its check runs only when its data is there.
+    # @param invoice_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [GetInvoiceReconciliationResult]
+    def get_invoice_reconciliation(invoice_id, opts = {})
+      data, _status_code, _headers = get_invoice_reconciliation_with_http_info(invoice_id, opts)
+      data
+    end
+
+    # [Buyer] An invoice&#39;s match result as the UCP vendor capability ai.pleaxy.procurement.reconciliation returns it (https://pleaxy.ai/docs/mcp#ucp): the order, contract and usage records it was checked against, each check group&#39;s result, every failure by check name with Pleaxy&#39;s code and figures, and the first failure in a fixed order. Read-only: it changes nothing. Codes and figures only, no plain-language text. Pleaxy stores failures, not passes, so a group says no_failures_recorded where its check runs only when its data is there.
+    # @param invoice_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(GetInvoiceReconciliationResult, Integer, Hash)>] GetInvoiceReconciliationResult data, response status code and response headers
+    def get_invoice_reconciliation_with_http_info(invoice_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: InvoicesApi.get_invoice_reconciliation ...'
+      end
+      # verify the required parameter 'invoice_id' is set
+      if @api_client.config.client_side_validation && invoice_id.nil?
+        fail ArgumentError, "Missing the required parameter 'invoice_id' when calling InvoicesApi.get_invoice_reconciliation"
+      end
+      # resource path
+      local_var_path = '/invoices/{invoiceId}/reconciliation'.sub('{' + 'invoiceId' + '}', CGI.escape(invoice_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'GetInvoiceReconciliationResult'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"InvoicesApi.get_invoice_reconciliation",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: InvoicesApi#get_invoice_reconciliation\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Buyer] Download an export again: the same CSV, rebuilt from the invoices still exported under that export ID. 404 EXPORT_NOT_FOUND when none are.
     # @param export_id [String] 
     # @param [Hash] opts the optional parameters

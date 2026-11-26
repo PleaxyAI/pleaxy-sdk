@@ -18,15 +18,15 @@ class BuyerSourcingEventSummaryAward:
     Attributes:
         supplier_name (Union[Unset, str]):
         currency (Union[Unset, str]):
-        total (Union[Unset, float]):
         order (Union[Unset, BuyerSourcingEventSummaryAwardOrder]):
+        total (Union[Unset, float]):
         po_id (Union[Unset, str]):
     """
 
     supplier_name: Union[Unset, str] = UNSET
     currency: Union[Unset, str] = UNSET
-    total: Union[Unset, float] = UNSET
     order: Union[Unset, BuyerSourcingEventSummaryAwardOrder] = UNSET
+    total: Union[Unset, float] = UNSET
     po_id: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -35,11 +35,11 @@ class BuyerSourcingEventSummaryAward:
 
         currency = self.currency
 
-        total = self.total
-
         order: Union[Unset, str] = UNSET
         if not isinstance(self.order, Unset):
             order = self.order
+
+        total = self.total
 
         po_id = self.po_id
 
@@ -50,10 +50,10 @@ class BuyerSourcingEventSummaryAward:
             field_dict["supplierName"] = supplier_name
         if currency is not UNSET:
             field_dict["currency"] = currency
-        if total is not UNSET:
-            field_dict["total"] = total
         if order is not UNSET:
             field_dict["order"] = order
+        if total is not UNSET:
+            field_dict["total"] = total
         if po_id is not UNSET:
             field_dict["poId"] = po_id
 
@@ -66,8 +66,6 @@ class BuyerSourcingEventSummaryAward:
 
         currency = d.pop("currency", UNSET)
 
-        total = d.pop("total", UNSET)
-
         _order = d.pop("order", UNSET)
         order: Union[Unset, BuyerSourcingEventSummaryAwardOrder]
         if isinstance(_order, Unset):
@@ -75,13 +73,15 @@ class BuyerSourcingEventSummaryAward:
         else:
             order = check_buyer_sourcing_event_summary_award_order(_order)
 
+        total = d.pop("total", UNSET)
+
         po_id = d.pop("poId", UNSET)
 
         buyer_sourcing_event_summary_award = cls(
             supplier_name=supplier_name,
             currency=currency,
-            total=total,
             order=order,
+            total=total,
             po_id=po_id,
         )
 

@@ -309,11 +309,11 @@ public class BillingSummary {
     
     PAYMENT(String.valueOf("payment")),
     
-    REQUEST(String.valueOf("request")),
-    
     ORDER(String.valueOf("order")),
     
     RECEIPT(String.valueOf("receipt")),
+    
+    REQUEST(String.valueOf("request")),
     
     AI_SPEND(String.valueOf("aiSpend"));
 

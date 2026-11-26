@@ -763,6 +763,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/invoices/{invoiceId}/reconciliation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] An invoice's match result as the UCP vendor capability ai.pleaxy.procurement.reconciliation returns it (https://pleaxy.ai/docs/mcp#ucp): the order, contract and usage records it was checked against, each check group's result, every failure by check name with Pleaxy's code and figures, and the first failure in a fixed order. Read-only: it changes nothing. Codes and figures only, no plain-language text. Pleaxy stores failures, not passes, so a group says no_failures_recorded where its check runs only when its data is there. */
+        get: operations["GetInvoiceReconciliation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/invoices/{invoiceId}/replaces": {
         parameters: {
             query?: never;
@@ -6366,6 +6383,80 @@ export interface components {
             prepayment?: boolean;
             reference?: string;
         };
+        ReconciliationResult: {
+            invoice_id?: string;
+            currency?: string;
+            amount?: string;
+            /** @enum {string} */
+            status?: "pending" | "matched" | "unverified" | "disputed";
+            unverified_reason?: string;
+            resolved_by_person?: boolean;
+            approval_status?: string;
+            paid?: boolean;
+            /** @enum {string} */
+            match_type?: "two_way" | "three_way" | "usage";
+            records?: {
+                order?: {
+                    id: string;
+                    /** Format: double */
+                    line?: number;
+                };
+                price_agreement?: {
+                    id: string;
+                    versions?: number[];
+                };
+                usage?: {
+                    /** @enum {string} */
+                    source?: "provider_invoice" | "provider_report";
+                    amount?: string;
+                    currency?: string;
+                    periods?: {
+                        /** Format: double */
+                        invoice_line?: number;
+                        period?: string;
+                    }[];
+                };
+            };
+            tolerance?: {
+                /** Format: double */
+                percent?: number;
+                receipt?: {
+                    /** Format: double */
+                    percent?: number;
+                    max_amount?: string;
+                };
+            };
+            checked?: {
+                /** @enum {string} */
+                group?: "usage" | "order" | "receipt" | "agreement";
+                /** @enum {string} */
+                result?: "pending" | "skipped" | "pass" | "fail" | "not_checked" | "no_failures_recorded";
+            }[];
+            failures?: components["schemas"]["ReconciliationFailure"][];
+            /** @enum {string} */
+            primary_failure?: "order_line_exists" | "order_amount" | "order_quantity" | "order_price" | "receipt_exists" | "receipt_quantity" | "receipt_amount" | "agreement_active" | "agreement_rate" | "agreement_cap" | "agreement_discount" | "commitment_shortfall" | "milestone_exists" | "milestone_already_billed" | "milestone_amount" | "milestone_confirmed" | "usage_match" | "usage_currency";
+            insights?: {
+                code?: string;
+                /** Format: double */
+                invoice_line?: number;
+                /** Format: double */
+                order_line?: number;
+            }[];
+        };
+        ReconciliationFailure: {
+            /** @enum {string} */
+            check?: "order_line_exists" | "order_amount" | "order_quantity" | "order_price" | "receipt_exists" | "receipt_quantity" | "receipt_amount" | "agreement_active" | "agreement_rate" | "agreement_cap" | "agreement_discount" | "commitment_shortfall" | "milestone_exists" | "milestone_already_billed" | "milestone_amount" | "milestone_confirmed" | "usage_match" | "usage_currency";
+            code?: string;
+            /** Format: double */
+            invoice_line?: number;
+            /** Format: double */
+            order_line?: number;
+            agreement_id?: string;
+            /** Format: double */
+            agreement_version?: number;
+            allowed?: string;
+            billed?: string;
+        };
         SupplierBankAccount: {
             id: string;
             supplierKey?: string;
@@ -7810,20 +7901,20 @@ export interface components {
             award?: {
                 supplierName?: string;
                 currency?: string;
-                /** Format: double */
-                total?: number;
                 /** @enum {string} */
                 order?: "submit" | "none" | "draft";
+                /** Format: double */
+                total?: number;
                 poId?: string;
             };
             awards?: {
                 supplierName?: string;
                 currency?: string;
                 contractId?: string;
-                /** Format: double */
-                total?: number;
                 /** @enum {string} */
                 order?: "submit" | "none" | "draft";
+                /** Format: double */
+                total?: number;
                 poId?: string;
                 supplierKey?: string;
             }[];
@@ -8463,10 +8554,10 @@ export interface components {
             currentPrice?: components["schemas"]["PriceAmount"];
             currentTotalLabel?: string;
             currentTotal?: components["schemas"]["PriceAmount"];
-            modules?: ("invoice" | "sourcing" | "contracts" | "suppliers" | "payment" | "request" | "order" | "receipt" | "aiSpend")[];
+            modules?: ("invoice" | "sourcing" | "contracts" | "suppliers" | "payment" | "order" | "receipt" | "request" | "aiSpend")[];
             moduleOffers?: components["schemas"]["ModuleOffer"][];
             pendingModuleRemoval?: {
-                modules?: ("invoice" | "sourcing" | "contracts" | "suppliers" | "payment" | "request" | "order" | "receipt" | "aiSpend")[];
+                modules?: ("invoice" | "sourcing" | "contracts" | "suppliers" | "payment" | "order" | "receipt" | "request" | "aiSpend")[];
                 at?: string;
             };
         };
@@ -8486,10 +8577,10 @@ export interface components {
         };
         ModuleOffer: {
             /** @enum {string} */
-            item?: "invoice" | "sourcing" | "contracts" | "suppliers" | "payment" | "source" | "request" | "order" | "receipt" | "aiSpend" | "procureToPay" | "suite";
+            item?: "invoice" | "sourcing" | "contracts" | "suppliers" | "payment" | "source" | "order" | "receipt" | "request" | "aiSpend" | "procureToPay" | "suite";
             /** @enum {string} */
             kind?: "suite" | "module" | "group";
-            modules?: ("invoice" | "sourcing" | "contracts" | "suppliers" | "payment" | "request" | "order" | "receipt" | "aiSpend")[];
+            modules?: ("invoice" | "sourcing" | "contracts" | "suppliers" | "payment" | "order" | "receipt" | "request" | "aiSpend")[];
             monthlyPriceLabel?: string;
             monthlyPrice?: components["schemas"]["PriceAmount"];
             yearlyPriceLabel?: string;
@@ -10600,6 +10691,17 @@ export interface components {
             remittances?: components["schemas"]["SupplierRemittanceView"][];
             buyerWorkspaceId?: string;
             nextReminderAt?: string;
+        };
+        GetInvoiceReconciliationResult: {
+            ucp?: {
+                version?: string;
+                capabilities?: {
+                    "ai.pleaxy.procurement.reconciliation"?: {
+                        version?: string;
+                    }[];
+                };
+            };
+            reconciliation?: components["schemas"]["ReconciliationResult"];
         };
         AddInvoiceReplacementLinksResult: {
             replacement?: components["schemas"]["InvoiceReplacementCheck"];
@@ -13119,6 +13221,36 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["GetInvoiceResult"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    GetInvoiceReconciliation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invoiceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetInvoiceReconciliationResult"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

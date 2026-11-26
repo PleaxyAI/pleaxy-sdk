@@ -19,8 +19,8 @@ class BuyerSourcingEventSummaryAwardsItem:
         supplier_name (Union[Unset, str]):
         currency (Union[Unset, str]):
         contract_id (Union[Unset, str]):
-        total (Union[Unset, float]):
         order (Union[Unset, BuyerSourcingEventSummaryAwardsItemOrder]):
+        total (Union[Unset, float]):
         po_id (Union[Unset, str]):
         supplier_key (Union[Unset, str]):
     """
@@ -28,8 +28,8 @@ class BuyerSourcingEventSummaryAwardsItem:
     supplier_name: Union[Unset, str] = UNSET
     currency: Union[Unset, str] = UNSET
     contract_id: Union[Unset, str] = UNSET
-    total: Union[Unset, float] = UNSET
     order: Union[Unset, BuyerSourcingEventSummaryAwardsItemOrder] = UNSET
+    total: Union[Unset, float] = UNSET
     po_id: Union[Unset, str] = UNSET
     supplier_key: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -41,11 +41,11 @@ class BuyerSourcingEventSummaryAwardsItem:
 
         contract_id = self.contract_id
 
-        total = self.total
-
         order: Union[Unset, str] = UNSET
         if not isinstance(self.order, Unset):
             order = self.order
+
+        total = self.total
 
         po_id = self.po_id
 
@@ -60,10 +60,10 @@ class BuyerSourcingEventSummaryAwardsItem:
             field_dict["currency"] = currency
         if contract_id is not UNSET:
             field_dict["contractId"] = contract_id
-        if total is not UNSET:
-            field_dict["total"] = total
         if order is not UNSET:
             field_dict["order"] = order
+        if total is not UNSET:
+            field_dict["total"] = total
         if po_id is not UNSET:
             field_dict["poId"] = po_id
         if supplier_key is not UNSET:
@@ -80,14 +80,14 @@ class BuyerSourcingEventSummaryAwardsItem:
 
         contract_id = d.pop("contractId", UNSET)
 
-        total = d.pop("total", UNSET)
-
         _order = d.pop("order", UNSET)
         order: Union[Unset, BuyerSourcingEventSummaryAwardsItemOrder]
         if isinstance(_order, Unset):
             order = UNSET
         else:
             order = check_buyer_sourcing_event_summary_awards_item_order(_order)
+
+        total = d.pop("total", UNSET)
 
         po_id = d.pop("poId", UNSET)
 
@@ -97,8 +97,8 @@ class BuyerSourcingEventSummaryAwardsItem:
             supplier_name=supplier_name,
             currency=currency,
             contract_id=contract_id,
-            total=total,
             order=order,
+            total=total,
             po_id=po_id,
             supplier_key=supplier_key,
         )
