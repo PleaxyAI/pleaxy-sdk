@@ -1355,6 +1355,13 @@ export class SupplierConnectionsResource {
   constructor(private readonly transport: Transport) {}
 
   /**
+   * [Buyer] Browse the suppliers that chose to be found on Pleaxy, to find one you don't work with yet: all of them, or by `category` (a Pleaxy category id such as `software`), by `segment` (a two-digit UN standard code such as `43`; a category's suppliers are found under its segments too) and by `q`, part of a name. Each has its listed regions with the `directoryId` it is invited by in Pleaxy, what it says it sells, `verified` when Pleaxy confirmed who it is, `sponsored` when it pays to be shown first, and `connectionId` when it is already one of your suppliers. Up to 3 sponsored suppliers that match come first, then A to Z; 60 companies a page, the next from `nextOffset`; `total` counts every match. Never a contact email. Everything a supplier lists is its own claim unless `verified`
+   */
+  browseSupplierDirectory(query?: QueryParams<"BrowseSupplierDirectory">, options?: RequestOptions): Promise<ResponseBody<"BrowseSupplierDirectory">> {
+    return this.transport.request("get", "/supplier-connections/directory/browse", { path: undefined, query, options }) as Promise<ResponseBody<"BrowseSupplierDirectory">>;
+  }
+
+  /**
    * [Both] The feed attempt log for one of your connections: every call to its automated-invoice route or its validate twin that reached the connection, newest first, 50 a page (`?before=` the last row's cursor for the next). Both sides see the same rows. 404 when the connection isn't yours
    */
   listFeedAttempts(connectionId: string, query?: QueryParams<"ListFeedAttempts">, options?: RequestOptions): Promise<ResponseBody<"ListFeedAttempts">> {

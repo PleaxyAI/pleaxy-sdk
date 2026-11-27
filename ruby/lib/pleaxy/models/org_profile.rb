@@ -71,6 +71,10 @@ module Pleaxy
 
     attr_accessor :sells_segments
 
+    attr_accessor :sponsored_until
+
+    attr_accessor :sponsored_contract
+
     attr_accessor :setup_goal
 
     attr_accessor :e_invoicing
@@ -128,6 +132,8 @@ module Pleaxy
         :'directory_id' => :'directoryId',
         :'sells_categories' => :'sellsCategories',
         :'sells_segments' => :'sellsSegments',
+        :'sponsored_until' => :'sponsoredUntil',
+        :'sponsored_contract' => :'sponsoredContract',
         :'setup_goal' => :'setupGoal',
         :'e_invoicing' => :'eInvoicing'
       }
@@ -169,6 +175,8 @@ module Pleaxy
         :'directory_id' => :'String',
         :'sells_categories' => :'Array<String>',
         :'sells_segments' => :'Array<String>',
+        :'sponsored_until' => :'String',
+        :'sponsored_contract' => :'String',
         :'setup_goal' => :'String',
         :'e_invoicing' => :'EInvoicingProfileSettings'
       }
@@ -319,6 +327,14 @@ module Pleaxy
         end
       end
 
+      if attributes.key?(:'sponsored_until')
+        self.sponsored_until = attributes[:'sponsored_until']
+      end
+
+      if attributes.key?(:'sponsored_contract')
+        self.sponsored_contract = attributes[:'sponsored_contract']
+      end
+
       if attributes.key?(:'setup_goal')
         self.setup_goal = attributes[:'setup_goal']
       end
@@ -417,6 +433,8 @@ module Pleaxy
           directory_id == o.directory_id &&
           sells_categories == o.sells_categories &&
           sells_segments == o.sells_segments &&
+          sponsored_until == o.sponsored_until &&
+          sponsored_contract == o.sponsored_contract &&
           setup_goal == o.setup_goal &&
           e_invoicing == o.e_invoicing
     end
@@ -430,7 +448,7 @@ module Pleaxy
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, role, region_id, region_name, company_name, billing_email, billing_address, billing_address_parts, billing_address_legacy_text, billing_address_needs_review, tax_id, currency, other_currencies, payment_currencies, fx_warning_pct, countries, geography, time_zone, locale, primary_contact_name, primary_contact_email, created_at, same_domain_acknowledged, verified, listed_in_directory, directory_id, sells_categories, sells_segments, setup_goal, e_invoicing].hash
+      [id, role, region_id, region_name, company_name, billing_email, billing_address, billing_address_parts, billing_address_legacy_text, billing_address_needs_review, tax_id, currency, other_currencies, payment_currencies, fx_warning_pct, countries, geography, time_zone, locale, primary_contact_name, primary_contact_email, created_at, same_domain_acknowledged, verified, listed_in_directory, directory_id, sells_categories, sells_segments, sponsored_until, sponsored_contract, setup_goal, e_invoicing].hash
     end
 
     # Builds the object from hash

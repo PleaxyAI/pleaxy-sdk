@@ -12217,6 +12217,8 @@ type GetOrgProfileResult struct {
 	SellsCategories           *[]string                     `json:"sellsCategories,omitempty"`
 	SellsSegments             *[]string                     `json:"sellsSegments,omitempty"`
 	SetupGoal                 *GetOrgProfileResultSetupGoal `json:"setupGoal,omitempty"`
+	SponsoredContract         *string                       `json:"sponsoredContract,omitempty"`
+	SponsoredUntil            *string                       `json:"sponsoredUntil,omitempty"`
 	TaxId                     *string                       `json:"taxId,omitempty"`
 	TimeZone                  *string                       `json:"timeZone,omitempty"`
 	Verified                  *bool                         `json:"verified,omitempty"`
@@ -14459,6 +14461,8 @@ type OrgProfile struct {
 	SellsCategories           *[]string                  `json:"sellsCategories,omitempty"`
 	SellsSegments             *[]string                  `json:"sellsSegments,omitempty"`
 	SetupGoal                 *OrgProfileSetupGoal       `json:"setupGoal,omitempty"`
+	SponsoredContract         *string                    `json:"sponsoredContract,omitempty"`
+	SponsoredUntil            *string                    `json:"sponsoredUntil,omitempty"`
 	TaxId                     *string                    `json:"taxId,omitempty"`
 	TimeZone                  *string                    `json:"timeZone,omitempty"`
 	Verified                  *bool                      `json:"verified,omitempty"`
@@ -17477,6 +17481,27 @@ type SupplierCreditNoteViewStatus string
 // SupplierCreditNoteViewSubmittedFormat defines model for SupplierCreditNoteView.SubmittedFormat.
 type SupplierCreditNoteViewSubmittedFormat string
 
+// SupplierDirectoryListing defines model for SupplierDirectoryListing.
+type SupplierDirectoryListing struct {
+	Categories   *[]string `json:"categories,omitempty"`
+	CompanyName  *string   `json:"companyName,omitempty"`
+	ConnectionId *string   `json:"connectionId,omitempty"`
+	Regions      *[]struct {
+		DirectoryId *string `json:"directoryId,omitempty"`
+		RegionName  *string `json:"regionName,omitempty"`
+	} `json:"regions,omitempty"`
+	Segments  *[]string `json:"segments,omitempty"`
+	Sponsored *bool     `json:"sponsored,omitempty"`
+	Verified  *bool     `json:"verified,omitempty"`
+}
+
+// SupplierDirectoryPage defines model for SupplierDirectoryPage.
+type SupplierDirectoryPage struct {
+	NextOffset *float64                    `json:"nextOffset,omitempty"`
+	Suppliers  *[]SupplierDirectoryListing `json:"suppliers,omitempty"`
+	Total      *float64                    `json:"total,omitempty"`
+}
+
 // SupplierHeldBackView defines model for SupplierHeldBackView.
 type SupplierHeldBackView struct {
 	Amount    *float64 `json:"amount,omitempty"`
@@ -18397,6 +18422,21 @@ type GetSupplierWorkspaceParams struct {
 	// To ISO 8601 date/timestamp - only items created on or before this are returned.
 	To    *string `form:"to,omitempty" json:"to,omitempty"`
 	Lists *string `form:"lists,omitempty" json:"lists,omitempty"`
+}
+
+// BrowseSupplierDirectoryParams defines parameters for BrowseSupplierDirectory.
+type BrowseSupplierDirectoryParams struct {
+	// Offset Where the page starts: the nextOffset of the page before. Default 0.
+	Offset *string `form:"offset,omitempty" json:"offset,omitempty"`
+
+	// Segment A two-digit UN standard (UNSPSC) segment code, e.g. 43.
+	Segment *string `form:"segment,omitempty" json:"segment,omitempty"`
+
+	// Category A Pleaxy supplier category id, e.g. software.
+	Category *string `form:"category,omitempty" json:"category,omitempty"`
+
+	// Q Part of a company name, 2 to 200 characters.
+	Q *string `form:"q,omitempty" json:"q,omitempty"`
 }
 
 // ListFeedAttemptsParams defines parameters for ListFeedAttempts.
@@ -23183,6 +23223,9 @@ type ClientInterface interface {
 	// GetSupplierWorkspace request
 	GetSupplierWorkspace(ctx context.Context, params *GetSupplierWorkspaceParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// BrowseSupplierDirectory request
+	BrowseSupplierDirectory(ctx context.Context, params *BrowseSupplierDirectoryParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// SetSupplierCurrenciesWithBody request with any body
 	SetSupplierCurrenciesWithBody(ctx context.Context, connectionId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -25953,6 +25996,18 @@ func (c *RawClient) GetSourcingComparison(ctx context.Context, rfqId string, par
 
 func (c *RawClient) GetSupplierWorkspace(ctx context.Context, params *GetSupplierWorkspaceParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetSupplierWorkspaceRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *RawClient) BrowseSupplierDirectory(ctx context.Context, params *BrowseSupplierDirectoryParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewBrowseSupplierDirectoryRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -34022,6 +34077,103 @@ func NewGetSupplierWorkspaceRequest(server string, params *GetSupplierWorkspaceP
 	return req, nil
 }
 
+// NewBrowseSupplierDirectoryRequest generates requests for BrowseSupplierDirectory
+func NewBrowseSupplierDirectoryRequest(server string, params *BrowseSupplierDirectoryParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/supplier-connections/directory/browse")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Offset != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "offset", runtime.ParamLocationQuery, *params.Offset); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Segment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "segment", runtime.ParamLocationQuery, *params.Segment); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Category != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "category", runtime.ParamLocationQuery, *params.Category); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Q != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "q", runtime.ParamLocationQuery, *params.Q); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewSetSupplierCurrenciesRequest calls the generic SetSupplierCurrencies builder with application/json body
 func NewSetSupplierCurrenciesRequest(server string, connectionId string, body SetSupplierCurrenciesJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -35283,6 +35435,9 @@ type ClientWithResponsesInterface interface {
 
 	// GetSupplierWorkspaceWithResponse request
 	GetSupplierWorkspaceWithResponse(ctx context.Context, params *GetSupplierWorkspaceParams, reqEditors ...RequestEditorFn) (*GetSupplierWorkspaceResponse, error)
+
+	// BrowseSupplierDirectoryWithResponse request
+	BrowseSupplierDirectoryWithResponse(ctx context.Context, params *BrowseSupplierDirectoryParams, reqEditors ...RequestEditorFn) (*BrowseSupplierDirectoryResponse, error)
 
 	// SetSupplierCurrenciesWithBodyWithResponse request with any body
 	SetSupplierCurrenciesWithBodyWithResponse(ctx context.Context, connectionId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetSupplierCurrenciesResponse, error)
@@ -39289,6 +39444,29 @@ func (r GetSupplierWorkspaceResponse) StatusCode() int {
 	return 0
 }
 
+type BrowseSupplierDirectoryResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *SupplierDirectoryPage
+	JSONDefault  *ApiError
+}
+
+// Status returns HTTPResponse.Status
+func (r BrowseSupplierDirectoryResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r BrowseSupplierDirectoryResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type SetSupplierCurrenciesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -41619,6 +41797,15 @@ func (c *ClientWithResponses) GetSupplierWorkspaceWithResponse(ctx context.Conte
 		return nil, err
 	}
 	return ParseGetSupplierWorkspaceResponse(rsp)
+}
+
+// BrowseSupplierDirectoryWithResponse request returning *BrowseSupplierDirectoryResponse
+func (c *ClientWithResponses) BrowseSupplierDirectoryWithResponse(ctx context.Context, params *BrowseSupplierDirectoryParams, reqEditors ...RequestEditorFn) (*BrowseSupplierDirectoryResponse, error) {
+	rsp, err := c.BrowseSupplierDirectory(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseBrowseSupplierDirectoryResponse(rsp)
 }
 
 // SetSupplierCurrenciesWithBodyWithResponse request with arbitrary body returning *SetSupplierCurrenciesResponse
@@ -47406,6 +47593,39 @@ func ParseGetSupplierWorkspaceResponse(rsp *http.Response) (*GetSupplierWorkspac
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest GetSupplierWorkspaceResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest ApiError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseBrowseSupplierDirectoryResponse parses an HTTP response from a BrowseSupplierDirectoryWithResponse call
+func ParseBrowseSupplierDirectoryResponse(rsp *http.Response) (*BrowseSupplierDirectoryResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &BrowseSupplierDirectoryResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SupplierDirectoryPage
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

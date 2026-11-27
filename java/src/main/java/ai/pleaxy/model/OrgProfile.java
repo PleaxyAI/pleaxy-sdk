@@ -67,6 +67,8 @@ import ai.pleaxy.client.ApiClient;
   OrgProfile.JSON_PROPERTY_DIRECTORY_ID,
   OrgProfile.JSON_PROPERTY_SELLS_CATEGORIES,
   OrgProfile.JSON_PROPERTY_SELLS_SEGMENTS,
+  OrgProfile.JSON_PROPERTY_SPONSORED_UNTIL,
+  OrgProfile.JSON_PROPERTY_SPONSORED_CONTRACT,
   OrgProfile.JSON_PROPERTY_SETUP_GOAL,
   OrgProfile.JSON_PROPERTY_E_INVOICING
 })
@@ -261,6 +263,14 @@ public class OrgProfile {
   public static final String JSON_PROPERTY_SELLS_SEGMENTS = "sellsSegments";
   @javax.annotation.Nullable
   private List<String> sellsSegments = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_SPONSORED_UNTIL = "sponsoredUntil";
+  @javax.annotation.Nullable
+  private String sponsoredUntil;
+
+  public static final String JSON_PROPERTY_SPONSORED_CONTRACT = "sponsoredContract";
+  @javax.annotation.Nullable
+  private String sponsoredContract;
 
   /**
    * Gets or Sets setupGoal
@@ -1020,6 +1030,54 @@ public class OrgProfile {
   }
 
 
+  public OrgProfile sponsoredUntil(@javax.annotation.Nullable String sponsoredUntil) {
+    this.sponsoredUntil = sponsoredUntil;
+    return this;
+  }
+
+  /**
+   * Get sponsoredUntil
+   * @return sponsoredUntil
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SPONSORED_UNTIL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getSponsoredUntil() {
+    return sponsoredUntil;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SPONSORED_UNTIL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSponsoredUntil(@javax.annotation.Nullable String sponsoredUntil) {
+    this.sponsoredUntil = sponsoredUntil;
+  }
+
+
+  public OrgProfile sponsoredContract(@javax.annotation.Nullable String sponsoredContract) {
+    this.sponsoredContract = sponsoredContract;
+    return this;
+  }
+
+  /**
+   * Get sponsoredContract
+   * @return sponsoredContract
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SPONSORED_CONTRACT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public String getSponsoredContract() {
+    return sponsoredContract;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SPONSORED_CONTRACT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSponsoredContract(@javax.annotation.Nullable String sponsoredContract) {
+    this.sponsoredContract = sponsoredContract;
+  }
+
+
   public OrgProfile setupGoal(@javax.annotation.Nullable SetupGoalEnum setupGoal) {
     this.setupGoal = setupGoal;
     return this;
@@ -1108,13 +1166,15 @@ public class OrgProfile {
         Objects.equals(this.directoryId, orgProfile.directoryId) &&
         Objects.equals(this.sellsCategories, orgProfile.sellsCategories) &&
         Objects.equals(this.sellsSegments, orgProfile.sellsSegments) &&
+        Objects.equals(this.sponsoredUntil, orgProfile.sponsoredUntil) &&
+        Objects.equals(this.sponsoredContract, orgProfile.sponsoredContract) &&
         Objects.equals(this.setupGoal, orgProfile.setupGoal) &&
         Objects.equals(this.eInvoicing, orgProfile.eInvoicing);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, role, regionId, regionName, companyName, billingEmail, billingAddress, billingAddressParts, billingAddressLegacyText, billingAddressNeedsReview, taxId, currency, otherCurrencies, paymentCurrencies, fxWarningPct, countries, geography, timeZone, locale, primaryContactName, primaryContactEmail, createdAt, sameDomainAcknowledged, verified, listedInDirectory, directoryId, sellsCategories, sellsSegments, setupGoal, eInvoicing);
+    return Objects.hash(id, role, regionId, regionName, companyName, billingEmail, billingAddress, billingAddressParts, billingAddressLegacyText, billingAddressNeedsReview, taxId, currency, otherCurrencies, paymentCurrencies, fxWarningPct, countries, geography, timeZone, locale, primaryContactName, primaryContactEmail, createdAt, sameDomainAcknowledged, verified, listedInDirectory, directoryId, sellsCategories, sellsSegments, sponsoredUntil, sponsoredContract, setupGoal, eInvoicing);
   }
 
   @Override
@@ -1149,6 +1209,8 @@ public class OrgProfile {
     sb.append("    directoryId: ").append(toIndentedString(directoryId)).append("\n");
     sb.append("    sellsCategories: ").append(toIndentedString(sellsCategories)).append("\n");
     sb.append("    sellsSegments: ").append(toIndentedString(sellsSegments)).append("\n");
+    sb.append("    sponsoredUntil: ").append(toIndentedString(sponsoredUntil)).append("\n");
+    sb.append("    sponsoredContract: ").append(toIndentedString(sponsoredContract)).append("\n");
     sb.append("    setupGoal: ").append(toIndentedString(setupGoal)).append("\n");
     sb.append("    eInvoicing: ").append(toIndentedString(eInvoicing)).append("\n");
     sb.append("}");
@@ -1356,6 +1418,16 @@ public class OrgProfile {
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getSellsSegments().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
+    }
+
+    // add `sponsoredUntil` to the URL query string
+    if (getSponsoredUntil() != null) {
+      joiner.add(String.format("%ssponsoredUntil%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSponsoredUntil()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `sponsoredContract` to the URL query string
+    if (getSponsoredContract() != null) {
+      joiner.add(String.format("%ssponsoredContract%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSponsoredContract()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `setupGoal` to the URL query string

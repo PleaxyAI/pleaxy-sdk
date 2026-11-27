@@ -19,6 +19,73 @@ module Pleaxy
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
+    # [Buyer] Browse the suppliers that chose to be found on Pleaxy, to find one you don't work with yet: all of them, or by `category` (a Pleaxy category id such as `software`), by `segment` (a two-digit UN standard code such as `43`; a category's suppliers are found under its segments too) and by `q`, part of a name. Each has its listed regions with the `directoryId` it is invited by in Pleaxy, what it says it sells, `verified` when Pleaxy confirmed who it is, `sponsored` when it pays to be shown first, and `connectionId` when it is already one of your suppliers. Up to 3 sponsored suppliers that match come first, then A to Z; 60 companies a page, the next from `nextOffset`; `total` counts every match. Never a contact email. Everything a supplier lists is its own claim unless `verified`
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :offset Where the page starts: the nextOffset of the page before. Default 0.
+    # @option opts [String] :segment A two-digit UN standard (UNSPSC) segment code, e.g. 43.
+    # @option opts [String] :category A Pleaxy supplier category id, e.g. software.
+    # @option opts [String] :q Part of a company name, 2 to 200 characters.
+    # @return [SupplierDirectoryPage]
+    def browse_supplier_directory(opts = {})
+      data, _status_code, _headers = browse_supplier_directory_with_http_info(opts)
+      data
+    end
+
+    # [Buyer] Browse the suppliers that chose to be found on Pleaxy, to find one you don&#39;t work with yet: all of them, or by &#x60;category&#x60; (a Pleaxy category id such as &#x60;software&#x60;), by &#x60;segment&#x60; (a two-digit UN standard code such as &#x60;43&#x60;; a category&#39;s suppliers are found under its segments too) and by &#x60;q&#x60;, part of a name. Each has its listed regions with the &#x60;directoryId&#x60; it is invited by in Pleaxy, what it says it sells, &#x60;verified&#x60; when Pleaxy confirmed who it is, &#x60;sponsored&#x60; when it pays to be shown first, and &#x60;connectionId&#x60; when it is already one of your suppliers. Up to 3 sponsored suppliers that match come first, then A to Z; 60 companies a page, the next from &#x60;nextOffset&#x60;; &#x60;total&#x60; counts every match. Never a contact email. Everything a supplier lists is its own claim unless &#x60;verified&#x60;
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :offset Where the page starts: the nextOffset of the page before. Default 0.
+    # @option opts [String] :segment A two-digit UN standard (UNSPSC) segment code, e.g. 43.
+    # @option opts [String] :category A Pleaxy supplier category id, e.g. software.
+    # @option opts [String] :q Part of a company name, 2 to 200 characters.
+    # @return [Array<(SupplierDirectoryPage, Integer, Hash)>] SupplierDirectoryPage data, response status code and response headers
+    def browse_supplier_directory_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: SupplierConnectionsApi.browse_supplier_directory ...'
+      end
+      # resource path
+      local_var_path = '/supplier-connections/directory/browse'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'offset'] = opts[:'offset'] if !opts[:'offset'].nil?
+      query_params[:'segment'] = opts[:'segment'] if !opts[:'segment'].nil?
+      query_params[:'category'] = opts[:'category'] if !opts[:'category'].nil?
+      query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'SupplierDirectoryPage'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['apiKey', 'session']
+
+      new_options = opts.merge(
+        :operation => :"SupplierConnectionsApi.browse_supplier_directory",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: SupplierConnectionsApi#browse_supplier_directory\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # [Both] The feed attempt log for one of your connections: every call to its automated-invoice route or its validate twin that reached the connection, newest first, 50 a page (`?before=` the last row's cursor for the next). Both sides see the same rows. 404 when the connection isn't yours
     # @param connection_id [String] 
     # @param [Hash] opts the optional parameters

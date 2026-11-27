@@ -23,6 +23,7 @@ import ai.pleaxy.model.SetConnectionCurrenciesInput;
 import ai.pleaxy.model.SetInvoiceFeedInput;
 import ai.pleaxy.model.SetInvoiceFeedResult;
 import ai.pleaxy.model.SetSupplierCurrenciesResult;
+import ai.pleaxy.model.SupplierDirectoryPage;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -84,6 +85,101 @@ public class SupplierConnectionsApi {
       body = "[no body]";
     }
     return operationId + " call failed with: " + statusCode + " - " + body;
+  }
+
+  /**
+   * [Buyer] Browse the suppliers that chose to be found on Pleaxy, to find one you don&#39;t work with yet: all of them, or by &#x60;category&#x60; (a Pleaxy category id such as &#x60;software&#x60;), by &#x60;segment&#x60; (a two-digit UN standard code such as &#x60;43&#x60;; a category&#39;s suppliers are found under its segments too) and by &#x60;q&#x60;, part of a name. Each has its listed regions with the &#x60;directoryId&#x60; it is invited by in Pleaxy, what it says it sells, &#x60;verified&#x60; when Pleaxy confirmed who it is, &#x60;sponsored&#x60; when it pays to be shown first, and &#x60;connectionId&#x60; when it is already one of your suppliers. Up to 3 sponsored suppliers that match come first, then A to Z; 60 companies a page, the next from &#x60;nextOffset&#x60;; &#x60;total&#x60; counts every match. Never a contact email. Everything a supplier lists is its own claim unless &#x60;verified&#x60;
+   * 
+   * @param offset Where the page starts: the nextOffset of the page before. Default 0. (optional)
+   * @param segment A two-digit UN standard (UNSPSC) segment code, e.g. 43. (optional)
+   * @param category A Pleaxy supplier category id, e.g. software. (optional)
+   * @param q Part of a company name, 2 to 200 characters. (optional)
+   * @return SupplierDirectoryPage
+   * @throws ApiException if fails to make API call
+   */
+  public SupplierDirectoryPage browseSupplierDirectory(String offset, String segment, String category, String q) throws ApiException {
+    ApiResponse<SupplierDirectoryPage> localVarResponse = browseSupplierDirectoryWithHttpInfo(offset, segment, category, q);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * [Buyer] Browse the suppliers that chose to be found on Pleaxy, to find one you don&#39;t work with yet: all of them, or by &#x60;category&#x60; (a Pleaxy category id such as &#x60;software&#x60;), by &#x60;segment&#x60; (a two-digit UN standard code such as &#x60;43&#x60;; a category&#39;s suppliers are found under its segments too) and by &#x60;q&#x60;, part of a name. Each has its listed regions with the &#x60;directoryId&#x60; it is invited by in Pleaxy, what it says it sells, &#x60;verified&#x60; when Pleaxy confirmed who it is, &#x60;sponsored&#x60; when it pays to be shown first, and &#x60;connectionId&#x60; when it is already one of your suppliers. Up to 3 sponsored suppliers that match come first, then A to Z; 60 companies a page, the next from &#x60;nextOffset&#x60;; &#x60;total&#x60; counts every match. Never a contact email. Everything a supplier lists is its own claim unless &#x60;verified&#x60;
+   * 
+   * @param offset Where the page starts: the nextOffset of the page before. Default 0. (optional)
+   * @param segment A two-digit UN standard (UNSPSC) segment code, e.g. 43. (optional)
+   * @param category A Pleaxy supplier category id, e.g. software. (optional)
+   * @param q Part of a company name, 2 to 200 characters. (optional)
+   * @return ApiResponse&lt;SupplierDirectoryPage&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<SupplierDirectoryPage> browseSupplierDirectoryWithHttpInfo(String offset, String segment, String category, String q) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = browseSupplierDirectoryRequestBuilder(offset, segment, category, q);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("browseSupplierDirectory", localVarResponse);
+        }
+        return new ApiResponse<SupplierDirectoryPage>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<SupplierDirectoryPage>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder browseSupplierDirectoryRequestBuilder(String offset, String segment, String category, String q) throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/supplier-connections/directory/browse";
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "offset";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("offset", offset));
+    localVarQueryParameterBaseName = "segment";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("segment", segment));
+    localVarQueryParameterBaseName = "category";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("category", category));
+    localVarQueryParameterBaseName = "q";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("q", q));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
 
   /**

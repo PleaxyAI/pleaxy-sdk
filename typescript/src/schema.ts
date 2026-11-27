@@ -281,6 +281,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/supplier-connections/directory/browse": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** [Buyer] Browse the suppliers that chose to be found on Pleaxy, to find one you don't work with yet: all of them, or by `category` (a Pleaxy category id such as `software`), by `segment` (a two-digit UN standard code such as `43`; a category's suppliers are found under its segments too) and by `q`, part of a name. Each has its listed regions with the `directoryId` it is invited by in Pleaxy, what it says it sells, `verified` when Pleaxy confirmed who it is, `sponsored` when it pays to be shown first, and `connectionId` when it is already one of your suppliers. Up to 3 sponsored suppliers that match come first, then A to Z; 60 companies a page, the next from `nextOffset`; `total` counts every match. Never a contact email. Everything a supplier lists is its own claim unless `verified` */
+        get: operations["BrowseSupplierDirectory"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/supplier-connections/{connectionId}/currencies": {
         parameters: {
             query?: never;
@@ -4394,6 +4411,25 @@ export interface components {
             keyId?: string;
             cursor?: string;
         };
+        SupplierDirectoryPage: {
+            suppliers?: components["schemas"]["SupplierDirectoryListing"][];
+            /** Format: double */
+            total?: number;
+            /** Format: double */
+            nextOffset?: number;
+        };
+        SupplierDirectoryListing: {
+            companyName?: string;
+            verified?: boolean;
+            regions?: {
+                regionName?: string;
+                directoryId?: string;
+            }[];
+            categories?: string[];
+            segments?: string[];
+            sponsored?: boolean;
+            connectionId?: string;
+        };
         Notification: {
             id: string;
             /** @enum {string} */
@@ -4511,6 +4547,8 @@ export interface components {
             directoryId?: string;
             sellsCategories?: string[];
             sellsSegments?: string[];
+            sponsoredUntil?: string;
+            sponsoredContract?: string;
             /** @enum {string} */
             setupGoal?: "audit" | "network";
             eInvoicing?: components["schemas"]["EInvoicingProfileSettings"];
@@ -9202,6 +9240,8 @@ export interface components {
             directoryId?: string;
             sellsCategories?: string[];
             sellsSegments?: string[];
+            sponsoredUntil?: string;
+            sponsoredContract?: string;
             /** @enum {string} */
             setupGoal?: "audit" | "network";
             eInvoicing?: components["schemas"]["EInvoicingProfileSettings"];
@@ -12132,6 +12172,43 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["FeedAttemptsPage"];
+                };
+            };
+            /** @description An error: 4xx for the caller to fix, 5xx otherwise. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    BrowseSupplierDirectory: {
+        parameters: {
+            query?: {
+                /** @description Where the page starts: the nextOffset of the page before. Default 0. */
+                offset?: string;
+                /** @description A two-digit UN standard (UNSPSC) segment code, e.g. 43. */
+                segment?: string;
+                /** @description A Pleaxy supplier category id, e.g. software. */
+                category?: string;
+                /** @description Part of a company name, 2 to 200 characters. */
+                q?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SupplierDirectoryPage"];
                 };
             };
             /** @description An error: 4xx for the caller to fix, 5xx otherwise. */

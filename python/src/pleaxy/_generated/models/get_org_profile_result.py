@@ -61,6 +61,8 @@ class GetOrgProfileResult:
         directory_id (Union[Unset, str]):
         sells_categories (Union[Unset, List[str]]):
         sells_segments (Union[Unset, List[str]]):
+        sponsored_until (Union[Unset, str]):
+        sponsored_contract (Union[Unset, str]):
         setup_goal (Union[Unset, GetOrgProfileResultSetupGoal]):
         e_invoicing (Union[Unset, EInvoicingProfileSettings]):
     """
@@ -94,6 +96,8 @@ class GetOrgProfileResult:
     directory_id: Union[Unset, str] = UNSET
     sells_categories: Union[Unset, List[str]] = UNSET
     sells_segments: Union[Unset, List[str]] = UNSET
+    sponsored_until: Union[Unset, str] = UNSET
+    sponsored_contract: Union[Unset, str] = UNSET
     setup_goal: Union[Unset, GetOrgProfileResultSetupGoal] = UNSET
     e_invoicing: Union[Unset, "EInvoicingProfileSettings"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -179,6 +183,10 @@ class GetOrgProfileResult:
         if not isinstance(self.sells_segments, Unset):
             sells_segments = self.sells_segments
 
+        sponsored_until = self.sponsored_until
+
+        sponsored_contract = self.sponsored_contract
+
         setup_goal: Union[Unset, str] = UNSET
         if not isinstance(self.setup_goal, Unset):
             setup_goal = self.setup_goal
@@ -250,6 +258,10 @@ class GetOrgProfileResult:
             field_dict["sellsCategories"] = sells_categories
         if sells_segments is not UNSET:
             field_dict["sellsSegments"] = sells_segments
+        if sponsored_until is not UNSET:
+            field_dict["sponsoredUntil"] = sponsored_until
+        if sponsored_contract is not UNSET:
+            field_dict["sponsoredContract"] = sponsored_contract
         if setup_goal is not UNSET:
             field_dict["setupGoal"] = setup_goal
         if e_invoicing is not UNSET:
@@ -356,6 +368,10 @@ class GetOrgProfileResult:
 
         sells_segments = cast(List[str], d.pop("sellsSegments", UNSET))
 
+        sponsored_until = d.pop("sponsoredUntil", UNSET)
+
+        sponsored_contract = d.pop("sponsoredContract", UNSET)
+
         _setup_goal = d.pop("setupGoal", UNSET)
         setup_goal: Union[Unset, GetOrgProfileResultSetupGoal]
         if isinstance(_setup_goal, Unset):
@@ -400,6 +416,8 @@ class GetOrgProfileResult:
             directory_id=directory_id,
             sells_categories=sells_categories,
             sells_segments=sells_segments,
+            sponsored_until=sponsored_until,
+            sponsored_contract=sponsored_contract,
             setup_goal=setup_goal,
             e_invoicing=e_invoicing,
         )

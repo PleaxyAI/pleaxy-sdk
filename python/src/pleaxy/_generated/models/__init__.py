@@ -2372,6 +2372,9 @@ from .supplier_credit_note_view_status import SupplierCreditNoteViewStatus
 from .supplier_credit_note_view_submitted_format import (
     SupplierCreditNoteViewSubmittedFormat,
 )
+from .supplier_directory_listing import SupplierDirectoryListing
+from .supplier_directory_listing_regions_item import SupplierDirectoryListingRegionsItem
+from .supplier_directory_page import SupplierDirectoryPage
 from .supplier_held_back_view import SupplierHeldBackView
 from .supplier_held_back_view_paid_later import SupplierHeldBackViewPaidLater
 from .supplier_held_back_view_state import SupplierHeldBackViewState
@@ -3929,6 +3932,9 @@ __all__ = (
     "SupplierCreditNoteViewSource",
     "SupplierCreditNoteViewStatus",
     "SupplierCreditNoteViewSubmittedFormat",
+    "SupplierDirectoryListing",
+    "SupplierDirectoryListingRegionsItem",
+    "SupplierDirectoryPage",
     "SupplierHeldBackView",
     "SupplierHeldBackViewPaidLater",
     "SupplierHeldBackViewState",

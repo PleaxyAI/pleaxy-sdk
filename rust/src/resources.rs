@@ -2517,6 +2517,26 @@ impl<'a> Sourcing<'a> {
 pub struct SupplierConnections<'a>(&'a Client);
 
 impl<'a> SupplierConnections<'a> {
+    pub async fn browse_supplier_directory(
+        &self,
+        offset: Option<&str>,
+        segment: Option<&str>,
+        category: Option<&str>,
+        q: Option<&str>,
+    ) -> Result<
+        crate::models::SupplierDirectoryPage,
+        crate::apis::Error<crate::apis::supplier_connections_api::BrowseSupplierDirectoryError>,
+    > {
+        crate::apis::supplier_connections_api::browse_supplier_directory(
+            &self.0.config,
+            offset,
+            segment,
+            category,
+            q,
+        )
+        .await
+    }
+
     pub async fn list_feed_attempts(
         &self,
         connection_id: &str,

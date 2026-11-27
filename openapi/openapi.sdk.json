@@ -1324,6 +1324,83 @@
         ]
       }
     },
+    "/v1/workspaces/{regionId}/supplier-connections/directory/browse": {
+      "get": {
+        "operationId": "BrowseSupplierDirectory",
+        "summary": "[Buyer] Browse the suppliers that chose to be found on Pleaxy, to find one you don't work with yet: all of them, or by `category` (a Pleaxy category id such as `software`), by `segment` (a two-digit UN standard code such as `43`; a category's suppliers are found under its segments too) and by `q`, part of a name. Each has its listed regions with the `directoryId` it is invited by in Pleaxy, what it says it sells, `verified` when Pleaxy confirmed who it is, `sponsored` when it pays to be shown first, and `connectionId` when it is already one of your suppliers. Up to 3 sponsored suppliers that match come first, then A to Z; 60 companies a page, the next from `nextOffset`; `total` counts every match. Never a contact email. Everything a supplier lists is its own claim unless `verified`",
+        "parameters": [
+          {
+            "name": "regionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Where the page starts: the nextOffset of the page before. Default 0.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "segment",
+            "required": false,
+            "in": "query",
+            "description": "A two-digit UN standard (UNSPSC) segment code, e.g. 43.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "description": "A Pleaxy supplier category id, e.g. software.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "description": "Part of a company name, 2 to 200 characters.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupplierDirectoryPage"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error: 4xx for the caller to fix, 5xx otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "supplier-connections"
+        ]
+      }
+    },
     "/v1/workspaces/{regionId}/supplier-connections/{connectionId}/currencies": {
       "put": {
         "operationId": "SetSupplierCurrencies",
@@ -2715,6 +2792,12 @@
                       "items": {
                         "type": "string"
                       }
+                    },
+                    "sponsoredUntil": {
+                      "type": "string"
+                    },
+                    "sponsoredContract": {
+                      "type": "string"
                     },
                     "setupGoal": {
                       "type": "string",
@@ -25048,6 +25131,81 @@
           "cursor"
         ]
       },
+      "SupplierDirectoryPage": {
+        "type": "object",
+        "properties": {
+          "suppliers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupplierDirectoryListing"
+            }
+          },
+          "total": {
+            "type": "number"
+          },
+          "nextOffset": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "suppliers",
+          "total"
+        ]
+      },
+      "SupplierDirectoryListing": {
+        "type": "object",
+        "properties": {
+          "companyName": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "regions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "regionName": {
+                  "type": "string"
+                },
+                "directoryId": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "regionName",
+                "directoryId"
+              ]
+            }
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sponsored": {
+            "type": "boolean"
+          },
+          "connectionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "companyName",
+          "verified",
+          "regions",
+          "categories",
+          "segments"
+        ]
+      },
       "Notification": {
         "type": "object",
         "properties": {
@@ -25605,6 +25763,12 @@
             "items": {
               "type": "string"
             }
+          },
+          "sponsoredUntil": {
+            "type": "string"
+          },
+          "sponsoredContract": {
+            "type": "string"
           },
           "setupGoal": {
             "type": "string",

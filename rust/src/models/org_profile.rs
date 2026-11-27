@@ -84,6 +84,10 @@ pub struct OrgProfile {
     pub sells_categories: Option<Vec<String>>,
     #[serde(rename = "sellsSegments", skip_serializing_if = "Option::is_none")]
     pub sells_segments: Option<Vec<String>>,
+    #[serde(rename = "sponsoredUntil", skip_serializing_if = "Option::is_none")]
+    pub sponsored_until: Option<String>,
+    #[serde(rename = "sponsoredContract", skip_serializing_if = "Option::is_none")]
+    pub sponsored_contract: Option<String>,
     #[serde(rename = "setupGoal", skip_serializing_if = "Option::is_none")]
     pub setup_goal: Option<SetupGoal>,
     #[serde(rename = "eInvoicing", skip_serializing_if = "Option::is_none")]
@@ -121,6 +125,8 @@ impl OrgProfile {
             directory_id: None,
             sells_categories: None,
             sells_segments: None,
+            sponsored_until: None,
+            sponsored_contract: None,
             setup_goal: None,
             e_invoicing: None,
         }

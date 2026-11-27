@@ -136,6 +136,18 @@ func (c *Client) ApprovePurchaseRequest(ctx context.Context, requestId string, b
 	return resp.JSON200, nil
 }
 
+// BrowseSupplierDirectory - [Buyer] Browse the suppliers that chose to be found on Pleaxy, to find one you don't work with yet: all of them, or by `category` (a Pleaxy category id such as `software`), by `segment` (a two-digit UN standard code such as `43`; a category's suppliers are found under its segments too) and by `q`, part of a name. Each has its listed regions with the `directoryId` it is invited by in Pleaxy, what it says it sells, `verified` when Pleaxy confirmed who it is, `sponsored` when it pays to be shown first, and `connectionId` when it is already one of your suppliers. Up to 3 sponsored suppliers that match come first, then A to Z; 60 companies a page, the next from `nextOffset`; `total` counts every match. Never a contact email. Everything a supplier lists is its own claim unless `verified`
+func (c *Client) BrowseSupplierDirectory(ctx context.Context, params *BrowseSupplierDirectoryParams) (*SupplierDirectoryPage, error) {
+	resp, err := c.api.BrowseSupplierDirectoryWithResponse(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := checkStatus(resp.HTTPResponse, resp.Body); err != nil {
+		return nil, err
+	}
+	return resp.JSON200, nil
+}
+
 // CancelPurchaseOrder - [Buyer] Cancel a purchase order
 func (c *Client) CancelPurchaseOrder(ctx context.Context, poId string, body CancelPurchaseOrderJSONRequestBody) (*PurchaseOrder, error) {
 	resp, err := c.api.CancelPurchaseOrderWithResponse(ctx, poId, body)
